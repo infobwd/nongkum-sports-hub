@@ -1,0 +1,1264 @@
+{
+  "metadata": {
+    "source_file": "สูจิบัตรกีฬา 69.pdf",
+    "source_pages": "1–6",
+    "catalog_count": 33,
+    "status": "draft",
+    "all_data_approved": false,
+    "note": "ถอดรายชื่อทีม ตำแหน่งและสายจาก PDF เพื่อกรรมการตรวจรับ ไม่แก้ข้อขัดแย้งเอง"
+  },
+  "divisions": [
+    {
+      "source_catalog_no": 1,
+      "source_page": 1,
+      "sport_id": "football",
+      "source_heading": "ฟุตบอล ระดับประถมศึกษา รุ่นอายุไม่เกิน 12 ปี (ชาย เล่น 7 สารอง 5 รวม 12 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 4,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 5,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 3,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 6,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 2,
+      "source_page": 1,
+      "sport_id": "football",
+      "source_heading": "ฟุตบอลระดับมัธยม ชาย (เล่น 7 สารอง 5 รวม 12 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 3,
+      "source_page": 1,
+      "sport_id": "football",
+      "source_heading": "ฟุตบอลระดับมัธยม หญิง (เล่น 7 สารอง 5 รวม 12 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุง่ มะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 4,
+      "source_page": 1,
+      "sport_id": "shootout",
+      "source_heading": "ยิงจุดโทษ ระดับปฐมวัย 5 คน (รวมชาย,หญิง)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 5,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 6,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 3,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 7,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 4,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 8,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 5,
+      "source_page": 1,
+      "sport_id": "futsal",
+      "source_heading": "ฟุตซอล ระดับประถมศึกษา รุ่นอายุ 10 ปี ( เล่น 5 สารอง 5 รวม 10 คน )",
+      "entry_type": "แบ่งสาย",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum",
+          "group": "A"
+        },
+        {
+          "source_position": 1,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong",
+          "group": "B"
+        },
+        {
+          "source_position": 2,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom",
+          "group": "A"
+        },
+        {
+          "source_position": 2,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong",
+          "group": "B"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum",
+          "group": "A"
+        },
+        {
+          "source_position": 3,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang",
+          "group": "B"
+        },
+        {
+          "source_position": 4,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew",
+          "group": "A"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 6,
+      "source_page": 1,
+      "sport_id": "futsal",
+      "source_heading": "ฟุตซอล ระดับมัธยมศึกษา (ชาย-หญิง) ( เล่น 5 สารอง 5 รวม 10 คน )",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 7,
+      "source_page": 2,
+      "sport_id": "volleyball",
+      "source_heading": "วอลเลย์บอล ระดับประถมศึกษา รุ่นอายุ 12 ปี (ชาย เล่น 6 สารอง 6 รวม 12)",
+      "entry_type": "แบ่งสาย",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum",
+          "group": "A"
+        },
+        {
+          "source_position": 1,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong",
+          "group": "B"
+        },
+        {
+          "source_position": 2,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong",
+          "group": "A"
+        },
+        {
+          "source_position": 2,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom",
+          "group": "B"
+        },
+        {
+          "source_position": 3,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang",
+          "group": "A"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum",
+          "group": "B"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 8,
+      "source_page": 2,
+      "sport_id": "volleyball",
+      "source_heading": "วอลเลย์บอล ระดับประถมศึกษา รุ่นอายุ 12 ปี (หญิง เล่น 6 สารอง 6 รวม 12)",
+      "entry_type": "แบ่งสาย",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong",
+          "group": "A"
+        },
+        {
+          "source_position": 1,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum",
+          "group": "B"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang",
+          "group": "A"
+        },
+        {
+          "source_position": 2,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong",
+          "group": "B"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum",
+          "group": "A"
+        },
+        {
+          "source_position": 3,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom",
+          "group": "B"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 9,
+      "source_page": 2,
+      "sport_id": "volleyball",
+      "source_heading": "วอลเลย์บอล ระดับมัธยม (ชาย เล่น 6 สารอง 6 รวม 12)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 10,
+      "source_page": 2,
+      "sport_id": "volleyball",
+      "source_heading": "วอลเลย์บอล ระดับมัธยม (หญิง เล่น 6 สารอง 6 รวม 12)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 11,
+      "source_page": 2,
+      "sport_id": "takraw",
+      "source_heading": "เซปักตะกร้อ ระดับประถมศึกษา รุ่นอายุ 12 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "แบ่งสาย",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong",
+          "group": "A"
+        },
+        {
+          "source_position": 1,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom",
+          "group": "B"
+        },
+        {
+          "source_position": 2,
+          "source_label": "รางขาม",
+          "school_id": "rangkham",
+          "group": "A"
+        },
+        {
+          "source_position": 2,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong",
+          "group": "B"
+        },
+        {
+          "source_position": 3,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang",
+          "group": "A"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum",
+          "group": "B"
+        },
+        {
+          "source_position": 4,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum",
+          "group": "A"
+        },
+        {
+          "source_position": 4,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew",
+          "group": "B"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 12,
+      "source_page": 2,
+      "sport_id": "takraw",
+      "source_heading": "เซปักตะกร้อ ระดับประถมศึกษา รุ่นอายุ 12 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "แบ่งสาย",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom",
+          "group": "A"
+        },
+        {
+          "source_position": 1,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum",
+          "group": "B"
+        },
+        {
+          "source_position": 2,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew",
+          "group": "A"
+        },
+        {
+          "source_position": 2,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong",
+          "group": "B"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum",
+          "group": "A"
+        },
+        {
+          "source_position": 3,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong",
+          "group": "B"
+        },
+        {
+          "source_position": 4,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang",
+          "group": "A"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 13,
+      "source_page": 2,
+      "sport_id": "takraw",
+      "source_heading": "เซปักตะกร้อ ระดับมัธยม (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 14,
+      "source_page": 3,
+      "sport_id": "takraw",
+      "source_heading": "เซปักตะกร้อ ระดับมัธยม (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 15,
+      "source_page": 3,
+      "sport_id": "petanque",
+      "source_heading": "เปตอง ระดับปฐมวัย (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 5,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 6,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 3,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 7,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 4,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 8,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 16,
+      "source_page": 3,
+      "sport_id": "petanque",
+      "source_heading": "เปตอง ระดับปฐมวัย (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 5,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 2,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 6,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 3,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 7,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 4,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 8,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 17,
+      "source_page": 3,
+      "sport_id": "petanque",
+      "source_heading": "เปตองประถมศึกษา รุ่นอายุ 8 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 5,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 6,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 3,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 7,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 4,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 8,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 18,
+      "source_page": 4,
+      "sport_id": "petanque",
+      "source_heading": "เปตองประถมศึกษา รุ่นอายุ 8 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 5,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 2,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 6,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 7,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 4,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 8,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 19,
+      "source_page": 4,
+      "sport_id": "petanque",
+      "source_heading": "เปตองประถมศึกษา รุ่นอายุ 10 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 5,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 2,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 6,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 3,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 7,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 4,
+          "source_label": ".ทุง่ มะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 8,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        }
+      ],
+      "review_status": "draft",
+      "qa_flags": [
+        "QA-06"
+      ]
+    },
+    {
+      "source_catalog_no": 20,
+      "source_page": 4,
+      "sport_id": "petanque",
+      "source_heading": "เปตองประถมศึกษา รุ่นอายุ 10 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 5,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 2,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 6,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 7,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 4,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 8,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 21,
+      "source_page": 4,
+      "sport_id": "petanque",
+      "source_heading": "เปตองประถมศึกษา รุ่นอายุ 12 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 5,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 6,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 3,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 7,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 4,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 8,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 22,
+      "source_page": 4,
+      "sport_id": "petanque",
+      "source_heading": "เปตองประถมศึกษา รุ่นอายุ 12 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 5,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 6,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 3,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 7,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 4,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 8,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 23,
+      "source_page": 5,
+      "sport_id": "petanque",
+      "source_heading": "เปตอง มัธยมศึกษา (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 24,
+      "source_page": 5,
+      "sport_id": "petanque",
+      "source_heading": "เปตอง มัธยมศึกษา (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 25,
+      "source_page": 5,
+      "sport_id": "tabletennis",
+      "source_heading": "เทเบิลเทนนิส ระดับประถมศึกษา (ชาย เล่น 1 สารอง 1 รวม 2 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 5,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 6,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 7,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 4,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 8,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 26,
+      "source_page": 5,
+      "sport_id": "tabletennis",
+      "source_heading": "เทเบิลเทนนิส ระดับประถมศึกษา (หญิง เล่น 1 สารอง 1 รวม 2 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 5,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 2,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 6,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 3,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 7,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 4,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 8,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 27,
+      "source_page": 5,
+      "sport_id": "tabletennis",
+      "source_heading": "เทเบิลเทนนิส ระดับมัธยม (ชาย เล่น 1 สารอง 1 รวม 2 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 28,
+      "source_page": 5,
+      "sport_id": "tabletennis",
+      "source_heading": "เทเบิลเทนนิส ระดับมัธยม (หญิง เล่น 1 สารอง 1 รวม 2 คน)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 29,
+      "source_page": 5,
+      "sport_id": "tugofwar",
+      "source_heading": "ชักเย่อ ปฐมวัย รวม ชาย 4 ,หญิง 4 รวม 8 คน (แพ้ตกรอบ)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 5,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 6,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 3,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 7,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 4,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 8,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 30,
+      "source_page": 6,
+      "sport_id": "tugofwar",
+      "source_heading": "ชักเย่อ 12 ปี ชาย 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 5,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "รางขาม",
+          "school_id": "rangkham"
+        },
+        {
+          "source_position": 6,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 3,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 7,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        },
+        {
+          "source_position": 4,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 8,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 31,
+      "source_page": 6,
+      "sport_id": "tugofwar",
+      "source_heading": "ชักเย่อ 12 ปี หญิง 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "วังเขาแก้ว",
+          "school_id": "wangkhaokaew"
+        },
+        {
+          "source_position": 5,
+          "source_label": "วังด้ง",
+          "school_id": "wangdong"
+        },
+        {
+          "source_position": 2,
+          "source_label": "พุพรหม",
+          "school_id": "phuphrom"
+        },
+        {
+          "source_position": 6,
+          "source_label": "เสาหงส์",
+          "school_id": "saohong"
+        },
+        {
+          "source_position": 3,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 7,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        },
+        {
+          "source_position": 4,
+          "source_label": "หนองกุ่ม",
+          "school_id": "nongkum"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 32,
+      "source_page": 6,
+      "sport_id": "tugofwar",
+      "source_heading": "ชักเย่อมัธยม ชาย 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    },
+    {
+      "source_catalog_no": 33,
+      "source_page": 6,
+      "sport_id": "tugofwar",
+      "source_heading": "ชักเย่อมัธย หญิง 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "entry_type": "ตามลำดับในสูจิบัตร",
+      "participants": [
+        {
+          "source_position": 1,
+          "source_label": "หนองกระทุ่ม",
+          "school_id": "nongkrathum"
+        },
+        {
+          "source_position": 2,
+          "source_label": "ทุ่งมะสังฯ",
+          "school_id": "thungmasang"
+        }
+      ],
+      "review_status": "draft"
+    }
+  ]
+}
