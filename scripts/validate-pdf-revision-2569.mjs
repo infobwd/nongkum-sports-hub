@@ -1,0 +1,26 @@
+// Validate the staged PDF revision data without modifying the published schedule.
+import {readFileSync} from "node:fs";
+const data=JSON.parse(readFileSync(new URL("../data/program-from-pdf-2569-20261104-draft.json",import.meta.url),"utf8"));
+const issues=[];
+const check=(ok,msg)=>{if(!ok)issues.push(msg);};
+const matches=data.fixtures.filter(x=>x.kind==="match");
+const track=data.fixtures.filter(x=>x.kind==="track_event");
+const count=(arr,key)=>arr.reduce((a,x)=>(a[x[key]]=(a[x[key]]||0)+1,a),{});
+check(data.schema_version===3,"staging schema");
+check(data.metadata.source_file==="สูจิบัตรกีฬา 69(1).pdf","source filename");
+check(data.metadata.source_sha256==="1cd0d0166fe202b2b69e18f5ec2e1c2d80439386767a1826bf21d7d5da9e0bbf","source hash");
+check(data.metadata.all_data_approved===false&&data.metadata.last_approved_at===null,"approval state");
+check(data.metadata.website_publication_status==="not_released","publication must remain staged");
+check(data.schools.length===8&&data.sports.length===9&&data.divisions.length===33,"school/sport/division counts");
+check(matches.length===187&&track.length===50,"PDF row counts");
+check(track.flatMap(x=>x.lanes||[]).length===289,"athletics lane count");
+check(data.fixtures.length===237&&new Set(data.fixtures.map(x=>x.id)).size===237,"unique records");
+check(data.fixtures.every(x=>x.status==="draft"&&x.review_status==="draft"&&x.date===null),"no approved data/date");
+check(matches.every(x=>/^([01]\\d|2[0-3]):[0-5]\\d$/.test(x.time||"")),"PDF time format");
+check(matches.every(x=>x.source_pdf?.source_date_text&&x.source_pdf?.page&&x.source_pdf?.source_match_no),"PDF provenance");
+check(Object.entries(count(matches,"sport_id")).map(([a,b])=>[a,b]).sort().toString()===Object.entries({football:21,shootout:7,futsal:14,volleyball:20,takraw:29,petanque:58,tabletennis:16,tugofwar:22}).sort().toString(),"sport totals");
+check(matches.filter(x=>x.sport_id==="football"&&x.source_match_no==="20").length===2,"PDF football double number 20");
+check(matches.filter(x=>x.sport_id==="petanque"&&x.source_pdf.source_date_iso==="2025-11-17").length===3,"PDF petanque printed year 68 must not be normalized away");
+check(track.every(x=>x.source_pdf.source_date_iso==="2026-11-16"),"athletics date from PDF");
+check(data.page_inventory.reduce((n,x)=>n+x.match_count,0)===187,"page inventory counts");
+if(issues.length){console.error("FAIL: "+issues.join("; "));process.exitCode=1;}else console.log("PASS: staged PDF revision 187 matches + 50 athletics / 289 lanes; no approved results");
