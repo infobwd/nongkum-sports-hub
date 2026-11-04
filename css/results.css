@@ -1,0 +1,36 @@
+
+/* Results page only; mobile-first, shares base.css with the program. */
+.result-intro{margin:10px 0 16px;color:#597087;font-size:.88rem}
+.result-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.result-sport-chips{display:flex;overflow-x:auto;gap:8px;padding:8px 0;scrollbar-width:thin}
+.result-chip{border:1px solid #bfcedf;background:#fff;border-radius:999px;padding:9px 13px;white-space:nowrap;font-weight:700;color:#28466b;min-height:43px}
+.result-chip[aria-pressed="true"]{background:#174978;color:#fff;border-color:#174978}
+.result-panel{background:#fff;border-radius:17px;padding:16px;margin:13px 0;border:1px solid #d9e4ef}
+.result-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.result-summary{margin:6px 0 11px;font-size:.81rem;color:#60758a}
+.result-card{min-width:0}
+.result-team-row{display:flex;justify-content:space-between;gap:12px;margin:13px 0 5px;align-items:center}
+.result-team-row strong{overflow-wrap:anywhere;flex:1;font-size:.95rem}
+.result-team-row strong:last-child{text-align:right}
+.result-vs{font-size:.73rem;color:#74859a;flex:none}
+.result-score{display:flex;justify-content:center;gap:23px;align-items:center;font-size:2rem;font-weight:800;color:#173961;margin:5px 0 8px}
+.result-colon{font-weight:400;color:#7b92aa}
+.result-winner{margin:5px 0;font-size:.84rem;font-weight:700;color:#1b6a4d}
+.result-neutral{margin:5px 0;color:#60748b;font-size:.83rem}
+.set-results{margin-top:8px;border-top:1px solid #e9edf2}
+.set-row{display:flex;justify-content:space-between;padding:6px 4px;border-bottom:1px solid #e9edf2;font-size:.82rem}
+.rank-results{margin-top:12px}
+.rank-row{display:grid;grid-template-columns:78px 1fr auto;gap:8px;padding:8px 0;border-bottom:1px solid #e8edf3;align-items:center;font-size:.85rem}
+.rank-number{font-weight:700;color:#536a84}
+.result-title{font-size:.96rem;margin:9px 0}
+.result-group-title{margin:15px 0 9px;font-size:1rem}
+.result-meta{font-size:.77rem;color:#657a91}
+#resultsList .fixture{border-radius:13px;padding:13px}
+#resultsCount{margin-left:auto;font-weight:700;color:#355c81}
+.result-chip:focus-visible{outline:3px solid #f2c54e;outline-offset:2px}
+@media(max-width:690px){
+.result-tiles,.result-controls{grid-template-columns:1fr}
+.result-panel{padding:13px;margin:10px 0}
+.result-team-row{gap:8px}
+.rank-row{grid-template-columns:70px 1fr auto}
+}
