@@ -3,11 +3,13 @@
   "use strict";
   const M=globalThis.NongkumReviewModel;
   const NK=globalThis.Nongkum;
-  const PAGE_SIZE=24;
+  const PAGE_SIZE=8;
+  const SEARCH_DELAY_MS=280;
   const $=id=>document.getElementById(id);
   const ui={
     school:$("reviewSchool"),sport:$("reviewSport"),level:$("reviewLevel"),search:$("reviewSearch"),
     qaOnly:$("reviewQaOnly"),clear:$("clearFilters"),refresh:$("reviewRefresh"),
+    extraFilters:$("reviewExtraFilters"),extraHint:$("reviewExtraHint"),
     count:$("reviewCount"),status:$("reviewStatus"),skeleton:$("reviewSkeleton"),
     failure:$("reviewLoadFailure"),retry:$("retryReview"),listing:$("reviewListing"),
     cards:$("reviewCards"),empty:$("reviewEmpty"),more:$("reviewMore"),
@@ -18,7 +20,8 @@
     statTrack:$("statTrack"),statLanes:$("statLanes"),statQa:$("statQa")
   };
   let data=null,byId=new Map(),sportNames=new Map(),qaNotes=new Map();
-  let changes=new Map(),filtered=[],shown=PAGE_SIZE;
+  let changes=new Map(),filtered=[],renderedCount=0;
+  let filterSignature=null,directRenderedId=null,searchDebounce=null,isComposing=false;
   let loading=false,requestSerial=0;
 
   function make(tag,cls,text){
@@ -40,7 +43,7 @@
   function getSport(f){return sportNames.get(f.sport_id)||f.sport_id;}
   function formatTeam(f,side){
     const label=side==="A"?f.source_team_a_label:f.source_team_b_label;
-    return label||"รอผู้ชนะ / ดูข้อความตาม PDF";
+    return label||"รอผลจากคู่ก่อนหน้า";
   }
   function addLanes(card,f){
     const heading=add(card,"div","review-pdf-label","ลู่ตาม PDF · "+(f.lanes?.length||0)+" แถว");
@@ -55,14 +58,13 @@
   function addQa(card,f){
     if(!M.hasQa(f))return;
     const box=add(card,"div","review-qa-box");
-    add(box,"strong","","มีจุดต้องตรวจเพิ่มเติม ("+f.qa_flags.length+" ธง)");
-    const details=add(box,"details");
-    add(details,"summary","","ดูประเด็นจาก PDF / QA");
-    for(const flag of f.qa_flags){
-      const p=add(details,"p");
-      add(p,"span","review-qa-code",flag+" · ");
-      add(p,"span","",qaNotes.get(flag)||"ธงตรวจรับจากระบบเดิม — ให้ผู้จัดตรวจต้นฉบับ");
-    }
+    add(box,"strong","","ควรตรวจสอบข้อมูล "+f.qa_flags.length+" เรื่อง");
+    f.qa_flags.forEach((flag,index)=>{
+      add(box,"p","",(index+1)+". "+(qaNotes.get(flag)||"รายการนี้มีหมายเหตุให้ผู้จัดตรวจเพิ่มเติม"));
+    });
+    const codes=add(box,"details","review-admin-codes");
+    add(codes,"summary","","รหัสอ้างอิงสำหรับผู้ดูแล");
+    add(codes,"span","",f.qa_flags.join(", "));
   }
   const DIFF_LABELS={
     time:"เวลา",field:"สนาม",source_match_no:"เลขคู่",source_page:"หน้า PDF",
@@ -77,7 +79,7 @@
     const entries=Object.entries(item.changes).filter(([k])=>DIFF_LABELS[k]);
     if(!entries.length)return;
     const details=add(card,"details","review-compare");
-    add(details,"summary","","เทียบกับเว็บเดิม · "+entries.length+" จุดเปลี่ยน");
+    add(details,"summary","","ดูสิ่งที่เปลี่ยนจากฉบับก่อน ("+entries.length+" จุด)");
     const ul=add(details,"ul");
     for(const [key,change] of entries){
       add(ul,"li","",DIFF_LABELS[key]+": เดิม "+String(change.active??"ไม่ระบุ")+
@@ -91,40 +93,57 @@
     const left=add(head,"div");
     add(left,"div","review-sport",getSport(f));
     add(left,"div","review-division",f.division||"ไม่ระบุรุ่น");
-    add(head,"span","review-number",(f.kind==="track_event"?"รายการ ":"คู่ ")+(f.source_match_no||"—"));
+    const headRight=add(head,"div","review-head-right");
+    if(M.hasQa(f))add(headRight,"span","review-flag","ควรตรวจซ้ำ");
+    add(headRight,"span","review-number",(f.kind==="track_event"?"รายการ ":"คู่ ")+(f.source_match_no||"—"));
+
     if(f.kind==="track_event"){
       add(article,"h3","review-item-title",f.name||f.source_title||"รายการกรีฑา");
-      addLanes(article,f);
+      add(article,"p","review-compact-lane-note","กรีฑา "+(f.lanes?.length||0)+" ลู่ • กดดูรายชื่อลู่ด้านล่าง");
     }else{
       const line=add(article,"div","review-match");
       add(line,"div","review-match-team",formatTeam(f,"A"));
       add(line,"span","review-match-vs","พบ");
       add(line,"div","review-match-team",formatTeam(f,"B"));
-      if(f.source_pair_text){
-        add(article,"p","review-division","ข้อความคู่ตาม PDF: "+f.source_pair_text);
-      }
     }
-    const source=add(article,"div","review-source-grid");
-    addSource(source,"วันตาม PDF",M.sourceDate(f));
-    addSource(source,"เวลาตาม PDF",M.sourceTime(f));
-    addSource(source,"สนามตาม PDF",M.sourceField(f));
-    addSource(source,"รอบ",f.round||"ไม่ระบุ");
-    add(article,"p","review-pdf-label","ข้อมูลตาม PDF ยังไม่ได้รับรองวัน เวลา และสนามรายคู่");
+
+    const dateTime=add(article,"div","review-date-time");
+    const day=add(dateTime,"div","review-when");
+    add(day,"span","review-time-caption","วันที่ตามสูจิบัตร");
+    add(day,"strong","",M.sourceDate(f));
+    const time=add(dateTime,"div","review-when");
+    add(time,"span","review-time-caption","เวลาในสูจิบัตร");
+    add(time,"strong","",M.sourceTime(f)+(M.sourceTime(f)==="ไม่ระบุ"?"":" น."));
+    add(article,"p","review-venue","สนามตามสูจิบัตร: "+M.sourceField(f));
     if(M.hasConfirmedPlanning(f)){
-      const notice=add(article,"div","review-confirmed");
-      add(notice,"strong","","ยืนยันเฉพาะวันและสถานที่นอกรอบ");
-      add(notice,"span","",M.thaiDate(f.planning_date)+" · "+f.planning_venue);
-      add(notice,"small","","เวลาเริ่มและสนามรายคู่ที่พิมพ์ใน PDF ยังรอการยืนยันแยกต่างหาก");
+      const notice=add(article,"p","review-confirmed-compact",
+        "✓ ยืนยันวันและสถานที่: "+M.thaiDate(f.planning_date)+" · "+f.planning_venue);
+      notice.setAttribute("title","ยังไม่ยืนยันเวลาและสนามรายคู่");
+      add(article,"p","review-mini-warning","เวลาและสนามรายคู่ยังรอตรวจสอบ");
+    }else{
+      add(article,"p","review-mini-warning","วัน เวลา และสนามตามสูจิบัตรยังรอตรวจสอบ");
     }
-    addQa(article,f);
-    addDiff(article,f);
-    add(article,"p","review-source-note","PDF หน้า "+(f.source_page||"?")+" · Fixture ID: "+f.id);
+
     const actions=add(article,"div","review-action-bar");
-    const copy=add(actions,"button","review-action primary","คัดลอกข้อมูลแจ้งแก้ไข");
+    const copy=add(actions,"button","review-action primary","แจ้งข้อมูลไม่ตรง");
     copy.type="button";
     copy.setAttribute("aria-label","คัดลอกข้อความแจ้งแก้ไข "+getSport(f)+" "+(f.division||""));
     copy.addEventListener("click",()=>copyText(M.formatIssue(f,getSport(f)),"คัดลอกข้อความแจ้งแก้ไขแล้ว"));
-    const link=add(actions,"button","review-action","คัดลอกลิงก์รายการ");
+
+    const details=add(article,"details","review-card-details");
+    add(details,"summary","","ดูรายละเอียดเพิ่มเติม");
+    const extra=add(details,"div","review-extra-content");
+    if(f.kind==="track_event")addLanes(extra,f);
+    else if(f.source_pair_text)add(extra,"p","review-source-note","ข้อความตามสูจิบัตร: "+f.source_pair_text);
+    const source=add(extra,"div","review-source-grid");
+    addSource(source,"รอบการแข่งขัน",f.round||"ไม่ระบุ");
+    addSource(source,"หน้าในสูจิบัตร",f.source_page||"ไม่ระบุ");
+    addQa(extra,f);
+    addDiff(extra,f);
+    const admin=add(extra,"details","review-admin-codes");
+    add(admin,"summary","","รหัสอ้างอิงสำหรับผู้ดูแล");
+    add(admin,"p","review-source-note","รหัสรายการ: "+f.id);
+    const link=add(extra,"button","review-action secondary","แชร์ลิงก์รายการนี้");
     link.type="button";
     link.addEventListener("click",()=>{
       const url=new URL("./review.html",location.href);
@@ -161,8 +180,10 @@
       else url.searchParams.delete(queryKey);
     }
     if(clearFixture)url.searchParams.delete("fixture");
-    history.replaceState(null,"",url.pathname+url.search+url.hash);
-    renderDirect();
+    const next=url.pathname+url.search+url.hash;
+    const current=location.pathname+location.search+location.hash;
+    if(next!==current)history.replaceState(null,"",next);
+    if(clearFixture)renderDirect();
   }
   function populateOptions(){
     const schoolValue=ui.school.value,sportValue=ui.sport.value;
@@ -182,6 +203,8 @@
   function renderDirect(){
     if(!data)return;
     const directId=new URLSearchParams(location.search).get("fixture");
+    if(directRenderedId===directId)return;
+    directRenderedId=directId;
     ui.direct.hidden=!directId;
     ui.directCard.replaceChildren();
     ui.directError.hidden=true;
@@ -190,23 +213,42 @@
     if(item)ui.directCard.appendChild(makeCard(item));
     else ui.directError.hidden=false;
   }
-  function render(){
-    if(!data)return;
-    filtered=M.filterItems(data.fixtures,filters(),NK.classifyLevel);
-    const visible=filtered.slice(0,shown);
-    const fragment=document.createDocumentFragment();
-    for(const item of visible)fragment.appendChild(makeCard(item));
-    ui.cards.replaceChildren(fragment);
-    ui.count.textContent="แสดง "+visible.length+" จาก "+filtered.length+" รายการ";
+  function updateCount(){
+    ui.count.textContent="แสดง "+renderedCount+" จาก "+filtered.length+" รายการ";
     ui.empty.hidden=filtered.length!==0;
-    ui.more.hidden=shown>=filtered.length;
-    ui.more.textContent="แสดงเพิ่มอีก "+Math.min(PAGE_SIZE,Math.max(0,filtered.length-shown))+" รายการ";
+    ui.more.hidden=renderedCount>=filtered.length;
+    ui.more.textContent="ดูเพิ่มอีก "+Math.min(PAGE_SIZE,Math.max(0,filtered.length-renderedCount))+" รายการ";
+  }
+  function appendMore(){
+    const next=Math.min(filtered.length,renderedCount+PAGE_SIZE);
+    const fragment=document.createDocumentFragment();
+    for(let i=renderedCount;i<next;i++)fragment.appendChild(makeCard(filtered[i]));
+    ui.cards.appendChild(fragment);
+    renderedCount=next;
+    updateCount();
+  }
+  function render(force){
+    if(!data)return;
+    const f=filters();
+    const signature=JSON.stringify(f);
+    if(!force&&filterSignature===signature)return;
+    filterSignature=signature;
+    filtered=M.filterItems(data.fixtures,f,NK.classifyLevel);
+    renderedCount=0;
+    const fragment=document.createDocumentFragment();
+    const initial=Math.min(PAGE_SIZE,filtered.length);
+    for(let i=0;i<initial;i++)fragment.appendChild(makeCard(filtered[i]));
+    ui.cards.replaceChildren(fragment);
+    renderedCount=initial;
+    updateCount();
     renderDirect();
+    const extended=!!(f.level||f.qaOnly||f.search);
+    ui.extraHint.textContent=extended?"มีตัวเลือกที่ใช้งาน":"";
   }
   function applyFilter(){
-    shown=PAGE_SIZE;
+    if(searchDebounce!==null){clearTimeout(searchDebounce);searchDebounce=null;}
     syncUrl(true);
-    render();
+    render(false);
   }
   function restoreFilters(){
     const qs=new URLSearchParams(location.search);
@@ -215,6 +257,7 @@
     ui.level.value=qs.get("level")||"";
     ui.search.value=qs.get("q")||"";
     ui.qaOnly.checked=qs.get("qa")==="1";
+    ui.extraFilters.open=!!(ui.level.value||ui.search.value||ui.qaOnly.checked);
   }
   function updateSummary(){
     ui.statMatches.textContent=data.fixtures.filter(x=>x.kind==="match").length;
@@ -222,9 +265,9 @@
     ui.statLanes.textContent=data.fixtures.filter(x=>x.kind==="track_event")
       .reduce((sum,x)=>sum+(x.lanes?.length||0),0);
     ui.statQa.textContent=data.fixtures.filter(M.hasQa).length;
-    ui.revision.textContent="Revision: "+M.REVISION+" · 4 พ.ย. 2569 · ข้อมูลร่าง";
+    ui.revision.textContent="ฉบับปรับปรุง 4 พ.ย. 2569 · ข้อมูลรอตรวจสอบ";
   }
-  async function fetchJson(path,optional){
+  async function fetchJson(path){
     const response=await fetch(path+"?v="+Date.now(),{cache:"no-store"});
     if(!response.ok)throw Error("HTTP "+response.status);
     return response.json();
@@ -238,7 +281,7 @@
     ui.listing.setAttribute("aria-busy","true");
     ui.failure.hidden=true;
     if(first)ui.skeleton.hidden=false;
-    else ui.status.textContent="กำลังตรวจไฟล์ PDF ล่าสุด โดยคงรายการเดิมบนหน้าจอ…";
+    else ui.status.textContent="กำลังตรวจข้อมูลฉบับใหม่ โดยยังแสดงรายการเดิมไว้…";
     try{
       const candidate=M.validate(await fetchJson(M.SOURCE_PATH));
       if(serial!==requestSerial)return;
@@ -262,11 +305,12 @@
       ui.failure.hidden=true;
       ui.listing.setAttribute("aria-busy","false");
       updateSummary();
-      shown=PAGE_SIZE;
-      render();
+      filterSignature=null;
+      directRenderedId=null;
+      render(true);
       ui.status.textContent=NK.formatCheckedAt(new Date())+
-        " · ข้อมูลร่างจาก PDF (ไม่ใช่ Google Sheets สด)"+
-        (!diff?" · ข้อมูลเปรียบเทียบเว็บเดิมยังโหลดไม่ได้":"");
+        " · ข้อมูลจากสูจิบัตรฉบับใหม่ (ยังไม่รับรอง)"+
+        (!diff?" · ดูความแตกต่างจากฉบับเดิมไม่ได้ในขณะนี้":"");
     }catch(err){
       ui.skeleton.hidden=true;
       ui.listing.setAttribute("aria-busy","false");
@@ -286,13 +330,26 @@
   for(const element of [ui.school,ui.sport,ui.level,ui.qaOnly]){
     element.addEventListener("change",applyFilter);
   }
-  ui.search.addEventListener("input",applyFilter);
-  ui.more.addEventListener("click",()=>{shown+=PAGE_SIZE;render();});
+  ui.search.addEventListener("compositionstart",()=>{
+    isComposing=true;
+    if(searchDebounce!==null){clearTimeout(searchDebounce);searchDebounce=null;}
+  });
+  ui.search.addEventListener("compositionend",()=>{
+    isComposing=false;
+    if(searchDebounce!==null)clearTimeout(searchDebounce);
+    searchDebounce=setTimeout(()=>{searchDebounce=null;applyFilter();},SEARCH_DELAY_MS);
+  });
+  ui.search.addEventListener("input",()=>{
+    if(isComposing)return;
+    if(searchDebounce!==null)clearTimeout(searchDebounce);
+    searchDebounce=setTimeout(()=>{searchDebounce=null;applyFilter();},SEARCH_DELAY_MS);
+  });
+  ui.more.addEventListener("click",appendMore);
   ui.clear.addEventListener("click",()=>{
     ui.school.value="";ui.sport.value="";ui.level.value="";ui.search.value="";
-    ui.qaOnly.checked=false;applyFilter();
+    ui.qaOnly.checked=false;ui.extraFilters.open=false;applyFilter();
   });
-  ui.refresh.addEventListener("click",load);
+    ui.refresh.addEventListener("click",load);
   ui.retry.addEventListener("click",load);
   load();
 })();
