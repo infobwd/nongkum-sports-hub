@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./css/review.css">
 </head>
 <body data-view="review">
-<header class="top"><div class="shell">
+<header id="reviewHeader" class="top"><div class="shell">
   <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกม</span></div><span class="mode">ฉบับ PDF ล่าสุด · รอการตรวจ</span></div>
   <nav class="site-nav" aria-label="เมนูหลัก">
     <a href="./index.html">โปรแกรมเดิม</a>
@@ -25,7 +25,7 @@
     <p>มิตรภาพเกม ปี 2569 · ตรวจชื่อคู่ วัน เวลา สนาม และลู่กรีฑาจากเอกสารฉบับใหม่</p>
   </div>
 </div></header>
-<main class="shell review-main">
+<main id="reviewMain" class="shell review-main">
   <aside class="review-caution" aria-label="สถานะเอกสาร">
     <span class="review-caution-icon" aria-hidden="true">!</span>
     <div><strong>ร่างเพื่อโรงเรียนและคณะกรรมการตรวจสอบ — ไม่ใช่ประกาศแข่งขันทางการ</strong>
@@ -44,18 +44,24 @@
   </section>
 
   <section class="review-pdf-download" aria-labelledby="reviewPdfHeading">
-    <div class="review-pdf-icon" aria-hidden="true">📄</div>
-    <div class="review-pdf-description">
-      <h2 id="reviewPdfHeading">สูจิบัตรฉบับ PDF สำหรับตรวจสอบ</h2>
-      <p>ร่าง - สูจิบัตรกีฬากลุ่ม ปี 2569_V2.pdf</p>
-      <small>เปิดอ่านในเว็บหรือดาวน์โหลด PDF ได้โดยตรง · <a href="https://drive.google.com/file/d/1zMxnF99lJHTQ8zgCH1QUs5rB9Uf8O4IO/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">ดูไฟล์ต้นฉบับใน Google Drive</a> (บางบัญชีอาจต้องขอสิทธิ์)</small>
-    </div>
-    <div class="review-pdf-link-group">
-      <a class="review-pdf-link" href="./pdf-viewer.html?page=1" target="_blank" rel="noopener noreferrer">เปิดอ่าน PDF</a>
-      <a class="review-pdf-link review-pdf-download-action" href="./assets/souvenir-2569-v2.pdf" download="ร่าง-สูจิบัตรกีฬากลุ่ม-2569_V2.pdf">ดาวน์โหลด PDF</a>
-    </div>
+    <details id="reviewPdfDetails" class="review-pdf-details" open>
+      <summary class="review-pdf-toggle">
+        <span class="review-pdf-icon" aria-hidden="true">📄</span>
+        <h2 id="reviewPdfHeading">สูจิบัตร PDF สำหรับตรวจสอบ</h2>
+        <span class="review-pdf-toggle-hint">เปิดดู</span>
+      </summary>
+      <div class="review-pdf-inner">
+        <div class="review-pdf-description">
+          <p>ร่าง - สูจิบัตรกีฬากลุ่ม ปี 2569_V2.pdf</p>
+          <small>เปิดอ่านในเว็บหรือดาวน์โหลด PDF ได้โดยตรง · <a href="https://drive.google.com/file/d/1zMxnF99lJHTQ8zgCH1QUs5rB9Uf8O4IO/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">ดูไฟล์ต้นฉบับใน Google Drive</a> (บางบัญชีอาจต้องขอสิทธิ์)</small>
+        </div>
+        <div class="review-pdf-link-group">
+          <a class="review-pdf-link" href="./pdf-viewer.html?page=1" target="_blank" rel="noopener noreferrer">เปิดอ่าน PDF</a>
+          <a class="review-pdf-link review-pdf-download-action" href="./assets/souvenir-2569-v2.pdf" download="ร่าง-สูจิบัตรกีฬากลุ่ม-2569_V2.pdf">ดาวน์โหลด PDF</a>
+        </div>
+      </div>
+    </details>
   </section>
-
   <section class="panel review-filters" aria-labelledby="reviewFilterHeading">
     <div class="review-section-top"><h2 id="reviewFilterHeading">เลือกข้อมูลที่จะตรวจ</h2><button type="button" id="clearFilters" class="review-clear">ล้างตัวกรอง</button></div>
     <p class="review-filter-help">เลือกโรงเรียนของคุณ แล้วเลือกกีฬาเพื่อดูเฉพาะรายการที่ต้องตรวจ</p>
@@ -119,7 +125,15 @@
     <p>เปิดรายการที่ผิดแล้วกด <strong>แจ้งข้อมูลไม่ตรง</strong> จากนั้นนำข้อความไปวางในแชทกับผู้จัด พร้อมระบุค่าที่ถูกต้องและหลักฐานที่ยืนยันได้ ระบบนี้ไม่มีการกดรับรองและไม่ส่งข้อมูลอัตโนมัติ</p>
     <p>เมื่อผู้จัดตรวจสอบและยืนยันข้อมูลแล้ว จะปรับปรุงรายการและเก็บประวัติการแก้ไขก่อนนำไปใช้เป็นโปรแกรมแข่งขันฉบับประกาศ</p>
   </section>
-  <section id="pdfPreview" class="review-pdf-preview" role="dialog" aria-modal="true" aria-labelledby="pdfPreviewTitle" hidden>
+
+
+<section id="copyFallback" class="review-copy-fallback" hidden aria-labelledby="copyFallbackTitle">
+    <h2 id="copyFallbackTitle">ข้อความสำหรับคัดลอกด้วยตนเอง</h2>
+    <textarea id="copyFallbackText" rows="11" readonly aria-label="ข้อความแจ้งแก้ไข"></textarea>
+    <p>เลือกข้อความทั้งหมด แล้วคัดลอกไปวางในแชท</p>
+  </section>
+</main>
+  <section id="pdfPreview" class="review-pdf-preview" role="dialog" aria-modal="false" aria-labelledby="pdfPreviewTitle" hidden>
   <div class="review-preview-top">
     <div class="review-preview-title">
       <strong id="pdfPreviewTitle">สูจิบัตร PDF ฉบับตรวจสอบ</strong>
@@ -130,15 +144,8 @@
   <iframe id="pdfPreviewFrame" title="ตัวอ่านสูจิบัตร PDF พร้อมเปลี่ยนหน้าและขยายภาพ" loading="lazy" referrerpolicy="same-origin"></iframe>
   <div class="review-preview-footer">ข้อมูลใน PDF เป็นฉบับร่างสำหรับตรวจสอบ ไม่ใช่โปรแกรมที่รับรองแล้ว</div>
 </section>
-
-<section id="copyFallback" class="review-copy-fallback" hidden aria-labelledby="copyFallbackTitle">
-    <h2 id="copyFallbackTitle">ข้อความสำหรับคัดลอกด้วยตนเอง</h2>
-    <textarea id="copyFallbackText" rows="11" readonly aria-label="ข้อความแจ้งแก้ไข"></textarea>
-    <p>เลือกข้อความทั้งหมด แล้วคัดลอกไปวางในแชท</p>
-  </section>
-</main>
-<footer class="shell">มิตรภาพเกม ปี 2569 · ชุดข้อมูล PDF เพื่อการตรวจสอบ · ไม่ใช่ประกาศอย่างเป็นทางการ</footer>
-<nav class="mobile-nav review-mobile-nav" aria-label="เมนูด้านล่าง">
+<footer id="reviewFooter" class="shell">มิตรภาพเกม ปี 2569 · ชุดข้อมูล PDF เพื่อการตรวจสอบ · ไม่ใช่ประกาศอย่างเป็นทางการ</footer>
+<nav id="reviewBottomNav" class="mobile-nav review-mobile-nav" aria-label="เมนูด้านล่าง">
   <a href="./index.html" aria-label="ตารางแข่งขัน">
     <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg><span>ตารางแข่ง</span>
   </a>
