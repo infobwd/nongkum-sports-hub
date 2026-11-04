@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "event_name": "มิตรภาพเกม",
+    "publication_status": "empty",
+    "approved_only": true,
+    "approved_results_count": 0,
+    "published_at": null,
+    "source": "ผลที่กรรมการรับรองเท่านั้น — ไม่มีผลเผยแพร่ในขณะนี้"
+  },
+  "schools": [
+    {
+      "id": "nongkum",
+      "name": "โรงเรียนบ้านหนองกุ่ม",
+      "short": "หนองกุ่ม"
+    },
+    {
+      "id": "thungmasang",
+      "name": "โรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)",
+      "short": "ทุ่งมะสังฯ"
+    },
+    {
+      "id": "rangkham",
+      "name": "โรงเรียนบ้านรางขาม",
+      "short": "รางขาม"
+    },
+    {
+      "id": "wangdong",
+      "name": "โรงเรียนบ้านวังด้ง",
+      "short": "วังด้ง"
+    },
+    {
+      "id": "phuphrom",
+      "name": "โรงเรียนบ้านพุพรหม",
+      "short": "พุพรหม"
+    },
+    {
+      "id": "wangkhaokaew",
+      "name": "โรงเรียนบ้านวังเขาแก้ว",
+      "short": "วังเขาแก้ว"
+    },
+    {
+      "id": "saohong",
+      "name": "โรงเรียนบ้านเสาหงส์",
+      "short": "เสาหงส์"
+    },
+    {
+      "id": "nongkrathum",
+      "name": "โรงเรียนบ้านหนองกระทุ่ม",
+      "short": "หนองกระทุ่ม"
+    }
+  ],
+  "sports": [
+    {
+      "id": "football",
+      "name": "ฟุตบอล",
+      "emoji": "⚽"
+    },
+    {
+      "id": "shootout",
+      "name": "ยิงจุดโทษ",
+      "emoji": "🥅"
+    },
+    {
+      "id": "futsal",
+      "name": "ฟุตซอล",
+      "emoji": "⚽"
+    },
+    {
+      "id": "volleyball",
+      "name": "วอลเลย์บอล",
+      "emoji": "🏐"
+    },
+    {
+      "id": "takraw",
+      "name": "เซปักตะกร้อ",
+      "emoji": "🏐"
+    },
+    {
+      "id": "petanque",
+      "name": "เปตอง",
+      "emoji": "🎯"
+    },
+    {
+      "id": "tabletennis",
+      "name": "เทเบิลเทนนิส",
+      "emoji": "🏓"
+    },
+    {
+      "id": "tugofwar",
+      "name": "ชักเย่อ",
+      "emoji": "🪢"
+    },
+    {
+      "id": "athletics",
+      "name": "กรีฑา",
+      "emoji": "🏃"
+    }
+  ],
+  "results": []
+}

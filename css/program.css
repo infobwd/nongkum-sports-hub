@@ -1,0 +1,114 @@
+    .results-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .results-top h2{margin:0}
+    .count{font-size:.85rem;color:#5d7188}
+    .subtle{font-size:.8rem;color:#5b7087;margin:5px 0 0}
+    .sport-group{margin:21px 0 0}
+    .group-heading{display:flex;align-items:center;gap:9px;margin-bottom:10px;border-bottom:1px solid #dbe4ee;padding:0 2px 8px}
+    .group-heading h3{font-size:.98rem;margin:0;font-weight:800}
+    .group-count{font-size:.76rem;color:#60758d;background:#e9eef5;padding:2px 9px;border-radius:999px}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+    .fixture{background:#fff;border:1px solid #dfe6f0;border-radius:16px;padding:15px;box-shadow:0 3px 9px rgba(18,45,75,.025);min-width:0}
+    .fixture-head{display:flex;justify-content:space-between;align-items:start;gap:9px}
+    .sport-name{font-weight:800;font-size:.87rem;color:#183762}
+    .division{font-size:.78rem;color:#5e7288;margin-top:1px}
+    .pairnum{background:#eef3f9;color:#355677;border-radius:7px;padding:4px 8px;white-space:nowrap;font-size:.73rem}
+    .eventname{font-size:1rem;font-weight:800;margin:10px 0 7px;color:#183762}
+    .match{display:flex;align-items:center;gap:9px;margin:11px 0;min-height:35px}
+    .team{flex:1;min-width:0;font-weight:750;font-size:.92rem;overflow-wrap:anywhere}
+    .team:last-child{text-align:right}
+    .vs{color:#8397a9;font-size:.72rem;font-weight:800;flex:none}
+    .my-lane{display:flex;align-items:center;gap:9px;background:#eef5fd;color:#173b64;border-radius:10px;padding:9px 10px;font-size:.88rem;margin-top:8px}
+    .lane-badge{font-weight:800;white-space:nowrap;color:#163e6a}
+    .lane-overview{font-size:.83rem;color:#51677f;margin:8px 0}
+    .lane-details{border-top:1px solid #edf1f6;margin-top:10px;padding-top:7px}
+    .lane-details summary{color:#1a5a9e;font-weight:750;font-size:.82rem;padding:5px 0;min-height:34px}
+    .lanes{padding:4px 0 0;display:grid;gap:3px}
+    .lane{display:flex;align-items:center;gap:12px;padding:6px 3px;border-bottom:1px solid #eef2f6;font-size:.83rem}
+    .lane:last-child{border-bottom:0}
+    .lane-num{min-width:44px;font-weight:750;color:#566d86}
+    .details{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid #edf0f4;padding-top:10px;margin-top:11px}
+    .tag{font-size:.75rem;border-radius:7px;background:#f0f4f9;color:#42617e;padding:5px 8px}
+    .tag.unconfirmed{background:#fff3d7;color:#745517}
+    .tag.verified{background:#e8f4ef;color:#245b49}
+    .source{font-size:.73rem;color:#657b90;margin-top:9px}
+    .more{display:block;border:1px solid #aebfd3;background:#fff;color:#174773;font-weight:800;border-radius:12px;padding:12px 18px;min-height:46px;margin:17px auto 6px}
+    .more[hidden]{display:none}
+    .empty{background:#fff;border:1px dashed #bacbdd;border-radius:12px;padding:24px;text-align:center;margin-top:15px}
+    .empty strong{display:block}.empty p{margin:4px 0 0;color:#6c7f91;font-size:.86rem}
+    .admin{margin-top:28px;background:#eaf1f8;border:1px solid #d1dfed;border-radius:15px;padding:14px 17px}
+    .admin summary{font-weight:800;color:#193f66;font-size:.9rem;min-height:32px}
+    .admin p{font-size:.85rem;color:#405b7a;margin:10px 0}
+    .admin-links{display:flex;flex-wrap:wrap;gap:12px;font-size:.83rem;font-weight:750}
+    footer{padding:20px 0 30px;color:#677d92;text-align:center;font-size:.75rem}
+    @media(max-width:690px){
+      .shell{padding:0 14px}
+      .brand{padding:12px 0 4px;align-items:center}
+      .logo{font-size:.91rem}
+      .logoIcon{width:36px;height:36px;font-size:21px}
+      .mode{font-size:.66rem;padding:4px 8px}
+      .hero{padding:8px 0 14px}
+      .hero p{font-size:.82rem}
+      .panel{padding:14px;margin:12px 0}
+      .fields,.cards{grid-template-columns:1fr}
+      .fixture{padding:14px}
+      .filter-title{margin-top:13px}
+    }
+    @media(max-width:350px){
+      .brand{flex-wrap:wrap}
+      .mode{margin-left:46px}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+    @media print{
+      .top{background:#fff;color:#123}
+      .mode,.panel,.admin,.notice,.more{display:none!important}
+      .cards{grid-template-columns:1fr}
+      .fixture{break-inside:avoid}
+      main{padding:0}
+      .lane-details:not([open]) .lanes{display:none}
+    }
+
+
+    /* UX-P2.2: Safe Area protection for iPhone Safari/standalone display */
+    :root{--safe-top:env(safe-area-inset-top,0px)}
+    html{scroll-padding-top:calc(var(--safe-top) + 12px)}
+    body{padding-top:var(--safe-top)}
+    body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;z-index:999;pointer-events:none}
+    /* Use the real device inset only; a forced 44px fixed layer hides the logo on Safari while scrolling. */
+    @supports (-webkit-touch-callout:none){body::before{height:var(--safe-top)}}
+    /* Condensed header, school-first search, collapsed secondary filters */
+    .brand{padding:10px 0 7px;gap:9px}
+    .hero{padding:2px 0 12px}
+    .hero h1{font-size:clamp(1.13rem,3.8vw,1.7rem);margin:0}
+    .panel{margin:12px 0;padding:14px 16px}
+    .panel h2{font-size:1.08rem;margin-bottom:9px}
+    .filter-title{margin:12px 0 2px}
+    .chips{padding-bottom:7px}
+    .chip{display:inline-flex;align-items:center;gap:7px}
+    .chip-count{font-size:.7rem;min-width:19px;border-radius:99px;padding:0 5px;background:#e8eff8;color:#335a7f;line-height:1.5}
+    .chip[aria-pressed="true"] .chip-count{background:#fff;color:#174778}
+    .advanced-filter{margin-top:9px;border-top:1px solid #e8edf4;padding-top:3px}
+    .advanced-filter summary{min-height:44px;display:flex;align-items:center;color:#225a8d;font-size:.86rem;font-weight:800;list-style:none}
+    .advanced-filter summary::-webkit-details-marker{display:none}
+    .advanced-filter summary::after{content:"⌄";font-size:1.15rem;margin-left:6px}
+    .advanced-filter[open] summary::after{content:"⌃"}
+    .advanced-hint{font-size:.75rem;font-weight:500;color:#60758d;margin-left:auto}
+    .advanced-body{padding:8px 0 4px}
+    .advanced-body .filter-title{margin-top:13px}
+    .notice{font-size:.79rem;padding:9px 11px;margin:10px 0 14px}
+    /* Smaller fixture cards, detailed source always accessible on demand */
+    .sport-group{margin-top:16px;scroll-margin-top:calc(var(--safe-top) + 55px)}
+    .fixture{padding:12px 14px;border-radius:14px}
+    .sport-label{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;row-gap:2px}
+    .division{margin:0;font-size:.77rem}
+    .eventname{font-size:.97rem;margin:8px 0 5px}
+    .match{min-height:28px;margin:8px 0 9px}
+    .my-lane{padding:7px 9px;margin-top:6px}
+    .details{border-top:0;margin:6px 0 0;padding:0}
+    .source-details{border-top:1px solid #edf0f4;margin-top:8px;padding-top:3px}
+    .source-details summary{font-size:.76rem;font-weight:700;color:#456984;min-height:32px;padding:5px 0}
+    .source-details[open] summary{margin-bottom:5px}
+    .source-details .details{margin:3px 0 6px}
+    .qa-note{font-size:.75rem;color:#845322;margin:4px 0}
+    footer{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+    @media(max-width:690px){.hero{padding:2px 0 11px}.panel{padding:12px 14px;margin:10px 0}.fixture{padding:12px}}
+  

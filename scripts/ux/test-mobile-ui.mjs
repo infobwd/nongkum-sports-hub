@@ -4,7 +4,11 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
 
-const html=readFileSync(new URL("../../index.html",import.meta.url),"utf8");
+const page=readFileSync(new URL("../../index.html",import.meta.url),"utf8");
+const shared=readFileSync(new URL("../../js/shared.js",import.meta.url),"utf8");
+const program=readFileSync(new URL("../../js/program.js",import.meta.url),"utf8");
+const styles=readFileSync(new URL("../../css/base.css",import.meta.url),"utf8")+"\n"+readFileSync(new URL("../../css/program.css",import.meta.url),"utf8");
+const html=page+"\n"+program+"\n"+styles;
 const data=JSON.parse(readFileSync(new URL("../../data/draft-schedule.json",import.meta.url),"utf8"));
 assert.equal(data.fixtures.length,236);
 const proposed=data.fixtures.filter(m=>m.planning_date);
@@ -13,16 +17,15 @@ assert.ok(proposed.every(m=>m.sport_id==="petanque"&&/(10|12) ปี (ชาย|
 assert.ok(proposed.every(m=>["รอบแรก","รองชนะเลิศ"].includes(m.round)));
 assert.equal(proposed.filter(m=>m.planning_date==="2026-11-12").length,12);
 assert.equal(proposed.filter(m=>m.planning_date==="2026-11-13").length,12);
-assert.equal(data.metadata.event_display_name,"มิตรมิตรภาพเกม");
+assert.equal(data.metadata.event_display_name,"มิตรภาพเกม");
 assert.ok(proposed.every(m=>m.planning_date_confirmation==="confirmed"));
 assert.ok(proposed.every(m=>m.planning_venue==="โรงเรียนบ้านหนองกระทุ่ม"&&m.planning_venue_confirmation==="confirmed"));
 assert.ok(proposed.every(m=>m.planning_status==="review"&&!m.time&&!m.field));
 assert.equal(proposed.filter(m=>m.qa_flags?.includes("QA-06")).length,2);
 assert.ok(proposed.every(m=>m.date===null&&m.status==="draft"&&m.review_status==="draft"),"P1 source date/draft status preserved");
 assert.ok(!data.fixtures.some(m=>m.round==="ชิงชนะเลิศ"&&m.planning_date),"finals stay unscheduled");
-const match=html.match(/<script>([\s\S]*?)<\/script>/);
-assert.ok(match,"index.html must contain a script");
-new vm.Script(match[1],{filename:"inline-ui.js"});
+new vm.Script(shared);
+new vm.Script(program);
 
 function mockElement(id){
   return {
@@ -43,7 +46,7 @@ function mockElement(id){
   };
 }
 async function mount(url,source=data){
-  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint"];
+  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink"];
   const els=Object.fromEntries(ids.map(id=>[id,mockElement(id)]));
   const location=new URL(url);
   const history={latest:null,replaceState(_a,_b,href){this.latest=href;}};
@@ -54,7 +57,8 @@ async function mount(url,source=data){
     localStorage:{getItem:k=>localStore.get(k)||null,setItem:(k,v)=>localStore.set(k,v)},
     fetch:async()=>({ok:true,json:async()=>source})
   });
-  new vm.Script(match[1],{filename:"inline-ui.js"}).runInContext(ctx);
+  new vm.Script(shared).runInContext(ctx);
+  new vm.Script(program).runInContext(ctx);
   for(let i=0;i<8;i++)await Promise.resolve();
   return {els,history,localStore};
 }
@@ -122,11 +126,11 @@ const unknown=await mount("https://example.org/nongkum-sports-hub/?school=bad-id
 assert.match(unknown.els.count.textContent,/พบ 236 รายการ/,"unknown filters should not hide data");
 
 const unsafe=structuredClone(data);
-unsafe.fixtures[0].source_team_a_label="<script>alert('x')</script>";
+unsafe.fixtures[0].source_team_a_label="<em>sample</em>";
 unsafe.fixtures[0].team_a_id=null;
 const escaped=await mount("https://example.org/nongkum-sports-hub/?sport=football",unsafe);
-assert.ok(!escaped.els.cards.innerHTML.includes("<script>alert"));
-assert.match(escaped.els.cards.innerHTML,/&lt;script&gt;/,"source labels must be escaped");
+assert.ok(!escaped.els.cards.innerHTML.includes("<em>sample"));
+assert.match(escaped.els.cards.innerHTML,/&lt;em&gt;/,"source labels must be escaped");
 
 const approved=structuredClone(data);
 approved.metadata.all_data_approved=true;
@@ -149,6 +153,6 @@ petanqueReview.els.search.value="12 ปี";
 petanqueReview.els.search.handlers.input();
 assert.match(petanqueReview.els.cards.innerHTML,/แข่งนอกรอบ 13 พ.ย. 2569 · วันยืนยันแล้ว/);
 assert.ok(html.includes("เรียงตามสูจิบัตรต้นฉบับ"));
-assert.ok(html.includes("มิตรมิตรภาพเกม"));
+assert.ok(html.includes("มิตรภาพเกม"));
 assert.ok(!html.includes("max(var(--safe-top),44px)"),"Safari must not force a fixed 44px mask");
 console.log("PASS: UX-P2.1 236 draft records, school-specific athletics, collapsed all lanes, school/sport/level filters, pagination, XSS, mobile layout, draft gate");

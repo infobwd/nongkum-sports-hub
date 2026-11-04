@@ -17,3 +17,5 @@ jobs:
       - run: node scripts/validate-data.mjs
       - run: node scripts/p2/test-approval.mjs
       - run: node scripts/ux/test-mobile-ui.mjs
+      - run: node scripts/results/test-results.mjs
+      - run: node scripts/results/test-exporter.mjs

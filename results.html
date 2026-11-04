@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="description" content="มิตรภาพเกม 2569 — ผลการแข่งขันที่ผ่านการรับรอง">
+<title>ผลการแข่งขัน — มิตรภาพเกม 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/base.css"><link rel="stylesheet" href="./css/results.css">
+</head><body>
+<header class="top"><div class="shell">
+<div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกม</span></div><span class="mode">แสดงเฉพาะผลรับรอง</span></div>
+<nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html" id="programLink">โปรแกรมการแข่งขัน</a><a href="./results.html" aria-current="page">ผลการแข่งขัน</a></nav>
+<div class="hero"><h1>ผลการแข่งขัน · ปี 2569</h1></div>
+</div></header>
+<main class="shell">
+<section class="result-panel" aria-labelledby="resultFiltersHeading">
+<h2 id="resultFiltersHeading">เลือกโรงเรียนและกีฬา</h2>
+<div class="result-controls">
+<div><label class="fieldlabel" for="resultSchool">โรงเรียนของฉัน</label><select id="resultSchool"><option value="">ทุกโรงเรียน</option></select></div>
+<div><label class="fieldlabel" for="resultLevel">ช่วงชั้น</label><select id="resultLevel"><option value="">ทุกช่วงชั้น</option><option value="early">ก่อนเรียน / ปฐมวัย</option><option value="primary">ประถม</option><option value="secondary">มัธยม</option></select></div>
+</div>
+<div class="filter-title"><span class="fieldlabel" id="resultSportLabel">ชนิดกีฬา</span><span class="hint">ปัดดูเพิ่มเติม →</span></div>
+<div id="resultSports" class="result-sport-chips" role="group" aria-labelledby="resultSportLabel"></div>
+</section>
+<section aria-labelledby="resultsHeading"><div class="results-top"><h2 id="resultsHeading">ผลการแข่งขันที่ผ่านการรับรอง</h2><span id="resultsCount" aria-live="polite">กำลังเปิดข้อมูล…</span></div>
+<p id="publishedAt" class="result-meta"></p><div id="resultsList" class="result-tiles"></div>
+<div id="noResults" class="status-empty" hidden><h2>ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง</h2><p>เมื่อคณะกรรมการรับรองผลจริงแล้ว จะแสดงคะแนน ผู้ชนะ หรืออันดับในหน้านี้</p></div>
+</section></main>
+<footer class="shell">มิตรภาพเกม ปี 2569 · ไม่แสดงผลร่างหรือผลที่ยังไม่รับรอง</footer>
+<script src="./js/shared.js"></script><script src="./js/results-renderers.js"></script><script src="./js/results.js"></script>
+</body></html>
