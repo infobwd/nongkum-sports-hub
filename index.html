@@ -58,8 +58,9 @@
     <section aria-labelledby="resultTitle">
       <div class="results-top">
         <h2 id="resultTitle">โปรแกรมการแข่งขัน</h2>
-        <span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span>
+        <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
       </div>
+      <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
       <p class="subtle" id="resultNote">เรียงตามสูจิบัตรต้นฉบับ · วันและสถานที่เปตองนอกรอบที่ยืนยันแล้วจะแสดงแยกจากข้อมูลที่ยังรอตรวจ</p>
       <div id="cards"></div>
       <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong>
@@ -72,13 +73,14 @@
       <summary>สำหรับผู้จัดการแข่งขัน · ข้อมูลตรวจรับ P2</summary>
       <p>มี Google Sheets P2 สำหรับกรรมการตรวจสอบและแก้ไขข้อมูลแล้ว แต่ยังไม่เชื่อมผลรับรองเข้ากับเว็บไซต์นี้โดยอัตโนมัติ โปรดใช้เอกสารและสิทธิ์ที่ผู้จัดกำหนด</p>
       <div class="admin-links">
+        <a href="./forms/score-sheet.html">ใบบันทึกผลการแข่งขัน A4</a>
         <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/P2_SHEETS_WORKFLOW.md">คู่มือ Google Sheets P2</a>
         <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/SOURCE_QA_2569.md">รายการข้อมูลที่ต้องตรวจ</a>
         <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/SPORTS_PROGRAM_WEB_PLAN.md">แผนพัฒนาเว็บ</a>
       </div>
     </details>
   </main>
-  <footer class="shell">สูจิบัตรกีฬากลุ่มหนองกุ่ม ปี 2569 · ข้อมูลร่างเพื่อการตรวจทานเท่านั้น</footer>
+  <footer class="shell">มิตรภาพเกม ปี 2569 · ข้อมูลร่างเพื่อการตรวจทานเท่านั้น</footer>
 
 <script src="./js/shared.js"></script>
 <script src="./js/program.js"></script>

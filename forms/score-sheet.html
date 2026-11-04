@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ใบบันทึกผลการแข่งขัน A4 — มิตรภาพเกม 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./score-sheet.css">
+</head><body>
+<div class="screen-bar">
+  <a href="../index.html">← โปรแกรมการแข่งขัน</a>
+  <label>ชนิดกีฬา
+    <select id="sportType">
+      <option value="football">ฟุตบอล</option>
+      <option value="futsal">ฟุตซอล</option>
+      <option value="shootout">ยิงจุดโทษ</option>
+      <option value="petanque">เปตอง</option>
+      <option value="volleyball">วอลเลย์บอล</option>
+      <option value="takraw">เซปักตะกร้อ</option>
+      <option value="tabletennis">เทเบิลเทนนิส</option>
+      <option value="tugofwar">ชักเย่อ</option>
+      <option value="athletics">กรีฑา</option>
+    </select>
+  </label>
+  <button type="button" id="print" class="print-button">พิมพ์ / บันทึก PDF</button>
+</div>
+<p id="loadNotice" class="screen-note" role="status">แบบว่างสำหรับกรรมการ · ไม่ส่งข้อมูลไปยังเว็บไซต์</p>
+<main class="paper" id="sheet">
+  <header class="paper-head">
+    <div class="paper-logo">🏆</div>
+    <div>
+      <h1>มิตรภาพเกม ปี 2569</h1>
+      <h2>ใบบันทึกผลการแข่งขันสำหรับกรรมการสนาม</h2>
+    </div>
+    <span class="sheet-code">แบบฟอร์มบันทึกผล</span>
+  </header>
+  <p class="caution">เอกสารสำหรับบันทึกและตรวจสอบผลจริง ไม่ใช่ประกาศผลอย่างเป็นทางการ · ต้องลงนามและตรวจรับก่อนนำเข้าระบบ</p>
+  <section class="meta-grid" aria-label="ข้อมูลการแข่งขัน">
+    <label>รหัสรายการ/คู่แข่งขัน <input id="fixtureId" aria-label="รหัสรายการ" placeholder="fixture_id จากระบบ"></label>
+    <label>ชนิดกีฬา <input id="sportName" value="ฟุตบอล" aria-label="ชนิดกีฬา"></label>
+    <label>รุ่นอายุ / ประเภท <input id="division" placeholder="เช่น 12 ปี ชาย"></label>
+    <label>รอบ / เลขคู่ <input id="round" placeholder="รอบแรก / คู่ที่..."></label>
+    <label>วันที่แข่งขัน <input id="date" placeholder="วัน / เดือน / ปี"></label>
+    <label>เวลาเริ่ม – สิ้นสุด <input id="time" placeholder="........ - ........ น."></label>
+    <label class="wide">สถานที่ / หมายเลขสนามย่อย <input id="venue" placeholder="..................................................................."></label>
+    <label>อ้างอิงสูจิบัตรหน้า <input id="sourcePage" placeholder="..."></label>
+    <label>เลขที่แบบบันทึก <input id="formNumber" placeholder="..."></label>
+  </section>
+  <section class="content-section" id="pairSection">
+    <h3>ข้อมูลคู่แข่งขัน</h3>
+    <div class="teams">
+      <label>ทีม / โรงเรียน A <input id="teamA" placeholder="ชื่อโรงเรียน A"></label>
+      <label>ทีม / โรงเรียน B <input id="teamB" placeholder="ชื่อโรงเรียน B"></label>
+    </div>
+  </section>
+  <section class="content-section" id="scoreSection">
+    <h3>บันทึกคะแนน</h3>
+    <table class="score-table"><thead><tr><th>ทีม</th><th>ครึ่ง/ช่วงที่ 1</th><th>ครึ่ง/ช่วงที่ 2</th><th>รวม</th></tr></thead>
+      <tbody><tr><th>A</th><td><input aria-label="ทีม A ช่วงที่ 1"></td><td><input aria-label="ทีม A ช่วงที่ 2"></td><td><input aria-label="ทีม A รวม"></td></tr>
+      <tr><th>B</th><td><input aria-label="ทีม B ช่วงที่ 1"></td><td><input aria-label="ทีม B ช่วงที่ 2"></td><td><input aria-label="ทีม B รวม"></td></tr></tbody>
+    </table>
+    <p class="helper">ใช้ช่องช่วงการแข่งขันตามกติกาของรายการนั้น หากไม่มีครึ่ง/ช่วงให้ขีด “–” และบันทึกคะแนนรวม</p>
+  </section>
+  <section class="content-section" id="setsSection" hidden>
+    <h3>บันทึกคะแนนแต่ละเกม/เซ็ต (ใช้ตามกติกาที่ประกาศ)</h3>
+    <table class="score-table"><thead><tr><th>ทีม</th><th>เกม/เซ็ต 1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>เกม/เซ็ตที่ชนะ</th></tr></thead>
+      <tbody><tr><th>A</th><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+      <tr><th>B</th><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr></tbody></table>
+    <p class="helper">บันทึกเฉพาะเกม/เซ็ตที่แข่งขันจริง ไม่สมมติจำนวนเซ็ตตายตัว หากเปตองใช้คะแนนเกมเดียว ให้ใช้แบบคะแนนรวมด้านบน</p>
+  </section>
+  <section class="content-section" id="winSection" hidden>
+    <h3>ผลชนะ–แพ้ / จำนวนยก</h3>
+    <div class="handwritten">ผลยกที่ 1 ........................................ ยกที่ 2 ........................................ ยกที่ 3 ........................................</div>
+  </section>
+  <section class="content-section" id="trackSection" hidden>
+    <h3>บันทึกผลกรีฑา — 1 แถวต่อผู้แข่งขัน/โรงเรียนตามข้อกำหนดรายการ</h3>
+    <table class="track-table"><thead><tr><th>ลู่ / ลำดับ</th><th>โรงเรียน / ศูนย์</th><th>สถิติ/เวลา</th><th>หน่วย</th><th>อันดับ</th><th>หมายเหตุ</th></tr></thead>
+      <tbody id="trackRows"></tbody></table>
+    <p class="helper">ระบุสถิติและหน่วยตามประเภทจริง อันดับ/เสมอต้องยึดกติกาที่กรรมการรับรอง</p>
+  </section>
+  <section class="content-section winner" id="winnerSection">
+    <label>ผลการแข่งขัน / โรงเรียนผู้ชนะ / อันดับที่รับรองเบื้องต้น <input id="winner" placeholder="..................................................................."></label>
+    <label>เหตุผลกรณีเสมอ ประท้วง ผิดกติกา หรือปรับแก้ <input id="note" placeholder="..................................................................."></label>
+  </section>
+  <section class="signatures">
+    <div>ผู้บันทึกผล<br><span class="line"></span><small>(ลงชื่อ / วันเวลา)</small></div>
+    <div>กรรมการผู้ตรวจ<br><span class="line"></span><small>(ลงชื่อ / วันเวลา)</small></div>
+    <div>ผู้รับรองผล<br><span class="line"></span><small>(ลงชื่อ / วันเวลา)</small></div>
+  </section>
+  <footer class="paper-foot">สถานะเริ่มต้น: □ ร่าง &nbsp; □ ส่งตรวจ &nbsp; □ รับรองแล้ว &nbsp; □ ขอแก้ไข&nbsp;&nbsp;|&nbsp;&nbsp;รหัสอ้างอิงต้องตรงกับทะเบียนการแข่งขัน</footer>
+</main>
+<script src="./score-sheet.js"></script>
+</body></html>

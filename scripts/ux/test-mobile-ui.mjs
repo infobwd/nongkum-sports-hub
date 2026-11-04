@@ -46,7 +46,7 @@ function mockElement(id){
   };
 }
 async function mount(url,source=data){
-  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink"];
+  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink","refreshProgram","programRefreshStatus"];
   const els=Object.fromEntries(ids.map(id=>[id,mockElement(id)]));
   const location=new URL(url);
   const history={latest:null,replaceState(_a,_b,href){this.latest=href;}};

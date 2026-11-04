@@ -47,14 +47,16 @@
     else if(kind==="ranking")body=ranking(r,schools);
     else return "";
     const title=r.name||(r.sport_id==="athletics"?"กรีฑา":"ผลการแข่งขัน");
-    return "<article class='fixture result-card'><div class='fixture-head'><div class='sport-label'><strong class='sport-name'>"+
+    return "<article class='fixture result-card' data-result-card='"+safe(r.id)+"'><div class='fixture-head'><div class='sport-label'><strong class='sport-name'>"+
       safe(sport?(sport.emoji+" "+sport.name):r.sport_id)+
       "</strong><span class='division'>"+safe(r.division||"")+"</span></div>"+
       "<span class='tag verified'>ผลรับรองแล้ว</span></div>"+
       (r.result_type==="ranking"?"<h3 class='result-title'>"+safe(title)+"</h3>":"")+
       body+"<p class='source'>"+
       (r.result_date?"แข่งขัน "+safe(r.result_date)+" · ":"")+
-      "อ้างอิงรหัส "+safe(r.fixture_id||r.event_id||r.id)+"</p></article>";
+      "อ้างอิงรหัส "+safe(r.fixture_id||r.event_id||r.id)+
+      "</p><div class='share-line'><button type='button' class='share-button' data-share-result='"+
+      safe(r.id)+"'>↗ แชร์ผลการแข่งขัน</button></div></article>";
   }
   root.NongkumResultsRender=Object.freeze({card});
 })(globalThis);

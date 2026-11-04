@@ -11,9 +11,12 @@
     empty:document.getElementById("empty"),
     more:document.getElementById("more"),
     advanced:document.getElementById("advancedFilters"),
-    activeFiltersHint:document.getElementById("activeFiltersHint")
+    activeFiltersHint:document.getElementById("activeFiltersHint"),
+    refresh:document.getElementById("refreshProgram"),
+    refreshStatus:document.getElementById("programRefreshStatus")
   };
-  const state={data:null,school:"",sport:"",level:"",query:"",limit:12};
+  const state={data:null,school:"",sport:"",level:"",query:"",limit:12,focusId:""};
+  let initialized=false;
   const LEVELS=[
     {id:"",name:"ทุกช่วงชั้น"},
     {id:"early",name:"ก่อนเรียน / ปฐมวัย"},
@@ -88,10 +91,15 @@
     const detail="<details class='source-details'><summary>รายละเอียด · ข้อมูลร่าง</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
       original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
+      "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
+      encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_page)+
       " · ยังไม่ผ่านการรับรอง</div></details>";
-    return "<article class='fixture'>"+heading+content+
-      "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+detail+"</article>";
+    return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
+      "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+
+      "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+detail+
+      "<div class='share-line'><button type='button' class='share-button' data-share-fixture='"+
+      safe(m.id)+"'>↗ แชร์คู่แข่งขัน</button></div></article>";
   }
   function updateFilterHint(){
     const active=[];
@@ -133,6 +141,8 @@
     [["school",state.school],["sport",state.sport],["level",state.level]].forEach(function(pair){
       if(pair[1])url.searchParams.set(pair[0],pair[1]);else url.searchParams.delete(pair[0]);
     });
+    url.searchParams.delete("fixture");
+    state.focusId="";
     history.replaceState(null,"",url.pathname+url.search+url.hash);
     syncNav();
   }
@@ -170,37 +180,83 @@
     els.more.hidden=matched.length<=state.limit;
     const remaining=matched.length-state.limit;
     els.more.textContent=remaining>0?"แสดงเพิ่มอีก "+Math.min(12,remaining)+" รายการ":"";
+    if(state.focusId&&typeof els.cards.querySelector==="function"){
+      const target=els.cards.querySelector("[data-fixture-card='"+state.focusId.replace(/'/g,"") +"']");
+      if(target&&typeof target.scrollIntoView==="function")target.scrollIntoView({block:"center"});
+    }
   }
-  fetch("./data/draft-schedule.json",{cache:"no-store"}).then(function(r){
-    if(!r.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");return r.json();
-  }).then(function(data){
-    if(!data.metadata||data.metadata.status!=="prototype"||data.metadata.all_data_approved!==false)
-      throw Error("ชุดข้อมูลร่างไม่ถูกต้อง");
-    state.data=data;
-    data.schools.forEach(function(s){
-      const op=document.createElement("option");op.value=s.id;op.textContent=s.name;els.school.appendChild(op);
-    });
-    const params=new URLSearchParams(location.search);
-    const saved=globalThis.Nongkum.schoolInStore();
-    const requested=params.get("school")||saved;
-    state.school=data.schools.some(function(s){return s.id===requested;})?requested:"";
-    state.sport=data.sports.some(function(s){return s.id===params.get("sport");})?params.get("sport"):"";
-    state.level=LEVELS.some(function(l){return l.id!==""&&l.id===params.get("level");})?params.get("level"):"";
-    els.school.value=state.school;
-    els.advanced.open=!!state.level;
-    updateFilterHint();
-    makeChips();makeLevels();render();syncNav();
+  function setupHandlers(){
+    if(initialized)return;
+    initialized=true;
     els.school.addEventListener("change",function(){
-      state.school=els.school.value;
-      globalThis.Nongkum.saveSchool(state.school);
+      state.school=els.school.value;globalThis.Nongkum.saveSchool(state.school);
       resetLimit();makeChips();render();syncUrl();
     });
-    els.search.addEventListener("input",function(){state.query=els.search.value;resetLimit();updateFilterHint();makeChips();render();});
+    els.search.addEventListener("input",function(){
+      state.query=els.search.value;resetLimit();updateFilterHint();makeChips();render();
+    });
     els.more.addEventListener("click",function(){state.limit+=12;render();});
-  }).catch(function(e){
-    els.count.textContent="อ่านข้อมูลไม่ได้";els.empty.hidden=false;
-    els.empty.innerHTML="<strong>ไม่สามารถโหลดโปรแกรมฉบับร่างได้</strong><p>กรุณาลองเปิดเว็บไซต์อีกครั้ง</p>";
-    console.error(e);
-  });
+    els.cards.addEventListener("click",async function(event){
+      const btn=event.target.closest("[data-share-fixture]");
+      if(!btn||!state.data)return;
+      const item=state.data.fixtures.find(x=>x.id===btn.dataset.shareFixture);
+      if(!item)return;
+      try{
+        const result=await globalThis.Nongkum.shareItem("index.html","fixture",item.id,
+          "มิตรภาพเกม · ข้อมูลร่าง · "+(item.name||item.division||"คู่แข่งขัน"));
+        if(result==="copied")els.refreshStatus.textContent="คัดลอกลิงก์คู่แข่งขันแล้ว";
+        if(result==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ยังไม่รองรับการแชร์หรือคัดลอกลิงก์";
+      }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ได้ โปรดลองอีกครั้ง";}
+    });
+  }
+  async function loadProgram(refresh){
+    els.refresh.disabled=true;
+    els.refreshStatus.textContent=refresh?"กำลังตรวจไฟล์โปรแกรมล่าสุด…":"กำลังอ่านโปรแกรมการแข่งขัน…";
+    try{
+      const path="./data/draft-schedule.json?refresh="+Date.now();
+      const response=await fetch(path,{cache:"no-store"});
+      if(!response.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");
+      const data=await response.json();
+      if(!data.metadata||data.metadata.status!=="prototype"||
+         data.metadata.all_data_approved!==false||!Array.isArray(data.fixtures))
+        throw Error("ชุดข้อมูลร่างไม่ถูกต้อง");
+      state.data=data;
+      if(!initialized){
+        data.schools.forEach(function(s){
+          const op=document.createElement("option");op.value=s.id;op.textContent=s.name;els.school.appendChild(op);
+        });
+        const params=new URLSearchParams(location.search);
+        const saved=globalThis.Nongkum.schoolInStore();
+        const requested=params.get("school")||saved;
+        state.school=data.schools.some(x=>x.id===requested)?requested:"";
+        state.sport=data.sports.some(x=>x.id===params.get("sport"))?params.get("sport"):"";
+        state.level=LEVELS.some(x=>x.id&&x.id===params.get("level"))?params.get("level"):"";
+        const linked=data.fixtures.find(x=>x.id===params.get("fixture"));
+        if(linked){
+          state.focusId=linked.id;state.school="";state.sport=linked.sport_id;state.level="";
+          state.query="";state.limit=12;
+        }
+        els.school.value=state.school;els.advanced.open=!!state.level;
+        setupHandlers();
+      }
+      updateFilterHint();makeChips();makeLevels();render();syncNav();
+      els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
+        " · ข้อมูลจากไฟล์ที่เผยแพร่บนเว็บ ไม่ได้ดึงจาก Google Sheets โดยตรง";
+    }catch(e){
+      els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · ยังคงข้อมูลเดิมถ้ามี";
+      if(!state.data){
+        els.count.textContent="อ่านข้อมูลไม่ได้";els.empty.hidden=false;
+        els.empty.innerHTML="<strong>ไม่สามารถโหลดโปรแกรมฉบับร่างได้</strong><p>กรุณาลองอีกครั้ง</p>";
+      }
+      console.error(e);
+    }finally{els.refresh.disabled=false;}
+  }
+  els.refresh.addEventListener("click",function(){loadProgram(true);});
+  loadProgram(false);
+  // Recheck the published draft program every five minutes while the page is visible.
+  if(typeof setInterval==="function"){
+    setInterval(function(){
+      if(document.visibilityState==="visible"&&!els.refresh.disabled)loadProgram(true);
+    },300000);
+  }
 })();
-

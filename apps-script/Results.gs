@@ -27,16 +27,19 @@ function nkResultRows_(ss,kind){
 function nkNonnegInt_(v){
   return v!==""&&v!==null&&v!==undefined&&Number.isInteger(Number(v))&&Number(v)>=0;
 }
-function nkResultType_(sport){
+function nkResultType_(sport,scoreA,scoreB,setsJson){
   if(["football","futsal","shootout"].indexOf(sport)>=0)return "score";
-  if(["petanque","volleyball","takraw","tabletennis"].indexOf(sport)>=0)return "sets";
+  // Petanque regulations may use a single point-score game or multi-game match.
+  // Select the actual reported shape; do not invent a mandatory set count.
+  if(sport==="petanque")return nkTrim_(setsJson)!==""?"sets":"score";
+  if(["volleyball","takraw","tabletennis"].indexOf(sport)>=0)return "sets";
   if(sport==="tugofwar")return "win_loss";
   throw Error("ชนิดกีฬาไม่รองรับ: "+sport);
 }
 function nkCheckResultRow_(kind,r){
   if(!nkTrim_(r[0])||!nkTrim_(r[1]))throw Error("ต้องมีรหัสผลและรหัสคู่/รายการ");
   if(kind==="pair"){
-    var type=nkResultType_(nkTrim_(r[2])),a=nkTrim_(r[4]),b=nkTrim_(r[5]),winner=nkTrim_(r[9]);
+    var type=nkResultType_(nkTrim_(r[2]),r[6],r[7],r[8]),a=nkTrim_(r[4]),b=nkTrim_(r[5]),winner=nkTrim_(r[9]);
     if(!a||!b||a===b)throw Error("กรุณาระบุรหัสโรงเรียนสองฝ่ายที่ต่างกัน");
     if(winner&&winner!==a&&winner!==b)throw Error("ผู้ชนะไม่ตรงทีมสองฝ่าย");
     if(type==="score"){
@@ -97,7 +100,7 @@ function nkBuildPublicResults_(ss){
     if(!nkResultsApproved_("pair",x,allow,issues))return;
     if(seen[nkTrim_(r[0])])issues.push("result_id ซ้ำ: "+r[0]);seen[nkTrim_(r[0])]=true;
     var f=fixtureIndex[nkTrim_(r[1])],type;
-    try{type=nkResultType_(nkTrim_(r[2]));}catch(e){issues.push(e.message);return;}
+    try{type=nkResultType_(nkTrim_(r[2]),r[6],r[7],r[8]);}catch(e){issues.push(e.message);return;}
     if(!f||f[13]!=="approved"||nkTrim_(f[2])!==nkTrim_(r[2])||
         nkTrim_(f[7])!==nkTrim_(r[4])||nkTrim_(f[8])!==nkTrim_(r[5]))
        issues.push("คู่ "+r[1]+": ข้อมูลคู่แม่ยังไม่รับรองหรือทีมไม่ตรง");

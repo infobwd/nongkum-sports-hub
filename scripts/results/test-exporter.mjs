@@ -64,6 +64,9 @@ assert.throws(()=>ctx.nkCheckResultRow_("pair",wrongWinner),/ไม่ตรง�
 const setResult=pairRow();setResult[2]="petanque";setResult[6]="";setResult[7]="";
 setResult[8]=JSON.stringify([{a:11,b:6},{a:11,b:7}]);
 assert.doesNotThrow(()=>ctx.nkCheckResultRow_("pair",setResult));
+const petanquePoints=pairRow();petanquePoints[2]="petanque";
+assert.equal(ctx.nkResultType_("petanque",petanquePoints[6],petanquePoints[7],""),"score");
+assert.doesNotThrow(()=>ctx.nkCheckResultRow_("pair",petanquePoints));
 const tug=pairRow();tug[2]="tugofwar";tug[6]="";tug[7]="";
 assert.doesNotThrow(()=>ctx.nkCheckResultRow_("pair",tug));
 const badSet=pairRow();badSet[2]="petanque";badSet[8]='not-json';
