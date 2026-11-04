@@ -15,6 +15,16 @@
 <div class="hero"><h1>ผลการแข่งขัน · ปี 2569</h1></div>
 </div></header>
 <main class="shell">
+<section id="sharedResult" class="direct-result" hidden aria-labelledby="sharedResultTitle">
+  <div class="direct-result-heading">
+    <h2 id="sharedResultTitle">ผลการแข่งขันที่แชร์มา</h2>
+    <p id="sharedResultStatus" role="status" aria-live="polite">กำลังตรวจผลรับรอง…</p>
+  </div>
+  <div id="sharedResultCard"></div>
+  <button id="showAllResults" type="button" class="direct-result-back">ดูผลการแข่งขันทั้งหมด</button>
+  <p class="result-meta">แสดงเฉพาะผลที่กรรมการรับรองและเผยแพร่แล้วเท่านั้น</p>
+</section>
+<div id="resultsOverview">
 <section class="result-panel" aria-labelledby="resultFiltersHeading">
 <h2 id="resultFiltersHeading">เลือกโรงเรียนและกีฬา</h2>
 <div class="result-controls">
@@ -27,7 +37,9 @@
 <section aria-labelledby="resultsHeading"><div class="results-top"><h2 id="resultsHeading">ผลการแข่งขันที่ผ่านการรับรอง</h2><div class="data-actions"><span id="resultsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button id="refreshResults" class="refresh-button" type="button">↻ รีเฟรช</button></div></div>
 <p id="resultsRefreshStatus" class="refresh-status" role="status" aria-live="polite"></p><p id="publishedAt" class="result-meta"></p><div id="resultsList" class="result-tiles"></div>
 <div id="noResults" class="status-empty" hidden><h2>ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง</h2><p>ผลจะปรากฏเมื่อคณะกรรมการรับรองและเผยแพร่แล้ว</p></div>
-</section></main>
+</section>
+</div><!-- resultsOverview -->
+</main>
 <footer class="shell">มิตรภาพเกม ปี 2569 · ไม่แสดงผลร่างหรือผลที่ยังไม่รับรอง</footer>
 <nav id="mobileTabNav" class="mobile-nav" aria-label="สลับระหว่างโปรแกรมและผลการแข่งขัน">
   <a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="โปรแกรมการแข่งขัน">
