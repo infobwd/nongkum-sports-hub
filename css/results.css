@@ -34,3 +34,20 @@
 .result-team-row{gap:8px}
 .rank-row{grid-template-columns:70px 1fr auto}
 }
+
+
+/* Elements deliberately shared in appearance with program cards, without loading program.css */
+:root{--safe-top:env(safe-area-inset-top,0px)}
+body{padding-top:var(--safe-top)}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;pointer-events:none;z-index:999}
+.results-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.result-card{background:#fff;border:1px solid #dfe6f0;border-radius:14px;padding:13px;box-shadow:0 3px 9px rgba(18,45,75,.025)}
+.fixture-head{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.sport-label{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sport-name{font-weight:800;color:#183762;font-size:.9rem}
+.division{font-size:.78rem;color:#5c738b}
+.tag{border-radius:7px;background:#eef3f9;color:#335676;padding:5px 8px;font-size:.73rem}
+.tag.verified{background:#e8f4ef;color:#245b49}
+.source{font-size:.73rem;color:#647b92;margin-top:10px}
+.filter-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 2px}
+.hint{color:#60758d;font-size:.76rem}
