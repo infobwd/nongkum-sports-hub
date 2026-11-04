@@ -24,6 +24,7 @@
     {id:"secondary",name:"มัธยม"}
   ];
   const safe=globalThis.Nongkum.escapeHtml;
+  const SHARE_ICON="<svg viewBox='0 0 24 24' aria-hidden='true' focusable='false'><circle cx='18' cy='5' r='2.2'/><circle cx='6' cy='12' r='2.2'/><circle cx='18' cy='19' r='2.2'/><path d='M8 11l8-5M8 13l8 5'/></svg>";
   function getSchool(id){return state.data.schools.find(function(s){return s.id===id;});}
   function getSport(id){return state.data.sports.find(function(s){return s.id===id;});}
   function resetLimit(){state.limit=12;}
@@ -80,13 +81,13 @@
   function card(m){
     const sport=getSport(m.sport_id),track=m.kind==="track_event";
     const shareName=track?"แชร์รายการกรีฑา":"แชร์คู่แข่งขัน";
-    const heading="<div class='fixture-head'><div class='sport-label'><span class='sport-name'>"+
-      safe(sport?sport.emoji+" "+sport.name:m.sport_id)+"</span><span class='division'>"+
+    const heading="<div class='fixture-head'><div class='sport-label'><span class='sport-cue' role='img' aria-label='กีฬา "+
+      safe(sport?sport.name:m.sport_id)+"'>"+safe(sport?sport.emoji:"🏅")+"</span><span class='division'>"+
       safe(m.division||"")+"</span></div><div class='fixture-actions'><span class='pairnum'>"+
       (track?"รายการ ":"คู่ที่ ")+safe(m.source_match_no)+"</span>"+
       "<button type='button' class='share-icon' data-share-fixture='"+safe(m.id)+
       "' aria-label='"+safe(shareName+" "+(sport?sport.name:"")+" "+(m.division||"")+
-        " หมายเลข "+m.source_match_no)+"' title='"+shareName+"'>↗</button></div></div>";
+        " หมายเลข "+m.source_match_no)+"' title='"+shareName+"'>"+SHARE_ICON+"</button></div></div>";
     const content=track?trackContent(m):matchContent(m);
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
@@ -137,6 +138,7 @@
   function syncNav(){
     const link=document.getElementById("resultsLink");
     if(link)link.href=globalThis.Nongkum.href("results.html",state);
+    globalThis.NongkumNavigation?.update?.(state);
   }
   function syncUrl(){
     const url=new URL(location.href);

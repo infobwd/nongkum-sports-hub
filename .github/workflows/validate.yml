@@ -21,3 +21,4 @@ jobs:
       - run: node scripts/results/test-exporter.mjs
       - run: node scripts/ux/test-refresh-share-forms.mjs
       - run: node scripts/ux/test-score-sheet-r5.mjs
+      - run: node scripts/ux/test-mobile-navigation-r6.mjs

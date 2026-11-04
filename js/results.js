@@ -38,6 +38,7 @@
   }
   function syncUrl(){
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
+    globalThis.NongkumNavigation?.update?.(state);
     const url=new URL(location.href);
     for(const key of ["school","sport","level"]){
       if(state[key])url.searchParams.set(key,state[key]);else url.searchParams.delete(key);
@@ -117,6 +118,7 @@
       "เผยแพร่ผลล่าสุด: "+data.metadata.published_at:"";
     makeSports();render();
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
+    globalThis.NongkumNavigation?.update?.(state);
   }
   async function loadResults(refresh){
     els.refresh.disabled=true;

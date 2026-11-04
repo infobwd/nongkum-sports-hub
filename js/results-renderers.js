@@ -2,6 +2,7 @@
 (function(root){
   "use strict";
   const safe=root.Nongkum.escapeHtml;
+  const SHARE_ICON="<svg viewBox='0 0 24 24' aria-hidden='true' focusable='false'><circle cx='18' cy='5' r='2.2'/><circle cx='6' cy='12' r='2.2'/><circle cx='18' cy='19' r='2.2'/><path d='M8 11l8-5M8 13l8 5'/></svg>";
   function school(id,schools){
     const s=schools.find(x=>x.id===id);
     return s?s.short:"ไม่ทราบโรงเรียน";
@@ -53,7 +54,7 @@
       "<div class='fixture-actions'><span class='tag verified'>รับรองแล้ว</span>"+
       "<button type='button' class='share-icon' data-share-result='"+safe(r.id)+
       "' aria-label='แชร์ผลการแข่งขันที่ผ่านการรับรอง "+safe(sport?sport.name:"")+
-      "' title='แชร์ผลการแข่งขัน'>↗</button></div></div>"+
+      "' title='แชร์ผลการแข่งขัน'>"+SHARE_ICON+"</button></div></div>"+
       (r.result_type==="ranking"?"<h3 class='result-title'>"+safe(title)+"</h3>":"")+
       body+"<p class='source'>"+
       (r.result_date?"แข่งขัน "+safe(r.result_date)+" · ":"")+
