@@ -16,7 +16,7 @@ check(matches.length===187&&track.length===50,"PDF row counts");
 check(track.flatMap(x=>x.lanes||[]).length===289,"athletics lane count");
 check(data.fixtures.length===237&&new Set(data.fixtures.map(x=>x.id)).size===237,"unique records");
 check(data.fixtures.every(x=>x.status==="draft"&&x.review_status==="draft"&&x.date===null),"no approved data/date");
-check(matches.every(x=>/^([01]\\d|2[0-3]):[0-5]\\d$/.test(x.time||"")),"PDF time format");
+check(matches.every(x=>/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(x.time||"")),"PDF time format");
 check(matches.every(x=>x.source_pdf?.source_date_text&&x.source_pdf?.page&&x.source_pdf?.source_match_no),"PDF provenance");
 check(Object.entries(count(matches,"sport_id")).map(([a,b])=>[a,b]).sort().toString()===Object.entries({football:21,shootout:7,futsal:14,volleyball:20,takraw:29,petanque:58,tabletennis:16,tugofwar:22}).sort().toString(),"sport totals");
 check(matches.filter(x=>x.sport_id==="football"&&x.source_match_no==="20").length===2,"PDF football double number 20");
