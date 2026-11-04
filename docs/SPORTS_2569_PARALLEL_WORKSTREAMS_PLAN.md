@@ -8,13 +8,13 @@
 
 ขณะบันทึกแผนมีงานดำเนินพร้อมกันใน repo `infobwd/nongkum-sports-hub`:
 - **R9 (Skeleton / retry)** รวมใน `main` แล้ว ผ่าน PR #16; ยังคงต้อง QA มือถือจริง
-- **R10 Phase 2 ศูนย์ประกาศสนาม** ดำเนินใน **สาขา `feat/r10-field-operations-console`** แยกต่างหาก; ตอนตรวจพบมี 6 commits เหนือ `main` โดยยังไม่ถือว่าได้ Deploy หรือรับรองบนเครื่องจริง; ขอบเขตหลักคือ `apps-script/Announcer.gs`, `apps-script/Announcer.html`, `scripts/ops/test-field-console-r10.mjs`, `docs/R10_FIELD_OPERATIONS_PHASE2_PLAN.md` และ `docs/R10_FIELD_OPERATIONS_DEPLOY_QA.md`
+- **R10 Phase 2 ศูนย์ประกาศสนาม** **MERGED แล้วผ่าน PR #18** เมื่อ 4 พฤศจิกายน 2569 (สาขาเดิม `feat/r10-field-operations-console`); ส่วน **การติดตั้ง Google Apps Script และ QA ด้วยบัญชีจริงยังรอดำเนินการ**; ขอบเขตหลักคือ `apps-script/Announcer.gs`, `apps-script/Announcer.html`, `scripts/ops/test-field-console-r10.mjs`, `docs/R10_FIELD_OPERATIONS_PHASE2_PLAN.md` และ `docs/R10_FIELD_OPERATIONS_DEPLOY_QA.md`
 - **ชุดข้อมูล PDF ใหม่** เข้า `main` ผ่าน PR #17: `data/program-from-pdf-2569-20261104-draft.json`, 187 คู่ + กรีฑา 50 รายการ / 289 ลู่ = 237 รายการ; เก็บสถานะ `draft`/QA
 - **เว็บปัจจุบัน** ยังอ่าน `data/draft-schedule.json` จำนวน 186 คู่ + กรีฑา 50 รายการ = **236 รายการ**, และหน้าแชร์ LINE R8 ผูกกับชุดดังกล่าว
 - **Google Sheets P2** มี 8 แท็บ; `04_คู่แข่งขัน` เริ่มจากทะเบียนเดิม 186 คู่, `05_กรีฑา` 289 ลู่; Apps Script `Code.gs` และ `Results.gs` เป็นกลไกรับรองที่ยังต้องตรวจสถานะการติดตั้งจริงก่อนเชื่อถือผลส่งออก
 - **Google Docs** ใน Shared Drive เป็นเอกสารดัดแปลงจากปี 2568 (ในเนื้อหายังมีชื่อการแข่งขันและกำหนดการเก่า); ห้ามแก้ทับหรือนำรายละเอียดเก่าขึ้นเป็นข้อมูล 2569 โดยอัตโนมัติ
 
-แหล่งอ้างอิงหลัก: [แผนนำเข้า PDF ฉบับใหม่](PDF_REVISION_2569_IMPORT_NOTES.md), [P2 Sheets Workflow](P2_SHEETS_WORKFLOW.md), [R9](R9_LOADING_UX_PHASE1_PLAN.md), [R10 บนสาขาระยะที่ 2](https://github.com/infobwd/nongkum-sports-hub/blob/feat/r10-field-operations-console/docs/R10_FIELD_OPERATIONS_PHASE2_PLAN.md), [R8](R8_LINE_DIRECT_LINKS_QA.md)
+แหล่งอ้างอิงหลัก: [แผนนำเข้า PDF ฉบับใหม่](PDF_REVISION_2569_IMPORT_NOTES.md), [P2 Sheets Workflow](P2_SHEETS_WORKFLOW.md), [R9](R9_LOADING_UX_PHASE1_PLAN.md), [R10 ระยะที่ 2](R10_FIELD_OPERATIONS_PHASE2_PLAN.md), [R8](R8_LINE_DIRECT_LINKS_QA.md)
 
 ## 1. ตัดสินใจด้านสถาปัตยกรรม (Design Lock)
 
@@ -32,7 +32,7 @@
 
 | สายงาน | ผู้ดำเนินการที่เสนอ | สิ่งที่ทำได้ทันที | ไฟล์/ขอบเขตที่เป็นเจ้าของ | ห้ามแตะข้ามสาย |
 |---|---|---|---|---|
-| **OPS / R10** | **อีกแชทที่กำลังทำอยู่** | ทำโค้ด, test, QA และ deployment guide ต่อได้ | `feat/r10-field-operations-console` / `apps-script/Announcer.*` / `scripts/ops/*` / `docs/R10_*` | ห้ามปรับ Master JSON, P2 Sheets, `index.html` หรือผล Approved โดยพลการ |
+| **OPS / R10** | **อีกแชทที่กำลังทำอยู่** | หลัง PR #18 merge: ติดตั้ง Web App (โดยเจ้าของ), ทำ real-account QA/แก้เฉพาะ R10 ผ่าน branch ใหม่เมื่อจำเป็น | `apps-script/Announcer.*` / `scripts/ops/*` / `docs/R10_*` | ห้ามปรับ Master JSON, P2 Sheets, `index.html` หรือผล Approved โดยพลการ |
 | **DATA / R11A** | แชทสายสูจิบัตร | audit PDF 237 vs เว็บ 236 vs Sheets 186, canonical IDs, source/review separation, change ledger | สาขาใหม่ `feat/r11a-master-json-audit`; `data/reconciliation/*`, `scripts/data/*`, `docs/R11A_*` | ไม่แก้ `data/draft-schedule.json` ใน gate นี้; ไม่แตะ `apps-script/Announcer.*` |
 | **SCHOOL REVIEW / R11B** | แชทสายสูจิบัตร หลัง R11A contract lock | ออกแบบช่องตรวจโรงเรียน: ยืนยัน/แจ้งแก้/หลักฐาน/คณะกรรมการ review, เชื่อม Backend ที่ควบคุมสิทธิ์ | สาขา `feat/r11b-school-review`; backend เพิ่มเป็น `apps-script/Review.*` หรือโครงการแยก; `docs/R11B_*` | ไม่แก้โค้ด R10 หรือส่งข้อเสนอขึ้น public JSON อัตโนมัติ |
 | **DOCS / R11C** | งาน Google Drive แบบแยก | สร้าง Google Docs **สำเนาฉบับใหม่** ใน Shared Drive ปี 2569, แม่แบบ A4 และตัวสร้างข้อมูลจาก revision | Google Docs ฉบับใหม่ใน Drive + `scripts/docs/*` / `docs/R11C_*` | ไม่แก้ทับ Docs ปีเก่า; ไม่ทำเอกสารสองชุดที่มีวัน/คู่แข่งขันขัดกัน |
@@ -45,8 +45,8 @@
 
 ### Gate 0 — วันนี้: PLAN / NO CODE COLLISION
 - [x] บันทึกแผนคู่ขนานและ data contract ลง `docs/` บนสาขาของแผนโดยเฉพาะ
-- [ ] ตรวจว่า R10 PR/branch ยังดำเนินอยู่ก่อนเริ่ม R11D; ไม่เอา `main` ที่เก่าไปเขียนทับงานใหม่
-- [ ] แจ้งอีกแชทให้รับทราบ link แผนนี้ แล้วทำ R10 ต่อ โดยไม่เปลี่ยนขอบเขตเดิม
+- [x] ตรวจ R10 PR #18 ว่า merged แล้ว; **ยังไม่ถือว่า Web App live** จนผ่านขั้นติดตั้ง/QA จริง; ก่อนเริ่ม R11D ให้ตรวจ `main` และ PR ใหม่อีกครั้ง
+- [ ] ส่งลิงก์แผนนี้ให้อีกแชทรับทราบ; งาน deploy/QA ของ R10 ทำต่อได้ โดยไม่เปลี่ยนขอบเขตเดิม
 
 ### Gate 1 — R11A: Lock schema + reconcile (ทำทันที, **ก่อน** ให้โรงเรียนกดตรวจจริง)
 - [ ] อ่านและเทียบ `data/program-from-pdf-2569-20261104-draft.json`, `data/draft-schedule.json`, `data/competition-divisions-2569-draft.json` และ Google Sheets P2 ปัจจุบัน
@@ -64,7 +64,7 @@
 
 **C. DOCS TEMPLATE**: สร้าง **Google Docs ใหม่** สำหรับ 2569 (ไม่ทับต้นฉบับเก่าปี 68), หัวข้อและตาราง Google Docs แบบแก้ไขได้, A4; สร้างจาก JSON revision เดียวกัน, แสดงสถานะ Draft/review และเลข revision; รายชื่อคณะกรรมการ/คำสั่งที่ยังไม่ตรวจไม่ทำเหมือนรับรอง
 
-**D. OPS R10**: อีกแชททำต่อได้อย่างอิสระ; เฟสนี้ไม่มี data sync / ไม่ให้ระบบคำขอประกาศบันทึกโปรแกรมใหม่
+**D. OPS R10**: อีกแชทติดตั้งและ QA ระบบที่ merge แล้วได้อย่างอิสระ; เฟสนี้ไม่มี data sync / ไม่ให้ระบบคำขอประกาศบันทึกโปรแกรมใหม่
 
 ### Gate 3 — ให้โรงเรียนตรวจจริง
 - [ ] มีบัญชี/ผู้ตรวจที่เชื่อถือได้ตามแต่ละโรงเรียน: เปิดหน้า preview → เลือกโรงเรียน → กด `ข้อมูลถูกต้อง` หรือ `แจ้งแก้ไข` (พร้อมหมายเหตุและ event ID) → backend ลงทะเบียน `pending` ใน Sheets ที่จำกัดสิทธิ์
@@ -95,4 +95,4 @@
 - ข้อมูลที่รอกรรมการยืนยัน และสิ่งที่ **ไม่ได้** เปลี่ยน
 - ความสัมพันธ์กับ R10/R11A–E และขั้นตอนถัดไป
 
-**ขอบเขตชัด:** อีกแชท R10 ไม่ต้องหยุด; แชทข้อมูลสูจิบัตรเริ่ม R11A ได้ทันทีหลังแผนนี้อยู่บน `main`. หาก R10 เปลี่ยน `main` ก่อน ให้อัปเดต/rebase งาน R11 ตามจริง. ห้ามตีความแผนนี้เป็นคำสั่งเริ่มติดตั้ง Google Apps Script, แก้ Google Sheets จริง หรือเผยแพร่เว็บโดยไม่ผ่าน gate.
+**ขอบเขตชัด:** อีกแชท R10 ไม่ต้องหยุดงานติดตั้งและ QA หลัง PR #18 merge; แชทข้อมูลสูจิบัตรเริ่ม R11A ได้ทันทีหลังแผนนี้อยู่บน `main`. หากงานอื่นเปลี่ยน `main` ก่อน ให้อัปเดต/rebase งาน R11 ตามจริง. ห้ามตีความแผนนี้เป็นคำสั่งเริ่มติดตั้ง Google Apps Script, แก้ Google Sheets จริง หรือเผยแพร่เว็บโดยไม่ผ่าน gate.
