@@ -46,3 +46,17 @@
 .source{font-size:.73rem;color:#647b92;margin-top:10px}
 .filter-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 2px}
 .hint{color:#60758d;font-size:.76rem}
+
+
+/* R8: approved result deep links show their record without intervening filters. */
+.direct-result{max-width:760px;margin:15px auto 20px}
+.direct-result-heading h2{font-size:1.2rem;margin:0 0 4px}
+.direct-result-heading p{font-size:.86rem;color:#59718c;margin:0 0 15px}
+.direct-result .fixture{max-width:none;border:2px solid #9ab7d4;padding:18px}
+.direct-result .result-team-row{font-size:1.12rem;margin:18px 0}
+.direct-result .result-team-row strong{font-size:1.12rem}
+.direct-result-back{min-height:48px;border:1px solid #afc1d5;color:#1c507e;background:#fff;font:inherit;font-weight:800;padding:10px 14px;border-radius:12px;margin:14px 0 8px}
+.direct-result-back:focus-visible{outline:3px solid #d4a82d}
+.direct-result-error{padding:20px;border-radius:12px;border:1px dashed #b6c9dd;background:#fff}
+.direct-result-error p{font-size:.85rem;color:#60758c}
+@media(max-width:690px){.direct-result{margin:10px 0 18px}.direct-result .fixture{padding:14px}}
