@@ -114,8 +114,7 @@
       setupHandlers();
     }
     els.published.textContent=data.metadata.published_at?
-      "เผยแพร่ผลรับรองล่าสุด: "+data.metadata.published_at:
-      "ยังไม่มีผลแข่งขันที่ผ่านการรับรองเผยแพร่";
+      "เผยแพร่ผลล่าสุด: "+data.metadata.published_at:"";
     makeSports();render();
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
   }
@@ -128,7 +127,7 @@
       const payload=await response.json();
       loaded(payload);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
-        " · ข้อมูลที่เผยแพร่แล้วบนเว็บไซต์ ไม่ใช่ Google Sheets แบบเรียลไทม์";
+        " · ไฟล์ผลที่เผยแพร่ (ไม่ใช่ข้อมูลสดจาก Sheets)";
     }catch(e){
       els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · "+(state.data?"ยังคงผลล่าสุดที่โหลดไว้":"ยังไม่สามารถอ่านข้อมูลผล");
       if(!state.data){
