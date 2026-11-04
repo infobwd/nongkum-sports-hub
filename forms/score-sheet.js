@@ -7,7 +7,7 @@
     volleyball:"sets",takraw:"sets",tabletennis:"sets",
     tugofwar:"win_loss",athletics:"ranking"
   };
-  const sourceFields=["fixtureId","division","round","sourcePage","teamA","teamB"];
+  const sourceFields=["fixtureId","division","round","sourcePage","sourceTime","teamA","teamB"];
   let source=null;
   let status="blank"; // blank, loading, valid, invalid
   function text(id,value){$(id).value=value==null?"":String(value);}
@@ -56,7 +56,7 @@
     if(!source)return status==="blank"&&!$("fixtureId").value;
     if(status!=="valid"||$("sportType").value!==source.sport_id||
        $("fixtureId").value!==source.id||$("sportName").value!==sportLabel())return false;
-    for(const key of ["division","round","sourcePage","teamA","teamB"]){
+    for(const key of ["division","round","sourcePage","sourceTime","teamA","teamB"]){
       if($(key).value!==source.fields[key])return false;
     }
     return true;
@@ -126,6 +126,7 @@
         " / "+(item.kind==="track_event"?"รายการ ":"คู่ที่ ")+item.source_match_no:"");
       const fields={
         division:item.division||"",round,sourcePage:String(item.source_page||""),
+        sourceTime:item.time?"ตาม PDF "+item.time+" น. (ยังรอยืนยัน)":"",
         teamA:item.kind==="track_event"?"":school(data,item.team_a_id,item.source_team_a_label),
         teamB:item.kind==="track_event"?"":school(data,item.team_b_id,item.source_team_b_label)
       };
@@ -139,7 +140,7 @@
       const venue=item.planning_venue_confirmation==="confirmed"?item.planning_venue:item.field;
       text("date",date);
       text("venue",venue);
-      text("time",item.time?"ตาม PDF "+item.time+" น. (ยังรอยืนยัน)":"");
+      text("time",""); // actual start/end time must be recorded at the field, not copied from PDF
       updateSport();
       makeLanes(item.kind==="track_event"?(item.lanes||[]):[]);
       setStatus("valid","โหลดรายการ "+item.id+" แล้ว · ล็อกชนิดกีฬาและข้อมูลคู่ไว้ · กรุณาตรวจวัน เวลา สนามก่อนพิมพ์; หากจะเปลี่ยนกีฬาให้เริ่มแบบเปล่าใหม่");
