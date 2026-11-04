@@ -137,6 +137,7 @@
   function syncNav(){
     const link=document.getElementById("resultsLink");
     if(link)link.href=globalThis.Nongkum.href("results.html",state);
+    globalThis.NongkumNavigation?.update?.(state);
   }
   function syncUrl(){
     const url=new URL(location.href);
