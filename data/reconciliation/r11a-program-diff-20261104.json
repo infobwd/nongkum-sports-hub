@@ -1,0 +1,3041 @@
+{
+  "schema": "nongkum-r11a-reconciliation-v1",
+  "audit_date": "2026-11-04",
+  "release_state": "audit_only_not_published",
+  "references": {
+    "active_json": "data/draft-schedule.json",
+    "candidate_json": "data/program-from-pdf-2569-20261104-draft.json",
+    "source_pdf_sha256": "1cd0d0166fe202b2b69e18f5ec2e1c2d80439386767a1826bf21d7d5da9e0bbf",
+    "sheet_snapshot": "data/reconciliation/r11a-sheet-observation-20261104.json",
+    "canonical_candidate_revision": "pdf69-20261104-draft-r11a"
+  },
+  "summary": {
+    "active_total": 236,
+    "active_matches": 186,
+    "active_track_events": 50,
+    "active_track_lanes": 289,
+    "candidate_total": 237,
+    "candidate_matches": 187,
+    "candidate_track_events": 50,
+    "candidate_track_lanes": 289,
+    "preserved_fixture_ids": 236,
+    "added_count": 1,
+    "removed_count": 0,
+    "unchanged_core_count": 55,
+    "changed_core_count": 181,
+    "lane_changes": 0,
+    "changed_fields": {
+      "time": 181,
+      "source_match_no": 61,
+      "source_pair_text": 19,
+      "source_page": 16,
+      "field": 58
+    },
+    "changed_by_sport": {
+      "football": {
+        "changed": 15,
+        "fields": {
+          "time": 15,
+          "source_match_no": 1
+        }
+      },
+      "shootout": {
+        "changed": 7,
+        "fields": {
+          "time": 7
+        }
+      },
+      "futsal": {
+        "changed": 14,
+        "fields": {
+          "time": 14
+        }
+      },
+      "volleyball": {
+        "changed": 20,
+        "fields": {
+          "source_match_no": 16,
+          "time": 20,
+          "source_pair_text": 1
+        }
+      },
+      "takraw": {
+        "changed": 29,
+        "fields": {
+          "time": 29,
+          "source_page": 1
+        }
+      },
+      "petanque": {
+        "changed": 58,
+        "fields": {
+          "time": 58,
+          "field": 58,
+          "source_match_no": 44,
+          "source_pair_text": 18,
+          "source_page": 15
+        }
+      },
+      "tabletennis": {
+        "changed": 16,
+        "fields": {
+          "time": 16
+        }
+      },
+      "tugofwar": {
+        "changed": 22,
+        "fields": {
+          "time": 22
+        }
+      }
+    },
+    "planning_rows_preserved": 24,
+    "planning_conflicts": 0,
+    "rows_with_qa_flags": 70,
+    "source_qa_codes": 11,
+    "source_year_2025_anomalies": 3,
+    "candidate_rows_approved": 0
+  },
+  "added": [
+    {
+      "id": "football-p07-มัธยมหญิง-020-repeated-final",
+      "kind": "match",
+      "sport_id": "football",
+      "source_page": 7,
+      "source_match_no": "20",
+      "source_pair_text": "หนองกระทุ่ม – ทุ่งมะสังฯ (ชิงชนะเลิศ)",
+      "pdf_date": "20 พ.ย. 69"
+    }
+  ],
+  "removed": [],
+  "changes": [
+    {
+      "id": "football-p07-12-ปี-ชาย-001",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "09:00",
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-002",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "09:40",
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-003",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "10:20",
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-004",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "09:00",
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-005",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "09:50",
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-006",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "10:40",
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-มัธยมหญิง-007",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "13:00",
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-008",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "13:00",
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-009",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "13:40",
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-010",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "14:20",
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-011",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "13:00",
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-012",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "13:40",
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-013",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "14:20",
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "football-p07-12-ปี-ชาย-019",
+      "sport_id": "football",
+      "changes": {
+        "time": {
+          "active": "13:00",
+          "candidate": "12:30"
+        }
+      }
+    },
+    {
+      "id": "football-p07-มัธยมชาย-018",
+      "sport_id": "football",
+      "changes": {
+        "source_match_no": {
+          "active": "18",
+          "candidate": "20"
+        },
+        "time": {
+          "active": "13:40",
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-001",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "13:00",
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-002",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "13:20",
+          "candidate": "13:50"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-003",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "13:40",
+          "candidate": "14:10"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-004",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "14:00",
+          "candidate": "14:30"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-005",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "14:20",
+          "candidate": "14:50"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-006",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "14:40",
+          "candidate": "15:10"
+        }
+      }
+    },
+    {
+      "id": "shootout-p08-ปฐมวัย-007",
+      "sport_id": "shootout",
+      "changes": {
+        "time": {
+          "active": "15:00",
+          "candidate": "15:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-A-001",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-A-002",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-B-003",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-A-004",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-A-005",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-B-006",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-A-007",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-A-008",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-B-009",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-010",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-011",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-10-ปี-ชาย-012",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-มัธยมหญิง-013",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "futsal-p09-มัธยมชาย-014",
+      "sport_id": "futsal",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-A-003",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "3",
+          "candidate": "1"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-B-004",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "4",
+          "candidate": "2"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-A-001",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "1",
+          "candidate": "3"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-B-002",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "2",
+          "candidate": "4"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-A-007",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "7",
+          "candidate": "5"
+        },
+        "source_pair_text": {
+          "active": "วังด้ง – หนองกระทุม่",
+          "candidate": "วังด้ง – หนองกระทุ่ม"
+        },
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-B-008",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "8",
+          "candidate": "6"
+        },
+        "time": {
+          "active": null,
+          "candidate": "15:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-A-005",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "5",
+          "candidate": "7"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-B-006",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "6",
+          "candidate": "8"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-A-011",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "11",
+          "candidate": "9"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-B-012",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "12",
+          "candidate": "10"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-A-009",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "9",
+          "candidate": "11"
+        },
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-B-010",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "10",
+          "candidate": "12"
+        },
+        "time": {
+          "active": null,
+          "candidate": "15:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-015",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "15",
+          "candidate": "13"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-016",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "16",
+          "candidate": "14"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-013",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "13",
+          "candidate": "15"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-014",
+      "sport_id": "volleyball",
+      "changes": {
+        "source_match_no": {
+          "active": "14",
+          "candidate": "16"
+        },
+        "time": {
+          "active": null,
+          "candidate": "11:30"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-มัธยม-ชาย-017",
+      "sport_id": "volleyball",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-มัธยมหญิง-018",
+      "sport_id": "volleyball",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-ชาย-019",
+      "sport_id": "volleyball",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "15:00"
+        }
+      }
+    },
+    {
+      "id": "volleyball-p11-12-ปี-หญิง-020",
+      "sport_id": "volleyball",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "16:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-A-001",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-A-002",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-B-003",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-B-004",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-หญิง-A-005",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-หญิง-A-006",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-หญิง-B-007",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-A-008",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-A-009",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p12-12-ปี-ชาย-B-010",
+      "sport_id": "takraw",
+      "changes": {
+        "source_page": {
+          "active": 12,
+          "candidate": 13
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-B-011",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-A-012",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-A-013",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-B-014",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-A-015",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-A-016",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-B-017",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-B-018",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-A-019",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-A-020",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-B-021",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-022",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-023",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-024",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-025",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "15:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-มัธยม-ชาย-026",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-มัธยมหญิง-027",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-ชาย-028",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "takraw-p13-12-ปี-หญิง-029",
+      "sport_id": "takraw",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-001",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "12:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-002",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "12:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-003",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "12:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 3"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-004",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "12:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 4"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-005",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-006",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-007",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 3"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-008",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 4"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-009",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-010",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-011",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 3"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-012",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 4"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยชาย-013",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "15:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p14-ปฐมวัยหญิง-014",
+      "sport_id": "petanque",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "15:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-ชาย-009",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "9",
+          "candidate": "1"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-ชาย-010",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "10",
+          "candidate": "2"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-ชาย-011",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "11",
+          "candidate": "3"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-ชาย-012",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "12",
+          "candidate": "4"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-หญิง-013",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "13",
+          "candidate": "5"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-หญิง-014",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "14",
+          "candidate": "6"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-หญิง-015",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "15",
+          "candidate": "7"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-หญิง-016",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "16",
+          "candidate": "8"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-ชาย-029",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "29",
+          "candidate": "9"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 9 – ผู้ชนะคู่ที่ 10 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 1 – ผู้ชนะคู่ที่ 2 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-ชาย-030",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "30",
+          "candidate": "10"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 11 – ผู้ชนะคู่ที่ 12 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 2 – ผู้ชนะคู่ที่ 4 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-หญิง-031",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "31",
+          "candidate": "11"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 13 – ผู้ชนะคู่ที่ 14 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 5 – ผู้ชนะคู่ที่ 6 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-10-ปี-หญิง-032",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "32",
+          "candidate": "12"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 15 – ผู้ชนะคู่ที่ 16 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 7 – ผู้ชนะคู่ที่ 8 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-ชาย-017",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "17",
+          "candidate": "13"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-ชาย-018",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "18",
+          "candidate": "14"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-ชาย-019",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "19",
+          "candidate": "15"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-ชาย-020",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "20",
+          "candidate": "16"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-หญิง-021",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "21",
+          "candidate": "17"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-หญิง-022",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "22",
+          "candidate": "18"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-หญิง-023",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "23",
+          "candidate": "19"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-12-ปี-หญิง-024",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "24",
+          "candidate": "20"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-12-ปี-ชาย-033",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "33",
+          "candidate": "21"
+        },
+        "source_page": {
+          "active": 18,
+          "candidate": 17
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 17 – ผู้ชนะคู่ที่ 18 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 13 – ผู้ชนะคู่ที่ 14 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-12-ปี-ชาย-034",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "34",
+          "candidate": "22"
+        },
+        "source_page": {
+          "active": 18,
+          "candidate": 17
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 19 – ผู้ชนะคู่ที่ 20 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 15 – ผู้ชนะคู่ที่ 16 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-12-ปี-หญิง-035",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "35",
+          "candidate": "23"
+        },
+        "source_page": {
+          "active": 18,
+          "candidate": 17
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 21 – ผู้ชนะคู่ที่ 22 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 17 – ผู้ชนะคู่ที่ 18 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-12-ปี-หญิง-036",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "36",
+          "candidate": "24"
+        },
+        "source_page": {
+          "active": 18,
+          "candidate": 17
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 23 – ผู้ชนะคู่ที่ 24 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 19 – ผู้ชนะคู่ที่ 20 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-มัธยมชาย-043",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "43",
+          "candidate": "25"
+        },
+        "source_page": {
+          "active": 18,
+          "candidate": 17
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-มัธยมหญิง-044",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "44",
+          "candidate": "26"
+        },
+        "source_page": {
+          "active": 18,
+          "candidate": 17
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-001",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "1",
+          "candidate": "27"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-002",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "2",
+          "candidate": "28"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-003",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "3",
+          "candidate": "29"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-004",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "4",
+          "candidate": "30"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-หญิง-005",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "5",
+          "candidate": "31"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-หญิง-006",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "6",
+          "candidate": "32"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-หญิง-007",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "7",
+          "candidate": "33"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-หญิง-008",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "8",
+          "candidate": "34"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-025",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "25",
+          "candidate": "35"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 1 – ผู้ชนะคู่ที่ 2 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 27 – ผู้ชนะคู่ที่ 28 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-026",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "26",
+          "candidate": "36"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 3 – ผู้ชนะคู่ที่ 4 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 29 – ผู้ชนะคู่ที่ 30 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-หญิง-027",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "27",
+          "candidate": "37"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 5 – ผู้ชนะคู่ที่ 6 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 31 – ผู้ชนะคู่ที่ 32 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p17-8-ปี-หญิง-028",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "28",
+          "candidate": "38"
+        },
+        "source_page": {
+          "active": 17,
+          "candidate": 18
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 7 – ผู้ชนะคู่ที่ 8 (รอบรอง)",
+          "candidate": "ผู้ชนะคู่ที่ 33 – ผู้ชนะคู่ที่ 34 (รอบรอง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-8-ปี-ชาย-037",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "37",
+          "candidate": "39"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 25 – ผู้ชนะคู่ที่ 26     (ชิง)",
+          "candidate": "ผู้ชนะคู่ที่ 35 – ผู้ชนะคู่ที่ 36 (ชิง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-8-ปี-หญิง-038",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "38",
+          "candidate": "40"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 27 – ผู้ชนะคู่ที่ 28     (ชิง)",
+          "candidate": "ผู้ชนะคู่ที่ 37 – ผู้ชนะคู่ที่ 38 (ชิง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-10-ปี-ชาย-039",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "39",
+          "candidate": "41"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 29 – ผู้ชนะคู่ที่ 30     (ชิง)",
+          "candidate": "ผู้ชนะคู่ที่ 9 – ผู้ชนะคู่ที่ 10 (ชิง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-10-ปี-หญิง-040",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "40",
+          "candidate": "42"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 31 – ผู้ชนะคู่ที่ 32     (ชิง)",
+          "candidate": "ผู้ชนะคู่ที่ 11 – ผู้ชนะคู่ที่ 12 (ชิง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-12-ปี-ชาย-041",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "41",
+          "candidate": "43"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 33 – ผู้ชนะคู่ที่ 34     (ชิง)",
+          "candidate": "ผู้ชนะคู่ที่ 21 – ผู้ชนะคู่ที่ 22 (ชิง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 1"
+        }
+      }
+    },
+    {
+      "id": "petanque-p18-12-ปี-หญิง-042",
+      "sport_id": "petanque",
+      "changes": {
+        "source_match_no": {
+          "active": "42",
+          "candidate": "44"
+        },
+        "source_pair_text": {
+          "active": "ผู้ชนะคู่ที่ 35 – ผู้ชนะคู่ที่ 36     (ชิง)",
+          "candidate": "ผู้ชนะคู่ที่ 23 – ผู้ชนะคู่ที่ 24 (ชิง)"
+        },
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        },
+        "field": {
+          "active": null,
+          "candidate": "สนาม 2"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-001",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-002",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-003",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-004",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-005",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-006",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "13:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-007",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-008",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "14:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-009",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-010",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-011",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-012",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-มัธยม-ชาย-013",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-มัธยม-หญิง-014",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-ชาย-015",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "tabletennis-p20-12-ปี-หญิง-016",
+      "sport_id": "tabletennis",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:30"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-001",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "08:30"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-002",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "08:40"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-003",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "08:50"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-004",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:00"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-005",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:10"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-006",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:20"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-007",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:30"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-008",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:40"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-หญิง-009",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "09:50"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-หญิง-010",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:00"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-หญิง-011",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:10"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-012",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:20"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-013",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:30"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-014",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:40"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-015",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "10:50"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-หญิง-016",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:00"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-หญิง-017",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:10"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-มัธยมชาย-018",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:20"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-มัธยมหญิง-019",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:30"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-ปฐมวัย-020",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:40"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-ชาย-021",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "11:50"
+        }
+      }
+    },
+    {
+      "id": "tugofwar-p22-12-ปี-หญิง-022",
+      "sport_id": "tugofwar",
+      "changes": {
+        "time": {
+          "active": null,
+          "candidate": "12:00"
+        }
+      }
+    }
+  ],
+  "planning": {
+    "rows": [
+      {
+        "id": "petanque-p17-10-ปี-ชาย-009",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "1",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-ชาย-010",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "2",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-ชาย-011",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "3",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-ชาย-012",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "4",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-หญิง-013",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "5",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-หญิง-014",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "6",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-หญิง-015",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "7",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-หญิง-016",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "8",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-ชาย-017",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "13",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-ชาย-018",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "14",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-ชาย-019",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "15",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-ชาย-020",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "09:00",
+        "source_match_no": "16",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-หญิง-021",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "17",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-หญิง-022",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "18",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-หญิง-023",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "19",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-12-ปี-หญิง-024",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "10:00",
+        "source_match_no": "20",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-ชาย-029",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "9",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-ชาย-030",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "10",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-หญิง-031",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "11",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p17-10-ปี-หญิง-032",
+        "planning_date": "2026-11-12",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-12",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "12",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p18-12-ปี-ชาย-033",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "21",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p18-12-ปี-ชาย-034",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "22",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p18-12-ปี-หญิง-035",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "23",
+        "source_page": 17
+      },
+      {
+        "id": "petanque-p18-12-ปี-หญิง-036",
+        "planning_date": "2026-11-13",
+        "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+        "candidate_pdf_date": "2026-11-13",
+        "candidate_pdf_time": "13:00",
+        "source_match_no": "24",
+        "source_page": 17
+      }
+    ],
+    "differences": []
+  },
+  "source_year_anomalies": [
+    {
+      "id": "petanque-p17-8-ปี-ชาย-001",
+      "source_page": 17,
+      "source_date_text": "17 พ.ย. 68",
+      "source_date_iso": "2025-11-17",
+      "draft_date": null
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-002",
+      "source_page": 17,
+      "source_date_text": "17 พ.ย. 68",
+      "source_date_iso": "2025-11-17",
+      "draft_date": null
+    },
+    {
+      "id": "petanque-p17-8-ปี-ชาย-003",
+      "source_page": 17,
+      "source_date_text": "17 พ.ย. 68",
+      "source_date_iso": "2025-11-17",
+      "draft_date": null
+    }
+  ],
+  "duplicate_source_numbers": [
+    {
+      "sport_id": "football",
+      "source_match_no": "20",
+      "ids": [
+        "football-p07-มัธยมหญิง-020-repeated-final",
+        "football-p07-มัธยมชาย-018"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "1",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-001",
+        "petanque-p17-10-ปี-ชาย-009"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "2",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-002",
+        "petanque-p17-10-ปี-ชาย-010"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "3",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-003",
+        "petanque-p17-10-ปี-ชาย-011"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "4",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-004",
+        "petanque-p17-10-ปี-ชาย-012"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "5",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-005",
+        "petanque-p17-10-ปี-หญิง-013"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "6",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-006",
+        "petanque-p17-10-ปี-หญิง-014"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "7",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-007",
+        "petanque-p17-10-ปี-หญิง-015"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "8",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-008",
+        "petanque-p17-10-ปี-หญิง-016"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "9",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-009",
+        "petanque-p17-10-ปี-ชาย-029"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "10",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-010",
+        "petanque-p17-10-ปี-ชาย-030"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "11",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-011",
+        "petanque-p17-10-ปี-หญิง-031"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "12",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-012",
+        "petanque-p17-10-ปี-หญิง-032"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "13",
+      "ids": [
+        "petanque-p14-ปฐมวัยชาย-013",
+        "petanque-p17-12-ปี-ชาย-017"
+      ]
+    },
+    {
+      "sport_id": "petanque",
+      "source_match_no": "14",
+      "ids": [
+        "petanque-p14-ปฐมวัยหญิง-014",
+        "petanque-p17-12-ปี-ชาย-018"
+      ]
+    },
+    {
+      "sport_id": "athletics",
+      "source_match_no": "35",
+      "ids": [
+        "athletics-p32-035-m",
+        "athletics-p32-035-f"
+      ]
+    },
+    {
+      "sport_id": "athletics",
+      "source_match_no": "48",
+      "ids": [
+        "athletics-p35-048-m",
+        "athletics-p35-048-f"
+      ]
+    }
+  ],
+  "source_qa": [
+    {
+      "code": "PDF69-R01",
+      "description": "ตารางฟุตบอลหน้า 7 พิมพ์หมายเลขคู่ 20 ซ้ำสำหรับหญิง/ชาย และมีฟุตบอลหญิงคู่ชิงที่ทั้ง 18 และ 20 พ.ย. ต้องยืนยันว่าแข่งซ้ำหรือแก้ไขกำหนดการ",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R02",
+      "description": "วอลเลย์บอลหน้า 11 เรียงคู่ใหม่: 13–14 หญิง, 15–16 ชาย แต่คู่ชิง 19 ระบุชายโดยอ้างผู้ชนะ 13–14 และคู่ชิง 20 ระบุหญิงโดยอ้างผู้ชนะ 15–16 ต้องตรวจรหัสอ้างอิง",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R03",
+      "description": "เปตองหน้า 17 คู่ 27–29 ระบุ 17 พ.ย. 68 ขณะที่คู่ 30–34 หน้า 18 ระบุ 17 พ.ย. 69 ไม่แก้ปีโดยคาดเดา",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R04",
+      "description": "เปตองหน้า 17 คู่ 10 อ้างผู้ชนะคู่ 2 และ 4 ทำให้คู่ที่ 2 ปรากฏซ้ำเมื่อเทียบผัง; รอตรวจผู้จัด",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R05",
+      "description": "เลขคู่เปตองหน้า 17–18 ถูกจัดลำดับใหม่เทียบ JSON เดิม แม้รายชื่อทีมและประเภทจะสอดคล้องหลายแถว ต้องทวนการอ้างคู่ในรอบถัดไป",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R06",
+      "description": "ตะกร้อหน้า 13 คู่ 24 พิมพ์ประเภท 12 ปี ชาย แต่ลำดับสาย/คู่ชิงชี้ว่าอาจเป็นหญิง; คงตามต้นฉบับ",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R07",
+      "description": "กรีฑาหน้า 32/35 มีเลข 35 และ 48 ซ้ำ; เก็บ event ID ที่ไม่ซ้ำและเลขพิมพ์ตามเอกสาร",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R08",
+      "description": "เปตอง 10 ปีชายหน้า 17 รอบแรกมีหนองกระทุ่มซ้ำ และคู่รองคู่ 10 อ้างคู่ 2 ซ้ำ; ต้องยืนยันผัง",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R09",
+      "description": "ไฟล์มีหน้าเนื้อหา 40 หน้าและหน้าว่างท้ายไฟล์เพิ่ม 1 หน้า ไม่สร้างรายการจากหน้าว่าง",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R10",
+      "description": "เวลา/สนามตาม PDF เป็นข้อมูลร่าง ไม่ใช่เวลาหรือสนามที่ผู้จัดรับรอง; ข้อมูลผลแข่งขันยังไม่มี",
+      "status": "needs_review"
+    },
+    {
+      "code": "PDF69-R11",
+      "description": "กรีฑาหน้า 23,25,27 ระบุ 16 พ.ย. 2569; หน้าต่อเนื่องใช้วันจากหัวข้อก่อนหน้า เวลาเริ่มรายรายการยังไม่ระบุ",
+      "status": "needs_review"
+    }
+  ],
+  "sheets_observation": {
+    "schema": "nongkum-r11a-private-sheet-readonly-summary-v1",
+    "observed_date": "2026-11-04",
+    "sheet_title": "มิตรภาพเกม 2569 — ฐานข้อมูลกรรมการ (โปรแกรมและผลการแข่งขัน)",
+    "source_scope": "P2 Google Sheets live read, tabs 02–05; aggregated public-safe observation, not a live feed",
+    "snapshots_not_synced": true,
+    "no_identity_or_private_url_included": true,
+    "sheets": {
+      "total_tabs": 8,
+      "schools": 8,
+      "divisions_and_events": 83
+    },
+    "matches": {
+      "total": 186,
+      "draft": 162,
+      "review": 24,
+      "approved": 0,
+      "rejected": 0,
+      "matched_existing_candidate_ids": 186,
+      "candidate_only_ids": [
+        "football-p07-มัธยมหญิง-020-repeated-final"
+      ],
+      "sheet_only_ids": [],
+      "changed_core_against_candidate": 181,
+      "difference_counts": {
+        "time": 181,
+        "source_match_no": 61,
+        "source_pair_text": 19,
+        "source_page": 16,
+        "field": 58
+      },
+      "review_rows_all_sport": "petanque",
+      "review_rows_linked_to_confirmed_planning": 24,
+      "review_rows_date_2026_11_12": 12,
+      "review_rows_date_2026_11_13": 12,
+      "review_rows_match_times_in_sheet": "blank",
+      "review_rows_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "review_is_not_approval": true
+    },
+    "athletics": {
+      "lane_rows": 289,
+      "statuses": {
+        "draft": 289,
+        "review": 0,
+        "approved": 0
+      },
+      "unmatched_lane_ids_against_candidate": 0
+    },
+    "notes": [
+      "Read-only observation from connected Google Sheets on audit date; source may change after this snapshot.",
+      "No sheet cells were edited. This public report omits sheet ID, reviewer emails, private approval metadata and all student personal data.",
+      "Candidate times from revised PDF and existing Sheet times differ for 181 matches; difference does not identify which time is approved.",
+      "The 24 petanque review rows preserve 12 and 13 Nov 2026 planning dates and Nong Krathum venue; the per-match time in Sheet is blank.",
+      "Never bulk-overwrite the 186 Sheet rows or reviewer status columns from candidate JSON. Use a keyed diff and approval workflow."
+    ]
+  },
+  "interpretation": [
+    "changed is a field difference, not proof the new PDF or old Sheet is correct",
+    "candidate.source_pdf and draft_* are unapproved source values",
+    "24 Sheet review rows do not imply committee approval",
+    "Sheet observation is a dated read-only snapshot; re-check live Sheet before any write",
+    "do not modify live website data, LINE share pages or public-results.json at R11A gate"
+  ]
+}
