@@ -5,6 +5,7 @@ import { Script } from "node:vm";
 
 const data = JSON.parse(readFileSync(new URL("../data/draft-schedule.json", import.meta.url), "utf8"));
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const sourceDivisions = JSON.parse(readFileSync(new URL("../data/competition-divisions-2569-draft.json", import.meta.url), "utf8"));
 const issues = [];
 const check = (condition, reason) => { if (!condition) issues.push(reason); };
 
@@ -72,5 +73,23 @@ check(!!inline,"HTML must include inline JavaScript");
 if(inline)try{new Script(inline[1],{filename:"index-inline.js"});}catch(e){issues.push("HTML script syntax: "+e.message);}
 check(html.includes("ยังไม่ผ่านการรับรอง"),"draft warning must remain prominent");
 check(html.includes("m.lanes") && html.includes("source_team_a_label"),"full data athletics and bracket support missing");
+const listedDivisions=sourceDivisions.divisions;
+check(listedDivisions.length===33 && sourceDivisions.metadata.catalog_count===33,"all 33 numbered sport categories required");
+check(sourceDivisions.metadata.status==="draft" && sourceDivisions.metadata.all_data_approved===false,"division list cannot be approved");
+check(listedDivisions.every((d,i)=>d.source_catalog_no===i+1&&d.source_page>=1&&d.source_page<=6),"division numbering/page mapping mismatch");
+const expectedEntrants=[6,2,2,8,7,2,6,6,2,2,8,7,2,2,8,8,8,8,8,8,8,8,2,2,8,8,2,2,8,8,7,2,2];
+check(listedDivisions.every((d,i)=>d.participants.length===expectedEntrants[i]),"division entrant rows mismatch source");
+check(listedDivisions.reduce((n,d)=>n+d.participants.length,0)===177,"division entrants must total 177");
+check(listedDivisions.every(d=>d.review_status==="draft"&&sports.has(d.sport_id)),"division approval/sport invalid");
+for(const d of listedDivisions){
+  for(const p of d.participants){
+    check(p.school_id&&schools.has(p.school_id),"unmapped entrant in numbered division "+d.source_catalog_no);
+    check(p.source_position>=1&&p.source_position<=8, "seed position out of range");
+  }
+}
+const groupedNumbers=listedDivisions.filter(d=>d.entry_type==="แบ่งสาย").map(d=>d.source_catalog_no);
+check(same(groupedNumbers,[5,7,8,11,12]),"group A/B source division list missing");
+check(listedDivisions.find(d=>d.source_catalog_no===19)?.participants.filter(p=>p.school_id==="phuphrom").length===2,"petanque duplicate team in source must stay visible");
+
 if(issues.length){console.error("FAIL ("+issues.length+"):\n"+issues.join("\n"));process.exitCode=1;}
-else console.log("PASS: 40 PDF pages | 186 matches | 50 athletics events | 289 lanes | 236 draft records | 8 schools, 9 categories | browser syntax/draft checks");
+else console.log("PASS: 40 PDF pages | 33 sport divisions, 177 entries | 186 matches | 50 athletics events | 289 lanes | 236 draft program records | HTML syntax/draft checks");
