@@ -5,6 +5,10 @@ import { Script } from "node:vm";
 
 const data = JSON.parse(readFileSync(new URL("../data/draft-schedule.json", import.meta.url), "utf8"));
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const shared = readFileSync(new URL("../js/shared.js", import.meta.url), "utf8");
+const program = readFileSync(new URL("../js/program.js", import.meta.url), "utf8");
+const css = readFileSync(new URL("../css/base.css", import.meta.url), "utf8")+
+  readFileSync(new URL("../css/program.css", import.meta.url), "utf8");
 const sourceDivisions = JSON.parse(readFileSync(new URL("../data/competition-divisions-2569-draft.json", import.meta.url), "utf8"));
 const issues = [];
 const check = (condition, reason) => { if (!condition) issues.push(reason); };
@@ -68,11 +72,14 @@ check(athletics.filter(x=>x.source_match_no==="35").every(x=>x.qa_flags?.include
 check(athletics.filter(x=>x.source_match_no==="48").every(x=>x.qa_flags?.includes("QA-08")),"athletics duplicate 48 warning missing");
 check(!data.fixtures.some(x=>Object.hasOwn(x,"athlete_name")||Object.hasOwn(x,"birth_date")),"no student PII in public draft JSON");
 
-const inline = html.match(/<script>([\s\S]*?)<\/script>/);
-check(!!inline,"HTML must include inline JavaScript");
-if(inline)try{new Script(inline[1],{filename:"index-inline.js"});}catch(e){issues.push("HTML script syntax: "+e.message);}
-check(html.includes("ยังไม่ผ่านการรับรอง"),"draft warning must remain prominent");
-check(html.includes("m.lanes") && html.includes("source_team_a_label"),"full data athletics and bracket support missing");
+check(data.metadata.event_display_name==="มิตรภาพเกม","event name must be corrected to มิตรภาพเกม");
+check(html.includes('src="./js/program.js"') && html.includes('href="./css/program.css"'),"external program assets missing");
+for(const [name,source] of [["shared.js",shared],["program.js",program]]){
+  try{new Script(source,{filename:name});}catch(e){issues.push("JavaScript syntax "+name+": "+e.message);}
+}
+check((html+program).includes("ยังไม่ผ่านการรับรอง"),"draft warning must remain prominent");
+check(program.includes("m.lanes") && program.includes("source_team_a_label"),"athletics and bracket support missing");
+check(css.includes("@media") && css.includes("safe-area-inset-top"),"mobile CSS or iPhone safe area missing");
 const listedDivisions=sourceDivisions.divisions;
 check(listedDivisions.length===33 && sourceDivisions.metadata.catalog_count===33,"all 33 numbered sport categories required");
 check(sourceDivisions.metadata.status==="draft" && sourceDivisions.metadata.all_data_approved===false,"division list cannot be approved");
