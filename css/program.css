@@ -92,3 +92,29 @@
     .qa-note{font-size:.75rem;color:#845322;margin:4px 0}
     @media(max-width:690px){.fixture{padding:12px}}
   
+
+    /* R8: LINE deep links must display the requested record above filters. */
+    .direct-fixture{max-width:760px;margin:16px auto 18px}
+    .direct-heading{margin:0 0 14px}
+    .direct-eyebrow{display:inline-block;background:#fff3d7;color:#785513;padding:5px 9px;border-radius:8px;font-size:.75rem;font-weight:800;margin-bottom:8px}
+    .direct-heading h2{font-size:1.3rem;color:#183762;margin:0 0 5px}
+    .direct-heading p{font-size:.88rem;color:#55718b;margin:0}
+    .direct-card .fixture{box-shadow:0 6px 20px rgba(18,45,75,.07);border:2px solid #9fbad5;padding:18px}
+    .direct-card .match{font-size:1.14rem;min-height:52px;margin:20px 0}
+    .direct-card .team{font-size:1.14rem}
+    .direct-card .source-details summary{min-height:44px}
+    .direct-card .source-details .scorecard-link{display:inline-block;padding:6px 0}
+    .direct-actions{margin:14px 0;display:flex;flex-wrap:wrap}
+    .direct-back{border:1px solid #abc2d9;border-radius:12px;min-height:48px;background:#fff;color:#154a7a;font:inherit;font-weight:800;padding:10px 15px}
+    .direct-back:focus-visible{outline:3px solid #f2c54e}
+    .direct-disclaimer{font-size:.78rem;color:#785b22;background:#fff9ec;padding:9px 12px;border-radius:10px;border:1px solid #ead7a4}
+    .direct-error{padding:20px;background:#fff;border:1px dashed #adc1d4;border-radius:14px;line-height:1.7}
+    .direct-error strong{color:#1c3e64}
+    .direct-error p{font-size:.85rem;color:#55718b}
+    @media(max-width:690px){
+      .direct-fixture{margin:10px auto 16px}
+      .direct-heading h2{font-size:1.18rem}
+      .direct-card .fixture{padding:14px}
+      .direct-card .team{font-size:1.05rem}
+    }
+    @media print{.direct-actions,.direct-disclaimer{display:none}}
