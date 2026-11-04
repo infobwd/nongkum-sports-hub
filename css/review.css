@@ -205,3 +205,68 @@ body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-col
 .review-pdf-description small a{color:#235a88;text-decoration:underline}
 @media(max-width:800px){.review-pdf-link-group{width:100%}.review-pdf-link-group .review-pdf-link{flex:1;min-width:150px}}
 @media(max-width:380px){.review-pdf-link-group{flex-direction:column}.review-pdf-link-group .review-pdf-link{width:100%}}
+
+/* R11D.3 — Compare workspace: independent list/PDF scrolling; no floating overlay
+   over the left review column on desktop. */
+.review-pdf-details{width:100%;min-width:0}
+.review-pdf-toggle{display:flex;align-items:center;gap:11px;min-height:44px;list-style:none;cursor:pointer}
+.review-pdf-toggle::-webkit-details-marker{display:none}
+.review-pdf-toggle h2{flex:1;min-width:0;margin:0;color:#183762;font-size:.97rem}
+.review-pdf-toggle-hint{font-size:.75rem;font-weight:750;color:#416887;white-space:nowrap}
+.review-pdf-toggle-hint:after{content:" ▾"}
+.review-pdf-details[open] .review-pdf-toggle-hint:after{content:" ▴"}
+.review-pdf-inner{display:flex;align-items:center;gap:14px;justify-content:space-between;min-width:0;margin-top:10px}
+.review-pdf-inner .review-pdf-description{flex:1;min-width:0}
+.review-pdf-inner .review-pdf-description p{margin:0 0 2px}
+.review-pdf-toggle:focus-visible{outline:3px solid #efc14b;outline-offset:3px;border-radius:8px}
+
+@media(min-width:1001px){
+  body.review-pdf-open{display:grid;grid-template-columns:minmax(360px,43%) minmax(0,57%);grid-template-rows:auto minmax(0,1fr);height:100vh;height:100dvh;overflow:hidden}
+  body.review-pdf-open .top{grid-column:1;grid-row:1;min-width:0}
+  body.review-pdf-open .top .shell{max-width:none;padding-left:18px;padding-right:18px}
+  body.review-pdf-open .review-main{grid-column:1;grid-row:2;min-height:0;min-width:0;height:100%;width:100%;max-width:none;margin:0;padding:10px 18px 30px;overflow-y:auto;overscroll-behavior-y:contain}
+  body.review-pdf-open .review-pdf-preview{top:0;right:0;bottom:0;width:57vw;max-width:none;z-index:1300;border-radius:0;border-right:0;box-shadow:-5px 0 22px rgba(12,38,68,.16)}
+  body.review-pdf-open > footer{display:none}
+  body.review-pdf-open .review-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.review-pdf-open .review-grid{grid-template-columns:minmax(0,1fr)}
+  body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-columns:minmax(0,1fr)}
+  body.review-pdf-open .review-pdf-inner{flex-wrap:wrap}
+  body.review-pdf-open .review-pdf-link-group{width:100%}
+  body.review-pdf-open .review-pdf-link-group .review-pdf-link{flex:1;min-width:140px}
+}
+@media(max-width:1000px){
+  body.review-pdf-open{overflow:hidden}
+  body.review-pdf-open .review-pdf-preview{z-index:1300}
+  body.review-pdf-open .mobile-nav{display:none!important}
+  body.review-pdf-open:before{display:none!important}
+}
+@media(max-width:800px){.review-pdf-inner{flex-wrap:wrap}}
+@media(max-width:690px){
+  /* The first actionable controls precede the counts and the full-PDF download.
+     Native <details> starts collapsed by JS on narrow screens, without duplicate links. */
+  .review-main{display:flex;flex-direction:column;align-items:stretch}
+  .review-main>.review-caution{order:1}
+  .review-main>.review-filters{order:2}
+  .review-main>.review-direct{order:3}
+  .review-main>#reviewListing{order:4}
+  .review-main>.review-pdf-download{order:5}
+  .review-main>.review-summary{order:6}
+  .review-main>.review-shortcuts{order:7}
+  .review-main>.review-howto{order:8}
+  .review-main>#copyFallback{order:9}
+  .review-pdf-download{padding:11px 13px;margin:11px 0}
+  .review-pdf-toggle{gap:9px}
+  .review-pdf-toggle h2{font-size:.9rem}
+  .review-pdf-icon{font-size:1.35rem}
+  .review-pdf-inner{flex-direction:column;align-items:stretch}
+  .review-pdf-link-group{display:flex;flex-wrap:wrap}
+  .review-pdf-link-group .review-pdf-link{flex:1;min-width:125px}
+  .review-stat strong{font-size:1.35rem}
+  .review-shortcuts{margin:7px 0}
+  .review-caution p{font-size:.76rem}
+}
+@media(max-width:380px){
+  .review-pdf-link-group{flex-direction:row}
+  .review-pdf-link-group .review-pdf-link{flex:1;min-width:120px;font-size:.73rem;padding:8px}
+}
+@media print{.review-pdf-toggle-hint{display:none}}

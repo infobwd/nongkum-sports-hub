@@ -19,13 +19,19 @@
     revision:$("revisionLabel"),statMatches:$("statMatches"),
     statTrack:$("statTrack"),statLanes:$("statLanes"),statQa:$("statQa"),
     pdfPreview:$("pdfPreview"),pdfClose:$("pdfPreviewClose"),
-    pdfFrame:$("pdfPreviewFrame"),pdfContext:$("pdfPreviewContext")
+    pdfFrame:$("pdfPreviewFrame"),pdfContext:$("pdfPreviewContext"),
+    pdfDetails:$("reviewPdfDetails"),main:$("reviewMain"),header:$("reviewHeader"),
+    footer:$("reviewFooter"),bottomNav:$("reviewBottomNav")
   };
   let data=null,byId=new Map(),sportNames=new Map(),qaNotes=new Map();
   let changes=new Map(),filtered=[],renderedCount=0;
   let filterSignature=null,directRenderedId=null,searchDebounce=null,isComposing=false;
   let loading=false,requestSerial=0;
-  let pdfReturnFocus=null,pdfReturnScroll=null;
+  let pdfReturnFocus=null,pdfReturnScroll=null,pdfEntryMainScroll=null;
+  const isCompactPdf=()=>typeof window!=="undefined"&&typeof window.matchMedia==="function"&&window.matchMedia("(max-width:1000px)").matches;
+  const isMobileReview=()=>typeof window!=="undefined"&&typeof window.matchMedia==="function"&&window.matchMedia("(max-width:690px)").matches;
+  // On mobile the full-PDF tools are available after the match list, initially collapsed.
+  if(ui.pdfDetails&&isMobileReview())ui.pdfDetails.open=false;
 
   function make(tag,cls,text){
     const el=document.createElement(tag);
@@ -162,32 +168,59 @@
     });
     return article;
   }
+  function updatePdfModality(){
+    if(ui.pdfPreview.hidden)return;
+    const compact=isCompactPdf();
+    // Desktop is a non-modal comparison pane; mobile is a real dialog.
+    ui.pdfPreview.setAttribute("aria-modal",compact?"true":"false");
+    for(const el of [ui.main,ui.header,ui.footer,ui.bottomNav]){
+      if(el)el.inert=compact;
+    }
+    if(!compact&&pdfEntryMainScroll===null&&ui.main&&typeof ui.main.scrollTop==="number"){
+      const initial=Math.max(0,(pdfReturnScroll||0)-(Number(ui.header?.offsetHeight)||0));
+      ui.main.scrollTop=initial;
+      pdfEntryMainScroll=ui.main.scrollTop;
+    }
+  }
   function openPdfPreview(f,button){
     const page=Number(f.source_pdf?.page);
     // Pages are taken from R11A source_pdf.page, never from fixture/order numbers.
     if(!Number.isInteger(page)||page<1||page>41)return;
-    pdfReturnFocus=button;
-    pdfReturnScroll=typeof window!=="undefined" ? window.scrollY : null;
+    if(ui.pdfPreview.hidden){
+      pdfReturnFocus=button;
+      pdfReturnScroll=typeof window!=="undefined" ? window.scrollY : null;
+      pdfEntryMainScroll=null;
+    }
     ui.pdfContext.textContent=getSport(f)+" · "+(f.division||"")+" · หน้า "+page;
     const url=new URL("./pdf-viewer.html",location.href);
     url.searchParams.set("page",String(page));
     // Same-origin viewer reads a fixed local PDF: do not accept arbitrary file URLs.
     ui.pdfPreview.hidden=false;
     document.body.classList.add("review-pdf-open");
+    updatePdfModality();
     ui.pdfFrame.src=url.toString(); // Load the PDF.js iframe only on user action.
     ui.pdfClose.focus();
   }
   function closePdfPreview(){
     if(ui.pdfPreview.hidden)return;
+    let restore=pdfReturnScroll;
+    if(!isCompactPdf()&&pdfEntryMainScroll!==null&&
+       ui.main&&typeof ui.main.scrollTop==="number"&&typeof restore==="number"){
+      restore=Math.max(0,restore+ui.main.scrollTop-pdfEntryMainScroll);
+    }
     ui.pdfPreview.hidden=true;
     ui.pdfFrame.removeAttribute("src"); // Release PDF.js canvas + worker when closed.
     document.body.classList.remove("review-pdf-open");
+    for(const el of [ui.main,ui.header,ui.footer,ui.bottomNav]){
+      if(el)el.inert=false;
+    }
     if(pdfReturnFocus?.isConnected)pdfReturnFocus.focus({preventScroll:true});
-    if(pdfReturnScroll!==null&&typeof window!=="undefined"){
-      window.scrollTo(0,pdfReturnScroll);
+    if(restore!==null&&typeof window!=="undefined"){
+      window.scrollTo(0,restore);
     }
     pdfReturnFocus=null;
     pdfReturnScroll=null;
+    pdfEntryMainScroll=null;
   }
   async function copyText(text,success){
     ui.copyFallback.hidden=true;
@@ -389,9 +422,22 @@
     ui.refresh.addEventListener("click",load);
   ui.retry.addEventListener("click",load);
   ui.pdfClose.addEventListener("click",closePdfPreview);
+  if(typeof window!=="undefined"&&typeof window.addEventListener==="function"){
+    window.addEventListener("resize",()=>{if(!ui.pdfPreview.hidden)updatePdfModality();});
+  }
   if(typeof document.addEventListener==="function"){
     document.addEventListener("keydown",event=>{
-      if(event.key==="Escape"&&!ui.pdfPreview.hidden){event.preventDefault();closePdfPreview();}
+      if(ui.pdfPreview.hidden)return;
+      if(event.key==="Escape"){event.preventDefault();closePdfPreview();return;}
+      // Keep keyboard focus in the fullscreen PDF viewer on mobile.
+      if(event.key==="Tab"&&isCompactPdf()){
+        const active=document.activeElement;
+        if(event.shiftKey&&(active===ui.pdfClose||active!==ui.pdfFrame)){
+          event.preventDefault();ui.pdfFrame.focus();
+        }else if(!event.shiftKey&&active===ui.pdfFrame){
+          event.preventDefault();ui.pdfClose.focus();
+        }
+      }
     });
   }
   load();

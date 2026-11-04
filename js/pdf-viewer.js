@@ -11,6 +11,7 @@ const $ = (id) => document.getElementById(id);
 const el = {
   prev: $("pdfPrev"), next: $("pdfNext"), input: $("pdfPage"),
   total: $("pdfTotal"), zoomOut: $("pdfZoomOut"), zoomIn: $("pdfZoomIn"),
+  fitWidth: $("pdfFitWidth"), fitPage: $("pdfFitPage"),
   zoomLabel: $("pdfZoomLabel"), open: $("pdfOpenOriginal"),
   status: $("pdfStatus"), failure: $("pdfFailure"), fallback: $("pdfFallback"),
   retry: $("pdfRetry"), host: $("pdfCanvasHost"), canvas: $("pdfCanvas")
@@ -25,6 +26,7 @@ let pdf = null;
 let activeTask = null;
 let generation = 0;
 let zoom = 1;
+let fitMode = "width";
 let busy = false;
 let resizeDebounce = null;
 
@@ -42,18 +44,27 @@ function updateToolbar() {
   el.next.disabled = !pdf || pageNumber >= pages;
   el.zoomIn.disabled = !pdf || zoom >= 2;
   el.zoomOut.disabled = !pdf || zoom <= 0.8;
-  el.zoomLabel.textContent = zoom === 1 ? "พอดีหน้าจอ" : Math.round(zoom * 100) + "%";
+  el.zoomLabel.textContent = zoom === 1
+    ? (fitMode === "page" ? "พอดีทั้งหน้า" : "พอดีความกว้าง")
+    : Math.round(zoom * 100) + "%";
+  el.fitWidth.disabled = !pdf;
+  el.fitPage.disabled = !pdf;
+  el.fitWidth.setAttribute("aria-pressed", String(fitMode === "width"));
+  el.fitPage.setAttribute("aria-pressed", String(fitMode === "page"));
   updateOpenLinks();
 }
 function setPage(page) {
   if (!pdf) return;
-  const next = Math.min(pdf.numPages, Math.max(1, Number(page) || 1));
+  const next = Math.min(pdf.numPages, Math.max(1, Math.trunc(Number(page) || 1)));
   if (next === pageNumber && !busy) return;
   pageNumber = next;
   updateToolbar();
   const url = new URL(location.href);
   url.searchParams.set("page", String(pageNumber));
   history.replaceState(null, "", url.pathname + url.search + url.hash);
+  // Page navigation always starts at the top, unlike zoom within the current page.
+  el.host.scrollTop = 0;
+  el.host.scrollLeft = 0;
   renderPage();
 }
 async function renderPage() {
@@ -76,8 +87,12 @@ async function renderPage() {
     const page = await pdf.getPage(pageNumber);
     if (requestId !== generation) return;
     const unscaled = page.getViewport({ scale: 1 });
-    const availableWidth = Math.max(260, el.host.clientWidth - 22);
-    const pageScale = Math.min(2.5, availableWidth / unscaled.width) * zoom;
+    const availableWidth = Math.max(1, el.host.clientWidth - 22);
+    const availableHeight = Math.max(1, el.host.clientHeight - 24);
+    const baseScale = fitMode === "page"
+      ? Math.min(availableWidth / unscaled.width, availableHeight / unscaled.height)
+      : availableWidth / unscaled.width;
+    const pageScale = Math.min(2.5, Math.max(0.1, baseScale)) * zoom;
     const viewport = page.getViewport({ scale: pageScale });
     // Cap backing canvas memory for iPhone / LINE WebView.
     const ratio = Math.max(1, Math.min(window.devicePixelRatio || 1, 2,
@@ -129,6 +144,17 @@ async function startViewer() {
     console.error("R11D.2 PDF viewer failed", err);
   }
 }
+function setFitMode(mode) {
+  if (!pdf || !["width", "page"].includes(mode)) return;
+  fitMode = mode;
+  zoom = 1;
+  updateToolbar();
+  el.host.scrollTop = 0;
+  el.host.scrollLeft = 0;
+  renderPage();
+}
+el.fitWidth.addEventListener("click", () => setFitMode("width"));
+el.fitPage.addEventListener("click", () => setFitMode("page"));
 el.prev.addEventListener("click", () => setPage(pageNumber - 1));
 el.next.addEventListener("click", () => setPage(pageNumber + 1));
 el.input.addEventListener("change", () => {
