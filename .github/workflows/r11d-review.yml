@@ -1,0 +1,44 @@
+name: R11D public PDF review preview
+on:
+  pull_request:
+    paths:
+      - "review.html"
+      - "index.html"
+      - "css/review.css"
+      - "js/review*.js"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "data/reconciliation/**"
+      - "scripts/ux/test-review-r11d.mjs"
+      - ".github/workflows/r11d-review.yml"
+  push:
+    paths:
+      - "review.html"
+      - "index.html"
+      - "css/review.css"
+      - "js/review*.js"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "data/reconciliation/**"
+      - "scripts/ux/test-review-r11d.mjs"
+      - ".github/workflows/r11d-review.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: R11D read-only review and accessibility contracts
+        run: node scripts/ux/test-review-r11d.mjs
+      - name: R11A deterministic source contract
+        run: node scripts/data/reconcile-program-r11a.mjs --check
+      - name: Existing program and LINE deep-link regression
+        run: |
+          node scripts/validate-data.mjs
+          node scripts/validate-pdf-revision-2569.mjs
+          node scripts/share/build-match-pages.mjs --check
+          node scripts/ux/test-direct-share-r8.mjs
+          node scripts/ux/test-loading-r9.mjs

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183762">
+  <meta name="description" content="มิตรภาพเกม 2569 — ตรวจสูจิบัตร PDF ล่าสุด 237 รายการ ข้อมูลร่าง ไม่ใช่ประกาศการแข่งขันทางการ">
+  <title>ตรวจสูจิบัตรล่าสุด · มิตรภาพเกม ปี 2569 (ร่าง)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/review.css">
+</head>
+<body data-view="review">
+<header class="top"><div class="shell">
+  <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกม</span></div><span class="mode">ฉบับ PDF ล่าสุด · รอการตรวจ</span></div>
+  <nav class="site-nav" aria-label="เมนูหลัก">
+    <a href="./index.html">โปรแกรมเดิม</a>
+    <a href="./results.html">ผลการแข่งขัน</a>
+    <a href="./review.html" aria-current="page">ตรวจสูจิบัตรล่าสุด</a>
+  </nav>
+  <div class="hero"><p class="eyebrow">R11D · ฉบับตรวจสอบข้อมูล</p><h1>ตรวจสูจิบัตร PDF ล่าสุด</h1>
+    <p>มิตรภาพเกม ปี 2569 · ตรวจชื่อคู่ วัน เวลา สนาม และลู่กรีฑาจากเอกสารฉบับใหม่</p>
+  </div>
+</div></header>
+<main class="shell review-main">
+  <aside class="review-caution" aria-label="สถานะเอกสาร">
+    <span class="review-caution-icon" aria-hidden="true">!</span>
+    <div><strong>ร่างเพื่อโรงเรียนและคณะกรรมการตรวจสอบ — ไม่ใช่ประกาศแข่งขันทางการ</strong>
+      <p>วัน เวลา สนามในหน้านี้ถอดจาก PDF ล่าสุด และอาจยังมีข้อผิดพลาด ไม่ควรใช้เป็นกำหนดนัดหมายโดยไม่ตรวจยืนยันกับผู้จัด</p>
+    </div>
+  </aside>
+  <div class="review-shortcuts">
+    <a href="./index.html">‹ กลับไปโปรแกรมเดิม</a>
+    <span id="revisionLabel">ข้อมูลร่าง · กำลังตรวจ revision…</span>
+  </div>
+  <section class="review-summary" aria-label="ข้อมูลจาก PDF">
+    <div class="review-stat"><span>คู่แข่งขัน</span><strong id="statMatches">—</strong></div>
+    <div class="review-stat"><span>รายการกรีฑา</span><strong id="statTrack">—</strong></div>
+    <div class="review-stat"><span>แถวลู่กรีฑา</span><strong id="statLanes">—</strong></div>
+    <div class="review-stat"><span>มีจุดให้ตรวจเพิ่มเติม</span><strong id="statQa">—</strong></div>
+  </section>
+
+  <section class="panel review-filters" aria-labelledby="reviewFilterHeading">
+    <div class="review-section-top"><h2 id="reviewFilterHeading">เลือกข้อมูลที่จะตรวจ</h2><button type="button" id="clearFilters" class="review-clear">ล้างตัวกรอง</button></div>
+    <div class="review-filter-grid">
+      <label>โรงเรียน
+        <select id="reviewSchool"><option value="">ทุกโรงเรียน</option></select>
+      </label>
+      <label>กีฬา
+        <select id="reviewSport"><option value="">ทุกชนิดกีฬา</option></select>
+      </label>
+      <label>ช่วงชั้น
+        <select id="reviewLevel">
+          <option value="">ทุกช่วงชั้น</option>
+          <option value="early">ก่อนเรียน / ปฐมวัย</option>
+          <option value="primary">ประถมศึกษา</option>
+          <option value="secondary">มัธยมศึกษา</option>
+          <option value="other">อื่น ๆ</option>
+        </select>
+      </label>
+      <label>ค้นหาจากข้อความหรือเลขคู่
+        <input id="reviewSearch" type="search" placeholder="เช่น ฟุตบอล, หนองกระทุ่ม, คู่ 20" autocomplete="off">
+      </label>
+    </div>
+    <label class="review-toggle"><input type="checkbox" id="reviewQaOnly"><span>แสดงเฉพาะรายการที่มีจุดให้ตรวจเพิ่มเติม (QA)</span></label>
+    <p class="review-filter-note">เลือกโรงเรียนเพื่อดูเฉพาะทีม/ลู่ที่ระบุโรงเรียนนั้นโดยตรง รายการที่ยังไม่รู้ผู้ชนะอาจไม่ปรากฏเมื่อกรองโรงเรียน</p>
+  </section>
+
+  <section id="reviewDirect" class="review-direct" hidden aria-labelledby="reviewDirectTitle">
+    <div class="review-section-top"><h2 id="reviewDirectTitle">รายการที่เปิดจากลิงก์</h2><a href="./review.html" class="review-shortlink">ดูรายการทั้งหมด</a></div>
+    <div id="reviewDirectCard"></div>
+    <p id="reviewDirectError" class="review-error" hidden>ไม่พบรหัสรายการนี้ในสูจิบัตรฉบับล่าสุด กรุณาตรวจลิงก์อีกครั้ง</p>
+  </section>
+
+  <section id="reviewListing" aria-labelledby="reviewListingTitle" aria-busy="true">
+    <div class="review-section-top">
+      <h2 id="reviewListingTitle">รายการจากสูจิบัตรล่าสุด</h2>
+      <div class="review-listing-actions"><span id="reviewCount" role="status" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="reviewRefresh" class="refresh-button">↻ รีเฟรช</button></div>
+    </div>
+    <p id="reviewStatus" class="refresh-status" role="status" aria-live="polite"></p>
+    <div id="reviewSkeleton" class="loading-skeleton" aria-hidden="true">
+      <div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div>
+      <div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div>
+    </div>
+    <div id="reviewLoadFailure" class="load-failure" role="alert" hidden>
+      <strong>โหลดข้อมูล PDF ล่าสุดไม่ได้</strong>
+      <p>ตรวจอินเทอร์เน็ตแล้วลองโหลดใหม่ หน้าโปรแกรมเดิมยังเปิดใช้งานได้ตามปกติ</p>
+      <button id="retryReview" class="load-retry" type="button">↻ ลองอีกครั้ง</button>
+    </div>
+    <div id="reviewCards" class="review-grid"></div>
+    <div id="reviewEmpty" class="status-empty" hidden><h2>ไม่พบรายการที่ตรงกับตัวกรอง</h2><p>ลองเลือกทุกโรงเรียนหรือปิดตัวกรอง QA</p></div>
+    <button type="button" class="review-more" id="reviewMore" hidden>แสดงรายการเพิ่มเติม</button>
+  </section>
+
+  <section class="review-howto" aria-labelledby="reviewHowtoHeading">
+    <h2 id="reviewHowtoHeading">พบข้อมูลผิด แจ้งแก้อย่างไร?</h2>
+    <p>เปิดรายการที่ผิดแล้วกด <strong>คัดลอกข้อมูลแจ้งแก้ไข</strong> จากนั้นนำข้อความไปวางในแชทกับผู้จัด พร้อมระบุค่าที่ถูกต้องและหลักฐานที่ยืนยันได้ ระบบนี้ไม่มีการกดรับรองและไม่ส่งข้อมูลอัตโนมัติ</p>
+    <p>เมื่อคณะกรรมการยืนยันแล้ว ผู้ดูแลจะปรับ JSON ผ่าน GitHub โดยเก็บประวัติการแก้ไข และจึงจัดทำฉบับเผยแพร่ในขั้น R11E</p>
+  </section>
+  <section id="copyFallback" class="review-copy-fallback" hidden aria-labelledby="copyFallbackTitle">
+    <h2 id="copyFallbackTitle">ข้อความสำหรับคัดลอกด้วยตนเอง</h2>
+    <textarea id="copyFallbackText" rows="11" readonly aria-label="ข้อความแจ้งแก้ไข"></textarea>
+    <p>เลือกข้อความทั้งหมด แล้วคัดลอกไปวางในแชท</p>
+  </section>
+</main>
+<footer class="shell">มิตรภาพเกม ปี 2569 · ชุดข้อมูล PDF เพื่อการตรวจสอบ · ไม่ใช่ประกาศอย่างเป็นทางการ</footer>
+<nav class="mobile-nav" aria-label="ไปยังหน้าโปรแกรมและผลการแข่งขัน">
+  <a href="./index.html" aria-label="โปรแกรมการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg><span>ตารางแข่ง</span>
+  </a>
+  <a href="./results.html" aria-label="ผลการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg><span>ผลแข่งขัน</span>
+  </a>
+</nav>
+<script src="./js/shared.js"></script>
+<script src="./js/review-model.js"></script>
+<script src="./js/review.js"></script>
+</body>
+</html>
