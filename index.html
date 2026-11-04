@@ -278,6 +278,17 @@
       safe(b?b.short:(m.source_team_b_label||"รอระบุทีม"))+"</span></div>";
   }
   function scheduleTags(m){
+    if(m.planning_date){
+      const parts=m.planning_date.split("-");
+      const day=Number(parts[2]),month=Number(parts[1]),year=Number(parts[0])+543;
+      const monthNames=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+      const dateText=day+" "+(monthNames[month]||"") +" "+year;
+      const tags=["<span class='tag unconfirmed'>แข่งนอกรอบ "+safe(dateText)+" · รอตรวจรับ</span>"];
+      if(!m.time)tags.push("<span class='tag unconfirmed'>เวลา · สนาม รอยืนยัน</span>");
+      else tags.push("<span class='tag'>เวลาใน PDF "+safe(m.time)+" น.</span>");
+      if(m.field)tags.push("<span class='tag'>"+safe(m.field)+" (ตาม PDF)</span>");
+      return tags.join("");
+    }
     const missing=!m.time&&!m.field;
     if(missing)return "<span class='tag unconfirmed'>วัน · เวลา · สนาม รอยืนยัน</span>";
     const tags=["<span class='tag unconfirmed'>วันรอยืนยัน</span>"];
@@ -300,7 +311,8 @@
       ? "<p class='qa-note'>รอกรรมการตรวจจุดอ้างอิง: "+safe(m.qa_flags.join(", "))+"</p>":"";
     const detail="<details class='source-details'><summary>รายละเอียด · ข้อมูลร่าง</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
-      original+flags+"<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_page)+
+      original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
+      "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_page)+
       " · ยังไม่ผ่านการรับรอง</div></details>";
     return "<article class='fixture'>"+heading+content+
       "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+detail+"</article>";
