@@ -91,6 +91,8 @@
     const detail="<details class='source-details'><summary>รายละเอียด · ข้อมูลร่าง</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
       original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
+      "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
+      encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_page)+
       " · ยังไม่ผ่านการรับรอง</div></details>";
     return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
