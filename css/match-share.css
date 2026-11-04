@@ -1,0 +1,17 @@
+/* Public, no-build LINE fixture detail pages; uses same Noto Sans Thai base. */
+.share-main{max-width:740px;margin:18px auto}
+.share-match{border:1px solid #c8d7e8;border-radius:17px;background:#fff;padding:21px;box-shadow:0 4px 15px rgba(25,52,81,.055)}
+.share-kicker{font-size:.89rem;font-weight:800;color:#355878}
+.teams{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 0 19px}
+.teams strong{font-size:1.2rem;flex:1;overflow-wrap:anywhere}
+.teams strong:last-child{text-align:right}
+.teams span{color:#8196aa;font-weight:700;flex:none}
+.event{font-size:1.1rem;font-weight:800;margin:18px 0 8px}
+.share-tags{display:grid;gap:8px;margin:6px 0 13px;color:#355676}
+.share-tags div{background:#f0f4f9;border-radius:9px;padding:9px 12px;font-size:.84rem}
+.share-source{font-size:.75rem;color:#6d7f91}
+.share-actions{display:grid;gap:10px;margin:15px 0}
+.share-actions a{display:flex;justify-content:center;align-items:center;min-height:50px;border-radius:12px;font-size:.91rem;font-weight:800;text-decoration:none;padding:10px 12px;text-align:center}
+.share-primary{background:#1c4a7d;color:#fff}.share-secondary{border:1px solid #bad0e5;background:#fff;color:#1c4a7d}
+.share-notice{font-size:.79rem;color:#7b5915;background:#fff8e5;border:1px solid #ead495;padding:10px 13px;border-radius:11px}
+@media(max-width:690px){.share-main{margin:12px auto}.share-match{padding:15px}.teams strong{font-size:1.05rem}}
