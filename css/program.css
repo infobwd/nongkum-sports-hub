@@ -39,16 +39,8 @@
     .admin summary{font-weight:800;color:#193f66;font-size:.9rem;min-height:32px}
     .admin p{font-size:.85rem;color:#405b7a;margin:10px 0}
     .admin-links{display:flex;flex-wrap:wrap;gap:12px;font-size:.83rem;font-weight:750}
-    footer{padding:20px 0 30px;color:#677d92;text-align:center;font-size:.75rem}
     @media(max-width:690px){
-      .shell{padding:0 14px}
-      .brand{padding:12px 0 4px;align-items:center}
-      .logo{font-size:.91rem}
-      .logoIcon{width:36px;height:36px;font-size:21px}
-      .mode{font-size:.66rem;padding:4px 8px}
-      .hero{padding:8px 0 14px}
       .hero p{font-size:.82rem}
-      .panel{padding:14px;margin:12px 0}
       .fields,.cards{grid-template-columns:1fr}
       .fixture{padding:14px}
       .filter-title{margin-top:13px}
@@ -69,18 +61,7 @@
 
 
     /* UX-P2.2: Safe Area protection for iPhone Safari/standalone display */
-    :root{--safe-top:env(safe-area-inset-top,0px)}
-    html{scroll-padding-top:calc(var(--safe-top) + 12px)}
-    body{padding-top:var(--safe-top)}
-    body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;z-index:999;pointer-events:none}
-    /* Use the real device inset only; a forced 44px fixed layer hides the logo on Safari while scrolling. */
-    @supports (-webkit-touch-callout:none){body::before{height:var(--safe-top)}}
     /* Condensed header, school-first search, collapsed secondary filters */
-    .brand{padding:10px 0 7px;gap:9px}
-    .hero{padding:2px 0 12px}
-    .hero h1{font-size:clamp(1.13rem,3.8vw,1.7rem);margin:0}
-    .panel{margin:12px 0;padding:14px 16px}
-    .panel h2{font-size:1.08rem;margin-bottom:9px}
     .filter-title{margin:12px 0 2px}
     .chips{padding-bottom:7px}
     .chip{display:inline-flex;align-items:center;gap:7px}
@@ -109,6 +90,5 @@
     .source-details[open] summary{margin-bottom:5px}
     .source-details .details{margin:3px 0 6px}
     .qa-note{font-size:.75rem;color:#845322;margin:4px 0}
-    footer{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
-    @media(max-width:690px){.hero{padding:2px 0 11px}.panel{padding:12px 14px;margin:10px 0}.fixture{padding:12px}}
+    @media(max-width:690px){.fixture{padding:12px}}
   
