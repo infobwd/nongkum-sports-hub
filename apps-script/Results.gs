@@ -101,6 +101,7 @@ function nkBuildPublicResults_(ss){
     if(!f||f[13]!=="approved"||nkTrim_(f[2])!==nkTrim_(r[2])||
         nkTrim_(f[7])!==nkTrim_(r[4])||nkTrim_(f[8])!==nkTrim_(r[5]))
        issues.push("คู่ "+r[1]+": ข้อมูลคู่แม่ยังไม่รับรองหรือทีมไม่ตรง");
+    if(f&&f[13]==="approved")nkValidApproval_(f,NK_COLS["04_คู่แข่งขัน"],allow,"คู่แม่ "+r[1],issues);
     var item={id:nkTrim_(r[0]),fixture_id:nkTrim_(r[1]),sport_id:nkTrim_(r[2]),
       division:f?nkTrim_(f[3]):"",team_a_id:nkTrim_(r[4]),team_b_id:nkTrim_(r[5]),
       result_type:type,winner_school_id:nkTrim_(r[9])||null,status:"approved"};
@@ -119,6 +120,7 @@ function nkBuildPublicResults_(ss){
     if(approved.length!==rows.length){issues.push("กรีฑา "+eventId+" มีผลยังไม่รับรองบางอันดับ");return;}
     var event=eventIndex[eventId];
     if(!event||event[8]!=="approved"||event[1]!=="athletics")issues.push("รายการกรีฑา "+eventId+" ยังไม่รับรอง");
+    if(event&&event[8]==="approved")nkValidApproval_(event,NK_COLS["03_รายการ"],allow,"รายการแม่ "+eventId,issues);
     var ranks={},schoolsInRace={},rankings=[];
     approved.forEach(function(x){
       var r=x.values;
