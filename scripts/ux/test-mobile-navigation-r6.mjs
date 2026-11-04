@@ -1,4 +1,4 @@
-// R6: native mobile bottom navigation, filter continuity and Safari scroll-mask behavior.
+// R6/R7: native mobile bottom navigation, filter continuity and safe-area without overlays.
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
@@ -29,10 +29,12 @@ assert.match(baseCSS,/@media\(max-width:690px\)/);
 assert.match(baseCSS,/position:fixed;bottom:0/);
 assert.match(baseCSS,/min-height:56px/);
 assert.match(baseCSS,/safe-area-inset-bottom/);
-assert.match(baseCSS,/body > main\{padding-bottom:calc\(104px/);
+assert.match(baseCSS,/body > main\{padding-bottom:28px\}/);
+assert.match(baseCSS,/body > footer\{padding-bottom:calc\(92px/);
 assert.match(baseCSS,/touch-action:manipulation/);
-assert.match(baseCSS,/body\.is-scrolled::before/);
-assert.match(baseCSS,/pointer-events:none/);
+assert.doesNotMatch(baseCSS,/body\.is-scrolled::before/);
+assert.doesNotMatch(baseCSS,/body::before/);
+assert.ok(!navSource.includes('addEventListener("scroll"'),"scroll must not trigger any header mask");
 assert.match(baseCSS,/@media print\{\.mobile-nav/);
 assert.match(program,/NongkumNavigation\?\.update\?\.\(state\)/);
 assert.match(results,/NongkumNavigation\?\.update\?\.\(state\)/);
@@ -103,10 +105,8 @@ home.links[2].handlers.click({preventDefault(){samePrevented=true;}});
 assert.equal(samePrevented,true);
 assert.equal(home.window.scrolls.length,1);
 assert.equal(home.window.scrolls[0].top,0);
-// Scroll-only scrim never covers the page header on first load.
-home.window.scrollY=80;home.window.handlers.scroll();
-assert.equal(home.body.classList.contains("is-scrolled"),true);
-home.window.scrollY=0;home.window.handlers.scroll();
+// Safe Area is static CSS, and navigation never listens to scrolling.
+assert.equal(home.window.handlers.scroll,undefined);
 assert.equal(home.body.classList.contains("is-scrolled"),false);
 // On a shared item link, old school selection must not override the target.
 const direct=boot("https://example.org/nongkum-sports-hub/?fixture=football-p07-12&id=1","program","wangdong");
@@ -118,4 +118,4 @@ fromResults.links[3].handlers.pointercancel();
 assert.equal(fromResults.links[3].classList.contains("is-pressing"),false);
 assert.equal(JSON.parse(file("data/draft-schedule.json")).fixtures.length,236);
 assert.equal(JSON.parse(file("data/public-results.json")).results.length,0);
-console.log("PASS R6: visible bottom tabs, 56px taps, iPhone safe area, native single-tap feedback, deep-link and school/sport/level continuity");
+console.log("PASS R6/R7: visible bottom tabs, safe-area without overlay, native single-tap feedback, deep-link/filter continuity");
