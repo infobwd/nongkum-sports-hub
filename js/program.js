@@ -253,4 +253,10 @@
   }
   els.refresh.addEventListener("click",function(){loadProgram(true);});
   loadProgram(false);
+  // Recheck the published draft program every five minutes while the page is visible.
+  if(typeof setInterval==="function"){
+    setInterval(function(){
+      if(document.visibilityState==="visible"&&!els.refresh.disabled)loadProgram(true);
+    },300000);
+  }
 })();
