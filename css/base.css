@@ -63,3 +63,51 @@
     .status-empty h2{font-size:1rem}
     .status-empty p{font-size:.82rem}
     @media(max-width:390px){.fixture-actions{gap:4px}.share-icon{min-width:44px;min-height:44px}.pairnum{font-size:.72rem}}
+
+
+    /* R6: native bottom navigation for one-thumb switching on mobile. */
+    :root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+    .mobile-nav{display:none}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    .site-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+    .site-nav a:active,.site-nav a.is-activating{background:#fff;color:#183762;border-color:#fff}
+    .mobile-tab-icon{height:23px;width:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+    @media(max-width:690px){
+      .top .site-nav{display:none}
+      .mobile-nav{
+        display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;
+        gap:8px;position:fixed;bottom:0;left:0;right:0;z-index:1200;
+        padding:7px 12px calc(8px + var(--safe-bottom));
+        border-top:1px solid #cbd7e5;background:rgba(255,255,255,.97);
+        box-shadow:0 -3px 14px rgba(21,51,82,.11);
+        -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+      }
+      .mobile-nav a{
+        min-width:0;min-height:56px;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;gap:1px;
+        border-radius:12px;background:transparent;color:#4b6380;
+        font-size:.78rem;font-weight:800;line-height:1.3;text-align:center;
+        text-decoration:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+        position:relative;
+      }
+      .mobile-nav a[aria-current="page"]{background:#e9f1fc;color:#164b7c}
+      .mobile-nav a:active,.mobile-nav a.is-pressing,.mobile-nav a.is-activating{
+        background:#d6e6fa;color:#123e70;transform:translateY(-1px)
+      }
+      .mobile-nav a:focus-visible{outline:3px solid #d4a82d;outline-offset:-3px}
+      .mobile-nav a.is-activating::before{
+        content:"";position:absolute;top:3px;left:calc(50% - 11px);
+        width:22px;height:3px;border-radius:3px;background:#e4ae31
+      }
+      body > main{padding-bottom:calc(104px + var(--safe-bottom))}
+      body > footer{padding-bottom:calc(100px + var(--safe-bottom))}
+      html{scroll-padding-bottom:calc(92px + var(--safe-bottom))}
+    }
+    @media print{.mobile-nav,#navigationNotice{display:none!important}body > main,body > footer{padding-bottom:0}}
+    /* iOS Safari: cover content beneath its status bar only after a scroll.
+       Unlike an always-on 44px mask, this never clips the first-screen logo. */
+    @supports (-webkit-touch-callout:none){
+      @media(max-width:690px){
+        body.is-scrolled::before{height:max(44px,var(--safe-top));background:#f5f7fb;pointer-events:none}
+      }
+    }
