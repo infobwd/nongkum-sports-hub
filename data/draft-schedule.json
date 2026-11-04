@@ -13,7 +13,9 @@
     "count_athletics_lanes": 289,
     "source_item_count": 236,
     "disclaimer": "ข้อมูลร่างสำหรับคณะกรรมการตรวจทาน ไม่ใช่กำหนดการแข่งขันทางการ ห้ามใช้ข้อมูลนี้นัดหมายนักกีฬา",
-    "last_approved_at": null
+    "last_approved_at": null,
+    "event_display_name": "มิตรมิตรภาพเกม",
+    "event_display_name_source": "ข้อความยืนยันจากผู้ประสานงานวันที่ 4 พฤศจิกายน 2569"
   },
   "schools": [
     {
@@ -2569,8 +2571,11 @@
         "QA-06"
       ],
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-010",
@@ -2594,8 +2599,11 @@
         "QA-06"
       ],
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-011",
@@ -2616,8 +2624,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-012",
@@ -2638,8 +2649,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-013",
@@ -2660,8 +2674,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-014",
@@ -2682,8 +2699,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-015",
@@ -2704,8 +2724,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-016",
@@ -2726,8 +2749,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-017",
@@ -2748,8 +2774,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-018",
@@ -2770,8 +2799,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-019",
@@ -2792,8 +2824,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-020",
@@ -2814,8 +2849,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-021",
@@ -2836,8 +2874,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-022",
@@ -2858,8 +2899,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-023",
@@ -2880,8 +2924,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-024",
@@ -2902,8 +2949,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-025",
@@ -3000,8 +3050,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-030",
@@ -3022,8 +3075,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-031",
@@ -3044,8 +3100,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-032",
@@ -3066,8 +3125,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-12",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p18-12-ปี-ชาย-033",
@@ -3088,8 +3150,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p18-12-ปี-ชาย-034",
@@ -3110,8 +3175,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p18-12-ปี-หญิง-035",
@@ -3132,8 +3200,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p18-12-ปี-หญิง-036",
@@ -3154,8 +3225,11 @@
       "status": "draft",
       "review_status": "draft",
       "planning_date": "2026-11-13",
-      "planning_source": "แจ้งกำหนดแข่งนอกรอบในแชทวันที่ 4 พฤศจิกายน 2569; ยังรอกรรมการตรวจรับ",
-      "planning_status": "review"
+      "planning_source": "ผู้ประสานงานยืนยันวันแข่งขันนอกรอบและสถานที่ โรงเรียนบ้านหนองกระทุ่ม วันที่ 4 พฤศจิกายน 2569; เวลาแข่งขันแต่ละคู่ยังไม่ได้แจ้ง",
+      "planning_status": "review",
+      "planning_date_confirmation": "confirmed",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed"
     },
     {
       "id": "petanque-p18-8-ปี-ชาย-037",

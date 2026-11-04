@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#183762">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="ต้นแบบสูจิบัตรกีฬา กลุ่มหนองกุ่ม ปี 2569 สำหรับทดลองค้นหาตารางการแข่งขันบนมือถือ">
-  <title>สูจิบัตรกีฬา กลุ่มหนองกุ่ม 2569 — ต้นแบบ</title>
+  <title>มิตรมิตรภาพเกม 2569 — โปรแกรมและข้อมูลการแข่งขัน</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -76,6 +76,7 @@
     .details{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid #edf0f4;padding-top:10px;margin-top:11px}
     .tag{font-size:.75rem;border-radius:7px;background:#f0f4f9;color:#42617e;padding:5px 8px}
     .tag.unconfirmed{background:#fff3d7;color:#745517}
+    .tag.verified{background:#e8f4ef;color:#245b49}
     .source{font-size:.73rem;color:#657b90;margin-top:9px}
     .more{display:block;border:1px solid #aebfd3;background:#fff;color:#174773;font-weight:800;border-radius:12px;padding:12px 18px;min-height:46px;margin:17px auto 6px}
     .more[hidden]{display:none}
@@ -119,7 +120,8 @@
     html{scroll-padding-top:calc(var(--safe-top) + 12px)}
     body{padding-top:var(--safe-top)}
     body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;z-index:999;pointer-events:none}
-    @supports (-webkit-touch-callout:none){body::before{height:max(var(--safe-top),44px)}}
+    /* Use the real device inset only; a forced 44px fixed layer hides the logo on Safari while scrolling. */
+    @supports (-webkit-touch-callout:none){body::before{height:var(--safe-top)}}
     /* Condensed header, school-first search, collapsed secondary filters */
     .brand{padding:10px 0 7px;gap:9px}
     .hero{padding:2px 0 12px}
@@ -163,7 +165,7 @@
   <header class="top">
     <div class="shell">
       <div class="brand">
-        <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>กีฬากลุ่มหนองกุ่ม</span></div>
+        <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรมิตรภาพเกม</span></div>
         <span class="mode">ข้อมูลร่าง · ยังไม่เป็นทางการ</span>
       </div>
       <div class="hero"><h1>โปรแกรมการแข่งขัน · ปี 2569</h1></div>
@@ -193,7 +195,7 @@
 
     <aside class="notice" aria-label="สถานะข้อมูลการแข่งขัน">
       <span aria-hidden="true">⚠️</span>
-      <div><strong>ข้อมูลร่าง · ยังไม่ผ่านการรับรอง</strong> วัน เวลา และสนามหลายรายการรอยืนยัน ห้ามใช้แทนกำหนดการทางการ</div>
+      <div><strong>ข้อมูลส่วนใหญ่ยังเป็นร่าง</strong> เปตองนอกรอบยืนยันวันและสถานที่แล้ว แต่เวลาแข่งยังรอแจ้ง ส่วนรายการอื่นต้องตรวจรับก่อนใช้เป็นกำหนดการทางการ</div>
     </aside>
 
     <section aria-labelledby="resultTitle">
@@ -201,7 +203,7 @@
         <h2 id="resultTitle">โปรแกรมการแข่งขัน</h2>
         <span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span>
       </div>
-      <p class="subtle" id="resultNote">เรียงตามสูจิบัตรต้นฉบับ ไม่ใช่ลำดับเวลาแข่งที่ได้รับการรับรอง</p>
+      <p class="subtle" id="resultNote">เรียงตามสูจิบัตรต้นฉบับ · วันและสถานที่เปตองนอกรอบที่ยืนยันแล้วจะแสดงแยกจากข้อมูลที่ยังรอตรวจ</p>
       <div id="cards"></div>
       <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong>
         <p>ลองเลือกทุกโรงเรียนหรือทุกกีฬา รายการระดับศูนย์ฯ ยังไม่ผูกกับโรงเรียนรายแห่ง</p>
@@ -282,11 +284,16 @@
       const parts=m.planning_date.split("-");
       const day=Number(parts[2]),month=Number(parts[1]),year=Number(parts[0])+543;
       const monthNames=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-      const dateText=day+" "+(monthNames[month]||"") +" "+year;
-      const tags=["<span class='tag unconfirmed'>แข่งนอกรอบ "+safe(dateText)+" · รอตรวจรับ</span>"];
-      if(!m.time)tags.push("<span class='tag unconfirmed'>เวลา · สนาม รอยืนยัน</span>");
-      else tags.push("<span class='tag'>เวลาใน PDF "+safe(m.time)+" น.</span>");
-      if(m.field)tags.push("<span class='tag'>"+safe(m.field)+" (ตาม PDF)</span>");
+      const dateText=day+" "+(monthNames[month]||"")+" "+year;
+      const confirmedDate=m.planning_date_confirmation==="confirmed";
+      const confirmedVenue=m.planning_venue_confirmation==="confirmed"&&!!m.planning_venue;
+      const tags=["<span class='tag "+(confirmedDate?"verified":"unconfirmed")+"'>แข่งนอกรอบ "+safe(dateText)+
+        (confirmedDate?" · วันยืนยันแล้ว":" · รอตรวจรับ")+"</span>"];
+      if(confirmedVenue)tags.push("<span class='tag verified'>สถานที่ "+safe(m.planning_venue)+" · ยืนยันแล้ว</span>");
+      else if(m.field)tags.push("<span class='tag'>"+safe(m.field)+" (ตาม PDF)</span>");
+      else tags.push("<span class='tag unconfirmed'>สนามรอยืนยัน</span>");
+      if(m.time)tags.push("<span class='tag'>เวลาใน PDF "+safe(m.time)+" น.</span>");
+      else tags.push("<span class='tag unconfirmed'>เวลาแข่งรอแจ้ง</span>");
       return tags.join("");
     }
     const missing=!m.time&&!m.field;
