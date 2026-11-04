@@ -1,6 +1,6 @@
 # R12 — แผนตรวจความขัดแย้งของตารางแข่งขันจากรายชื่อนักกีฬากระดาษ (Document-to-JSON)
 
-**สถานะ:** PLAN ONLY / ไม่ใช่การเริ่มรับข้อมูลจริงหรือแก้โปรแกรม · บันทึก 4 พฤศจิกายน 2569  
+**สถานะ:** R12A IMPLEMENTED + MERGED / R12B PREPARED (NO STUDENT DATA) / ยังไม่แก้ตารางทางการ · อัปเดต 4 พฤศจิกายน 2569  
 **Repository:** `infobwd/nongkum-sports-hub` (PUBLIC) · **ห้ามนำภาพรายชื่อเด็กหรือ JSON รายบุคคลขึ้น repo นี้**  
 **แผนติดตามงานคู่ขนาน:** [SPORTS_2569_ACTIVE_WORK_STATUS_20261104.md](SPORTS_2569_ACTIVE_WORK_STATUS_20261104.md)  
 **ฐานข้อมูลอ้างอิง:** [R11A reconciliation](R11A_RECONCILIATION_2569.md), [data contract](SPORTS_2569_JSON_SHEETS_DOCS_CONTRACT.md), [แผน R10/R11](SPORTS_2569_PARALLEL_WORKSTREAMS_PLAN.md)
@@ -82,7 +82,7 @@
 - **Potential / unknown:** โรงเรียนเดียวกันลงหลายกีฬาเวลาใกล้กันแต่ยังไม่มี roster, เวลาไม่มี, mapping ชื่อไม่แน่, รอบก่อนหน้ายังไม่ทราบผู้ชนะ
 - **No conflict (conditional):** ให้แสดงได้เฉพาะขอบเขตที่ roster ครบ ชื่อรับรอง การ mapping สำเร็จ และมีข้อมูลเวลาเพียงพอ; แสดง coverage/unknown ควบคู่ทุกครั้ง
 
-ตัวอย่างเบื้องต้นจากการจัดกลุ่ม `school_id + draft_date + draft_time` พบ **33 กลุ่มเวลาที่โรงเรียนเดียวกันมีรายการเริ่มพร้อมกัน** ใน candidate; เป็นเพียง *school-level screening* ไม่ใช่ 33 นักกีฬาชนจริง: กีฬาชาย/หญิงและรุ่นอายุไม่จำเป็นต้องใช้คนเดียวกัน. ให้สร้าง deterministic report ใหม่และตรวจนับซ้ำก่อนอ้างเป็นผลตรวจระบบ R12A
+ตัวอย่างเบื้องต้นจากการจัดกลุ่ม `school_id + draft_date + draft_time` พบ **33 กลุ่มเวลาที่โรงเรียนเดียวกันมีรายการเริ่มพร้อมกัน** ใน candidate; เป็นเพียง *school-level screening* ไม่ใช่ 33 นักกีฬาชนจริง: กีฬาชาย/หญิงและรุ่นอายุไม่จำเป็นต้องใช้คนเดียวกัน. R12A สร้าง [deterministic report](R12A_SCHOOL_TIME_RISK_REPORT_2569.md) และตรวจนับซ้ำแล้ว: 33 กลุ่มเวลาเริ่มตรงกัน, 96 คู่เริ่มห่างไม่เกิน 30 นาที, 53 รายการขาดวันหรือเวลาเริ่ม; ทั้งหมดเป็น screening ไม่ใช่ความขัดแย้งระดับบุคคล
 
 ## 6. ตัวเสนอแก้ตาราง (Decision Support / ไม่มี auto-publish)
 
@@ -99,7 +99,7 @@
 
 | Gate | งาน | ผลส่งมอบ | เงื่อนไขผ่าน |
 |---|---|---|---|
-| **R12A** | วิเคราะห์โปรแกรมร่างด้วยโรงเรียน/ชนิดกีฬา/รุ่น/วันเวลา/สนาม เทียบ 236/237 และ QA เดิม | Report `school-time-risk` (ไม่ใช้ PII) + ช่องข้อมูลขาด | ใช้ stable ID, ไม่มีการเรียกความเสี่ยงระดับโรงเรียนว่า athlete conflict, แยก draft/approved |
+| **R12A (DONE)** | วิเคราะห์โปรแกรมร่างด้วยโรงเรียน/ชนิดกีฬา/รุ่น/วันเวลา/สนาม เทียบ 236/237 และ QA เดิม | [Report `school-time-risk`](R12A_SCHOOL_TIME_RISK_REPORT_2569.md) (ไม่ใช้ PII) + ช่องข้อมูลขาด | ใช้ stable ID, ไม่มีการเรียกความเสี่ยงระดับโรงเรียนว่า athlete conflict, แยก draft/approved |
 | **R12B** | รับรูปเอกสารผ่านแชท, ถอดและตรวจทานเป็น JSON ในพื้นที่ private | ทะเบียนนักกีฬาที่ผ่านการตรวจทีละโรงเรียน + intake coverage | ไม่มี PII เข้า public repo; ambiguous entries ไม่ถูก auto-merge; ตรวจหน้ากระดาษครบ |
 | **R12C** | เชื่อม athlete/team/event/fixture, ตั้ง duration/check-in/travel/rest; detect conflicts | รายงาน private hard/near/potential พร้อมหลักฐาน | ทดสอบชื่อซ้ำ, เวลาไม่ครบ, same gender/age, rounds conditional, substitute, venue clash |
 | **R12D** | สร้างข้อเสนอเรียงลำดับสลับคู่ → เลื่อนช่วง → เปลี่ยนวัน พร้อม what-if simulation | Diff และผลกระทบแต่ละทางเลือก | ไม่เกิด hard conflict ใหม่, คำนวณทุกคู่ที่กระทบ, ไม่เขียนทับ master |
@@ -110,7 +110,7 @@
 ## 8. การทำงานร่วมกับ R10/R11 โดยไม่ชนกัน
 
 - **R11D.2 PR #25 MERGED แล้ว (4 พ.ย. 2569):** งาน PDF viewer อยู่ใน `main` แล้ว แต่ยังต้องทดสอบ Safari/LINE/Android จริง; งาน R12 ไม่แก้ไฟล์ `review.html`, `js/review.js`, `css/review.css`, `docs/R11D2_*`, `assets/*`, PDF viewer หรือ workflow โดยไม่แยก PR และทดสอบ regression
-- R12 แผนนี้เป็น **เอกสารใหม่ใน `docs/` เท่านั้น**; ไม่แก้ `README.md`, `data/*`, `apps-script/*`, `scripts/*`, `m/*` หรือ workflow เดิม
+- R12A แยก PR #28 เพิ่ม **เฉพาะ** `scripts/r12/*`, `data/analysis/*`, รายงานใน `docs/` และ workflow R12A; **ไม่แก้** `data/draft-schedule.json`, candidate JSON, `apps-script/*`, `m/*`, หน้าเว็บ, ผลหรือ PDF viewer. ภายหลัง R12B เก็บข้อมูลส่วนตัวนอก public repo
 - **R11A:** source/QA/fixture ID/reconciliation ของ candidate เป็นหลักข้อมูล; การวิเคราะห์ต้องไม่เปลี่ยน version เดิม
 - **R11C:** เอกสาร Google Docs ทำงานฉบับใหม่ไม่ถูกแก้หรือซิงก์ใน R12A–D
 - **R10/R11:** ระบบกองอำนวยการและ public request ต่าง project และแยกจากทะเบียนนักกีฬา; ไม่ถือว่า deploy เพราะ merge GitHub แล้ว
@@ -127,10 +127,18 @@
 - [ ] การสลับคู่/ขยับเวลาแสดงผลกระทบครบและไม่แก้ข้อมูลที่รับรองโดยไม่ผ่านมติ
 - [ ] การออกสูจิบัตรใหม่ทำใน release PR แยกหลัง R11E readiness; ระบบประกาศสนามอ่าน approved-only
 
-## 10. ขั้นต่อไปที่เสนอ (ยังไม่เริ่ม implement)
+## 10. ขั้นต่อไปหลัง R12A
 
 1. PR #25 Merge แล้ว; ให้เจ้าของสาย R11D.2 ตรวจมือถือตามแผนต่อและเก็บหลักฐาน QA
-2. เริ่ม **R12A** ด้วย fixture candidate แบบไม่มี PII และทดสอบ `school-time-risk` deterministic; ให้คณะกรรมการตรวจระยะเวลาแข่งขัน/ลู่/สนามที่ยังขาด
-3. เตรียม private data storage และรายการ permission/retention ก่อนส่งภาพจริงใน R12B
+2. **R12A เสร็จแล้ว:** [รายงาน](R12A_SCHOOL_TIME_RISK_REPORT_2569.md) และ [ชุดตรวจรับเวลาเปตอง 24 คู่](R12A_PETANQUE_OFFROUND_VERIFICATION_2569.md) อยู่ใน repo; ให้กรรมการระบุเวลาจริง/คอร์ต/ช่วงพัก/ลู่ที่ยังขาด
+3. สร้างโฟลเดอร์ R12B ใน My Drive แล้ว ตรวจเริ่มต้น `shared=false`, permission owner-only; ก่อนนำภาพเด็กลงให้ตรวจสิทธิ์ซ้ำและใช้ [คู่มือ R12B](R12B_PRIVATE_PAPER_ROSTER_INTAKE_CHECKLIST.md). หากต้องการเก็บ JSON ใน GitHub ต้องสร้าง Private Repo แยก ไม่ใช้ Public Repo นี้
 4. เมื่อรับรายชื่อแต่ละโรงเรียน ค่อยถอดภาพ→JSON→ตรวจรับ→วิเคราะห์ซ้ำ; ไม่เปิดเว็บสมัครนักกีฬา
 5. ส่งตารางแก้ไขที่กรรมการเลือกเข้า R11E พร้อม diff/revision; ไม่เปลี่ยนโปรแกรมเว็บที่เผยแพร่โดยอัตโนมัติ
+
+## 11. หลักฐานลงมือทำ R12A และเตรียม R12B
+
+- [PR #28](https://github.com/infobwd/nongkum-sports-hub/pull/28) **MERGED**; GitHub Actions `R12A public draft school-time risk screen` และ `Validate draft data` ผ่านใน PR ก่อน Merge
+- [ตัวตรวจอัตโนมัติ](../scripts/r12/screen-draft-risk.mjs), [ชุดทดสอบ](../scripts/r12/test-screen-draft-risk.mjs), [snapshot ไม่ระบุตัวนักเรียน](../data/analysis/r12a-school-time-risk-20261104.json)
+- R12A ตรวจจากรายการเริ่มตรงกัน/ใกล้กันระดับโรงเรียนเท่านั้น; **ยังไม่มีรายชื่อนักกีฬา/ระยะเวลาแข่งขันพอสำหรับยืนยันการชนกัน**
+- R12B เตรียมพื้นที่ Drive แบบ owner-only และเช็กลิสต์แล้ว แต่ **ยังไม่ได้รับรายชื่อนักกีฬา 8 โรงเรียน** และไม่ได้สร้าง Private GitHub Repo
+- R10/R11/P2/R11C/R11E คง workflow เดิม ไม่ถือว่า Deploy หรือ Approved เพราะ R12A Merge

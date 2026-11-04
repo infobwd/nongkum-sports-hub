@@ -26,11 +26,11 @@
 | R11D หน้า review 237 รายการ | PR #23 / #24 merged; [review QA](R11D_PUBLIC_REVIEW_QA.md) | โค้ดหน้า `review.html` + UX มือถืออยู่ `main`; รับข้อผิดพลาดผ่านแชท ไม่ approve จากหน้าเว็บ; ต้องตรวจ GitHub Pages/อุปกรณ์จริง |
 | R11D.2 PDF viewer เทียบหน้า | [PR #25](https://github.com/infobwd/nongkum-sports-hub/pull/25) | **MERGED**, ต้องตรวจผล CI และ UI บน Safari/LINE/Android จริงหลังเผยแพร่ |
 | R11E ออกสูจิบัตร/เว็บฉบับรับรอง | [parallel plan](SPORTS_2569_PARALLEL_WORKSTREAMS_PLAN.md) | **ยังไม่เข้า gate**: ต้องเคลียร์รายการขัดแย้ง, อนุมัติ revision, Sheets/Docs/เว็บ/ลิงก์ LINE ตรงกันก่อน |
-| R12 เอกสารรายชื่อนักกีฬา→JSON→ตรวจตาราง | [แผน R12](R12_ATHLETE_DOCUMENT_TO_JSON_SCHEDULE_CONFLICT_PLAN.md) | **PLAN ONLY**; ไม่มีหน้าลงทะเบียนนักกีฬา และยังไม่มีทะเบียนข้อมูลเด็กใน repo public |
+| R12 เอกสารรายชื่อนักกีฬา→JSON→ตรวจตาราง | [R12A report](R12A_SCHOOL_TIME_RISK_REPORT_2569.md), [แผน R12](R12_ATHLETE_DOCUMENT_TO_JSON_SCHEDULE_CONFLICT_PLAN.md), [PR #28](https://github.com/infobwd/nongkum-sports-hub/pull/28) | **R12A MERGED / CI PASS**: คัดกรอง 33 กลุ่มเวลาเริ่มตรงกัน, 96 คู่เวลาเริ่มห่าง 1–30 นาที, 53 รายการยังวิเคราะห์เวลาไม่ได้ครบ. **R12B PREPARED**: มี My Drive owner-only และขั้นตอนถอดภาพ; ยังไม่มีรายชื่อนักกีฬาใน repo |
 
 ## 3. ความเสี่ยงก่อนวันแข่งขันที่ต้องทำก่อน (ไม่ใช่ตารางรับรอง)
 
-1. **12–13 พ.ย. 2569 — เปตองนอกรอบ:** ยืนยันวันและสถานที่ (บ้านหนองกระทุ่ม) สำหรับ 24 คู่แล้ว แต่ **เวลา/คอร์ต/approval ยังไม่ครบ**; [PETANQUE_OFFROUND_2569_11.md](PETANQUE_OFFROUND_2569_11.md)
+1. **12–13 พ.ย. 2569 — เปตองนอกรอบ:** ยืนยันวันและสถานที่ (บ้านหนองกระทุ่ม) สำหรับ 24 คู่แล้ว แต่ **เวลา/คอร์ต/approval ยังไม่ครบ**; มี [ใบงานกรรมการ 24 คู่](R12A_PETANQUE_OFFROUND_VERIFICATION_2569.md) พร้อมเวลาจาก PDF ที่ยังไม่รับรอง; [PETANQUE_OFFROUND_2569_11.md](PETANQUE_OFFROUND_2569_11.md)
 2. **16 พ.ย. 2569 — กรีฑา:** candidate มี 50 รายการ / 289 ลู่, แต่เวลาเริ่มแยกรายการยังว่าง; ตรวจวันจริง, รายการศูนย์ฯ, เวลาเรียกตัวและเว้นช่วงตามประชุม
 3. **17–20 พ.ย. 2569 — กีฬาหลายชนิด:** มีตารางร่างพร้อมกันหลายสนาม; ต้องตรวจ roster ก่อนสรุปว่าเด็กคนเดียวกันชน. ให้ R12A เริ่มจาก school-level screening และแสดงสถานะ unknown
 4. **QA ต้นฉบับ:** ฟุตบอลหญิงรอบชิงมีแถวอาจซ้ำ, วอลเลย์บอลอ้างสายผิดเพศ, เปตอง 10 ปีชายและปี 2568 บางแถว, ตะกร้อคู่ 24, หมายเลขกรีฑาซ้ำ — **ต้องให้ผู้จัดตัดสิน ไม่แก้อัตโนมัติ**
@@ -41,7 +41,7 @@
 2. **R10/R11 deployment:** เจ้าของงาน deploy Apps Script 2 projects ตามคู่มือ, ทดสอบบัญชีจริง และเก็บหลักฐาน (ไม่มีผลต่อ candidate schedule)
 3. **R11A/R11D:** รับข้อแก้ไขจาก 8 โรงเรียน/กรรมการผ่าน preview/chat, ตัดสินข้อผิดพลาดใน PDF/JSON, เก็บ revision; ห้ามอัปเดต public program ก่อน R11E
 4. **R11C:** ทำสูจิบัตร Google Docs ฉบับทำงานแยกให้ครบ พร้อม A4 visual QA และคงต้นฉบับเดิม
-5. **R12A → R12B:** สร้างรายงาน school-level risk จาก candidate ก่อนโดยไม่มี PII; เตรียม private storage ก่อนรับภาพจริงและถอดข้อมูลเด็ก
+5. **R12A → R12B:** R12A มีโค้ด/รายงานและ Merge แล้ว; My Drive owner-only สำหรับ R12B เตรียมแล้ว. ถัดไปเมื่อโรงเรียนส่งภาพ ให้ตรวจสิทธิ์ซ้ำ ถอดข้อมูล→ตรวจชื่อ→JSON private ตาม [คู่มือ R12B](R12B_PRIVATE_PAPER_ROSTER_INTAKE_CHECKLIST.md) ไม่ต้องมีเว็บลงทะเบียน
 6. **R11E:** หลังข้อมูล, การตรวจตารางและกรรมการรับรองครบ จึง release program/Docs/PDF/LINE จาก revision เดียว
 
 ## 5. จุดที่ยังไม่มีหลักฐานยืนยัน (ห้ามแสดงว่าเสร็จ)
@@ -53,3 +53,11 @@
 - ยังไม่ได้ทดสอบมือถือจริง/LINE WebView และการพิมพ์ A4 ในการตรวจ snapshot นี้
 
 **หมายเหตุ:** สถานะข้างต้นเป็นหลักฐาน ณ เวลาตรวจ ก่อนงานอื่น merge เพิ่ม; ทุกแชทควรตรวจ `main` และ PR เปิดใหม่อีกครั้งก่อนลงมือ.
+
+## 6. เพิ่มเติมจากการดำเนินงาน R12A (4 พฤศจิกายน 2569)
+
+- [PR #28](https://github.com/infobwd/nongkum-sports-hub/pull/28) Merge แล้ว, รัน GitHub Actions R12A และ Validate draft data **PASS** ก่อน Merge; ไม่แก้สูจิบัตร public 236 รายการหรือ candidate 237 รายการ
+- [R12A detailed report](R12A_SCHOOL_TIME_RISK_REPORT_2569.md) แสดง 33 กลุ่มเวลาเริ่มเดียวกัน, 96 คู่เริ่มห่างไม่เกิน 30 นาที และข้อจำกัด 53 รายการ. ทั้งหมดไม่ใช่ผลยืนยันนักกีฬาแข่งชนกันจริง
+- [R12B private intake checklist](R12B_PRIVATE_PAPER_ROSTER_INTAKE_CHECKLIST.md): มีโฟลเดอร์ My Drive ที่ตรวจว่า `shared=false`, owner-only ตอนสร้าง; ไม่มีภาพหรือชื่อเด็กใน GitHub public
+- [ใบตรวจเวลาเปตอง 24 คู่](R12A_PETANQUE_OFFROUND_VERIFICATION_2569.md) เตรียมแล้ว แต่เวลากรรมการรับรองยังว่าง และ R11E ยังไม่ผ่าน gate
+- R11C Google Docs ฉบับทำงานแยกคงเดิมสำหรับสายเอกสาร; ยังต้องตรวจตาราง/A4 และแทนข้อมูลแม่แบบเก่าตามหลักฐานก่อนเผยแพร่
