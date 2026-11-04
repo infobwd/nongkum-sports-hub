@@ -19,11 +19,11 @@ var NK_TABS = Object.freeze({
 });
 
 var NK_COLS = Object.freeze({
-  "02_โรงเรียน":{status:4,by:5,at:6,qa:-1,note:7},
-  "03_รายการ":{status:8,by:9,at:10,qa:11,note:12},
-  "04_คู่แข่งขัน":{status:13,by:14,at:15,qa:16,note:17},
-  "05_กรีฑา":{status:10,by:11,at:12,qa:13,note:14},
-  "06_ประกาศ":{status:6,by:7,at:8,qa:-1,note:9}
+  "02_โรงเรียน":{status:4,by:5,at:6,qa:-1,note:7,hash:8},
+  "03_รายการ":{status:8,by:9,at:10,qa:11,note:12,hash:13},
+  "04_คู่แข่งขัน":{status:13,by:14,at:15,qa:16,note:17,hash:20},
+  "05_กรีฑา":{status:10,by:11,at:12,qa:13,note:14,hash:16},
+  "06_ประกาศ":{status:6,by:7,at:8,qa:-1,note:9,hash:10}
 });
 
 function onOpen() {
@@ -60,11 +60,29 @@ function nkApproverEmail_() {
   return active;
 }
 
+/** SHA-256 fingerprint of source/business fields, excluding approval metadata.
+ *  Protected approval_digest column is owned by designated approver(s).
+ *  Edits after approval trigger export failure until selection is approved again.
+ */
+function nkDigest_(name, r) {
+  var c=NK_COLS[name],a=r.slice(0,c.hash);
+  [c.status,c.by,c.at].forEach(function(i){a[i]="";});
+  var normalized=a.map(function(v){
+    if(v instanceof Date)return Utilities.formatDate(v,"Asia/Bangkok","yyyy-MM-dd'T'HH:mm:ss");
+    return v==null?"":String(v);
+  });
+  var bytes=Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,JSON.stringify(normalized),Utilities.Charset.UTF_8);
+  return bytes.map(function(b){return ("0"+(b<0?b+256:b).toString(16)).slice(-2);}).join("");
+}
+
 function nkValidApproval_(r, cols, allow, label, issues) {
   if (nkTrim_(r[cols.status]) !== "approved") return false;
   var by = nkTrim_(r[cols.by]).toLowerCase();
   if (!by || allow.indexOf(by)<0) issues.push(label + ": ผู้รับรองไม่อยู่ในรายชื่ออนุญาต");
   if (!(r[cols.at] instanceof Date)) issues.push(label + ": ยังไม่มีเวลารับรองจากเมนูระบบ");
+  if (!nkTrim_(r[cols.hash]) || nkTrim_(r[cols.hash]) !== nkDigest_(Object.keys(NK_COLS).filter(function(name){return NK_COLS[name]===cols;})[0],r)) {
+    issues.push(label + ": ข้อมูลถูกแก้หลังรับรอง/ไม่มี approval_digest — ต้องรับรองใหม่");
+  }
   if (cols.qa >= 0 && nkTrim_(r[cols.qa]) && !nkTrim_(r[cols.note])) {
     issues.push(label + ": มี QA flag แต่ยังไม่มีบันทึกมติ/หลักฐานในช่องหมายเหตุ");
   }
@@ -126,7 +144,9 @@ function nkApproveSelection() {
   }
   var now=new Date();
   var updates=values.map(function(){return ["approved",email,now];});
+  var hashes=values.map(function(r){return [nkDigest_(name,r)];});
   s.getRange(start,cols.status+1,count,3).setValues(updates);
+  s.getRange(start,cols.hash+1,count,1).setValues(hashes);
   SpreadsheetApp.getUi().alert("รับรอง "+count+" แถวแล้ว โดย "+email+"\n(ยังไม่ใช่การเผยแพร่เว็บไซต์)");
 }
 
