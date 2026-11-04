@@ -21,6 +21,14 @@
 
 **วันแข่งขันหลายรายการยังไม่ระบุ** ยกเว้นเปตองนอกรอบ 12–13 พ.ย. 2569 ที่ยืนยันวันและสถานที่แล้ว (เวลาแข่งขันรายคู่ยังไม่แจ้ง); รายการอื่นยังต้องตรวจรับก่อนประกาศทางการ
 
+## R10 — ศูนย์ประกาศสนาม (ระยะที่ 2 · private deployment)
+
+- **แผนก่อนลงโค้ด:** [R10 Field Operations Plan](docs/R10_FIELD_OPERATIONS_PHASE2_PLAN.md) และ [คู่มือเปิดใช้งาน/QA](docs/R10_FIELD_OPERATIONS_DEPLOY_QA.md)
+- เพิ่ม Google Apps Script Web App สำหรับผู้ประสานสนาม/ผู้บรรยาย (โค้ด `apps-script/Announcer.gs` และ `Announcer.html`) เพื่อเรียกนักกีฬา ประสานกรรมการ และประชาสัมพันธ์ พร้อมคิว `pending → ready → announced / cancelled` และประวัติการอ่านประกาศ
+- **ข้อมูลทั้งหมดอยู่ใน Google Sheets ภายในแยกจาก P2**; ต้องตั้ง allowlist และเปิด Web App ด้วยผู้ดูแลก่อนใช้งานจริง; GitHub Pages ไม่ใช่หน้าลงประกาศหรือ API เขียนข้อมูล
+- ไม่สร้างรายชื่อนักเรียน/กรรมการ ไม่เผยแพร่ข้อมูลภายในขึ้นเว็บประชาชน และยังไม่เชื่อมประกาศที่รับรองกับหน้าเว็บหลัก (ระยะที่ 3)
+- ชุดทดสอบ: `node scripts/ops/test-field-console-r10.mjs`
+
 ## R9 — Loading UX ระยะที่ 1 (Skeleton + Recoverable Error)
 
 - แผนที่บันทึกก่อนแก้ไขโค้ด: [R9 Phase 1 Plan](docs/R9_LOADING_UX_PHASE1_PLAN.md)

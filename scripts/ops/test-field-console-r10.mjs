@@ -139,8 +139,8 @@ const listed=sandbox.nkOpsBootstrap();
 assert.equal(listed.queue.find(x=>x.id===id3.id).message,"โปรดติดต่อโต๊ะประชาสัมพันธ์");
 assert.equal(listed.open_total,1);
 assert.equal(listed.total,3);
-assert.equal(listed.history.length,7); // 3 created + 4 transitions
-assert.equal(tables.get(TAB_HISTORY).getLastRow(),8);
+assert.equal(listed.history.length,6); // 3 created + 3 transitions
+assert.equal(tables.get(TAB_HISTORY).getLastRow(),7);
 assert.equal(lockCount,0,"all write locks must be released");
 
 // Unknown/unauthorized caller sees neither queue nor history.

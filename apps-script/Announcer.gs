@@ -1,10 +1,11 @@
 /**
- * R10 / Phase 2: PRIVATE field announcement queue (standalone, spreadsheet-bound Apps Script).
+ * R10 / Phase 2: PRIVATE field announcement queue (standalone Google Apps Script).
  * Install in a PRIVATE STANDALONE Apps Script project, backed by a SEPARATE PRIVATE Spreadsheet.
  * Deploy web app: execute as "User accessing the web app"; Google sign-in required.
  *
  * Script Properties (comma-separated exact Google account emails, lowercased internally):
- * NONGKUM_OPS_SPREADSHEET_ID = private operations spreadsheet ID (NOT public)\n * NONGKUM_OPS_ADMIN_EMAILS
+ * NONGKUM_OPS_SPREADSHEET_ID = private operations spreadsheet ID (NOT public)
+ * NONGKUM_OPS_ADMIN_EMAILS
  * NONGKUM_ANNOUNCER_EMAILS
  * NONGKUM_COORDINATOR_EMAILS
  *

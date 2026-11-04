@@ -260,7 +260,7 @@ async function refresh(silent){
   $("statusText").textContent="ตรวจล่าสุด "+stamp(data.checked_at)+" · คิวค้าง "+data.open_total+
     (data.partial?" · แสดงคิวบางส่วน โปรดติดต่อผู้ดูแล":"");
   $("submitButton").disabled=false;
-  message(silent?"":"โหลดคิวประกาศล่าสุดแล้ว",false);
+  if(!silent)message("โหลดคิวประกาศล่าสุดแล้ว",false);
   renderQueue();renderHistory();
  }catch(e){message("โหลดคิวไม่ได้: "+(e&&e.message||"ไม่ทราบสาเหตุ")+" · กรุณาตรวจการเชื่อมต่อและลองใหม่",true);}
  finally{state.loading=false;$("refreshButton").disabled=false;$("queue").setAttribute("aria-busy","false");}
