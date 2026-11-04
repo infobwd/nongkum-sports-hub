@@ -233,7 +233,7 @@
     const signature=JSON.stringify(f);
     if(!force&&filterSignature===signature)return;
     filterSignature=signature;
-    filtered=M.filterItems(data.fixtures,f,NK.classifyLevel);
+    filtered=M.filterItems(data.fixtures,f,NK.classifyLevel,sportNames);
     renderedCount=0;
     const fragment=document.createDocumentFragment();
     const initial=Math.min(PAGE_SIZE,filtered.length);
