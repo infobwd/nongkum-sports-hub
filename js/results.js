@@ -11,9 +11,18 @@
     published:document.getElementById("publishedAt"),
     programLink:document.getElementById("programLink"),
     refresh:document.getElementById("refreshResults"),
-    refreshStatus:document.getElementById("resultsRefreshStatus")
+    refreshStatus:document.getElementById("resultsRefreshStatus"),
+    direct:document.getElementById("sharedResult"),
+    directCard:document.getElementById("sharedResultCard"),
+    directStatus:document.getElementById("sharedResultStatus"),
+    all:document.getElementById("resultsOverview"),
+    showAll:document.getElementById("showAllResults")
   };
-  const state={data:null,school:"",sport:"",level:"",focusId:""};
+  const requestedResult=new URLSearchParams(location.search).get("result");
+  const state={data:null,school:"",sport:"",level:"",focusId:"",directMode:!!requestedResult};
+  if(state.directMode&&els.direct&&els.all){
+    els.direct.hidden=false;els.all.hidden=true;
+  }
   let initialized=false;
   const safe=globalThis.Nongkum.escapeHtml;
   function validResult(r){
@@ -64,9 +73,21 @@
       state.sport=b.dataset.sport;makeSports();render();syncUrl();
     }));
   }
+  function renderDirect(){
+    const item=state.data.results.find(x=>x.id===state.focusId&&x.status==="approved");
+    if(!item){
+      els.directCard.innerHTML="<div class='direct-result-error'><strong>ยังไม่มีผลการแข่งขันที่ผ่านการรับรองสำหรับลิงก์นี้</strong>"+
+        "<p>อาจเป็นรหัสไม่ถูกต้อง หรือผลยังไม่ผ่านการรับรองและเผยแพร่</p></div>";
+      els.directStatus.textContent="ไม่พบผลที่รับรองแล้ว";
+      return;
+    }
+    els.directCard.innerHTML=globalThis.NongkumResultsRender.card(item,state.data.schools,state.data.sports);
+    els.directStatus.textContent="ผลรับรองแล้ว · "+(item.division||"")+" · "+(item.fixture_id||item.event_id||"");
+  }
   function render(){
     const data=state.data;
     if(!data)return;
+    if(state.directMode){renderDirect();return;}
     const found=data.results.filter(matches);
     els.count.textContent=found.length+" รายการ";
     els.empty.hidden=found.length!==0;
@@ -83,7 +104,7 @@
       state.school=els.school.value;globalThis.Nongkum.saveSchool(state.school);render();syncUrl();
     });
     els.level.addEventListener("change",()=>{state.level=els.level.value;render();syncUrl();});
-    els.cards.addEventListener("click",async function(event){
+    async function handleShare(event){
       const btn=event.target.closest("[data-share-result]");
       if(!btn||!state.data)return;
       const item=state.data.results.find(x=>x.id===btn.dataset.shareResult&&x.status==="approved");
@@ -93,6 +114,15 @@
         if(answer==="copied")els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
         if(answer==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์";
       }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ผลแข่งขันได้";}
+    }
+    els.cards.addEventListener("click",handleShare);
+    if(els.direct)els.direct.addEventListener("click",handleShare);
+    if(els.showAll)els.showAll.addEventListener("click",function(){
+      state.directMode=false;state.focusId="";state.school="";state.sport="";state.level="";
+      els.direct.hidden=true;els.all.hidden=false;
+      els.school.value="";els.level.value="";
+      makeSports();render();syncUrl();
+      if(typeof window!=="undefined"&&typeof window.scrollTo==="function")window.scrollTo({top:0,behavior:"auto"});
     });
   }
   function loaded(data){
@@ -107,9 +137,10 @@
       state.school=data.schools.some(s=>s.id===requested)?requested:"";
       state.sport=data.sports.some(s=>s.id===params.get("sport"))?params.get("sport"):"";
       state.level=["early","primary","secondary"].includes(params.get("level"))?params.get("level"):"";
-      const linked=data.results.find(x=>x.id===params.get("result")&&x.status==="approved");
-      if(linked){
-        state.school="";state.level="";state.sport=linked.sport_id;state.focusId=linked.id;
+      const linked=requestedResult?data.results.find(x=>x.id===requestedResult&&x.status==="approved"):null;
+      if(requestedResult){
+        state.school="";state.level="";state.sport=linked?linked.sport_id:"";
+        state.focusId=requestedResult;
       }
       els.school.value=state.school;els.level.value=state.level;
       setupHandlers();
@@ -133,6 +164,7 @@
     }catch(e){
       els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · "+(state.data?"ยังคงผลล่าสุดที่โหลดไว้":"ยังไม่สามารถอ่านข้อมูลผล");
       if(!state.data){
+        if(state.directMode&&els.directStatus)els.directStatus.textContent="ตรวจผลรับรองไม่ได้ โปรดลองอีกครั้ง";
         els.count.textContent="ตรวจข้อมูลไม่ได้";els.empty.hidden=false;
         els.empty.innerHTML="<h2>ผลการแข่งขันยังไม่พร้อมเผยแพร่</h2><p>โปรดลองใหม่ภายหลัง</p>";
       }

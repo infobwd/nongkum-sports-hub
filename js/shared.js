@@ -32,11 +32,25 @@
     url.searchParams.set(key,id);
     return url.toString();
   }
-  async function shareItem(page,key,id,title){
-    const url=directItemUrl(page,key,id);
+  // Stable short public IDs for static per-fixture LINE preview pages.
+  // Intentionally non-secret: the source schedule is already public.
+  function fixtureShareCode(id){
+    let hash=2166136261;
+    const value=String(id);
+    for(let i=0;i<value.length;i++){
+      hash=Math.imul(hash^value.charCodeAt(i),16777619)>>>0;
+    }
+    return "f"+hash.toString(16).padStart(8,"0");
+  }
+  function fixtureShareUrl(id){
+    return new URL("m/"+fixtureShareCode(id)+"/",new URL("index.html",location.href)).toString();
+  }
+  async function shareUrl(url,title,description){
     if(typeof navigator!=="undefined"&&typeof navigator.share==="function"){
       try{
-        await navigator.share({title:title||"มิตรภาพเกม 2569",url});
+        const payload={title:title||"มิตรภาพเกม 2569",url};
+        if(description)payload.text=description;
+        await navigator.share(payload);
         return "shared";
       }catch(err){
         if(err&&err.name==="AbortError")return "cancelled";
@@ -48,6 +62,15 @@
     }
     return "unavailable";
   }
+  async function shareItem(page,key,id,title){
+    return shareUrl(directItemUrl(page,key,id),title);
+  }
+  function shareFixture(fixture,sport,teamA,teamB){
+    const title="มิตรภาพเกม 2569 · "+sport+" · "+(fixture.division||"การแข่งขัน");
+    const description=(teamA&&teamB?teamA+" พบ "+teamB+" · ":"")+
+      "คู่/รายการ "+(fixture.source_match_no||"")+" · ข้อมูลร่าง โปรดตรวจประกาศทางการ";
+    return shareUrl(fixtureShareUrl(fixture.id),title,description);
+  }
   function formatCheckedAt(date){
     return "ตรวจล่าสุด "+new Intl.DateTimeFormat("th-TH",{
       day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"
@@ -55,6 +78,6 @@
   }
   root.Nongkum=Object.freeze({
     escapeHtml,classifyLevel,schoolInStore,saveSchool,href,
-    directItemUrl,shareItem,formatCheckedAt
+    directItemUrl,shareItem,shareUrl,fixtureShareCode,fixtureShareUrl,shareFixture,formatCheckedAt
   });
 })(globalThis);

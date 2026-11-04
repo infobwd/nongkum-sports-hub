@@ -37,7 +37,7 @@ function element(id){
   }};
 }
 async function view(payload,query=""){
- const els=Object.fromEntries(["resultSchool","resultLevel","resultSports","resultsList","resultsCount","noResults","publishedAt","programLink","refreshResults","resultsRefreshStatus"].map(id=>[id,element(id)]));
+ const els=Object.fromEntries(["resultSchool","resultLevel","resultSports","resultsList","resultsCount","noResults","publishedAt","programLink","refreshResults","resultsRefreshStatus","sharedResult","sharedResultCard","sharedResultStatus","resultsOverview","showAllResults"].map(id=>[id,element(id)]));
  const location=new URL("https://example.org/nongkum-sports-hub/results.html"+query);
  const history={replaceState(a,b,v){this.url=v;}};
  const local=new Map();

@@ -13,9 +13,18 @@
     advanced:document.getElementById("advancedFilters"),
     activeFiltersHint:document.getElementById("activeFiltersHint"),
     refresh:document.getElementById("refreshProgram"),
-    refreshStatus:document.getElementById("programRefreshStatus")
+    refreshStatus:document.getElementById("programRefreshStatus"),
+    direct:document.getElementById("sharedFixture"),
+    directCard:document.getElementById("sharedFixtureCard"),
+    directStatus:document.getElementById("sharedFixtureStatus"),
+    overview:document.getElementById("programOverview"),
+    fullSchedule:document.getElementById("showFullSchedule")
   };
-  const state={data:null,school:"",sport:"",level:"",query:"",limit:12,focusId:""};
+  const requestedFixture=new URLSearchParams(location.search).get("fixture");
+  const state={data:null,school:"",sport:"",level:"",query:"",limit:12,focusId:"",directMode:!!requestedFixture};
+  if(state.directMode&&els.direct&&els.overview){
+    els.direct.hidden=false;els.overview.hidden=true;
+  }
   let initialized=false;
   const LEVELS=[
     {id:"",name:"ทุกช่วงชั้น"},
@@ -164,8 +173,26 @@
       ...(m.lanes||[]).map(function(l){return l.source_school_label;})]
       .filter(Boolean).join(" ").toLocaleLowerCase("th").includes(q);
   }
+    function renderDirect(){
+    if(!state.data||!els.directCard)return;
+    const item=state.data.fixtures.find(x=>x.id===state.focusId);
+    if(!item){
+      els.directCard.innerHTML="<div class='direct-error'><strong>ไม่พบคู่แข่งขันที่แชร์มา</strong>"+
+        "<p>ลิงก์นี้อาจมีรหัสผิดหรือไม่อยู่ในสูจิบัตรฉบับที่เผยแพร่ โปรดเปิดตารางทั้งหมดเพื่อค้นหา</p></div>";
+      els.directStatus.textContent="ไม่พบรหัสรายการในข้อมูลเผยแพร่";
+      return;
+    }
+    const sport=getSport(item.sport_id);
+    els.directCard.innerHTML=card(item);
+    els.directStatus.textContent=(sport?sport.name:"กีฬา")+" · "+(item.division||"")+
+      " · "+(item.kind==="track_event"?"รายการ ":"คู่ที่ ")+item.source_match_no;
+    const details=els.directCard.querySelector("details.source-details");
+    if(details)details.open=true;
+  }
+
   function render(){
     if(!state.data)return;
+    if(state.directMode){renderDirect();return;}
     const q=state.query.trim().toLocaleLowerCase("th");
     const matched=state.data.fixtures.filter(function(m){return matchesFilters(m,q);});
     const visible=matched.slice(0,state.limit);
@@ -200,17 +227,32 @@
       state.query=els.search.value;resetLimit();updateFilterHint();makeChips();render();
     });
     els.more.addEventListener("click",function(){state.limit+=12;render();});
-    els.cards.addEventListener("click",async function(event){
+    async function handleShare(event){
       const btn=event.target.closest("[data-share-fixture]");
       if(!btn||!state.data)return;
       const item=state.data.fixtures.find(x=>x.id===btn.dataset.shareFixture);
       if(!item)return;
       try{
-        const result=await globalThis.Nongkum.shareItem("index.html","fixture",item.id,
-          "มิตรภาพเกม · ข้อมูลร่าง · "+(item.name||item.division||"คู่แข่งขัน"));
+        const sport=getSport(item.sport_id);
+        const a=item.team_a_id?getSchool(item.team_a_id):null;
+        const b=item.team_b_id?getSchool(item.team_b_id):null;
+        const result=await globalThis.Nongkum.shareFixture(item,
+          sport?sport.name:item.sport_id,
+          a?a.short:(item.source_team_a_label||""),
+          b?b.short:(item.source_team_b_label||""));
         if(result==="copied")els.refreshStatus.textContent="คัดลอกลิงก์คู่แข่งขันแล้ว";
         if(result==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ยังไม่รองรับการแชร์หรือคัดลอกลิงก์";
       }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ได้ โปรดลองอีกครั้ง";}
+    }
+    els.cards.addEventListener("click",handleShare);
+    if(els.direct)els.direct.addEventListener("click",handleShare);
+    if(els.fullSchedule)els.fullSchedule.addEventListener("click",function(){
+      state.directMode=false;state.focusId="";state.school="";state.sport="";state.level="";
+      if(els.direct)els.direct.hidden=true;
+      if(els.overview)els.overview.hidden=false;
+      els.school.value="";els.search.value="";
+      resetLimit();makeChips();makeLevels();render();syncUrl();
+      if(typeof window!=="undefined"&&typeof window.scrollTo==="function")window.scrollTo({top:0,behavior:"auto"});
     });
   }
   async function loadProgram(refresh){
@@ -235,9 +277,10 @@
         state.school=data.schools.some(x=>x.id===requested)?requested:"";
         state.sport=data.sports.some(x=>x.id===params.get("sport"))?params.get("sport"):"";
         state.level=LEVELS.some(x=>x.id&&x.id===params.get("level"))?params.get("level"):"";
-        const linked=data.fixtures.find(x=>x.id===params.get("fixture"));
-        if(linked){
-          state.focusId=linked.id;state.school="";state.sport=linked.sport_id;state.level="";
+        const linked=requestedFixture?data.fixtures.find(x=>x.id===requestedFixture):null;
+        if(requestedFixture){
+          state.focusId=linked?linked.id:requestedFixture;
+          state.school="";state.sport=linked?linked.sport_id:"";state.level="";
           state.query="";state.limit=12;
         }
         els.school.value=state.school;els.advanced.open=!!state.level;
@@ -249,6 +292,7 @@
     }catch(e){
       els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · ยังคงข้อมูลเดิมถ้ามี";
       if(!state.data){
+        if(state.directMode&&els.directStatus)els.directStatus.textContent="ยังเปิดคู่แข่งขันไม่ได้ โปรดลองอีกครั้ง";
         els.count.textContent="อ่านข้อมูลไม่ได้";els.empty.hidden=false;
         els.empty.innerHTML="<strong>ไม่สามารถโหลดโปรแกรมฉบับร่างได้</strong><p>กรุณาลองอีกครั้ง</p>";
       }
