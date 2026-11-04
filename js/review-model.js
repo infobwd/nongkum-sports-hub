@@ -11,25 +11,27 @@
     if(f.kind==="track_event")return Array.isArray(f.lanes)&&f.lanes.some(l=>l.school_id===id);
     return f.team_a_id===id||f.team_b_id===id;
   }
-  function searchMatches(f,q){
+  function searchMatches(f,q,sportName){
     const term=String(q||"").trim().toLocaleLowerCase();
     if(!term)return true;
+    const byNumber=term.match(/^(?:คู่|รายการ)\s*(\d+)$/);
+    if(byNumber)return String(f.source_match_no||"")===byNumber[1];
     const fields=[
-      f.id,f.source_match_no,f.sport_id,f.division,f.source_pair_text,
+      f.id,f.source_match_no,f.sport_id,sportName,f.division,f.source_pair_text,
       f.source_team_a_label,f.source_team_b_label,f.name,f.source_title,f.round,
       f.draft_field,f.source_pdf&&f.source_pdf.source_date_text,
       ...(Array.isArray(f.lanes)?f.lanes.map(l=>l.source_school_label):[])
     ];
     return fields.some(x=>String(x??"").toLocaleLowerCase().includes(term));
   }
-  function filterItems(data,filters,levelClassifier){
+  function filterItems(data,filters,levelClassifier,sportNames){
     const f=filters||{};
     return data.filter(x=>
       schoolMatches(x,f.school||"")&&
       (!f.sport||x.sport_id===f.sport)&&
       (!f.level||levelClassifier(x)===f.level)&&
       (!f.qaOnly||hasQa(x))&&
-      searchMatches(x,f.search)
+      searchMatches(x,f.search,sportNames&&sportNames.get(x.sport_id))
     );
   }
   function thaiDate(iso){
@@ -49,20 +51,23 @@
   }
   function formatIssue(f,sportName){
     const lines=[
-      "ขอแจ้งแก้ข้อมูลสูจิบัตรมิตรภาพเกม 2569 (R11D)",
-      "Revision: "+REVISION,
-      "Fixture ID: "+f.id,
-      "กีฬา/รายการ: "+String(sportName||f.sport_id)+" / "+String(f.division||""),
-      "เลขคู่/รายการ PDF: "+String(f.source_match_no||"ไม่ระบุ"),
-      "หน้า PDF: "+String(f.source_page||"ไม่ระบุ"),
-      "คู่/รายการตาม PDF: "+String(f.kind==="track_event"?(f.name||f.source_title):f.source_pair_text||"ไม่ระบุ"),
-      "วันตาม PDF: "+sourceDate(f),
-      "เวลาตาม PDF: "+sourceTime(f),
-      "สนามตาม PDF: "+sourceField(f),
-      "QA: "+(hasQa(f)?f.qa_flags.join(", "):"ไม่มีธงเฉพาะรายการ"),
-      "จุดที่พบว่าผิด: ",
-      "ข้อมูลที่ถูกต้อง: ",
-      "หลักฐาน/คำยืนยันจากผู้จัด: "
+      "แจ้งข้อมูลสูจิบัตรฉบับใหม่ที่อาจไม่ตรง",
+      "กีฬา / รุ่น: "+String(sportName||f.sport_id)+" / "+String(f.division||""),
+      "คู่ที่ / รายการที่: "+String(f.source_match_no||"ไม่ระบุ"),
+      "หน้าในสูจิบัตร: "+String(f.source_page||"ไม่ระบุ"),
+      "คู่แข่งขัน / รายการ: "+String(f.kind==="track_event"?(f.name||f.source_title):f.source_pair_text||"ไม่ระบุ"),
+      "วันที่ตามสูจิบัตร: "+sourceDate(f),
+      "เวลาตามสูจิบัตร: "+sourceTime(f),
+      "สนามตามสูจิบัตร: "+sourceField(f),
+      "",
+      "พบข้อมูลที่ไม่ตรง: ",
+      "ควรแก้เป็น: ",
+      "ข้อมูลยืนยันจากโรงเรียนหรือผู้จัด: ",
+      "",
+      "สำหรับผู้ดูแลระบบ (ไม่ต้องแก้ไขส่วนนี้)",
+      "รหัสรายการ: "+f.id,
+      "เลขชุดข้อมูล: "+REVISION,
+      "รหัสหมายเหตุตรวจสอบ: "+(hasQa(f)?f.qa_flags.join(", "):"ไม่มี")
     ];
     return lines.join("\n");
   }

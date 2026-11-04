@@ -70,11 +70,11 @@ assert.equal(M.thaiDate("2026-11-12"),"12 พ.ย. 2569");
 const repeated=pdf.fixtures.find(f=>f.id==="football-p07-มัธยมหญิง-020-repeated-final");
 assert.ok(repeated&&M.hasQa(repeated));
 const issue=M.formatIssue(repeated,"ฟุตบอล");
-assert.match(issue,/Fixture ID: football-p07-มัธยมหญิง-020-repeated-final/);
-assert.match(issue,/Revision: pdf69-20261104-draft-r11a/);
-assert.match(issue,/หน้า PDF: 7/);
-assert.match(issue,/จุดที่พบว่าผิด:/);
-assert.match(issue,/ข้อมูลที่ถูกต้อง:/);
+assert.match(issue,/รหัสรายการ: football-p07-มัธยมหญิง-020-repeated-final/);
+assert.match(issue,/เลขชุดข้อมูล: pdf69-20261104-draft-r11a/);
+assert.match(issue,/หน้าในสูจิบัตร: 7/);
+assert.match(issue,/พบข้อมูลที่ไม่ตรง:/);
+assert.match(issue,/ควรแก้เป็น:/);
 assert.doesNotMatch(issue,/อนุมัติแล้ว|รับรองแล้ว/);
 for(const id of [
   "reviewSchool","reviewSport","reviewLevel","reviewSearch","reviewQaOnly","reviewCount",

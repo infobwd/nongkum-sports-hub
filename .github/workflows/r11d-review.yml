@@ -9,6 +9,7 @@ on:
       - "data/program-from-pdf-2569-20261104-draft.json"
       - "data/reconciliation/**"
       - "scripts/ux/test-review-r11d.mjs"
+      - "scripts/ux/test-review-r11d1.mjs"
       - ".github/workflows/r11d-review.yml"
   push:
     paths:
@@ -19,6 +20,7 @@ on:
       - "data/program-from-pdf-2569-20261104-draft.json"
       - "data/reconciliation/**"
       - "scripts/ux/test-review-r11d.mjs"
+      - "scripts/ux/test-review-r11d1.mjs"
       - ".github/workflows/r11d-review.yml"
   workflow_dispatch:
 
@@ -33,6 +35,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: R11D read-only review and accessibility contracts
         run: node scripts/ux/test-review-r11d.mjs
+      - name: R11D.1 teacher mobile and V2 PDF UX
+        run: node scripts/ux/test-review-r11d1.mjs
       - name: R11A deterministic source contract
         run: node scripts/data/reconcile-program-r11a.mjs --check
       - name: Existing program and LINE deep-link regression
