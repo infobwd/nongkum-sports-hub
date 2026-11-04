@@ -88,3 +88,77 @@
 @media(max-width:360px){.review-stat span{font-size:.69rem}.review-stat strong{font-size:1.3rem}.review-action-bar{display:grid;grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important}}
 @media print{.top{background:#fff;color:#153456}.review-filters,.review-action-bar,.review-more,.review-howto,.review-copy-fallback,.review-listing-actions,.mobile-nav{display:none!important}.review-grid{grid-template-columns:1fr}.review-item{break-inside:avoid}.review-caution{color:#111}}
+
+
+/* R11D.1 — Teacher-friendly compact display and incremental mobile rendering */
+.review-pdf-download{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #cad9e9;border-radius:15px;padding:14px 16px;margin:10px 0 15px}
+.review-pdf-icon{font-size:1.65rem;line-height:1;flex:none}
+.review-pdf-description{min-width:0;flex:1}
+.review-pdf-description h2{font-size:.97rem;margin:0 0 2px;color:#183762}
+.review-pdf-description p{font-size:.85rem;font-weight:700;margin:0 0 2px;overflow-wrap:anywhere}
+.review-pdf-description small{display:block;font-size:.76rem;color:#59718a;line-height:1.6}
+.review-pdf-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;flex:none;padding:9px 14px;border-radius:11px;background:#244f80;color:#fff;font-size:.82rem;font-weight:800;text-decoration:none}
+.review-pdf-link:hover{color:#fff}
+.review-pdf-link:focus-visible{outline:3px solid #edc047;outline-offset:2px}
+.review-filter-help{font-size:.83rem;color:#536f88;line-height:1.6;margin:0 0 13px}
+.review-filter-grid.review-filter-primary{grid-template-columns:repeat(2,minmax(0,1fr))}
+.review-extra-filters{margin-top:12px;padding-top:5px;border-top:1px solid #e5edf5}
+.review-extra-filters>summary{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;font-size:.86rem;font-weight:800;color:#205784;list-style:none;touch-action:manipulation}
+.review-extra-filters>summary::-webkit-details-marker{display:none}
+.review-extra-filters>summary:after{content:"▾";font-size:1rem;margin-left:auto}
+.review-extra-filters[open]>summary:after{content:"▴"}
+#reviewExtraHint{font-size:.74rem;font-weight:650;margin-left:6px;color:#71869a}
+.review-extra-filter-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding:10px 0 4px}
+.review-extra-filter-content>label{font-size:.83rem;color:#284765;font-weight:750}
+.review-extra-filter-content>label select,.review-extra-filter-content>label input{margin-top:5px;min-height:46px}
+.review-extra-filter-content .review-toggle{grid-column:1/-1;min-height:44px;margin:3px 0 0}
+.review-extra-filter-content .review-toggle input{min-height:20px;margin-top:0}
+.review-extra-filter-content .review-filter-note{grid-column:1/-1;margin:0}
+.review-grid{align-items:start}
+.review-item{padding:13px 15px}
+.review-item-head{align-items:center}
+.review-head-right{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex-wrap:wrap}
+.review-number{font-size:.75rem}
+.review-flag{font-size:.73rem;color:#80571c;background:#fff5df;border:1px solid #ebd29d;border-radius:7px;padding:4px 7px;font-weight:750;white-space:nowrap}
+.review-match{min-height:34px;margin:14px 0 10px}
+.review-match-team{font-size:.93rem}
+.review-item-title{margin:10px 0 6px;font-size:.97rem}
+.review-compact-lane-note{font-size:.81rem;color:#58718a;margin:5px 0 10px}
+.review-date-time{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:9px 0 7px}
+.review-when{background:#f3f7fb;border-radius:10px;padding:8px 10px;min-width:0}
+.review-time-caption{display:block;font-size:.72rem;color:#5b7891;font-weight:700}
+.review-when strong{display:block;font-size:.91rem;color:#20456f;font-weight:800;line-height:1.5}
+.review-venue{font-size:.81rem;margin:7px 0 5px;color:#455e7a;overflow-wrap:anywhere}
+.review-confirmed-compact{font-size:.78rem;color:#256345;background:#ecf7f0;border:1px solid #c9e4d0;border-radius:9px;padding:7px 9px;margin:7px 0 4px;line-height:1.55}
+.review-mini-warning{font-size:.77rem;color:#7b561e;margin:5px 0 3px;line-height:1.55}
+.review-card-details{border-top:1px solid #e8edf3;margin-top:10px;padding-top:4px}
+.review-card-details>summary{min-height:44px;display:flex;align-items:center;font-size:.83rem;font-weight:800;color:#285e8a;padding:9px 0;touch-action:manipulation}
+.review-card-details>summary:after{content:"▾";margin-left:7px}
+.review-card-details[open]>summary:after{content:"▴"}
+.review-extra-content{display:grid;gap:7px;padding:3px 0 9px}
+.review-extra-content .review-source-grid{margin:2px 0}
+.review-extra-content .review-qa-box{margin:3px 0}
+.review-extra-content .review-source-note{margin:4px 0;padding-top:0;border-top:0}
+.review-admin-codes{margin-top:4px}
+.review-admin-codes summary{font-size:.76rem;color:#637d95;font-weight:750;min-height:38px}
+.review-admin-codes p,.review-admin-codes span{font-size:.73rem;color:#617b93;overflow-wrap:anywhere}
+.review-qa-box p{margin:5px 0;font-size:.78rem;line-height:1.65}
+.review-action-bar{margin:9px 0 0}
+.review-action.primary{min-height:44px;font-size:.83rem}
+.review-extra-content .review-action.secondary{justify-self:start}
+.review-item .review-qa-code{display:none}
+.review-mobile-nav{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:800px){.review-pdf-download{flex-wrap:wrap}.review-pdf-link{width:100%;justify-content:center}}
+@media(max-width:690px){
+  .review-filter-grid.review-filter-primary,.review-extra-filter-content{grid-template-columns:1fr}
+  .review-filter-help{font-size:.82rem}
+  .review-pdf-download{gap:9px;padding:13px}
+  .review-pdf-description{flex:1 1 calc(100% - 48px)}
+  .review-pdf-link{flex-basis:100%}
+  .review-item{padding:12px 13px}
+  .review-mobile-nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding-left:8px;padding-right:8px}
+  .review-mobile-nav a{font-size:.7rem;min-height:56px;padding:3px 0}
+  .review-mobile-nav .mobile-tab-icon{width:21px;height:21px}
+}
+@media(max-width:350px){.review-when strong{font-size:.82rem}.review-match-team{font-size:.85rem}}
+@media print{.review-pdf-download,.review-card-details>summary,.review-action{display:none!important}.review-card-details:not([open]) .review-extra-content{display:none!important}}
