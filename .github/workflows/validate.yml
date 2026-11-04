@@ -27,3 +27,4 @@ jobs:
       - run: node scripts/ux/test-direct-share-r8.mjs
       - run: node scripts/ux/test-loading-r9.mjs
       - run: node scripts/ops/test-field-console-r10.mjs
+      - run: node scripts/ops/test-public-intake-r11.mjs

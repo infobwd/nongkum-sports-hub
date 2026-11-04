@@ -21,6 +21,15 @@
 
 **วันแข่งขันหลายรายการยังไม่ระบุ** ยกเว้นเปตองนอกรอบ 12–13 พ.ย. 2569 ที่ยืนยันวันและสถานที่แล้ว (เวลาแข่งขันรายคู่ยังไม่แจ้ง); รายการอื่นยังต้องตรวจรับก่อนประกาศทางการ
 
+## R11 — ส่งคำขอสาธารณะ + คิวกองอำนวยการมือถือ
+
+- แผนก่อนเขียนโค้ด: [R11 plan](docs/R11_PUBLIC_REQUESTS_AND_CONSOLE_UX_PLAN.md); [คู่มือติดตั้งแยก 2 ลิงก์](docs/R11_PUBLIC_REQUEST_DEPLOY_AND_QA.md)
+- **ลิงก์ A (สาธารณะ)** ใช้ Apps Script **แยกโปรเจกต์** `PublicRequest.gs + PublicRequest.html`, `Execute as Me` / `Anyone`, ไม่ต้องมีบัญชี Google แต่ส่งได้เฉพาะคำขอ **pending** โดยไม่เห็นคิว/ประวัติหรือแก้สถานะ และถูกปิดด้วย `NONGKUM_PUBLIC_INTAKE_ENABLED=false` เป็นค่าเริ่มต้น
+- **ลิงก์ B (ภายใน)** ใช้ Apps Script R10 `Announcer.gs + Announcer.html` (ยังต้อง login + allowlist) ปรับมือถือเป็นแท็บคิว/ส่งคำขอ และตัวเลือกกีฬา/โรงเรียนตามข้อมูลชื่อที่มีอยู่
+- เปิดรับคำขอจริงได้ **หลัง** ผู้ดูแลติดตั้ง Project A และ Deploy Project B เวอร์ชันใหม่; code ใน GitHub อย่างเดียวไม่สร้าง URL Web App ใหม่และไม่เปลี่ยน deployment เดิม
+- ใช้ชื่อโรงเรียน 8 แห่งและกีฬา 9 ชนิดเป็นตัวช่วยเลือก **ไม่ตีความข้อมูลวันเวลา/สนามว่ารับรองแล้ว**; ไม่มีการเผยแพร่ประกาศนี้ขึ้นเว็บประชาชนโดยอัตโนมัติ
+- ทดสอบ `node scripts/ops/test-public-intake-r11.mjs`
+
 ## R10 — ศูนย์ประกาศสนาม (ระยะที่ 2 · private deployment)
 
 - **แผนก่อนลงโค้ด:** [R10 Field Operations Plan](docs/R10_FIELD_OPERATIONS_PHASE2_PLAN.md) และ [คู่มือเปิดใช้งาน/QA](docs/R10_FIELD_OPERATIONS_DEPLOY_QA.md)

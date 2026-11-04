@@ -16,7 +16,7 @@ button,input,select,textarea{font:inherit}
 button{touch-action:manipulation;cursor:pointer}
 button:disabled{opacity:.55;cursor:wait}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #ecc653;outline-offset:2px}
-header{background:#1c3864;color:white;border-bottom:5px solid #f0c750;padding:18px 0 21px}
+header{background:#1c3864;color:white;border-bottom:5px solid #f0c750;padding:14px 0 16px}
 .wrap{max-width:1160px;margin:auto;padding:0 18px}
 .brand{font-size:.78rem;opacity:.9;letter-spacing:.01em;font-weight:600}
 h1{font-size:clamp(1.35rem,3vw,1.9rem);margin:5px 0 3px;line-height:1.35}
@@ -33,6 +33,9 @@ label{display:block;font-size:.87rem;font-weight:700;margin-bottom:6px}
 select,input,textarea{border:1px solid #b8cadd;border-radius:11px;width:100%;min-height:45px;padding:9px 11px;color:#193959;background:white}
 textarea{min-height:96px;resize:vertical}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mobile-tabs{display:none}
+.mobile-tabs button{font:inherit;border:1px solid #bed0e3;background:white;color:#28527d;border-radius:10px;min-height:48px;flex:1;font-weight:800}
+.mobile-tabs button[aria-pressed="true"]{background:#245080;color:white;border-color:#245080}
 button.primary{background:#234d80;border:1px solid #234d80;color:white}
 button.secondary{background:white;border:1px solid #bacde3;color:#245386}
 button.danger{background:#fff8ed;border:1px solid #ddc396;color:#784c14}
@@ -68,7 +71,12 @@ button.primary,button.secondary,button.danger{border-radius:10px;font-size:.84re
 #feedback.error{color:#a3382b}#feedback.ok{color:#1f6e57}
 #statusText{margin-top:6px}
 [hidden]{display:none!important}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.panel{padding:14px}.two{grid-template-columns:1fr}.wrap{padding-left:12px;padding-right:12px}.top-row{align-items:center}}
+@media(max-width:760px){header{padding:10px 0 11px}h1{font-size:1.23rem}.subtitle{font-size:.76rem}
+ .mobile-tabs{display:flex;gap:8px;margin-bottom:12px}
+ .grid{grid-template-columns:1fr}.panel{padding:14px}.two{grid-template-columns:1fr}
+ .wrap{padding-left:12px;padding-right:12px}.top-row{align-items:center}
+ #queuePanel{order:-1}.grid[data-mobile-view="queue"] #createPanel{display:none}
+ .grid[data-mobile-view="request"] #queuePanel{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important}}
 </style>
 </head>
@@ -83,8 +91,12 @@ button.primary,button.secondary,button.danger{border-radius:10px;font-size:.84re
 </header>
 <main class="wrap">
  <p id="feedback" role="status" aria-live="polite">กำลังตรวจสิทธิ์และโหลดคิวประกาศ…</p>
- <div class="grid">
-  <section class="panel" aria-labelledby="createTitle">
+ <nav class="mobile-tabs" aria-label="เปลี่ยนโหมดศูนย์ประกาศ">
+ <button type="button" id="tabQueue" aria-pressed="true">คิวกองอำนวยการ</button>
+ <button type="button" id="tabRequest" aria-pressed="false">ส่งคำขอ</button>
+ </nav>
+ <div class="grid" id="workArea" data-mobile-view="queue">
+  <section class="panel" id="createPanel" aria-labelledby="createTitle">
    <h2 id="createTitle">ส่งคำขอประกาศ</h2>
    <p class="hint">ข้อความทั้งหมดต้องผ่านการตรวจของผู้บรรยายก่อนอ่านออกไมค์</p>
    <form id="requestForm">
@@ -100,16 +112,30 @@ button.primary,button.secondary,button.danger{border-radius:10px;font-size:.84re
     </div>
     <div id="sportsFields">
      <div class="two">
-      <div class="field"><label for="sport">ชนิดกีฬา *</label><input id="sport" name="sport" maxlength="80" placeholder="เช่น ฟุตบอล" autocomplete="off"></div>
+      <div class="field"><label for="sport">ชนิดกีฬา *</label>
+      <select id="sport" name="sport"><option value="">เลือกชนิดกีฬา</option>
+      <option>ฟุตบอล</option><option>ยิงจุดโทษ</option><option>ฟุตซอล</option><option>วอลเลย์บอล</option>
+      <option>เซปักตะกร้อ</option><option>เปตอง</option><option>เทเบิลเทนนิส</option><option>ชักเย่อ</option><option>กรีฑา</option></select></div>
       <div class="field"><label for="division">รุ่น / ประเภท</label><input id="division" name="division" maxlength="70" placeholder="เช่น 12 ปี ชาย" autocomplete="off"></div>
      </div>
      <div id="teamFields">
       <div class="two">
-       <div class="field"><label for="team_a">โรงเรียน / ทีมแรก *</label><input id="team_a" name="team_a" maxlength="90" placeholder="เช่น โรงเรียนบ้านวังด้ง"></div>
-       <div class="field"><label for="team_b">โรงเรียน / ทีมที่สอง</label><input id="team_b" name="team_b" maxlength="90" placeholder="ถ้ามี"></div>
+       <div class="field"><label for="team_a">โรงเรียน / ทีมแรก *</label>
+      <select id="team_a" name="team_a"><option value="">เลือกโรงเรียน</option>
+      <option>โรงเรียนบ้านหนองกุ่ม</option><option>โรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)</option><option>โรงเรียนบ้านรางขาม</option>
+      <option>โรงเรียนบ้านวังด้ง</option><option>โรงเรียนบ้านพุพรหม</option><option>โรงเรียนบ้านวังเขาแก้ว</option>
+      <option>โรงเรียนบ้านเสาหงส์</option><option>โรงเรียนบ้านหนองกระทุ่ม</option></select></div>
+       <div class="field"><label for="team_b">โรงเรียน / ทีมที่สอง</label>
+      <select id="team_b" name="team_b"><option value="">ไม่ระบุ</option>
+      <option>โรงเรียนบ้านหนองกุ่ม</option><option>โรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)</option><option>โรงเรียนบ้านรางขาม</option>
+      <option>โรงเรียนบ้านวังด้ง</option><option>โรงเรียนบ้านพุพรหม</option><option>โรงเรียนบ้านวังเขาแก้ว</option>
+      <option>โรงเรียนบ้านเสาหงส์</option><option>โรงเรียนบ้านหนองกระทุ่ม</option></select></div>
       </div>
      </div>
-     <div class="field"><label for="field">สนาม / จุดรายงานตัว *</label><input id="field" name="field" maxlength="80" placeholder="เช่น สนาม 1"></div>
+     <div class="field"><label for="field">สนาม / จุดรายงานตัว *</label>
+     <input id="field" list="fieldSuggestions" name="field" maxlength="80" placeholder="เช่น สนาม 1">
+     <datalist id="fieldSuggestions"><option value="สนาม 1"><option value="สนาม 2"><option value="กองอำนวยการ"></datalist>
+     <p class="hint">ข้อมูลสนามให้ตรวจสอบกับเจ้าหน้าที่ก่อนส่ง ไม่ใช่กำหนดการที่รับรองโดยอัตโนมัติ</p></div>
     </div>
     <div class="field" id="generalFields" hidden>
      <label for="message">ข้อความประชาสัมพันธ์ *</label>
@@ -120,7 +146,7 @@ button.primary,button.secondary,button.danger{border-radius:10px;font-size:.84re
     <button id="submitButton" type="submit" class="primary" style="width:100%" disabled>ส่งคำขอเข้าคิว</button>
    </form>
   </section>
-  <section class="panel" aria-labelledby="queueTitle">
+  <section class="panel" id="queuePanel" aria-labelledby="queueTitle">
    <div class="top-row">
     <div><h2 id="queueTitle">คิวประกาศกองอำนวยการ</h2><div class="stat" id="identity">ตรวจสิทธิ์…</div><div class="stat" id="statusText"></div></div>
     <button id="refreshButton" class="secondary" type="button" disabled>↻ รีเฟรช</button>
@@ -153,6 +179,11 @@ function node(tag,className,value){
  return el;
 }
 function add(parent,tag,className,value){var el=node(tag,className,value);parent.appendChild(el);return el;}
+function showMobile(view){
+ $("workArea").dataset.mobileView=view;
+ $("tabQueue").setAttribute("aria-pressed",String(view==="queue"));
+ $("tabRequest").setAttribute("aria-pressed",String(view==="request"));
+}
 function message(text,err){
  $("feedback").textContent=text;$("feedback").className=err?"error":text?"ok":"";
 }
@@ -275,7 +306,7 @@ async function create(event){
   $("requestForm").reset();changeType();
   message("ส่งคำขอเข้าคิวภายในแล้ว รอผู้บรรยายตรวจและประกาศ",false);
   state.writing=false;
-  await refresh(true);
+  await refresh(true);showMobile("queue");
  }catch(e){message("ยังส่งคำขอไม่ได้: "+(e&&e.message||"กรุณาลองใหม่"),true);}
  finally{state.writing=false;$("submitButton").disabled=!state.user;}
 }
@@ -291,8 +322,11 @@ async function update(r,to){
   await refresh(true);
  }catch(e){message("เปลี่ยนสถานะไม่ได้: "+(e&&e.message||"กรุณารีเฟรช"),true);state.writing=false;await refresh(true);}
 }
+$("tabQueue").addEventListener("click",function(){showMobile("queue");});
+$("tabRequest").addEventListener("click",function(){showMobile("request");});
 $("requestForm").addEventListener("submit",create);
 $("requestForm").addEventListener("input",preview);
+$("requestForm").addEventListener("change",preview);
 $("type").addEventListener("change",changeType);
 $("filterText").addEventListener("input",renderQueue);
 $("filterStatus").addEventListener("change",renderQueue);
