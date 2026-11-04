@@ -1,0 +1,56 @@
+{
+  "schema": "nongkum-r11a-private-sheet-readonly-summary-v1",
+  "observed_date": "2026-11-04",
+  "sheet_title": "มิตรภาพเกม 2569 — ฐานข้อมูลกรรมการ (โปรแกรมและผลการแข่งขัน)",
+  "source_scope": "P2 Google Sheets live read, tabs 02–05; aggregated public-safe observation, not a live feed",
+  "snapshots_not_synced": true,
+  "no_identity_or_private_url_included": true,
+  "sheets": {
+    "total_tabs": 8,
+    "schools": 8,
+    "divisions_and_events": 83
+  },
+  "matches": {
+    "total": 186,
+    "draft": 162,
+    "review": 24,
+    "approved": 0,
+    "rejected": 0,
+    "matched_existing_candidate_ids": 186,
+    "candidate_only_ids": [
+      "football-p07-มัธยมหญิง-020-repeated-final"
+    ],
+    "sheet_only_ids": [],
+    "changed_core_against_candidate": 181,
+    "difference_counts": {
+      "time": 181,
+      "source_match_no": 61,
+      "source_pair_text": 19,
+      "source_page": 16,
+      "field": 58
+    },
+    "review_rows_all_sport": "petanque",
+    "review_rows_linked_to_confirmed_planning": 24,
+    "review_rows_date_2026_11_12": 12,
+    "review_rows_date_2026_11_13": 12,
+    "review_rows_match_times_in_sheet": "blank",
+    "review_rows_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+    "review_is_not_approval": true
+  },
+  "athletics": {
+    "lane_rows": 289,
+    "statuses": {
+      "draft": 289,
+      "review": 0,
+      "approved": 0
+    },
+    "unmatched_lane_ids_against_candidate": 0
+  },
+  "notes": [
+    "Read-only observation from connected Google Sheets on audit date; source may change after this snapshot.",
+    "No sheet cells were edited. This public report omits sheet ID, reviewer emails, private approval metadata and all student personal data.",
+    "Candidate times from revised PDF and existing Sheet times differ for 181 matches; difference does not identify which time is approved.",
+    "The 24 petanque review rows preserve 12 and 13 Nov 2026 planning dates and Nong Krathum venue; the per-match time in Sheet is blank.",
+    "Never bulk-overwrite the 186 Sheet rows or reviewer status columns from candidate JSON. Use a keyed diff and approval workflow."
+  ]
+}

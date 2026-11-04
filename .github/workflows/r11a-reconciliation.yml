@@ -1,0 +1,35 @@
+name: R11A JSON reconciliation
+on:
+  push:
+    paths:
+      - "data/draft-schedule.json"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "data/reconciliation/**"
+      - "scripts/data/**"
+      - ".github/workflows/r11a-reconciliation.yml"
+  pull_request:
+    paths:
+      - "data/draft-schedule.json"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "data/reconciliation/**"
+      - "scripts/data/**"
+      - ".github/workflows/r11a-reconciliation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify deterministic R11A field diff
+        run: node scripts/data/reconcile-program-r11a.mjs --check
+      - name: Verify R11A invariants and PDF QA flags
+        run: node scripts/data/test-reconcile-r11a.mjs
+      - name: Verify existing PDF import and active schedule
+        run: |
+          node scripts/validate-pdf-revision-2569.mjs
+          node scripts/validate-data.mjs
