@@ -14,7 +14,7 @@
 1. หน้าจอมือถือ/เดสก์ท็อป **ศูนย์ประกาศสนาม** ใน `apps-script/Announcer.html` ใช้เทมเพลตข้อความภาษาไทยชัดเจน ไม่ใช่ระบบ Text-to-Speech อัตโนมัติ และไม่มีข้อมูลส่วนบุคคลนักเรียน
 2. ฟอร์ม **เรียกนักกีฬา**, **ติดตามกรรมการประจำสนาม**, **ประชาสัมพันธ์ทั่วไป** มีข้อมูลกีฬา/รุ่น/ทีม/สนามตามความเหมาะสม; เรียกทีม/กรรมการด้วยชื่อโรงเรียน/หน้าที่ ไม่เดารายชื่อกรรมการ
 3. วงจรงานภายใน: `pending` → `ready` → `announced`, หรือ `pending/ready` → `cancelled`. แสดงคิว/ประวัติ, filter, ปุ่ม copy ข้อความ, ป้ายลำดับความเร่งด่วน, ผู้ทำรายการ/เวลา และบันทึกการเปลี่ยนสถานะทุกครั้ง
-4. ข้อมูลอยู่ใน **Google Sheet ภายในที่แยกจาก P2** โดยเป็น Apps Script แบบ bound-script: `01_คิวประกาศ`, `02_ประวัติประกาศ`; สร้างแท็บผ่าน `nkOpsSetup()` หลังอนุญาตสิทธิ์. *อย่าแบ่งปันสิทธิ์ Editor ของ P2 ให้เจ้าหน้าที่เพียงเพื่อใช้ฟีเจอร์นี้*
+4. ข้อมูลอยู่ใน **Google Sheet ภายในที่แยกจาก P2** โดยเป็น **standalone Apps Script (ไม่แชร์สิทธิ์แก้โค้ดให้ผู้ใช้)** เปิด Spreadsheet จาก Script Property `NONGKUM_OPS_SPREADSHEET_ID`:  `01_คิวประกาศ`, `02_ประวัติประกาศ`; สร้างแท็บผ่าน `nkOpsSetup()` หลังอนุญาตสิทธิ์. *อย่าแบ่งปันสิทธิ์ Editor ของ P2 ให้เจ้าหน้าที่เพียงเพื่อใช้ฟีเจอร์นี้*
 5. เขียน backend `apps-script/Announcer.gs` บังคับ allowlist ทุก request ฝั่งเซิร์ฟเวอร์: `NONGKUM_COORDINATOR_EMAILS`, `NONGKUM_ANNOUNCER_EMAILS`; บัญชีไม่ยืนยัน / ค่า property ว่าง → ปิดกั้น; อ่านคิวเฉพาะเจ้าหน้าที่, การเปลี่ยนสถานะเฉพาะผู้บรรยาย. ผู้ดูแลตั้งค่าใน Script Properties และเรียก `nkOpsSetup()` ด้วยบัญชีเจ้าของ
 6. ป้องกัน race conditions ด้วย `LockService`; มี version/status validation; จัดการการอัปเดตซ้ำและ optimistic status check; history ไม่มีข้อมูลลับ/เลขโทรศัพท์/ชื่อนักเรียนใน public GitHub
 7. การอ่านข้อมูลทั้งหมดใช้ `google.script.run` และตรวจสิทธิ์ฝั่ง backend; UI ประกอบด้วย safe DOM `textContent` (ไม่ใช้ `innerHTML` กับข้อมูลจากผู้ใช้). ป้ายชัดเจนว่า **คิวภายใน ไม่ใช่ประกาศอย่างเป็นทางการ**.
@@ -35,10 +35,10 @@
    ↓ doGet + google.script.run (server-side allowlist ทุกคำขอ)
 Announcer.gs (LockService + validate + audit)
    ↓
-Google Sheet ภายในแยก: 01_คิวประกาศ | 02_ประวัติประกาศ
+Google Sheet ภายในแยก (เปิดผ่าน private ID property): 01_คิวประกาศ | 02_ประวัติประกาศ
    ↳ ไม่ sync ข้อมูลนี้เข้า GitHub Pages / P2 06_ประกาศ
 ```
-ข้อจำกัดที่ต้องระบุ: ผู้ใช้ Web App ที่ execute as user ต้องมีสิทธิ์เข้าถึง Spreadsheet ภายในสำหรับการอ่าน/เขียน ผู้ใช้ที่เป็น Editor สามารถแก้ชีทได้โดยตรง (version history ไม่ใช่หลักฐาน audit ที่แก้ไม่ได้) ดังนั้นให้แชร์เฉพาะเจ้าหน้าที่ที่ไว้วางใจ และห้ามถือว่า log เป็นหลักฐานพิสูจน์ตัวตนเชิงกฎหมาย
+ข้อจำกัดที่ต้องระบุ: ผู้ใช้ Web App ที่ execute as user ต้องมีสิทธิ์เข้าถึง Spreadsheet ภายในสำหรับการอ่าน/เขียน ผู้ใช้ที่เป็น Editor สามารถแก้ชีทได้โดยตรง (version history ไม่ใช่หลักฐาน audit ที่แก้ไม่ได้) ดังนั้นให้แชร์เฉพาะเจ้าหน้าที่ที่ไว้วางใจ และห้ามถือว่า log เป็นหลักฐานพิสูจน์ตัวตนเชิงกฎหมาย; การใช้ **standalone Script ที่ไม่แชร์สิทธิ์ Editor** ช่วยแยกสิทธิ์แก้โค้ดจากสิทธิ์แก้ชีท
 
 ## ตารางข้อมูล
 `01_คิวประกาศ`: id, created_at, created_by, type, priority, sport, division, team_a, team_b, field, message, status, updated_at, updated_by, version, announced_at
@@ -61,4 +61,4 @@ Google Sheet ภายในแยก: 01_คิวประกาศ | 02_ป�
 1. commit เอกสารนี้บนสาขาทดลอง
 2. พัฒนา `Announcer.gs`, `Announcer.html`, tests, guide, README, CI
 3. ทดสอบ PR → merge เมื่อผ่าน ไม่เปิด public link ไป console ที่ยังไม่ deploy
-4. ผู้ดูแลสร้าง Google Sheet แยก, ติดตั้งไฟล์ .gs/.html ตามคู่มือ, ตั้ง Script Properties, Deploy Web App แบบ execute as user accessing; ทดสอบสองสิทธิ์และบันทึกหลักฐานก่อน GO LIVE
+4. ผู้ดูแลสร้าง Google Sheet แยก, สร้าง standalone Apps Script, ติดตั้งไฟล์ .gs/.html ตามคู่มือ, ตั้ง Script Properties (รวม Spreadsheet ID), Deploy Web App แบบ execute as user accessing; ทดสอบสองสิทธิ์และบันทึกหลักฐานก่อน GO LIVE

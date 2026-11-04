@@ -1,10 +1,10 @@
 /**
  * R10 / Phase 2: PRIVATE field announcement queue (standalone, spreadsheet-bound Apps Script).
- * Install in a NEW PRIVATE Google Spreadsheet, never the P2 approval workbook.
+ * Install in a PRIVATE STANDALONE Apps Script project, backed by a SEPARATE PRIVATE Spreadsheet.
  * Deploy web app: execute as "User accessing the web app"; Google sign-in required.
  *
  * Script Properties (comma-separated exact Google account emails, lowercased internally):
- * NONGKUM_OPS_ADMIN_EMAILS
+ * NONGKUM_OPS_SPREADSHEET_ID = private operations spreadsheet ID (NOT public)\n * NONGKUM_OPS_ADMIN_EMAILS
  * NONGKUM_ANNOUNCER_EMAILS
  * NONGKUM_COORDINATOR_EMAILS
  *
@@ -47,9 +47,9 @@ function nkOpsRequireAnnouncer_() {
   return user;
 }
 function nkOpsSpreadsheet_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss) throw Error("กรุณาติดตั้ง Apps Script เป็นโครงการที่ผูกกับ Google Sheet ภายใน");
-  return ss;
+  var id = String(PropertiesService.getScriptProperties().getProperty("NONGKUM_OPS_SPREADSHEET_ID")||"").trim();
+  if (!/^[a-zA-Z0-9_-]{20,}$/.test(id)) throw Error("ยังไม่ได้ตั้ง NONGKUM_OPS_SPREADSHEET_ID ให้ถูกต้อง");
+  return SpreadsheetApp.openById(id);
 }
 function nkOpsLock_() {
   var lock = LockService.getDocumentLock() || LockService.getScriptLock();

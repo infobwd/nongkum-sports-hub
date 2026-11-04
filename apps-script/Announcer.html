@@ -274,6 +274,7 @@ async function create(event){
   await call("nkOpsCreate",data);
   $("requestForm").reset();changeType();
   message("ส่งคำขอเข้าคิวภายในแล้ว รอผู้บรรยายตรวจและประกาศ",false);
+  state.writing=false;
   await refresh(true);
  }catch(e){message("ยังส่งคำขอไม่ได้: "+(e&&e.message||"กรุณาลองใหม่"),true);}
  finally{state.writing=false;$("submitButton").disabled=!state.user;}
