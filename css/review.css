@@ -162,3 +162,36 @@
 }
 @media(max-width:350px){.review-when strong{font-size:.82rem}.review-match-team{font-size:.85rem}}
 @media print{.review-pdf-download,.review-card-details>summary,.review-action{display:none!important}.review-card-details:not([open]) .review-extra-content{display:none!important}}
+
+
+/* R11D.2 — Read-only source PDF preview. */
+.review-pdf-preview{position:fixed;z-index:180;right:16px;top:16px;bottom:16px;width:min(54vw,940px);border:1px solid #aec4d9;border-radius:17px;background:#f6f9fc;box-shadow:0 12px 40px rgba(12,38,68,.22);overflow:hidden;display:flex;flex-direction:column}
+.review-pdf-preview[hidden]{display:none!important}
+.review-preview-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 13px;background:#173b67;color:#fff;min-height:65px}
+.review-preview-title{display:flex;flex-direction:column;gap:3px;min-width:0}
+.review-preview-title strong{font-size:.92rem;line-height:1.4}
+.review-preview-title span{font-size:.75rem;color:#d4e4f3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.review-preview-close{display:inline-flex;align-items:center;justify-content:center;flex:none;min-height:46px;padding:9px 12px;background:#fff;color:#1a4b7e;border:1px solid #d4e4f3;border-radius:10px;font:inherit;font-size:.81rem;font-weight:850;touch-action:manipulation;cursor:pointer}
+.review-preview-close:focus-visible{outline:3px solid #efc64a;outline-offset:3px}
+.review-pdf-preview iframe{display:block;width:100%;min-height:0;flex:1;border:0;background:#eaf0f6}
+.review-preview-footer{padding:7px 12px;text-align:center;font-size:.71rem;color:#6a5360;background:#fff9ea}
+body.review-pdf-open .review-main{max-width:none;width:calc(46vw - 40px);margin-left:20px;margin-right:auto}
+body.review-pdf-open .review-grid{grid-template-columns:minmax(0,1fr)}
+body.review-pdf-open .review-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-columns:minmax(0,1fr)}
+.review-action.pdf-source-action{display:inline-flex;align-items:center;justify-content:center;gap:4px;border-color:#bed1e4;background:#f4f8fd}
+@media(max-width:1000px){
+ .review-pdf-preview{inset:0;width:100%;height:100vh;height:100dvh;max-width:none;border:0;border-radius:0;padding-top:max(env(safe-area-inset-top,0px),44px);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:none;background:#eaf0f6}
+ body.review-pdf-open{overflow:hidden}
+ body.review-pdf-open .review-main{width:auto;max-width:1120px;margin-left:auto;margin-right:auto}
+ .review-preview-top{min-height:54px;padding:7px 11px}
+ .review-preview-title strong{font-size:.82rem}
+ .review-preview-close{font-size:.78rem;max-width:45vw}
+ .review-preview-footer{font-size:.68rem}
+}
+@supports (-webkit-touch-callout: none){
+ @media(max-width:1000px){
+  body[data-view="review"]:before{content:"";position:fixed;inset:0 0 auto;height:max(44px,env(safe-area-inset-top,0px));background:#f7f9fc;z-index:120;pointer-events:none}
+  body.review-pdf-open:before{z-index:181;background:#f7f9fc}
+ }
+}
