@@ -50,13 +50,15 @@
     return "<article class='fixture result-card' data-result-card='"+safe(r.id)+"'><div class='fixture-head'><div class='sport-label'><strong class='sport-name'>"+
       safe(sport?(sport.emoji+" "+sport.name):r.sport_id)+
       "</strong><span class='division'>"+safe(r.division||"")+"</span></div>"+
-      "<span class='tag verified'>ผลรับรองแล้ว</span></div>"+
+      "<div class='fixture-actions'><span class='tag verified'>รับรองแล้ว</span>"+
+      "<button type='button' class='share-icon' data-share-result='"+safe(r.id)+
+      "' aria-label='แชร์ผลการแข่งขันที่ผ่านการรับรอง "+safe(sport?sport.name:"")+
+      "' title='แชร์ผลการแข่งขัน'>↗</button></div></div>"+
       (r.result_type==="ranking"?"<h3 class='result-title'>"+safe(title)+"</h3>":"")+
       body+"<p class='source'>"+
       (r.result_date?"แข่งขัน "+safe(r.result_date)+" · ":"")+
       "อ้างอิงรหัส "+safe(r.fixture_id||r.event_id||r.id)+
-      "</p><div class='share-line'><button type='button' class='share-button' data-share-result='"+
-      safe(r.id)+"'>↗ แชร์ผลการแข่งขัน</button></div></article>";
+      "</p></article>";
   }
   root.NongkumResultsRender=Object.freeze({card});
 })(globalThis);
