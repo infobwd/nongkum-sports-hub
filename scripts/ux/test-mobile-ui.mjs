@@ -49,7 +49,7 @@ function getButton(element,type,key){
 }
 
 const school="wangdong";
-const expected=data.fixtures.filter(m=>m.sport_id==="athletics"&&/12\s*ปี/.test(m.division)&&
+const expected=data.fixtures.filter(m=>m.sport_id==="athletics"&&/(?:8|10|12)\s*ปี|ประถม/.test(m.division)&&
     m.lanes?.some(l=>l.school_id===school&&!l.vacant)).length;
 assert.ok(expected>0,"expected athletics fixtures for school");
 const t=await mount("https://example.org/nongkum-sports-hub/?school=wangdong&sport=athletics&level=primary");
