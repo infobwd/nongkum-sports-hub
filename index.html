@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183762">
+  <meta name="description" content="ต้นแบบสูจิบัตรกีฬา กลุ่มหนองกุ่ม ปี 2569 สำหรับทดลองค้นหาตารางการแข่งขันบนมือถือ">
+  <title>สูจิบัตรกีฬา กลุ่มหนองกุ่ม 2569 — ต้นแบบ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{font-family:"Noto Sans Thai",system-ui,-apple-system,sans-serif;color:#1b304b;background:#f5f7fb;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0;line-height:1.55}button,input,select{font:inherit}button{cursor:pointer}
+    a{color:#155ca5;text-decoration:none}a:hover{text-decoration:underline}
+    .shell{max-width:1120px;margin:0 auto;padding:0 18px}
+    .top{background:#183762;color:#fff;border-bottom:4px solid #f2c54e}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+    .logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1rem}
+    .logoIcon{display:grid;place-items:center;background:#fff2bf;color:#183762;border-radius:12px;width:44px;height:44px;font-size:24px}
+    .mode{border:1px solid #adc3d8;color:#eaf1fb;border-radius:999px;font-size:.75rem;font-weight:700;padding:7px 11px;white-space:nowrap}
+    .hero{padding:27px 0 34px}.eyebrow{color:#f4d373;font-size:.88rem;font-weight:700;letter-spacing:.02em}
+    h1{font-size:clamp(1.55rem,5vw,2.6rem);line-height:1.3;letter-spacing:-.02em;margin:8px 0}
+    .hero p{max-width:680px;color:#d9e6f5;margin:4px 0 0;font-size:.95rem}
+    main{padding-bottom:45px}.warning{display:flex;gap:11px;background:#fff9e8;border:1px solid #f1da96;border-radius:14px;padding:14px 16px;margin-top:19px;color:#65501b}
+    .warning strong{display:block;color:#644407}.warning p{font-size:.84rem;margin:3px 0 0}
+    .panel{background:#fff;border:1px solid #e0e6ee;border-radius:18px;padding:18px;margin:18px 0;box-shadow:0 8px 25px rgba(20,45,78,.035)}
+    .heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    h2{font-size:1.1rem;margin:0 0 12px;font-weight:800}h3{margin:0}
+    .muted{color:#61758b}.fieldlabel{font-size:.87rem;font-weight:700;display:block;margin-bottom:7px}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    select,input{min-height:48px;width:100%;border:1px solid #b9c9db;border-radius:11px;padding:10px 12px;background:#fff;color:#193151;outline-offset:2px}
+    select:focus-visible,input:focus-visible,.chip:focus-visible{outline:3px solid #f2c54e}
+    .chips{display:flex;gap:8px;overflow:auto;padding:5px 1px 10px;margin:7px 0 0;scrollbar-width:thin}
+    .chip{min-height:41px;border-radius:999px;border:1px solid #c8d6e6;background:#fff;padding:9px 14px;font-weight:700;font-size:.84rem;white-space:nowrap;color:#24466c}
+    .chip[aria-pressed="true"]{background:#1a477a;color:#fff;border-color:#1a477a}
+    .count{font-size:.84rem;color:#687d90}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+    .fixture{background:#fff;border:1px solid #dfe6f0;border-radius:16px;padding:16px;box-shadow:0 3px 9px rgba(18,45,75,.025)}
+    .fixture-head{display:flex;justify-content:space-between;align-items:start;gap:9px}
+    .sport-name{font-weight:800;font-size:.93rem;color:#183762}
+    .division{font-size:.78rem;color:#5e7288;margin-top:2px}
+    .pairnum{background:#eef3f9;color:#355677;padding:4px 8px;border-radius:7px;white-space:nowrap;font-size:.73rem}
+    .match{display:flex;align-items:center;gap:9px;margin:14px 0 11px;min-height:40px}
+    .team{flex:1;font-weight:750;font-size:clamp(.89rem,2vw,1.02rem);overflow-wrap:anywhere}
+    .team:last-child{text-align:right}
+    .vs{color:#8397a9;font-size:.72rem;font-weight:800;flex:none}
+    .eventname{font-size:1.01rem;font-weight:800;margin:13px 0 3px;color:#183762}
+    .details{display:flex;flex-wrap:wrap;gap:7px;border-top:1px solid #ecf0f4;padding-top:11px;margin-top:12px}
+    .tag{font-size:.76rem;border-radius:7px;background:#f0f4f9;color:#42617e;padding:5px 8px}
+    .tag.unconfirmed{background:#fff5df;color:#795b19}
+    .source{font-size:.73rem;color:#7a8a9d;margin-top:10px}
+    .empty{background:#fff;border:1px dashed #bacbdd;border-radius:12px;padding:24px;text-align:center;margin-top:15px}
+    .empty strong{display:block}.empty p{margin:4px 0 0;color:#6c7f91;font-size:.86rem}
+    .subtle{font-size:.86rem;color:#64798f;margin:0}
+    .admin{margin-top:30px;background:#eaf1f8;border:1px solid #d1dfed;border-radius:18px;padding:20px}
+    .admin h2{margin:0 0 6px}.admin p{font-size:.88rem;color:#425e7e;margin:0 0 9px}
+    .admin-links{display:flex;flex-wrap:wrap;gap:14px;font-size:.86rem;font-weight:700}
+    footer{padding:19px 0 32px;color:#75879a;text-align:center;font-size:.76rem}
+    @media(max-width:690px){.fields,.cards{grid-template-columns:1fr}.hero{padding:23px 0 28px}.panel{padding:14px}.fixture{padding:15px}.mode{font-size:.7rem}.shell{padding:0 14px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+    @media print{.top{background:#fff;color:#123}.mode,.warning,.panel,.admin,.source{display:none!important}.cards{grid-template-columns:1fr 1fr}.fixture{break-inside:avoid}main{padding:0}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="shell">
+      <div class="brand">
+        <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>กีฬากลุ่มหนองกุ่ม</span></div>
+        <span class="mode">ต้นแบบ • ไม่ใช่ประกาศทางการ</span>
+      </div>
+      <div class="hero">
+        <div class="eyebrow">SPORTS PROGRAM 2569</div>
+        <h1>หาโปรแกรมแข่งของโรงเรียน<br>ได้ง่าย ๆ บนมือถือ</h1>
+        <p>เลือกโรงเรียนและชนิดกีฬา เพื่อดูคู่แข่งขันตามสูจิบัตรที่อยู่ระหว่างตรวจทาน</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="warning" aria-label="สถานะข้อมูล">
+      <span aria-hidden="true">⚠️</span>
+      <div><strong>ตัวอย่างหน้าจอสำหรับทีมงานทดลองใช้</strong>
+        <p>แสดงเพียงบางรายการจากสูจิบัตร 69 เท่านั้น ยังไม่ครบทุกคู่แข่งขัน วันแข่งขันส่วนใหญ่ยังไม่ระบุ และข้อมูลยังไม่ผ่านการยืนยันจากผู้จัด โปรดอย่าใช้นัดหมายนักกีฬาจนกว่าจะมีประกาศทางการ</p>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="filterTitle">
+      <h2 id="filterTitle">ค้นหาตารางการแข่งขัน</h2>
+      <div class="fields">
+        <div><label class="fieldlabel" for="school">โรงเรียนของฉัน</label><select id="school"><option value="">ทุกโรงเรียน</option></select></div>
+        <div><label class="fieldlabel" for="search">ค้นหาชื่อทีม / รุ่นอายุ / รายการ</label><input id="search" type="search" placeholder="เช่น วังด้ง, 12 ปี, ฟุตบอล"></div>
+      </div>
+      <div class="heading" style="margin-top:18px"><label class="fieldlabel" id="sportLabel">เลือกชนิดกีฬา</label><span class="count" id="sourceInfo"></span></div>
+      <div id="sports" class="chips" aria-labelledby="sportLabel" role="group"></div>
+    </section>
+
+    <section aria-labelledby="resultTitle">
+      <div class="heading">
+        <h2 id="resultTitle" style="margin:0">โปรแกรมการแข่งขัน</h2>
+        <span class="count" id="count" aria-live="polite">กำลังเปิดข้อมูล…</span>
+      </div>
+      <p class="subtle" style="margin-top:6px">เวลาที่แสดงเป็นเวลาจากสูจิบัตรต้นฉบับ โดยยังไม่ยืนยันวันแข่งขัน</p>
+      <div id="cards" class="cards"></div>
+      <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong><p>ลองเลือกทุกโรงเรียน หรือชนิดกีฬาอื่น ข้อมูลตัวอย่างนี้ยังนำเข้าไม่ครบ</p></div>
+    </section>
+
+    <section class="admin" aria-labelledby="adminTitle">
+      <h2 id="adminTitle">สำหรับผู้จัดการแข่งขัน</h2>
+      <p>เตรียมระบบ Google Sheets สำหรับแก้ข้อมูลและตรวจรับก่อนเผยแพร่ โดยแยกข้อมูลร่างออกจากข้อมูลสาธารณะ ผู้ปกครองจะไม่สามารถแก้ไขโปรแกรมได้จากหน้าเว็บนี้</p>
+      <div class="admin-links">
+        <a href="https://github.com/infobwd/nongkum-sports-hub/blob/feat/mobile-program-architecture/docs/SPORTS_PROGRAM_WEB_PLAN.md">อ่านแผนพัฒนา</a>
+        <a href="https://github.com/infobwd/nongkum-sports-hub/blob/feat/mobile-program-architecture/docs/SOURCE_QA_2569.md">รายการข้อมูลที่ต้องตรวจ</a>
+      </div>
+    </section>
+  </main>
+  <footer class="shell">สูจิบัตรกีฬากลุ่มหนองกุ่ม ปี 2569 · ตัวอย่าง UX สำหรับการออกแบบเท่านั้น</footer>
+
+<script>
+(function(){
+  "use strict";
+  const els={school:document.getElementById("school"),search:document.getElementById("search"),sports:document.getElementById("sports"),cards:document.getElementById("cards"),count:document.getElementById("count"),empty:document.getElementById("empty"),sourceInfo:document.getElementById("sourceInfo")};
+  const state={data:null,school:"",sport:"",query:""};
+  const safe=function(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});};
+  function getSchool(id){return state.data.schools.find(function(s){return s.id===id;});}
+  function getSport(id){return state.data.sports.find(function(s){return s.id===id;});}
+  function card(m){
+    const sport=getSport(m.sport_id), a=m.team_a_id?getSchool(m.team_a_id):null, b=m.team_b_id?getSchool(m.team_b_id):null;
+    const heading="<div class='fixture-head'><div><div class='sport-name'>"+safe(sport? sport.emoji+" "+sport.name:m.sport_id)+"</div><div class='division'>"+safe(m.division||"")+"</div></div><span class='pairnum'>"+(m.kind==="track_event"?"รายการ": "คู่ที่")+" "+safe(m.source_match_no)+"</span></div>";
+    const matchup=m.kind==="track_event"?"<div class='eventname'>"+safe(m.name)+"</div><p class='subtle'>การจัดลู่/รายชื่อจากเอกสารกำลังตรวจทาน</p>":"<div class='match'><span class='team'>"+safe(a?a.short:"รอระบุทีม")+"</span><span class='vs'>VS</span><span class='team'>"+safe(b?b.short:"รอระบุทีม")+"</span></div>";
+    const schedule=m.time?"เวลาในต้นฉบับ "+safe(m.time)+" น.":"เวลารอยืนยัน";
+    const venue=m.field?safe(m.field):"สนามรอยืนยัน";
+    return "<article class='fixture'>"+heading+matchup+"<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span><span class='tag unconfirmed'>"+schedule+"</span><span class='tag'>"+venue+"</span></div><div class='source'>วันแข่งรอยืนยัน · อ้างอิง PDF หน้า "+safe(m.source_page)+" · ข้อมูลร่าง</div></article>";
+  }
+  function makeChips(){
+    const options=[{id:"",name:"ทุกชนิดกีฬา",emoji:"📋"}].concat(state.data.sports);
+    els.sports.innerHTML=options.map(function(s){return "<button type='button' class='chip' data-sport='"+safe(s.id)+"' aria-pressed='"+(state.sport===s.id?"true":"false")+"'>"+safe(s.emoji+" "+s.name)+"</button>";}).join("");
+    els.sports.querySelectorAll("button").forEach(function(btn){btn.addEventListener("click",function(){state.sport=btn.dataset.sport;makeChips();render();syncUrl();});});
+  }
+  function syncUrl(){
+    const url=new URL(location.href);
+    if(state.school)url.searchParams.set("school",state.school); else url.searchParams.delete("school");
+    if(state.sport)url.searchParams.set("sport",state.sport); else url.searchParams.delete("sport");
+    history.replaceState(null,"",url.pathname+url.search+url.hash);
+  }
+  function render(){
+    if(!state.data)return;
+    const q=state.query.trim().toLocaleLowerCase("th");
+    const matched=state.data.fixtures.filter(function(m){
+      if(state.sport&&m.sport_id!==state.sport)return false;
+      if(state.school&&m.team_a_id!==state.school&&m.team_b_id!==state.school)return false;
+      if(!q)return true;
+      const sport=getSport(m.sport_id),a=m.team_a_id?getSchool(m.team_a_id):null,b=m.team_b_id?getSchool(m.team_b_id):null;
+      return [sport&&sport.name,m.division,m.name,m.source_match_no,a&&a.name,a&&a.short,b&&b.name,b&&b.short].filter(Boolean).join(" ").toLocaleLowerCase("th").includes(q);
+    });
+    els.cards.innerHTML=matched.map(card).join("");
+    els.count.textContent="พบ "+matched.length+" รายการตัวอย่าง";
+    els.empty.hidden=matched.length>0;
+  }
+  fetch("./data/draft-schedule.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");return r.json();}).then(function(data){
+    if(!data.metadata||data.metadata.status!=="prototype")throw Error("ชุดข้อมูลไม่อยู่ในโหมดสาธิต");
+    state.data=data;
+    data.schools.forEach(function(s){const op=document.createElement("option");op.value=s.id;op.textContent=s.name;els.school.appendChild(op);});
+    const params=new URLSearchParams(location.search);
+    let saved="";try{saved=localStorage.getItem("nongkum-school")||"";}catch(e){}
+    const requested=params.get("school")||saved;
+    state.school=data.schools.some(function(s){return s.id===requested;})?requested:"";
+    state.sport=data.sports.some(function(s){return s.id===params.get("sport");})?params.get("sport"):"";
+    els.school.value=state.school;
+    els.sourceInfo.textContent="นำเข้าตัวอย่าง "+data.fixtures.length+" รายการ (ยังไม่ครบ)";
+    makeChips();render();
+    els.school.addEventListener("change",function(){state.school=els.school.value;try{localStorage.setItem("nongkum-school",state.school);}catch(e){}render();syncUrl();});
+    els.search.addEventListener("input",function(){state.query=els.search.value;render();});
+  }).catch(function(e){els.count.textContent="อ่านข้อมูลไม่ได้";els.empty.hidden=false;els.empty.innerHTML="<strong>ไม่สามารถโหลดตารางตัวอย่างได้</strong><p>กรุณาเปิดผ่านเว็บเซิร์ฟเวอร์หรือ GitHub Pages แล้วลองใหม่</p>";console.error(e);});
+})();
+</script>
+</body>
+</html>
