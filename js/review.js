@@ -17,12 +17,15 @@
     directError:$("reviewDirectError"),
     copyFallback:$("copyFallback"),copyFallbackText:$("copyFallbackText"),
     revision:$("revisionLabel"),statMatches:$("statMatches"),
-    statTrack:$("statTrack"),statLanes:$("statLanes"),statQa:$("statQa")
+    statTrack:$("statTrack"),statLanes:$("statLanes"),statQa:$("statQa"),
+    pdfPreview:$("pdfPreview"),pdfClose:$("pdfPreviewClose"),
+    pdfFrame:$("pdfPreviewFrame"),pdfContext:$("pdfPreviewContext")
   };
   let data=null,byId=new Map(),sportNames=new Map(),qaNotes=new Map();
   let changes=new Map(),filtered=[],renderedCount=0;
   let filterSignature=null,directRenderedId=null,searchDebounce=null,isComposing=false;
   let loading=false,requestSerial=0;
+  let pdfReturnFocus=null,pdfReturnScroll=null;
 
   function make(tag,cls,text){
     const el=document.createElement(tag);
@@ -129,6 +132,13 @@
     copy.type="button";
     copy.setAttribute("aria-label","คัดลอกข้อความแจ้งแก้ไข "+getSport(f)+" "+(f.division||""));
     copy.addEventListener("click",()=>copyText(M.formatIssue(f,getSport(f)),"คัดลอกข้อความแจ้งแก้ไขแล้ว"));
+    const pdfPage=Number(f.source_pdf?.page);
+    if(Number.isInteger(pdfPage)&&pdfPage>=1&&pdfPage<=41){
+      const openSource=add(actions,"button","review-action pdf-source-action","ดูต้นฉบับ หน้า "+pdfPage);
+      openSource.type="button";
+      openSource.setAttribute("aria-label","เปิดสูจิบัตร PDF หน้า "+pdfPage+" เพื่อเทียบกับรายการนี้");
+      openSource.addEventListener("click",()=>openPdfPreview(f,openSource));
+    }
 
     const details=add(article,"details","review-card-details");
     add(details,"summary","","ดูรายละเอียดเพิ่มเติม");
@@ -151,6 +161,33 @@
       copyText(url.toString(),"คัดลอกลิงก์รายการแล้ว");
     });
     return article;
+  }
+  function openPdfPreview(f,button){
+    const page=Number(f.source_pdf?.page);
+    // Pages are taken from R11A source_pdf.page, never from fixture/order numbers.
+    if(!Number.isInteger(page)||page<1||page>41)return;
+    pdfReturnFocus=button;
+    pdfReturnScroll=typeof window!=="undefined" ? window.scrollY : null;
+    ui.pdfContext.textContent=getSport(f)+" · "+(f.division||"")+" · หน้า "+page;
+    const url=new URL("./pdf-viewer.html",location.href);
+    url.searchParams.set("page",String(page));
+    // Same-origin viewer reads a fixed local PDF: do not accept arbitrary file URLs.
+    ui.pdfPreview.hidden=false;
+    document.body.classList.add("review-pdf-open");
+    ui.pdfFrame.src=url.toString(); // Load the PDF.js iframe only on user action.
+    ui.pdfClose.focus();
+  }
+  function closePdfPreview(){
+    if(ui.pdfPreview.hidden)return;
+    ui.pdfPreview.hidden=true;
+    ui.pdfFrame.removeAttribute("src"); // Release PDF.js canvas + worker when closed.
+    document.body.classList.remove("review-pdf-open");
+    if(pdfReturnFocus?.isConnected)pdfReturnFocus.focus({preventScroll:true});
+    if(pdfReturnScroll!==null&&typeof window!=="undefined"){
+      window.scrollTo(0,pdfReturnScroll);
+    }
+    pdfReturnFocus=null;
+    pdfReturnScroll=null;
   }
   async function copyText(text,success){
     ui.copyFallback.hidden=true;
@@ -351,5 +388,11 @@
   });
     ui.refresh.addEventListener("click",load);
   ui.retry.addEventListener("click",load);
+  ui.pdfClose.addEventListener("click",closePdfPreview);
+  if(typeof document.addEventListener==="function"){
+    document.addEventListener("keydown",event=>{
+      if(event.key==="Escape"&&!ui.pdfPreview.hidden){event.preventDefault();closePdfPreview();}
+    });
+  }
   load();
 })();

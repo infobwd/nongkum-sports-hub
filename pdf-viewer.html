@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="ดูสูจิบัตรกีฬากลุ่ม ปี 2569 ฉบับร่างตามเลขหน้า">
+  <title>อ่านสูจิบัตร PDF ตามหน้า · มิตรภาพเกม 2569</title>
+  <link rel="stylesheet" href="./css/pdf-viewer.css">
+</head>
+<body>
+  <main class="pdf-app">
+    <div class="pdf-toolbar" aria-label="เครื่องมืออ่านสูจิบัตร">
+      <div class="pdf-page-controls">
+        <button id="pdfPrev" type="button" aria-label="หน้าก่อนหน้า" disabled>‹</button>
+        <label class="pdf-page-field">หน้า
+          <input id="pdfPage" type="number" min="1" max="41" inputmode="numeric" aria-label="หมายเลขหน้า PDF" value="1">
+        </label>
+        <span id="pdfTotal" class="pdf-page-total">/ 41</span>
+        <button id="pdfNext" type="button" aria-label="หน้าถัดไป" disabled>›</button>
+      </div>
+      <div class="pdf-zoom-controls">
+        <button id="pdfZoomOut" type="button" aria-label="ย่อภาพ PDF" disabled>−</button>
+        <span id="pdfZoomLabel">พอดีหน้าจอ</span>
+        <button id="pdfZoomIn" type="button" aria-label="ขยายภาพ PDF" disabled>+</button>
+      </div>
+      <a id="pdfOpenOriginal" class="pdf-open-original" href="./assets/souvenir-2569-v2.pdf#page=1" target="_blank" rel="noopener noreferrer">เปิดไฟล์เต็ม</a>
+    </div>
+    <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite">กำลังเปิดสูจิบัตร PDF…</p>
+    <div id="pdfCanvasHost" class="pdf-canvas-host">
+      <canvas id="pdfCanvas" aria-label="หน้าสูจิบัตร PDF"></canvas>
+    </div>
+    <section id="pdfFailure" class="pdf-failure" role="alert" hidden>
+      <strong>ไม่สามารถแสดง PDF ภายในเว็บได้</strong>
+      <p>อาจเกิดจากการเชื่อมต่อหรือเบราว์เซอร์ไม่รองรับการอ่าน PDF ในหน้านี้</p>
+      <a id="pdfFallback" href="./assets/souvenir-2569-v2.pdf#page=1" target="_blank" rel="noopener noreferrer">เปิด PDF โดยตรงในเบราว์เซอร์</a>
+      <button id="pdfRetry" type="button">ลองใหม่อีกครั้ง</button>
+    </section>
+    <p class="pdf-draft">สูจิบัตรฉบับร่างสำหรับตรวจสอบ • ข้อมูลยังไม่ใช่ประกาศแข่งขันทางการ</p>
+  </main>
+  <script type="module" src="./js/pdf-viewer.js"></script>
+</body>
+</html>

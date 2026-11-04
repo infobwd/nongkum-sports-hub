@@ -48,9 +48,12 @@
     <div class="review-pdf-description">
       <h2 id="reviewPdfHeading">สูจิบัตรฉบับ PDF สำหรับตรวจสอบ</h2>
       <p>ร่าง - สูจิบัตรกีฬากลุ่ม ปี 2569_V2.pdf</p>
-      <small>เปิดใน Google Drive แล้วเลือกดาวน์โหลดได้ • บางบัญชีอาจต้องขอสิทธิ์เข้าถึงไฟล์</small>
+      <small>เปิดอ่านในเว็บหรือดาวน์โหลด PDF ได้โดยตรง · <a href="https://drive.google.com/file/d/1zMxnF99lJHTQ8zgCH1QUs5rB9Uf8O4IO/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">ดูไฟล์ต้นฉบับใน Google Drive</a> (บางบัญชีอาจต้องขอสิทธิ์)</small>
     </div>
-    <a class="review-pdf-link" href="https://drive.google.com/file/d/1zMxnF99lJHTQ8zgCH1QUs5rB9Uf8O4IO/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">เปิด PDF / ดาวน์โหลด <span aria-hidden="true">↗</span></a>
+    <div class="review-pdf-link-group">
+      <a class="review-pdf-link" href="./pdf-viewer.html?page=1" target="_blank" rel="noopener noreferrer">เปิดอ่าน PDF</a>
+      <a class="review-pdf-link review-pdf-download-action" href="./assets/souvenir-2569-v2.pdf" download="ร่าง-สูจิบัตรกีฬากลุ่ม-2569_V2.pdf">ดาวน์โหลด PDF</a>
+    </div>
   </section>
 
   <section class="panel review-filters" aria-labelledby="reviewFilterHeading">
@@ -116,7 +119,19 @@
     <p>เปิดรายการที่ผิดแล้วกด <strong>แจ้งข้อมูลไม่ตรง</strong> จากนั้นนำข้อความไปวางในแชทกับผู้จัด พร้อมระบุค่าที่ถูกต้องและหลักฐานที่ยืนยันได้ ระบบนี้ไม่มีการกดรับรองและไม่ส่งข้อมูลอัตโนมัติ</p>
     <p>เมื่อผู้จัดตรวจสอบและยืนยันข้อมูลแล้ว จะปรับปรุงรายการและเก็บประวัติการแก้ไขก่อนนำไปใช้เป็นโปรแกรมแข่งขันฉบับประกาศ</p>
   </section>
-  <section id="copyFallback" class="review-copy-fallback" hidden aria-labelledby="copyFallbackTitle">
+  <section id="pdfPreview" class="review-pdf-preview" role="dialog" aria-modal="true" aria-labelledby="pdfPreviewTitle" hidden>
+  <div class="review-preview-top">
+    <div class="review-preview-title">
+      <strong id="pdfPreviewTitle">สูจิบัตร PDF ฉบับตรวจสอบ</strong>
+      <span id="pdfPreviewContext">กำลังเลือกหน้าในสูจิบัตร…</span>
+    </div>
+    <button id="pdfPreviewClose" class="review-preview-close" type="button" aria-label="ปิด PDF แล้วกลับไปตรวจรายการ">← กลับไปคู่แข่งขัน</button>
+  </div>
+  <iframe id="pdfPreviewFrame" title="ตัวอ่านสูจิบัตร PDF พร้อมเปลี่ยนหน้าและขยายภาพ" loading="lazy" referrerpolicy="same-origin"></iframe>
+  <div class="review-preview-footer">ข้อมูลใน PDF เป็นฉบับร่างสำหรับตรวจสอบ ไม่ใช่โปรแกรมที่รับรองแล้ว</div>
+</section>
+
+<section id="copyFallback" class="review-copy-fallback" hidden aria-labelledby="copyFallbackTitle">
     <h2 id="copyFallbackTitle">ข้อความสำหรับคัดลอกด้วยตนเอง</h2>
     <textarea id="copyFallbackText" rows="11" readonly aria-label="ข้อความแจ้งแก้ไข"></textarea>
     <p>เลือกข้อความทั้งหมด แล้วคัดลอกไปวางในแชท</p>
