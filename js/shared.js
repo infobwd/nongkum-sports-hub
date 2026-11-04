@@ -10,7 +10,7 @@
     const text=(x.division||"")+" "+(x.name||"");
     if(/มัธยม/.test(text))return "secondary";
     if(/ก่อนเรียน|ปฐมวัย/.test(text))return "early";
-    if(/(?:8|10|12)\\s*ปี|ประถม/.test(text))return "primary";
+    if(/(?:8|10|12)\s*ปี|ประถม/.test(text))return "primary";
     return "other";
   }
   function schoolInStore(){
