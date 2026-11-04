@@ -109,7 +109,7 @@
 
 ## 8. การทำงานร่วมกับ R10/R11 โดยไม่ชนกัน
 
-- **R11D.2 PR #25 กำลังเปิด:** ห้ามแตะ `review.html`, `js/review.js`, `css/review.css`, `docs/R11D2_*`, `assets/*`, PDF viewer, และ workflow R11D ขณะงานนี้ยังเปิด
+- **R11D.2 PR #25 MERGED แล้ว (4 พ.ย. 2569):** งาน PDF viewer อยู่ใน `main` แล้ว แต่ยังต้องทดสอบ Safari/LINE/Android จริง; งาน R12 ไม่แก้ไฟล์ `review.html`, `js/review.js`, `css/review.css`, `docs/R11D2_*`, `assets/*`, PDF viewer หรือ workflow โดยไม่แยก PR และทดสอบ regression
 - R12 แผนนี้เป็น **เอกสารใหม่ใน `docs/` เท่านั้น**; ไม่แก้ `README.md`, `data/*`, `apps-script/*`, `scripts/*`, `m/*` หรือ workflow เดิม
 - **R11A:** source/QA/fixture ID/reconciliation ของ candidate เป็นหลักข้อมูล; การวิเคราะห์ต้องไม่เปลี่ยน version เดิม
 - **R11C:** เอกสาร Google Docs ทำงานฉบับใหม่ไม่ถูกแก้หรือซิงก์ใน R12A–D
@@ -129,7 +129,7 @@
 
 ## 10. ขั้นต่อไปที่เสนอ (ยังไม่เริ่ม implement)
 
-1. รอ/ตรวจ PR #25 และการตรวจมือถือ R11D.2 ต่อในสายเดิม
+1. PR #25 Merge แล้ว; ให้เจ้าของสาย R11D.2 ตรวจมือถือตามแผนต่อและเก็บหลักฐาน QA
 2. เริ่ม **R12A** ด้วย fixture candidate แบบไม่มี PII และทดสอบ `school-time-risk` deterministic; ให้คณะกรรมการตรวจระยะเวลาแข่งขัน/ลู่/สนามที่ยังขาด
 3. เตรียม private data storage และรายการ permission/retention ก่อนส่งภาพจริงใน R12B
 4. เมื่อรับรายชื่อแต่ละโรงเรียน ค่อยถอดภาพ→JSON→ตรวจรับ→วิเคราะห์ซ้ำ; ไม่เปิดเว็บสมัครนักกีฬา

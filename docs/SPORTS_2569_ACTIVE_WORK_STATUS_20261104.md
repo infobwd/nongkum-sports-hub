@@ -6,9 +6,9 @@
 
 ## 1. สถานะ GitHub และข้อควรระวัง
 
-- ณ เวลาตรวจ `main` commit `35318fe79ce2c9d882735d3ebb65111b068c58f2` (R11D.1 merged).
-- **PR เปิดอยู่ 1 รายการ:** [#25 R11D.2: PDF page preview](https://github.com/infobwd/nongkum-sports-hub/pull/25) สาขา `feat/r11d2-pdf-page-preview`; เพิ่ม PDF same-origin, PDF viewer, review UI/tests. **ห้ามแก้ร่วมกันใน R12 plan**.
-- GitHub Actions ของ PR #25 ที่อ่าน ณ จุดตรวจแสดง `queued` หลายรายการ; **ยังไม่สรุปว่าผ่าน**. สถานะ CI/mergeability อาจเปลี่ยนหลัง snapshot นี้ ให้เปิด PR และ runs ตรวจอีกครั้งก่อน merge.
+- ตรวจ `main` อีกครั้งหลัง R11D.2 และ R12 docs merge: commit `a16a843d9153cd3f701ad591833c473e20c14737` (snapshot ก่อนการอัปเดตไฟล์นี้).
+- **PR เปิดอยู่ 0 รายการ** ณ การตรวจซ้ำ; [#25 R11D.2](https://github.com/infobwd/nongkum-sports-hub/pull/25) **MERGED 4 พ.ย. 2569 เวลา 16:15 UTC** และ [#26 แผน R12](https://github.com/infobwd/nongkum-sports-hub/pull/26) **MERGED**. งาน R12 จะไม่แก้ไฟล์หน้า PDF viewer ในรอบเอกสารนี้.
+- GitHub Actions ของ PR #25 ที่อ่านในการตรวจครั้งแรกยัง `queued` หลายรายการ; การ Merge **ไม่ได้ยืนยันผล CI หรือการทดสอบมือถือจริง**. ต้องตรวจผล run ปลายทางและ QA หลัง deploy เพิ่ม.
 - PR #1–#24 ปิดแล้วและ `merged_at` มีค่า; คำว่า merged **ไม่ใช่หลักฐานว่า Web App/PDF/Google Docs ได้ Deploy หรือกรรมการอนุมัติแล้ว**.
 - Repository นี้ **Public**; ห้ามนำภาพรายชื่อนักเรียนหรือทะเบียนรายบุคคลมา commit.
 
@@ -24,7 +24,7 @@
 | R11B ระบบ login/ยืนยันโรงเรียน | [R11D plan](R11D_PUBLIC_REVIEW_PREVIEW_PLAN.md) | **พักตามการตัดสินใจ**; โรงเรียนอ่าน preview และแจ้งแก้ไขในแชท, ผู้ดูแลแก้ข้อมูลผ่าน PR พร้อมหลักฐาน |
 | R11C Google Docs ฉบับใหม่ | [R11C handoff](R11C_GOOGLE_DOCS_WORKING_DRAFT_HANDOFF.md), PR #20 merged | **สำเนา Google Docs ฉบับทำงานใหม่สร้างแล้ว ไม่ทับต้นฉบับ**; ยังต้องจัดตาราง native/A4, แทนเนื้อหาปี 2568 ที่ใช้เป็นแม่แบบ, QA เอกสารก่อนเผยแพร่ |
 | R11D หน้า review 237 รายการ | PR #23 / #24 merged; [review QA](R11D_PUBLIC_REVIEW_QA.md) | โค้ดหน้า `review.html` + UX มือถืออยู่ `main`; รับข้อผิดพลาดผ่านแชท ไม่ approve จากหน้าเว็บ; ต้องตรวจ GitHub Pages/อุปกรณ์จริง |
-| R11D.2 PDF viewer เทียบหน้า | [PR #25](https://github.com/infobwd/nongkum-sports-hub/pull/25) | **OPEN**, CI ณ snapshot queued; รอ review/merge และตรวจ UI บน Safari/LINE/Android จริง |
+| R11D.2 PDF viewer เทียบหน้า | [PR #25](https://github.com/infobwd/nongkum-sports-hub/pull/25) | **MERGED**, ต้องตรวจผล CI และ UI บน Safari/LINE/Android จริงหลังเผยแพร่ |
 | R11E ออกสูจิบัตร/เว็บฉบับรับรอง | [parallel plan](SPORTS_2569_PARALLEL_WORKSTREAMS_PLAN.md) | **ยังไม่เข้า gate**: ต้องเคลียร์รายการขัดแย้ง, อนุมัติ revision, Sheets/Docs/เว็บ/ลิงก์ LINE ตรงกันก่อน |
 | R12 เอกสารรายชื่อนักกีฬา→JSON→ตรวจตาราง | [แผน R12](R12_ATHLETE_DOCUMENT_TO_JSON_SCHEDULE_CONFLICT_PLAN.md) | **PLAN ONLY**; ไม่มีหน้าลงทะเบียนนักกีฬา และยังไม่มีทะเบียนข้อมูลเด็กใน repo public |
 
@@ -37,7 +37,7 @@
 
 ## 4. ลำดับส่งต่องานที่ไม่แย่งไฟล์กัน
 
-1. **R11D.2:** เจ้าของ PR #25 ตรวจ CI, diff และ mobile PDF preview; merge เฉพาะหลังผ่าน QA
+1. **R11D.2:** PR #25 Merge แล้ว; เจ้าของงานตรวจ CI สุดท้ายและ mobile PDF preview หลัง GitHub Pages deploy พร้อมเก็บหลักฐาน QA
 2. **R10/R11 deployment:** เจ้าของงาน deploy Apps Script 2 projects ตามคู่มือ, ทดสอบบัญชีจริง และเก็บหลักฐาน (ไม่มีผลต่อ candidate schedule)
 3. **R11A/R11D:** รับข้อแก้ไขจาก 8 โรงเรียน/กรรมการผ่าน preview/chat, ตัดสินข้อผิดพลาดใน PDF/JSON, เก็บ revision; ห้ามอัปเดต public program ก่อน R11E
 4. **R11C:** ทำสูจิบัตร Google Docs ฉบับทำงานแยกให้ครบ พร้อม A4 visual QA และคงต้นฉบับเดิม
