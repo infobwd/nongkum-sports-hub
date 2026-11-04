@@ -120,7 +120,8 @@
     html{scroll-padding-top:calc(var(--safe-top) + 12px)}
     body{padding-top:var(--safe-top)}
     body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;z-index:999;pointer-events:none}
-    @supports (-webkit-touch-callout:none){body::before{height:max(var(--safe-top),44px)}}
+    /* Use the real device inset only; a forced 44px fixed layer hides the logo on Safari while scrolling. */
+    @supports (-webkit-touch-callout:none){body::before{height:var(--safe-top)}}
     /* Condensed header, school-first search, collapsed secondary filters */
     .brand{padding:10px 0 7px;gap:9px}
     .hero{padding:2px 0 12px}
