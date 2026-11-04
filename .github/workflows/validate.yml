@@ -16,3 +16,4 @@ jobs:
           node-version: "22"
       - run: node scripts/validate-data.mjs
       - run: node scripts/p2/test-approval.mjs
+      - run: node scripts/ux/test-mobile-ui.mjs
