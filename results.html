@@ -11,7 +11,7 @@
 </head><body>
 <header class="top"><div class="shell">
 <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกม</span></div><span class="mode">แสดงเฉพาะผลรับรอง</span></div>
-<nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html" id="programLink">โปรแกรมการแข่งขัน</a><a href="./results.html" aria-current="page">ผลการแข่งขัน</a></nav>
+<nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html" data-nav-view="program" id="programLink">โปรแกรมการแข่งขัน</a><a href="./results.html" data-nav-view="results" aria-current="page">ผลการแข่งขัน</a></nav>
 <div class="hero"><h1>ผลการแข่งขัน · ปี 2569</h1></div>
 </div></header>
 <main class="shell">
@@ -29,5 +29,17 @@
 <div id="noResults" class="status-empty" hidden><h2>ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง</h2><p>ผลจะปรากฏเมื่อคณะกรรมการรับรองและเผยแพร่แล้ว</p></div>
 </section></main>
 <footer class="shell">มิตรภาพเกม ปี 2569 · ไม่แสดงผลร่างหรือผลที่ยังไม่รับรอง</footer>
-<script src="./js/shared.js"></script><script src="./js/results-renderers.js"></script><script src="./js/results.js"></script>
+<nav id="mobileTabNav" class="mobile-nav" aria-label="สลับระหว่างโปรแกรมและผลการแข่งขัน">
+  <a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="โปรแกรมการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg>
+    <span>ตารางแข่ง</span>
+  </a>
+  <a id="mobileResultsLink" data-nav-view="results" aria-current="page" href="./results.html" aria-label="ผลการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg>
+    <span>ผลแข่งขัน</span>
+  </a>
+</nav>
+<div id="navigationNotice" class="sr-only" role="status" aria-live="polite"></div>
+<script src="./js/shared.js"></script>
+<script src="./js/navigation.js"></script><script src="./js/results-renderers.js"></script><script src="./js/results.js"></script>
 </body></html>
