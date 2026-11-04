@@ -49,20 +49,23 @@
   }
   function formatIssue(f,sportName){
     const lines=[
-      "ขอแจ้งแก้ข้อมูลสูจิบัตรมิตรภาพเกม 2569 (R11D)",
-      "Revision: "+REVISION,
-      "Fixture ID: "+f.id,
-      "กีฬา/รายการ: "+String(sportName||f.sport_id)+" / "+String(f.division||""),
-      "เลขคู่/รายการ PDF: "+String(f.source_match_no||"ไม่ระบุ"),
-      "หน้า PDF: "+String(f.source_page||"ไม่ระบุ"),
-      "คู่/รายการตาม PDF: "+String(f.kind==="track_event"?(f.name||f.source_title):f.source_pair_text||"ไม่ระบุ"),
-      "วันตาม PDF: "+sourceDate(f),
-      "เวลาตาม PDF: "+sourceTime(f),
-      "สนามตาม PDF: "+sourceField(f),
-      "QA: "+(hasQa(f)?f.qa_flags.join(", "):"ไม่มีธงเฉพาะรายการ"),
-      "จุดที่พบว่าผิด: ",
-      "ข้อมูลที่ถูกต้อง: ",
-      "หลักฐาน/คำยืนยันจากผู้จัด: "
+      "แจ้งข้อมูลสูจิบัตรฉบับใหม่ที่อาจไม่ตรง",
+      "กีฬา / รุ่น: "+String(sportName||f.sport_id)+" / "+String(f.division||""),
+      "คู่ที่ / รายการที่: "+String(f.source_match_no||"ไม่ระบุ"),
+      "หน้าในสูจิบัตร: "+String(f.source_page||"ไม่ระบุ"),
+      "คู่แข่งขัน / รายการ: "+String(f.kind==="track_event"?(f.name||f.source_title):f.source_pair_text||"ไม่ระบุ"),
+      "วันที่ตามสูจิบัตร: "+sourceDate(f),
+      "เวลาตามสูจิบัตร: "+sourceTime(f),
+      "สนามตามสูจิบัตร: "+sourceField(f),
+      "",
+      "พบข้อมูลที่ไม่ตรง: ",
+      "ควรแก้เป็น: ",
+      "ข้อมูลยืนยันจากโรงเรียนหรือผู้จัด: ",
+      "",
+      "สำหรับผู้ดูแลระบบ (ไม่ต้องแก้ไขส่วนนี้)",
+      "รหัสรายการ: "+f.id,
+      "เลขชุดข้อมูล: "+REVISION,
+      "รหัสหมายเหตุตรวจสอบ: "+(hasQa(f)?f.qa_flags.join(", "):"ไม่มี")
     ];
     return lines.join("\n");
   }
