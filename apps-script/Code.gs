@@ -32,6 +32,9 @@ function onOpen() {
     .addItem("รับรองแถวที่เลือก (ผู้มีสิทธิ์เท่านั้น)", "nkApproveSelection")
     .addSeparator()
     .addItem("สร้าง JSON เฉพาะ Approved ใน Drive ส่วนตัว", "nkExportApprovedToDrive")
+    .addSeparator()
+    .addItem("รับรองผลการแข่งขันแถวที่เลือก", "nkApproveResultsSelection")
+    .addItem("ส่งออกผล Approved เป็น JSON ส่วนตัว", "nkExportApprovedResultsToDrive")
     .addToUi();
 }
 
