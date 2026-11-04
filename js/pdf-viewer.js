@@ -60,9 +60,14 @@ async function renderPage() {
   if (!pdf) return;
   const requestId = ++generation;
   if (activeTask) {
+    // Finish cancellation before reusing the same canvas; quick taps otherwise
+    // sometimes trigger "Cannot use the same canvas during multiple render()" on iOS.
+    const previousPromise = activeTask.promise;
     try { activeTask.cancel(); } catch (_) {}
     activeTask = null;
+    try { await previousPromise; } catch (_) { /* cancelled task settles here */ }
   }
+  if (requestId !== generation) return;
   busy = true;
   el.status.hidden = false;
   el.status.textContent = "กำลังแสดงหน้า " + pageNumber + "…";
