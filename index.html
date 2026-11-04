@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#183762">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="ต้นแบบสูจิบัตรกีฬา กลุ่มหนองกุ่ม ปี 2569 สำหรับทดลองค้นหาตารางการแข่งขันบนมือถือ">
   <title>สูจิบัตรกีฬา กลุ่มหนองกุ่ม 2569 — ต้นแบบ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,6 +113,49 @@
       .lane-details:not([open]) .lanes{display:none}
     }
 
+
+    /* UX-P2.2: Safe Area protection for iPhone Safari/standalone display */
+    :root{--safe-top:env(safe-area-inset-top,0px)}
+    html{scroll-padding-top:calc(var(--safe-top) + 12px)}
+    body{padding-top:var(--safe-top)}
+    body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;z-index:999;pointer-events:none}
+    @supports (-webkit-touch-callout:none){body::before{height:max(var(--safe-top),44px)}}
+    /* Condensed header, school-first search, collapsed secondary filters */
+    .brand{padding:10px 0 7px;gap:9px}
+    .hero{padding:2px 0 12px}
+    .hero h1{font-size:clamp(1.13rem,3.8vw,1.7rem);margin:0}
+    .panel{margin:12px 0;padding:14px 16px}
+    .panel h2{font-size:1.08rem;margin-bottom:9px}
+    .filter-title{margin:12px 0 2px}
+    .chips{padding-bottom:7px}
+    .chip{display:inline-flex;align-items:center;gap:7px}
+    .chip-count{font-size:.7rem;min-width:19px;border-radius:99px;padding:0 5px;background:#e8eff8;color:#335a7f;line-height:1.5}
+    .chip[aria-pressed="true"] .chip-count{background:#fff;color:#174778}
+    .advanced-filter{margin-top:9px;border-top:1px solid #e8edf4;padding-top:3px}
+    .advanced-filter summary{min-height:44px;display:flex;align-items:center;color:#225a8d;font-size:.86rem;font-weight:800;list-style:none}
+    .advanced-filter summary::-webkit-details-marker{display:none}
+    .advanced-filter summary::after{content:"⌄";font-size:1.15rem;margin-left:6px}
+    .advanced-filter[open] summary::after{content:"⌃"}
+    .advanced-hint{font-size:.75rem;font-weight:500;color:#60758d;margin-left:auto}
+    .advanced-body{padding:8px 0 4px}
+    .advanced-body .filter-title{margin-top:13px}
+    .notice{font-size:.79rem;padding:9px 11px;margin:10px 0 14px}
+    /* Smaller fixture cards, detailed source always accessible on demand */
+    .sport-group{margin-top:16px;scroll-margin-top:calc(var(--safe-top) + 55px)}
+    .fixture{padding:12px 14px;border-radius:14px}
+    .sport-label{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;row-gap:2px}
+    .division{margin:0;font-size:.77rem}
+    .eventname{font-size:.97rem;margin:8px 0 5px}
+    .match{min-height:28px;margin:8px 0 9px}
+    .my-lane{padding:7px 9px;margin-top:6px}
+    .details{border-top:0;margin:6px 0 0;padding:0}
+    .source-details{border-top:1px solid #edf0f4;margin-top:8px;padding-top:3px}
+    .source-details summary{font-size:.76rem;font-weight:700;color:#456984;min-height:32px;padding:5px 0}
+    .source-details[open] summary{margin-bottom:5px}
+    .source-details .details{margin:3px 0 6px}
+    .qa-note{font-size:.75rem;color:#845322;margin:4px 0}
+    footer{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+    @media(max-width:690px){.hero{padding:2px 0 11px}.panel{padding:12px 14px;margin:10px 0}.fixture{padding:12px}}
   </style>
 </head>
 <body>
@@ -122,41 +166,34 @@
         <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>กีฬากลุ่มหนองกุ่ม</span></div>
         <span class="mode">ข้อมูลร่าง · ยังไม่เป็นทางการ</span>
       </div>
-      <div class="hero">
-        <div class="eyebrow">SPORTS PROGRAM 2569</div>
-        <h1>ค้นหาโปรแกรมการแข่งขัน</h1>
-        <p>เลือกโรงเรียนและกีฬา เพื่อดูข้อมูลที่เกี่ยวข้องได้ทันที</p>
-      </div>
+      <div class="hero"><h1>โปรแกรมการแข่งขัน · ปี 2569</h1></div>
     </div>
   </header>
 
   <main class="shell">
     <section class="panel" aria-labelledby="filterTitle">
-      <h2 id="filterTitle">ค้นหาตารางการแข่งขัน</h2>
-      <div class="fields">
-        <div>
-          <label class="fieldlabel" for="school">โรงเรียนของฉัน</label>
-          <select id="school"><option value="">ทุกโรงเรียน</option></select>
-        </div>
-        <div>
-          <label class="fieldlabel" for="search">ค้นหาชื่อทีม / รุ่นอายุ / รายการ</label>
-          <input id="search" type="search" placeholder="เช่น วังด้ง, 12 ปี, ฟุตซอล">
-        </div>
-      </div>
-      <div class="filter-title"><span class="fieldlabel" id="levelLabel">ช่วงชั้น</span></div>
-      <div class="level-options" id="levels" role="group" aria-labelledby="levelLabel"></div>
+      <h2 id="filterTitle">ค้นหารายการแข่งขัน</h2>
+      <label class="fieldlabel" for="school">โรงเรียนของฉัน</label>
+      <select id="school"><option value="">ทุกโรงเรียน</option></select>
       <div class="filter-title">
-        <span class="fieldlabel" id="sportLabel">ชนิดกีฬา</span>
-        <span class="hint">เลื่อนเพื่อดูกีฬาอื่น →</span>
+        <span class="fieldlabel" id="sportLabel">เลือกกีฬา <span class="hint">· จำนวนรายการ</span></span>
+        <span class="hint">ปัดดูเพิ่มเติม →</span>
       </div>
       <div id="sports" class="chips" role="group" aria-labelledby="sportLabel"></div>
+      <details class="advanced-filter" id="advancedFilters">
+        <summary>ตัวกรองเพิ่มเติม <span id="activeFiltersHint" class="advanced-hint"></span></summary>
+        <div class="advanced-body">
+          <label class="fieldlabel" for="search">ค้นหาชื่อทีม / รุ่นอายุ / รายการ</label>
+          <input id="search" type="search" placeholder="เช่น วังด้ง, 12 ปี, ฟุตซอล">
+          <div class="filter-title"><span class="fieldlabel" id="levelLabel">ช่วงชั้น</span></div>
+          <div class="level-options" id="levels" role="group" aria-labelledby="levelLabel"></div>
+        </div>
+      </details>
     </section>
 
     <aside class="notice" aria-label="สถานะข้อมูลการแข่งขัน">
       <span aria-hidden="true">⚠️</span>
-      <div><strong>ข้อมูลร่างสำหรับตรวจทาน · ยังไม่ผ่านการรับรอง</strong> วันแข่งขันยังไม่ยืนยัน และหลายรายการยังไม่มีเวลา/สนาม
-        <span>ห้ามใช้แทนกำหนดการทางการสำหรับนัดหมายนักกีฬา</span>
-      </div>
+      <div><strong>ข้อมูลร่าง · ยังไม่ผ่านการรับรอง</strong> วัน เวลา และสนามหลายรายการรอยืนยัน ห้ามใช้แทนกำหนดการทางการ</div>
     </aside>
 
     <section aria-labelledby="resultTitle">
