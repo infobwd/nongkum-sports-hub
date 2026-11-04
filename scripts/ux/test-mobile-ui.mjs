@@ -136,6 +136,7 @@ const approved=structuredClone(data);
 approved.metadata.all_data_approved=true;
 const invalid=await mount("https://example.org/nongkum-sports-hub/",approved);
 assert.match(invalid.els.count.textContent,/อ่านข้อมูลไม่ได้/,"only draft prototype must render");
+assert.equal(invalid.els.empty.hidden,true,"invalid data is a loading error, not no matched fixture");
 
 assert.ok(/@media\(max-width:690px\)/.test(html),"mobile breakpoint missing");
 assert.ok(/.fields,.cards\{grid-template-columns:1fr\}/.test(html),"mobile single-column layout missing");

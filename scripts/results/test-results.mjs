@@ -74,7 +74,7 @@ const unapproved=structuredClone(sample);
 unapproved.results[0].status="review";
 const rejected=await view(unapproved);
 assert.equal(rejected.els.resultsCount.textContent,"ตรวจข้อมูลไม่ได้");
-assert.equal(rejected.els.noResults.hidden,false);
+assert.equal(rejected.els.noResults.hidden,true,"invalid approved data must not pretend there are no results");
 const injection=structuredClone(sample);
 injection.results[3].name="<em>sample</em>";
 const escaped=await view(injection);

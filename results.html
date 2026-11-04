@@ -21,6 +21,7 @@
     <p id="sharedResultStatus" role="status" aria-live="polite">กำลังตรวจผลรับรอง…</p>
   </div>
   <div id="sharedResultCard"></div>
+  <div id="sharedResultLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลผลรับรองไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองตรวจผลรับรองอีกครั้ง</p><button type="button" class="load-retry" id="retrySharedResult">↻ ลองอีกครั้ง</button></div>
   <button id="showAllResults" type="button" class="direct-result-back">ดูผลการแข่งขันทั้งหมด</button>
   <p class="result-meta">แสดงเฉพาะผลที่กรรมการรับรองและเผยแพร่แล้วเท่านั้น</p>
 </section>
@@ -34,8 +35,10 @@
 <div class="filter-title"><span class="fieldlabel" id="resultSportLabel">ชนิดกีฬา</span><span class="hint">ปัดดูเพิ่มเติม →</span></div>
 <div id="resultSports" class="result-sport-chips" role="group" aria-labelledby="resultSportLabel"></div>
 </section>
-<section aria-labelledby="resultsHeading"><div class="results-top"><h2 id="resultsHeading">ผลการแข่งขันที่ผ่านการรับรอง</h2><div class="data-actions"><span id="resultsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button id="refreshResults" class="refresh-button" type="button">↻ รีเฟรช</button></div></div>
-<p id="resultsRefreshStatus" class="refresh-status" role="status" aria-live="polite"></p><p id="publishedAt" class="result-meta"></p><div id="resultsList" class="result-tiles"></div>
+<section id="resultsListing" aria-labelledby="resultsHeading" aria-busy="true"><div class="results-top"><h2 id="resultsHeading">ผลการแข่งขันที่ผ่านการรับรอง</h2><div class="data-actions"><span id="resultsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button id="refreshResults" class="refresh-button" type="button">↻ รีเฟรช</button></div></div>
+<p id="resultsRefreshStatus" class="refresh-status" role="status" aria-live="polite"></p><p id="publishedAt" class="result-meta"></p><div id="resultsSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
+<div id="resultsLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลผลรับรองไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดผลรับรองอีกครั้ง</p><button type="button" class="load-retry" id="retryResults">↻ ลองอีกครั้ง</button></div>
+<div id="resultsList" class="result-tiles"></div>
 <div id="noResults" class="status-empty" hidden><h2>ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง</h2><p>ผลจะปรากฏเมื่อคณะกรรมการรับรองและเผยแพร่แล้ว</p></div>
 </section>
 </div><!-- resultsOverview -->

@@ -1,6 +1,7 @@
 /* Approved results only. No access to editor secrets or draft result rows. */
 (function(){
   "use strict";
+  function optionalElement(id){try{return document.getElementById(id);}catch(_){return null;}}
   const els={
     school:document.getElementById("resultSchool"),
     level:document.getElementById("resultLevel"),
@@ -16,7 +17,13 @@
     directCard:document.getElementById("sharedResultCard"),
     directStatus:document.getElementById("sharedResultStatus"),
     all:document.getElementById("resultsOverview"),
-    showAll:document.getElementById("showAllResults")
+    showAll:document.getElementById("showAllResults"),
+    skeleton:optionalElement("resultsSkeleton"),
+    listing:optionalElement("resultsListing"),
+    failure:optionalElement("resultsLoadFailure"),
+    retry:optionalElement("retryResults"),
+    directFailure:optionalElement("sharedResultLoadFailure"),
+    directRetry:optionalElement("retrySharedResult")
   };
   const requestedResult=new URLSearchParams(location.search).get("result");
   const state={data:null,school:"",sport:"",level:"",focusId:"",directMode:!!requestedResult};
@@ -151,27 +158,41 @@
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
     globalThis.NongkumNavigation?.update?.(state);
   }
+  function setInitialLoading(active){
+    if(els.skeleton)els.skeleton.hidden=!active;
+    if(els.listing&&typeof els.listing.setAttribute==="function")els.listing.setAttribute("aria-busy",String(active));
+  }
+  function setFailure(active){
+    if(els.failure)els.failure.hidden=!active;
+    if(els.directFailure)els.directFailure.hidden=!active;
+  }
   async function loadResults(refresh){
+    const initial=!state.data;
+    if(initial){setInitialLoading(!state.directMode);setFailure(false);}
     els.refresh.disabled=true;
-    els.refreshStatus.textContent=refresh?"กำลังตรวจผลรับรองล่าสุด…":"กำลังอ่านผลการแข่งขัน…";
+    els.refreshStatus.textContent=refresh&&state.data?"กำลังตรวจผลรับรองล่าสุด…":"กำลังอ่านผลการแข่งขัน…";
     try{
       const response=await fetch("./data/public-results.json?refresh="+Date.now(),{cache:"no-store"});
       if(!response.ok)throw Error("ไฟล์ผลการแข่งขันยังไม่พร้อม");
       const payload=await response.json();
       loaded(payload);
+      setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         " · ไฟล์เผยแพร่บนเว็บ";
     }catch(e){
-      els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · "+(state.data?"ยังคงผลล่าสุดที่โหลดไว้":"ยังไม่สามารถอ่านข้อมูลผล");
+      els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงผลล่าสุดที่โหลดไว้":"โหลดผลรับรองไม่สำเร็จ · ลองใหม่อีกครั้ง";
       if(!state.data){
         if(state.directMode&&els.directStatus)els.directStatus.textContent="ตรวจผลรับรองไม่ได้ โปรดลองอีกครั้ง";
-        els.count.textContent="ตรวจข้อมูลไม่ได้";els.empty.hidden=false;
-        els.empty.innerHTML="<h2>ผลการแข่งขันยังไม่พร้อมเผยแพร่</h2><p>โปรดลองใหม่ภายหลัง</p>";
+        els.count.textContent="ตรวจข้อมูลไม่ได้";
+        els.empty.hidden=true;
+        setFailure(true);
       }
       console.error(e);
-    }finally{els.refresh.disabled=false;}
+    }finally{setInitialLoading(false);els.refresh.disabled=false;}
   }
   els.refresh.addEventListener("click",()=>loadResults(true));
+  if(els.retry)els.retry.addEventListener("click",()=>loadResults(false));
+  if(els.directRetry)els.directRetry.addEventListener("click",()=>loadResults(false));
   loadResults(false);
   // Recheck the published JSON every 5 minutes while this page is visible.
   if(typeof setInterval==="function"){

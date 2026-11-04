@@ -1,6 +1,7 @@
 
 (function(){
   "use strict";
+  function optionalElement(id){try{return document.getElementById(id);}catch(_){return null;}}
   const els={
     school:document.getElementById("school"),
     search:document.getElementById("search"),
@@ -18,7 +19,13 @@
     directCard:document.getElementById("sharedFixtureCard"),
     directStatus:document.getElementById("sharedFixtureStatus"),
     overview:document.getElementById("programOverview"),
-    fullSchedule:document.getElementById("showFullSchedule")
+    fullSchedule:document.getElementById("showFullSchedule"),
+    skeleton:optionalElement("programSkeleton"),
+    listing:optionalElement("programListing"),
+    failure:optionalElement("programLoadFailure"),
+    retry:optionalElement("retryProgram"),
+    directFailure:optionalElement("sharedFixtureLoadFailure"),
+    directRetry:optionalElement("retrySharedFixture")
   };
   const requestedFixture=new URLSearchParams(location.search).get("fixture");
   const state={data:null,school:"",sport:"",level:"",query:"",limit:12,focusId:"",directMode:!!requestedFixture};
@@ -255,9 +262,19 @@
       if(typeof window!=="undefined"&&typeof window.scrollTo==="function")window.scrollTo({top:0,behavior:"auto"});
     });
   }
+  function setInitialLoading(active){
+    if(els.skeleton)els.skeleton.hidden=!active;
+    if(els.listing&&typeof els.listing.setAttribute==="function")els.listing.setAttribute("aria-busy",String(active));
+  }
+  function setFailure(active){
+    if(els.failure)els.failure.hidden=!active;
+    if(els.directFailure)els.directFailure.hidden=!active;
+  }
   async function loadProgram(refresh){
+    const initial=!state.data;
+    if(initial){setInitialLoading(!state.directMode);setFailure(false);}
     els.refresh.disabled=true;
-    els.refreshStatus.textContent=refresh?"กำลังตรวจไฟล์โปรแกรมล่าสุด…":"กำลังอ่านโปรแกรมการแข่งขัน…";
+    els.refreshStatus.textContent=refresh&&state.data?"กำลังตรวจไฟล์โปรแกรมล่าสุด…":"กำลังอ่านโปรแกรมการแข่งขัน…";
     try{
       const path="./data/draft-schedule.json?refresh="+Date.now();
       const response=await fetch(path,{cache:"no-store"});
@@ -287,19 +304,23 @@
         setupHandlers();
       }
       updateFilterHint();makeChips();makeLevels();render();syncNav();
+      setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         " · ไฟล์เผยแพร่บนเว็บ";
     }catch(e){
-      els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · ยังคงข้อมูลเดิมถ้ามี";
+      els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้":"โหลดโปรแกรมไม่สำเร็จ · ลองใหม่อีกครั้ง";
       if(!state.data){
         if(state.directMode&&els.directStatus)els.directStatus.textContent="ยังเปิดคู่แข่งขันไม่ได้ โปรดลองอีกครั้ง";
-        els.count.textContent="อ่านข้อมูลไม่ได้";els.empty.hidden=false;
-        els.empty.innerHTML="<strong>ไม่สามารถโหลดโปรแกรมฉบับร่างได้</strong><p>กรุณาลองอีกครั้ง</p>";
+        els.count.textContent="อ่านข้อมูลไม่ได้";
+        els.empty.hidden=true;
+        setFailure(true);
       }
       console.error(e);
-    }finally{els.refresh.disabled=false;}
+    }finally{setInitialLoading(false);els.refresh.disabled=false;}
   }
   els.refresh.addEventListener("click",function(){loadProgram(true);});
+  if(els.retry)els.retry.addEventListener("click",function(){loadProgram(false);});
+  if(els.directRetry)els.directRetry.addEventListener("click",function(){loadProgram(false);});
   loadProgram(false);
   // Recheck the published draft program every five minutes while the page is visible.
   if(typeof setInterval==="function"){
