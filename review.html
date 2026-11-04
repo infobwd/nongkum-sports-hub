@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#183762">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="มิตรภาพเกม 2569 — ตรวจสูจิบัตร PDF ล่าสุด 237 รายการ ข้อมูลร่าง ไม่ใช่ประกาศการแข่งขันทางการ">
   <title>ตรวจสูจิบัตรล่าสุด · มิตรภาพเกม ปี 2569 (ร่าง)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +21,7 @@
     <a href="./results.html">ผลการแข่งขัน</a>
     <a href="./review.html" aria-current="page">ตรวจสูจิบัตรล่าสุด</a>
   </nav>
-  <div class="hero"><p class="eyebrow">R11D · ฉบับตรวจสอบข้อมูล</p><h1>ตรวจสูจิบัตร PDF ล่าสุด</h1>
+  <div class="hero"><p class="eyebrow">ข้อมูลเพื่อการตรวจสอบของโรงเรียน</p><h1>ตรวจโปรแกรมแข่งขันฉบับใหม่</h1>
     <p>มิตรภาพเกม ปี 2569 · ตรวจชื่อคู่ วัน เวลา สนาม และลู่กรีฑาจากเอกสารฉบับใหม่</p>
   </div>
 </div></header>
@@ -33,39 +34,55 @@
   </aside>
   <div class="review-shortcuts">
     <a href="./index.html">‹ กลับไปโปรแกรมเดิม</a>
-    <span id="revisionLabel">ข้อมูลร่าง · กำลังตรวจ revision…</span>
+    <span id="revisionLabel">ข้อมูลร่าง · กำลังเปิดฉบับปรับปรุง…</span>
   </div>
   <section class="review-summary" aria-label="ข้อมูลจาก PDF">
     <div class="review-stat"><span>คู่แข่งขัน</span><strong id="statMatches">—</strong></div>
     <div class="review-stat"><span>รายการกรีฑา</span><strong id="statTrack">—</strong></div>
     <div class="review-stat"><span>แถวลู่กรีฑา</span><strong id="statLanes">—</strong></div>
-    <div class="review-stat"><span>มีจุดให้ตรวจเพิ่มเติม</span><strong id="statQa">—</strong></div>
+    <div class="review-stat"><span>รายการที่ควรตรวจซ้ำ</span><strong id="statQa">—</strong></div>
+  </section>
+
+  <section class="review-pdf-download" aria-labelledby="reviewPdfHeading">
+    <div class="review-pdf-icon" aria-hidden="true">📄</div>
+    <div class="review-pdf-description">
+      <h2 id="reviewPdfHeading">สูจิบัตรฉบับ PDF สำหรับตรวจสอบ</h2>
+      <p>ร่าง - สูจิบัตรกีฬากลุ่ม ปี 2569_V2.pdf</p>
+      <small>เปิดใน Google Drive แล้วเลือกดาวน์โหลดได้ • บางบัญชีอาจต้องขอสิทธิ์เข้าถึงไฟล์</small>
+    </div>
+    <a class="review-pdf-link" href="https://drive.google.com/file/d/1zMxnF99lJHTQ8zgCH1QUs5rB9Uf8O4IO/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">เปิด PDF / ดาวน์โหลด <span aria-hidden="true">↗</span></a>
   </section>
 
   <section class="panel review-filters" aria-labelledby="reviewFilterHeading">
     <div class="review-section-top"><h2 id="reviewFilterHeading">เลือกข้อมูลที่จะตรวจ</h2><button type="button" id="clearFilters" class="review-clear">ล้างตัวกรอง</button></div>
-    <div class="review-filter-grid">
-      <label>โรงเรียน
+    <p class="review-filter-help">เลือกโรงเรียนของคุณ แล้วเลือกกีฬาเพื่อดูเฉพาะรายการที่ต้องตรวจ</p>
+    <div class="review-filter-grid review-filter-primary">
+      <label>โรงเรียนของฉัน
         <select id="reviewSchool"><option value="">ทุกโรงเรียน</option></select>
       </label>
-      <label>กีฬา
+      <label>ชนิดกีฬา
         <select id="reviewSport"><option value="">ทุกชนิดกีฬา</option></select>
       </label>
-      <label>ช่วงชั้น
-        <select id="reviewLevel">
-          <option value="">ทุกช่วงชั้น</option>
-          <option value="early">ก่อนเรียน / ปฐมวัย</option>
-          <option value="primary">ประถมศึกษา</option>
-          <option value="secondary">มัธยมศึกษา</option>
-          <option value="other">อื่น ๆ</option>
-        </select>
-      </label>
-      <label>ค้นหาจากข้อความหรือเลขคู่
-        <input id="reviewSearch" type="search" placeholder="เช่น ฟุตบอล, หนองกระทุ่ม, คู่ 20" autocomplete="off">
-      </label>
     </div>
-    <label class="review-toggle"><input type="checkbox" id="reviewQaOnly"><span>แสดงเฉพาะรายการที่มีจุดให้ตรวจเพิ่มเติม (QA)</span></label>
-    <p class="review-filter-note">เลือกโรงเรียนเพื่อดูเฉพาะทีม/ลู่ที่ระบุโรงเรียนนั้นโดยตรง รายการที่ยังไม่รู้ผู้ชนะอาจไม่ปรากฏเมื่อกรองโรงเรียน</p>
+    <details id="reviewExtraFilters" class="review-extra-filters">
+      <summary>ค้นหาและตัวเลือกเพิ่มเติม <span id="reviewExtraHint"></span></summary>
+      <div class="review-extra-filter-content">
+        <label>ช่วงชั้น
+          <select id="reviewLevel">
+            <option value="">ทุกช่วงชั้น</option>
+            <option value="early">ก่อนเรียน / ปฐมวัย</option>
+            <option value="primary">ประถมศึกษา</option>
+            <option value="secondary">มัธยมศึกษา</option>
+            <option value="other">อื่น ๆ</option>
+          </select>
+        </label>
+        <label>ค้นหาชื่อทีม รุ่น หรือเลขคู่
+          <input id="reviewSearch" type="search" placeholder="เช่น วังด้ง, ฟุตบอล, คู่ 20" autocomplete="off">
+        </label>
+        <label class="review-toggle"><input type="checkbox" id="reviewQaOnly"><span>ดูเฉพาะรายการที่ควรตรวจซ้ำ</span></label>
+        <p class="review-filter-note">รายการที่ควรตรวจซ้ำเป็นจุดให้ช่วยตรวจสอบ ไม่ได้หมายความว่าข้อมูลผิดทั้งหมด หากเลือกโรงเรียน รายการรอบถัดไปที่ยังไม่ทราบผู้ชนะอาจไม่ปรากฏ</p>
+      </div>
+    </details>
   </section>
 
   <section id="reviewDirect" class="review-direct" hidden aria-labelledby="reviewDirectTitle">
@@ -76,7 +93,7 @@
 
   <section id="reviewListing" aria-labelledby="reviewListingTitle" aria-busy="true">
     <div class="review-section-top">
-      <h2 id="reviewListingTitle">รายการจากสูจิบัตรล่าสุด</h2>
+      <h2 id="reviewListingTitle">รายการแข่งขันฉบับใหม่</h2>
       <div class="review-listing-actions"><span id="reviewCount" role="status" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="reviewRefresh" class="refresh-button">↻ รีเฟรช</button></div>
     </div>
     <p id="reviewStatus" class="refresh-status" role="status" aria-live="polite"></p>
@@ -95,9 +112,9 @@
   </section>
 
   <section class="review-howto" aria-labelledby="reviewHowtoHeading">
-    <h2 id="reviewHowtoHeading">พบข้อมูลผิด แจ้งแก้อย่างไร?</h2>
-    <p>เปิดรายการที่ผิดแล้วกด <strong>คัดลอกข้อมูลแจ้งแก้ไข</strong> จากนั้นนำข้อความไปวางในแชทกับผู้จัด พร้อมระบุค่าที่ถูกต้องและหลักฐานที่ยืนยันได้ ระบบนี้ไม่มีการกดรับรองและไม่ส่งข้อมูลอัตโนมัติ</p>
-    <p>เมื่อคณะกรรมการยืนยันแล้ว ผู้ดูแลจะปรับ JSON ผ่าน GitHub โดยเก็บประวัติการแก้ไข และจึงจัดทำฉบับเผยแพร่ในขั้น R11E</p>
+    <h2 id="reviewHowtoHeading">พบข้อมูลไม่ตรง แจ้งแก้อย่างไร?</h2>
+    <p>เปิดรายการที่ผิดแล้วกด <strong>แจ้งข้อมูลไม่ตรง</strong> จากนั้นนำข้อความไปวางในแชทกับผู้จัด พร้อมระบุค่าที่ถูกต้องและหลักฐานที่ยืนยันได้ ระบบนี้ไม่มีการกดรับรองและไม่ส่งข้อมูลอัตโนมัติ</p>
+    <p>เมื่อผู้จัดตรวจสอบและยืนยันข้อมูลแล้ว จะปรับปรุงรายการและเก็บประวัติการแก้ไขก่อนนำไปใช้เป็นโปรแกรมแข่งขันฉบับประกาศ</p>
   </section>
   <section id="copyFallback" class="review-copy-fallback" hidden aria-labelledby="copyFallbackTitle">
     <h2 id="copyFallbackTitle">ข้อความสำหรับคัดลอกด้วยตนเอง</h2>
@@ -106,12 +123,15 @@
   </section>
 </main>
 <footer class="shell">มิตรภาพเกม ปี 2569 · ชุดข้อมูล PDF เพื่อการตรวจสอบ · ไม่ใช่ประกาศอย่างเป็นทางการ</footer>
-<nav class="mobile-nav" aria-label="ไปยังหน้าโปรแกรมและผลการแข่งขัน">
-  <a href="./index.html" aria-label="โปรแกรมการแข่งขัน">
+<nav class="mobile-nav review-mobile-nav" aria-label="เมนูด้านล่าง">
+  <a href="./index.html" aria-label="ตารางแข่งขัน">
     <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg><span>ตารางแข่ง</span>
   </a>
+  <a href="./review.html" aria-current="page" aria-label="ตรวจโปรแกรมฉบับใหม่">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>ตรวจฉบับใหม่</span>
+  </a>
   <a href="./results.html" aria-label="ผลการแข่งขัน">
-    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg><span>ผลแข่งขัน</span>
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 0 4-4M12 16v4M8 21h8"/></svg><span>ผลแข่ง</span>
   </a>
 </nav>
 <script src="./js/shared.js"></script>
