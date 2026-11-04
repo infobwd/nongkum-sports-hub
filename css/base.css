@@ -1,24 +1,36 @@
 
-    :root{font-family:"Noto Sans Thai",system-ui,-apple-system,sans-serif;color:#1b304b;background:#f5f7fb;font-synthesis:none}
+    :root{
+      font-family:"Noto Sans Thai",system-ui,-apple-system,sans-serif;
+      color:#1b304b;background:#f5f7fb;font-synthesis:none;
+      --safe-top:env(safe-area-inset-top,0px);
+      --safe-bottom:env(safe-area-inset-bottom,0px);
+      --page-title-size:clamp(1.13rem,3.8vw,1.7rem);
+      --section-title-size:1.08rem;
+      --section-gap:10px;
+    }
+    html{background:#f5f7fb;scroll-padding-top:calc(var(--safe-top) + 12px)}
+
     *{box-sizing:border-box}
-    body{margin:0;line-height:1.55}
+    body{margin:0;line-height:1.55;padding-top:var(--safe-top);background:#f5f7fb}
     button,input,select{font:inherit}
     button,summary{cursor:pointer}
     a{color:#155ca5;text-decoration:none}
     a:hover{text-decoration:underline}
     .shell{max-width:1120px;margin:0 auto;padding:0 18px}
     .top{background:#183762;color:#fff;border-bottom:4px solid #f2c54e}
-    .brand{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0 6px}
+    .brand{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:10px 0 7px}
     .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1rem}
     .logoIcon{display:grid;place-items:center;background:#fff2bf;color:#183762;border-radius:11px;width:40px;height:40px;font-size:23px}
     .mode{font-size:.72rem;font-weight:750;white-space:nowrap;border-radius:999px;padding:5px 10px;border:1px solid #c3d5e9;color:#fff}
-    .hero{padding:10px 0 18px}
+    .hero{padding:2px 0 12px}
     .eyebrow{color:#f7d575;font-weight:700;font-size:.78rem;letter-spacing:.02em}
-    h1{margin:4px 0 3px;font-size:clamp(1.35rem,4.5vw,2rem);line-height:1.3}
+    h1{margin:0;font-size:var(--page-title-size);line-height:1.3}
     .hero p{font-size:.87rem;color:#d9e6f5;margin:3px 0 0}
     main{padding-bottom:28px}
-    .panel{background:#fff;border:1px solid #e0e6ee;border-radius:18px;padding:17px;margin:16px 0;box-shadow:0 5px 18px rgba(20,45,78,.035)}
-    h2{font-size:1.12rem;line-height:1.35;margin:0 0 12px;font-weight:800}
+    footer{padding:20px 0 30px;color:#677d92;text-align:center;font-size:.75rem;line-height:1.5}
+    .panel,.result-panel{background:#fff;border:1px solid #e0e6ee;border-radius:18px;padding:14px 16px;margin:12px 0;box-shadow:0 5px 18px rgba(20,45,78,.035)}
+    h2{font-size:var(--section-title-size);line-height:1.35;margin:0 0 9px;font-weight:800}
+    .results-top h2{margin:0}
     .fieldlabel{display:block;font-size:.88rem;font-weight:700;margin-bottom:7px}
     .fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}
     select,input{min-height:48px;width:100%;border:1px solid #aebfd3;border-radius:11px;padding:10px 12px;background:#fff;color:#193151}
@@ -66,7 +78,6 @@
 
 
     /* R6: native bottom navigation for one-thumb switching on mobile. */
-    :root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
     .mobile-nav{display:none}
     .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
     .site-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
@@ -99,19 +110,20 @@
         content:"";position:absolute;top:3px;left:calc(50% - 11px);
         width:22px;height:3px;border-radius:3px;background:#e4ae31
       }
-      body > main{padding-bottom:calc(104px + var(--safe-bottom))}
-      body > footer{padding-bottom:calc(100px + var(--safe-bottom))}
+      .shell{padding:0 14px}
+      .brand{align-items:center;padding:10px 0 7px}
+      .logo{font-size:.91rem}
+      .logoIcon{width:36px;height:36px;font-size:21px}
+      .mode{font-size:.66rem;padding:4px 8px}
+      .hero{padding:2px 0 11px}
+      .panel,.result-panel{margin:10px 0;padding:12px 14px}
+      body > main{padding-bottom:28px}
+      body > footer{padding-bottom:calc(92px + var(--safe-bottom))}
       html{scroll-padding-bottom:calc(92px + var(--safe-bottom))}
     }
     @media print{.mobile-nav,#navigationNotice{display:none!important}body > main,body > footer{padding-bottom:0}}
-    /* iOS Safari: cover content beneath its status bar only after a scroll.
-       Unlike an always-on 44px mask, this never clips the first-screen logo. */
-    @supports (-webkit-touch-callout:none){
-      @media(max-width:690px){
-        body.is-scrolled::before{height:max(44px,var(--safe-top));background:#f5f7fb;pointer-events:none}
-      }
-    }
-
+    /* R7: iOS Safe Area is handled by html/body background and padding only.
+       No fixed pseudo-element may cover the header while scrolling. */
 
     /* Recognizable share glyph without increasing card height. */
     .share-icon{padding:0}
