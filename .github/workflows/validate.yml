@@ -1,7 +1,7 @@
 name: Validate draft data
 on:
   push:
-    branches: ["main", "feat/mobile-program-architecture"]
+    branches: ["main", "feat/**"]
   pull_request:
     branches: ["main"]
 permissions:
