@@ -11,6 +11,7 @@ on:
       - "scripts/ux/test-review-r11d.mjs"
       - "scripts/ux/test-review-r11d1.mjs"
       - "scripts/ux/test-pdf-viewer-r11d2.mjs"
+      - "scripts/ux/test-review-r11d3.mjs"
       - "pdf-viewer.html"
       - "js/pdf-viewer.js"
       - "css/pdf-viewer.css"
@@ -27,6 +28,7 @@ on:
       - "scripts/ux/test-review-r11d.mjs"
       - "scripts/ux/test-review-r11d1.mjs"
       - "scripts/ux/test-pdf-viewer-r11d2.mjs"
+      - "scripts/ux/test-review-r11d3.mjs"
       - "pdf-viewer.html"
       - "js/pdf-viewer.js"
       - "css/pdf-viewer.css"
@@ -49,6 +51,8 @@ jobs:
         run: node scripts/ux/test-review-r11d1.mjs
       - name: R11D.2 source PDF and page-viewer routing
         run: node scripts/ux/test-pdf-viewer-r11d2.mjs
+      - name: R11D.3 responsive split scroll and mobile PDF fit modes
+        run: node scripts/ux/test-review-r11d3.mjs
       - name: R11A deterministic source contract
         run: node scripts/data/reconcile-program-r11a.mjs --check
       - name: Existing program and LINE deep-link regression
