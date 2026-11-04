@@ -50,6 +50,10 @@
     .tag{font-size:.76rem;border-radius:7px;background:#f0f4f9;color:#42617e;padding:5px 8px}
     .tag.unconfirmed{background:#fff5df;color:#795b19}
     .source{font-size:.73rem;color:#7a8a9d;margin-top:10px}
+    .lanes{margin-top:11px;display:grid;gap:4px}
+    .lane{display:flex;gap:12px;align-items:center;border-bottom:1px solid #f0f2f6;padding:5px 0;font-size:.82rem}
+    .lane:last-child{border-bottom:0}
+    .lane-num{min-width:46px;color:#5e748b;font-weight:700}
     .empty{background:#fff;border:1px dashed #bacbdd;border-radius:12px;padding:24px;text-align:center;margin-top:15px}
     .empty strong{display:block}.empty p{margin:4px 0 0;color:#6c7f91;font-size:.86rem}
     .subtle{font-size:.86rem;color:#64798f;margin:0}
@@ -71,8 +75,8 @@
       </div>
       <div class="hero">
         <div class="eyebrow">SPORTS PROGRAM 2569</div>
-        <h1>หาโปรแกรมแข่งของโรงเรียน<br>ได้ง่าย ๆ บนมือถือ</h1>
-        <p>เลือกโรงเรียนและชนิดกีฬา เพื่อดูคู่แข่งขันตามสูจิบัตรที่อยู่ระหว่างตรวจทาน</p>
+        <h1>ดูสูจิบัตรกีฬา<br>ตรวจทานก่อนประกาศจริง</h1>
+        <p>นำเข้าคู่แข่งขันและลู่กรีฑาครบตามเอกสาร เพื่อให้กรรมการตรวจสอบได้จากมือถือ</p>
       </div>
     </div>
   </header>
@@ -81,7 +85,7 @@
     <section class="warning" aria-label="สถานะข้อมูล">
       <span aria-hidden="true">⚠️</span>
       <div><strong>ตัวอย่างหน้าจอสำหรับทีมงานทดลองใช้</strong>
-        <p>แสดงเพียงบางรายการจากสูจิบัตร 69 เท่านั้น ยังไม่ครบทุกคู่แข่งขัน วันแข่งขันส่วนใหญ่ยังไม่ระบุ และข้อมูลยังไม่ผ่านการยืนยันจากผู้จัด โปรดอย่าใช้นัดหมายนักกีฬาจนกว่าจะมีประกาศทางการ</p>
+        <p>นำเข้าคู่แข่งขันและรายการกรีฑาตามสูจิบัตรทั้งฉบับเพื่อให้คณะกรรมการตรวจทานแล้ว แต่ยังไม่ผ่านการรับรอง วันแข่งขันยังไม่ได้ระบุและหลายรายการยังไม่มีเวลา/สนาม โปรดอย่าใช้นัดหมายนักกีฬาจนกว่าจะมีประกาศทางการ</p>
       </div>
     </section>
 
@@ -102,7 +106,7 @@
       </div>
       <p class="subtle" style="margin-top:6px">เวลาที่แสดงเป็นเวลาจากสูจิบัตรต้นฉบับ โดยยังไม่ยืนยันวันแข่งขัน</p>
       <div id="cards" class="cards"></div>
-      <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong><p>ลองเลือกทุกโรงเรียน หรือชนิดกีฬาอื่น ข้อมูลตัวอย่างนี้ยังนำเข้าไม่ครบ</p></div>
+      <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong><p>ลองเลือกทุกโรงเรียนหรือกีฬาอื่น รายการก่อนเรียนระดับศูนย์แสดงเฉพาะเมื่อเลือกทุกโรงเรียน เพราะสูจิบัตรไม่ได้ระบุโรงเรียนรายแห่ง</p></div>
     </section>
 
     <section class="admin" aria-labelledby="adminTitle">
@@ -127,7 +131,9 @@
   function card(m){
     const sport=getSport(m.sport_id), a=m.team_a_id?getSchool(m.team_a_id):null, b=m.team_b_id?getSchool(m.team_b_id):null;
     const heading="<div class='fixture-head'><div><div class='sport-name'>"+safe(sport? sport.emoji+" "+sport.name:m.sport_id)+"</div><div class='division'>"+safe(m.division||"")+"</div></div><span class='pairnum'>"+(m.kind==="track_event"?"รายการ": "คู่ที่")+" "+safe(m.source_match_no)+"</span></div>";
-    const matchup=m.kind==="track_event"?"<div class='eventname'>"+safe(m.name)+"</div><p class='subtle'>การจัดลู่/รายชื่อจากเอกสารกำลังตรวจทาน</p>":"<div class='match'><span class='team'>"+safe(a?a.short:"รอระบุทีม")+"</span><span class='vs'>VS</span><span class='team'>"+safe(b?b.short:"รอระบุทีม")+"</span></div>";
+    const matchup=m.kind==="track_event"
+      ? "<div class='eventname'>"+safe(m.name)+"</div><div class='lanes' aria-label='ลู่แข่งขันตามสูจิบัตร'>"+(m.lanes||[]).filter(function(l){return !l.vacant;}).map(function(l){return "<div class='lane'><span class='lane-num'>ลู่ "+safe(l.lane)+"</span><span>"+safe(l.source_school_label)+"</span></div>";}).join("")+"</div>"
+      : "<div class='match'><span class='team'>"+safe(a?a.short:(m.source_team_a_label||"รอระบุทีม"))+"</span><span class='vs'>VS</span><span class='team'>"+safe(b?b.short:(m.source_team_b_label||"รอระบุทีม"))+"</span></div>";
     const schedule=m.time?"เวลาในต้นฉบับ "+safe(m.time)+" น.":"เวลารอยืนยัน";
     const venue=m.field?safe(m.field):"สนามรอยืนยัน";
     return "<article class='fixture'>"+heading+matchup+"<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span><span class='tag unconfirmed'>"+schedule+"</span><span class='tag'>"+venue+"</span></div><div class='source'>วันแข่งรอยืนยัน · อ้างอิง PDF หน้า "+safe(m.source_page)+" · ข้อมูลร่าง</div></article>";
@@ -148,13 +154,16 @@
     const q=state.query.trim().toLocaleLowerCase("th");
     const matched=state.data.fixtures.filter(function(m){
       if(state.sport&&m.sport_id!==state.sport)return false;
-      if(state.school&&m.team_a_id!==state.school&&m.team_b_id!==state.school)return false;
+      if(state.school){
+        const laneSchool=m.kind==="track_event"&&(m.lanes||[]).some(function(l){return l.school_id===state.school;});
+        if(m.team_a_id!==state.school&&m.team_b_id!==state.school&&!laneSchool)return false;
+      }
       if(!q)return true;
       const sport=getSport(m.sport_id),a=m.team_a_id?getSchool(m.team_a_id):null,b=m.team_b_id?getSchool(m.team_b_id):null;
-      return [sport&&sport.name,m.division,m.name,m.source_match_no,a&&a.name,a&&a.short,b&&b.name,b&&b.short].filter(Boolean).join(" ").toLocaleLowerCase("th").includes(q);
+      return [sport&&sport.name,m.division,m.name,m.source_match_no,m.source_team_a_label,m.source_team_b_label,a&&a.name,a&&a.short,b&&b.name,b&&b.short,...(m.lanes||[]).map(function(l){return l.source_school_label;})].filter(Boolean).join(" ").toLocaleLowerCase("th").includes(q);
     });
     els.cards.innerHTML=matched.map(card).join("");
-    els.count.textContent="พบ "+matched.length+" รายการตัวอย่าง";
+    els.count.textContent="พบ "+matched.length+" รายการ (ข้อมูลร่าง)";
     els.empty.hidden=matched.length>0;
   }
   fetch("./data/draft-schedule.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");return r.json();}).then(function(data){
@@ -167,7 +176,7 @@
     state.school=data.schools.some(function(s){return s.id===requested;})?requested:"";
     state.sport=data.sports.some(function(s){return s.id===params.get("sport");})?params.get("sport"):"";
     els.school.value=state.school;
-    els.sourceInfo.textContent="นำเข้าตัวอย่าง "+data.fixtures.length+" รายการ (ยังไม่ครบ)";
+    els.sourceInfo.textContent="นำเข้า "+data.metadata.count_matches+" คู่ + "+data.metadata.count_athletics_events+" กรีฑา";
     makeChips();render();
     els.school.addEventListener("change",function(){state.school=els.school.value;try{localStorage.setItem("nongkum-school",state.school);}catch(e){}render();syncUrl();});
     els.search.addEventListener("input",function(){state.query=els.search.value;render();});
