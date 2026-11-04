@@ -37,6 +37,7 @@
         <p id="sharedFixtureStatus" role="status" aria-live="polite">กำลังเปิดคู่แข่งขัน…</p>
       </div>
       <div id="sharedFixtureCard" class="direct-card"></div>
+      <div id="sharedFixtureLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลคู่แข่งขันไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดคู่แข่งขันอีกครั้ง</p><button type="button" class="load-retry" id="retrySharedFixture">↻ ลองอีกครั้ง</button></div>
       <div class="direct-actions">
         <button id="showFullSchedule" type="button" class="direct-back">ดูตารางการแข่งขันทั้งหมด</button>
       </div>
@@ -68,13 +69,15 @@
       <div><strong>ข้อมูลส่วนใหญ่ยังเป็นร่าง</strong> เปตองนอกรอบยืนยันวันและสถานที่แล้ว แต่เวลาแข่งยังรอแจ้ง ส่วนรายการอื่นต้องตรวจรับก่อนใช้เป็นกำหนดการทางการ</div>
     </aside>
 
-    <section aria-labelledby="resultTitle">
+    <section id="programListing" aria-labelledby="resultTitle" aria-busy="true">
       <div class="results-top">
         <h2 id="resultTitle">โปรแกรมการแข่งขัน</h2>
         <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
       <p class="subtle" id="resultNote">เรียงตามสูจิบัตรต้นฉบับ · วันและสถานที่เปตองนอกรอบที่ยืนยันแล้วจะแสดงแยกจากข้อมูลที่ยังรอตรวจ</p>
+      <div id="programSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
+      <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลฉบับร่างอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
       <div id="cards"></div>
       <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong>
         <p>ลองเลือกทุกโรงเรียนหรือทุกกีฬา รายการระดับศูนย์ฯ ยังไม่ผูกกับโรงเรียนรายแห่ง</p>

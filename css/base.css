@@ -130,3 +130,18 @@
     .share-icon svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
     .sport-cue{display:inline-flex;align-items:center;font-size:1.1rem;line-height:1.2;flex:none}
     .sport-label .division{font-weight:650}
+
+/* R9: listing-only loading placeholders; no fixed overlays and no splash. */
+.loading-skeleton{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0 18px}
+.loading-card{min-height:150px;border:1px solid #d9e3ee;background:#fff;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:17px}
+.loading-bar{display:block;height:15px;border-radius:8px;background:linear-gradient(100deg,#e8edf3 10%,#f6f8fb 40%,#e8edf3 70%);background-size:220% 100%;animation:nk-loading-shimmer 1.65s ease-in-out infinite}
+.loading-bar-short{width:38%}.loading-bar-wide{width:85%;height:22px}.loading-bar-medium{width:63%}
+@keyframes nk-loading-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.load-failure{background:#fff;border:1px solid #d2deeb;border-radius:14px;padding:17px;margin:12px 0 18px;color:#183762}
+.load-failure strong{font-size:1rem}.load-failure p{font-size:.87rem;color:#536a83;line-height:1.6;margin:7px 0 14px}
+.load-retry{font:inherit;border:1px solid #1f4c80;background:#244e80;color:#fff;border-radius:11px;padding:10px 18px;font-weight:700;min-height:44px;cursor:pointer;touch-action:manipulation}
+.load-retry:focus-visible{outline:3px solid #eec34c;outline-offset:3px}
+.loading-skeleton[hidden],.load-failure[hidden]{display:none!important}
+@media(max-width:690px){.loading-skeleton{grid-template-columns:1fr}.loading-card{min-height:128px}}
+@media(prefers-reduced-motion:reduce){.loading-bar{animation:none;background:#e8edf3}}
+@media print{.loading-skeleton,.load-failure{display:none!important}}
