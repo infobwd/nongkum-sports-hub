@@ -43,7 +43,7 @@ const url=helper.directItemUrl("index.html","fixture","football-id-012");
 assert.equal(url,"https://example.org/nongkum-sports-hub/index.html?fixture=football-id-012");
 assert.equal(await helper.shareItem("index.html","fixture","petanque 10 ปี","ข้อมูลร่าง"),"copied");
 assert.equal(new URL(copied).searchParams.get("fixture"),"petanque 10 ปี");
-assert.ok(helper.formatCheckedAt(new Date("2026-11-04T09:00:00Z")).includes("ตรวจข้อมูลเมื่อ"));
+assert.ok(helper.formatCheckedAt(new Date("2026-11-04T09:00:00Z")).includes("ตรวจล่าสุด"));
 const cancelledCtx=vm.createContext({
  location,URL,URLSearchParams,Intl,Date,
  navigator:{share:async()=>{const e=new Error("cancel");e.name="AbortError";throw e;}},

@@ -49,7 +49,7 @@
     return "unavailable";
   }
   function formatCheckedAt(date){
-    return "ตรวจข้อมูลเมื่อ "+new Intl.DateTimeFormat("th-TH",{
+    return "ตรวจล่าสุด "+new Intl.DateTimeFormat("th-TH",{
       day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"
     }).format(date||new Date())+" น.";
   }

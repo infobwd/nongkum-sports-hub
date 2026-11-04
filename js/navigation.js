@@ -59,15 +59,8 @@
   });
   if(typeof window!=="undefined"&&typeof window.addEventListener==="function"){
     window.addEventListener("pageshow",reset);
-    // iOS Safari may paint scrolled content behind the status bar. Keep a
-    // non-interactive top scrim only after scrolling; never mask the logo at top.
-    const setScrolled=function(){
-      if(document.body&&document.body.classList){
-        document.body.classList.toggle("is-scrolled",window.scrollY>12);
-      }
-    };
-    window.addEventListener("scroll",setScrolled,{passive:true});
-    setScrolled();
+    // Native viewport-fit Safe Area in shared CSS handles iOS status-bar spacing.
+    // Do not create scroll-triggered overlays or intercept native page scrolling.
   }
   root.NongkumNavigation=Object.freeze({update,reset});
 })(globalThis);

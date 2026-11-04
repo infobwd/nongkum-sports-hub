@@ -5,7 +5,6 @@
 .result-sport-chips{display:flex;overflow-x:auto;gap:8px;padding:8px 0;scrollbar-width:thin}
 .result-chip{border:1px solid #bfcedf;background:#fff;border-radius:999px;padding:9px 13px;white-space:nowrap;font-weight:700;color:#28466b;min-height:43px}
 .result-chip[aria-pressed="true"]{background:#174978;color:#fff;border-color:#174978}
-.result-panel{background:#fff;border-radius:17px;padding:16px;margin:13px 0;border:1px solid #d9e4ef}
 .result-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .result-summary{margin:6px 0 11px;font-size:.81rem;color:#60758a}
 .result-card{min-width:0}
@@ -30,16 +29,12 @@
 .result-chip:focus-visible{outline:3px solid #f2c54e;outline-offset:2px}
 @media(max-width:690px){
 .result-tiles,.result-controls{grid-template-columns:1fr}
-.result-panel{padding:13px;margin:10px 0}
 .result-team-row{gap:8px}
 .rank-row{grid-template-columns:70px 1fr auto}
 }
 
 
 /* Elements deliberately shared in appearance with program cards, without loading program.css */
-:root{--safe-top:env(safe-area-inset-top,0px)}
-body{padding-top:var(--safe-top)}
-body::before{content:"";position:fixed;top:0;left:0;right:0;height:var(--safe-top);background:#f5f7fb;pointer-events:none;z-index:999}
 .results-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .result-card{background:#fff;border:1px solid #dfe6f0;border-radius:14px;padding:13px;box-shadow:0 3px 9px rgba(18,45,75,.025)}
 .fixture-head{display:flex;justify-content:space-between;align-items:start;gap:10px}

@@ -245,7 +245,7 @@
       }
       updateFilterHint();makeChips();makeLevels();render();syncNav();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
-        " · ไฟล์โปรแกรมบนเว็บ (ไม่ใช่ข้อมูลสดจาก Sheets)";
+        " · ไฟล์เผยแพร่บนเว็บ";
     }catch(e){
       els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · ยังคงข้อมูลเดิมถ้ามี";
       if(!state.data){

@@ -97,7 +97,7 @@ assert.match(sportAll.els.sports.innerHTML,/>50<\/span>/,"sports navigation must
 assert.match(sportAll.els.cards.innerHTML,/รายการ · แสดง/,"group headers must show total and visible counts");
 assert.match(sportAll.els.cards.innerHTML,/รายละเอียด · ข้อมูลร่าง/);
 assert.ok(html.includes("safe-area-inset-top"));
-assert.ok(html.includes("body::before"));
+assert.ok(!html.includes("body::before"),"R7 must not create fixed status-bar overlays");
 assert.ok(html.includes('id="advancedFilters"'));
 assert.match(sportAll.els.count.textContent,/แสดง 12/);
 assert.equal(sportAll.els.more.hidden,false);
