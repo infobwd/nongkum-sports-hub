@@ -11,25 +11,27 @@
     if(f.kind==="track_event")return Array.isArray(f.lanes)&&f.lanes.some(l=>l.school_id===id);
     return f.team_a_id===id||f.team_b_id===id;
   }
-  function searchMatches(f,q){
+  function searchMatches(f,q,sportName){
     const term=String(q||"").trim().toLocaleLowerCase();
     if(!term)return true;
+    const byNumber=term.match(/^(?:คู่|รายการ)\s*(\d+)$/);
+    if(byNumber)return String(f.source_match_no||"")===byNumber[1];
     const fields=[
-      f.id,f.source_match_no,f.sport_id,f.division,f.source_pair_text,
+      f.id,f.source_match_no,f.sport_id,sportName,f.division,f.source_pair_text,
       f.source_team_a_label,f.source_team_b_label,f.name,f.source_title,f.round,
       f.draft_field,f.source_pdf&&f.source_pdf.source_date_text,
       ...(Array.isArray(f.lanes)?f.lanes.map(l=>l.source_school_label):[])
     ];
     return fields.some(x=>String(x??"").toLocaleLowerCase().includes(term));
   }
-  function filterItems(data,filters,levelClassifier){
+  function filterItems(data,filters,levelClassifier,sportNames){
     const f=filters||{};
     return data.filter(x=>
       schoolMatches(x,f.school||"")&&
       (!f.sport||x.sport_id===f.sport)&&
       (!f.level||levelClassifier(x)===f.level)&&
       (!f.qaOnly||hasQa(x))&&
-      searchMatches(x,f.search)
+      searchMatches(x,f.search,sportNames&&sportNames.get(x.sport_id))
     );
   }
   function thaiDate(iso){
