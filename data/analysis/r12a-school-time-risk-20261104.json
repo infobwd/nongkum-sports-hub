@@ -1,0 +1,1728 @@
+{
+  "schema_version": 1,
+  "report_type": "school_level_draft_start_time_screening",
+  "source": {
+    "file": "data/program-from-pdf-2569-20261104-draft.json",
+    "pdf_sha256": "1cd0d0166fe202b2b69e18f5ec2e1c2d80439386767a1826bf21d7d5da9e0bbf",
+    "state": "revised_pdf_draft",
+    "revision": "pdf69-20261104-draft-r11a"
+  },
+  "interpretation": {
+    "approval": "NOT_APPROVED",
+    "athlete_conflicts_confirmed": false,
+    "purpose": "Potential school-level scheduling risks only, NOT student conflicts",
+    "near_minutes": 30,
+    "caution": "Start times alone cannot establish match overlap, travel or recovery time. No athlete rosters, durations or athletics times are supplied."
+  },
+  "stats": {
+    "fixtures": 237,
+    "matches": 187,
+    "athletics_events": 50,
+    "athletics_lane_rows": 289,
+    "missing_draft_date": 3,
+    "missing_draft_time": 50,
+    "missing_date_or_time": 53,
+    "unresolved_match_team_refs": 60,
+    "confirmed_petanque_day_venue_only": 24,
+    "valid_school_time_entries": 249,
+    "same_start_school_groups": 33,
+    "near_start_school_pairs": 96
+  },
+  "school_directory": [
+    {
+      "school_id": "nongkrathum",
+      "name": "โรงเรียนบ้านหนองกระทุ่ม"
+    },
+    {
+      "school_id": "nongkum",
+      "name": "โรงเรียนบ้านหนองกุ่ม"
+    },
+    {
+      "school_id": "phuphrom",
+      "name": "โรงเรียนบ้านพุพรหม"
+    },
+    {
+      "school_id": "rangkham",
+      "name": "โรงเรียนบ้านรางขาม"
+    },
+    {
+      "school_id": "saohong",
+      "name": "โรงเรียนบ้านเสาหงส์"
+    },
+    {
+      "school_id": "thungmasang",
+      "name": "โรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)"
+    },
+    {
+      "school_id": "wangdong",
+      "name": "โรงเรียนบ้านวังด้ง"
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "name": "โรงเรียนบ้านวังเขาแก้ว"
+    }
+  ],
+  "same_start_school_groups": [
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-12",
+      "draft_start": "09:00",
+      "fixture_ids": [
+        "petanque-p17-10-ปี-ชาย-009",
+        "petanque-p17-10-ปี-ชาย-010"
+      ]
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-16",
+      "draft_start": "09:00",
+      "fixture_ids": [
+        "petanque-p18-มัธยมชาย-043",
+        "petanque-p18-มัธยมหญิง-044"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-16",
+      "draft_start": "09:00",
+      "fixture_ids": [
+        "petanque-p18-มัธยมชาย-043",
+        "petanque-p18-มัธยมหญิง-044"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-17",
+      "draft_start": "08:30",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-001",
+        "volleyball-p11-12-ปี-หญิง-A-003"
+      ]
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "draft_start": "09:30",
+      "fixture_ids": [
+        "futsal-p09-10-ปี-ชาย-A-001",
+        "volleyball-p11-12-ปี-หญิง-B-004"
+      ]
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-004",
+        "futsal-p09-10-ปี-ชาย-A-002",
+        "petanque-p17-8-ปี-หญิง-006",
+        "takraw-p12-12-ปี-ชาย-A-002"
+      ]
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "petanque-p17-8-ปี-หญิง-006",
+        "tabletennis-p20-12-ปี-ชาย-001"
+      ]
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-003",
+        "petanque-p17-8-ปี-หญิง-007"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-17",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-004",
+        "petanque-p17-8-ปี-หญิง-008",
+        "tabletennis-p20-12-ปี-ชาย-001",
+        "takraw-p12-12-ปี-ชาย-A-002"
+      ]
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-003",
+        "petanque-p17-8-ปี-หญิง-008"
+      ]
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-17",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "futsal-p09-10-ปี-ชาย-A-002",
+        "petanque-p17-8-ปี-หญิง-005"
+      ]
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "draft_start": "10:30",
+      "fixture_ids": [
+        "tabletennis-p20-12-ปี-ชาย-002",
+        "volleyball-p11-12-ปี-ชาย-A-001"
+      ]
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "draft_start": "10:30",
+      "fixture_ids": [
+        "futsal-p09-10-ปี-ชาย-B-003",
+        "takraw-p12-12-ปี-ชาย-B-003",
+        "volleyball-p11-12-ปี-ชาย-A-001"
+      ]
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "draft_start": "13:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-006",
+        "futsal-p09-10-ปี-ชาย-A-004",
+        "tabletennis-p20-12-ปี-หญิง-005"
+      ]
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "draft_start": "13:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-005",
+        "takraw-p12-12-ปี-หญิง-A-005",
+        "volleyball-p11-12-ปี-ชาย-B-002"
+      ]
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "draft_start": "13:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-006",
+        "tabletennis-p20-12-ปี-หญิง-005",
+        "volleyball-p11-12-ปี-ชาย-B-002"
+      ]
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "draft_start": "13:30",
+      "fixture_ids": [
+        "tabletennis-p20-12-ปี-หญิง-006",
+        "takraw-p12-12-ปี-หญิง-A-006"
+      ]
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "draft_start": "14:00",
+      "fixture_ids": [
+        "takraw-p12-12-ปี-หญิง-B-007",
+        "volleyball-p11-12-ปี-หญิง-A-007"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-17",
+      "draft_start": "14:30",
+      "fixture_ids": [
+        "tabletennis-p20-12-ปี-หญิง-008",
+        "takraw-p12-12-ปี-ชาย-A-008"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-18",
+      "draft_start": "08:30",
+      "fixture_ids": [
+        "football-p07-มัธยมหญิง-007",
+        "volleyball-p11-12-ปี-ชาย-A-005"
+      ]
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-18",
+      "draft_start": "09:30",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-009",
+        "takraw-p12-12-ปี-ชาย-A-009",
+        "volleyball-p11-12-ปี-ชาย-B-006"
+      ]
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-18",
+      "draft_start": "09:30",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-008",
+        "futsal-p09-10-ปี-ชาย-B-006"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-18",
+      "draft_start": "09:30",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-008",
+        "futsal-p09-10-ปี-ชาย-B-006"
+      ]
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-18",
+      "draft_start": "09:30",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-009",
+        "volleyball-p11-12-ปี-ชาย-B-006"
+      ]
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-18",
+      "draft_start": "10:00",
+      "fixture_ids": [
+        "futsal-p09-10-ปี-ชาย-A-007",
+        "takraw-p12-12-ปี-ชาย-B-010"
+      ]
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-18",
+      "draft_start": "11:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-010",
+        "takraw-p13-12-ปี-หญิง-A-012"
+      ]
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-18",
+      "draft_start": "13:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-013",
+        "futsal-p09-10-ปี-ชาย-A-008"
+      ]
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-18",
+      "draft_start": "13:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-013",
+        "futsal-p09-10-ปี-ชาย-A-008",
+        "volleyball-p11-12-ปี-หญิง-B-012"
+      ]
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-18",
+      "draft_start": "13:00",
+      "fixture_ids": [
+        "football-p07-12-ปี-ชาย-012",
+        "volleyball-p11-12-ปี-หญิง-B-012"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "draft_start": "10:30",
+      "fixture_ids": [
+        "tabletennis-p20-มัธยม-หญิง-014",
+        "takraw-p13-12-ปี-หญิง-A-019"
+      ]
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "draft_start": "14:00",
+      "fixture_ids": [
+        "futsal-p09-มัธยมชาย-014",
+        "volleyball-p11-มัธยมหญิง-018"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "draft_start": "14:00",
+      "fixture_ids": [
+        "futsal-p09-มัธยมชาย-014",
+        "volleyball-p11-มัธยมหญิง-018"
+      ]
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "draft_start": "08:30",
+      "fixture_ids": [
+        "takraw-p13-มัธยม-ชาย-026",
+        "tugofwar-p22-ปฐมวัย-001"
+      ]
+    }
+  ],
+  "near_start_school_pairs": [
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-004",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-007",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-001",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-006",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-004",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-008",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "rangkham",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-003",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-007",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-002",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-005",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-002",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-005",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-003",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-008",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยชาย-001",
+      "first_draft_start": "12:30",
+      "second_fixture_id": "petanque-p14-ปฐมวัยหญิง-006",
+      "second_draft_start": "13:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยหญิง-007",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "shootout-p08-ปฐมวัย-001",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-16",
+      "first_fixture_id": "petanque-p14-ปฐมวัยหญิง-006",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "shootout-p08-ปฐมวัย-001",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-002",
+      "first_draft_start": "08:30",
+      "second_fixture_id": "petanque-p17-8-ปี-ชาย-004",
+      "second_draft_start": "09:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-001",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "petanque-p17-8-ปี-หญิง-005",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-B-004",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "petanque-p17-8-ปี-หญิง-005",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-001",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "petanque-p17-8-ปี-หญิง-006",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-001",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-001",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "rangkham",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-ชาย-A-001",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "petanque-p17-8-ปี-หญิง-007",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-B-004",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "football-p07-12-ปี-ชาย-003",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-B-004",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "petanque-p17-8-ปี-หญิง-007",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-ชาย-A-001",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "football-p07-12-ปี-ชาย-003",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-ชาย-A-001",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "petanque-p17-8-ปี-หญิง-008",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-004",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-002",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-006",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-ชาย-A-002",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-005",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-005",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "volleyball-p11-12-ปี-ชาย-A-001",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-006",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "tabletennis-p20-12-ปี-ชาย-001",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-003",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-003",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-003",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "volleyball-p11-12-ปี-ชาย-A-001",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-007",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-007",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-007",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "volleyball-p11-12-ปี-ชาย-A-001",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-003",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "petanque-p17-8-ปี-หญิง-008",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "first_fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-B-004",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-ชาย-A-001",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-B-004",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-003",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-ชาย-B-003",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-003",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-ชาย-A-001",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-003",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-003",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-ชาย-B-004",
+      "first_draft_start": "11:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-ชาย-004",
+      "second_draft_start": "11:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-004",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "tabletennis-p20-12-ปี-หญิง-006",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-004",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "takraw-p12-12-ปี-หญิง-A-006",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-005",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-A-005",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-หญิง-A-005",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-A-005",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-ชาย-B-002",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-A-005",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-หญิง-A-005",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-A-005",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "tabletennis-p20-12-ปี-หญิง-006",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "volleyball-p11-12-ปี-หญิง-A-007",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-หญิง-A-006",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "volleyball-p11-12-ปี-หญิง-A-007",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-17",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-005",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "tabletennis-p20-12-ปี-หญิง-007",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "takraw-p12-12-ปี-หญิง-B-007",
+      "first_draft_start": "14:00",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-A-008",
+      "second_draft_start": "14:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-17",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-A-007",
+      "first_draft_start": "14:00",
+      "second_fixture_id": "takraw-p12-12-ปี-ชาย-A-008",
+      "second_draft_start": "14:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-17",
+      "first_fixture_id": "tabletennis-p20-12-ปี-หญิง-008",
+      "first_draft_start": "14:30",
+      "second_fixture_id": "volleyball-p11-12-ปี-หญิง-B-008",
+      "second_draft_start": "15:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-18",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-A-007",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "takraw-p13-12-ปี-ชาย-B-011",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-18",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-A-011",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "takraw-p13-12-ปี-หญิง-A-012",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-18",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-A-011",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "football-p07-12-ปี-ชาย-011",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-18",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-012",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "takraw-p13-12-ปี-หญิง-B-014",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-18",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-012",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "takraw-p13-12-ปี-หญิง-B-014",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-18",
+      "first_fixture_id": "volleyball-p11-12-ปี-หญิง-B-012",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "takraw-p13-12-ปี-หญิง-B-014",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-18",
+      "first_fixture_id": "takraw-p13-12-ปี-หญิง-A-013",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-10-ปี-ชาย-B-009",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-18",
+      "first_fixture_id": "takraw-p13-12-ปี-หญิง-B-014",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "volleyball-p11-12-ปี-ชาย-A-009",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-18",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-B-009",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "volleyball-p11-12-ปี-ชาย-A-009",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-18",
+      "first_fixture_id": "futsal-p09-10-ปี-ชาย-B-009",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "takraw-p13-12-ปี-ชาย-A-015",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-18",
+      "first_fixture_id": "volleyball-p11-12-ปี-ชาย-A-009",
+      "first_draft_start": "14:00",
+      "second_fixture_id": "takraw-p13-12-ปี-ชาย-A-016",
+      "second_draft_start": "14:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-19",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-015",
+      "first_draft_start": "09:10",
+      "second_fixture_id": "takraw-p13-12-ปี-ชาย-B-017",
+      "second_draft_start": "09:30",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-016",
+      "first_draft_start": "09:50",
+      "second_fixture_id": "tabletennis-p20-มัธยม-ชาย-013",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 10
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-19",
+      "first_fixture_id": "football-p07-12-ปี-ชาย-016",
+      "first_draft_start": "09:50",
+      "second_fixture_id": "takraw-p13-12-ปี-ชาย-B-018",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 10
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "first_fixture_id": "tabletennis-p20-มัธยม-ชาย-013",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-มัธยม-หญิง-014",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "first_fixture_id": "tabletennis-p20-มัธยม-ชาย-013",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "tabletennis-p20-มัธยม-หญิง-014",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "first_fixture_id": "tabletennis-p20-มัธยม-ชาย-013",
+      "first_draft_start": "10:00",
+      "second_fixture_id": "takraw-p13-12-ปี-หญิง-A-019",
+      "second_draft_start": "10:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "first_fixture_id": "tabletennis-p20-มัธยม-หญิง-014",
+      "first_draft_start": "10:30",
+      "second_fixture_id": "takraw-p13-12-ปี-หญิง-A-020",
+      "second_draft_start": "11:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "first_fixture_id": "volleyball-p11-มัธยม-ชาย-017",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-มัธยมหญิง-013",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "first_fixture_id": "volleyball-p11-มัธยม-ชาย-017",
+      "first_draft_start": "13:00",
+      "second_fixture_id": "futsal-p09-มัธยมหญิง-013",
+      "second_draft_start": "13:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "first_fixture_id": "futsal-p09-มัธยมหญิง-013",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "futsal-p09-มัธยมชาย-014",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-19",
+      "first_fixture_id": "futsal-p09-มัธยมหญิง-013",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "volleyball-p11-มัธยมหญิง-018",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "first_fixture_id": "futsal-p09-มัธยมหญิง-013",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "futsal-p09-มัธยมชาย-014",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-19",
+      "first_fixture_id": "futsal-p09-มัธยมหญิง-013",
+      "first_draft_start": "13:30",
+      "second_fixture_id": "volleyball-p11-มัธยมหญิง-018",
+      "second_draft_start": "14:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-20",
+      "first_fixture_id": "takraw-p13-มัธยม-ชาย-026",
+      "first_draft_start": "08:30",
+      "second_fixture_id": "takraw-p13-มัธยมหญิง-027",
+      "second_draft_start": "09:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-20",
+      "first_fixture_id": "takraw-p13-มัธยม-ชาย-026",
+      "first_draft_start": "08:30",
+      "second_fixture_id": "tugofwar-p22-ปฐมวัย-003",
+      "second_draft_start": "08:50",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "first_fixture_id": "takraw-p13-มัธยม-ชาย-026",
+      "first_draft_start": "08:30",
+      "second_fixture_id": "takraw-p13-มัธยมหญิง-027",
+      "second_draft_start": "09:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-ปฐมวัย-001",
+      "first_draft_start": "08:30",
+      "second_fixture_id": "takraw-p13-มัธยมหญิง-027",
+      "second_draft_start": "09:00",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "saohong",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-ปฐมวัย-002",
+      "first_draft_start": "08:40",
+      "second_fixture_id": "tugofwar-p22-12-ปี-ชาย-005",
+      "second_draft_start": "09:10",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-ปฐมวัย-003",
+      "first_draft_start": "08:50",
+      "second_fixture_id": "takraw-p13-มัธยมหญิง-027",
+      "second_draft_start": "09:00",
+      "start_gap_minutes": 10
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "first_fixture_id": "takraw-p13-มัธยมหญิง-027",
+      "first_draft_start": "09:00",
+      "second_fixture_id": "tugofwar-p22-12-ปี-ชาย-006",
+      "second_draft_start": "09:20",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "wangdong",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-ปฐมวัย-004",
+      "first_draft_start": "09:00",
+      "second_fixture_id": "tugofwar-p22-12-ปี-ชาย-007",
+      "second_draft_start": "09:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-ปฐมวัย-004",
+      "first_draft_start": "09:00",
+      "second_fixture_id": "tugofwar-p22-12-ปี-ชาย-007",
+      "second_draft_start": "09:30",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "phuphrom",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-12-ปี-ชาย-006",
+      "first_draft_start": "09:20",
+      "second_fixture_id": "tugofwar-p22-12-ปี-หญิง-009",
+      "second_draft_start": "09:50",
+      "start_gap_minutes": 30
+    },
+    {
+      "school_id": "wangkhaokaew",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-12-ปี-ชาย-007",
+      "first_draft_start": "09:30",
+      "second_fixture_id": "tugofwar-p22-12-ปี-หญิง-009",
+      "second_draft_start": "09:50",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-12-ปี-ชาย-008",
+      "first_draft_start": "09:40",
+      "second_fixture_id": "tugofwar-p22-12-ปี-หญิง-010",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "nongkum",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-12-ปี-ชาย-008",
+      "first_draft_start": "09:40",
+      "second_fixture_id": "tugofwar-p22-12-ปี-หญิง-010",
+      "second_draft_start": "10:00",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-12-ปี-หญิง-017",
+      "first_draft_start": "11:10",
+      "second_fixture_id": "tugofwar-p22-มัธยมชาย-018",
+      "second_draft_start": "11:20",
+      "start_gap_minutes": 10
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-12-ปี-หญิง-017",
+      "first_draft_start": "11:10",
+      "second_fixture_id": "tugofwar-p22-มัธยมหญิง-019",
+      "second_draft_start": "11:30",
+      "start_gap_minutes": 20
+    },
+    {
+      "school_id": "nongkrathum",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-มัธยมชาย-018",
+      "first_draft_start": "11:20",
+      "second_fixture_id": "tugofwar-p22-มัธยมหญิง-019",
+      "second_draft_start": "11:30",
+      "start_gap_minutes": 10
+    },
+    {
+      "school_id": "thungmasang",
+      "date": "2026-11-20",
+      "first_fixture_id": "tugofwar-p22-มัธยมชาย-018",
+      "first_draft_start": "11:20",
+      "second_fixture_id": "tugofwar-p22-มัธยมหญิง-019",
+      "second_draft_start": "11:30",
+      "start_gap_minutes": 10
+    }
+  ],
+  "incomplete_schedule_fixture_refs": [
+    {
+      "fixture_id": "athletics-p23-001-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p23-002-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p23-003-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p23-004-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p23-005-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p23-006-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p24-007-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p24-008-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p24-009-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p24-010-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p25-011-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p25-012-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p25-013-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p26-014-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p26-015-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p26-016-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p27-017-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p27-018-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p27-019-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p28-020-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p28-021-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p28-022-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p29-023-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p29-024-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p29-025-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p30-026-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p30-027-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p30-028-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p31-029-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p31-030-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p31-031-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p31-032-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p31-033-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p32-034-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p32-035-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p32-035-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p32-036-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p32-037-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p33-038-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p33-039-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p33-040-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p34-041-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p34-042-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p34-043-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p34-044-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p34-045-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p35-046-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p35-047-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p35-048-f",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "athletics-p35-048-m",
+      "sport_id": "athletics",
+      "kind": "track_event",
+      "reasons": [
+        "time_unknown"
+      ]
+    },
+    {
+      "fixture_id": "petanque-p17-8-ปี-ชาย-001",
+      "sport_id": "petanque",
+      "kind": "match",
+      "reasons": [
+        "date_unknown"
+      ]
+    },
+    {
+      "fixture_id": "petanque-p17-8-ปี-ชาย-002",
+      "sport_id": "petanque",
+      "kind": "match",
+      "reasons": [
+        "date_unknown"
+      ]
+    },
+    {
+      "fixture_id": "petanque-p17-8-ปี-ชาย-003",
+      "sport_id": "petanque",
+      "kind": "match",
+      "reasons": [
+        "date_unknown"
+      ]
+    }
+  ],
+  "unresolved_match_team_fixture_ids": [
+    "football-p07-12-ปี-ชาย-017",
+    "football-p07-12-ปี-ชาย-018",
+    "football-p07-12-ปี-ชาย-019",
+    "futsal-p09-10-ปี-ชาย-010",
+    "futsal-p09-10-ปี-ชาย-011",
+    "futsal-p09-10-ปี-ชาย-012",
+    "petanque-p14-ปฐมวัยชาย-009",
+    "petanque-p14-ปฐมวัยชาย-010",
+    "petanque-p14-ปฐมวัยชาย-013",
+    "petanque-p14-ปฐมวัยหญิง-011",
+    "petanque-p14-ปฐมวัยหญิง-012",
+    "petanque-p14-ปฐมวัยหญิง-014",
+    "petanque-p17-10-ปี-ชาย-029",
+    "petanque-p17-10-ปี-ชาย-030",
+    "petanque-p17-10-ปี-หญิง-031",
+    "petanque-p17-10-ปี-หญิง-032",
+    "petanque-p17-8-ปี-ชาย-025",
+    "petanque-p17-8-ปี-ชาย-026",
+    "petanque-p17-8-ปี-หญิง-027",
+    "petanque-p17-8-ปี-หญิง-028",
+    "petanque-p18-10-ปี-ชาย-039",
+    "petanque-p18-10-ปี-หญิง-040",
+    "petanque-p18-12-ปี-ชาย-033",
+    "petanque-p18-12-ปี-ชาย-034",
+    "petanque-p18-12-ปี-ชาย-041",
+    "petanque-p18-12-ปี-หญิง-035",
+    "petanque-p18-12-ปี-หญิง-036",
+    "petanque-p18-12-ปี-หญิง-042",
+    "petanque-p18-8-ปี-ชาย-037",
+    "petanque-p18-8-ปี-หญิง-038",
+    "shootout-p08-ปฐมวัย-005",
+    "shootout-p08-ปฐมวัย-006",
+    "shootout-p08-ปฐมวัย-007",
+    "tabletennis-p20-12-ปี-ชาย-009",
+    "tabletennis-p20-12-ปี-ชาย-010",
+    "tabletennis-p20-12-ปี-ชาย-015",
+    "tabletennis-p20-12-ปี-หญิง-011",
+    "tabletennis-p20-12-ปี-หญิง-012",
+    "tabletennis-p20-12-ปี-หญิง-016",
+    "takraw-p13-12-ปี-ชาย-022",
+    "takraw-p13-12-ปี-ชาย-023",
+    "takraw-p13-12-ปี-ชาย-024",
+    "takraw-p13-12-ปี-ชาย-028",
+    "takraw-p13-12-ปี-หญิง-025",
+    "takraw-p13-12-ปี-หญิง-029",
+    "tugofwar-p22-12-ปี-ชาย-014",
+    "tugofwar-p22-12-ปี-ชาย-015",
+    "tugofwar-p22-12-ปี-ชาย-021",
+    "tugofwar-p22-12-ปี-หญิง-016",
+    "tugofwar-p22-12-ปี-หญิง-017",
+    "tugofwar-p22-12-ปี-หญิง-022",
+    "tugofwar-p22-ปฐมวัย-012",
+    "tugofwar-p22-ปฐมวัย-013",
+    "tugofwar-p22-ปฐมวัย-020",
+    "volleyball-p11-12-ปี-ชาย-013",
+    "volleyball-p11-12-ปี-ชาย-014",
+    "volleyball-p11-12-ปี-ชาย-019",
+    "volleyball-p11-12-ปี-หญิง-015",
+    "volleyball-p11-12-ปี-หญิง-016",
+    "volleyball-p11-12-ปี-หญิง-020"
+  ]
+}

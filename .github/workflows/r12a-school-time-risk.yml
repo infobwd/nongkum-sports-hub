@@ -1,0 +1,35 @@
+name: R12A public draft school-time risk screen
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/r12/**'
+      - 'data/program-from-pdf-2569-20261104-draft.json'
+      - 'data/analysis/r12a-school-time-risk-20261104.json'
+      - 'docs/R12A_SCHOOL_TIME_RISK_REPORT_2569.md'
+      - '.github/workflows/r12a-school-time-risk.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/r12/**'
+      - 'data/program-from-pdf-2569-20261104-draft.json'
+      - 'data/analysis/r12a-school-time-risk-20261104.json'
+      - '.github/workflows/r12a-school-time-risk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  risk-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Synthetic edge-case tests
+        run: node scripts/r12/test-screen-draft-risk.mjs
+      - name: Verify deterministic no-PII risk snapshot
+        run: node scripts/r12/screen-draft-risk.mjs --check
