@@ -41,3 +41,13 @@
     .status-empty{border:1px dashed #aec1d4;border-radius:16px;padding:23px;text-align:center;background:#fff}
     .status-empty h2{margin:0 0 7px}
     .status-empty p{font-size:.87rem;color:#596f88;margin:0}
+
+    /* Data controls shared by program and results pages */
+    .data-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+    .refresh-button,.share-button{font:inherit;border:1px solid #bed0e2;background:#fff;color:#184c7e;border-radius:10px;font-size:.78rem;font-weight:750;min-height:40px;padding:7px 11px;cursor:pointer}
+    .refresh-button:disabled{opacity:.55;cursor:wait}
+    .refresh-button:focus-visible,.share-button:focus-visible{outline:3px solid #f2c54e;outline-offset:2px}
+    .refresh-status{font-size:.76rem;color:#596f88;margin:6px 0 9px}
+    .share-line{display:flex;justify-content:flex-end;margin-top:7px}
+    .share-button{min-height:38px}
+    @media(max-width:360px){.data-actions{justify-content:flex-start}}
