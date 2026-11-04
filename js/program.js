@@ -203,7 +203,7 @@
       if(!item)return;
       try{
         const result=await globalThis.Nongkum.shareItem("index.html","fixture",item.id,
-          "มิตรภาพเกม · "+(item.name||item.division||"คู่แข่งขัน"));
+          "มิตรภาพเกม · ข้อมูลร่าง · "+(item.name||item.division||"คู่แข่งขัน"));
         if(result==="copied")els.refreshStatus.textContent="คัดลอกลิงก์คู่แข่งขันแล้ว";
         if(result==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ยังไม่รองรับการแชร์หรือคัดลอกลิงก์";
       }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ได้ โปรดลองอีกครั้ง";}
