@@ -38,7 +38,7 @@ function makeElement(id){
 async function mount(fixtureId){
  const ids=[
  "fixtureId","sportType","print","blankNew","printGuard","loadNotice","sportName",
- "division","round","sourcePage","teamA","teamB","date","time","venue",
+ "division","round","sourcePage","sourceTime","teamA","teamB","date","time","venue",
  "formNumber","winner","note","trackRows","pairSection","scoreSection",
  "petanqueSection","shootoutSection","setsSection","winSection","trackSection","winnerSection"
  ];
@@ -91,6 +91,7 @@ loaded.els.blankNew.click();
 assert.equal(loaded.document.body.dataset.formState,"blank");
 assert.equal(loaded.els.fixtureId.value,"","blank reset must clear fixture ID");
 assert.equal(loaded.els.sourcePage.value,"","blank reset must clear source PDF page");
+assert.equal(loaded.els.sourceTime.value,"","blank reset must clear PDF time");
 assert.equal(loaded.els.teamA.value,"","blank reset must clear source team");
 assert.equal(loaded.els.sportType.disabled,false);
 loaded.els.sportType.value="volleyball";
@@ -113,6 +114,9 @@ assert.equal(foot.els.scoreSection.hidden,false);
 assert.equal(foot.els.petanqueSection.hidden,true);
 assert.equal(foot.els.division.value,football.division);
 assert.equal(foot.els.fixtureId.value,football.id);
+assert.equal(foot.els.time.value,"","actual match time must not be copied from an unconfirmed PDF value");
+assert.ok(foot.els.sourceTime.value.includes("ตาม PDF")||!football.time);
+assert.match(html,/id="footballPenaltyNote"/);
 const athletics=await mount(track.id);
 assert.equal(athletics.els.sportType.value,"athletics");
 assert.equal(athletics.els.trackSection.hidden,false);
