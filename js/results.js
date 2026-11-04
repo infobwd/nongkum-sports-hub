@@ -88,7 +88,7 @@
       const item=state.data.results.find(x=>x.id===btn.dataset.shareResult&&x.status==="approved");
       if(!item)return;
       try{
-        const answer=await globalThis.Nongkum.shareItem("results.html","result",item.id,"ผลการแข่งขัน · มิตรภาพเกม");
+        const answer=await globalThis.Nongkum.shareItem("results.html","result",item.id,"ผลการแข่งขันที่รับรองแล้ว · มิตรภาพเกม");
         if(answer==="copied")els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
         if(answer==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์";
       }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ผลแข่งขันได้";}
