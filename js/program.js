@@ -243,7 +243,7 @@
       }
       updateFilterHint();makeChips();makeLevels();render();syncNav();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
-        " · ข้อมูลจากไฟล์ที่เผยแพร่บนเว็บ ไม่ได้ดึงจาก Google Sheets โดยตรง";
+        " · ไฟล์โปรแกรมบนเว็บ (ไม่ใช่ข้อมูลสดจาก Sheets)";
     }catch(e){
       els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · ยังคงข้อมูลเดิมถ้ามี";
       if(!state.data){
