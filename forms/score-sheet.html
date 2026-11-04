@@ -23,9 +23,11 @@
       <option value="athletics">กรีฑา</option>
     </select>
   </label>
+  <button type="button" id="blankNew" class="blank-button">เริ่มแบบเปล่าใหม่</button>
   <button type="button" id="print" class="print-button">พิมพ์ / บันทึก PDF</button>
 </div>
 <p id="loadNotice" class="screen-note" role="status">แบบว่างสำหรับกรรมการ · ไม่ส่งข้อมูลไปยังเว็บไซต์</p>
+<div id="printGuard" class="print-guard" hidden>ไม่อนุญาตให้พิมพ์แบบที่รหัสรายการไม่ตรงกับชนิดกีฬา กรุณาเริ่มแบบเปล่าใหม่หรือเปิดคู่แข่งขันจากหน้าโปรแกรม</div>
 <main class="paper" id="sheet">
   <header class="paper-head">
     <div class="paper-logo">🏆</div>
@@ -35,14 +37,15 @@
     </div>
     <span class="sheet-code">แบบฟอร์มบันทึกผล</span>
   </header>
-  <p class="caution">เอกสารสำหรับบันทึกและตรวจสอบผลจริง ไม่ใช่ประกาศผลอย่างเป็นทางการ · ต้องลงนามและตรวจรับก่อนนำเข้าระบบ</p>
+  <p class="caution">ใบกรรมการสำหรับบันทึกผลจริง · ยังไม่ใช่ประกาศผล ต้องลงนามและตรวจรับก่อนนำเข้าระบบ</p>
   <section class="meta-grid" aria-label="ข้อมูลการแข่งขัน">
-    <label>รหัสรายการ/คู่แข่งขัน <input id="fixtureId" aria-label="รหัสรายการ" placeholder="fixture_id จากระบบ"></label>
-    <label>ชนิดกีฬา <input id="sportName" value="ฟุตบอล" aria-label="ชนิดกีฬา"></label>
+    <label>รหัสรายการ/คู่แข่งขัน <input id="fixtureId" aria-label="รหัสรายการ" readonly placeholder="เปิดจากหน้าโปรแกรม หรือกรอกบนกระดาษ"></label>
+    <label>ชนิดกีฬา <input id="sportName" value="ฟุตบอล" aria-label="ชนิดกีฬา" readonly></label>
     <label>รุ่นอายุ / ประเภท <input id="division" placeholder="เช่น 12 ปี ชาย"></label>
     <label>รอบ / เลขคู่ <input id="round" placeholder="รอบแรก / คู่ที่..."></label>
     <label>วันที่แข่งขัน <input id="date" placeholder="วัน / เดือน / ปี"></label>
-    <label>เวลาเริ่ม – สิ้นสุด <input id="time" placeholder="........ - ........ น."></label>
+    <label>เวลาแข่งขันจริง เริ่ม – สิ้นสุด <input id="time" placeholder="........ - ........ น."></label>
+    <label>เวลาในสูจิบัตร (อ้างอิง) <input id="sourceTime" readonly placeholder="ไม่ระบุในต้นฉบับ"></label>
     <label class="wide">สถานที่ / หมายเลขสนามย่อย <input id="venue" placeholder="..................................................................."></label>
     <label>อ้างอิงสูจิบัตรหน้า <input id="sourcePage" placeholder="..."></label>
     <label>เลขที่แบบบันทึก <input id="formNumber" placeholder="..."></label>
@@ -55,12 +58,31 @@
     </div>
   </section>
   <section class="content-section" id="scoreSection">
-    <h3>บันทึกคะแนน</h3>
+    <h3>บันทึกคะแนนฟุตบอล/ฟุตซอล</h3>
     <table class="score-table"><thead><tr><th>ทีม</th><th>ครึ่ง/ช่วงที่ 1</th><th>ครึ่ง/ช่วงที่ 2</th><th>รวม</th></tr></thead>
       <tbody><tr><th>A</th><td><input aria-label="ทีม A ช่วงที่ 1"></td><td><input aria-label="ทีม A ช่วงที่ 2"></td><td><input aria-label="ทีม A รวม"></td></tr>
       <tr><th>B</th><td><input aria-label="ทีม B ช่วงที่ 1"></td><td><input aria-label="ทีม B ช่วงที่ 2"></td><td><input aria-label="ทีม B รวม"></td></tr></tbody>
     </table>
-    <p class="helper">ใช้ช่องช่วงการแข่งขันตามกติกาของรายการนั้น หากไม่มีครึ่ง/ช่วงให้ขีด “–” และบันทึกคะแนนรวม</p>
+    <p class="helper">กรอกคะแนนตามช่วงจริง หากไม่มีช่วงให้ใช้เพียงช่องรวม</p>
+    <p class="helper" id="footballPenaltyNote">กรณีตัดสินด้วยจุดโทษ (ถ้ามี): ทีม A ยิงเข้า ........  ทีม B ยิงเข้า ........  ผลตัดสิน ................................</p>
+  </section>
+  <section class="content-section" id="petanqueSection" hidden>
+    <h3>บันทึกคะแนนเปตอง (ต่อเกมที่แข่งขันจริง)</h3>
+    <table class="score-table petanque-table"><thead><tr><th>ทีม</th><th>คะแนนเกม</th><th>หมายเหตุ/เกมเพิ่มเติม (ถ้ามี)</th></tr></thead>
+      <tbody>
+        <tr><th>A</th><td><input aria-label="เปตอง ทีม A คะแนนเกม" inputmode="numeric"></td><td><input aria-label="เปตอง ทีม A เกมเพิ่มเติม"></td></tr>
+        <tr><th>B</th><td><input aria-label="เปตอง ทีม B คะแนนเกม" inputmode="numeric"></td><td><input aria-label="เปตอง ทีม B เกมเพิ่มเติม"></td></tr>
+      </tbody></table>
+    <p class="helper">ไม่กำหนดจำนวนเกม/เซ็ตล่วงหน้า ให้ยึดกติกาและมติกรรมการของประเภทนั้น</p>
+  </section>
+  <section class="content-section" id="shootoutSection" hidden>
+    <h3>บันทึกผลยิงจุดโทษ</h3>
+    <table class="score-table"><thead><tr><th>ทีม</th><th>จำนวนครั้งที่ยิง</th><th>ยิงเข้า</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr><th>A</th><td><input aria-label="ทีม A จำนวนครั้งที่ยิง"></td><td><input aria-label="ทีม A ยิงเข้า"></td><td><input aria-label="ทีม A หมายเหตุยิงจุดโทษ"></td></tr>
+        <tr><th>B</th><td><input aria-label="ทีม B จำนวนครั้งที่ยิง"></td><td><input aria-label="ทีม B ยิงเข้า"></td><td><input aria-label="ทีม B หมายเหตุยิงจุดโทษ"></td></tr>
+      </tbody></table>
+    <p class="helper">จำนวนครั้งและวิธีตัดสินให้เป็นไปตามระเบียบแข่งขันจริง ไม่สมมติจำนวนครั้งมาตรฐาน</p>
   </section>
   <section class="content-section" id="setsSection" hidden>
     <h3>บันทึกคะแนนแต่ละเกม/เซ็ต (ใช้ตามกติกาที่ประกาศ)</h3>
@@ -80,7 +102,7 @@
     <p class="helper">ระบุสถิติและหน่วยตามประเภทจริง อันดับ/เสมอต้องยึดกติกาที่กรรมการรับรอง</p>
   </section>
   <section class="content-section winner" id="winnerSection">
-    <label>ผลการแข่งขัน / โรงเรียนผู้ชนะ / อันดับที่รับรองเบื้องต้น <input id="winner" placeholder="..................................................................."></label>
+    <label>ผลการแข่งขัน / โรงเรียนผู้ชนะ / อันดับที่ตรวจสอบเบื้องต้น <input id="winner" placeholder="..................................................................."></label>
     <label>เหตุผลกรณีเสมอ ประท้วง ผิดกติกา หรือปรับแก้ <input id="note" placeholder="..................................................................."></label>
   </section>
   <section class="signatures">

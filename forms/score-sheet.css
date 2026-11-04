@@ -58,3 +58,34 @@ input:focus{outline:2px solid #d6b64a;outline-offset:2px}
   .meta-grid{gap:8px}
   .signatures{gap:6px}
 }
+
+
+/* R5: paper first, with hard guard for mismatched source and sport. */
+.screen-bar .blank-button{background:#fff;color:#1d5180;cursor:pointer}
+.screen-bar .print-button:disabled{opacity:.48;cursor:not-allowed}
+.print-guard{max-width:870px;padding:12px 15px;margin:5px auto;background:#fff0e9;color:#81331d;border:1px solid #d38a72;font-weight:750}
+.paper input[readonly]{color:#193a5a;background:transparent}
+.paper input[readonly]:focus{outline:0}
+.petanque-table th:nth-child(2){width:24%}
+.petanque-table th:nth-child(3){width:55%}
+.paper-head,.meta-grid,.teams,.signatures{break-inside:avoid}
+@media print{
+  .print-guard{display:none!important}
+  body[data-form-state="loading"] .paper,body[data-form-state="invalid"] .paper{display:none!important}
+  body[data-form-state="loading"] #printGuard,body[data-form-state="invalid"] #printGuard{
+    display:block!important;border:3px solid #b02222;background:#fff;color:#881919;
+    font-size:18pt;line-height:1.6;margin:20mm;padding:12mm
+  }
+  .paper{font-size:10pt}
+  .paper-head h1{font-size:17px}
+  .paper-head h2{font-size:12px}
+  .meta-grid{gap:5px 10px}
+  .meta-grid input,.teams input,.winner input{height:26px;font-size:11px}
+  .content-section{margin-top:9px}
+  td,th{padding:4px 3px}
+  td input{height:22px}
+  .helper{font-size:9px;margin:4px 0}
+  .signatures{margin-top:16px}
+  .signatures .line{margin:19px 2px 4px}
+  .paper-foot{margin-top:11px}
+}

@@ -51,3 +51,15 @@
     .share-line{display:flex;justify-content:flex-end;margin-top:7px}
     .share-button{min-height:38px}
     @media(max-width:360px){.data-actions{justify-content:flex-start}}
+
+    /* R5: compact accessible share affordance; keep tap target at least 44px */
+    .fixture-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex:none}
+    .share-icon{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border-radius:10px;border:1px solid #b8cce0;background:#fff;color:#205881;font:inherit;font-size:1.25rem;font-weight:800;cursor:pointer}
+    .share-icon:focus-visible{outline:3px solid #f2c54e;outline-offset:2px}
+    .share-icon:hover{background:#f1f6fb}
+    .fixture-head{align-items:center}
+    .fixture-head .sport-label{min-width:0;flex:1}
+    .status-empty{padding:16px 18px}
+    .status-empty h2{font-size:1rem}
+    .status-empty p{font-size:.82rem}
+    @media(max-width:390px){.fixture-actions{gap:4px}.share-icon{min-width:44px;min-height:44px}.pairnum{font-size:.72rem}}

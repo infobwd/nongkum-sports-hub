@@ -79,10 +79,14 @@
   }
   function card(m){
     const sport=getSport(m.sport_id),track=m.kind==="track_event";
+    const shareName=track?"แชร์รายการกรีฑา":"แชร์คู่แข่งขัน";
     const heading="<div class='fixture-head'><div class='sport-label'><span class='sport-name'>"+
       safe(sport?sport.emoji+" "+sport.name:m.sport_id)+"</span><span class='division'>"+
-      safe(m.division||"")+"</span></div><span class='pairnum'>"+
-      (track?"รายการ ":"คู่ที่ ")+safe(m.source_match_no)+"</span></div>";
+      safe(m.division||"")+"</span></div><div class='fixture-actions'><span class='pairnum'>"+
+      (track?"รายการ ":"คู่ที่ ")+safe(m.source_match_no)+"</span>"+
+      "<button type='button' class='share-icon' data-share-fixture='"+safe(m.id)+
+      "' aria-label='"+safe(shareName+" "+(sport?sport.name:"")+" "+(m.division||"")+
+        " หมายเลข "+m.source_match_no)+"' title='"+shareName+"'>↗</button></div></div>";
     const content=track?trackContent(m):matchContent(m);
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
@@ -97,9 +101,7 @@
       " · ยังไม่ผ่านการรับรอง</div></details>";
     return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
       "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+
-      "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+detail+
-      "<div class='share-line'><button type='button' class='share-button' data-share-fixture='"+
-      safe(m.id)+"'>↗ แชร์คู่แข่งขัน</button></div></article>";
+      "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+detail+"</article>";
   }
   function updateFilterHint(){
     const active=[];
@@ -241,7 +243,7 @@
       }
       updateFilterHint();makeChips();makeLevels();render();syncNav();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
-        " · ข้อมูลจากไฟล์ที่เผยแพร่บนเว็บ ไม่ได้ดึงจาก Google Sheets โดยตรง";
+        " · ไฟล์โปรแกรมบนเว็บ (ไม่ใช่ข้อมูลสดจาก Sheets)";
     }catch(e){
       els.refreshStatus.textContent="รีเฟรชไม่สำเร็จ · ยังคงข้อมูลเดิมถ้ามี";
       if(!state.data){
