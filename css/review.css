@@ -195,3 +195,13 @@ body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-col
   body.review-pdf-open:before{z-index:181;background:#f7f9fc}
  }
 }
+
+
+/* Public same-origin preview/download, with private-Drive link retained only as reference. */
+.review-pdf-link-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.review-pdf-link-group .review-pdf-link{flex:none}
+.review-pdf-download-action{background:#eef5fc;border:1px solid #a6c2dd;color:#1f527e}
+.review-pdf-download-action:hover{background:#e1edf9;color:#173f66}
+.review-pdf-description small a{color:#235a88;text-decoration:underline}
+@media(max-width:800px){.review-pdf-link-group{width:100%}.review-pdf-link-group .review-pdf-link{flex:1;min-width:150px}}
+@media(max-width:380px){.review-pdf-link-group{flex-direction:column}.review-pdf-link-group .review-pdf-link{width:100%}}
