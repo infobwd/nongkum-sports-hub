@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "metadata": {
-    "name": "สูจิบัตรกีฬากลุ่มหนองกุ่ม ปี 2569",
+    "name": "สูจิบัตรมิตรภาพเกม ปี 2569",
     "status": "prototype",
     "all_data_approved": false,
     "partial_import": false,
@@ -14,8 +14,8 @@
     "source_item_count": 236,
     "disclaimer": "ข้อมูลร่างสำหรับคณะกรรมการตรวจทาน ไม่ใช่กำหนดการแข่งขันทางการ ห้ามใช้ข้อมูลนี้นัดหมายนักกีฬา",
     "last_approved_at": null,
-    "event_display_name": "มิตรมิตรภาพเกม",
-    "event_display_name_source": "ข้อความยืนยันจากผู้ประสานงานวันที่ 4 พฤศจิกายน 2569"
+    "event_display_name": "มิตรภาพเกม",
+    "event_display_name_source": "ผู้จัดแก้ไขชื่อการแข่งขันในบทสนทนาวันที่ 4 พฤศจิกายน 2569"
   },
   "schools": [
     {
