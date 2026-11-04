@@ -18,11 +18,14 @@ function mockElement(id){
     addEventListener(ev,fn){this.handlers[ev]=fn;},
     querySelectorAll(selector){
       if(selector!=="button")return [];
+      if(this._lastButtonsHTML===this.innerHTML)return this._buttons||[];
       const attr=this.id==="sports"?"sport":"level";
-      return [...this.innerHTML.matchAll(new RegExp("data-"+attr+"='([^']*)'","g"))].map(x=>{
+      this._buttons=[...this.innerHTML.matchAll(new RegExp("data-"+attr+"='([^']*)'","g"))].map(x=>{
         const self={dataset:{[attr]:x[1]},handlers:{},addEventListener(type,fn){this.handlers[type]=fn;},click(){this.handlers.click();}};
         return self;
       });
+      this._lastButtonsHTML=this.innerHTML;
+      return this._buttons;
     }
   };
 }
