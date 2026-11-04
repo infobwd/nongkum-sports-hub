@@ -27,7 +27,7 @@ var NK_COLS = Object.freeze({
 });
 
 function onOpen() {
-  SpreadsheetApp.getUi().createMenu("กีฬาหนองกุ่ม P2")
+  SpreadsheetApp.getUi().createMenu("มิตรภาพเกม · กรรมการ")
     .addItem("ดูสถานะการตรวจข้อมูล", "nkShowReadiness")
     .addItem("รับรองแถวที่เลือก (ผู้มีสิทธิ์เท่านั้น)", "nkApproveSelection")
     .addSeparator()
