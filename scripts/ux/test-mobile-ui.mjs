@@ -79,13 +79,13 @@ const t=await mount("https://example.org/nongkum-sports-hub/?school=wangdong&spo
 const {els}=t;
 assert.match(els.count.textContent,/ข้อมูลร่าง/);
 assert.match(els.count.textContent,new RegExp("พบ "+expected+" รายการ"));
-assert.equal((els.cards.innerHTML.match(/class='schedule-day/g)||[]).length,1,"selected athletics remain in one unconfirmed-day group");
+assert.equal((els.cards.innerHTML.match(/class='my-lane'/g)||[]).length,Math.min(expected,12),"school should see its own lane first");
 assert.match(els.cards.innerHTML,/ดูทุกลู่/);
 assert.match(els.cards.innerHTML,/source-details/,"source references should be behind expandable details");
 assert.match(els.cards.innerHTML,/รายละเอียด · ข้อมูลร่าง/,"every card must offer details");
 assert.ok(els.advancedFilters.open===true,"deep link with level must expand advanced filters");
 assert.ok(!els.cards.innerHTML.includes("font-size:48px"));
-assert.equal((els.cards.innerHTML.match(/class='sport-group'/g)||[]).length,1,"selected sport must be only one group");
+assert.equal((els.cards.innerHTML.match(/class='schedule-day/g)||[]).length,1,"selected sport should have one unconfirmed-day group");
 assert.match(els.cards.innerHTML,/PDF หน้า/);
 assert.match(els.cards.innerHTML,/วัน · เวลา · สนาม รอยืนยัน/);
 assert.ok(els.cards.innerHTML.includes("กรีฑา"));
