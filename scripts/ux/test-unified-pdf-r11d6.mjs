@@ -17,7 +17,7 @@ assert.match(html,/id="pdfTools" class="pdf-book-tools"/);
 assert.match(html,/id="pdfBack"/);
 assert.match(html,/class="pdf-draft"/);
 assert.match(html,/href="\.\/css\/pdf-viewer\.css\?v=r11d6"/);
-assert.match(html,/src="\.\/js\/pdf-viewer\.js\?v=r11d6"/);
+assert.match(html,/src="\.\/js\/pdf-viewer\.js\?v=r14-book1"/);
 assert.match(reviewHtml,/id="pdfPreviewClose"/);
 assert.match(reviewHtml,/class="review-preview-footer"/);
 assert.match(reviewHtml,/href="\.\/css\/review\.css\?v=r11d6"/);
