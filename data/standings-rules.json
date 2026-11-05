@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "rules_version": "r15-bc.1",
+  "publication_authority": "committee_approval_required",
+  "source": {
+    "candidate_path": "data/program-from-pdf-2569-20261104-draft.json",
+    "candidate_source_sha256": "1cd0d0166fe202b2b69e18f5ec2e1c2d80439386767a1826bf21d7d5da9e0bbf",
+    "evidence": [
+      "สูจิบัตรกีฬากลุ่ม ปี 2569_V2.pdf (draft, November 2026)",
+      "docs/SOURCE_QA_2569.md",
+      "docs/R15_RESULTS_STANDINGS_PHOTO_JSON_PLAN.md"
+    ],
+    "conflict": "V2 draft: football top four advance to semifinals; older working Google Doc: top two directly to final. No official resolution."
+  },
+  "football_league": {
+    "sport_id": "football",
+    "division": "12 ปี ชาย",
+    "format": "round_robin_then_playoff",
+    "mapping_status": "source_verified_not_approved",
+    "approval_status": "pending_rule_approval",
+    "points": {
+      "win": 3,
+      "draw": 1,
+      "loss": 0
+    },
+    "points_provenance": "operational requirement R15-B; not separately ratified in the available draft PDF",
+    "tie_breakers": [],
+    "tie_break_status": "pending_rule_approval",
+    "qualification_status": "pending_rule_approval",
+    "phase_mapping_note": "15 explicit league fixtures (source match numbers 1-6,8-16); 17,18 semifinals; 19 final",
+    "team_ids": [
+      "nongkrathum",
+      "nongkum",
+      "phuphrom",
+      "saohong",
+      "thungmasang",
+      "wangdong"
+    ],
+    "phases": {
+      "league": [
+        "football-p07-12-ปี-ชาย-001",
+        "football-p07-12-ปี-ชาย-002",
+        "football-p07-12-ปี-ชาย-003",
+        "football-p07-12-ปี-ชาย-004",
+        "football-p07-12-ปี-ชาย-005",
+        "football-p07-12-ปี-ชาย-006",
+        "football-p07-12-ปี-ชาย-008",
+        "football-p07-12-ปี-ชาย-009",
+        "football-p07-12-ปี-ชาย-010",
+        "football-p07-12-ปี-ชาย-011",
+        "football-p07-12-ปี-ชาย-012",
+        "football-p07-12-ปี-ชาย-013",
+        "football-p07-12-ปี-ชาย-014",
+        "football-p07-12-ปี-ชาย-015",
+        "football-p07-12-ปี-ชาย-016"
+      ],
+      "playoff": [
+        "football-p07-12-ปี-ชาย-017",
+        "football-p07-12-ปี-ชาย-018"
+      ],
+      "final": [
+        "football-p07-12-ปี-ชาย-019"
+      ]
+    }
+  },
+  "sport_policies": [
+    {
+      "sport_id": "football",
+      "status": "pending_rule_approval",
+      "format": "mixed_league_and_knockout",
+      "result_type": "score",
+      "note": "12 ปี ชาย mapped, 3/1/0 arithmetic implemented; tie-break, qualification and secondary duplicated finals awaiting approval"
+    },
+    {
+      "sport_id": "shootout",
+      "status": "needs_source_mapping",
+      "format": "knockout",
+      "result_type": "score",
+      "note": "Need shootout attempt/tiebreak method and bracket confirmation"
+    },
+    {
+      "sport_id": "futsal",
+      "status": "pending_rule_approval",
+      "format": "group_then_knockout",
+      "result_type": "score",
+      "note": "Group qualification, league points, ties and bracket mapping not approved"
+    },
+    {
+      "sport_id": "volleyball",
+      "status": "needs_source_mapping",
+      "format": "group_then_knockout",
+      "result_type": "sets",
+      "note": "Final references conflicting gender in source QA; scoring/sets and tie-break pending"
+    },
+    {
+      "sport_id": "takraw",
+      "status": "needs_source_mapping",
+      "format": "group_then_knockout",
+      "result_type": "sets",
+      "note": "Source match 24 gender ambiguity; number of sets and qualification pending"
+    },
+    {
+      "sport_id": "petanque",
+      "status": "pending_rule_approval",
+      "format": "knockout",
+      "result_type": "sets",
+      "note": "Draft PDF p3: kindergarten knockout single set to 11 incl final; primary prelim/semi one set to 11, final best of three to 11; secondary final best of three to 11. Exact round mapping and ratification pending"
+    },
+    {
+      "sport_id": "tabletennis",
+      "status": "pending_rule_approval",
+      "format": "knockout",
+      "result_type": "sets",
+      "note": "Set target, number of sets and bracket mapping not ratified"
+    },
+    {
+      "sport_id": "tugofwar",
+      "status": "pending_rule_approval",
+      "format": "knockout",
+      "result_type": "win_loss",
+      "note": "Win/loss only; rounds, replay/tie procedures and placements pending"
+    },
+    {
+      "sport_id": "athletics",
+      "status": "needs_source_mapping",
+      "format": "event_ranking",
+      "result_type": "ranking",
+      "note": "Events 35 and 48 repeat across genders; result completeness, tied ranks and event IDs require official verification"
+    }
+  ],
+  "overall_award": {
+    "status": "pending_rule_approval",
+    "source_page": 1,
+    "draft_rank_points": {
+      "1": 5,
+      "2": 3,
+      "3": 2
+    },
+    "source_status": "draft_only",
+    "note": "Do not compute overall trophy points until committee confirms how missing bronze, canceled events, ties and team/multiple-entry outcomes count."
+  }
+}
