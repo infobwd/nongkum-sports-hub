@@ -66,9 +66,9 @@ for(const [name,body] of [["program",program],["navigation",nav]])
   new vm.Script(body,{filename:name});
 assert.ok(page.indexOf('js/schedule-order.js?v=r18-date1')<page.indexOf('js/program.js?v=r18-date1'));
 assert.match(page,/เรียงตามวันที่และเวลาแข่งขัน/);
-assert.match(program,/NongkumScheduleOrder\.sortedFixtures\(matched,state\.data\.sports\)/);
+assert.match(program,/order\.sortedFixtures\(matched,state\.data\.sports\)/);
 assert.match(program,/ordered\.slice\(0,state\.limit\)/);
-assert.match(program,/NongkumScheduleOrder\.groupVisible\(visible\)/);
+assert.match(program,/order\.groupVisible\(visible\)/);
 assert.match(program,/schedule-day/);
 assert.match(program,/class='sport-name'/);
 assert.match(css,/\.day-heading/);
