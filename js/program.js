@@ -298,13 +298,17 @@
     els.refresh.disabled=true;
     els.refreshStatus.textContent=refresh&&state.data?"กำลังตรวจไฟล์โปรแกรมล่าสุด…":"กำลังอ่านโปรแกรมการแข่งขัน…";
     try{
-      const path="./data/draft-schedule.json?refresh="+Date.now();
+      const path="./data/program-from-pdf-2569-20261104-draft.json?refresh="+Date.now();
       const response=await fetch(path,{cache:"no-store"});
       if(!response.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");
       const data=await response.json();
-      if(!data.metadata||data.metadata.status!=="prototype"||
-         data.metadata.all_data_approved!==false||!Array.isArray(data.fixtures))
-        throw Error("ชุดข้อมูลร่างไม่ถูกต้อง");
+      const candidate=data.metadata?.source_status==="revised_pdf_draft"&&
+        data.schema_version===3&&data.fixtures?.length===237&&
+        data.metadata.website_publication_status==="not_released";
+      const legacy=data.metadata?.status==="prototype";
+      if(!data.metadata||data.metadata.all_data_approved!==false||
+        !Array.isArray(data.fixtures)||(!candidate&&!legacy))
+        throw Error("ชุดข้อมูลสูจิบัตรร่างไม่ผ่านการตรวจสอบ");
       state.data=data;
       if(!initialized){
         data.schools.forEach(function(s){
@@ -328,6 +332,7 @@
       updateFilterHint();makeChips();makeLevels();render();syncNav();
       setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
+        (candidate?" · สูจิบัตรล่าสุด 237 รายการ (ข้อมูลร่าง)":" · ข้อมูลร่างชุดเดิม")+
         " · ไฟล์เผยแพร่บนเว็บ";
     }catch(e){
       els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้":"โหลดโปรแกรมไม่สำเร็จ · ลองใหม่อีกครั้ง";
