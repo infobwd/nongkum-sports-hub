@@ -8,12 +8,13 @@ const source=JSON.parse(read("data/draft-schedule.json"));
 const approvedPublic=JSON.parse(read("data/public-results.json"));
 const index=JSON.parse(read("data/share-index.json"));
 const shared=read("js/shared.js");
+const sorter=read("js/schedule-order.js");
 const program=read("js/program.js");
 const results=read("js/results.js");
 const renderers=read("js/results-renderers.js");
 const programHtml=read("index.html"),resultHtml=read("results.html");
 const webRoot="https://infobwd.github.io/nongkum-sports-hub/";
-for(const code of [shared,program,results,renderers])new vm.Script(code);
+for(const code of [shared,sorter,program,results,renderers])new vm.Script(code);
 assert.equal(index.count,236);
 assert.equal(source.fixtures.length,236);
 assert.equal(Object.keys(index.links).length,236);
@@ -102,6 +103,7 @@ async function mountProgram(query,stored=""){
   fetch:async()=>({ok:true,json:async()=>source})
  });
  new vm.Script(shared).runInContext(context);
+ new vm.Script(sorter).runInContext(context);
  new vm.Script(program).runInContext(context);
  for(let i=0;i<18;i++)await Promise.resolve();
  return {els,history,context};
@@ -122,7 +124,7 @@ assert.equal(bad.els.programOverview.hidden,true,"invalid link must not silently
 direct.els.showFullSchedule.handlers.click();
 assert.equal(direct.els.sharedFixture.hidden,true);
 assert.equal(direct.els.programOverview.hidden,false);
-assert.ok(direct.els.cards.innerHTML.includes("sport-group"));
+assert.ok(direct.els.cards.innerHTML.includes("schedule-day"));
 assert.ok(!direct.history.latest.includes("fixture="));
 
 async function mountResults(payload,query){
