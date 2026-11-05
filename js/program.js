@@ -9,7 +9,7 @@
     levels:document.getElementById("levels"),
     cards:document.getElementById("cards"),
     count:document.getElementById("count"),
-    orderNote:document.getElementById("resultNote"),
+    orderNote:optionalElement("resultNote"),
     empty:document.getElementById("empty"),
     more:document.getElementById("more"),
     advanced:document.getElementById("advancedFilters"),
