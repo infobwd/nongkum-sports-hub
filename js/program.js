@@ -256,6 +256,27 @@
       state.query=els.search.value;resetLimit();updateFilterHint();makeChips();render();
     });
     els.more.addEventListener("click",function(){state.limit+=12;render();});
+    async function shareLatestCandidate(item){
+      const sport=getSport(item.sport_id);
+      const payload=globalThis.NongkumReviewShare?.payload(item,(sport?.emoji||"")+" "+(sport?.name||item.sport_id));
+      if(!payload)return "unavailable";
+      if(typeof navigator!=="undefined"&&typeof navigator.share==="function"){
+        try{await navigator.share({title:payload.title,text:payload.text,url:payload.url});return "shared";}
+        catch(e){if(e?.name==="AbortError")return "cancelled";}
+      }
+      if(typeof navigator!=="undefined"&&navigator.clipboard?.writeText){
+        await navigator.clipboard.writeText(payload.fullText);return "copied";
+      }
+      return "unavailable";
+    }
+    function showShareFeedback(result){
+      if(result==="cancelled")return;
+      const info=result==="copied"?["คัดลอกข้อความพร้อมลิงก์แล้ว","นำไปวางใน LINE เพื่อส่งต่อได้ทันที"]:
+        result==="shared"?["แชร์รายการผ่านแอปแล้ว","ข้อมูลที่แชร์ยังเป็นฉบับร่างจากสูจิบัตร"]:
+        ["แชร์ไม่สำเร็จ","ลองอีกครั้งหรือคัดลอกลิงก์ด้วยเบราว์เซอร์"];
+      if(!globalThis.NongkumToast?.show(info[0],info[1],result==="unavailable"))
+        els.refreshStatus.textContent=info[0];
+    }
     async function handleShare(event){
       const btn=event.target.closest("[data-share-fixture]");
       if(!btn||!state.data)return;
@@ -265,13 +286,14 @@
         const sport=getSport(item.sport_id);
         const a=item.team_a_id?getSchool(item.team_a_id):null;
         const b=item.team_b_id?getSchool(item.team_b_id):null;
-        const result=await globalThis.Nongkum.shareFixture(item,
-          sport?sport.name:item.sport_id,
-          a?a.short:(item.source_team_a_label||""),
-          b?b.short:(item.source_team_b_label||""));
-        if(result==="copied")els.refreshStatus.textContent="คัดลอกลิงก์คู่แข่งขันแล้ว";
-        if(result==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ยังไม่รองรับการแชร์หรือคัดลอกลิงก์";
-      }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ได้ โปรดลองอีกครั้ง";}
+        const result=item.source_pdf
+          ? await shareLatestCandidate(item)
+          : await globalThis.Nongkum.shareFixture(item,
+            sport?sport.name:item.sport_id,
+            a?a.short:(item.source_team_a_label||""),
+            b?b.short:(item.source_team_b_label||""));
+        showShareFeedback(result);
+      }catch(e){showShareFeedback("unavailable");}
     }
     els.cards.addEventListener("click",handleShare);
     if(els.direct)els.direct.addEventListener("click",handleShare);
