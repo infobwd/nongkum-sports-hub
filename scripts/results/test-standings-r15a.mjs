@@ -36,11 +36,15 @@ function node(id){
     appendChild(el){this.children.push(el);},
     addEventListener(type,cb){this.handlers[type]=cb;},
     querySelectorAll(){
-      return [...this.innerHTML.matchAll(/data-sport='([^']*)'/g)].map(x=>{
+      // Repeated DOM queries return the same button objects until the markup changes.
+      if(this._buttonMarkup===this.innerHTML&&this._buttonCache)return this._buttonCache;
+      this._buttonMarkup=this.innerHTML;
+      this._buttonCache=[...this.innerHTML.matchAll(/data-sport='([^']*)'/g)].map(x=>{
         const result={dataset:{sport:x[1]},handlers:{},
           addEventListener(k,cb){this.handlers[k]=cb;},click(){this.handlers.click();}};
         return result;
       });
+      return this._buttonCache;
     }
   };
 }
