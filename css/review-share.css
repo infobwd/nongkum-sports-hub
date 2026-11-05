@@ -1,0 +1,19 @@
+/* R12: in-context copy/share feedback; sits above the 3-tab mobile navigation. */
+.review-toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:1290;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 28px);min-width:min(330px,calc(100vw - 28px));display:flex;align-items:flex-start;gap:11px;padding:13px 12px;background:#fff;border:1px solid #b6d4bf;border-left:4px solid #258150;border-radius:13px;box-shadow:0 8px 32px rgba(20,45,77,.22);color:#18395b}
+.review-toast[hidden]{display:none!important}
+.review-toast-icon{width:24px;height:24px;flex:none;display:grid;place-items:center;border-radius:50%;background:#e8f7ec;color:#206843;font-weight:900}
+.review-toast-body{display:flex;min-width:0;flex-direction:column;gap:2px}
+.review-toast-body strong{font-size:.87rem;font-weight:850}
+.review-toast-body small{font-size:.76rem;line-height:1.5;color:#4b6580}
+.review-toast button{border:0;background:transparent;color:#426580;min-width:32px;min-height:32px;font-size:1.28rem;line-height:1;cursor:pointer;margin:-4px -3px -4px auto}
+.review-toast button:focus-visible{outline:3px solid #e7bb36;outline-offset:2px}
+.review-toast.is-error{border-color:#e5c29d;border-left-color:#b26c24}
+.review-toast.is-error .review-toast-icon{background:#fff2e1;color:#995718}
+.review-share-actions{display:flex;gap:8px;flex-wrap:wrap}
+.review-share-actions>.review-action{min-height:44px;flex:0 1 auto}
+body.review-pdf-open .review-toast{display:none!important}
+@media(max-width:690px){
+  .review-toast{bottom:calc(83px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 24px)}
+  .review-share-actions>.review-action{flex:1 1 175px}
+}
+@media print{.review-toast{display:none!important}}
