@@ -1,0 +1,48 @@
+name: R15-B/C standings engine and publication gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "data/public-results.json"
+      - "data/standings-rules.json"
+      - "data/public-standings.json"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "js/standings-engine.js"
+      - "js/standings.js"
+      - "standings.html"
+      - "scripts/results/**"
+      - ".github/workflows/r15bc-standings.yml"
+  push:
+    branches: [main]
+    paths:
+      - "data/public-results.json"
+      - "data/standings-rules.json"
+      - "data/public-standings.json"
+      - "js/standings-engine.js"
+      - "js/standings.js"
+      - "scripts/results/**"
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  rules-and-publication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: R15-B/C synthetic standings and invalid JSON tests
+        run: node scripts/results/test-standings-r15bc.mjs
+      - name: Strict publication validation and correction audit
+        run: node scripts/results/validate-publication.mjs
+      - name: Verify deterministic approved-only snapshot
+        run: node scripts/results/build-standings.mjs --check
+      - name: Baseline results and standings UI
+        run: |
+          node scripts/results/test-standings-r15a.mjs
+          node scripts/results/test-results.mjs
+          node scripts/ux/test-mobile-navigation-r6.mjs
+          node scripts/ux/test-loading-r9.mjs
