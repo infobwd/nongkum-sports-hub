@@ -128,3 +128,23 @@ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direc
  body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"]{padding:12px 13px}
  body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direct-back{min-height:44px}
 }
+
+/* R14: calm two-column schedule metadata; no platform-localized JUL 17 emoji. */
+.fixture .quick-status{display:block;margin:9px 0 4px;padding:0}
+.fixture-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;width:100%}
+.fixture-meta-item{display:flex;align-items:center;gap:8px;border-radius:10px;padding:9px 10px;background:#f0f4f9;min-width:0;color:#264d74}
+.fixture-meta-item>svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fixture-meta-item>span{display:flex;flex-direction:column;min-width:0;gap:1px}
+.fixture-meta-item small{font-size:.66rem;color:#56728b;line-height:1.15}
+.fixture-meta-item strong{font-size:.84rem;font-weight:800;overflow-wrap:anywhere;line-height:1.4}
+.fixture-meta-venue{grid-column:1/-1}
+.fixture-meta-item.unconfirmed{background:#fff3d7;color:#805717}
+.fixture-meta-item.verified{background:#e8f4ef}
+.fixture-meta-warnings{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.fixture-source-actions{display:flex;align-items:center;gap:10px;margin:9px 0 2px}
+.fixture-pdf-link{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:800;min-height:44px;padding:7px 10px;color:#1b527f;text-decoration:none;border-radius:10px;border:1px solid #c5d8e9;background:#f5f9fd}
+.fixture-pdf-link svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.fixture-pdf-link:focus-visible{outline:3px solid #e7bb36;outline-offset:2px}
+.fixture .source-details summary{min-height:44px;display:flex;align-items:center}
+@media(max-width:690px){.fixture-meta-item{padding:8px 10px}}
+@media print{.fixture-source-actions{display:none}}

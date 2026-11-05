@@ -76,20 +76,25 @@
       return Number(hit[3])+" "+months[Number(hit[2])]+" "+(Number(hit[1])+543);}
     return raw||"ไม่ระบุวัน";
   }
+  const CAL_ICON="<svg class='inline-date-icon' viewBox='0 0 24 24' aria-hidden='true' focusable='false'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M7 3v4M17 3v4M3 10h18'/></svg>";
   function scheduleTags(m){
     if(m.source_pdf){
       const pdf=m.source_pdf;
       const date=pdfDateLabel(m),time=pdf.source_time||m.time||"",field=pdf.source_field||m.field||"";
-      const dateVerified=m.planning_date_confirmation==="confirmed"&&!!m.planning_date;
-      const venueVerified=m.planning_venue_confirmation==="confirmed"&&!!m.planning_venue;
-      const dateLabel=dateVerified?"✓ วัน "+safe(date)+" (ยืนยันแล้ว)":"📅 "+safe(date)+" (ตาม PDF)";
-      const fieldLabel=venueVerified?"✓ "+safe(m.planning_venue)+" (ยืนยันแล้ว)":field?safe(field)+" (ตาม PDF)":"สนามยังไม่ระบุ";
-      const tags=["<span class='tag "+(dateVerified?"verified":"")+"'>"+dateLabel+"</span>",
-        "<span class='tag'>"+(time?"เวลาใน PDF "+safe(time)+" น.":"เวลาใน PDF ยังไม่ระบุ")+"</span>",
-        "<span class='tag "+(venueVerified?"verified":"")+"'>"+fieldLabel+"</span>"];
-      if((m.qa_flags||[]).length)tags.push("<span class='tag unconfirmed'>⚠ ควรตรวจเพิ่ม "+m.qa_flags.length+" จุด</span>");
-      if(/(?:พ\.ย\.\s*68|2568)/.test(String(pdf.source_date_text||"")))tags.push("<span class='tag unconfirmed'>⚠ ปีในต้นฉบับผิดปกติ</span>");
-      return tags.join("");
+      const anomaly=/(?:พ\\.ย\\.\\s*68|2568)/.test(String(pdf.source_date_text||""));
+      const verifiedDate=m.planning_date_confirmation==="confirmed"&&!!m.planning_date;
+      const verifiedField=m.planning_venue_confirmation==="confirmed"&&!!m.planning_venue;
+      const dateText=anomaly?"วันรอยืนยัน":date;
+      const dateBadge="<span class='fixture-meta-item fixture-meta-date "+(anomaly?"unconfirmed":verifiedDate?"verified":"")+"'>"+
+        CAL_ICON+"<span><small>วันที่แข่งขัน</small><strong>"+safe(dateText)+"</strong></span></span>";
+      const timeBadge="<span class='fixture-meta-item fixture-meta-time'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3.5 2'/></svg><span><small>เวลาแข่งขัน</small><strong>"+(time?safe(time)+" น.":"รอกำหนด")+"</strong></span></span>";
+      const venue=verifiedField?m.planning_venue:field;
+      const venueBadge="<span class='fixture-meta-item fixture-meta-venue "+(verifiedField?"verified":"")+"'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 21s7-7.4 7-12a7 7 0 1 0-14 0c0 4.6 7 12 7 12Z'/><circle cx='12' cy='9' r='2.5'/></svg><span><small>สนามแข่งขัน</small><strong>"+safe(venue||"รอกำหนด")+"</strong></span></span>";
+      const flags=[];
+      if((m.qa_flags||[]).length)flags.push("<span class='tag unconfirmed'>⚠ ควรตรวจเพิ่ม "+m.qa_flags.length+" จุด</span>");
+      if(anomaly)flags.push("<span class='tag unconfirmed'>⚠ ปีในสูจิบัตรไม่ตรง ต้องยืนยันวัน</span>");
+      return "<div class='fixture-meta-grid'>"+dateBadge+timeBadge+venueBadge+"</div>"+
+        (flags.length?"<div class='fixture-meta-warnings'>"+flags.join("")+"</div>":"");
     }
     if(m.planning_date){
       const parts=m.planning_date.split("-");
@@ -138,9 +143,17 @@
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
       " · ยังไม่ผ่านการรับรอง</div></details>";
+    const page=Number(m.source_pdf?.page||m.source_page);
+    const sourceButton=Number.isInteger(page)&&page>=1&&page<=41
+      ? "<a class='fixture-pdf-link' href='./pdf-viewer.html?page="+page+
+        "&amp;from=program&amp;fixture="+encodeURIComponent(m.id)+
+        "' aria-label='เปิดสูจิบัตร PDF หน้า "+page+" ของคู่แข่งขันนี้'>"+
+        "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M6 3h8l5 5v13H6z'/><path d='M14 3v6h5M9 13h7M9 17h7'/></svg>"+
+        "ดูสูจิบัตร หน้า "+page+"</a>" : "";
     return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
       "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+
-      "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+detail+"</article>";
+      "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+
+      "<div class='fixture-source-actions'>"+sourceButton+"</div>"+detail+"</article>";
   }
   function updateFilterHint(){
     const active=[];

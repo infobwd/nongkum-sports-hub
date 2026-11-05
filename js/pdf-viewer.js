@@ -37,12 +37,18 @@ const query = new URLSearchParams(location.search);
 const fixtureRef = query.get("fixture") || "";
 const embedded = query.get("embedded") === "1" &&
   typeof window !== "undefined" && window.parent && window.parent !== window;
-const backUrl = new URL("./review.html", location.href);
-// Never accept an arbitrary redirect target. A fixture ID only narrows the fixed review route.
+const openedFromProgram = query.get("from")==="program";
+const backUrl = new URL(openedFromProgram?"./index.html":"./review.html", location.href);
+// Never accept an arbitrary redirect target. Only a known same-origin program/review
+// route can be selected. A valid fixture ID narrows the destination to the same card.
 if (fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef)) {
   backUrl.searchParams.set("fixture", fixtureRef);
 }
 el.back.href = backUrl.toString();
+if(openedFromProgram){
+  el.back.textContent="← กลับไปตารางแข่ง";
+  el.back.setAttribute("aria-label","ปิด PDF และกลับไปคู่แข่งขันในตาราง");
+}
 // An embedded reader uses the parent Review header and warning. Reuse the
 // existing options menu in the *same* bottom navigation (no duplicate controls).
 // Do not activate embedded mode for a direct/standalone tab with ?embedded=1.

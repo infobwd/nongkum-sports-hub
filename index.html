@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/program.css?v=r13-main1">
+  <link rel="stylesheet" href="./css/program.css?v=r14-book1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head>
 <body data-view="program">
@@ -67,12 +67,12 @@
 
     <aside class="notice" aria-label="สถานะข้อมูลการแข่งขัน">
       <span aria-hidden="true">⚠️</span>
-      <div><strong>ตารางจากสูจิบัตร PDF ล่าสุด 237 รายการ (ข้อมูลร่าง)</strong> เปิดดูคู่แข่งขัน วัน เวลา และสนามตามเอกสารได้ทันที ไม่ใช่ประกาศแข่งขันทางการ · เฉพาะจุดที่มีหมายเหตุจะแสดงคำเตือนเพิ่มเติม</div>
+      <div><strong>โปรแกรมการแข่งขัน 237 รายการ</strong> อยู่ระหว่างเตรียมการจัดแข่งขัน · ตรวจสอบวัน เวลา และสนามจากรายการล่าสุดก่อนเดินทาง และติดตามประกาศยืนยันจากผู้จัด</div>
     </aside>
 
     <section class="panel" aria-labelledby="revisedPdfReviewTitle">
-      <h2 id="revisedPdfReviewTitle">สูจิบัตรต้นฉบับและรายการที่ควรตรวจเพิ่มเติม</h2>
-      <p class="subtle">ตารางด้านล่างแสดงรายการจากสูจิบัตร PDF ล่าสุดแล้ว · เปิดหน้าตรวจเมื่อต้องการเทียบต้นฉบับ ดูหมายเหตุ หรือแจ้งจุดที่ต้องแก้ไข</p>
+      <h2 id="revisedPdfReviewTitle">เอกสารสูจิบัตรและแจ้งแก้ไขข้อมูล</h2>
+      <p class="subtle">ดูสูจิบัตรจากแต่ละคู่ได้โดยตรง ส่วนหน้าเทียบต้นฉบับสำหรับผู้จัดและผู้ช่วยตรวจข้อมูล</p>
       <div class="direct-actions">
         <a class="direct-back" href="./review.html">เปิด PDF และตรวจรายละเอียดเพิ่มเติม</a>
       </div>
@@ -84,7 +84,7 @@
         <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
-      <p class="subtle" id="resultNote">เรียงตามสูจิบัตร PDF ล่าสุด · ข้อมูลวัน เวลา สนามที่ยังไม่รับรองจะแสดงพร้อมป้าย “ตาม PDF”</p>
+      <p class="subtle" id="resultNote">เรียงตามลำดับในสูจิบัตร · เลือกคู่แข่งขันเพื่อเปิดดูเอกสารได้ทันที</p>
       <div id="programSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
       <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลฉบับร่างอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
       <div id="cards"></div>
@@ -126,8 +126,8 @@
   </div>
 <script src="./js/shared.js"></script>
 <script src="./js/navigation.js"></script>
-<script src="./js/review-share.js?v=r13-name1"></script>
+<script src="./js/review-share.js?v=r14-share1"></script>
 <script src="./js/ui-toast.js?v=r13-main1"></script>
-<script src="./js/program.js?v=r13-main1"></script>
+<script src="./js/program.js?v=r14-book1"></script>
 </body>
 </html>
