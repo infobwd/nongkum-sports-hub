@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/program.css?v=r14-book1">
+  <link rel="stylesheet" href="./css/program.css?v=r16-sort1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head>
 <body data-view="program">
@@ -84,7 +84,7 @@
         <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
-      <p class="subtle" id="resultNote">เรียงตามลำดับในสูจิบัตร · เลือกคู่แข่งขันเพื่อเปิดดูเอกสารได้ทันที</p>
+      <p class="subtle" id="resultNote">เรียงตามวันที่และเวลาแข่งขัน · เปิดสูจิบัตรจากแต่ละรายการได้ทันที</p>
       <div id="programSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
       <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลฉบับร่างอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
       <div id="cards"></div>
@@ -128,6 +128,7 @@
 <script src="./js/navigation.js"></script>
 <script src="./js/review-share.js?v=r14-share1"></script>
 <script src="./js/ui-toast.js?v=r13-main1"></script>
-<script src="./js/program.js?v=r14-book1"></script>
+<script src="./js/schedule-order.js?v=r16-sort1"></script>
+<script src="./js/program.js?v=r16-sort1"></script>
 </body>
 </html>
