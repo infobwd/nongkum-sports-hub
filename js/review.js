@@ -9,7 +9,7 @@
   const ui={
     school:$("reviewSchool"),sport:$("reviewSport"),level:$("reviewLevel"),search:$("reviewSearch"),
     qaOnly:$("reviewQaOnly"),clear:$("clearFilters"),refresh:$("reviewRefresh"),
-    extraFilters:$("reviewExtraFilters"),extraHint:$("reviewExtraHint"),
+    extraFilters:$("reviewExtraFilters"),extraHint:$("reviewExtraHint"),collapseExtras:$("reviewCollapseExtras"),
     count:$("reviewCount"),status:$("reviewStatus"),skeleton:$("reviewSkeleton"),
     failure:$("reviewLoadFailure"),retry:$("retryReview"),listing:$("reviewListing"),
     cards:$("reviewCards"),empty:$("reviewEmpty"),more:$("reviewMore"),
@@ -314,8 +314,9 @@
     renderedCount=initial;
     updateCount();
     renderDirect();
-    const extended=!!(f.level||f.qaOnly||f.search);
-    ui.extraHint.textContent=extended?"มีตัวเลือกที่ใช้งาน":"";
+    const selected=[!!f.level,!!f.qaOnly,!!f.search].filter(Boolean).length;
+    // Keep the active-filter count visible even when advanced controls are folded.
+    ui.extraHint.textContent=selected?"ใช้ "+selected+" ตัวเลือก":"";
   }
   function applyFilter(){
     if(searchDebounce!==null){clearTimeout(searchDebounce);searchDebounce=null;}
@@ -420,6 +421,12 @@
   ui.clear.addEventListener("click",()=>{
     ui.school.value="";ui.sport.value="";ui.level.value="";ui.search.value="";
     ui.qaOnly.checked=false;ui.extraFilters.open=false;applyFilter();
+  });
+  ui.collapseExtras.addEventListener("click",()=>{
+    ui.extraFilters.open=false;
+    // Do not clear active search/QA selections when folding the panel.
+    const summary=ui.extraFilters.querySelector?.("summary");
+    if(summary&&typeof summary.focus==="function")summary.focus({preventScroll:true});
   });
     ui.refresh.addEventListener("click",load);
   ui.retry.addEventListener("click",load);
