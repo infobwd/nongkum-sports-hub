@@ -56,14 +56,15 @@ function classifyPair(a, b, schedule, journeys, policy, synthetic) {
     b.role === 'substitute' || !first.verified || !second.verified;
   let derived;
   if (first.end > second.checkin && second.end > first.checkin) {
+    // Verified time overlap is a hard conflict even if a rest policy is still pending.
     derived = { status: 'hard_conflict', reasons: ['checkin_or_competition_overlap'] };
   } else {
     const journey = travelFor(first.venue, second.venue, journeys, synthetic);
-    if (!journey || !nonnegative(policy.minimum_rest_minutes)) {
-      return { status: 'unknown', reasons: ['travel_or_rest_rule_unknown'] };
-    }
-    if (first.end > second.checkin || first.end + journey.minutes > second.checkin) {
+    if (!journey) return { status: 'unknown', reasons: ['travel_time_unknown'] };
+    if (first.end + journey.minutes > second.checkin) {
       derived = { status: 'hard_conflict', reasons: ['insufficient_transition_time'] };
+    } else if (!nonnegative(policy.minimum_rest_minutes)) {
+      return { status: 'unknown', reasons: ['minimum_rest_rule_unknown'] };
     } else if (first.end + journey.minutes + policy.minimum_rest_minutes +
                first.buffer > second.checkin) {
       derived = { status: 'near_conflict', reasons: ['rest_or_delay_buffer_short'] };
@@ -73,14 +74,16 @@ function classifyPair(a, b, schedule, journeys, policy, synthetic) {
     if (!journey.verified) return { status: 'potential_conflict',
       reasons: ['travel_estimate_unconfirmed'], modelled_status: derived.status };
   }
-  if (!readyEvidence(policy.evidence_status, synthetic) || !policy.source_revision) {
-    return { status: 'potential_conflict',
-      reasons: ['rest_policy_unconfirmed'], modelled_status: derived.status };
-  }
   if (uncertain) return { status: 'potential_conflict',
     reasons: [a.conditional || b.conditional ? 'conditional_round' :
       a.role === 'substitute' || b.role === 'substitute' ? 'substitute_possible_callup' :
       'schedule_not_confirmed'], modelled_status: derived.status };
+  // Rest policy is needed to certify near/clear results, not an already-proven hard overlap.
+  if (derived.status !== 'hard_conflict' &&
+      (!readyEvidence(policy.evidence_status, synthetic) || !policy.source_revision)) {
+    return { status: 'potential_conflict',
+      reasons: ['rest_policy_unconfirmed'], modelled_status: derived.status };
+  }
   return derived;
 }
 
@@ -151,7 +154,8 @@ export function analyzeRosterConflicts(program, roster, config) {
       if (reg.team_ref) {
         const team = teams.get(reg.team_ref);
         if (!team || team.school_id !== athlete.school_id || team.sport_id !== reg.sport_id ||
-            team.division !== reg.division || team.review_status !== 'accepted_for_analysis') {
+            team.division !== reg.division || team.source_team_id !== athlete.school_id ||
+            team.review_status !== 'accepted_for_analysis') {
           unresolved.push({ athlete_id: athlete.athlete_id, reason: 'team_mapping_unverified' }); continue;
         }
         refs = [...fixtures.values()].filter(f => f.kind === 'match' &&
@@ -212,7 +216,9 @@ export function analyzeRosterConflicts(program, roster, config) {
     return !!value && value.verified;
   }) && readyEvidence(config.policy.evidence_status, synthetic) &&
     !!config.policy.source_revision && nonnegative(config.policy.minimum_rest_minutes);
-  const fullyAssessed = coverageComplete && unresolved.length === 0 && completeEvidence &&
+  const fullyAssessed = roster.athletes.length > 0 &&
+    Object.values(registrationCounts).some(count => count > 0) && coverageComplete &&
+    unresolved.length === 0 && completeEvidence &&
     !conditionalParticipationExists && unresolvedBracketFixtures === 0 &&
     counts.unknown === 0 && counts.potential_conflict === 0;
   const public_summary = {
