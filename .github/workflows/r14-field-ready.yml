@@ -28,6 +28,7 @@ jobs:
       - run: node scripts/ux/test-program-line-r14.mjs
       - run: node scripts/ux/test-review-share-r12.mjs
       - run: node scripts/ux/test-main-program-r13.mjs
+      - run: node scripts/ux/test-schedule-chronological-r16.mjs
       - run: node scripts/ux/test-unified-pdf-r11d6.mjs
       - run: node scripts/ux/test-mobile-navigation-r6.mjs
       - run: node scripts/ux/test-visual-consistency-r7.mjs
