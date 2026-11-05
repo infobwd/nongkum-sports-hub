@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
   <link rel="stylesheet" href="./css/results.css">
-  <link rel="stylesheet" href="./css/standings.css?v=r15a1">
+  <link rel="stylesheet" href="./css/standings.css?v=r15bc1">
 </head>
 <body data-view="standings">
 <header class="top"><div class="shell">
@@ -54,7 +54,8 @@
       <p id="standingsPendingDetails">ผลที่รับรองแล้วจะถูกนำมาคำนวณเมื่อหลักเกณฑ์ผ่านการตรวจรับ</p>
       <a class="standings-home-link" href="./results.html" id="pendingResultsLink">ดูผลการแข่งขันที่รับรองแล้ว</a>
     </div>
-    <p class="standings-scope-note">หน้านี้ยังไม่แสดงอันดับหรือคะแนนรวมจนกว่าจะตรวจรับกติกาและระบบคำนวณตามแผน R15-B</p>
+    <div id="standingsRoster" class="standings-roster" hidden></div>
+    <p class="standings-scope-note">แสดงรายชื่อทีมก่อนแข่งขันได้โดยยังไม่จัดอันดับ · คะแนนรวมชิงถ้วยและอันดับที่ยังไม่ได้รับรองจะไม่เผยแพร่</p>
   </section>
 </main>
 <footer class="shell">มิตรภาพเกมส์ ปี 2569 · ตารางอันดับใช้ผลที่ผ่านการรับรองเท่านั้น</footer>
@@ -69,6 +70,7 @@
 <div id="navigationNotice" class="sr-only" role="status" aria-live="polite"></div>
 <script src="./js/shared.js"></script>
 <script src="./js/navigation.js"></script>
-<script src="./js/standings.js?v=r15a1"></script>
+<script src="./js/standings-engine.js?v=r15bc1"></script>
+<script src="./js/standings.js?v=r15bc1"></script>
 </body>
 </html>

@@ -19,3 +19,14 @@
   .results-subnav{margin:10px 0 10px}
 }
 @media print{.results-subnav,.standings-home-link{display:none!important}}
+
+/* R15-B: preliminary roster and approved-only verified standings. */
+.standings-roster{padding:15px 13px 20px;margin:10px 0 18px;border:1px solid #d7e4f0;border-radius:15px;background:#fff}
+.standings-roster h3{font-size:1rem;color:#193d63;margin:0 0 5px}
+.standings-provenance{font-size:.81rem;color:#64778c;line-height:1.6;margin:0 0 12px}
+.standings-table-scroll{width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+.standings-table{width:100%;min-width:550px;border-collapse:collapse;font-size:.78rem;font-variant-numeric:tabular-nums}
+.standings-table th,.standings-table td{padding:10px 8px;text-align:center;border-bottom:1px solid #e6edf4;white-space:nowrap}
+.standings-table th:nth-child(2){text-align:left}
+.standings-table thead{background:#eff4fa;color:#244e76}
+.standings-table tbody th{font-weight:700;color:#25496d}

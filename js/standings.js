@@ -6,13 +6,13 @@
     school:$("standingsSchool"),level:$("standingsLevel"),sports:$("standingsSports"),
     count:$("standingsCount"),status:$("standingsStatus"),published:$("standingsPublishedAt"),
     empty:$("standingsEmpty"),pending:$("standingsPendingRules"),
-    pendingDetails:$("standingsPendingDetails"),skeleton:$("standingsSkeleton"),
+    pendingDetails:$("standingsPendingDetails"),roster:$("standingsRoster"),skeleton:$("standingsSkeleton"),
     failure:$("standingsFailure"),listing:$("standingsListing"),
     refresh:$("refreshStandings"),retry:$("retryStandings"),
     resultsLink:$("resultsSubResults"),emptyLink:$("emptyResultsLink"),
     pendingLink:$("pendingResultsLink")
   };
-  const state={data:null,school:"",sport:"",level:""};
+  const state={data:null,rules:null,snapshot:null,school:"",sport:"",level:""};
   let initialized=false,loading=false;
   const safe=globalThis.Nongkum.escapeHtml;
   function validPublicData(data){
@@ -60,17 +60,80 @@
       })
     );
   }
+  function renderRoster(){
+    if(!ui.roster)return;
+    const rule=state.rules?.football_league;
+    const eligible=rule&&rule.mapping_status==="source_verified_not_approved"&&
+      Array.isArray(rule.team_ids)&&rule.team_ids.length===6&&
+      (!state.sport||state.sport==="football")&&(!state.level||state.level==="primary");
+    const snapshot=state.snapshot?.standings?.find(x=>x.sport_id==="football"&&x.division==="12 ปี ชาย");
+    const prestart=eligible&&state.data.results.length===0;
+    const shown=eligible&&(prestart||snapshot);
+    ui.roster.hidden=!shown;
+    if(!shown){ui.roster.innerHTML="";return;}
+    const schoolById=new Map(state.data.schools.map(s=>[s.id,s]));
+    const rows=prestart
+      ?rule.team_ids.map(id=>({team_id:id,played:0,won:0,drawn:0,lost:0,goals_for:0,goals_against:0,
+        goal_difference:0,points:0,position:null}))
+      :snapshot.rows;
+    const filtered=rows.filter(x=>!state.school||x.team_id===state.school);
+    const before=prestart?"รายชื่อทีมเบื้องต้น · ยังไม่จัดอันดับ":
+      snapshot.ranking_status==="final"?"ตารางคะแนนตามผลรับรองครบทุกคู่":"ตารางคะแนนระหว่างการแข่งขัน · ยังไม่ใช่อันดับสุดท้าย";
+    const header="<h3>"+safe(before)+"</h3><p class='standings-provenance'>"+
+      (prestart?"ข้อมูลทีมจากสูจิบัตรฉบับร่าง · ค่า 0 หมายถึงยังไม่เริ่มบันทึกผล ไม่ใช่ผลตัดสิน":
+      "คำนวณเฉพาะผลที่รับรองแล้ว "+snapshot.matches_approved+"/"+snapshot.matches_total+" คู่")+"</p>";
+    const table="<div class='standings-table-scroll'><table class='standings-table'><thead><tr>"+
+      "<th scope='col'>อันดับ</th><th scope='col'>ทีม</th><th scope='col'>แข่ง</th><th scope='col'>ชนะ</th>"+
+      "<th scope='col'>เสมอ</th><th scope='col'>แพ้</th><th scope='col'>ได้</th><th scope='col'>เสีย</th>"+
+      "<th scope='col'>ผลต่าง</th><th scope='col'>คะแนน</th></tr></thead><tbody>"+
+      filtered.map(row=>"<tr><td>"+(row.position??"—")+"</td><th scope='row'>"+
+      safe(schoolById.get(row.team_id)?.short||row.team_id)+"</th>"+
+      ["played","won","drawn","lost","goals_for","goals_against","goal_difference","points"].
+      map(k=>"<td>"+safe(String(row[k]))+"</td>").join("")+"</tr>").join("")+
+      "</tbody></table></div>";
+    ui.roster.innerHTML=header+(filtered.length?table:"<p>ไม่มีทีมตรงกับตัวกรอง</p>");
+  }
+  async function checkedDigest(value){
+    if(!globalThis.crypto?.subtle||!globalThis.TextEncoder)return null;
+    const bytes=new TextEncoder().encode(globalThis.NongkumStandingsEngine.canonical(value));
+    const hash=await globalThis.crypto.subtle.digest("SHA-256",bytes);
+    return "sha256:"+Array.from(new Uint8Array(hash)).map(x=>x.toString(16).padStart(2,"0")).join("");
+  }
+  async function loadRules(data){
+    const response=await fetch("./data/standings-rules.json?refresh="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw Error("ไม่สามารถโหลดกติกา");
+    const rules=await response.json();
+    if(rules.schema_version!==1||typeof rules.rules_version!=="string"||!rules.football_league)
+      throw Error("กติกาไม่ผ่านรูปแบบ");
+    state.rules=rules;state.snapshot=null;
+    const football=rules.sport_policies?.find(x=>x.sport_id==="football");
+    if(data.results.length&&rules.football_league.approval_status==="approved"&&
+       rules.football_league.tie_break_status==="approved"&&football?.status==="implemented"){
+      const res=await fetch("./data/public-standings.json?refresh="+Date.now(),{cache:"no-store"});
+      if(!res.ok)throw Error("ยังไม่เผยแพร่ snapshot ที่ตรวจรับ");
+      const snap=await res.json();
+      const [resultsHash,rulesHash]=await Promise.all([checkedDigest(data),checkedDigest(rules)]);
+      if(!resultsHash||!rulesHash||snap.source_digest!==resultsHash||
+         snap.rules_version!==rules.rules_version||snap.rules_digest!==rulesHash||
+         snap.program_source_digest!=="sha256:"+rules.source.candidate_source_sha256||
+         snap.publication_status!=="published"||!Array.isArray(snap.standings))
+        throw Error("snapshot ไม่ตรงแหล่งผล/กติกาที่ตรวจรับ");
+      state.snapshot=snap;
+    }
+    render();
+  }
   function render(){
     if(!state.data)return;
     const approved=state.data.results.filter(matches);
     ui.count.textContent=approved.length+" ผลรับรอง";
     ui.empty.hidden=state.data.results.length!==0;
-    ui.pending.hidden=state.data.results.length===0;
+    ui.pending.hidden=state.data.results.length===0||!!state.snapshot?.standings?.length;
     if(state.data.results.length){
       ui.pendingDetails.textContent=approved.length
         ? "พบผลที่รับรอง "+approved.length+" รายการสำหรับตัวกรองนี้ แต่ยังไม่แสดงอันดับจนกว่ากติกาจะผ่านการตรวจรับ"
         : "ยังไม่มีผลที่รับรองตรงกับตัวกรองนี้ · เปลี่ยนโรงเรียน กีฬา หรือช่วงชั้นเพื่อตรวจรายการอื่น";
     }
+    renderRoster();
   }
   function setup(){
     if(initialized)return;
@@ -120,7 +183,9 @@
     try{
       const response=await fetch("./data/public-results.json?refresh="+Date.now(),{cache:"no-store"});
       if(!response.ok)throw Error("โหลดผลรับรองไม่ได้");
-      loaded(await response.json());
+      const data=await response.json();
+      loaded(data);
+      try{await loadRules(data);}catch(ruleError){state.snapshot=null;render();console.error(ruleError);}
       ui.failure.hidden=true;
       ui.status.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+" · ผลรับรองจากไฟล์บนเว็บ";
     }catch(error){
