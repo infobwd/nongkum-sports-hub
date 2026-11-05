@@ -154,7 +154,8 @@ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direc
 .schedule-day{margin:20px 0 22px;scroll-margin-top:calc(var(--safe-top) + 65px)}
 .day-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;
   border-bottom:1px solid #cdddeb;padding:0 3px 9px;margin-bottom:10px}
-.day-heading h3{margin:0;color:#173e65;font-weight:800;font-size:1.02rem;line-height:1.45}
+.day-heading h3{display:flex;align-items:center;gap:7px;margin:0;color:#173e65;font-weight:800;font-size:1.02rem;line-height:1.45}
+.day-icon svg{display:block;flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .day-count{flex:none;white-space:nowrap;font-size:.75rem;font-weight:700;
   color:#45657f;background:#e8eff8;padding:4px 9px;border-radius:999px}
 .schedule-day.awaiting-date .day-heading{border-color:#eed69b}
