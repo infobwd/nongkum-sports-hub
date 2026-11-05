@@ -68,7 +68,29 @@
       "</span><span class='vs'>VS</span><span class='team'>"+
       safe(b?b.short:(m.source_team_b_label||"รอระบุทีม"))+"</span></div>";
   }
+  function pdfDateLabel(m){
+    const pdf=m.source_pdf||{},raw=String(pdf.source_date_text||"").trim();
+    if(/(?:พ\\.ย\\.\\s*68|2568)/.test(raw))return raw;
+    const hit=/^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(String(pdf.source_date_iso||""));
+    if(hit){const months=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+      return Number(hit[3])+" "+months[Number(hit[2])]+" "+(Number(hit[1])+543);}
+    return raw||"ไม่ระบุวัน";
+  }
   function scheduleTags(m){
+    if(m.source_pdf){
+      const pdf=m.source_pdf;
+      const date=pdfDateLabel(m),time=pdf.source_time||m.time||"",field=pdf.source_field||m.field||"";
+      const dateVerified=m.planning_date_confirmation==="confirmed"&&!!m.planning_date;
+      const venueVerified=m.planning_venue_confirmation==="confirmed"&&!!m.planning_venue;
+      const dateLabel=dateVerified?"✓ วัน "+safe(date)+" (ยืนยันแล้ว)":"📅 "+safe(date)+" (ตาม PDF)";
+      const fieldLabel=venueVerified?"✓ "+safe(m.planning_venue)+" (ยืนยันแล้ว)":field?safe(field)+" (ตาม PDF)":"สนามยังไม่ระบุ";
+      const tags=["<span class='tag "+(dateVerified?"verified":"")+"'>"+dateLabel+"</span>",
+        "<span class='tag'>"+(time?"เวลาใน PDF "+safe(time)+" น.":"เวลาใน PDF ยังไม่ระบุ")+"</span>",
+        "<span class='tag "+(venueVerified?"verified":"")+"'>"+fieldLabel+"</span>"];
+      if((m.qa_flags||[]).length)tags.push("<span class='tag unconfirmed'>⚠ ควรตรวจเพิ่ม "+m.qa_flags.length+" จุด</span>");
+      if(/(?:พ\\.ย\\.\\s*68|2568)/.test(String(pdf.source_date_text||"")))tags.push("<span class='tag unconfirmed'>⚠ ปีในต้นฉบับผิดปกติ</span>");
+      return tags.join("");
+    }
     if(m.planning_date){
       const parts=m.planning_date.split("-");
       const day=Number(parts[2]),month=Number(parts[1]),year=Number(parts[0])+543;
@@ -108,13 +130,13 @@
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
     const flags=m.qa_flags&&m.qa_flags.length
-      ? "<p class='qa-note'>รอกรรมการตรวจจุดอ้างอิง: "+safe(m.qa_flags.join(", "))+"</p>":"";
+      ? "<p class='qa-note'>⚠ จุดที่ควรตรวจจาก PDF: "+safe(m.qa_flags.join(", "))+"</p>":"";
     const detail="<details class='source-details'><summary>รายละเอียด · ข้อมูลร่าง</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
       original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
       "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
-      "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_page)+
+      "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
       " · ยังไม่ผ่านการรับรอง</div></details>";
     return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
       "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+
