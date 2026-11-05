@@ -2,7 +2,7 @@
 
 **โครงการ:** มิตรภาพเกมส์ ปี 2569 · หนองกุ่ม  
 **วันที่วางแผน:** 5 พฤศจิกายน 2569  
-**สถานะ:** `PLAN_ONLY / NOT_IMPLEMENTED` — ยังไม่แก้โค้ด ไม่สร้างผลจริง ไม่เปิดระบบรับคะแนนอัตโนมัติ  
+**สถานะปัจจุบัน:** `R15-A UI SHELL IMPLEMENTED` — เพิ่มหน้าอันดับแยกและตัวกรองแล้ว; **ยังไม่คำนวณอันดับ/ไม่สร้างผลจริง**. R15-B–E ยังรอดำเนินการ (ประวัติ R15-0 ด้านล่างคงไว้).  
 **แผนต้นทาง:** [RESULTS_DISPLAY_DESIGN_2569.md](RESULTS_DISPLAY_DESIGN_2569.md), [RESULTS_IMPLEMENTATION_R1_R3.md](RESULTS_IMPLEMENTATION_R1_R3.md), [UX_R4_REFRESH_SHARE_SCORE_SHEETS.md](UX_R4_REFRESH_SHARE_SCORE_SHEETS.md), [R5_SCORE_SHEET_MOBILE_QA.md](R5_SCORE_SHEET_MOBILE_QA.md)
 
 ## 1. สถานะที่ตรวจจาก Repository ณ วันจัดทำแผน
@@ -76,7 +76,7 @@
 | Gate | งาน | เกณฑ์ก่อนผ่าน |
 |---|---|---|
 | R15-0 PLAN (รอบนี้) | อ่านแผนเดิมและบันทึกเอกสาร | แผนใน repo เท่านั้น; ไม่แก้ JS/HTML/CSS/JSON ผลหรือโปรแกรม |
-| R15-A UI skeleton | หน้า standings แยก และ entry point จาก results | มือถือ 2 เมนูหลักเหมือนเดิม, โหลดอิสระ, เมื่อไม่มีผล = empty state |
+| R15-A UI skeleton **IMPLEMENTED** | เพิ่ม `standings.html`, `css/standings.css`, `js/standings.js`, แท็บย่อยใน `results.html` และ regression | มือถือ 2 เมนูหลัก, อ่านเฉพาะ `public-results.json`, คืนค่า 0/รอกติกาตรงจริง, ไม่สร้างอันดับสมมติ |
 | R15-B Rules + pure engine | แยก round-robin/playoff/ranking, tie-breaker ที่อนุมัติ | fixture map พิสูจน์ครบ, test edge cases; ถ้ากติกาไม่พร้อมให้แสดง `รอรับรองกติกา` |
 | R15-C JSON validator & CI | ตรวจ ID, scores, approved-only, snapshot digest, revision | ผลที่ขัดกันไม่ merge; ลดโอกาสเผยแพร่ข้อมูลส่วนบุคคล |
 | R15-D Photo/manual intake SOP | คู่มือภาพถ่าย-ถอด-ตรวจ-อนุมัติ-PR | ใช้ข้อมูลทดสอบเฉพาะ test fixtures และลองกับหลักฐานจริงก่อนเผยแพร่ |
@@ -106,3 +106,12 @@
 `results.html`, `js/results.js`, `js/results-renderers.js`, `data/public-results.json`, `forms/score-sheet.js`,
 `apps-script/Results.gs`, `data/program-from-pdf-2569-20261104-draft.json`.
 **สำคัญ:** แม้จัดแผนแล้ว ข้อมูลผลรับรองใน public JSON ยังเท่ากับ 0 จนกว่าจะได้รับหลักฐานจริงและผ่านกระบวนการรับรอง.
+
+
+## ภาคผนวก R15-A — ขอบเขตที่ดำเนินการ 5 พฤศจิกายน 2569
+
+- สร้างหน้า `standings.html` แบบแยกไฟล์จาก `results.html` และ `js/results.js`, มีแท็บย่อย “ผลรายคู่ / ตารางอันดับ” และตัวกรองโรงเรียน ชนิดกีฬา ช่วงชั้น.
+- หน้าตารางอันดับอ่านเพียง `data/public-results.json` เพื่อแสดงสถานะจริงขณะยังไม่มีผล (`0` รายการ) หรือข้อความ “รอรับรองหลักเกณฑ์” เมื่อในอนาคตมีผลรับรอง แต่ **ไม่คำนวณอันดับ**.
+- ไม่มี `public-standings.json`, `standings-rules.json` หรือ engine จนกว่าจะได้กติกาที่รับรองใน R15-B; ไม่แก้ `data/public-results.json` และไม่ใส่ผลสมมติ.
+- รักษาตัวกรอง `school,sport,level`, ลิงก์กลับผลรายคู่, native bottom nav 2 แท็บ, และ loading/error/refresh ที่ใช้เฉพาะ snapshot ผลรับรอง.
+- ทดสอบด้วย `scripts/results/test-standings-r15a.mjs` และ regression เดิม; รายการตรวจรับมือถืออยู่ใน `docs/R15A_STANDINGS_UI_QA.md`.

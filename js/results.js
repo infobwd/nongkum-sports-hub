@@ -10,6 +10,7 @@
     count:document.getElementById("resultsCount"),
     empty:document.getElementById("noResults"),
     published:document.getElementById("publishedAt"),
+    standings:optionalElement("resultsSubStandings"),
     programLink:document.getElementById("programLink"),
     refresh:document.getElementById("refreshResults"),
     refreshStatus:document.getElementById("resultsRefreshStatus"),
@@ -55,6 +56,7 @@
   function syncUrl(){
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
     globalThis.NongkumNavigation?.update?.(state);
+    if(els.standings)els.standings.href=globalThis.Nongkum.href("standings.html",state);
     const url=new URL(location.href);
     for(const key of ["school","sport","level"]){
       if(state[key])url.searchParams.set(key,state[key]);else url.searchParams.delete(key);
@@ -157,6 +159,7 @@
     makeSports();render();
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
     globalThis.NongkumNavigation?.update?.(state);
+    if(els.standings)els.standings.href=globalThis.Nongkum.href("standings.html",state);
   }
   function setInitialLoading(active){
     if(els.skeleton)els.skeleton.hidden=!active;
