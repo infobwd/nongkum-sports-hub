@@ -1,7 +1,7 @@
 // R12: deterministic per-fixture Open Graph previews for the read-only PDF candidate.
 // node scripts/share/build-review-pages.mjs [--check]
 import {readFileSync,writeFileSync,mkdirSync,existsSync} from "node:fs";
-import {dirname,fileURLToPath} from "node:url";
+import {fileURLToPath} from "node:url";
 import {dirname as pathDirname} from "node:path";
 function hashId(id){let h=2166136261;for(let i=0;i<id.length;i++)h=Math.imul(h^id.charCodeAt(i),16777619)>>>0;return "f"+h.toString(16).padStart(8,"0")}
 function escapeText(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
