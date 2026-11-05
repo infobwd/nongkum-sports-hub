@@ -96,4 +96,19 @@ for (let i = 0; i < 15; i++) changedRoster.athletes[3].registrations.push({
 const extra = evaluate(program, changedRoster, config);
 assert.equal(pair(extra, 'SYN-ATH-004', 'SYN-RELAY', 'SYN-SPRINT').status, 'checked_no_conflict');
 
+
+const noStudents = copy(cleanRoster);
+noStudents.athletes = [];
+assert.equal(evaluate(cleanProgram, noStudents, { ...cleanConfig, timings: config.timings.filter(x =>
+  ['SYN-RELAY', 'SYN-SPRINT'].includes(x.fixture_id)) }).public_summary.ready_to_claim_no_conflict, false);
+changed = copy(config);
+changed.policy.minimum_rest_minutes = null;
+assert.equal(pair(evaluate(program, roster, changed), 'SYN-ATH-001',
+  'SYN-FOOT-1', 'SYN-VOLLEY').status, 'hard_conflict');
+assert.equal(pair(evaluate(program, roster, changed), 'SYN-ATH-001',
+  'SYN-FOOT-1', 'SYN-FOOT-2').status, 'unknown');
+changedRoster = copy(roster);
+changedRoster.teams[0].source_team_id = 'SYN-B';
+assert.ok(evaluate(program, changedRoster, config).public_summary.unresolved_registration_checks > 0);
+
 console.log('R12C synthetic-only checks PASS: multi-sport, team expansion, substitutes, relay, centre lane, conditional finals, identity, coverage, travel, rest, timing, redaction');
