@@ -116,6 +116,8 @@ export function analyzeRosterConflicts(program, roster, config) {
     }
     coverage.set(c.school_id, c);
   }
+  const unresolvedBracketFixtures = [...fixtures.values()].filter(f => f.kind === 'match' &&
+    (!f.team_a_id || !f.team_b_id)).length;
   const coverageComplete = [...knownSchools].every(id => {
     const c = coverage.get(id);
     return c?.status === 'accepted_for_analysis' &&
@@ -211,7 +213,7 @@ export function analyzeRosterConflicts(program, roster, config) {
   }) && readyEvidence(config.policy.evidence_status, synthetic) &&
     !!config.policy.source_revision && nonnegative(config.policy.minimum_rest_minutes);
   const fullyAssessed = coverageComplete && unresolved.length === 0 && completeEvidence &&
-    !conditionalParticipationExists &&
+    !conditionalParticipationExists && unresolvedBracketFixtures === 0 &&
     counts.unknown === 0 && counts.potential_conflict === 0;
   const public_summary = {
     schema_version: 1, report_type: 'r12c_aggregate_no_personal_data',
@@ -225,6 +227,7 @@ export function analyzeRosterConflicts(program, roster, config) {
     pair_evaluations: details.length,
     counts,
     unresolved_registration_checks: unresolved.length,
+    unresolved_bracket_fixtures: unresolvedBracketFixtures,
     full_program_time_coverage: completeEvidence,
     coverage_complete: coverageComplete,
     ready_to_claim_no_conflict: fullyAssessed && counts.hard_conflict === 0 &&
