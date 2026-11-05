@@ -16,6 +16,9 @@ assert.ok(confirmed.every(f=>f.planning_time_confirmation==="confirmed"&&f.plann
 assert.ok(confirmed.every(f=>["09:00","10:00","13:00"].includes(f.planning_time)));
 assert.ok(confirmed.every(f=>f.status==="draft"&&f.review_status==="draft"&&f.planning_status==="review"));
 assert.ok(confirmed.every(f=>f.planning_time_source.includes("5 พ.ย. 2569")));
+assert.ok(confirmed.every(f=>f.planning_schedule_confirmation_note.includes("5 พฤศจิกายน 2569")));
+const historicalById=new Map(legacy.fixtures.map(x=>[x.id,x]));
+assert.ok(confirmed.every(f=>f.planning_source===historicalById.get(f.id).planning_source),"preserve R11A historical provenance");
 assert.ok(confirmed.some(f=>f.qa_flags.includes("QA-06")),"retain unresolved PDF/fixture-map QA");
 assert.equal(latest.fixtures.filter(f=>f.qa_flags?.length).length,70);
 assert.equal(latest.fixtures.filter(f=>f.source_pdf?.source_date_text==="17 พ.ย. 68").length,3);
