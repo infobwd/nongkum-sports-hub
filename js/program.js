@@ -81,7 +81,7 @@
     if(m.source_pdf){
       const pdf=m.source_pdf;
       const date=pdfDateLabel(m),time=pdf.source_time||m.time||"",field=pdf.source_field||m.field||"";
-      const anomaly=/(?:พ\\.ย\\.\\s*68|2568)/.test(String(pdf.source_date_text||""));
+      const anomaly=/(?:พ\.ย\.\s*68|2568)/.test(String(pdf.source_date_text||""));
       const verifiedDate=m.planning_date_confirmation==="confirmed"&&!!m.planning_date;
       const verifiedField=m.planning_venue_confirmation==="confirmed"&&!!m.planning_venue;
       const dateText=anomaly?"วันรอยืนยัน":date;
