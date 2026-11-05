@@ -5,7 +5,7 @@ import vm from "node:vm";
 const read=path=>readFileSync(new URL("../../"+path,import.meta.url),"utf8");
 const htmlProgram=read("index.html"),htmlResults=read("results.html");
 const css=read("css/base.css");
-const shared=read("js/shared.js"),program=read("js/program.js"),resultRenderers=read("js/results-renderers.js"),results=read("js/results.js");
+const shared=read("js/shared.js"),sorter=read("js/schedule-order.js"),program=read("js/program.js"),resultRenderers=read("js/results-renderers.js"),results=read("js/results.js");
 const programData=JSON.parse(read("data/draft-schedule.json"));
 const published=JSON.parse(read("data/public-results.json"));
 const pids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink",
@@ -26,7 +26,7 @@ assert.match(css,/prefers-reduced-motion:reduce/);
 assert.match(css,/\.loading-skeleton\[hidden\],\.load-failure\[hidden\]\{display:none!important\}/);
 assert.match(css,/min-height:44px/);
 assert.doesNotMatch(css,/\.loading-skeleton\{[^}]*position:fixed/);
-for(const code of [shared,program,resultRenderers,results])new vm.Script(code);
+for(const code of [shared,sorter,program,resultRenderers,results])new vm.Script(code);
 
 function el(id){
   return {id,hidden:/LoadFailure$/.test(id),textContent:"",innerHTML:"",value:"",open:false,children:[],handlers:{},attrs:{},
@@ -47,6 +47,7 @@ function harness(kind,fetchSource,query=""){
     localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},
     setInterval(){return 1;},fetch:()=>fetchSource()});
   new vm.Script(shared).runInContext(ctx);
+  if(isProgram)new vm.Script(sorter).runInContext(ctx);
   if(!isProgram)new vm.Script(resultRenderers).runInContext(ctx);
   new vm.Script(isProgram?program:results).runInContext(ctx);
   return {els,ctx};
