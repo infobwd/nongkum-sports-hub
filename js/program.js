@@ -146,7 +146,7 @@
       ? "<p class='qa-note'>"+(confirmedSchedule?"ข้อสังเกตที่เก็บไว้จาก PDF: ":"⚠ จุดที่ควรตรวจจาก PDF: ")+safe(m.qa_flags.join(", "))+"</p>":"";
     const detail="<details class='source-details'><summary>"+(confirmedSchedule?"รายละเอียด · กำหนดแข่งขันยืนยันแล้ว":"รายละเอียด · ข้อมูลร่าง")+"</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
-      original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
+      original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_schedule_confirmation_note||m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
       "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
