@@ -55,11 +55,11 @@ function el(id){
     querySelector(){return null;}
   };
 }
-async function mount(kind,payload,query="",fails=[]){
+async function mount(kind,payload,query="",fails=[],firstError=false){
   const ids=kind==="results"?idsResults:idsStandings,els=Object.fromEntries(ids.map(k=>[k,el(k)]));
   const observed={fetches:[],nav:[],share:[],replace:[]};
   const location=new URL("https://example.test/hub/"+(kind==="results"?"results.html":"standings.html")+query);
-  const calls=[{ok:true,data:payload},...fails.map(f=>({ok:!f,data:payload}))];
+  const calls=[{ok:!firstError,data:payload},...fails.map(f=>({ok:!f,data:payload}))];
   const doc={
     visibilityState:"visible",
     getElementById:k=>els[k]||null,
@@ -145,12 +145,14 @@ offline.els.refreshStandings.handlers.click();
 for(let i=0;i<30;i++)await Promise.resolve();
 assert.equal(offline.els.standingsEmpty.hidden,false);
 assert.match(offline.els.standingsStatus.textContent,/รีเฟรชไม่สำเร็จ/);
-const firstFail=await mount("standings",publicData,"",[true]);
-firstFail.els.refreshStandings.handlers.click();
-for(let i=0;i<10;i++)await Promise.resolve();
-assert.equal(firstFail.els.standingsEmpty.hidden,false);
-// A newly opened page with offline fetch must show error rather than pretend "no approved results".
-const initialDown=await mount("results",publicData,"",[]);
+const initialDown=await mount("results",publicData,"",[],true);
+assert.equal(initialDown.els.resultsLoadFailure.hidden,false,"initial offline must show retry, not empty");
+assert.equal(initialDown.els.noResults.hidden,true,"network error must differ from no approved results");
+assert.equal(initialDown.els.resultsSkeleton.hidden,true);
+const standingsDown=await mount("standings",publicData,"",[],true);
+assert.equal(standingsDown.els.standingsFailure.hidden,false);
+assert.equal(standingsDown.els.standingsEmpty.hidden,true);
+assert.equal(standingsDown.els.standingsSkeleton.hidden,true);
 // Test a corrupted payload gets blocked; a score with unapproved status is not public.
 const bad=structuredClone(testOnly);bad.results[0].status="review";
 const blocked=await mount("results",bad);
