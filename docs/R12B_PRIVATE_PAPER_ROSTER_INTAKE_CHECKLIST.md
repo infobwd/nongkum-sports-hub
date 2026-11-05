@@ -1,6 +1,6 @@
 # R12B — ขั้นตอนรับภาพรายชื่อนักกีฬากระดาษเข้าสู่ JSON ส่วนตัว (ไม่มีหน้าลงทะเบียน)
 
-**สถานะ: INTAKE READY / ยังไม่มีรายชื่อนักกีฬาจริงและยังไม่เริ่มวิเคราะห์รายบุคคล** · 4 พฤศจิกายน 2569  
+**สถานะ: INTAKE READY / OWNER-ONLY REVERIFIED / NO PAPER RECEIVED / NO REAL ATHLETE ANALYSIS** · 5 พฤศจิกายน 2569  
 **อ้างอิง:** [แผน R12](R12_ATHLETE_DOCUMENT_TO_JSON_SCHEDULE_CONFLICT_PLAN.md) และ [ผลคัดกรอง R12A](R12A_SCHOOL_TIME_RISK_REPORT_2569.md)
 
 ## แนวทางที่ล็อกแล้ว
@@ -37,3 +37,9 @@
 - [ ] เชื่อม `athlete_id` กับ `fixture.id` และกรีฑา เพื่อวิเคราะห์รายบุคคลใน R12C
 
 **ห้ามแสดง “ไม่มีการชนกัน” ในรายการ/โรงเรียนที่ยังไม่ได้ส่งเอกสารหรือมีชื่อที่รอตรวจ**
+
+## ตรวจซ้ำ 5 พฤศจิกายน 2569
+
+- ตรวจ metadata ด้วยบัญชี Drive ที่เชื่อมต่อ: โฟลเดอร์ชนิด My Drive, `shared=false`, `drive_id=null`, สิทธิ์ที่แสดงมีเพียง user/owner, และรายการไฟล์ภายใน **0 รายการ** ณ วันที่ตรวจ
+- ไม่บันทึก URL/ID folder ลง Public Repository. ก่อนรับเอกสารแต่ละโรงเรียนให้ตรวจสิทธิ์ใหม่ เพราะสถานะในวันนี้ไม่รับรองการตั้งค่าในอนาคต
+- [R12C Contract](R12C_PRIVATE_ROSTER_CONFLICT_ENGINE.md) แยก intake ที่มีชื่อ/ภาพจาก analytic roster ที่ใช้รหัสยืนยัน; ขณะนี้มีเฉพาะ synthetic fixture ไม่ใช่ข้อมูลจริง
