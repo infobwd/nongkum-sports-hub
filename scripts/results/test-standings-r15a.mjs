@@ -6,12 +6,13 @@ const read=file=>readFileSync(new URL("../../"+file,import.meta.url),"utf8");
 const standHtml=read("standings.html"),resultsHtml=read("results.html");
 const stylesheet=read("css/standings.css"),source=read("js/standings.js");
 const resultsCode=read("js/results.js"),publicData=JSON.parse(read("data/public-results.json"));
+const rulesData=JSON.parse(read("data/standings-rules.json"));
 assert.equal(publicData.results.length,0,"no real results may be added during R15-A");
 assert.equal(publicData.metadata.approved_only,true);
 assert.equal(publicData.metadata.publication_status,"empty");
 assert.match(standHtml,/data-view="standings"/);
-assert.match(standHtml,/href="\.\/css\/standings\.css\?v=r15a1"/);
-assert.match(standHtml,/src="\.\/js\/standings\.js\?v=r15a1"/);
+assert.match(standHtml,/href="\.\/css\/standings\.css\?v=r15bc1"/);
+assert.match(standHtml,/src="\.\/js\/standings\.js\?v=r15bc1"/);
 assert.match(resultsHtml,/id="resultsSubStandings" href="\.\/standings\.html"/);
 assert.match(standHtml,/id="resultsSubResults" href="\.\/results\.html"/);
 assert.match(standHtml,/id="resultsSubStandings" href="\.\/standings\.html" aria-current="page"/);
@@ -25,7 +26,7 @@ assert.ok(!standHtml.includes("ผลสมมติ"));
 assert.ok(source.includes("./data/public-results.json?refresh="));
 assert.ok(!source.includes("draft-schedule.json"));
 assert.ok(!source.includes("program-from-pdf"));
-assert.ok(!source.includes("public-standings.json"));
+assert.ok(source.includes("public-standings.json"),"only digest-verified standings snapshots may be shown");
 assert.ok(resultsCode.includes('Nongkum.href("standings.html",state)'));
 for(const file of ["js/shared.js","js/navigation.js","js/results.js","js/standings.js"])
   new vm.Script(read(file),{filename:file});
@@ -50,7 +51,7 @@ function node(id){
 }
 const ids=["standingsSchool","standingsLevel","standingsSports","standingsCount","standingsStatus",
   "standingsPublishedAt","standingsEmpty","standingsPendingRules","standingsPendingDetails",
-  "standingsSkeleton","standingsFailure","standingsListing","refreshStandings","retryStandings",
+  "standingsSkeleton","standingsFailure","standingsListing","standingsRoster","refreshStandings","retryStandings",
   "resultsSubResults","emptyResultsLink","pendingResultsLink"];
 async function mount(payload,query="",fail=false){
   const els=Object.fromEntries(ids.map(id=>[id,node(id)]));
@@ -66,20 +67,23 @@ async function mount(payload,query="",fail=false){
     fetch:async (path,opt)=>{
       observed.calls.push({path,opt});
       if(fail)return {ok:false};
-      return {ok:true,json:async()=>payload};
+      return {ok:true,json:async()=>path.includes("standings-rules.json")?rulesData:payload};
     },
     setInterval(){}});
   new vm.Script(read("js/shared.js")).runInContext(context);
   context.NongkumNavigation={update:obj=>observed.filters.push({...obj})};
+  new vm.Script(read("js/standings-engine.js")).runInContext(context);
   new vm.Script(source).runInContext(context);
   for(let i=0;i<20;i++)await Promise.resolve();
   return {els,observed,context};
 }
 const empty=await mount(publicData,"?school=wangdong&sport=football&level=primary");
-assert.equal(empty.observed.calls.length,1,"standings fetches approved-only JSON exactly once");
+assert.equal(empty.observed.calls.length,2,"standings fetches approved JSON and versioned rulebook once each");
 assert.match(empty.observed.calls[0].path,/\/data\/public-results\.json\?refresh=/);
 assert.equal(empty.observed.calls[0].opt.cache,"no-store");
 assert.equal(empty.els.standingsEmpty.hidden,false);
+assert.equal(empty.els.standingsRoster.hidden,false,"prestart team list available without rank");
+assert.match(empty.els.standingsRoster.innerHTML,/ยังไม่จัดอันดับ/);
 assert.equal(empty.els.standingsPendingRules.hidden,true);
 assert.equal(empty.els.standingsFailure.hidden,true);
 assert.equal(empty.els.standingsCount.textContent,"0 ผลรับรอง");
