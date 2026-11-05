@@ -1,0 +1,48 @@
+name: R12 review share LINE and toast
+on:
+  pull_request:
+    paths:
+      - "review.html"
+      - "js/review.js"
+      - "js/review-share.js"
+      - "css/review-share.css"
+      - "r/**"
+      - "data/review-share-index.json"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "scripts/share/build-review-pages.mjs"
+      - "scripts/ux/test-review-share-r12.mjs"
+      - ".github/workflows/r12-review-share.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "review.html"
+      - "js/review.js"
+      - "js/review-share.js"
+      - "css/review-share.css"
+      - "r/**"
+      - "data/review-share-index.json"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "scripts/share/build-review-pages.mjs"
+      - "scripts/ux/test-review-share-r12.mjs"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review-share:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 237 candidate-only LINE pages remain deterministic
+        run: node scripts/share/build-review-pages.mjs --check
+      - name: R12 short URLs, metadata, draft safety and toast/share tests
+        run: node scripts/ux/test-review-share-r12.mjs
+      - name: Existing R11D and R8 deep-link regression
+        run: |
+          node scripts/ux/test-review-r11d.mjs
+          node scripts/ux/test-review-r11d1.mjs
+          node scripts/ux/test-review-r11d5.mjs
+          node scripts/ux/test-direct-share-r8.mjs
