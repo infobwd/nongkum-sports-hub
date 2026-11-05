@@ -126,6 +126,7 @@ export function analyzeRosterConflicts(program, roster, config) {
   const details = [];
   const unresolved = [];
   const registrationCounts = { player: 0, substitute: 0, relay_member: 0 };
+  let conditionalParticipationExists = false;
   for (const athlete of roster.athletes) {
     if (!athlete || typeof athlete.athlete_id !== 'string' || !athlete.athlete_id ||
         athleteIds.has(athlete.athlete_id) || !knownSchools.has(athlete.school_id)) {
@@ -182,6 +183,7 @@ export function analyzeRosterConflicts(program, roster, config) {
         unresolved.push({ athlete_id: athlete.athlete_id, reason: 'no_fixture_mapping' }); continue;
       }
       for (const ref of refs) {
+        if (ref.conditional) conditionalParticipationExists = true;
         const previous = events.get(ref.fixture_id);
         events.set(ref.fixture_id, { fixture_id: ref.fixture_id,
           conditional: !!ref.conditional && (previous ? previous.conditional : true),
@@ -203,8 +205,13 @@ export function analyzeRosterConflicts(program, roster, config) {
     'unknown', 'checked_no_conflict'];
   const counts = Object.fromEntries(statuses.map(s => [s, details.filter(d => d.status === s).length]));
   counts.unknown += unresolved.length;
-  const completeEvidence = [...fixtures.keys()].every(id => !!interval(timings.get(id), synthetic));
+  const completeEvidence = [...fixtures.keys()].every(id => {
+    const value = interval(timings.get(id), synthetic);
+    return !!value && value.verified;
+  }) && readyEvidence(config.policy.evidence_status, synthetic) &&
+    !!config.policy.source_revision && nonnegative(config.policy.minimum_rest_minutes);
   const fullyAssessed = coverageComplete && unresolved.length === 0 && completeEvidence &&
+    !conditionalParticipationExists &&
     counts.unknown === 0 && counts.potential_conflict === 0;
   const public_summary = {
     schema_version: 1, report_type: 'r12c_aggregate_no_personal_data',
