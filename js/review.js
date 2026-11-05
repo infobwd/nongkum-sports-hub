@@ -194,6 +194,8 @@
     ui.pdfContext.textContent=getSport(f)+" · "+(f.division||"")+" · หน้า "+page;
     const url=new URL("./pdf-viewer.html",location.href);
     url.searchParams.set("page",String(page));
+    url.searchParams.set("fixture",f.id);
+    url.searchParams.set("embedded","1");
     // Same-origin viewer reads a fixed local PDF: do not accept arbitrary file URLs.
     ui.pdfPreview.hidden=false;
     document.body.classList.add("review-pdf-open");
@@ -422,6 +424,15 @@
     ui.refresh.addEventListener("click",load);
   ui.retry.addEventListener("click",load);
   ui.pdfClose.addEventListener("click",closePdfPreview);
+  if(typeof window!=="undefined"&&typeof window.addEventListener==="function"){
+    window.addEventListener("message",event=>{
+      // Only the currently opened, same-origin PDF iframe may request a close.
+      if(ui.pdfPreview.hidden||event.origin!==location.origin||
+         event.source!==ui.pdfFrame.contentWindow||
+         event.data?.type!=="nongkum:close-pdf-viewer")return;
+      closePdfPreview();
+    });
+  }
   if(typeof window!=="undefined"&&typeof window.addEventListener==="function"){
     window.addEventListener("resize",()=>{if(!ui.pdfPreview.hidden)updatePdfModality();});
   }
