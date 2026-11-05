@@ -1,0 +1,77 @@
+// R14 program/LINE/PDF contracts, no browser dependencies.
+import assert from "node:assert/strict";
+import {readFileSync,existsSync} from "node:fs";
+import vm from "node:vm";
+const read=p=>readFileSync(new URL("../../"+p,import.meta.url),"utf8");
+const data=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
+const routes=JSON.parse(read("data/review-share-index.json"));
+const legacy=JSON.parse(read("data/share-index.json"));
+const program=read("js/program.js"),html=read("index.html"),css=read("css/program.css");
+const base=read("css/base.css"),pdf=read("js/pdf-viewer.js"),reader=read("pdf-viewer.html");
+const shareSource=read("js/review-share.js");
+const ctx=vm.createContext({Math});new vm.Script(shareSource).runInContext(ctx);
+const share=ctx.NongkumReviewShare;
+assert.equal(data.fixtures.length,237);
+assert.equal(routes.count,237);
+assert.equal(legacy.count,236);
+assert.equal(data.metadata.all_data_approved,false);
+assert.equal(data.metadata.website_publication_status,"not_released");
+assert.equal(data.fixtures.filter(x=>x.qa_flags?.length).length,70);
+assert.equal(data.fixtures.filter(x=>x.source_pdf?.source_date_text==="17 พ.ย. 68").length,3);
+assert.match(html,/โปรแกรมการแข่งขัน 237 รายการ/);
+assert.match(html,/ติดตามประกาศยืนยันจากผู้จัด/);
+assert.doesNotMatch(html,/ป้าย “ตาม PDF”/);
+assert.match(program,/fixture-meta-grid/);
+assert.match(program,/fixture-pdf-link/);
+assert.match(program,/pdf-viewer\.html\?page=/);
+assert.match(program,/&amp;from=program&amp;fixture=/);
+assert.match(program,/CAL_ICON/);
+assert.match(program,/ปีในสูจิบัตรไม่ตรง/);
+assert.doesNotMatch(program,/📅/);
+for(const label of ["fixture-meta-date","fixture-meta-time","fixture-meta-venue"])
+ assert.ok(program.includes(label),label);
+for(const label of ["fixture-meta-item","fixture-meta-venue","fixture-pdf-link"])
+ assert.ok(css.includes(label),label);
+assert.ok(base.includes("position:sticky;top:0;z-index:1120"));
+assert.ok(!base.includes("body::before"));
+assert.match(pdf,/openedFromProgram/);
+assert.match(pdf,/\.\/index\.html/);
+assert.match(pdf,/el\.back\.href = backUrl\.toString\(\)/);
+assert.ok(reader.includes('src="./js/pdf-viewer.js?v=r14-book1"'));
+assert.ok(html.includes('src="./js/review-share.js?v=r14-share1"'));
+assert.ok(read("review.html").includes('src="./js/review-share.js?v=r14-share1"'));
+assert.ok(read("js/results.js").includes("approved_only"));
+const football=data.fixtures.find(f=>f.id==="football-p07-12-ปี-ชาย-006");
+assert.ok(football);
+const p=share.payload(football,"⚽ ฟุตบอล");
+assert.ok(p.text.includes("หนองกุ่ม พบ วังด้ง"));
+assert.ok(p.text.includes("17 พ.ย. 2569"));
+assert.ok(p.text.includes("13:00 น."));
+assert.ok(p.text.includes("สูจิบัตร หน้า 7"));
+assert.ok(p.text.includes("โปรดตรวจสอบการเปลี่ยนแปลงล่าสุด"));
+assert.ok(!p.text.includes("ตาม PDF"));
+assert.ok(!p.text.includes("ข้อมูลร่าง"));
+assert.ok(p.fullText.includes(p.url));
+assert.ok(p.url.includes("?v=14"));
+for(const f of data.fixtures){
+ const key=share.code(f.id),url=share.link(f.id),path="r/"+key+"/index.html";
+ assert.equal(routes.links[key],f.id);
+ assert.ok(existsSync(new URL("../../"+path,import.meta.url)),path);
+ const page=read(path);
+ assert.ok(page.includes('content="'+url+'"'),"OG url "+key);
+ assert.ok(page.includes('property="og:title"'));
+ assert.ok(page.includes('property="og:description"'));
+ assert.ok(page.includes('href="../../index.html?fixture='));
+ assert.ok(page.includes("ไม่ใช่ประกาศการแข่งขันที่รับรองแล้ว"));
+ assert.ok(page.includes("window.location.replace"));
+ const msg=share.payload(f,"กีฬา");
+ assert.ok(msg.fullText.includes(msg.url));
+ assert.ok(!msg.text.includes("ตาม PDF"));
+}
+const issue=data.fixtures.find(f=>f.source_pdf?.source_date_text==="17 พ.ย. 68");
+assert.ok(issue);
+assert.match(share.payload(issue,"ฟุตบอล").text,/รอยืนยัน/);
+assert.doesNotMatch(share.payload(issue,"ฟุตบอล").text,/17 พ\.ย\. 2569/);
+for(const file of ["js/program.js","js/results.js","js/review-share.js","js/pdf-viewer.js"])
+ new vm.Script(read(file),{filename:file});
+console.log("R14 PASS: compact metadata, exact PDF page/back, 237 LINE routes, historical links and approval gate");

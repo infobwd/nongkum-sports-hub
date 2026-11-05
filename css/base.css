@@ -145,3 +145,24 @@
 @media(max-width:690px){.loading-skeleton{grid-template-columns:1fr}.loading-card{min-height:128px}}
 @media(prefers-reduced-motion:reduce){.loading-bar{animation:none;background:#e8edf3}}
 @media print{.loading-skeleton,.load-failure{display:none!important}}
+
+
+/* R14 iOS Safe Area: a real, compact sticky header owns the status-bar background.
+   Unlike the old fixed pseudo-mask, it never covers or intercepts scrolling content. */
+@media(max-width:690px){
+ body[data-view="program"] > header.top,
+ body[data-view="results"] > header.top{
+   position:sticky;top:0;z-index:1120;
+   margin-top:calc(-1 * var(--safe-top));
+   padding-top:var(--safe-top);
+   background:#fff;color:#183762;border-bottom:1px solid #d7e2ed;
+ }
+ body[data-view="program"] > header.top .hero,
+ body[data-view="results"] > header.top .hero{display:none}
+ body[data-view="program"] > header.top .brand,
+ body[data-view="results"] > header.top .brand{padding:6px 0}
+ body[data-view="program"] > header.top .mode,
+ body[data-view="results"] > header.top .mode{color:#355878;border-color:#d3e0ec}
+ body[data-view="program"] > header.top .logoIcon,
+ body[data-view="results"] > header.top .logoIcon{width:30px;height:30px;font-size:18px}
+}

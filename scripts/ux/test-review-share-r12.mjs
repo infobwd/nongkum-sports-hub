@@ -21,7 +21,7 @@ assert.equal(new Set(Object.values(previewIndex.links)).size,237);
 assert.match(html,/id="reviewToast"/);
 assert.match(html,/id="reviewToastTitle"/);
 assert.match(html,/id="reviewToastDetail"/);
-assert.match(html,/src="\.\/js\/review-share\.js\?v=r1[23][^"]*"/);
+assert.match(html,/src="\.\/js\/review-share\.js\?v=r1[234][^"]*"/);
 assert.ok(html.includes('href="./css/review-share.css?v=r12a1"'));
 assert.match(css,/safe-area-inset-bottom/);
 assert.ok(css.includes("bottom:calc(83px"));
@@ -44,7 +44,7 @@ for(const f of candidate.fixtures){
   assert.match(page,/property="og:description"/);
   assert.match(page,/property="og:url"/);
   assert.ok(page.includes('content="'+share.link(f.id)+'"'),"short canonical URL");
-  assert.ok(page.includes('href="../../review.html?fixture='),"open exact candidate");
+  assert.ok(page.includes('href="../../index.html?fixture='),"open exact candidate in the program");
   assert.ok(page.includes('data-fixture-id='),"page has candidate ID");
   assert.ok(page.includes("ไม่ใช่ประกาศ"),"must label every page as draft");
   assert.ok(page.includes("window.location.replace"),"LINE client must open exact review fixture");
@@ -52,13 +52,13 @@ for(const f of candidate.fixtures){
   const message=share.payload(f,(sport?.emoji||"")+" "+(sport?.name||f.sport_id));
   assert.equal(message.url,share.link(f.id));
   assert.ok(message.fullText.includes(message.url));
-  assert.ok(message.fullText.includes("สูจิบัตรหน้า"));
-  assert.ok(message.text.includes("ไม่ใช่ประกาศ"));
+  assert.ok(message.fullText.includes("สูจิบัตร หน้า"));
+  assert.ok(message.text.includes("โปรดตรวจสอบการเปลี่ยนแปลงล่าสุด"));
   assert.ok(!/%E0%B8/i.test(message.url),"no percent-encoded Thai fixture in shared URL");
 }
 const anomalous=candidate.fixtures.find(f=>f.source_pdf?.source_date_text==="17 พ.ย. 68");
 assert.ok(anomalous);
-assert.match(share.payload(anomalous,"ฟุตบอล").text,/17 พ\.ย\. 68/);
+assert.match(share.payload(anomalous,"ฟุตบอล").text,/รอยืนยัน/);
 const first=candidate.fixtures[0],sample=share.payload(first,"ฟุตบอล");
 assert.ok(sample.fullText.includes(first.source_team_a_label||first.name||""));
 console.log("R12 PASS: 237 LINE previews, direct candidate routing, exact PDF draft text, clipboard/share feedback and legacy R8 index retained");

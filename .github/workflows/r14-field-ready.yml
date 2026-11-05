@@ -1,0 +1,36 @@
+name: R14 field-ready schedule and LINE
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "review.html"
+      - "js/**"
+      - "css/**"
+      - "pdf-viewer.html"
+      - "r/**"
+      - "scripts/share/build-review-pages.mjs"
+      - "scripts/ux/test-program-line-r14.mjs"
+      - ".github/workflows/r14-field-ready.yml"
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  field-ready:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/share/build-review-pages.mjs --check
+      - run: node scripts/ux/test-program-line-r14.mjs
+      - run: node scripts/ux/test-review-share-r12.mjs
+      - run: node scripts/ux/test-main-program-r13.mjs
+      - run: node scripts/ux/test-unified-pdf-r11d6.mjs
+      - run: node scripts/ux/test-mobile-navigation-r6.mjs
+      - run: node scripts/ux/test-visual-consistency-r7.mjs
+      - run: node scripts/ux/test-mobile-ui.mjs
+      - run: node scripts/ux/test-score-sheet-r5.mjs
+      - run: node scripts/ux/test-direct-share-r8.mjs

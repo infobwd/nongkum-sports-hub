@@ -17,7 +17,7 @@ assert.equal(pdf.fixtures.filter(x=>x.source_pdf?.source_date_text==="17 พ.ย
 assert.ok(prog.includes("./data/program-from-pdf-2569-20261104-draft.json"));
 assert.ok(form.includes("../data/program-from-pdf-2569-20261104-draft.json"));
 assert.ok(prog.includes("source_date_iso"));
-assert.ok(prog.includes("ปีในต้นฉบับผิดปกติ"));
+assert.ok(prog.includes("ปีในสูจิบัตรไม่ตรง"));
 assert.ok(prog.includes("ควรตรวจเพิ่ม"));
 assert.ok(prog.includes("shareLatestCandidate"));
 assert.ok(page.includes("js/ui-toast.js"));
