@@ -12,7 +12,12 @@
     links.forEach(function(link){
       const target=link.dataset&&link.dataset.navView;
       if(target!=="program"&&target!=="results")return;
-      link.href=root.Nongkum.href(target==="program"?"index.html":"results.html",state);
+      let href=root.Nongkum.href(target==="program"?"index.html":"results.html",state);
+      // A tab switch is a fresh visit to the chronological listing, not a
+      // restored Safari scroll position. Keep filters and existing direct links intact.
+      if(current==="results"&&target==="program")
+        href+=(href.includes("?")?"&":"?")+"from=results#programListing";
+      link.href=href;
     });
   }
   const params=new URLSearchParams(location.search);
