@@ -4,6 +4,7 @@
       color:#1b304b;background:#f5f7fb;font-synthesis:none;
       --safe-top:env(safe-area-inset-top,0px);
       --safe-bottom:env(safe-area-inset-bottom,0px);
+      --mobile-nav-occupied:calc(92px + var(--safe-bottom));
       --page-title-size:clamp(1.13rem,3.8vw,1.7rem);
       --section-title-size:1.08rem;
       --section-gap:10px;
@@ -166,3 +167,15 @@
  body[data-view="program"] > header.top .logoIcon,
  body[data-view="results"] > header.top .logoIcon{width:30px;height:30px;font-size:18px}
 }
+
+
+/* R16: reserve real bottom-tab space at the end of the document.
+   The existing fixed navigation remains thumb-accessible; no mask or scroll interception.
+   ResizeObserver in navigation.js updates the variable when text/Safe Area changes. */
+@media(max-width:690px){
+  body{padding-bottom:calc(var(--mobile-nav-occupied) + 16px)}
+  body > footer{padding-bottom:30px}
+  html{scroll-padding-bottom:calc(var(--mobile-nav-occupied) + 16px)}
+  .admin{scroll-margin-bottom:calc(var(--mobile-nav-occupied) + 12px)}
+}
+@media print{body{padding-bottom:0!important}}
