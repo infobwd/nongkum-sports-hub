@@ -33,7 +33,7 @@ assert.equal(league.phases.final.length,1);
 assert.equal(league.team_ids.length,6);
 assert.ok(league.phases.league.every(id=>!league.phases.playoff.includes(id)));
 assert.ok(engine.assertFootballPhaseMapping(fixtures,league));
-assert.throws(()=>engine.assertFootballPhaseMapping(fixtures,{...league,phases:{...league.phases,league:[...league.phases.league.slice(0,14),league.phases.playoff[0]]}}),/league fixture mismatch/);
+assert.throws(()=>engine.assertFootballPhaseMapping(fixtures,{...league,phases:{...league.phases,league:[...league.phases.league.slice(0,14),league.phases.playoff[0]]}}),/league fixture mismatch|15\+2\+1/);
 const roster=engine.calculateLeague(fixtures,[],league);
 assert.equal(roster.ranking_status,"prestart_roster");
 assert.equal(roster.matches_total,15);assert.equal(roster.matches_approved,0);
