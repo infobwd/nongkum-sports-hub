@@ -1,0 +1,44 @@
+name: R13 main program latest candidate and mobile toast
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "results.html"
+      - "review.html"
+      - "js/program.js"
+      - "js/results.js"
+      - "js/ui-toast.js"
+      - "js/shared.js"
+      - "js/review-share.js"
+      - "css/program.css"
+      - "forms/score-sheet.*"
+      - "m/**"
+      - "r/**"
+      - "scripts/share/**"
+      - "scripts/ux/test-main-candidate-r13.mjs"
+      - ".github/workflows/r13-main-candidate.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "js/program.js"
+      - "js/ui-toast.js"
+      - "scripts/ux/test-main-candidate-r13.mjs"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/ux/test-main-candidate-r13.mjs
+      - run: node scripts/share/build-match-pages.mjs --check
+      - run: node scripts/share/build-review-pages.mjs --check
+      - run: node scripts/ux/test-direct-share-r8.mjs
+      - run: node scripts/ux/test-review-share-r12.mjs
+      - run: node scripts/ux/test-score-sheet-r5.mjs

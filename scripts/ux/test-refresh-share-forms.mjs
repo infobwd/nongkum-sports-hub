@@ -27,7 +27,7 @@ for(const id of ["fixtureId","sportType","scoreSection","setsSection","winSectio
 assert.match(formCss,/@page\{size:A4 portrait/);
 assert.match(formCss,/@media print/);
 assert.match(formJs,/window\.print\(\)/);
-assert.match(formJs,/data\/draft-schedule\.json/);
+assert.match(formJs,/data\/program-from-pdf-2569-20261104-draft\.json/);
 assert.ok(!formHtml.includes('type="submit"'));
 assert.ok(!formJs.includes("POST"));
 let copied="";

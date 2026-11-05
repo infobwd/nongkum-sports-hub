@@ -117,10 +117,10 @@
       const item=state.data.results.find(x=>x.id===btn.dataset.shareResult&&x.status==="approved");
       if(!item)return;
       try{
-        const answer=await globalThis.Nongkum.shareItem("results.html","result",item.id,"ผลการแข่งขันที่รับรองแล้ว · มิตรภาพเกม");
-        if(answer==="copied")els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
-        if(answer==="unavailable")els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์";
-      }catch(e){els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ผลแข่งขันได้";}
+        const answer=await globalThis.Nongkum.shareItem("results.html","result",item.id,"ผลการแข่งขันที่รับรองแล้ว · มิตรภาพเกมส์");
+        if(answer==="copied"&&!globalThis.NongkumToast?.show("คัดลอกลิงก์ผลแข่งขันแล้ว","นำไปวางใน LINE เพื่อส่งต่อได้ทันที"))els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
+        if(answer==="unavailable"&&!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์",true))els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์";
+      }catch(e){if(!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","กรุณาลองอีกครั้ง",true))els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ผลแข่งขันได้";}
     }
     els.cards.addEventListener("click",handleShare);
     if(els.direct)els.direct.addEventListener("click",handleShare);

@@ -21,7 +21,7 @@ assert.equal(new Set(Object.values(previewIndex.links)).size,237);
 assert.match(html,/id="reviewToast"/);
 assert.match(html,/id="reviewToastTitle"/);
 assert.match(html,/id="reviewToastDetail"/);
-assert.ok(html.includes('src="./js/review-share.js?v=r12a1"'));
+assert.match(html,/src="\.\/js\/review-share\.js\?v=r1[23][^"]*"/);
 assert.ok(html.includes('href="./css/review-share.css?v=r12a1"'));
 assert.match(css,/safe-area-inset-bottom/);
 assert.ok(css.includes("bottom:calc(83px"));

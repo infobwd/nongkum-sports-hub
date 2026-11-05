@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "event": "มิตรภาพเกม",
+  "event": "มิตรภาพเกมส์",
   "source": "data/draft-schedule.json",
   "count": 236,
   "links": {

@@ -45,9 +45,9 @@ assert.match(program,/\.fields,\.cards\{grid-template-columns:1fr\}/);
 assert.match(results,/\.result-tiles,\.result-controls\{grid-template-columns:1fr\}/);
 for(const [name,html,cssFile] of [["program",programHTML,"program"],["results",resultsHTML,"results"]]){
  assert.ok(html.includes('href="./css/base.css"'),name+" must include typography base");
- assert.ok(html.includes('href="./css/'+cssFile+'.css"'),name+" must include page layout");
+ assert.ok(new RegExp('href="\\./css/'+cssFile+'\\.css(?:\\?[^"]*)?"').test(html),name+" must include page layout");
  assert.ok(html.includes('id="mobileTabNav"'),name+" must keep R6 bottom navigation");
- assert.ok(html.includes('มิตรภาพเกม'));
+ assert.ok(html.includes('มิตรภาพเกมส์'));
 }
 new vm.Script(navigation);
 new vm.Script(shared);
