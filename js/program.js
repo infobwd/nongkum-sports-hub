@@ -164,6 +164,7 @@
     const detail="<details class='source-details'><summary>รายละเอียดการแข่งขัน</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
       original+flags+confirmation+
+      (!confirmedSchedule&&m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันแข่งขันนอกรอบรอตรวจรับ")+"</p>":"")+
       "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
