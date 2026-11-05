@@ -125,7 +125,8 @@
     const sport=getSport(m.sport_id),track=m.kind==="track_event";
     const shareName=track?"แชร์รายการกรีฑา":"แชร์คู่แข่งขัน";
     const heading="<div class='fixture-head'><div class='sport-label'><span class='sport-cue' role='img' aria-label='กีฬา "+
-      safe(sport?sport.name:m.sport_id)+"'>"+safe(sport?sport.emoji:"🏅")+"</span><span class='division'>"+
+      safe(sport?sport.name:m.sport_id)+"'>"+safe(sport?sport.emoji:"🏅")+"</span><span class='sport-name'>"+
+      safe(sport?sport.name:m.sport_id)+"</span><span class='division'>"+
       safe(m.division||"")+"</span></div><div class='fixture-actions'><span class='pairnum'>"+
       (track?"รายการ ":"คู่ที่ ")+safe(m.source_match_no)+"</span>"+
       "<button type='button' class='share-icon' data-share-fixture='"+safe(m.id)+
@@ -237,16 +238,16 @@
     if(state.directMode){renderDirect();return;}
     const q=state.query.trim().toLocaleLowerCase("th");
     const matched=state.data.fixtures.filter(function(m){return matchesFilters(m,q);});
-    const visible=matched.slice(0,state.limit);
-    const groups=state.data.sports.map(function(s){
-      return {sport:s,total:matched.filter(function(m){return m.sport_id===s.id;}).length,
-        fixtures:visible.filter(function(m){return m.sport_id===s.id;})};
-    }).filter(function(g){return g.fixtures.length>0;});
+    // Filter first, then sort the full matching set: "more" always continues chronologically.
+    const ordered=globalThis.NongkumScheduleOrder.sortedFixtures(matched,state.data.sports);
+    const visible=ordered.slice(0,state.limit);
+    const groups=globalThis.NongkumScheduleOrder.groupVisible(visible);
     els.cards.innerHTML=groups.map(function(g){
-      return "<section class='sport-group' aria-label='"+safe(g.sport.name)+"'><div class='group-heading'><h3>"+
-        safe(g.sport.emoji+" "+g.sport.name)+"</h3><span class='group-count'>"+
-        g.total+" รายการ · แสดง "+g.fixtures.length+"</span></div><div class='cards'>"+
-        g.fixtures.map(card).join("")+"</div></section>";
+      return "<section class='schedule-day"+(g.day?"":" awaiting-date")+"' aria-label='"+safe(g.label)+"'>"+
+        "<div class='day-heading'><h3>"+(g.day?"📅 ":"⚠ ")+safe(g.label)+"</h3>"+
+        "<span class='day-count'>"+g.fixtures.length+" รายการ</span></div>"+
+        (g.day?"":"<p class='day-warning'>โปรดตรวจสอบวันที่จากผู้จัดก่อนเดินทาง · ไม่เติมปีแทนต้นฉบับ</p>")+
+        "<div class='cards'>"+g.fixtures.map(card).join("")+"</div></section>";
     }).join("");
     els.count.textContent="พบ "+matched.length+" รายการ · แสดง "+visible.length+" (ข้อมูลร่าง)";
     els.empty.hidden=matched.length!==0;
