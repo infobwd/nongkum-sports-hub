@@ -15,10 +15,10 @@ for(const page of [programPage,resultsPage]){
   assert.match(page,/class="mobile-nav"/,"both pages must have fixed mobile navigation");
   assert.match(page,/id="mobileProgramLink"/);
   assert.match(page,/id="mobileResultsLink"/);
-  assert.match(page,/src="\.\/js\/navigation\.js"/);
+  assert.match(page,/src="\.\/js\/navigation\.js(?:\?v=[^"]+)?"/);
   assert.ok(page.includes("ตารางแข่ง")&&page.includes("ผลแข่งขัน"));
   assert.ok(page.includes('id="navigationNotice"'));
-  assert.ok(page.indexOf('src="./js/shared.js"')<page.indexOf('src="./js/navigation.js"'));
+  assert.ok(page.indexOf('src="./js/shared.js"')<page.indexOf('src="./js/navigation.js'));
 }
 assert.match(programPage,/id="mobileProgramLink"[^>]*aria-current="page"/);
 assert.match(resultsPage,/id="mobileResultsLink"[^>]*aria-current="page"/);
