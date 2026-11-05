@@ -15,7 +15,7 @@ const el = {
   zoomLabel: $("pdfZoomLabel"), open: $("pdfOpenOriginal"),
   status: $("pdfStatus"), failure: $("pdfFailure"), fallback: $("pdfFallback"),
   retry: $("pdfRetry"), host: $("pdfCanvasHost"), canvas: $("pdfCanvas"),
-  back: $("pdfBack"), tools: $("pdfTools")
+  back: $("pdfBack"), tools: $("pdfTools"), bottomBar: $("pdfBottomBar")
 };
 const pageQuery = new URLSearchParams(location.search).get("page");
 function initialPage(raw) {
@@ -43,6 +43,15 @@ if (fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef
   backUrl.searchParams.set("fixture", fixtureRef);
 }
 el.back.href = backUrl.toString();
+// An embedded reader uses the parent Review header and warning. Reuse the
+// existing options menu in the *same* bottom navigation (no duplicate controls).
+// Do not activate embedded mode for a direct/standalone tab with ?embedded=1.
+if (embedded) {
+  document.documentElement?.classList?.add("pdf-embedded");
+  if (typeof el.bottomBar?.appendChild === "function") {
+    el.bottomBar.appendChild(el.tools);
+  }
+}
 
 function updateOpenLinks() {
   const url = PDF_URL + "#page=" + pageNumber;
