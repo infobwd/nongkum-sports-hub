@@ -7,6 +7,7 @@ import vm from "node:vm";
 const page=readFileSync(new URL("../../index.html",import.meta.url),"utf8");
 const shared=readFileSync(new URL("../../js/shared.js",import.meta.url),"utf8");
 const program=readFileSync(new URL("../../js/program.js",import.meta.url),"utf8");
+const sorter=readFileSync(new URL("../../js/schedule-order.js",import.meta.url),"utf8");
 const styles=readFileSync(new URL("../../css/base.css",import.meta.url),"utf8")+"\n"+readFileSync(new URL("../../css/program.css",import.meta.url),"utf8");
 const html=page+"\n"+program+"\n"+styles;
 const data=JSON.parse(readFileSync(new URL("../../data/draft-schedule.json",import.meta.url),"utf8"));
@@ -25,6 +26,7 @@ assert.equal(proposed.filter(m=>m.qa_flags?.includes("QA-06")).length,2);
 assert.ok(proposed.every(m=>m.date===null&&m.status==="draft"&&m.review_status==="draft"),"P1 source date/draft status preserved");
 assert.ok(!data.fixtures.some(m=>m.round==="ชิงชนะเลิศ"&&m.planning_date),"finals stay unscheduled");
 new vm.Script(shared);
+new vm.Script(sorter);
 new vm.Script(program);
 
 function mockElement(id){
@@ -58,6 +60,7 @@ async function mount(url,source=data){
     fetch:async()=>({ok:true,json:async()=>source})
   });
   new vm.Script(shared).runInContext(ctx);
+  new vm.Script(sorter).runInContext(ctx);
   new vm.Script(program).runInContext(ctx);
   for(let i=0;i<8;i++)await Promise.resolve();
   return {els,history,localStore};
@@ -76,7 +79,7 @@ const t=await mount("https://example.org/nongkum-sports-hub/?school=wangdong&spo
 const {els}=t;
 assert.match(els.count.textContent,/ข้อมูลร่าง/);
 assert.match(els.count.textContent,new RegExp("พบ "+expected+" รายการ"));
-assert.equal((els.cards.innerHTML.match(/class='my-lane'/g)||[]).length,Math.min(expected,12),"school should see its own lane first");
+assert.equal((els.cards.innerHTML.match(/class='schedule-day/g)||[]).length,1,"selected athletics remain in one unconfirmed-day group");
 assert.match(els.cards.innerHTML,/ดูทุกลู่/);
 assert.match(els.cards.innerHTML,/source-details/,"source references should be behind expandable details");
 assert.match(els.cards.innerHTML,/รายละเอียด · ข้อมูลร่าง/,"every card must offer details");
@@ -94,7 +97,7 @@ assert.match(sportAll.els.sports.innerHTML,/chip-count/,"sport navigation must s
 const totalSportCounts=data.sports.reduce((o,s)=>(o[s.id]=data.fixtures.filter(f=>f.sport_id===s.id).length,o),{});
 assert.equal(totalSportCounts.athletics,50);
 assert.match(sportAll.els.sports.innerHTML,/>50<\/span>/,"sports navigation must show 50 athletics events");
-assert.match(sportAll.els.cards.innerHTML,/รายการ · แสดง/,"group headers must show total and visible counts");
+assert.match(sportAll.els.cards.innerHTML,/day-count/,"date headers must show visible counts");
 assert.match(sportAll.els.cards.innerHTML,/รายละเอียด · ข้อมูลร่าง/);
 assert.ok(html.includes("safe-area-inset-top"));
 assert.ok(!html.includes("body::before"),"R7 must not create fixed status-bar overlays");
@@ -103,7 +106,7 @@ assert.match(sportAll.els.count.textContent,/แสดง 12/);
 assert.equal(sportAll.els.more.hidden,false);
 sportAll.els.more.handlers.click();
 assert.match(sportAll.els.count.textContent,/แสดง 24/);
-assert.ok(sportAll.els.cards.innerHTML.includes("sport-group"));
+assert.ok(sportAll.els.cards.innerHTML.includes("schedule-day"));
 
 getButton(sportAll.els.levels,"level","secondary").click();
 assert.ok(sportAll.els.count.textContent.includes("พบ "),"level change must rerender");
@@ -153,7 +156,7 @@ assert.match(petanqueReview.els.cards.innerHTML,/วันที่ 4 พฤศ�
 petanqueReview.els.search.value="12 ปี";
 petanqueReview.els.search.handlers.input();
 assert.match(petanqueReview.els.cards.innerHTML,/แข่งนอกรอบ 13 พ.ย. 2569 · วันยืนยันแล้ว/);
-assert.ok(html.includes("เรียงตามลำดับในสูจิบัตร"));
+assert.ok(html.includes("เรียงตามวันที่และเวลาแข่งขัน"));
 assert.ok(html.includes("มิตรภาพเกมส์"));
 assert.ok(!html.includes("max(var(--safe-top),44px)"),"Safari must not force a fixed 44px mask");
 console.log("PASS: UX-P2.1 236 draft records, school-specific athletics, collapsed all lanes, school/sport/level filters, pagination, XSS, mobile layout, draft gate");
