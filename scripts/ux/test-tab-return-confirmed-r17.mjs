@@ -97,6 +97,7 @@ assert.match(returned.elements.cards.innerHTML,/วันพฤหัสบด�
 assert.match(returned.elements.cards.innerHTML,/รายละเอียด · กำหนดแข่งขันยืนยันแล้ว/);
 assert.match(returned.elements.cards.innerHTML,/ข้อสังเกตจาก PDF/);
 assert.match(returned.elements.cards.innerHTML,/fixture-meta-time verified/);
+assert.match(returned.elements.cards.innerHTML,/ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว/);
 assert.match(returned.elements.count.textContent,/แสดง 12/);
 assert.match(returned.elements.resultNote.textContent,/ตัวกรองที่ใช้: กีฬา เปตอง/);
 assert.equal(returned.scrollCalls.length,1,"tab return scrolls after rendered data");
