@@ -15,7 +15,7 @@ const makePage=function makePage(f,data){
   const teamB=schoolName(f.team_b_id,f.source_team_b_label);
   const category=track?(f.name||"รายการกรีฑา"):(teamA+" พบ "+teamB);
   const label=(track?"รายการ ":"คู่ที่ ")+(f.source_match_no||"-");
-  const title=name+" "+(f.division||"")+" · "+category+" | มิตรภาพเกมส์ส์ 2569 (ข้อมูลร่าง)";
+  const title=name+" "+(f.division||"")+" · "+category+" | มิตรภาพเกมส์ 2569 (ข้อมูลร่าง)";
   const day=f.planning_date?(ddate(f.planning_date)+(f.planning_date_confirmation==="confirmed"?" · วันยืนยันแล้ว":" · รอตรวจรับ")):"วันแข่งขันรอยืนยัน";
   const time=f.time?"เวลาใน PDF "+f.time+" น. (รอยืนยัน)":"เวลาแข่งขันรอยืนยัน";
   const field=f.planning_venue_confirmation==="confirmed"&&f.planning_venue?
@@ -32,7 +32,7 @@ const makePage=function makePage(f,data){
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <meta property="og:locale" content="th_TH"><meta property="og:type" content="website">
-<meta property="og:site_name" content="มิตรภาพเกมส์ส์ 2569">
+<meta property="og:site_name" content="มิตรภาพเกมส์ 2569">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(url)}">
@@ -42,7 +42,7 @@ const makePage=function makePage(f,data){
 <link rel="canonical" href="${esc(url)}">
 <link rel="stylesheet" href="../../css/base.css"><link rel="stylesheet" href="../../css/match-share.css">
 </head><body>
-<header class="top"><div class="shell"><div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์ส์</span></div><span class="mode">ข้อมูลร่าง · ไม่ใช่ประกาศทางการ</span></div><div class="hero"><h1>คู่แข่งขันที่แชร์มา</h1></div></div></header>
+<header class="top"><div class="shell"><div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">ข้อมูลร่าง · ไม่ใช่ประกาศทางการ</span></div><div class="hero"><h1>คู่แข่งขันที่แชร์มา</h1></div></div></header>
 <main class="shell share-main">
 <article class="share-match" data-fixture-id="${esc(f.id)}">
 <div class="share-kicker">${esc(emoji)} ${esc(name)} · ${esc(f.division||"")} · ${esc(label)}</div>
@@ -52,7 +52,7 @@ ${row}
 </article>
 <div class="share-actions"><a class="share-primary" href="${esc(full)}">ดูรายละเอียดคู่แข่งขันและสูจิบัตร</a><a class="share-secondary" href="../../index.html">ดูโปรแกรมการแข่งขันทั้งหมด</a></div>
 <p class="share-notice">ข้อมูลนี้เป็นร่างจากสูจิบัตร ไม่ใช้แทนประกาศวัน เวลา หรือสนามแข่งขันอย่างเป็นทางการ</p>
-</main><footer class="shell">มิตรภาพเกมส์ส์ 2569 · โปรแกรมฉบับร่างสำหรับตรวจทาน</footer>
+</main><footer class="shell">มิตรภาพเกมส์ 2569 · โปรแกรมฉบับร่างสำหรับตรวจทาน</footer>
 </body></html>
 `;
 };
@@ -75,6 +75,6 @@ for(const f of data.fixtures){
  seen.add(slug);links[slug]=f.id;
  ensure("m/"+slug+"/index.html",makePage(f,data));count++;
 }
-const index=JSON.stringify({schema_version:1,event:"มิตรภาพเกมส์ส์",source:"data/draft-schedule.json",count,links},null,2)+"\n";
+const index=JSON.stringify({schema_version:1,event:"มิตรภาพเกมส์",source:"data/draft-schedule.json",count,links},null,2)+"\n";
 ensure("data/share-index.json",index);
 console.log((check?"PASS checked ":"Generated ")+count+" unique per-fixture LINE preview pages");
