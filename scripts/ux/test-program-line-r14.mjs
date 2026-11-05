@@ -28,7 +28,9 @@ assert.match(program,/&amp;from=program&amp;fixture=/);
 assert.match(program,/CAL_ICON/);
 assert.match(program,/ปีในสูจิบัตรไม่ตรง/);
 assert.doesNotMatch(program,/📅/);
-for(const label of ["fixture-meta-date","fixture-meta-time","fixture-meta-venue","fixture-pdf-link"])
+for(const label of ["fixture-meta-date","fixture-meta-time","fixture-meta-venue"])
+ assert.ok(program.includes(label),label);
+for(const label of ["fixture-meta-item","fixture-meta-venue","fixture-pdf-link"])
  assert.ok(css.includes(label),label);
 assert.ok(base.includes("position:sticky;top:0;z-index:1120"));
 assert.ok(!base.includes("body::before"));
