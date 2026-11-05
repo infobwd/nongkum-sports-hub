@@ -14,7 +14,8 @@ const el = {
   fitWidth: $("pdfFitWidth"), fitPage: $("pdfFitPage"),
   zoomLabel: $("pdfZoomLabel"), open: $("pdfOpenOriginal"),
   status: $("pdfStatus"), failure: $("pdfFailure"), fallback: $("pdfFallback"),
-  retry: $("pdfRetry"), host: $("pdfCanvasHost"), canvas: $("pdfCanvas")
+  retry: $("pdfRetry"), host: $("pdfCanvasHost"), canvas: $("pdfCanvas"),
+  back: $("pdfBack"), tools: $("pdfTools")
 };
 const pageQuery = new URLSearchParams(location.search).get("page");
 function initialPage(raw) {
@@ -29,6 +30,19 @@ let zoom = 1;
 let fitMode = "width";
 let busy = false;
 let resizeDebounce = null;
+let swipeStart = null;
+let pinchStart = null;
+let lastTap = null;
+const query = new URLSearchParams(location.search);
+const fixtureRef = query.get("fixture") || "";
+const embedded = query.get("embedded") === "1" &&
+  typeof window !== "undefined" && window.parent && window.parent !== window;
+const backUrl = new URL("./review.html", location.href);
+// Never accept an arbitrary redirect target. A fixture ID only narrows the fixed review route.
+if (fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef)) {
+  backUrl.searchParams.set("fixture", fixtureRef);
+}
+el.back.href = backUrl.toString();
 
 function updateOpenLinks() {
   const url = PDF_URL + "#page=" + pageNumber;
@@ -65,6 +79,7 @@ function setPage(page) {
   // Page navigation always starts at the top, unlike zoom within the current page.
   el.host.scrollTop = 0;
   el.host.scrollLeft = 0;
+  lastTap = null;
   renderPage();
 }
 async function renderPage() {
@@ -155,6 +170,96 @@ function setFitMode(mode) {
 }
 el.fitWidth.addEventListener("click", () => setFitMode("width"));
 el.fitPage.addEventListener("click", () => setFitMode("page"));
+
+function updateZoom(nextZoom) {
+  if (!pdf) return;
+  zoom = Math.max(0.8, Math.min(2, Math.round(nextZoom * 10) / 10));
+  updateToolbar();
+  renderPage();
+}
+function touchPoint(touch) {
+  return { x: touch.clientX, y: touch.clientY };
+}
+function touchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.hypot(dx, dy);
+}
+// Book-style gestures are limited to the PDF reading surface. Native vertical panning
+// remains available and swipe page-turns are disabled whenever the PDF is zoomed.
+el.host.addEventListener("touchstart", event => {
+  if (!pdf) return;
+  if (event.touches.length >= 2) {
+    const distance = touchDistance(event.touches);
+    pinchStart = distance > 0 ? { distance, zoomAtStart: zoom, previewZoom: zoom } : null;
+    swipeStart = null;
+    lastTap = null;
+  } else if (event.touches.length === 1 && !pinchStart) {
+    swipeStart = { ...touchPoint(event.touches[0]), at: Date.now() };
+  }
+}, { passive: true });
+el.host.addEventListener("touchmove", event => {
+  if (!pinchStart || event.touches.length < 2) return;
+  if (event.cancelable) event.preventDefault(); // Prevent Safari page zoom only on a two-finger gesture.
+  const distance = touchDistance(event.touches);
+  pinchStart.previewZoom = Math.max(0.8, Math.min(2,
+    pinchStart.zoomAtStart * distance / pinchStart.distance));
+  // Lightweight preview; commit to a PDF.js render only after the gesture finishes.
+  el.canvas.style.transformOrigin = "center top";
+  el.canvas.style.transform = "scale(" + (pinchStart.previewZoom / zoom) + ")";
+}, { passive: false });
+el.host.addEventListener("touchend", event => {
+  if (pinchStart) {
+    if (event.touches.length < 2) {
+      const next = pinchStart.previewZoom;
+      pinchStart = null;
+      swipeStart = null;
+      lastTap = null;
+      el.canvas.style.transform = "";
+      el.canvas.style.transformOrigin = "";
+      updateZoom(next);
+    }
+    return;
+  }
+  if (event.touches.length || !swipeStart || !event.changedTouches.length) return;
+  const end = touchPoint(event.changedTouches[0]);
+  const dx = end.x - swipeStart.x, dy = end.y - swipeStart.y;
+  const duration = Date.now() - swipeStart.at;
+  swipeStart = null;
+  if (zoom === 1 && Math.abs(dx) >= 65 && Math.abs(dx) > Math.abs(dy) * 1.35 &&
+      duration <= 850) {
+    lastTap = null;
+    setPage(pageNumber + (dx < 0 ? 1 : -1));
+    return;
+  }
+  if (Math.abs(dx) > 20 || Math.abs(dy) > 20 || duration > 350) {
+    lastTap = null;
+    return;
+  }
+  const now = Date.now();
+  if (lastTap && now - lastTap.at < 340 &&
+      Math.hypot(end.x - lastTap.x, end.y - lastTap.y) < 32) {
+    lastTap = null;
+    updateZoom(zoom > 1 ? 1 : 1.8);
+  } else {
+    lastTap = { ...end, at: now };
+  }
+}, { passive: true });
+el.host.addEventListener("touchcancel", () => {
+  swipeStart = null;
+  pinchStart = null;
+  lastTap = null;
+  el.canvas.style.transform = "";
+  el.canvas.style.transformOrigin = "";
+}, { passive: true });
+// The enclosing mobile review dialog has its own close button. The direct
+// viewer can always navigate to the same-origin review page, even from LINE.
+el.back.addEventListener("click", event => {
+  if (!embedded) return; // Native href is the standalone fallback.
+  event.preventDefault();
+  window.parent.postMessage({ type: "nongkum:close-pdf-viewer" }, location.origin);
+});
+
 el.prev.addEventListener("click", () => setPage(pageNumber - 1));
 el.next.addEventListener("click", () => setPage(pageNumber + 1));
 el.input.addEventListener("change", () => {
@@ -162,16 +267,8 @@ el.input.addEventListener("change", () => {
   setPage(el.input.value);
   updateToolbar();
 });
-el.zoomIn.addEventListener("click", () => {
-  zoom = Math.min(2, Math.round((zoom + 0.2) * 10) / 10);
-  updateToolbar();
-  renderPage();
-});
-el.zoomOut.addEventListener("click", () => {
-  zoom = Math.max(0.8, Math.round((zoom - 0.2) * 10) / 10);
-  updateToolbar();
-  renderPage();
-});
+el.zoomIn.addEventListener("click", () => updateZoom(zoom + 0.2));
+el.zoomOut.addEventListener("click", () => updateZoom(zoom - 0.2));
 el.retry.addEventListener("click", () => {
   if (pdf) renderPage();
   else startViewer();
