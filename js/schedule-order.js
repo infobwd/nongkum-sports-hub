@@ -28,7 +28,7 @@
     return validIso(fixture.source_pdf?.source_date_iso||fixture.date||"");
   }
   function timeMinutes(fixture){
-    const time=String(fixture.source_pdf?.source_time||fixture.time||"").trim();
+    const time=String((fixture.planning_time_confirmation==="confirmed"&&fixture.planning_time)||fixture.source_pdf?.source_time||fixture.time||"").trim();
     const match=/^(\d{1,2}):(\d{2})(?::\d{2})?$/.exec(time);
     if(!match)return Number.POSITIVE_INFINITY;
     const hour=Number(match[1]),minute=Number(match[2]);
