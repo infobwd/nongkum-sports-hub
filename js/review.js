@@ -196,6 +196,7 @@
     url.searchParams.set("page",String(page));
     url.searchParams.set("fixture",f.id);
     url.searchParams.set("embedded","1");
+    url.searchParams.set("v","r11d6"); // Fetch current unified viewer even with mobile WebView caches.
     // Same-origin viewer reads a fixed local PDF: do not accept arbitrary file URLs.
     ui.pdfPreview.hidden=false;
     document.body.classList.add("review-pdf-open");
