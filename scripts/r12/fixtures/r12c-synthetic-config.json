@@ -1,0 +1,184 @@
+{
+  "synthetic": true,
+  "policy": {
+    "minimum_rest_minutes": 20,
+    "evidence_status": "synthetic",
+    "source_revision": "SYNTHETIC"
+  },
+  "timings": [
+    {
+      "fixture_id": "SYN-FOOT-1",
+      "date": "2026-11-17",
+      "start": "09:00",
+      "duration_minutes": 40,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "pitch",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-FOOT-2",
+      "date": "2026-11-17",
+      "start": "10:00",
+      "duration_minutes": 30,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "pitch",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-FINAL",
+      "date": "2026-11-17",
+      "start": "12:00",
+      "duration_minutes": 30,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "pitch",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-VOLLEY",
+      "date": "2026-11-17",
+      "start": "09:00",
+      "duration_minutes": 45,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "gym",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-FUTSAL",
+      "date": "2026-11-17",
+      "start": "09:20",
+      "duration_minutes": 35,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "hall",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-RELAY",
+      "date": "2026-11-17",
+      "start": "09:10",
+      "duration_minutes": 15,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "track",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-SPRINT",
+      "date": "2026-11-17",
+      "start": "11:00",
+      "duration_minutes": 20,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "track",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "fixture_id": "SYN-CENTRE",
+      "date": "2026-11-17",
+      "start": "13:00",
+      "duration_minutes": 10,
+      "check_in_lead_minutes": 10,
+      "delay_buffer_minutes": 5,
+      "venue_id": "track",
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    }
+  ],
+  "travel": [
+    {
+      "from_venue_id": "pitch",
+      "to_venue_id": "gym",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "pitch",
+      "to_venue_id": "hall",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "pitch",
+      "to_venue_id": "track",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "gym",
+      "to_venue_id": "pitch",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "gym",
+      "to_venue_id": "hall",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "gym",
+      "to_venue_id": "track",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "hall",
+      "to_venue_id": "pitch",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "hall",
+      "to_venue_id": "gym",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "hall",
+      "to_venue_id": "track",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "track",
+      "to_venue_id": "pitch",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "track",
+      "to_venue_id": "gym",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    },
+    {
+      "from_venue_id": "track",
+      "to_venue_id": "hall",
+      "minutes": 10,
+      "evidence_status": "synthetic",
+      "source_revision": "SYNTHETIC"
+    }
+  ]
+}
