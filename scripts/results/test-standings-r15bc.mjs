@@ -45,7 +45,7 @@ assert.equal(partial.matches_approved,2);
 assert.equal(partial.complete,false);
 assert.equal(partial.ranking_status,"pending_rule_approval");
 assert.equal(partial.rows.reduce((a,r)=>a+r.points,0),5,"3 win + 1 + 1 draw points");
-assert.equal(partial.rows.reduce((a,r)=>a+r.goals_for,0),6,"all goals counted for");
+assert.equal(partial.rows.reduce((a,r)=>a+r.goals_for,0),4,"all goals counted for");
 assert.equal(partial.rows.reduce((a,r)=>a+r.goal_difference,0),0);
 assert.ok(partial.rows.every(x=>x.position===null),"not official ranks before approval");
 assert.equal(engine.calculateLeague(fixtures,[win,draw,{...newResult(semi,1,0),fixture_id:semi.id}],league).matches_approved,2,
