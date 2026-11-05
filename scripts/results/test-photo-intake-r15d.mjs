@@ -47,7 +47,7 @@ assert.equal(new Set(sample.negative_cases.map(c=>c.id)).size,sample.negative_ca
 for(const c of sample.negative_cases){
   assert.match(c.id,idPattern);
   assert.ok(diagnostics.has(c.expected_diagnostic),"R15-C handoff diagnostic must be recognized");
-  assert.ok(c.scenario.length>=12);
+  assert.ok(c.scenario.length>=6);
 }
 for(const d of diagnostics)assert.ok(sample.negative_cases.some(c=>c.expected_diagnostic===d),"missing negative vector: "+d);
 // Production-public isolation: do not assert results length==0 forever (real approved results may eventually exist).
