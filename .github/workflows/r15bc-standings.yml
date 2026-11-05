@@ -37,7 +37,7 @@ jobs:
       - name: R15-B/C synthetic standings and invalid JSON tests
         run: node scripts/results/test-standings-r15bc.mjs
       - name: Strict publication validation and correction audit
-        run: node scripts/results/validate-publication.mjs
+        run: node scripts/results/validate-publication.mjs --against-origin-main
       - name: Verify deterministic approved-only snapshot
         run: node scripts/results/build-standings.mjs --check
       - name: Baseline results and standings UI
