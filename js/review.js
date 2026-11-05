@@ -3,6 +3,7 @@
   "use strict";
   const M=globalThis.NongkumReviewModel;
   const NK=globalThis.Nongkum;
+  const RS=globalThis.NongkumReviewShare;
   const PAGE_SIZE=8;
   const SEARCH_DELAY_MS=280;
   const $=id=>document.getElementById(id);
@@ -21,12 +22,14 @@
     pdfPreview:$("pdfPreview"),pdfClose:$("pdfPreviewClose"),
     pdfFrame:$("pdfPreviewFrame"),pdfContext:$("pdfPreviewContext"),
     pdfDetails:$("reviewPdfDetails"),main:$("reviewMain"),header:$("reviewHeader"),
-    footer:$("reviewFooter"),bottomNav:$("reviewBottomNav")
+    footer:$("reviewFooter"),bottomNav:$("reviewBottomNav"),
+    toast:$("reviewToast"),toastIcon:$("reviewToastIcon"),toastTitle:$("reviewToastTitle"),
+    toastDetail:$("reviewToastDetail"),toastClose:$("reviewToastClose")
   };
   let data=null,byId=new Map(),sportNames=new Map(),qaNotes=new Map();
   let changes=new Map(),filtered=[],renderedCount=0;
   let filterSignature=null,directRenderedId=null,searchDebounce=null,isComposing=false;
-  let loading=false,requestSerial=0;
+  let loading=false,requestSerial=0,toastTimer=null;
   let pdfReturnFocus=null,pdfReturnScroll=null,pdfEntryMainScroll=null;
   const isCompactPdf=()=>typeof window!=="undefined"&&typeof window.matchMedia==="function"&&window.matchMedia("(max-width:1000px)").matches;
   const isMobileReview=()=>typeof window!=="undefined"&&typeof window.matchMedia==="function"&&window.matchMedia("(max-width:690px)").matches;
@@ -137,7 +140,7 @@
     const copy=add(actions,"button","review-action primary","แจ้งข้อมูลไม่ตรง");
     copy.type="button";
     copy.setAttribute("aria-label","คัดลอกข้อความแจ้งแก้ไข "+getSport(f)+" "+(f.division||""));
-    copy.addEventListener("click",()=>copyText(M.formatIssue(f,getSport(f)),"คัดลอกข้อความแจ้งแก้ไขแล้ว"));
+    copy.addEventListener("click",()=>copyText(M.formatIssue(f,getSport(f)),"คัดลอกข้อความแจ้งแก้ไขแล้ว","นำไปวางใน LINE เติมข้อมูลที่ถูกต้องแล้วจึงส่ง · ระบบยังไม่ได้ส่งข้อความ"));
     const pdfPage=Number(f.source_pdf?.page);
     if(Number.isInteger(pdfPage)&&pdfPage>=1&&pdfPage<=41){
       const openSource=add(actions,"button","review-action pdf-source-action","ดูต้นฉบับ หน้า "+pdfPage);
@@ -159,12 +162,16 @@
     const admin=add(extra,"details","review-admin-codes");
     add(admin,"summary","","รหัสอ้างอิงสำหรับผู้ดูแล");
     add(admin,"p","review-source-note","รหัสรายการ: "+f.id);
-    const link=add(extra,"button","review-action secondary","แชร์ลิงก์รายการนี้");
+    const shareActions=add(extra,"div","review-share-actions");
+    const link=add(shareActions,"button","review-action secondary","แชร์รายการนี้");
     link.type="button";
-    link.addEventListener("click",()=>{
-      const url=new URL("./review.html",location.href);
-      url.searchParams.set("fixture",f.id);
-      copyText(url.toString(),"คัดลอกลิงก์รายการแล้ว");
+    link.setAttribute("aria-label","แชร์ข้อมูลและลิงก์เฉพาะรายการผ่าน LINE หรือแอปอื่น");
+    link.addEventListener("click",()=>shareReview(f));
+    const copyLink=add(shareActions,"button","review-action secondary","คัดลอกข้อความ+ลิงก์");
+    copyLink.type="button";
+    copyLink.addEventListener("click",()=>{
+      const payload=RS.payload(f,getSport(f));
+      copyText(payload.fullText,"คัดลอกข้อความพร้อมลิงก์แล้ว","นำไปวางใน LINE เพื่อส่งต่อได้ทันที");
     });
     return article;
   }
@@ -225,20 +232,44 @@
     pdfReturnScroll=null;
     pdfEntryMainScroll=null;
   }
-  async function copyText(text,success){
+  function showToast(title,detail,failed=false){
+    if(!ui.toast)return;
+    ui.toastTitle.textContent=title;
+    ui.toastDetail.textContent=detail||"";
+    ui.toastIcon.textContent=failed?"!":"✓";
+    ui.toast.classList.toggle("is-error",failed);
+    ui.toast.hidden=false;
+    if(toastTimer!==null)clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>{ui.toast.hidden=true;toastTimer=null;},4000);
+  }
+  async function copyText(text,success,detail="นำข้อความไปวางใน LINE ได้ทันที"){
     ui.copyFallback.hidden=true;
     try{
       if(!navigator.clipboard||typeof navigator.clipboard.writeText!=="function")throw Error("no clipboard");
       await navigator.clipboard.writeText(text);
-      ui.status.textContent=success+" · นำไปส่งในแชทและระบุข้อมูลที่ถูกต้องได้เลย";
+      showToast(success,detail);
     }catch(_){
       ui.copyFallback.hidden=false;
       ui.copyFallbackText.value=text;
       ui.copyFallbackText.focus();
       ui.copyFallbackText.select();
-      ui.status.textContent="เครื่องนี้ไม่รองรับการคัดลอกอัตโนมัติ เลือกและคัดลอกข้อความในกล่องด้านล่าง";
+      showToast("คัดลอกอัตโนมัติไม่สำเร็จ","เลือกข้อความที่เตรียมไว้ด้านล่างเพื่อคัดลอกด้วยตนเอง",true);
       ui.copyFallback.scrollIntoView({block:"nearest",behavior:"auto"});
     }
+  }
+  async function shareReview(f){
+    const payload=RS.payload(f,getSport(f));
+    if(typeof navigator.share==="function"){
+      try{
+        await navigator.share({title:payload.title,text:payload.text,url:payload.url});
+        showToast("เปิดแชร์รายการแล้ว","ส่งข้อมูลพร้อมลิงก์ให้แอปที่เลือก");
+        return;
+      }catch(error){
+        if(error&&error.name==="AbortError")return; // User dismissed the native share sheet.
+        // A blocked native sheet falls back to an actionable copied message.
+      }
+    }
+    await copyText(payload.fullText,"คัดลอกข้อความพร้อมลิงก์แล้ว","นำไปวางใน LINE เพื่อส่งต่อได้ทันที");
   }
   function filters(){
     return {school:ui.school.value,sport:ui.sport.value,level:ui.level.value,
@@ -431,6 +462,10 @@
   });
     ui.refresh.addEventListener("click",load);
   ui.retry.addEventListener("click",load);
+  ui.toastClose.addEventListener("click",()=>{
+    ui.toast.hidden=true;
+    if(toastTimer!==null){clearTimeout(toastTimer);toastTimer=null;}
+  });
   ui.pdfClose.addEventListener("click",closePdfPreview);
   if(typeof window!=="undefined"&&typeof window.addEventListener==="function"){
     window.addEventListener("message",event=>{
