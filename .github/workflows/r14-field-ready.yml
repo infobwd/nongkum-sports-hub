@@ -10,6 +10,8 @@ on:
       - "r/**"
       - "scripts/share/build-review-pages.mjs"
       - "scripts/ux/test-program-line-r14.mjs"
+      - "scripts/ux/test-tab-return-confirmed-r17.mjs"
+      - "data/program-from-pdf-2569-20261104-draft.json"
       - ".github/workflows/r14-field-ready.yml"
   push:
     branches: ["main"]
@@ -29,6 +31,7 @@ jobs:
       - run: node scripts/ux/test-review-share-r12.mjs
       - run: node scripts/ux/test-main-program-r13.mjs
       - run: node scripts/ux/test-schedule-chronological-r16.mjs
+      - run: node scripts/ux/test-tab-return-confirmed-r17.mjs
       - run: node scripts/ux/test-unified-pdf-r11d6.mjs
       - run: node scripts/ux/test-mobile-navigation-r6.mjs
       - run: node scripts/ux/test-visual-consistency-r7.mjs

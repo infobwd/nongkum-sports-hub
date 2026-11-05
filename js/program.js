@@ -9,6 +9,7 @@
     levels:document.getElementById("levels"),
     cards:document.getElementById("cards"),
     count:document.getElementById("count"),
+    orderNote:optionalElement("resultNote"),
     empty:document.getElementById("empty"),
     more:document.getElementById("more"),
     advanced:document.getElementById("advancedFilters"),
@@ -27,7 +28,10 @@
     directFailure:optionalElement("sharedFixtureLoadFailure"),
     directRetry:optionalElement("retrySharedFixture")
   };
-  const requestedFixture=new URLSearchParams(location.search).get("fixture");
+  const entryParams=new URLSearchParams(location.search);
+  const requestedFixture=entryParams.get("fixture");
+  const returnedFromResults=!requestedFixture&&entryParams.get("from")==="results";
+  let returnScrollHandled=false;
   const state={data:null,school:"",sport:"",level:"",query:"",limit:12,focusId:"",directMode:!!requestedFixture};
   if(state.directMode&&els.direct&&els.overview){
     els.direct.hidden=false;els.overview.hidden=true;
@@ -80,18 +84,21 @@
   function scheduleTags(m){
     if(m.source_pdf){
       const pdf=m.source_pdf;
-      const date=pdfDateLabel(m),time=pdf.source_time||m.time||"",field=pdf.source_field||m.field||"";
+      const date=pdfDateLabel(m),time=(m.planning_time_confirmation==="confirmed"&&m.planning_time)||pdf.source_time||m.time||"",field=pdf.source_field||m.field||"";
       const anomaly=/(?:พ\.ย\.\s*68|2568)/.test(String(pdf.source_date_text||""));
       const verifiedDate=m.planning_date_confirmation==="confirmed"&&!!m.planning_date;
       const verifiedField=m.planning_venue_confirmation==="confirmed"&&!!m.planning_venue;
+      const verifiedTime=m.planning_time_confirmation==="confirmed"&&!!m.planning_time;
+      const confirmedSchedule=verifiedDate&&verifiedField&&verifiedTime;
       const dateText=anomaly?"วันรอยืนยัน":date;
       const dateBadge="<span class='fixture-meta-item fixture-meta-date "+(anomaly?"unconfirmed":verifiedDate?"verified":"")+"'>"+
         CAL_ICON+"<span><small>วันที่แข่งขัน</small><strong>"+safe(dateText)+"</strong></span></span>";
-      const timeBadge="<span class='fixture-meta-item fixture-meta-time'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3.5 2'/></svg><span><small>เวลาแข่งขัน</small><strong>"+(time?safe(time)+" น.":"รอกำหนด")+"</strong></span></span>";
+      const timeBadge="<span class='fixture-meta-item fixture-meta-time "+(verifiedTime?"verified":"")+"'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3.5 2'/></svg><span><small>เวลาแข่งขัน</small><strong>"+(time?safe(time)+" น.":"รอกำหนด")+"</strong></span></span>";
       const venue=verifiedField?m.planning_venue:field;
       const venueBadge="<span class='fixture-meta-item fixture-meta-venue "+(verifiedField?"verified":"")+"'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 21s7-7.4 7-12a7 7 0 1 0-14 0c0 4.6 7 12 7 12Z'/><circle cx='12' cy='9' r='2.5'/></svg><span><small>สนามแข่งขัน</small><strong>"+safe(venue||"รอกำหนด")+"</strong></span></span>";
       const flags=[];
-      if((m.qa_flags||[]).length)flags.push("<span class='tag unconfirmed'>⚠ ควรตรวจเพิ่ม "+m.qa_flags.length+" จุด</span>");
+      if(confirmedSchedule)flags.push("<span class='tag verified'>✓ ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว</span>");
+      if((m.qa_flags||[]).length)flags.push("<span class='tag "+(confirmedSchedule?"":"unconfirmed")+"'>"+(confirmedSchedule?"ℹ ข้อสังเกตจาก PDF ":"⚠ ควรตรวจเพิ่ม ")+m.qa_flags.length+" จุด</span>");
       if(anomaly)flags.push("<span class='tag unconfirmed'>⚠ ปีในสูจิบัตรไม่ตรง ต้องยืนยันวัน</span>");
       return "<div class='fixture-meta-grid'>"+dateBadge+timeBadge+venueBadge+"</div>"+
         (flags.length?"<div class='fixture-meta-warnings'>"+flags.join("")+"</div>":"");
@@ -135,15 +142,16 @@
     const content=track?trackContent(m):matchContent(m);
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
+    const confirmedSchedule=m.planning_date_confirmation==="confirmed"&&m.planning_venue_confirmation==="confirmed"&&m.planning_time_confirmation==="confirmed";
     const flags=m.qa_flags&&m.qa_flags.length
-      ? "<p class='qa-note'>⚠ จุดที่ควรตรวจจาก PDF: "+safe(m.qa_flags.join(", "))+"</p>":"";
-    const detail="<details class='source-details'><summary>รายละเอียด · ข้อมูลร่าง</summary>"+
+      ? "<p class='qa-note'>"+(confirmedSchedule?"ข้อสังเกตที่เก็บไว้จาก PDF: ":"⚠ จุดที่ควรตรวจจาก PDF: ")+safe(m.qa_flags.join(", "))+"</p>":"";
+    const detail="<details class='source-details'><summary>"+(confirmedSchedule?"รายละเอียด · กำหนดแข่งขันยืนยันแล้ว":"รายละเอียด · ข้อมูลร่าง")+"</summary>"+
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
-      original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
+      original+flags+(m.planning_date?"<p class='qa-note'>"+safe(m.planning_schedule_confirmation_note||m.planning_source||"วันที่แข่งนอกรอบรอกรรมการตรวจรับ")+"</p>":"")+
       "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
-      " · ยังไม่ผ่านการรับรอง</div></details>";
+      (confirmedSchedule?" · วัน เวลา และสถานที่ยืนยันแล้ว · ผัง/ผลยังรอตรวจรับ":" · ยังไม่ผ่านการรับรอง")+"</div></details>";
     const page=Number(m.source_pdf?.page||m.source_page);
     const sourceButton=Number.isInteger(page)&&page>=1&&page<=41
       ? "<a class='fixture-pdf-link' href='./pdf-viewer.html?page="+page+
@@ -250,6 +258,16 @@
         "<div class='cards'>"+g.fixtures.map(card).join("")+"</div></section>";
     }).join("");
     els.count.textContent="พบ "+matched.length+" รายการ · แสดง "+visible.length+" (ข้อมูลร่าง)";
+    if(els.orderNote){
+      const filters=[];
+      if(state.school)filters.push("โรงเรียน "+(getSchool(state.school)?.short||state.school));
+      if(state.sport)filters.push("กีฬา "+(getSport(state.sport)?.name||state.sport));
+      if(state.level)filters.push(LEVELS.find(l=>l.id===state.level)?.name||state.level);
+      if(q)filters.push("คำค้น");
+      els.orderNote.textContent="เรียงตามวันที่และเวลาแข่งขัน · "+
+        (filters.length?"ตัวกรองที่ใช้: "+filters.join(" · "):"ทุกโรงเรียน · ทุกกีฬา")+
+        " · เปิดสูจิบัตรจากแต่ละรายการได้ทันที";
+    }
     els.empty.hidden=matched.length!==0;
     els.more.hidden=matched.length<=state.limit;
     const remaining=matched.length-state.limit;
@@ -258,6 +276,19 @@
       const target=els.cards.querySelector("[data-fixture-card='"+state.focusId.replace(/'/g,"") +"']");
       if(target&&typeof target.scrollIntoView==="function")target.scrollIntoView({block:"center"});
     }
+  }
+  function restoreTabListingAfterLoad(){
+    if(!returnedFromResults||returnScrollHandled||state.directMode)return;
+    returnScrollHandled=true;
+    const scrollListing=function(){
+      if(els.listing&&typeof els.listing.scrollIntoView==="function")
+        els.listing.scrollIntoView({block:"start",behavior:"auto"});
+    };
+    scrollListing();
+    if(typeof requestAnimationFrame==="function")requestAnimationFrame(scrollListing);
+    const url=new URL(location.href);
+    url.searchParams.delete("from");
+    history.replaceState(null,"",url.pathname+url.search+url.hash);
   }
   function setupHandlers(){
     if(initialized)return;
@@ -367,6 +398,7 @@
       }
       updateFilterHint();makeChips();makeLevels();render();syncNav();
       setFailure(false);
+      restoreTabListingAfterLoad();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         (candidate?" · สูจิบัตรล่าสุด 237 รายการ (ข้อมูลร่าง)":" · ข้อมูลร่างชุดเดิม")+
         " · ไฟล์เผยแพร่บนเว็บ";
