@@ -62,5 +62,21 @@
     // Native viewport-fit Safe Area in shared CSS handles iOS status-bar spacing.
     // Do not create scroll-triggered overlays or intercept native page scrolling.
   }
+  // Keep enough scroll room for the actual fixed tab height on iOS/Android.
+  // This never changes navigation behavior or observes scroll position.
+  const mobileNav=document.getElementById("mobileTabNav");
+  function syncMobileNavSpace(){
+    if(!mobileNav||!document.documentElement?.style?.setProperty||
+       typeof mobileNav.getBoundingClientRect!=="function")return;
+    const height=mobileNav.getBoundingClientRect().height;
+    if(Number.isFinite(height)&&height>0)
+      document.documentElement.style.setProperty("--mobile-nav-occupied",Math.ceil(height)+"px");
+  }
+  syncMobileNavSpace();
+  if(mobileNav&&typeof ResizeObserver==="function")
+    new ResizeObserver(syncMobileNavSpace).observe(mobileNav);
+  if(typeof root.addEventListener==="function")
+    root.addEventListener("resize",syncMobileNavSpace,{passive:true});
+
   root.NongkumNavigation=Object.freeze({update,reset});
 })(globalThis);
