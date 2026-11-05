@@ -244,7 +244,7 @@
     const groups=globalThis.NongkumScheduleOrder.groupVisible(visible);
     els.cards.innerHTML=groups.map(function(g){
       return "<section class='schedule-day"+(g.day?"":" awaiting-date")+"' aria-label='"+safe(g.label)+"'>"+
-        "<div class='day-heading'><h3>"+(g.day?"📅 ":"⚠ ")+safe(g.label)+"</h3>"+
+        "<div class='day-heading'><h3>"+(g.day?"<span class='day-icon' aria-hidden='true'>"+CAL_ICON+"</span>":"<span class='day-caution' aria-hidden='true'>⚠</span>")+safe(g.label)+"</h3>"+
         "<span class='day-count'>"+g.fixtures.length+" รายการ</span></div>"+
         (g.day?"":"<p class='day-warning'>โปรดตรวจสอบวันที่จากผู้จัดก่อนเดินทาง · ไม่เติมปีแทนต้นฉบับ</p>")+
         "<div class='cards'>"+g.fixtures.map(card).join("")+"</div></section>";
