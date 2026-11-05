@@ -1,6 +1,6 @@
 # R12 — แผนตรวจความขัดแย้งของตารางแข่งขันจากรายชื่อนักกีฬากระดาษ (Document-to-JSON)
 
-**สถานะ:** R12A IMPLEMENTED + MERGED / R12B PREPARED (NO STUDENT DATA) / ยังไม่แก้ตารางทางการ · อัปเดต 4 พฤศจิกายน 2569  
+**สถานะ:** R12A IMPLEMENTED + MERGED / R12B PRIVATE INTAKE READY (WAITING FOR PAPER) / R12C ENGINE + SYNTHETIC TESTS PREPARED; NO REAL-ATHLETE CLEARANCE · อัปเดต 5 พฤศจิกายน 2569  
 **Repository:** `infobwd/nongkum-sports-hub` (PUBLIC) · **ห้ามนำภาพรายชื่อเด็กหรือ JSON รายบุคคลขึ้น repo นี้**  
 **แผนติดตามงานคู่ขนาน:** [SPORTS_2569_ACTIVE_WORK_STATUS_20261104.md](SPORTS_2569_ACTIVE_WORK_STATUS_20261104.md)  
 **ฐานข้อมูลอ้างอิง:** [R11A reconciliation](R11A_RECONCILIATION_2569.md), [data contract](SPORTS_2569_JSON_SHEETS_DOCS_CONTRACT.md), [แผน R10/R11](SPORTS_2569_PARALLEL_WORKSTREAMS_PLAN.md)
@@ -142,3 +142,10 @@
 - R12A ตรวจจากรายการเริ่มตรงกัน/ใกล้กันระดับโรงเรียนเท่านั้น; **ยังไม่มีรายชื่อนักกีฬา/ระยะเวลาแข่งขันพอสำหรับยืนยันการชนกัน**
 - R12B เตรียมพื้นที่ Drive แบบ owner-only และเช็กลิสต์แล้ว แต่ **ยังไม่ได้รับรายชื่อนักกีฬา 8 โรงเรียน** และไม่ได้สร้าง Private GitHub Repo
 - R10/R11/P2/R11C/R11E คง workflow เดิม ไม่ถือว่า Deploy หรือ Approved เพราะ R12A Merge
+
+## 12. R12C — Implementation handoff (5 พฤศจิกายน 2569)
+
+- [R12C Data Contract, Evidence & Synthetic Engine](R12C_PRIVATE_ROSTER_CONFLICT_ENGINE.md) เตรียมตัววิเคราะห์และ CI เฉพาะข้อมูลสมมติ: hard / near / potential / unknown / checked_no_conflict และ gate ข้อมูลไม่ครบ
+- อ่านรายชื่อจาก **private** เท่านั้น; R12B ยังไม่ได้รับเอกสารกระดาษและไม่มีผลการตรวจชนรายบุคคลจริง
+- พื้นที่ Drive ส่วนตัวตรวจซ้ำ owner-only, shared=false, ไม่ใช่ Shared Drive, ว่าง ณ วันที่ตรวจ; ต้องตรวจสิทธิ์อีกครั้งก่อนรับข้อมูลจริง
+- Candidate program และ R15 ไม่ถูกแก้; ไม่มีการกำหนดจำนวนรายการสูงสุดต่อคนโดยเดา; หลักฐานกติกาจำนวนลงแข่งยังรอยืนยัน
