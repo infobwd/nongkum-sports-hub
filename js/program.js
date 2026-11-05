@@ -97,6 +97,7 @@
       const venue=verifiedField?m.planning_venue:field;
       const venueBadge="<span class='fixture-meta-item fixture-meta-venue "+(verifiedField?"verified":"")+"'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 21s7-7.4 7-12a7 7 0 1 0-14 0c0 4.6 7 12 7 12Z'/><circle cx='12' cy='9' r='2.5'/></svg><span><small>สนามแข่งขัน</small><strong>"+safe(venue||"รอกำหนด")+"</strong></span></span>";
       const flags=[];
+      if(confirmedSchedule)flags.push("<span class='tag verified'>✓ ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว</span>");
       if((m.qa_flags||[]).length)flags.push("<span class='tag "+(confirmedSchedule?"":"unconfirmed")+"'>"+(confirmedSchedule?"ℹ ข้อสังเกตจาก PDF ":"⚠ ควรตรวจเพิ่ม ")+m.qa_flags.length+" จุด</span>");
       if(anomaly)flags.push("<span class='tag unconfirmed'>⚠ ปีในสูจิบัตรไม่ตรง ต้องยืนยันวัน</span>");
       return "<div class='fixture-meta-grid'>"+dateBadge+timeBadge+venueBadge+"</div>"+
