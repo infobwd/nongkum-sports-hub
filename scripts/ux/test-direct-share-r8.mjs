@@ -113,7 +113,7 @@ assert.equal(direct.els.sharedFixture.hidden,false);
 assert.equal(direct.els.programOverview.hidden,true);
 assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("หนองกระทุ่ม"));
 assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("วังด้ง"));
-assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("ข้อมูลร่าง"));
+assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("รายละเอียดการแข่งขัน"));
 assert.equal(direct.els.cards.innerHTML,"","no long list before shared match");
 const later=source.fixtures[source.fixtures.length-2];
 const laterDirect=await mountProgram("?fixture="+encodeURIComponent(later.id));
