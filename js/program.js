@@ -70,8 +70,8 @@
   }
   function pdfDateLabel(m){
     const pdf=m.source_pdf||{},raw=String(pdf.source_date_text||"").trim();
-    if(/(?:พ\\.ย\\.\\s*68|2568)/.test(raw))return raw;
-    const hit=/^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(String(pdf.source_date_iso||""));
+    if(/(?:พ\.ย\.\s*68|2568)/.test(raw))return raw;
+    const hit=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(pdf.source_date_iso||""));
     if(hit){const months=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
       return Number(hit[3])+" "+months[Number(hit[2])]+" "+(Number(hit[1])+543);}
     return raw||"ไม่ระบุวัน";
@@ -88,7 +88,7 @@
         "<span class='tag'>"+(time?"เวลาใน PDF "+safe(time)+" น.":"เวลาใน PDF ยังไม่ระบุ")+"</span>",
         "<span class='tag "+(venueVerified?"verified":"")+"'>"+fieldLabel+"</span>"];
       if((m.qa_flags||[]).length)tags.push("<span class='tag unconfirmed'>⚠ ควรตรวจเพิ่ม "+m.qa_flags.length+" จุด</span>");
-      if(/(?:พ\\.ย\\.\\s*68|2568)/.test(String(pdf.source_date_text||"")))tags.push("<span class='tag unconfirmed'>⚠ ปีในต้นฉบับผิดปกติ</span>");
+      if(/(?:พ\.ย\.\s*68|2568)/.test(String(pdf.source_date_text||"")))tags.push("<span class='tag unconfirmed'>⚠ ปีในต้นฉบับผิดปกติ</span>");
       return tags.join("");
     }
     if(m.planning_date){

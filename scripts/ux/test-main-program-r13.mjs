@@ -1,0 +1,37 @@
+// R13: contract guards for 237 latest PDF main program + A4 source + new event spelling.
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import vm from "node:vm";
+const read=path=>readFileSync(new URL("../../"+path,import.meta.url),"utf8");
+const pdf=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
+const legacy=JSON.parse(read("data/draft-schedule.json"));
+const page=read("index.html"),prog=read("js/program.js"),form=read("forms/score-sheet.js"),review=read("review.html");
+assert.equal(pdf.fixtures.length,237);
+assert.equal(pdf.fixtures.filter(f=>f.kind==="match").length,187);
+assert.equal(pdf.fixtures.filter(f=>f.kind==="track_event").length,50);
+assert.equal(legacy.fixtures.length,236);
+assert.equal(pdf.metadata.all_data_approved,false);
+assert.equal(pdf.metadata.website_publication_status,"not_released");
+assert.equal(pdf.fixtures.filter(x=>x.qa_flags?.length).length,70);
+assert.equal(pdf.fixtures.filter(x=>x.source_pdf?.source_date_text==="17 พ.ย. 68").length,3);
+assert.ok(prog.includes("./data/program-from-pdf-2569-20261104-draft.json"));
+assert.ok(form.includes("../data/program-from-pdf-2569-20261104-draft.json"));
+assert.ok(prog.includes("source_date_iso"));
+assert.ok(prog.includes("ปีในต้นฉบับผิดปกติ"));
+assert.ok(prog.includes("ควรตรวจเพิ่ม"));
+assert.ok(prog.includes("shareLatestCandidate"));
+assert.ok(page.includes("js/ui-toast.js"));
+assert.ok(page.includes("js/review-share.js"));
+assert.ok(page.includes("id=\"reviewToast\""));
+assert.ok(page.includes("มิตรภาพเกมส์"));
+assert.ok(review.includes("มิตรภาพเกมส์"));
+assert.ok(read("results.html").includes("มิตรภาพเกมส์"));
+assert.ok(read("forms/score-sheet.html").includes("มิตรภาพเกมส์"));
+assert.ok(read("js/review-share.js").includes("มิตรภาพเกมส์"));
+assert.ok(read("js/shared.js").includes("มิตรภาพเกมส์"));
+assert.ok(read("js/results.js").includes("NongkumToast"));
+assert.ok(form.includes('text("time","")'),"Do not prefill real scorecard time using PDF");
+assert.ok(read("js/results.js").includes("approved_only"));
+for(const file of ["js/program.js","js/results.js","js/shared.js","js/review-share.js","js/ui-toast.js","forms/score-sheet.js"])
+ new vm.Script(read(file),{filename:file});
+console.log("R13 PASS: 237 candidate source, score sheet, draft warning, 3 2568 anomalies, LINE share, reusable Toast, renamed display, approved-only results");

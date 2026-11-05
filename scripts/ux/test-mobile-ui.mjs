@@ -154,6 +154,6 @@ petanqueReview.els.search.value="12 ปี";
 petanqueReview.els.search.handlers.input();
 assert.match(petanqueReview.els.cards.innerHTML,/แข่งนอกรอบ 13 พ.ย. 2569 · วันยืนยันแล้ว/);
 assert.ok(html.includes("เรียงตามสูจิบัตรต้นฉบับ"));
-assert.ok(html.includes("มิตรภาพเกม"));
+assert.ok(html.includes("มิตรภาพเกมส์"));
 assert.ok(!html.includes("max(var(--safe-top),44px)"),"Safari must not force a fixed 44px mask");
 console.log("PASS: UX-P2.1 236 draft records, school-specific athletics, collapsed all lanes, school/sport/level filters, pagination, XSS, mobile layout, draft gate");

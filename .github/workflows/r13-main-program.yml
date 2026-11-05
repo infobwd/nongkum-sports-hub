@@ -1,0 +1,36 @@
+name: R13 latest public PDF program and UI
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "results.html"
+      - "review.html"
+      - "js/program.js"
+      - "js/results.js"
+      - "js/shared.js"
+      - "js/ui-toast.js"
+      - "forms/score-sheet.js"
+      - "forms/score-sheet.html"
+      - "css/program.css"
+      - "scripts/ux/test-main-program-r13.mjs"
+      - ".github/workflows/r13-main-program.yml"
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  latest-program:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/ux/test-main-program-r13.mjs
+      - run: node scripts/ux/test-mobile-ui.mjs
+      - run: node scripts/ux/test-score-sheet-r5.mjs
+      - run: node scripts/ux/test-refresh-share-forms.mjs
+      - run: node scripts/ux/test-loading-r9.mjs
+      - run: node scripts/ux/test-direct-share-r8.mjs
+      - run: node scripts/share/build-review-pages.mjs --check
+      - run: node scripts/ux/test-review-share-r12.mjs
