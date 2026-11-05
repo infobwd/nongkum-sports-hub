@@ -1,0 +1,178 @@
+{
+  "schema_version": "r12-private-roster-v1",
+  "synthetic": true,
+  "school_coverage": [
+    {
+      "school_id": "SYN-A",
+      "status": "accepted_for_analysis",
+      "expected_pages": 1,
+      "received_pages": 1,
+      "rows_verified": true
+    },
+    {
+      "school_id": "SYN-B",
+      "status": "accepted_for_analysis",
+      "expected_pages": 1,
+      "received_pages": 1,
+      "rows_verified": true
+    }
+  ],
+  "teams": [
+    {
+      "team_ref": "SYN-A-FOOT",
+      "school_id": "SYN-A",
+      "sport_id": "football",
+      "division": "U12",
+      "source_team_id": "SYN-A",
+      "review_status": "accepted_for_analysis",
+      "possible_fixture_ids": [
+        "SYN-FINAL"
+      ]
+    },
+    {
+      "team_ref": "SYN-A-VOLLEY",
+      "school_id": "SYN-A",
+      "sport_id": "volleyball",
+      "division": "U12",
+      "source_team_id": "SYN-A",
+      "review_status": "accepted_for_analysis",
+      "possible_fixture_ids": []
+    },
+    {
+      "team_ref": "SYN-A-FUTSAL",
+      "school_id": "SYN-A",
+      "sport_id": "futsal",
+      "division": "U10",
+      "source_team_id": "SYN-A",
+      "review_status": "accepted_for_analysis",
+      "possible_fixture_ids": []
+    },
+    {
+      "team_ref": "SYN-B-FOOT",
+      "school_id": "SYN-B",
+      "sport_id": "football",
+      "division": "U12",
+      "source_team_id": "SYN-B",
+      "review_status": "accepted_for_analysis",
+      "possible_fixture_ids": []
+    }
+  ],
+  "lane_assignments": [
+    {
+      "fixture_id": "SYN-CENTRE",
+      "lane": 1,
+      "school_id": "SYN-A",
+      "review_status": "accepted_for_analysis"
+    }
+  ],
+  "athletes": [
+    {
+      "athlete_id": "SYN-ATH-001",
+      "school_id": "SYN-A",
+      "identity_verified": true,
+      "extraction_status": "accepted_for_analysis",
+      "registrations": [
+        {
+          "sport_id": "football",
+          "role": "player",
+          "team_ref": "SYN-A-FOOT",
+          "division": "U12"
+        },
+        {
+          "sport_id": "volleyball",
+          "role": "player",
+          "team_ref": "SYN-A-VOLLEY",
+          "division": "U12"
+        }
+      ]
+    },
+    {
+      "athlete_id": "SYN-ATH-002",
+      "school_id": "SYN-A",
+      "identity_verified": true,
+      "extraction_status": "accepted_for_analysis",
+      "registrations": [
+        {
+          "sport_id": "futsal",
+          "role": "player",
+          "team_ref": "SYN-A-FUTSAL",
+          "division": "U10"
+        },
+        {
+          "sport_id": "athletics",
+          "role": "relay_member",
+          "event_id": "SYN-RELAY",
+          "lane": 1
+        }
+      ]
+    },
+    {
+      "athlete_id": "SYN-ATH-003",
+      "school_id": "SYN-A",
+      "identity_verified": true,
+      "extraction_status": "accepted_for_analysis",
+      "registrations": [
+        {
+          "sport_id": "football",
+          "role": "substitute",
+          "team_ref": "SYN-A-FOOT",
+          "division": "U12"
+        }
+      ]
+    },
+    {
+      "athlete_id": "SYN-ATH-004",
+      "school_id": "SYN-A",
+      "identity_verified": true,
+      "extraction_status": "accepted_for_analysis",
+      "registrations": [
+        {
+          "sport_id": "athletics",
+          "role": "relay_member",
+          "event_id": "SYN-RELAY",
+          "lane": 1
+        },
+        {
+          "sport_id": "athletics",
+          "role": "player",
+          "event_id": "SYN-SPRINT",
+          "lane": 1
+        }
+      ]
+    },
+    {
+      "athlete_id": "SYN-ATH-005",
+      "school_id": "SYN-A",
+      "identity_verified": true,
+      "extraction_status": "accepted_for_analysis",
+      "registrations": [
+        {
+          "sport_id": "athletics",
+          "role": "player",
+          "event_id": "SYN-CENTRE",
+          "lane": 1
+        },
+        {
+          "sport_id": "athletics",
+          "role": "player",
+          "event_id": "SYN-SPRINT",
+          "lane": 1
+        }
+      ]
+    },
+    {
+      "athlete_id": "SYN-ATH-006",
+      "school_id": "SYN-B",
+      "identity_verified": true,
+      "extraction_status": "accepted_for_analysis",
+      "registrations": [
+        {
+          "sport_id": "football",
+          "role": "player",
+          "team_ref": "SYN-B-FOOT",
+          "division": "U12"
+        }
+      ]
+    }
+  ]
+}
