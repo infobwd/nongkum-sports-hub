@@ -1,0 +1,22 @@
+/* R16 shared mobile scroll clearance: reserve the fixed tabbar and iOS home indicator. */
+@media(max-width:690px){
+  html{scroll-padding-bottom:calc(108px + var(--safe-bottom))}
+  body[data-view="program"] > main,
+  body[data-view="results"] > main{
+    padding-bottom:calc(84px + var(--safe-bottom));
+  }
+  body[data-view="program"] > footer,
+  body[data-view="results"] > footer{
+    padding-bottom:calc(108px + var(--safe-bottom));
+  }
+  body[data-view="program"] .admin,
+  body[data-view="results"] #resultsListing{
+    scroll-margin-bottom:calc(100px + var(--safe-bottom));
+  }
+}
+@media print{
+  body[data-view="program"] > main,
+  body[data-view="results"] > main,
+  body[data-view="program"] > footer,
+  body[data-view="results"] > footer{padding-bottom:0}
+}
