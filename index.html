@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/program.css?v=r17-confirmed1">
+  <link rel="stylesheet" href="./css/program.css?v=r18-date1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head>
 <body data-view="program">
@@ -20,7 +20,7 @@
     <div class="shell">
       <div class="brand">
         <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div>
-        <span class="mode">ข้อมูลร่าง · ยังไม่เป็นทางการ</span>
+        <span class="mode">ตารางการแข่งขัน</span>
       </div>
       <nav class="site-nav" aria-label="เมนูหลัก">
         <a data-nav-view="program" href="./index.html" aria-current="page">โปรแกรมการแข่งขัน</a>
@@ -33,7 +33,7 @@
   <main class="shell">
     <section id="sharedFixture" class="direct-fixture" hidden aria-labelledby="sharedFixtureTitle">
       <div class="direct-heading">
-        <span class="direct-eyebrow">มิตรภาพเกมส์ 2569 · ข้อมูลร่าง</span>
+        <span class="direct-eyebrow">มิตรภาพเกมส์ 2569 · โปรแกรมการแข่งขัน</span>
         <h2 id="sharedFixtureTitle">คู่แข่งขันที่แชร์มา</h2>
         <p id="sharedFixtureStatus" role="status" aria-live="polite">กำลังเปิดคู่แข่งขัน…</p>
       </div>
@@ -42,7 +42,7 @@
       <div class="direct-actions">
         <button id="showFullSchedule" type="button" class="direct-back">ดูตารางการแข่งขันทั้งหมด</button>
       </div>
-      <p class="direct-disclaimer">ข้อมูลการแข่งขันจากสูจิบัตรฉบับร่าง วันและเวลาที่ยังไม่ยืนยันไม่ใช่กำหนดการทางการ</p>
+      <p class="direct-disclaimer">โปรดตรวจสอบสถานะวัน เวลา และสถานที่ของแต่ละรายการก่อนเดินทาง</p>
     </section>
     <div id="programOverview">
     <section class="panel" aria-labelledby="filterTitle">
@@ -66,8 +66,8 @@
     </section>
 
     <aside class="notice" aria-label="สถานะข้อมูลการแข่งขัน">
-      <span aria-hidden="true">⚠️</span>
-      <div><strong>โปรแกรมการแข่งขัน 237 รายการ</strong> อยู่ระหว่างเตรียมการจัดแข่งขัน · ตรวจสอบวัน เวลา และสนามจากรายการล่าสุดก่อนเดินทาง และติดตามประกาศยืนยันจากผู้จัด</div>
+      <span aria-hidden="true">📅</span>
+      <div id="scheduleVerificationSummary"><strong>โปรแกรมการแข่งขัน</strong> โปรดตรวจสอบสถานะรายคู่และกำหนดการแข่งขันล่าสุดก่อนเดินทาง</div>
     </aside>
 
     <section class="panel" aria-labelledby="revisedPdfReviewTitle">
@@ -84,9 +84,14 @@
         <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
+      <div id="scheduleDaySwitch" class="schedule-day-switch" role="group" aria-label="เลือกช่วงวันแข่งขัน">
+        <button type="button" data-day-mode="upcoming" aria-pressed="true">วันนี้ / วันแข่งขันถัดไป</button>
+        <button type="button" data-day-mode="all" aria-pressed="false">ทุกวัน</button>
+      </div>
+      <p class="subtle" id="scheduleDayHint" role="status" aria-live="polite"></p>
       <p class="subtle" id="resultNote">เรียงตามวันที่และเวลาแข่งขัน · เปิดสูจิบัตรจากแต่ละรายการได้ทันที</p>
       <div id="programSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
-      <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลฉบับร่างอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
+      <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
       <div id="cards"></div>
       <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong>
         <p>ลองเลือกทุกโรงเรียนหรือทุกกีฬา รายการระดับศูนย์ฯ ยังไม่ผูกกับโรงเรียนรายแห่ง</p>
@@ -106,7 +111,7 @@
     </details>
     </div><!-- programOverview -->
   </main>
-  <footer class="shell">มิตรภาพเกมส์ ปี 2569 · ข้อมูลร่างเพื่อการตรวจทานเท่านั้น</footer>
+  <footer class="shell">มิตรภาพเกมส์ ปี 2569 · โปรดตรวจสอบกำหนดการแข่งขันล่าสุดก่อนเดินทาง</footer>
 
 <nav id="mobileTabNav" class="mobile-nav" aria-label="สลับระหว่างโปรแกรมและผลการแข่งขัน">
   <a id="mobileProgramLink" data-nav-view="program" aria-current="page" href="./index.html" aria-label="โปรแกรมการแข่งขัน">
@@ -128,7 +133,7 @@
 <script src="./js/navigation.js?v=r17-tab1"></script>
 <script src="./js/review-share.js?v=r14-share1"></script>
 <script src="./js/ui-toast.js?v=r13-main1"></script>
-<script src="./js/schedule-order.js?v=r17-sort1"></script>
-<script src="./js/program.js?v=r17-tab1"></script>
+<script src="./js/schedule-order.js?v=r18-date1"></script>
+<script src="./js/program.js?v=r18-date1"></script>
 </body>
 </html>
