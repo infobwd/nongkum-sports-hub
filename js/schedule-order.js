@@ -76,7 +76,26 @@
     }
     return groups;
   }
+  // Date in the event's location, regardless of the user's device timezone.
+  function bangkokToday(now){
+    const parts=new Intl.DateTimeFormat("en-US",{
+      timeZone:"Asia/Bangkok",year:"numeric",month:"2-digit",day:"2-digit"
+    }).formatToParts(now||new Date());
+    const value=Object.fromEntries(parts.filter(p=>p.type!=="literal").map(p=>[p.type,p.value]));
+    return value.year+"-"+value.month+"-"+value.day;
+  }
+  // Today's entire schedule is still shown even if the current clock time is late;
+  // if there are no future fixtures for the filters, fall back to all dates.
+  function nearestDay(fixtures,today){
+    const date=validIso(today);
+    const upcoming=date?fixtures.find(f=>effectiveDay(f)&&effectiveDay(f)>=date):null;
+    if(!upcoming)return {day:"",kind:"all-fallback",fixtures:fixtures.slice()};
+    const day=effectiveDay(upcoming);
+    return {day,kind:day===date?"today":"next",
+      fixtures:fixtures.filter(f=>effectiveDay(f)===day)};
+  }
   root.NongkumScheduleOrder=Object.freeze({
-    effectiveDay,timeMinutes,sortedFixtures,groupVisible,formatDayLabel
+    effectiveDay,timeMinutes,sortedFixtures,groupVisible,formatDayLabel,
+    bangkokToday,nearestDay
   });
 })(globalThis);

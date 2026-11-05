@@ -164,3 +164,13 @@ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direc
 .fixture .sport-name{font-size:.78rem;font-weight:800;color:#244d73}
 @media(max-width:690px){.schedule-day{margin:16px 0 20px}.day-heading h3{font-size:.94rem}}
 @media print{.schedule-day{break-before:auto}.day-heading{break-after:avoid}}
+
+/* R18: accessible, thumb-sized day view toggle for current/next day vs history. */
+.schedule-day-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 6px}
+.schedule-day-switch button{font:inherit;font-size:.83rem;font-weight:800;min-height:48px;padding:8px 11px;border-radius:12px;border:1px solid #c0d0e0;background:#fff;color:#3a5e7f;cursor:pointer;touch-action:manipulation}
+.schedule-day-switch button[aria-pressed="true"]{background:#e6f0fb;border-color:#90b5d9;color:#174b78}
+.schedule-day-switch button:focus-visible{outline:3px solid #e7bb36;outline-offset:2px}
+#scheduleDayHint{margin:4px 0 7px;font-size:.8rem;color:#486a87}
+.schedule-confirmation-note{color:#245b49;background:#eff7f2;border-radius:9px;padding:8px 10px;font-size:.78rem;margin:8px 0}
+@media(max-width:360px){.schedule-day-switch button{font-size:.76rem;padding:8px 6px}}
+@media print{.schedule-day-switch{display:none}}
