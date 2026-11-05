@@ -22,8 +22,8 @@ assert.ok(index.includes("มิตรภาพเกมส์")&&review.include
 assert.ok(index.includes('js/review-share.js?v=r13-name1')&&index.includes('js/ui-toast.js?v=r13-main1'));
 assert.ok(results.includes('js/ui-toast.js?v=r13-main1'));
 assert.ok(index.includes('css/review-share.css?v=r12a1'));
-assert.match(program,/program-from-pdf-2569-20261104-draft\\.json/);
-assert.match(form,/program-from-pdf-2569-20261104-draft\\.json/);
+assert.match(program,/program-from-pdf-2569-20261104-draft\.json/);
+assert.match(form,/program-from-pdf-2569-20261104-draft\.json/);
 assert.match(program,/website_publication_status==="not_released"/);
 assert.match(program,/pdfDateLabel/);
 assert.match(program,/ปีในต้นฉบับผิดปกติ/);
@@ -66,11 +66,11 @@ async function mount(query){
  return {els,paths,messages,get copied(){return copied;}};
 }
 const all=await mount("");
-assert.match(all.paths[0],/program-from-pdf-2569-20261104-draft\\.json/);
+assert.match(all.paths[0],/program-from-pdf-2569-20261104-draft\.json/);
 assert.match(all.els.count.textContent,/พบ 237 รายการ/);
-assert.match(all.els.cards.innerHTML,/17 พ\\.ย\\. 2569/);
-assert.match(all.els.cards.innerHTML,/เวลาใน PDF 08:30 น\\./);
-assert.match(all.els.cards.innerHTML,/สนาม 2 \\(ตาม PDF\\)/);
+assert.match(all.els.cards.innerHTML,/17 พ\.ย\. 2569/);
+assert.match(all.els.cards.innerHTML,/เวลาใน PDF 08:30 น\./);
+assert.match(all.els.cards.innerHTML,/สนาม 2 \(ตาม PDF\)/);
 assert.equal(all.els.programLoadFailure.hidden,true);
 const first=latest.fixtures[0];
 all.els.cards.handlers.click({target:{closest:()=>({dataset:{shareFixture:first.id}})}});
@@ -86,5 +86,5 @@ assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("ควรตรวจ
 assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("12:30"));
 const track=await mount("?sport=athletics");
 assert.match(track.els.count.textContent,/พบ 50 รายการ/);
-assert.match(track.els.cards.innerHTML,/16 พ\\.ย\\. 2569/);
+assert.match(track.els.cards.innerHTML,/16 พ\.ย\. 2569/);
 console.log("PASS R13: main 237 latest PDF records, dates/times/venues and QA, native short share copy toast, score-sheet source, new Games spelling");
