@@ -1,0 +1,57 @@
+name: R15-D/E Intake and Mobile Contract Tests
+on:
+  pull_request:
+    paths:
+      - "docs/R15D_PHOTO_RESULTS_INTAKE_SOP.md"
+      - "docs/R15DE_DATA_CONTRACT_HANDOFF.md"
+      - "docs/R15E_MOBILE_ACCEPTANCE_QA.md"
+      - "tests/fixtures/r15-photo-intake.synthetic.json"
+      - "scripts/results/test-photo-intake-r15d.mjs"
+      - "scripts/ux/test-results-mobile-r15e.mjs"
+      - ".github/workflows/r15de-intake-mobile.yml"
+      - "forms/score-sheet.html"
+      - "forms/score-sheet.js"
+      - "results.html"
+      - "standings.html"
+      - "js/results.js"
+      - "js/standings.js"
+      - "data/public-results.json"
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/R15D_PHOTO_RESULTS_INTAKE_SOP.md"
+      - "docs/R15DE_DATA_CONTRACT_HANDOFF.md"
+      - "docs/R15E_MOBILE_ACCEPTANCE_QA.md"
+      - "tests/fixtures/r15-photo-intake.synthetic.json"
+      - "scripts/results/test-photo-intake-r15d.mjs"
+      - "scripts/ux/test-results-mobile-r15e.mjs"
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  intake-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: R15-D Private photo intake contract (synthetic only)
+        run: node scripts/results/test-photo-intake-r15d.mjs
+      - name: R15-E Mobile DOM/contract checks (no device simulation claim)
+        run: node scripts/ux/test-results-mobile-r15e.mjs
+      - name: R5 A4 fixture link regression
+        run: node scripts/ux/test-score-sheet-r5.mjs
+      - name: R15-A approved-only standings regression
+        run: node scripts/results/test-standings-r15a.mjs
+      - name: R2 approved-only results regression
+        run: node scripts/results/test-results.mjs
+      - name: R6 mobile navigation regression
+        run: node scripts/ux/test-mobile-navigation-r6.mjs
+      - name: R9 loading regression
+        run: node scripts/ux/test-loading-r9.mjs
+      - name: R16-R18 schedule/return regression
+        run: |
+          node scripts/ux/test-schedule-chronological-r16.mjs
+          node scripts/ux/test-tab-return-confirmed-r17.mjs
+          node scripts/ux/test-date-aware-program-r18.mjs
