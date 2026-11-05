@@ -73,7 +73,7 @@ check(athletics.filter(x=>x.source_match_no==="48").every(x=>x.qa_flags?.include
 check(!data.fixtures.some(x=>Object.hasOwn(x,"athlete_name")||Object.hasOwn(x,"birth_date")),"no student PII in public draft JSON");
 
 check(data.metadata.event_display_name==="มิตรภาพเกม","event name must be corrected to มิตรภาพเกม");
-check(html.includes('src="./js/program.js"') && html.includes('href="./css/program.css"'),"external program assets missing");
+check(/src="\.\/js\/program\.js(?:\?[^"]*)?"/.test(html) && /href="\.\/css\/program\.css(?:\?[^"]*)?"/.test(html),"external program assets missing");
 for(const [name,source] of [["shared.js",shared],["program.js",program]]){
   try{new Script(source,{filename:name});}catch(e){issues.push("JavaScript syntax "+name+": "+e.message);}
 }
