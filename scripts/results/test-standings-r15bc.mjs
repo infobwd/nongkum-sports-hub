@@ -16,7 +16,7 @@ function newResult(f,sa,sb,revision=1){
     winner_school_id:sa===sb?null:sa>sb?f.team_a_id:f.team_b_id,revision};
 }
 function publish(rows){
-  const d=clone(data);d.results=rows;d.metadata.approved_results_count=rows.length;
+  const d=clone(data);d.results=clone(rows);d.metadata.approved_results_count=rows.length;
   d.metadata.publication_status=rows.length?"published":"empty";
   d.metadata.published_at=rows.length?"2026-11-05T08:00:00Z":null;
   return d;
