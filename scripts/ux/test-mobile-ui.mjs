@@ -48,7 +48,7 @@ function mockElement(id){
   };
 }
 async function mount(url,source=data){
-  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink","refreshProgram","programRefreshStatus","sharedFixture","sharedFixtureCard","sharedFixtureStatus","programOverview","showFullSchedule"];
+  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink","refreshProgram","programRefreshStatus","sharedFixture","sharedFixtureCard","sharedFixtureStatus","programOverview","showFullSchedule","scheduleDaySwitch","scheduleDayHint","scheduleVerificationSummary"];
   const els=Object.fromEntries(ids.map(id=>[id,mockElement(id)]));
   const location=new URL(url);
   const history={latest:null,replaceState(_a,_b,href){this.latest=href;}};
@@ -77,12 +77,12 @@ const expected=data.fixtures.filter(m=>m.sport_id==="athletics"&&/(?:8|10|12)\s*
 assert.ok(expected>0,"expected athletics fixtures for school");
 const t=await mount("https://example.org/nongkum-sports-hub/?school=wangdong&sport=athletics&level=primary");
 const {els}=t;
-assert.match(els.count.textContent,/ข้อมูลร่าง/);
+assert.doesNotMatch(els.count.textContent,/ข้อมูลร่าง/);
 assert.match(els.count.textContent,new RegExp("พบ "+expected+" รายการ"));
 assert.equal((els.cards.innerHTML.match(/class='my-lane'/g)||[]).length,Math.min(expected,12),"school should see its own lane first");
 assert.match(els.cards.innerHTML,/ดูทุกลู่/);
 assert.match(els.cards.innerHTML,/source-details/,"source references should be behind expandable details");
-assert.match(els.cards.innerHTML,/รายละเอียด · ข้อมูลร่าง/,"every card must offer details");
+assert.match(els.cards.innerHTML,/รายละเอียดการแข่งขัน/,"every card must offer details");
 assert.ok(els.advancedFilters.open===true,"deep link with level must expand advanced filters");
 assert.ok(!els.cards.innerHTML.includes("font-size:48px"));
 assert.equal((els.cards.innerHTML.match(/class='schedule-day/g)||[]).length,1,"selected sport should have one unconfirmed-day group");
@@ -98,12 +98,15 @@ const totalSportCounts=data.sports.reduce((o,s)=>(o[s.id]=data.fixtures.filter(f
 assert.equal(totalSportCounts.athletics,50);
 assert.match(sportAll.els.sports.innerHTML,/>50<\/span>/,"sports navigation must show 50 athletics events");
 assert.match(sportAll.els.cards.innerHTML,/day-count/,"date headers must show visible counts");
-assert.match(sportAll.els.cards.innerHTML,/รายละเอียด · ข้อมูลร่าง/);
+assert.match(sportAll.els.cards.innerHTML,/รายละเอียดการแข่งขัน/);
 assert.ok(html.includes("safe-area-inset-top"));
 assert.ok(!html.includes("body::before"),"R7 must not create fixed status-bar overlays");
 assert.ok(html.includes('id="advancedFilters"'));
 assert.match(sportAll.els.count.textContent,/แสดง 12/);
-assert.equal(sportAll.els.more.hidden,false);
+assert.equal(sportAll.els.more.hidden,true,"upcoming default only shows next match day");
+assert.match(sportAll.els.scheduleDayHint.textContent,/วันแข่งขันถัดไป/);
+sportAll.els.scheduleDaySwitch.handlers.click({target:{closest(){return {dataset:{dayMode:"all"}};}}});
+assert.equal(sportAll.els.more.hidden,false,"all-days restores pagination");
 sportAll.els.more.handlers.click();
 assert.match(sportAll.els.count.textContent,/แสดง 24/);
 assert.ok(sportAll.els.cards.innerHTML.includes("schedule-day"));
@@ -144,8 +147,8 @@ assert.equal(invalid.els.empty.hidden,true,"invalid data is a loading error, not
 assert.ok(/@media\(max-width:690px\)/.test(html),"mobile breakpoint missing");
 assert.ok(/.fields,.cards\{grid-template-columns:1fr\}/.test(html),"mobile single-column layout missing");
 assert.ok(html.includes("สำหรับผู้จัดการแข่งขัน · ข้อมูลตรวจรับ P2"));
-assert.ok(html.includes("ข้อมูลร่าง · ยังไม่เป็นทางการ"));
-assert.ok(html.includes("ยังไม่ผ่านการรับรอง"));
+assert.ok(html.includes("ตารางการแข่งขัน"));
+assert.ok(html.includes("โปรดตรวจสอบกำหนดกับผู้จัด"));
 const petanqueReview=await mount("https://example.org/nongkum-sports-hub/?sport=petanque");
 petanqueReview.els.search.value="10 ปี";
 petanqueReview.els.search.handlers.input();
