@@ -1,0 +1,100 @@
+{
+  "schema_version": 3,
+  "metadata": {
+    "source_status": "synthetic_only"
+  },
+  "schools": [
+    {
+      "id": "SYN-A"
+    },
+    {
+      "id": "SYN-B"
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "SYN-FOOT-1",
+      "kind": "match",
+      "sport_id": "football",
+      "division": "U12",
+      "team_a_id": "SYN-A",
+      "team_b_id": "SYN-B"
+    },
+    {
+      "id": "SYN-FOOT-2",
+      "kind": "match",
+      "sport_id": "football",
+      "division": "U12",
+      "team_a_id": "SYN-A",
+      "team_b_id": "SYN-B"
+    },
+    {
+      "id": "SYN-FINAL",
+      "kind": "match",
+      "sport_id": "football",
+      "division": "U12",
+      "team_a_id": null,
+      "team_b_id": null
+    },
+    {
+      "id": "SYN-VOLLEY",
+      "kind": "match",
+      "sport_id": "volleyball",
+      "division": "U12",
+      "team_a_id": "SYN-A",
+      "team_b_id": "SYN-B"
+    },
+    {
+      "id": "SYN-FUTSAL",
+      "kind": "match",
+      "sport_id": "futsal",
+      "division": "U10",
+      "team_a_id": "SYN-A",
+      "team_b_id": "SYN-B"
+    },
+    {
+      "id": "SYN-RELAY",
+      "kind": "track_event",
+      "sport_id": "athletics",
+      "division": "U12",
+      "lanes": [
+        {
+          "lane": 1,
+          "school_id": "SYN-A",
+          "vacant": false
+        },
+        {
+          "lane": 2,
+          "school_id": "SYN-B",
+          "vacant": false
+        }
+      ]
+    },
+    {
+      "id": "SYN-SPRINT",
+      "kind": "track_event",
+      "sport_id": "athletics",
+      "division": "U12",
+      "lanes": [
+        {
+          "lane": 1,
+          "school_id": "SYN-A",
+          "vacant": false
+        }
+      ]
+    },
+    {
+      "id": "SYN-CENTRE",
+      "kind": "track_event",
+      "sport_id": "athletics",
+      "division": "preschool centre",
+      "lanes": [
+        {
+          "lane": 1,
+          "school_id": null,
+          "vacant": false
+        }
+      ]
+    }
+  ]
+}
