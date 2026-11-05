@@ -1,4 +1,4 @@
-/* Shared no-build client helpers for มิตรภาพเกม; never stores credentials. */
+/* Shared no-build client helpers for มิตรภาพเกมส์; never stores credentials. */
 (function(root){
   "use strict";
   function escapeHtml(v){
@@ -48,7 +48,7 @@
   async function shareUrl(url,title,description){
     if(typeof navigator!=="undefined"&&typeof navigator.share==="function"){
       try{
-        const payload={title:title||"มิตรภาพเกม 2569",url};
+        const payload={title:title||"มิตรภาพเกมส์ 2569",url};
         if(description)payload.text=description;
         await navigator.share(payload);
         return "shared";
@@ -66,7 +66,7 @@
     return shareUrl(directItemUrl(page,key,id),title);
   }
   function shareFixture(fixture,sport,teamA,teamB){
-    const title="มิตรภาพเกม 2569 · "+sport+" · "+(fixture.division||"การแข่งขัน");
+    const title="มิตรภาพเกมส์ 2569 · "+sport+" · "+(fixture.division||"การแข่งขัน");
     const description=(teamA&&teamB?teamA+" พบ "+teamB+" · ":"")+
       "คู่/รายการ "+(fixture.source_match_no||"")+" · ข้อมูลร่าง โปรดตรวจประกาศทางการ";
     return shareUrl(fixtureShareUrl(fixture.id),title,description);

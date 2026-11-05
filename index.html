@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#183762">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="มิตรภาพเกม ปี 2569 — ค้นหาโปรแกรมการแข่งขันกลุ่มหนองกุ่มบนมือถือ">
-  <title>มิตรภาพเกม 2569 — โปรแกรมและข้อมูลการแข่งขัน</title>
+  <meta name="description" content="มิตรภาพเกมส์ ปี 2569 — ค้นหาโปรแกรมการแข่งขันกลุ่มหนองกุ่มบนมือถือ">
+  <title>มิตรภาพเกมส์ 2569 — โปรแกรมและข้อมูลการแข่งขัน</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/program.css">
+  <link rel="stylesheet" href="./css/program.css?v=r13-main1">
+  <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head>
 <body data-view="program">
 
   <header class="top">
     <div class="shell">
       <div class="brand">
-        <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกม</span></div>
+        <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div>
         <span class="mode">ข้อมูลร่าง · ยังไม่เป็นทางการ</span>
       </div>
       <nav class="site-nav" aria-label="เมนูหลัก">
@@ -32,7 +33,7 @@
   <main class="shell">
     <section id="sharedFixture" class="direct-fixture" hidden aria-labelledby="sharedFixtureTitle">
       <div class="direct-heading">
-        <span class="direct-eyebrow">มิตรภาพเกม 2569 · ข้อมูลร่าง</span>
+        <span class="direct-eyebrow">มิตรภาพเกมส์ 2569 · ข้อมูลร่าง</span>
         <h2 id="sharedFixtureTitle">คู่แข่งขันที่แชร์มา</h2>
         <p id="sharedFixtureStatus" role="status" aria-live="polite">กำลังเปิดคู่แข่งขัน…</p>
       </div>
@@ -66,14 +67,14 @@
 
     <aside class="notice" aria-label="สถานะข้อมูลการแข่งขัน">
       <span aria-hidden="true">⚠️</span>
-      <div><strong>ข้อมูลส่วนใหญ่ยังเป็นร่าง</strong> เปตองนอกรอบยืนยันวันและสถานที่แล้ว แต่เวลาแข่งยังรอแจ้ง ส่วนรายการอื่นต้องตรวจรับก่อนใช้เป็นกำหนดการทางการ</div>
+      <div><strong>ตารางจากสูจิบัตร PDF ล่าสุด 237 รายการ (ข้อมูลร่าง)</strong> เปิดดูคู่แข่งขัน วัน เวลา และสนามตามเอกสารได้ทันที ไม่ใช่ประกาศแข่งขันทางการ · เฉพาะจุดที่มีหมายเหตุจะแสดงคำเตือนเพิ่มเติม</div>
     </aside>
 
     <section class="panel" aria-labelledby="revisedPdfReviewTitle">
-      <h2 id="revisedPdfReviewTitle">ตรวจสูจิบัตรจาก PDF ฉบับล่าสุด (4 พ.ย. 2569)</h2>
-      <p class="subtle">ฉบับใหม่มี 187 คู่แข่งขันและกรีฑา 50 รายการ รวม 237 รายการ โรงเรียนและกรรมการสามารถเปิดดูจุดที่ต้องตรวจเพิ่มเติมได้ ส่วนโปรแกรมหลักหน้านี้ยังใช้ข้อมูลเดิมจนกว่าผู้จัดรับรอง</p>
+      <h2 id="revisedPdfReviewTitle">สูจิบัตรต้นฉบับและรายการที่ควรตรวจเพิ่มเติม</h2>
+      <p class="subtle">ตารางด้านล่างแสดงรายการจากสูจิบัตร PDF ล่าสุดแล้ว · เปิดหน้าตรวจเมื่อต้องการเทียบต้นฉบับ ดูหมายเหตุ หรือแจ้งจุดที่ต้องแก้ไข</p>
       <div class="direct-actions">
-        <a class="direct-back" href="./review.html">เปิดหน้าตรวจสูจิบัตรล่าสุด · 237 รายการ</a>
+        <a class="direct-back" href="./review.html">เปิด PDF และตรวจรายละเอียดเพิ่มเติม</a>
       </div>
     </section>
 
@@ -83,7 +84,7 @@
         <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
-      <p class="subtle" id="resultNote">เรียงตามสูจิบัตรต้นฉบับ · วันและสถานที่เปตองนอกรอบที่ยืนยันแล้วจะแสดงแยกจากข้อมูลที่ยังรอตรวจ</p>
+      <p class="subtle" id="resultNote">เรียงตามสูจิบัตร PDF ล่าสุด · ข้อมูลวัน เวลา สนามที่ยังไม่รับรองจะแสดงพร้อมป้าย “ตาม PDF”</p>
       <div id="programSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
       <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลฉบับร่างอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
       <div id="cards"></div>
@@ -105,7 +106,7 @@
     </details>
     </div><!-- programOverview -->
   </main>
-  <footer class="shell">มิตรภาพเกม ปี 2569 · ข้อมูลร่างเพื่อการตรวจทานเท่านั้น</footer>
+  <footer class="shell">มิตรภาพเกมส์ ปี 2569 · ข้อมูลร่างเพื่อการตรวจทานเท่านั้น</footer>
 
 <nav id="mobileTabNav" class="mobile-nav" aria-label="สลับระหว่างโปรแกรมและผลการแข่งขัน">
   <a id="mobileProgramLink" data-nav-view="program" aria-current="page" href="./index.html" aria-label="โปรแกรมการแข่งขัน">
@@ -118,8 +119,15 @@
   </a>
 </nav>
 <div id="navigationNotice" class="sr-only" role="status" aria-live="polite"></div>
+<div id="reviewToast" class="review-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span id="reviewToastIcon" class="review-toast-icon" aria-hidden="true">✓</span>
+    <span class="review-toast-body"><strong id="reviewToastTitle"></strong><small id="reviewToastDetail"></small></span>
+    <button id="reviewToastClose" type="button" aria-label="ปิดข้อความแจ้งเตือน">×</button>
+  </div>
 <script src="./js/shared.js"></script>
 <script src="./js/navigation.js"></script>
-<script src="./js/program.js"></script>
+<script src="./js/review-share.js?v=r13-name1"></script>
+<script src="./js/ui-toast.js?v=r13-main1"></script>
+<script src="./js/program.js?v=r13-main1"></script>
 </body>
 </html>

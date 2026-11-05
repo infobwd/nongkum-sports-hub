@@ -2,15 +2,16 @@
 <html lang="th"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#183762">
-<meta name="description" content="มิตรภาพเกม 2569 — ผลการแข่งขันที่ผ่านการรับรอง">
-<title>ผลการแข่งขัน — มิตรภาพเกม 2569</title>
+<meta name="description" content="มิตรภาพเกมส์ 2569 — ผลการแข่งขันที่ผ่านการรับรอง">
+<title>ผลการแข่งขัน — มิตรภาพเกมส์ 2569</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/base.css"><link rel="stylesheet" href="./css/results.css">
+<link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head><body data-view="results">
 <header class="top"><div class="shell">
-<div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกม</span></div><span class="mode">แสดงเฉพาะผลรับรอง</span></div>
+<div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">แสดงเฉพาะผลรับรอง</span></div>
 <nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html" data-nav-view="program" id="programLink">โปรแกรมการแข่งขัน</a><a href="./results.html" data-nav-view="results" aria-current="page">ผลการแข่งขัน</a></nav>
 <div class="hero"><h1>ผลการแข่งขัน · ปี 2569</h1></div>
 </div></header>
@@ -43,7 +44,7 @@
 </section>
 </div><!-- resultsOverview -->
 </main>
-<footer class="shell">มิตรภาพเกม ปี 2569 · ไม่แสดงผลร่างหรือผลที่ยังไม่รับรอง</footer>
+<footer class="shell">มิตรภาพเกมส์ ปี 2569 · ไม่แสดงผลร่างหรือผลที่ยังไม่รับรอง</footer>
 <nav id="mobileTabNav" class="mobile-nav" aria-label="สลับระหว่างโปรแกรมและผลการแข่งขัน">
   <a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="โปรแกรมการแข่งขัน">
     <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg>
@@ -55,6 +56,12 @@
   </a>
 </nav>
 <div id="navigationNotice" class="sr-only" role="status" aria-live="polite"></div>
+<div id="reviewToast" class="review-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span id="reviewToastIcon" class="review-toast-icon" aria-hidden="true">✓</span>
+    <span class="review-toast-body"><strong id="reviewToastTitle"></strong><small id="reviewToastDetail"></small></span>
+    <button id="reviewToastClose" type="button" aria-label="ปิดข้อความแจ้งเตือน">×</button>
+  </div>
+<script src="./js/ui-toast.js?v=r13-main1"></script>
 <script src="./js/shared.js"></script>
 <script src="./js/navigation.js"></script><script src="./js/results-renderers.js"></script><script src="./js/results.js"></script>
 </body></html>

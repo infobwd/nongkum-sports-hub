@@ -118,3 +118,13 @@
       .direct-card .team{font-size:1.05rem}
     }
     @media print{.direct-actions,.direct-disclaimer{display:none}}
+
+/* R13 — candidate-source badges and phone-friendly review shortcut; no fixed status-bar overlays. */
+body[data-view="program"] .fixture .quick-status{align-items:flex-start}
+body[data-view="program"] .fixture .quick-status .tag{white-space:normal;overflow-wrap:anywhere;line-height:1.45}
+body[data-view="program"] #revisedPdfReviewTitle{font-size:1rem}
+body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direct-actions{margin-top:9px}
+@media(max-width:690px){
+ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"]{padding:12px 13px}
+ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direct-back{min-height:44px}
+}

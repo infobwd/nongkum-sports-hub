@@ -22,7 +22,7 @@
     const url=link(f.id);
     const title=topic+" · "+number+" · "+pairing;
     const text=[
-      "🏆 มิตรภาพเกม 2569 · ตรวจสูจิบัตรฉบับใหม่",
+      "🏆 มิตรภาพเกมส์ 2569 · ตรวจสูจิบัตรฉบับใหม่",
       topic+" | "+number,
       pairing,
       "📅 วันที่ตามสูจิบัตร: "+date,
