@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
   <link rel="stylesheet" href="./css/review.css?v=r11d6">
+  <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head>
 <body data-view="review">
 <header id="reviewHeader" class="top"><div class="shell">
@@ -134,6 +135,11 @@
     <p>เลือกข้อความทั้งหมด แล้วคัดลอกไปวางในแชท</p>
   </section>
 </main>
+<div id="reviewToast" class="review-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+  <span id="reviewToastIcon" class="review-toast-icon" aria-hidden="true">✓</span>
+  <span class="review-toast-body"><strong id="reviewToastTitle"></strong><small id="reviewToastDetail"></small></span>
+  <button id="reviewToastClose" type="button" aria-label="ปิดข้อความแจ้งเตือน">×</button>
+</div>
   <section id="pdfPreview" class="review-pdf-preview" role="dialog" aria-modal="false" aria-labelledby="pdfPreviewTitle" hidden>
   <div class="review-preview-top">
     <div class="review-preview-title">
@@ -159,6 +165,7 @@
 </nav>
 <script src="./js/shared.js"></script>
 <script src="./js/review-model.js"></script>
+<script src="./js/review-share.js?v=r12a1"></script>
 <script src="./js/review.js?v=r11d6"></script>
 </body>
 </html>
