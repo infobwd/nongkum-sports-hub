@@ -1,0 +1,133 @@
+{
+  "schema_version": "r15de-private-intake-test-v1",
+  "test_only": true,
+  "never_publish": true,
+  "notice": "ALL TEST-* IDs AND SCORES ARE SYNTHETIC. Never copy to data/public-results.json or Google Sheets production.",
+  "synthetic_fixture_registry": [
+    {
+      "id": "TEST-MATCH-001",
+      "kind": "match",
+      "sport_id": "football",
+      "division": "รุ่นจำลอง",
+      "team_a_id": "TEST-SCHOOL-A",
+      "team_b_id": "TEST-SCHOOL-B"
+    },
+    {
+      "id": "TEST-TRACK-001",
+      "kind": "track_event",
+      "sport_id": "athletics",
+      "division": "รุ่นจำลอง",
+      "lanes": [
+        {
+          "lane": 1,
+          "school_id": "TEST-SCHOOL-A"
+        },
+        {
+          "lane": 2,
+          "school_id": "TEST-SCHOOL-B"
+        }
+      ]
+    }
+  ],
+  "sample_private_intake": {
+    "intake_id": "TEST-INTAKE-001",
+    "fixture_id": "TEST-MATCH-001",
+    "sport_id": "football",
+    "division": "รุ่นจำลอง",
+    "participant_order": {
+      "team_a_id": "TEST-SCHOOL-A",
+      "team_b_id": "TEST-SCHOOL-B"
+    },
+    "transcription": {
+      "result_id": "TEST-RESULT-001",
+      "result_type": "score",
+      "score_a": 2,
+      "score_b": 1,
+      "winner_school_id": "TEST-SCHOOL-A"
+    },
+    "image_review": {
+      "quality": "clear",
+      "uncertain_fields": []
+    },
+    "evidence": {
+      "private_evidence_id": "TEST-EVIDENCE-001",
+      "pages": 1,
+      "received_at": "2026-11-05T12:00:00+07:00",
+      "sha256": null,
+      "superseded_by": null
+    },
+    "audit": {
+      "status": "approved",
+      "recorded_by": "TEST-OPERATOR-A",
+      "checked_by": "TEST-OPERATOR-B",
+      "checked_at": "2026-11-05T12:05:00+07:00",
+      "approved_by": "TEST-APPROVER-C",
+      "approved_at": "2026-11-05T12:10:00+07:00",
+      "revision": 1,
+      "correction_note": "",
+      "approval_digest": "TEST-NOT-A-REAL-CRYPTO-DIGEST"
+    }
+  },
+  "negative_cases": [
+    {
+      "id": "TEST-NEG-DUPLICATE-ID",
+      "expected_diagnostic": "DUPLICATE_RESULT",
+      "scenario": "two active result objects share TEST-RESULT-001"
+    },
+    {
+      "id": "TEST-NEG-DUPLICATE-FIXTURE",
+      "expected_diagnostic": "DUPLICATE_RESULT",
+      "scenario": "different result IDs both claim active TEST-MATCH-001"
+    },
+    {
+      "id": "TEST-NEG-UNKNOWN-FIXTURE",
+      "expected_diagnostic": "FIXTURE_NOT_FOUND",
+      "scenario": "fixture_id TEST-MISSING-999 is not in synthetic registry"
+    },
+    {
+      "id": "TEST-NEG-TEAM-ORDER",
+      "expected_diagnostic": "SPORT_TEAM_MISMATCH",
+      "scenario": "A/B reversed while score_a/score_b left unchanged"
+    },
+    {
+      "id": "TEST-NEG-WRONG-SPORT",
+      "expected_diagnostic": "SPORT_TEAM_MISMATCH",
+      "scenario": "basketball is not the fixture sport"
+    },
+    {
+      "id": "TEST-NEG-NEGATIVE-SCORE",
+      "expected_diagnostic": "SCORE_RULE_CONFLICT",
+      "scenario": "score_a -1"
+    },
+    {
+      "id": "TEST-NEG-UNCERTAIN-SET",
+      "expected_diagnostic": "IMAGE_UNREADABLE",
+      "scenario": "uncertain_fields contains set 2 score"
+    },
+    {
+      "id": "TEST-NEG-NO-APPROVAL",
+      "expected_diagnostic": "APPROVAL_PROOF_MISSING",
+      "scenario": "approved_by and approved_at missing even though status says approved"
+    },
+    {
+      "id": "TEST-NEG-STALE-DIGEST",
+      "expected_diagnostic": "APPROVAL_PROOF_MISSING",
+      "scenario": "score edited after approved digest"
+    },
+    {
+      "id": "TEST-NEG-CORRECTION",
+      "expected_diagnostic": "REVISION_CONFLICT",
+      "scenario": "public result changed without new revision and correction note"
+    },
+    {
+      "id": "TEST-NEG-FOOTBALL-PHASE",
+      "expected_diagnostic": "PHASE_UNRESOLVED",
+      "scenario": "placeholder team ranked 1 vs 4 treated as league"
+    },
+    {
+      "id": "TEST-NEG-TRACK-LANE",
+      "expected_diagnostic": "RANKING_INCOMPLETE",
+      "scenario": "one track lane has no confirmed school id"
+    }
+  ]
+}
