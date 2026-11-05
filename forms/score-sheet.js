@@ -111,11 +111,14 @@
   async function loadFixture(id){
     setStatus("loading","กำลังตรวจรหัสรายการจากสูจิบัตรฉบับร่าง…");
     try{
-      const response=await fetch("../data/draft-schedule.json?refresh="+Date.now(),{cache:"no-store"});
+      // Legacy data/draft-schedule.json is retained as a historical source, not today's printable fixture feed.
+      const response=await fetch("../data/program-from-pdf-2569-20261104-draft.json?refresh="+Date.now(),{cache:"no-store"});
       if(!response.ok)throw Error("ไม่สามารถอ่านข้อมูลต้นทาง");
       const data=await response.json();
       if(!data.metadata||data.metadata.all_data_approved!==false||
-         !Array.isArray(data.fixtures)||!Array.isArray(data.sports)||!Array.isArray(data.schools))
+         !Array.isArray(data.fixtures)||!Array.isArray(data.sports)||!Array.isArray(data.schools)||
+         !(data.metadata.source_status==="revised_pdf_draft"&&data.fixtures.length===237||
+           data.metadata.status==="prototype"))
         throw Error("ข้อมูลต้นทางไม่ผ่านการตรวจสอบ");
       const item=data.fixtures.find(x=>x.id===id);
       if(!item||!modes[item.sport_id]||(item.kind==="track_event")!==(item.sport_id==="athletics"))
@@ -125,8 +128,8 @@
       const round=(item.round||"")+(item.source_match_no?
         " / "+(item.kind==="track_event"?"รายการ ":"คู่ที่ ")+item.source_match_no:"");
       const fields={
-        division:item.division||"",round,sourcePage:String(item.source_page||""),
-        sourceTime:item.time?"ตาม PDF "+item.time+" น. (ยังรอยืนยัน)":"",
+        division:item.division||"",round,sourcePage:String(item.source_pdf?.page||item.source_page||""),
+        sourceTime:(item.source_pdf?.source_time||item.time)?"ตาม PDF "+(item.source_pdf?.source_time||item.time)+" น. (ยังรอยืนยัน)":"",
         teamA:item.kind==="track_event"?"":school(data,item.team_a_id,item.source_team_a_label),
         teamB:item.kind==="track_event"?"":school(data,item.team_b_id,item.source_team_b_label)
       };
@@ -136,8 +139,8 @@
       for(const key of sourceFields)$(key).readOnly=true;
       text("fixtureId",item.id);
       for(const key of Object.keys(fields))text(key,fields[key]);
-      const date=item.planning_date_confirmation==="confirmed"?item.planning_date:item.date;
-      const venue=item.planning_venue_confirmation==="confirmed"?item.planning_venue:item.field;
+      const date=item.planning_date_confirmation==="confirmed"?item.planning_date:(item.source_pdf?.source_date_text||item.date);
+      const venue=item.planning_venue_confirmation==="confirmed"?item.planning_venue:(item.source_pdf?.source_field||item.field);
       text("date",date);
       text("venue",venue);
       text("time",""); // actual start/end time must be recorded at the field, not copied from PDF
