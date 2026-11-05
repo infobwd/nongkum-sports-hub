@@ -4,43 +4,53 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="ดูสูจิบัตรกีฬากลุ่ม ปี 2569 ฉบับร่างตามเลขหน้า">
+  <meta name="description" content="อ่านสูจิบัตรกีฬากลุ่ม ปี 2569 แบบหนังสือทีละหน้า">
   <title>อ่านสูจิบัตร PDF ตามหน้า · มิตรภาพเกม 2569</title>
   <link rel="stylesheet" href="./css/pdf-viewer.css">
 </head>
 <body>
   <main class="pdf-app">
-    <div class="pdf-toolbar" aria-label="เครื่องมืออ่านสูจิบัตร">
+    <header class="pdf-book-header">
+      <a id="pdfBack" class="pdf-back" href="./review.html" aria-label="ปิด PDF และกลับไปตรวจรายการ">← กลับไปตรวจรายการ</a>
+      <span class="pdf-book-title">สูจิบัตรมิตรภาพเกม <small>ฉบับร่าง · 2569</small></span>
+      <details id="pdfTools" class="pdf-book-tools">
+        <summary aria-label="ตัวเลือกการอ่าน PDF">⋯ <span>ตัวเลือก</span></summary>
+        <div class="pdf-tools-panel">
+          <div class="pdf-fit-controls" role="group" aria-label="รูปแบบการแสดง PDF">
+            <button id="pdfFitWidth" type="button" aria-pressed="true" aria-label="แสดง PDF พอดีความกว้าง">พอดีกว้าง</button>
+            <button id="pdfFitPage" type="button" aria-pressed="false" aria-label="แสดง PDF ทั้งหน้า">ทั้งหน้า</button>
+          </div>
+          <div class="pdf-zoom-controls" role="group" aria-label="ขยายหรือย่อหน้า PDF">
+            <button id="pdfZoomOut" type="button" aria-label="ย่อภาพ PDF" disabled>−</button>
+            <span id="pdfZoomLabel" role="status">พอดีความกว้าง</span>
+            <button id="pdfZoomIn" type="button" aria-label="ขยายภาพ PDF" disabled>+</button>
+          </div>
+          <a id="pdfOpenOriginal" class="pdf-open-original" href="./assets/souvenir-2569-v2.pdf#page=1" target="_blank" rel="noopener noreferrer">เปิดไฟล์เต็ม</a>
+        </div>
+      </details>
+    </header>
+    <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite">กำลังเปิดสูจิบัตร PDF…</p>
+    <div id="pdfCanvasHost" class="pdf-canvas-host" aria-label="หน้าหนังสือ ปัดซ้ายหรือขวาเพื่อเปลี่ยนหน้าเมื่อไม่ได้ขยาย">
+      <canvas id="pdfCanvas" aria-label="หน้าสูจิบัตร PDF"></canvas>
+    </div>
+    <p class="pdf-swipe-hint">ปัดซ้าย–ขวาเพื่อเปลี่ยนหน้า · แตะสองครั้งหรือใช้สองนิ้วเพื่อขยาย</p>
+    <nav class="pdf-toolbar pdf-bottom-bar" aria-label="เปลี่ยนหน้าหนังสือ">
       <div class="pdf-page-controls">
-        <button id="pdfPrev" type="button" aria-label="หน้าก่อนหน้า" disabled>‹</button>
+        <button id="pdfPrev" type="button" aria-label="หน้าก่อนหน้า" disabled>‹ <span>ก่อนหน้า</span></button>
         <label class="pdf-page-field">หน้า
           <input id="pdfPage" type="number" min="1" max="41" inputmode="numeric" aria-label="หมายเลขหน้า PDF" value="1">
         </label>
         <span id="pdfTotal" class="pdf-page-total">/ 41</span>
-        <button id="pdfNext" type="button" aria-label="หน้าถัดไป" disabled>›</button>
+        <button id="pdfNext" type="button" aria-label="หน้าถัดไป" disabled><span>ถัดไป</span> ›</button>
       </div>
-      <div class="pdf-fit-controls" role="group" aria-label="รูปแบบการแสดง PDF">
-        <button id="pdfFitWidth" type="button" aria-pressed="true" aria-label="แสดง PDF พอดีความกว้าง">พอดีกว้าง</button>
-        <button id="pdfFitPage" type="button" aria-pressed="false" aria-label="แสดง PDF ทั้งหน้า">ทั้งหน้า</button>
-      </div>
-      <div class="pdf-zoom-controls">
-        <button id="pdfZoomOut" type="button" aria-label="ย่อภาพ PDF" disabled>−</button>
-        <span id="pdfZoomLabel">พอดีความกว้าง</span>
-        <button id="pdfZoomIn" type="button" aria-label="ขยายภาพ PDF" disabled>+</button>
-      </div>
-      <a id="pdfOpenOriginal" class="pdf-open-original" href="./assets/souvenir-2569-v2.pdf#page=1" target="_blank" rel="noopener noreferrer">เปิดไฟล์เต็ม</a>
-    </div>
-    <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite">กำลังเปิดสูจิบัตร PDF…</p>
-    <div id="pdfCanvasHost" class="pdf-canvas-host">
-      <canvas id="pdfCanvas" aria-label="หน้าสูจิบัตร PDF"></canvas>
-    </div>
+    </nav>
     <section id="pdfFailure" class="pdf-failure" role="alert" hidden>
       <strong>ไม่สามารถแสดง PDF ภายในเว็บได้</strong>
       <p>อาจเกิดจากการเชื่อมต่อหรือเบราว์เซอร์ไม่รองรับการอ่าน PDF ในหน้านี้</p>
       <a id="pdfFallback" href="./assets/souvenir-2569-v2.pdf#page=1" target="_blank" rel="noopener noreferrer">เปิด PDF โดยตรงในเบราว์เซอร์</a>
       <button id="pdfRetry" type="button">ลองใหม่อีกครั้ง</button>
     </section>
-    <p class="pdf-draft">สูจิบัตรฉบับร่างสำหรับตรวจสอบ • ข้อมูลยังไม่ใช่ประกาศแข่งขันทางการ</p>
+    <p class="pdf-draft">สูจิบัตรฉบับร่างสำหรับตรวจสอบ • ไม่ใช่โปรแกรมแข่งขันที่รับรองแล้ว</p>
   </main>
   <script type="module" src="./js/pdf-viewer.js"></script>
 </body>
