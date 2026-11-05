@@ -13,6 +13,7 @@ on:
       - "scripts/ux/test-pdf-viewer-r11d2.mjs"
       - "scripts/ux/test-review-r11d3.mjs"
       - "scripts/ux/test-pdf-book-reader-r11d4.mjs"
+      - "scripts/ux/test-review-r11d5.mjs"
       - "pdf-viewer.html"
       - "js/pdf-viewer.js"
       - "css/pdf-viewer.css"
@@ -31,6 +32,7 @@ on:
       - "scripts/ux/test-pdf-viewer-r11d2.mjs"
       - "scripts/ux/test-review-r11d3.mjs"
       - "scripts/ux/test-pdf-book-reader-r11d4.mjs"
+      - "scripts/ux/test-review-r11d5.mjs"
       - "pdf-viewer.html"
       - "js/pdf-viewer.js"
       - "css/pdf-viewer.css"
@@ -57,6 +59,8 @@ jobs:
         run: node scripts/ux/test-review-r11d3.mjs
       - name: R11D.4 mobile book-style PDF reader and safe return
         run: node scripts/ux/test-pdf-book-reader-r11d4.mjs
+      - name: R11D.5 iOS Safe Area and review disclosure regression
+        run: node scripts/ux/test-review-r11d5.mjs
       - name: R11A deterministic source contract
         run: node scripts/data/reconcile-program-r11a.mjs --check
       - name: Existing program and LINE deep-link regression

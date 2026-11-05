@@ -189,13 +189,8 @@ body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-col
  .review-preview-close{font-size:.78rem;max-width:45vw}
  .review-preview-footer{font-size:.68rem}
 }
-@supports (-webkit-touch-callout: none){
- @media(max-width:1000px){
-  body[data-view="review"]:before{content:"";position:fixed;inset:0 0 auto;height:max(44px,env(safe-area-inset-top,0px));background:#f7f9fc;z-index:120;pointer-events:none}
-  body.review-pdf-open:before{z-index:181;background:#f7f9fc}
- }
-}
-
+/* R11D.5: iOS safe area uses shared html/body padding and background.
+   Do not insert a fixed pseudo-element: it masks text when Safari scrolls. */
 
 /* Public same-origin preview/download, with private-Drive link retained only as reference. */
 .review-pdf-link-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -238,7 +233,6 @@ body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-col
   body.review-pdf-open{overflow:hidden}
   body.review-pdf-open .review-pdf-preview{z-index:1300}
   body.review-pdf-open .mobile-nav{display:none!important}
-  body.review-pdf-open:before{display:none!important}
 }
 @media(max-width:800px){.review-pdf-inner{flex-wrap:wrap}}
 @media(max-width:690px){
@@ -270,3 +264,17 @@ body.review-pdf-open .review-filter-grid.review-filter-primary{grid-template-col
   .review-pdf-link-group .review-pdf-link{flex:1;min-width:120px;font-size:.73rem;padding:8px}
 }
 @media print{.review-pdf-toggle-hint{display:none}}
+
+/* R11D.5 — small teacher-facing review refinements, no overlays. */
+.review-extra-filters>summary{border-radius:8px}
+.review-extra-filters>summary:focus-visible,.review-card-details>summary:focus-visible,.review-admin-codes>summary:focus-visible{outline:3px solid #edc047;outline-offset:2px}
+.review-collapse-filters{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:7px 13px;border:1px solid #b9cfe2;border-radius:10px;background:#f4f8fc;color:#205784;font:inherit;font-size:.8rem;font-weight:800;touch-action:manipulation;justify-self:start;grid-column:1/-1}
+.review-collapse-filters:active{background:#e1edfa}
+.review-extra-filters>summary #reviewExtraHint:not(:empty){border:1px solid #c9d9e8;border-radius:999px;background:#edf4fc;padding:2px 7px;color:#285a83}
+.review-card-details:not([open])>.review-extra-content{display:none}
+.review-admin-codes:not([open])>:not(summary){display:none}
+@media(max-width:690px){
+ .review-extra-filter-content{gap:9px}
+ .review-extra-filter-content .review-filter-note{font-size:.75rem}
+ .review-collapse-filters{width:100%}
+}
