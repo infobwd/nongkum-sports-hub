@@ -148,3 +148,18 @@ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direc
 .fixture .source-details summary{min-height:44px;display:flex;align-items:center}
 @media(max-width:690px){.fixture-meta-item{padding:8px 10px}}
 @media print{.fixture-source-actions{display:none}}
+
+
+/* R16: date-group program listing; sport names stay visible on every card. */
+.schedule-day{margin:20px 0 22px;scroll-margin-top:calc(var(--safe-top) + 65px)}
+.day-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border-bottom:1px solid #cdddeb;padding:0 3px 9px;margin-bottom:10px}
+.day-heading h3{margin:0;color:#173e65;font-weight:800;font-size:1.02rem;line-height:1.45}
+.day-count{flex:none;white-space:nowrap;font-size:.75rem;font-weight:700;
+  color:#45657f;background:#e8eff8;padding:4px 9px;border-radius:999px}
+.schedule-day.awaiting-date .day-heading{border-color:#eed69b}
+.schedule-day.awaiting-date .day-heading h3{color:#845a1d}
+.day-warning{font-size:.78rem;color:#795b22;margin:0 0 9px}
+.fixture .sport-name{font-size:.78rem;font-weight:800;color:#244d73}
+@media(max-width:690px){.schedule-day{margin:16px 0 20px}.day-heading h3{font-size:.94rem}}
+@media print{.schedule-day{break-before:auto}.day-heading{break-after:avoid}}
