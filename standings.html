@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183762">
+  <meta name="description" content="มิตรภาพเกมส์ 2569 — ตารางอันดับการแข่งขันที่ผ่านการรับรอง">
+  <title>ตารางอันดับ — มิตรภาพเกมส์ 2569</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/results.css">
+  <link rel="stylesheet" href="./css/standings.css?v=r15a1">
+</head>
+<body data-view="standings">
+<header class="top"><div class="shell">
+  <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">เฉพาะข้อมูลรับรอง</span></div>
+  <nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html" data-nav-view="program" id="programLink">โปรแกรมการแข่งขัน</a><a href="./results.html" data-nav-view="results" aria-current="page">ผลการแข่งขัน</a></nav>
+  <div class="hero"><h1>ตารางอันดับ · ปี 2569</h1></div>
+</div></header>
+<main class="shell">
+  <nav class="results-subnav" aria-label="มุมมองผลการแข่งขัน">
+    <a id="resultsSubResults" href="./results.html">ผลรายคู่</a>
+    <a id="resultsSubStandings" href="./standings.html" aria-current="page">ตารางอันดับ</a>
+  </nav>
+  <section class="result-panel" aria-labelledby="standingsFiltersHeading">
+    <h2 id="standingsFiltersHeading">เลือกโรงเรียนและกีฬา</h2>
+    <div class="result-controls">
+      <div><label class="fieldlabel" for="standingsSchool">โรงเรียนของฉัน</label><select id="standingsSchool"><option value="">ทุกโรงเรียน</option></select></div>
+      <div><label class="fieldlabel" for="standingsLevel">ช่วงชั้น</label><select id="standingsLevel"><option value="">ทุกช่วงชั้น</option><option value="early">ก่อนเรียน / ปฐมวัย</option><option value="primary">ประถม</option><option value="secondary">มัธยม</option></select></div>
+    </div>
+    <div class="filter-title"><span class="fieldlabel" id="standingsSportLabel">ชนิดกีฬา</span><span class="hint">ปัดดูเพิ่มเติม →</span></div>
+    <div id="standingsSports" class="result-sport-chips" role="group" aria-labelledby="standingsSportLabel"></div>
+  </section>
+  <section id="standingsListing" aria-labelledby="standingsHeading" aria-busy="true">
+    <div class="results-top">
+      <h2 id="standingsHeading">ตารางอันดับ</h2>
+      <div class="data-actions"><span id="standingsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" class="refresh-button" id="refreshStandings">↻ รีเฟรช</button></div>
+    </div>
+    <p id="standingsStatus" class="refresh-status" role="status" aria-live="polite"></p>
+    <p id="standingsPublishedAt" class="result-meta"></p>
+    <div id="standingsSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
+    <div id="standingsFailure" class="load-failure" role="alert" hidden><strong>ยังโหลดข้อมูลผลการแข่งขันไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง</p><button id="retryStandings" class="load-retry" type="button">↻ ลองอีกครั้ง</button></div>
+    <div id="standingsEmpty" class="status-empty standings-empty" hidden>
+      <div class="standings-empty-symbol" aria-hidden="true">🏆</div>
+      <h2>ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง</h2>
+      <p>ตารางอันดับจะแสดงเมื่อมีผลจริงและคณะกรรมการรับรองหลักเกณฑ์จัดอันดับแล้ว</p>
+      <a class="standings-home-link" href="./results.html" id="emptyResultsLink">ดูผลการแข่งขันรายคู่</a>
+    </div>
+    <div id="standingsPendingRules" class="status-empty standings-empty" hidden>
+      <div class="standings-empty-symbol" aria-hidden="true">📋</div>
+      <h2>รอรับรองหลักเกณฑ์การจัดอันดับ</h2>
+      <p id="standingsPendingDetails">ผลที่รับรองแล้วจะถูกนำมาคำนวณเมื่อหลักเกณฑ์ผ่านการตรวจรับ</p>
+      <a class="standings-home-link" href="./results.html" id="pendingResultsLink">ดูผลการแข่งขันที่รับรองแล้ว</a>
+    </div>
+    <p class="standings-scope-note">หน้านี้ยังไม่แสดงอันดับหรือคะแนนรวมจนกว่าจะตรวจรับกติกาและระบบคำนวณตามแผน R15-B</p>
+  </section>
+</main>
+<footer class="shell">มิตรภาพเกมส์ ปี 2569 · ตารางอันดับใช้ผลที่ผ่านการรับรองเท่านั้น</footer>
+<nav id="mobileTabNav" class="mobile-nav" aria-label="สลับระหว่างตารางแข่งและผลการแข่งขัน">
+  <a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="โปรแกรมการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg><span>ตารางแข่ง</span>
+  </a>
+  <a id="mobileResultsLink" data-nav-view="results" aria-current="page" href="./results.html" aria-label="ผลการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg><span>ผลแข่งขัน</span>
+  </a>
+</nav>
+<div id="navigationNotice" class="sr-only" role="status" aria-live="polite"></div>
+<script src="./js/shared.js"></script>
+<script src="./js/navigation.js"></script>
+<script src="./js/standings.js?v=r15a1"></script>
+</body>
+</html>

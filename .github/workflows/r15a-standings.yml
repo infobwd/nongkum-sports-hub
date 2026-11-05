@@ -1,0 +1,39 @@
+name: R15-A Standings UI shell
+on:
+  pull_request:
+    paths:
+      - "standings.html"
+      - "results.html"
+      - "css/standings.css"
+      - "js/standings.js"
+      - "js/results.js"
+      - "scripts/results/test-standings-r15a.mjs"
+      - ".github/workflows/r15a-standings.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "standings.html"
+      - "results.html"
+      - "css/standings.css"
+      - "js/standings.js"
+      - "js/results.js"
+      - "scripts/results/test-standings-r15a.mjs"
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  standings-shell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: R15-A UI and approval safeguards
+        run: node scripts/results/test-standings-r15a.mjs
+      - name: Existing approved-only results
+        run: node scripts/results/test-results.mjs
+      - name: Mobile navigation and preserved filters
+        run: node scripts/ux/test-mobile-navigation-r6.mjs
+      - name: Existing loading states
+        run: node scripts/ux/test-loading-r9.mjs
