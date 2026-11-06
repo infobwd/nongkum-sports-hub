@@ -48,8 +48,8 @@ def excerpt(pdf,p,cap=""):
 def style(font):
  uri=font.as_uri()
  bold=font.with_name("NotoSansThai-Bold.ttf").as_uri() if font.with_name("NotoSansThai-Bold.ttf").exists() else uri
- return """@font-face{font-family:NotoThai;src:url('%s');font-weight:400}
-@font-face{font-family:NotoThai;src:url('%s');font-weight:700}
+ return """@font-face{font-family:NotoThai;src:url('@@FONT@@');font-weight:400}
+@font-face{font-family:NotoThai;src:url('@@BOLD@@');font-weight:700}
 @page{size:A4;margin:17mm 15.5mm 16.5mm 15.5mm;
  @top-left{content:"มิตรภาพเกมส์ 2569 | สูจิบัตร V4 (ร่าง)";font-size:8pt;color:#647e98}
  @top-right{content:"ร่างสำหรับตรวจ ไม่ใช่ประกาศรับรอง";font-size:8pt;color:#8c6a31}
@@ -94,7 +94,7 @@ p{margin-bottom:2.3mm}
 .cover-bottom strong{font-size:12pt}.cover-bottom p{font-size:9pt;color:#536f87}
 .cover .seal{display:inline-block;background:#ffe6a2;color:#72521d;padding:1mm 3mm;border-radius:5px;font-size:8pt;margin-bottom:4mm}
 .score td{height:13mm}
-"""%(uri,bold)
+""".replace("@@FONT@@",uri).replace("@@BOLD@@",bold)
 def pick_font():
  from pathlib import Path
  for p in (Path("/usr/share/fonts/truetype/noto/NotoSansThai-Regular.ttf"),
