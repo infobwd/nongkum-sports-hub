@@ -181,3 +181,14 @@
 - Do not commit the original Drive photo, children's identities, private Drive IDs or cover PDF with recognizable children to public repo
 - Do not modify V42-B–F source content or official live PDF; integrating image slots waits for a separate renderer PR and rights confirmation
 - Recommended immediate content work: **V42-B พิธีเปิด–ปิด** (especially 08.45 subevents), followed by V42-C → D → E → F
+
+## 9. Updated selected cover — 7 November 2026
+
+**FULL PHOTO + SPORT TITLE APPROVED 2026-11-07.** ผู้จัดเห็นชอบปก A4 จาก **ภาพแนวตั้งใหม่ใน Google Drive** แบบ Full Photo Cover V2 และอนุมัติ style ชื่อ “มิตรภาพเกมส์ 2569” แบบ sport display ที่เพิ่มลูกเล่นเส้นขอบ/เงา/สีทอง โดยยืนยันว่าข้อมูลส่วนอื่นของปกเหมาะสมอยู่แล้ว
+
+ใช้ [บันทึกผลตรวจรับปก V2 ล่าสุด](R11C_V42_VIS_COVER_A4_LAYOUT_TRIAL_20261107.md) หมวด 8 เป็น **current selected cover direction**; บันทึกปกแนวนอนเดิมเป็นประวัติ ไม่ใช่ข้อกำหนดล่าสุด
+
+- Approved scope: visual composition and title style only.
+- Pending: publication rights/consent and A4 image print-quality; do not infer a specific embedded Thai font from an image.
+- Render final title as accurate searchable Thai text with proper Sara Am and tone marks; do not place images of identifiable children in public repo.
+- Next workstream: **V42-B opening/closing ceremony**, separate PR; cover integration later after assets clearance.
