@@ -26,7 +26,15 @@
       }
     ],
     "source_document_ids_included": false,
-    "publication_gate": "No teacher names or person IDs in this public planning JSON until separate authorization and approval"
+    "publication_gate": "No teacher names or person IDs in this public planning JSON until separate authorization and approval",
+    "primary_venue_2569": {
+      "school_id": "nongkrathum",
+      "name": "โรงเรียนบ้านหนองกระทุ่ม",
+      "confirmation_state": "confirmed_for_all_sports",
+      "confirmation_scope": "สนามหลัก (โรงเรียน) สำหรับ 9 ชนิดกีฬา ไม่ใช่การรับรองสนามย่อย วัน เวลา หรือกรรมการรายบุคคล",
+      "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md",
+      "confirmed_date": "2026-11-06"
+    }
   },
   "school_crosswalk": [
     {
@@ -231,7 +239,13 @@
       "legacy_2568_section": "14.1",
       "legacy_2568_venue_school_id": "saohong",
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -253,7 +267,13 @@
       "legacy_2568_section": null,
       "legacy_2568_venue_school_id": null,
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -278,7 +298,13 @@
       "legacy_2568_section": "14.2",
       "legacy_2568_venue_school_id": "nongkrathum",
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -303,7 +329,13 @@
       "legacy_2568_section": "14.3",
       "legacy_2568_venue_school_id": "rangkham",
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -328,7 +360,13 @@
       "legacy_2568_section": "14.4",
       "legacy_2568_venue_school_id": "thungmasang",
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -361,8 +399,14 @@
       "legacy_venue_is_current": false,
       "current_2569_venue": {
         "school_id": "nongkrathum",
-        "confirmed_scope": "เปตองนอกรอบ 12–13 พฤศจิกายน 2569 เท่านั้น",
-        "validation_note": "ยืนยันวันและสนาม; ไม่ยืนยันการแต่งตั้งกรรมการรายบุคคล"
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md",
+        "offround_12_13_nov_2026": {
+          "confirmed_scope": "เปตองนอกรอบ 12–13 พฤศจิกายน 2569 เท่านั้น",
+          "validation_note": "ยืนยันวันและสนาม; ไม่ยืนยันการแต่งตั้งกรรมการรายบุคคล"
+        }
       },
       "proposed_role_keys": [
         "chair",
@@ -388,7 +432,13 @@
       "legacy_2568_section": "14.6",
       "legacy_2568_venue_school_id": "wangdong",
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -416,7 +466,13 @@
       "legacy_2568_section": "14.6",
       "legacy_2568_venue_school_id": "nongkrathum",
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -438,7 +494,13 @@
       "legacy_2568_section": "15–19",
       "legacy_2568_venue_school_id": null,
       "legacy_venue_is_current": false,
-      "current_2569_venue": null,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "name": "โรงเรียนบ้านหนองกระทุ่ม",
+        "confirmation_state": "confirmed_main_school_venue",
+        "confirmed_scope": "สนามหลัก (โรงเรียน) เท่านั้น ไม่ใช่สนามย่อย เวลาแข่งขัน หรือการแต่งตั้งกรรมการ",
+        "source_document": "docs/SPORTS_VENUE_AND_P08_P14_CONFIRMATION_20261106.md"
+      },
       "proposed_role_keys": [
         "chair",
         "eligibility_check",
@@ -452,7 +514,8 @@
       "assignments_2569": [],
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
-      "source_warnings": []
+      "source_warnings": [],
+      "candidate_event_count": 50
     }
   ],
   "divisions": [
@@ -761,5 +824,14 @@
     ],
     "public_person_export_default": "disabled",
     "display_before_approval": "แสดงหน้าที่และสถานะรอยืนยันเท่านั้น"
+  },
+  "report_metadata": {
+    "report_type": "public_preparation_status_only",
+    "report_revision": "R19-A/C.1",
+    "report_title": "ความพร้อมกรรมการและฝ่ายจัดการแข่งขัน",
+    "caution_th": "รายชื่อและหน้าที่กรรมการปี 2569 ยังไม่มีหลักฐานรับรองในชุดข้อมูลนี้; แม่แบบฝ่ายมาจากคำสั่งปี 2568",
+    "total_athletics_events_in_candidate": 50,
+    "publication_state": "planning_only",
+    "person_name_export_allowed": false
   }
 }
