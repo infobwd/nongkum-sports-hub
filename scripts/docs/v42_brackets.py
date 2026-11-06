@@ -45,7 +45,19 @@ def analyze(fixtures):
                     links.append({"target":x["id"],"source_ids":[z["id"] for z in sources],
                                  "source_numbers":[z["source_match_no"] for z in sources],
                                  "target_number":x.get("source_match_no")})
-                    total_edges+=2
+        # A 4→2→1 knockout cannot send the same first-round winner into both semifinals.
+        # In V3 petanque 10-year boys, one semi cites pair 2 twice across the two semis.
+        if len(stages["first"])==4 and len(stages["semifinal"])==2 and len(stages["final"])==1:
+            semi_ids={z["id"] for z in stages["semifinal"]}
+            semifinal_links=[z for z in links if z["target"] in semi_ids]
+            if len(semifinal_links)==2:
+                first_ids=[src for link in semifinal_links for src in link["source_ids"]]
+                expected_ids=[z["id"] for z in stages["first"]]
+                if Counter(first_ids)!=Counter(expected_ids):
+                    problems.append({"cause":"first-round winner reused or omitted across semifinals",
+                                     "source_ids":first_ids})
+                    links=[z for z in links if z["target"] not in semi_ids]
+        total_edges+=2*len(links)
         if len(stages["semifinal"])>=2 and len(stages["final"])>=1 and len(stages["first"])>=3 and not links:
             problems.append({"cause":"round progression cannot be reconstructed"})
         complete=(len(stages["first"])==4 and len(stages["semifinal"])==2 and len(stages["final"])==1
