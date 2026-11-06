@@ -8,6 +8,7 @@ const page=readFileSync(new URL("../../index.html",import.meta.url),"utf8");
 const shared=readFileSync(new URL("../../js/shared.js",import.meta.url),"utf8");
 const program=readFileSync(new URL("../../js/program.js",import.meta.url),"utf8");
 const sorter=readFileSync(new URL("../../js/schedule-order.js",import.meta.url),"utf8");
+const corrections=readFileSync(new URL("../../js/program-corrections.js",import.meta.url),"utf8");
 const styles=readFileSync(new URL("../../css/base.css",import.meta.url),"utf8")+"\n"+readFileSync(new URL("../../css/program.css",import.meta.url),"utf8");
 const html=page+"\n"+program+"\n"+styles;
 const data=JSON.parse(readFileSync(new URL("../../data/draft-schedule.json",import.meta.url),"utf8"));
@@ -61,6 +62,7 @@ async function mount(url,source=data){
   });
   new vm.Script(shared).runInContext(ctx);
   new vm.Script(sorter).runInContext(ctx);
+  new vm.Script(corrections).runInContext(ctx);
   new vm.Script(program).runInContext(ctx);
   for(let i=0;i<8;i++)await Promise.resolve();
   return {els,history,localStore};
