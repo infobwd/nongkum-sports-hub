@@ -33,8 +33,8 @@ assert.ok(count>=2,"real fixture contains multiple-role name");
 assert.equal(h.teacherAssignments(roster,school,name).length,count,"all separate role rows remain");
 assert.ok(h.teacherMatches(roster,school,name.slice(0,4)).some(x=>x.name===name));
 assert.equal(h.teacherAssignments(roster,"saohong",name).some(x=>x.school_id===school),false,"no cross-school joins");
-assert.deepEqual(h.sportSchedule(program,"petanque").confirmed.map(x=>x.date),
-  ["2026-11-12","2026-11-13","2026-11-16"]);
+assert.equal(h.sportSchedule(program,"petanque").confirmed.map(x=>x.date).join(","),
+  "2026-11-12,2026-11-13,2026-11-16");
 assert.equal(h.sportSchedule(program,"petanque").confirmed.reduce((n,x)=>n+x.count,0),38);
 assert.equal(h.sportSchedule(program,"football").confirmed.length,0,"PDF dates must not become confirmed");
 assert.equal(h.sportSchedule(program,"shootout").confirmed[0].date,"2026-11-16");
