@@ -234,67 +234,107 @@
     ui.revision.textContent="รายชื่อสำหรับตรวจทาน · "+(state.roster?.revision||"R19-E")+" · ยังไม่ใช่คำสั่งแต่งตั้งที่รับรอง";
   }
   function renderSports(){
-    const items=filteredSports(state.data,{sport:ui.sport.value,division:ui.division.value,query:ui.search.value});
-    for(const {sport:s,divisions} of items){
-      const a=card(s.sport_name,s.sport_id==="athletics"?"กรีฑา · รายการแยกจากรุ่นกีฬา":"ชนิดกีฬา · "+divisions.length+" รุ่นที่แสดง");
+    const term=norm(ui.search.value);
+    const filtered=filteredSports(state.data,{
+      sport:ui.sport.value,division:ui.division.value,query:""
+    });
+    let count=0;
+    for(const {sport:s,divisions} of filtered){
+      const people=personRows(state.roster,{
+        school:ui.school.value,sport:s.sport_id,search:term
+      });
+      const titleMatch=norm([s.sport_name,s.sport_id,divisions.map(x=>x.label).join(" ")].join(" ")).includes(term);
+      if(term&&!titleMatch&&!people.length)continue;
+      const allPeople=personRows(state.roster,{school:ui.school.value,sport:s.sport_id});
+      if(ui.school.value&&!allPeople.length)continue;
+      const a=card(s.sport_name,"ชนิดกีฬา · "+divisions.length+" รุ่นที่แสดง");
       if(s.sport_id==="athletics"){
-        detail(a,"กรีฑา "+(s.candidate_event_count||state.data.report_metadata?.total_athletics_events_in_candidate||0)+" รายการในชุดแข่งขันที่กำลังตรวจ");
+        detail(a,"กรีฑา "+(s.candidate_event_count||50)+" รายการในชุดแข่งขันที่กำลังตรวจ");
       }else if(divisions.length){
         const list=make("ul","committee-division-list");
-        divisions.forEach(d=>list.appendChild(make("li","","รายการ "+d.catalog_no+" · "+d.label)));
+        for(const d of divisions)list.appendChild(make("li","","รายการ "+d.catalog_no+" · "+d.label));
         a.appendChild(list);
       }
-      const found=s.draft_2569_named_role_rows_observed;
-      if(Number.isInteger(found))
-        detail(a,found>0?"พบ "+found+" บรรทัดชื่อกรรมการในสูจิบัตรร่างปี 2569 (รอรับรอง)":
-          "ยังไม่พบหมวดรายชื่อกรรมการเฉพาะชนิดนี้ในร่างคำสั่ง");
-      a.appendChild(make("h4","","บทบาทที่เสนอสำหรับวางแผน"));
-      const roles=make("div","committee-roles");
-      for(const k of s.proposed_role_keys||[]){
-        const label=state.data.proposed_role_catalog.find(r=>r.role===k)?.label;
-        if(label)roles.appendChild(make("span","committee-role",label));
-      }
-      a.appendChild(roles);
-      stateNote(a,"ข้อมูลกรรมการปี 2569: รอการแต่งตั้งและรับรอง");
-      detail(a,"สนามหลัก: โรงเรียนบ้านหนองกระทุ่ม (ยืนยันเฉพาะโรงเรียน)");
-      if(s.legacy_2568_section)detail(a,"แม่แบบหน้าที่: ข้อ "+s.legacy_2568_section+" จากคำสั่งปี 2568");
-      else detail(a,"ไม่มีฝ่ายเฉพาะในคำสั่งเก่าที่ใช้เป็นแม่แบบ");
-      ui.cards.appendChild(a);
+      if(s.sport_id==="shootout")
+        detail(a,"คำสั่งร่างยังไม่มีหมวดรายชื่อกรรมการยิงจุดโทษโดยเฉพาะ");
+      appendPersonNames(a,titleMatch?allPeople:people);
+      if(ui.division.value)
+        detail(a,"รายชื่อในร่างผูกระดับชนิดกีฬา ยังไม่ได้ยืนยันว่าคนใดทำหน้าที่ในรุ่นที่เลือก");
+      stateNote(a,"รายชื่อฉบับร่างปี 2569 · กรุณาตรวจตัวสะกดและบทบาท");
+      detail(a,"สนามหลัก: โรงเรียนบ้านหนองกระทุ่ม (ยืนยันเฉพาะสถานที่)");
+      ui.cards.appendChild(a);count++;
     }
-    return items.length;
+    return count;
   }
   function renderGroups(){
     const term=norm(ui.search.value);
-    const groups=state.data.legacy_committee_groups.filter(g=>!term||norm(g.name+" "+g.section).includes(term));
-    for(const g of groups){
-      const a=card(g.name,"ฝ่ายที่ "+g.section+" · คำสั่งปี 2568");
-      const draftN=state.data.draft_source_review?.by_committee_section?.[g.section];
-      if(Number.isInteger(draftN))detail(a,"พบ "+draftN+" บรรทัดชื่อในสูจิบัตรร่างปี 2569");
-      stateNote(a,"เป็นหมวดสำหรับวางแผน; ชื่อจากคำสั่งร่างปี 2569 ยังไม่ผ่านการรับรอง");
-      ui.cards.appendChild(a);
+    let count=0;
+    for(const group of state.roster.sections){
+      const all=personRows(state.roster,{school:ui.school.value,section:group.id});
+      const matching=personRows(state.roster,{
+        school:ui.school.value,section:group.id,search:term
+      });
+      const titleMatch=norm(group.title+" "+group.id).includes(term);
+      if(term&&!titleMatch&&!matching.length)continue;
+      if(ui.school.value&&!all.length)continue;
+      const a=card(group.title,"ฝ่ายที่ "+group.id+" · ร่างสูจิบัตร 2569");
+      appendPersonNames(a,titleMatch?all:matching);
+      stateNote(a,"โรงเรียนควรตรวจรายชื่อก่อนผู้จัดรับรอง");
+      ui.cards.appendChild(a);count++;
     }
-    return groups.length;
+    return count;
   }
   function renderSchools(){
     const term=norm(ui.search.value);
-    const schools=state.data.school_crosswalk.filter(s=>!term||norm(s.name).includes(term));
-    for(const s of schools){
-      const a=card(s.name,"โรงเรียนในเครือข่ายหนองกุ่ม");
-      detail(a,"รหัสโรงเรียนอ้างอิงตรงกับทะเบียนสาธารณะ Sillapa");
-      stateNote(a,"ยังไม่มีข้อมูลการมอบหมายกรรมการปี 2569 ที่รับรองในชุดนี้");
-      ui.cards.appendChild(a);
+    let count=0;
+    for(const school of state.data.school_crosswalk){
+      if(ui.school.value&&school.sports_school_id!==ui.school.value)continue;
+      const all=personRows(state.roster,{school:school.sports_school_id});
+      const matching=personRows(state.roster,{
+        school:school.sports_school_id,search:term
+      });
+      const titleMatch=norm(school.name).includes(term);
+      if(term&&!titleMatch&&!matching.length)continue;
+      const a=card(school.name,"โรงเรียนเครือข่าย · "+all.length+" รายการจากร่าง");
+      appendPersonNames(a,titleMatch?all:matching);
+      const link=make("a","committee-school-review-link","ไปตรวจและส่งผลยืนยันของโรงเรียน");
+      link.href="./committee-review.html";
+      a.appendChild(link);
+      stateNote(a,"รายชื่อจากร่างปี 2569 ยังรอการตรวจจากโรงเรียน");
+      ui.cards.appendChild(a);count++;
     }
-    return schools.length;
+    if(!ui.school.value){
+      const outside=state.roster.entries.filter(x=>x.school_id===null);
+      const matched=personRows(state.roster,{search:term}).filter(x=>x.school_id===null);
+      const titleMatch=norm("ส่วนกลาง ภายนอก รอตรวจสังกัด").includes(term);
+      if(outside.length&&(!term||titleMatch||matched.length)){
+        const a=card("ส่วนกลาง / หน่วยงานภายนอก / รอตรวจสังกัด","ร่างปี 2569 · "+outside.length+" รายการ");
+        appendPersonNames(a,titleMatch?outside:matched);
+        stateNote(a,"ไม่โยนรายชื่อให้โรงเรียนใดโดยเดาสังกัด");
+        ui.cards.appendChild(a);count++;
+      }
+    }
+    return count;
   }
   function renderReview(){
     const term=norm(ui.search.value);
-    const flags=state.data.review_flags.filter(f=>!term||norm(f.code+" "+f.detail).includes(term));
-    for(const f of flags){
-      const a=card(f.detail,"ประเด็นตรวจ · "+f.code);
-      stateNote(a,"ต้องตรวจหลักฐาน/รับรองก่อนนำข้อมูลไปใช้เป็นคำสั่งจริง");
-      ui.cards.appendChild(a);
+    let count=0;
+    for(const flag of state.data.review_flags){
+      if(term&&!norm(flag.code+" "+flag.detail).includes(term))continue;
+      const a=card(flag.detail,"ประเด็นตรวจ · "+flag.code);
+      stateNote(a,"ต้องตรวจต้นฉบับก่อนใช้อ้างอิงเป็นคำสั่งรับรอง");
+      ui.cards.appendChild(a);count++;
     }
-    return flags.length;
+    const flagged=personRows(state.roster,{
+      school:ui.school.value,search:term
+    }).filter(r=>r.flags.length);
+    if(flagged.length){
+      const a=card("รายชื่อที่ควรตรวจข้อความจากร่างสูจิบัตร","รายการที่ติดเครื่องหมายตรวจ · "+flagged.length);
+      appendPersonNames(a,flagged);
+      stateNote(a,"ยังไม่ได้แก้ข้อมูลต้นฉบับเอง กรุณาแจ้งผู้จัด");
+      ui.cards.appendChild(a);count++;
+    }
+    return count;
   }
   function redraw(){
     if(!state.data)return;
@@ -308,8 +348,8 @@
     ui.cards.replaceChildren();
     const count=state.mode==="sports"?renderSports():state.mode==="groups"?renderGroups():
       state.mode==="schools"?renderSchools():renderReview();
-    const titles={sports:"ชนิดกีฬา",groups:"ฝ่ายกรรมการจากแม่แบบเดิม",schools:"โรงเรียน",review:"ประเด็นรอตรวจ"};
-    ui.count.textContent="แสดง "+count+" "+titles[state.mode]+" · ไม่ใช่ข้อมูลแต่งตั้งกรรมการปี 2569";
+    const titles={sports:"ชนิดกีฬา",groups:"ฝ่ายกรรมการ",schools:"โรงเรียน/หน่วยงาน",review:"ประเด็นรอตรวจ"};
+    ui.count.textContent="แสดง "+count+" "+titles[state.mode]+" · รายชื่อจากร่างปี 2569 เพื่อให้ตรวจ ไม่ใช่คำสั่งแต่งตั้งที่รับรอง";
     if(!count)empty("ไม่พบข้อมูลตามที่ค้นหา","ลองเปลี่ยนคำค้นหรือเลือกตัวกรองอื่น");
   }
   function updateDivisionChoicesKeepingSelection(){
