@@ -75,8 +75,14 @@
     // H2H applies ONLY inside each equal-points group, never to the whole-league GD.
     // A group needs every mutual league match approved before any H2H ordering is safe.
     const tieBreakers=rule.tie_breakers||[];
+    const cardRule=rule.disciplinary_tie_break||{};
+    const supportedOrder=["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
     const usable=rule.approval_status==="approved"&&rule.tie_break_status==="approved"&&
-      Array.isArray(tieBreakers)&&tieBreakers.length===1&&tieBreakers[0]==="head_to_head_goal_difference";
+      Array.isArray(tieBreakers)&&tieBreakers.length===supportedOrder.length&&
+      tieBreakers.every((name,i)=>name===supportedOrder[i])&&
+      cardRule.status==="approved"&&cardRule.ranking_method==="fewest_red_then_fewest_yellow"&&
+      cardRule.scope==="all_approved_league_fixtures"&&
+      cardRule.ranking_only_when_league_complete===true;
     if(rule.approval_status==="approved"&&rule.tie_break_status==="approved"&&!usable)
       fail("unsupported official tie-break configuration");
     table.sort((a,b)=>b.points-a.points||a.team_id.localeCompare(b.team_id,"en"));
@@ -103,15 +109,22 @@
               difference.set(fixture.team_b_id,difference.get(fixture.team_b_id)-delta);
             }
             for(const row of group)row.head_to_head_goal_difference=difference.get(row.team_id);
+            // Red then yellow is confirmed, but total league cards are final ONLY
+            // when all 15 league results (including explicitly recorded zeros) exist.
             group.sort((a,b)=>b.head_to_head_goal_difference-a.head_to_head_goal_difference||
+              (complete?a.red_cards-b.red_cards||a.yellow_cards-b.yellow_cards:0)||
               a.team_id.localeCompare(b.team_id,"en"));
+            const sameRank=(a,b)=>!!a&&!!b&&
+              a.head_to_head_goal_difference===b.head_to_head_goal_difference&&
+              (!complete||(a.red_cards===b.red_cards&&a.yellow_cards===b.yellow_cards));
             for(let i=0;i<group.length;i++){
-              const gd=group[i].head_to_head_goal_difference;
-              const unresolved=(i>0&&group[i-1].head_to_head_goal_difference===gd)||
-                (i<group.length-1&&group[i+1].head_to_head_goal_difference===gd);
-              group[i].tied=unresolved;
-              group[i].card_tie_break_unresolved=unresolved;
-              group[i].position=unresolved?null:from+i+1;
+              const row=group[i];
+              const h2hTied=(i>0&&group[i-1].head_to_head_goal_difference===row.head_to_head_goal_difference)||
+                (i<group.length-1&&group[i+1].head_to_head_goal_difference===row.head_to_head_goal_difference);
+              const unresolved=sameRank(row,group[i-1])||sameRank(row,group[i+1]);
+              row.tied=unresolved;
+              row.card_tie_break_unresolved=h2hTied&&unresolved;
+              row.position=unresolved?null:from+i+1;
             }
           }else{
             for(const row of group){row.tied=true;row.position=null;}
@@ -127,7 +140,7 @@
       for(const row of table)row.tied=table.filter(other=>other.points===row.points).length>1;
     }
     return {format:"league",division:rule.division,phase:"league",matches_approved:byId.size,matches_total:phase.league.length,
-      complete,tie_breaker:"head_to_head_goal_difference",card_tie_break_status:"pending_count_method",head_to_head_groups:h2hGroups,ranking_status:byId.size===0?"prestart_roster":!usable?"pending_rule_approval":complete&&table.every(r=>!r.tied)?"final":"provisional",
+      complete,tie_breaker:"head_to_head_goal_difference",card_tie_break_status:cardRule.status==="approved"?"approved_red_then_yellow":"pending_count_method",head_to_head_groups:h2hGroups,ranking_status:byId.size===0?"prestart_roster":!usable?"pending_rule_approval":complete&&table.every(r=>!r.tied)?"final":"provisional",
       rows:table};
   }
   function calculateKnockout(fixtures,results){
