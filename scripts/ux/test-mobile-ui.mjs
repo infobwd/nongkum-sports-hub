@@ -148,7 +148,7 @@ assert.equal(invalid.els.empty.hidden,true,"invalid data is a loading error, not
 
 assert.ok(/@media\(max-width:690px\)/.test(html),"mobile breakpoint missing");
 assert.ok(/.fields,.cards\{grid-template-columns:1fr\}/.test(html),"mobile single-column layout missing");
-assert.ok(html.includes("สำหรับผู้จัดการแข่งขัน · ข้อมูลตรวจรับ P2"));
+assert.ok(html.includes("สำหรับผู้จัดการแข่งขัน · เอกสารและคู่มือ"));
 assert.ok(html.includes("ตารางการแข่งขัน"));
 assert.ok(html.includes("โปรดตรวจสอบกำหนดกับผู้จัด"));
 const petanqueReview=await mount("https://example.org/nongkum-sports-hub/?sport=petanque");
