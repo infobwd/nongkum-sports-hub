@@ -1,0 +1,32 @@
+name: R19-D encrypted school committee review
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "committee-review.html"
+      - "css/committee-review.css"
+      - "js/committee-review.js"
+      - "data/committee-school-rosters-2569.encrypted.json"
+      - "scripts/committee/test-r19d.mjs"
+      - "docs/R19D_*"
+      - ".github/workflows/r19d-school-review.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "committee-review.html"
+      - "css/committee-review.css"
+      - "js/committee-review.js"
+      - "data/committee-school-rosters-2569.encrypted.json"
+      - "scripts/committee/test-r19d.mjs"
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --check js/committee-review.js
+      - run: node scripts/committee/test-r19d.mjs
