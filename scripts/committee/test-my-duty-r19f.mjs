@@ -92,8 +92,10 @@ for(const failSchedule of [false,true]){
   assert.equal(nodes.myDutySelected.hidden,false);
   assert.equal(nodes.myDutyCards.children.length,count,"UI renders each role row without loss");
   assert.equal(nodes.myDutyPersonName.textContent,name);
-  assert.match(nodes.myDutySummary.textContent,/บรรทัดหน้าที่ในร่าง/);
-  assert.match(nodes.myDutyScheduleStatus.textContent,failSchedule?/โหลดไม่สำเร็จ/:/วันปฏิบัติหน้าที่ของครูยังรอยืนยัน/);
+  assert.match(nodes.myDutySummary.textContent,/พบหน้าที่ .* รายการในร่าง/);
+  assert.match(nodes.myDutyScheduleStatus.textContent,failSchedule?/โหลดไม่สำเร็จ/:/วันแข่งขันเป็นข้อมูลประกอบ/);
+  assert.equal(nodes.myDutyCards.children[0].children.some(x=>x.tag==="details"),true,"each duty provides expandable date details");
+  assert.match(nodes.myDutyCards.children[0].children.find(x=>x.tag==="details").children[0].textContent,/ดูรายละเอียดและวันแข่งขัน/);
   nodes.myDutySchool.value="saohong";
   nodes.myDutySchool.handlers.change();
   assert.equal(nodes.myDutySelected.hidden,true,"change school clears selected identity");

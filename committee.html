@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/committee.css?v=r19f1">
+  <link rel="stylesheet" href="./css/committee.css?v=r19fux1">
 </head>
 <body data-view="committee">
 <header class="top">
@@ -36,12 +36,6 @@
     <a href="./index.html">← ตารางการแข่งขัน</a>
     <a href="./results.html">ผลการแข่งขัน</a>
   </nav>
-  <aside class="notice committee-legal" aria-label="ข้อควรทราบเรื่องสถานะคณะกรรมการ">
-    <span aria-hidden="true">ℹ️</span>
-    <div><strong>เปิดรายชื่อกรรมการร่างปี 2569 ให้ทุกโรงเรียนตรวจสอบได้</strong>
-      <p>ชื่อ สังกัด และหน้าที่มาจากสูจิบัตรฉบับร่างปี 2569 ยังไม่ใช่คำสั่งแต่งตั้งที่ผ่านการรับรอง ส่วนคำสั่งปี 2568 เก็บเป็นแม่แบบประวัติเท่านั้น</p>
-    </div>
-  </aside>
   <div class="committee-loader" id="committeeLoading" role="status" aria-live="polite">
     <span class="committee-loading-line"></span><span class="committee-loading-line short"></span>
     <p>กำลังโหลดข้อมูลการเตรียมกรรมการ…</p>
@@ -52,10 +46,16 @@
     <button type="button" class="load-retry" id="committeeRetry">↻ ลองอีกครั้ง</button>
   </section>
   <div id="committeeReport" hidden>
+  <aside class="notice committee-legal" aria-label="ข้อควรทราบเรื่องสถานะคณะกรรมการ">
+    <span aria-hidden="true">ℹ️</span>
+    <div><strong>รายชื่อและหน้าที่จากสูจิบัตรร่างปี 2569</strong>
+      <p>เปิดให้โรงเรียนตรวจสอบก่อนผู้จัดรับรอง ยังไม่ใช่คำสั่งแต่งตั้ง · คำสั่งปี 2568 เป็นข้อมูลประวัติเท่านั้น</p>
+    </div>
+  </aside>
     <section class="panel committee-my-duty" aria-labelledby="myDutyTitle" id="myDuty">
       <p class="committee-kicker">สำหรับคุณครู · ค้นหาชื่อครั้งเดียว</p>
       <h2 id="myDutyTitle">📋 หน้าที่กรรมการของฉัน</h2>
-      <p class="committee-caption">ค้นหาตามโรงเรียนและชื่อ–สกุล เพื่อรวมทุกหน้าที่ที่ปรากฏในสูจิบัตรร่างปี 2569 โดยไม่ต้องเลือกชนิดกีฬาหรือฝ่ายก่อน</p>
+      <p class="committee-caption">เลือกโรงเรียนและค้นชื่อ เพื่อดูทุกหน้าที่ในร่าง</p>
       <div class="my-duty-fields">
         <div>
           <label class="fieldlabel" for="myDutySchool">โรงเรียนของฉัน</label>
@@ -75,7 +75,7 @@
           <span class="my-duty-draft-tag">ข้อมูลร่าง · รอตรวจ</span>
         </div>
         <p class="my-duty-summary" id="myDutySummary"></p>
-        <p class="my-duty-warning">ยังไม่มีคำสั่งแต่งตั้งที่ผ่านการรับรอง · วันแข่งขันเป็นข้อมูลประกอบ ไม่ใช่วันหรือเวลาปฏิบัติหน้าที่ของคุณครู</p>
+        <p class="my-duty-warning">วันปฏิบัติหน้าที่ยังรอผู้จัดยืนยัน · วันแข่งขันที่แสดงเป็นข้อมูลประกอบเท่านั้น</p>
         <p id="myDutyScheduleStatus" class="committee-caption" role="status" aria-live="polite"></p>
         <div id="myDutyCards" class="my-duty-cards"></div>
         <a class="my-duty-review-link" href="./committee-review.html">พบข้อผิดพลาด? ให้โรงเรียนตรวจและแจ้งแก้ไขรายชื่อ →</a>
@@ -152,6 +152,6 @@
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · หน้ารายงานเตรียมการกรรมการ · ไม่ใช่คำสั่งแต่งตั้ง</footer>
 <script src="./js/program-corrections.js?v=r20b1"></script>
-<script src="./js/committee.js?v=r19f1-r20b1"></script>
+<script src="./js/committee.js?v=r19fux1-r20b1"></script>
 </body>
 </html>

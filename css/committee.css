@@ -141,3 +141,19 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
  .my-duty-fields,.my-duty-matches,.my-duty-review-link{display:none!important}
  .my-duty-cards{grid-template-columns:1fr 1fr}
 }
+
+/* R19-F/UX: compact teacher-first mobile layout; detail disclosure is native and accessible. */
+.committee-my-duty{scroll-margin-top:90px}
+.committee-my-duty .committee-caption{margin:5px 0 10px}
+.committee-legal{padding:10px 13px;margin:8px 0 12px}
+.committee-legal p{font-size:.78rem;line-height:1.45}
+.my-duty-selected{margin-top:12px;padding-top:12px}
+.my-duty-warning{margin:8px 0;padding:9px 11px}
+.my-duty-summary{margin:8px 0}
+.my-duty-card .my-duty-date-unknown{padding:7px 10px;background:#fff9e9;border-radius:8px;margin:8px 0}
+.my-duty-details{border-top:1px solid #e4ebf3;margin-top:10px;padding-top:3px}
+.my-duty-details summary{cursor:pointer;list-style:revert;color:#18558c;font-size:.82rem;font-weight:750;min-height:44px;display:list-item;padding:11px 3px;touch-action:manipulation}
+.my-duty-details summary:focus-visible{outline:3px solid #e3b335;outline-offset:2px}
+.my-duty-details[open] summary{border-bottom:1px solid #e4ebf3}
+.my-duty-details .my-duty-small-note{margin-top:9px}
+@media(max-width:690px){.committee-shortcuts{padding-top:8px}.committee-shortcuts a{min-height:42px}.committee-my-duty{padding:15px}.committee-my-duty h2{margin:4px 0 6px}.committee-legal{margin:8px 0}.my-duty-card{padding:12px}.my-duty-card h4{font-size:.92rem}}
