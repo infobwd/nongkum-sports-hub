@@ -88,7 +88,7 @@ const direct=await mount("?fixture="+encodeURIComponent("football-p07-มัธ�
 assert.equal(direct.els.sharedFixture.hidden,false);
 assert.equal(direct.els.programOverview.hidden,true);
 assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("มัธยมหญิง"));
-assert.ok(direct.els.sharedFixtureCard.innerHTML.includes("18 พฤศจิกายน"));
+assert.match(direct.els.sharedFixtureCard.innerHTML,/18 พ\.ย\. 2569|18 พฤศจิกายน 2569/);
 const excluded=await mount("?fixture=football-p07-มัธยมหญิง-020-repeated-final");
 assert.match(excluded.els.sharedFixtureCard.innerHTML,/ไม่พบคู่แข่งขัน/);
 const track=await mount("?sport=athletics");
