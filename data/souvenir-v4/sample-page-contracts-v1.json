@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "status": "phase1_schema_samples_not_rendered",
+  "created_date": "2026-11-06",
+  "samples": [
+    {
+      "id": "sample-cover",
+      "document_role": "cover",
+      "v3_source_marker": 1,
+      "template": "cover",
+      "bindings": [
+        "editorial.event_title",
+        "editorial.event_year",
+        "editorial.venue",
+        "editorial.date_range"
+      ],
+      "rules": [
+        "no_unverified_logo",
+        "no_fabricated_dates",
+        "design_original_cover",
+        "source_copy_is_placeholder_not_render_ready"
+      ],
+      "review": "organizer"
+    },
+    {
+      "id": "sample-committee",
+      "document_role": "committee",
+      "v3_source_marker": 11,
+      "template": "committee_roster",
+      "bindings": [
+        "committee_entry.id",
+        "committee_entry.number",
+        "committee_entry.name",
+        "committee_entry.school",
+        "committee_entry.role"
+      ],
+      "source": "data/committee-2569-draft-public-review.json",
+      "rules": [
+        "preserve_verbatim_names",
+        "do_not_mark_draft_as_appointment",
+        "repeat_header",
+        "avoid_split_person_row",
+        "regenerate_anchors_from_V4_pdf"
+      ],
+      "review": "committee_and_schools"
+    },
+    {
+      "id": "sample-football",
+      "document_role": "sports_program",
+      "v3_source_marker": 25,
+      "template": "sports_schedule",
+      "bindings": [
+        "fixture.id",
+        "fixture.sport_id",
+        "fixture.division",
+        "fixture.source_pair_text",
+        "fixture.planning_date",
+        "fixture.planning_time",
+        "fixture.planning_venue",
+        "fixture.source_pdf"
+      ],
+      "source": "candidate_with_program_corrections",
+      "rules": [
+        "keep_only_one_approved_secondary_girls_final_on_2026_11_18",
+        "exclude_2026_11_20_duplicate_from_print_snapshot",
+        "do_not_promote_unverified_fields",
+        "keep_fixtures_stable_ids"
+      ],
+      "review": "sports_organizer"
+    },
+    {
+      "id": "sample-petanque",
+      "document_role": "sports_program",
+      "v3_source_marker": 36,
+      "template": "sports_schedule",
+      "bindings": [
+        "fixture.id",
+        "fixture.division",
+        "fixture.source_match_no",
+        "fixture.planning_date",
+        "fixture.planning_time",
+        "fixture.planning_venue",
+        "fixture.draft_field"
+      ],
+      "source": "candidate_with_program_corrections",
+      "rules": [
+        "preserve_knockout_structure",
+        "show_confirmed_vs_unconfirmed_fields",
+        "do_not_invent_court_assignments"
+      ],
+      "review": "sports_organizer"
+    },
+    {
+      "id": "sample-athletics",
+      "document_role": "athletics",
+      "v3_source_marker": 42,
+      "template": "athletics_lanes",
+      "bindings": [
+        "event.id",
+        "event.division",
+        "event.lanes",
+        "event.source_pdf"
+      ],
+      "source": "candidate_with_program_corrections",
+      "rules": [
+        "preserve_lane_ids",
+        "do_not_invent_athlete_names",
+        "repeat_table_header",
+        "avoid_split_event_rows"
+      ],
+      "review": "athletics_organizer"
+    },
+    {
+      "id": "sample-score-sheet",
+      "document_role": "forms_and_score_summaries",
+      "v3_source_marker": 63,
+      "template": "score_sheet_blank",
+      "bindings": [
+        "template.sport_name",
+        "template.division",
+        "template.match_no",
+        "template.team_name_fields",
+        "template.judge_signature_fields"
+      ],
+      "source": "blank_form_template",
+      "rules": [
+        "do_not_populate_unapproved_scores",
+        "leave_handwriting_room",
+        "print_100_percent"
+      ],
+      "review": "field_staff"
+    }
+  ],
+  "gates": {
+    "phase1": "structure_and_source_validation",
+    "phase2": "six_A4_visual_previews_and_print_QA",
+    "phase3": "full_draft_V4_pdf",
+    "phase4": "R11E_release_and_reader_anchor_rebuild"
+  }
+}
