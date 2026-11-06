@@ -472,6 +472,7 @@
     if(els.directFailure)els.directFailure.hidden=!active;
   }
   async function loadProgram(refresh){
+    if(els.refresh.disabled)return false;
     const initial=!state.data;
     if(initial){setInitialLoading(!state.directMode);setFailure(false);}
     els.refresh.disabled=true;
@@ -516,6 +517,7 @@
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         (candidate?" · โปรแกรมการแข่งขัน 236 รายการ":" · โปรแกรมการแข่งขันชุดเดิม")+
         " · ไฟล์เผยแพร่บนเว็บ";
+      return true;
     }catch(e){
       els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้":"โหลดโปรแกรมไม่สำเร็จ · ลองใหม่อีกครั้ง";
       if(!state.data){
@@ -525,8 +527,10 @@
         setFailure(true);
       }
       console.error(e);
+      return false;
     }finally{setInitialLoading(false);els.refresh.disabled=false;}
   }
+  globalThis.NongkumPageRefresh=()=>loadProgram(true);
   els.refresh.addEventListener("click",function(){loadProgram(true);});
   if(els.retry)els.retry.addEventListener("click",function(){loadProgram(false);});
   if(els.directRetry)els.directRetry.addEventListener("click",function(){loadProgram(false);});
