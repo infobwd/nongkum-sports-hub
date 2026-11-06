@@ -6,6 +6,17 @@
   const top=document.getElementById("committeeBackTop");
   const notice=document.getElementById("committeeRefreshNotice");
   if(!hint||!label||!top||!notice)return;
+  const header=document.querySelector("header.top");
+  const positionHint=()=>{
+    const headerBottom=header?.getBoundingClientRect().bottom||0;
+    const safeTop=Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safe-top"))||0;
+    const y=Math.max(12+safeTop,headerBottom+10);
+    hint.style.setProperty("--committee-hint-top",Math.round(y)+"px");
+  };
+  positionHint();
+  window.addEventListener("resize",positionHint,{passive:true});
+  window.addEventListener("scroll",positionHint,{passive:true});
+  if(header&&typeof ResizeObserver!=="undefined")new ResizeObserver(positionHint).observe(header);
   let startX=0,startY=0,distance=0,armed=false,busy=false;
   const threshold=85;
   const reset=()=>{armed=false;distance=0;hint.classList.remove("visible","ready");};
@@ -26,7 +37,7 @@
     if(dy<0||Math.abs(dx)>Math.abs(dy)*.65||window.scrollY>2){reset();return;}
     if(dy<14)return;
     distance=Math.min(dy*.67,122);
-    hint.classList.add("visible");hint.classList.toggle("ready",distance>=threshold);
+    positionHint();hint.classList.add("visible");hint.classList.toggle("ready",distance>=threshold);
     label.textContent=distance>=threshold?"ปล่อยเพื่อรีเฟรชข้อมูล":"ดึงลงเพื่อรีเฟรช";
     if(event.cancelable)event.preventDefault();
   },{passive:false});
@@ -35,7 +46,7 @@
     const ready=distance>=threshold;reset();if(!ready||busy)return;
     const api=window.NongkumCommitteeRefresh;
     if(!api||typeof api.refresh!=="function"){showNotice("ยังไม่พร้อมโหลดข้อมูล กรุณาลองอีกครั้ง");return;}
-    busy=true;hint.classList.add("visible","ready");label.textContent="กำลังโหลดข้อมูลล่าสุด…";
+    busy=true;positionHint();hint.classList.add("visible","ready");label.textContent="กำลังโหลดข้อมูลล่าสุด…";
     try{const ok=await api.refresh();showNotice(ok?"อัปเดตข้อมูลล่าสุดแล้ว":"โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่");}
     catch(_){showNotice("โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่");}
     finally{busy=false;reset();}
