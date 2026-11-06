@@ -13,7 +13,8 @@ function newResult(f,sa,sb,revision=1){
   return {id:"test-"+f.id,fixture_id:f.id,sport_id:f.sport_id,division:f.division,
     team_a_id:f.team_a_id,team_b_id:f.team_b_id,
     status:"approved",result_type:"score",score_a:sa,score_b:sb,
-    winner_school_id:sa===sb?null:sa>sb?f.team_a_id:f.team_b_id,revision};
+    winner_school_id:sa===sb?null:sa>sb?f.team_a_id:f.team_b_id,revision,
+    ...(f.sport_id==="football"?{disciplinary_cards:{team_a:{yellow:0,red:0},team_b:{yellow:0,red:0}}}:{})};
 }
 function publish(rows){
   const d=clone(data);d.results=clone(rows);d.metadata.approved_results_count=rows.length;
@@ -199,4 +200,69 @@ assert.ok(validatePublication(data,program,noProvenanceH2H).some(x=>x.code==="FO
   "traceable organizer rule decision is required");
 assert.equal(buildSnapshot(data,program,simulatedRules).standings.length,0,
   "never publish zero-result standings even if a future rule is fully approved");
-console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
+
+// Organizer follow-up 2026-11-06: count yellow/red as separate auditable
+// statistics without inventing a conversion/sort order. Petanque loser out.
+assert.equal(rules.football_league.disciplinary_tie_break.status,
+  "approved_count_cards_pending_method");
+assert.equal(rules.football_league.disciplinary_tie_break.ranking_method,
+  "pending_organizer_confirmation");
+const recordedCards=newResult(first,2,0);
+recordedCards.disciplinary_cards={team_a:{yellow:2,red:1},team_b:{yellow:1,red:0}};
+assert.deepEqual(codes(publish([recordedCards])),[]);
+const cardsLeague=engine.calculateLeague(fixtures,[recordedCards],league);
+assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_a_id).yellow_cards,2);
+assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_a_id).red_cards,1);
+assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_b_id).yellow_cards,1);
+assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_b_id).red_cards,0);
+assert.equal(cardsLeague.card_tie_break_status,"pending_count_method");
+const missingCards=publish([newResult(first,1,0)]);
+delete missingCards.results[0].disciplinary_cards;
+assert.ok(codes(missingCards).includes("DISCIPLINARY_CARDS"),
+  "missing cards must never be silently treated as zero");
+assert.throws(()=>engine.calculateLeague(fixtures,missingCards.results,league),/explicit yellow\/red/);
+const invalidCards=publish([newResult(first,1,0)]);
+invalidCards.results[0].disciplinary_cards.team_a.yellow=-1;
+assert.ok(codes(invalidCards).includes("DISCIPLINARY_CARDS"));
+const invalidFraction=publish([newResult(first,1,0)]);
+invalidFraction.results[0].disciplinary_cards.team_b.red=0.5;
+assert.ok(codes(invalidFraction).includes("DISCIPLINARY_CARDS"));
+const invalidExtra=publish([newResult(first,1,0)]);
+invalidExtra.results[0].disciplinary_cards.student_name="PRIVATE";
+assert.ok(codes(invalidExtra).includes("DISCIPLINARY_CARDS"),
+  "public disciplinary cards must only have anonymous totals by side");
+const cardCorrected=publish([newResult(first,2,0)]);
+cardCorrected.results[0].disciplinary_cards.team_a.yellow=1;
+assert.ok(codes(cardCorrected,{previous:publish([newResult(first,2,0)])}).includes("SILENT_CORRECTION"),
+  "post-publication card corrections require revision and a reason");
+const approvedCardTie=engine.calculateLeague(fixtures,[
+  headMatch(ha,hb,0,0)],activeH2H);
+assert.equal(approvedCardTie.rows.find(x=>x.team_id===ha).card_tie_break_unresolved,true);
+assert.ok([ha,hb].every(id=>approvedCardTie.rows.find(x=>x.team_id===id).position===null),
+  "do not fabricate a fair-play weighting while method is not approved");
+const petPolicy=rules.sport_policies.find(x=>x.sport_id==="petanque");
+assert.equal(petPolicy.format,"knockout");
+assert.equal(petPolicy.elimination_status,"approved");
+assert.equal(petPolicy.advancement,"winner_only");
+assert.equal(petPolicy.loser_reentry,false);
+assert.deepEqual(codes(publish([sets])),[]);
+const petKnockout=engine.calculatePetanqueKnockout(fixtures,[sets],petPolicy);
+assert.equal(petKnockout.elimination,"single_elimination");
+assert.equal(petKnockout.matches.length,1);
+assert.equal(petKnockout.matches[0].winner_school_id,pet.team_a_id);
+assert.equal(petKnockout.matches[0].eliminated_school_id,pet.team_b_id);
+assert.equal(petKnockout.final_positions,null,"no automatic third place or future bracket guess");
+assert.equal(engine.calculatePetanqueKnockout(fixtures,[],petPolicy).matches.length,0);
+assert.throws(()=>engine.calculatePetanqueKnockout(fixtures,[sets,sets],petPolicy),/duplicate approved/);
+assert.throws(()=>engine.calculatePetanqueKnockout(fixtures,[{...sets,winner_school_id:pet.team_b_id}],petPolicy),/winner mismatches/);
+const unapprovedPet=structuredClone(petPolicy);unapprovedPet.elimination_status="pending_rule_approval";
+assert.throws(()=>engine.calculatePetanqueKnockout(fixtures,[sets],unapprovedPet),/approved petanque/);
+const petNext=fixtures.find(f=>f.sport_id==="petanque"&&(!f.team_a_id||!f.team_b_id));
+assert.ok(petNext);
+assert.throws(()=>engine.calculatePetanqueKnockout(fixtures,[{...sets,fixture_id:petNext.id}],petPolicy),
+  /future bracket participants need approval/);
+const badPetRule=clone(rules);badPetRule.sport_policies.find(x=>x.sport_id==="petanque").advancement="winner_and_loser";
+assert.ok(validatePublication(data,program,badPetRule).some(x=>x.code==="PETANQUE_ELIMINATION"));
+const noPetSource=clone(rules);delete noPetSource.sport_policies.find(x=>x.sport_id==="petanque").elimination_source;
+assert.ok(validatePublication(data,program,noPetSource).some(x=>x.code==="PETANQUE_ELIMINATION_SOURCE"));
+console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, cards audited/no guessed weighting, petanque knockout, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
