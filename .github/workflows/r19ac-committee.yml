@@ -31,3 +31,4 @@ jobs:
           node-version: "22"
       - run: node --check js/committee.js
       - run: node scripts/committee/test-r19ac.mjs
+      - run: node scripts/committee/test-r19b.mjs

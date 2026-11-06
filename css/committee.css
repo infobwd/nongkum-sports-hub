@@ -68,3 +68,9 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 @media(max-width:370px){.committee-views{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.committee-views button,.committee-shortcuts a{transition:none}}
 @media print{.committee-shortcuts,.committee-views,.committee-filters,#committeeRefresh,.committee-next a{display:none!important}.committee-cards{grid-template-columns:1fr 1fr}}
+
+/* R19-B: safe aggregate-only draft statistics */
+.committee-draft-summary{border-color:#d4dfed;background:#f9fbff}
+.committee-draft-summary .committee-metrics{margin-top:12px}
+.committee-draft-summary .committee-metric{background:#fff}
+.committee-draft-summary[hidden]{display:none!important}

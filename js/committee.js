@@ -62,6 +62,7 @@
     refresh:el("committeeRefresh"),report:el("committeeReport"),
     metrics:el("committeeMetrics"),revision:el("committeeRevision"),approval:el("committeeApprovalHint"),
     venueName:el("committeeVenueName"),venueScope:el("committeeVenueScope"),
+    draftPanel:el("committeeDraftSummary"),draftMetrics:el("committeeDraftMetrics"),draftFootnote:el("committeeDraftFootnote"),
     views:el("committeeViews"),sport:el("committeeSport"),division:el("committeeDivision"),
     search:el("committeeSearch"),cards:el("committeeCards"),count:el("committeeCount")
   };
@@ -119,6 +120,25 @@
     if(state.data.sports.some(s=>s.sport_id===sportParam))ui.sport.value=sportParam;
     updateDivisionChoices();
   }
+  function renderDraftSummary(){
+    const draft=state.data?.draft_source_review;
+    if(!draft || draft.publication_scope!=="aggregate_only_no_names"){ui.draftPanel.hidden=true;return;}
+    ui.draftMetrics.replaceChildren();
+    for(const [number,label] of [
+      [draft.person_role_rows_observed,"บรรทัดมอบหมายในร่าง"],
+      [draft.normalized_distinct_name_strings_observed,"ชื่อที่ต่างกันเบื้องต้น"],
+      [draft.name_strings_with_multiple_role_rows,"ชื่อที่มีหลายหน้าที่"],
+      [draft.rows_needing_text_review,"บรรทัดต้องตรวจข้อความ"]
+    ]){
+      const box=make("div","committee-metric");
+      box.appendChild(make("strong","",number));
+      box.appendChild(make("span","",label));
+      ui.draftMetrics.appendChild(box);
+    }
+    ui.draftFootnote.textContent="ถอดจาก PDF ร่างปี "+draft.year_be+" หน้า "+draft.source_pdf_pages+
+      " · ไม่ใช่คำสั่งที่รับรองและไม่ได้เผยแพร่รายชื่อบุคคลในเว็บนี้";
+    ui.draftPanel.hidden=false;
+  }
   function metrics(){
     ui.metrics.replaceChildren();
     const d=state.data;
@@ -150,6 +170,10 @@
         divisions.forEach(d=>list.appendChild(make("li","","รายการ "+d.catalog_no+" · "+d.label)));
         a.appendChild(list);
       }
+      const found=s.draft_2569_named_role_rows_observed;
+      if(Number.isInteger(found))
+        detail(a,found>0?"พบ "+found+" บรรทัดชื่อกรรมการในสูจิบัตรร่างปี 2569 (รอรับรอง)":
+          "ยังไม่พบหมวดรายชื่อกรรมการเฉพาะชนิดนี้ในร่างคำสั่ง");
       a.appendChild(make("h4","","บทบาทที่เสนอสำหรับวางแผน"));
       const roles=make("div","committee-roles");
       for(const k of s.proposed_role_keys||[]){
@@ -170,7 +194,9 @@
     const groups=state.data.legacy_committee_groups.filter(g=>!term||norm(g.name+" "+g.section).includes(term));
     for(const g of groups){
       const a=card(g.name,"ฝ่ายที่ "+g.section+" · คำสั่งปี 2568");
-      stateNote(a,"ใช้เป็นแม่แบบวางแผนเท่านั้น · ยังไม่มีคำสั่งรับรองปี 2569 ในชุดนี้");
+      const draftN=state.data.draft_source_review?.by_committee_section?.[g.section];
+      if(Number.isInteger(draftN))detail(a,"พบ "+draftN+" บรรทัดชื่อในสูจิบัตรร่างปี 2569");
+      stateNote(a,"เป็นหมวดสำหรับวางแผน; ชื่อจากคำสั่งร่างปี 2569 ยังไม่ผ่านการรับรอง");
       ui.cards.appendChild(a);
     }
     return groups.length;
@@ -232,6 +258,7 @@
       state.data=data;
       buildSelectors();
       metrics();
+      renderDraftSummary();
       const venue=safeVenue(data);
       ui.venueName.textContent=venue.name;
       ui.venueScope.textContent=venue.scope;
