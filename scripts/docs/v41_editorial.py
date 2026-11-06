@@ -52,7 +52,6 @@ def notice(source_page6,source_page16):
         <small>ยังไม่ใช่ประกาศที่มีผลบังคับใช้หรือคำสั่งแต่งตั้งที่ลงนาม</small>
       </div>
     </article>
-    <div class="warning">ข้อมูลต้นทาง V3 หน้า 6 ใช้หัวข้อ “ประกาศ” แต่หน้า 16 มีคำว่า “สั่ง ณ วันที่” ต้องยืนยันรูปแบบเอกสารและผู้ลงนามให้สอดคล้องก่อนเผยแพร่ ห้ามสร้างเลขคำสั่งแทนหน่วยงาน</div>
     '''
 
 def ceremony_timeline(source_text,kind,date_note):
@@ -166,7 +165,9 @@ def special_observations(screen):
 
 def extra_css():
     return """
-@page{ @top-left{content:"มิตรภาพเกมส์ 2569 • V4.1 ฉบับร่าง"} }
+@page{ @top-left{content:"มิตรภาพเกมส์ 2569 • V4.1 ฉบับร่าง"} 
+ @bottom-left{content:"R11C-V4.1 • รอตรวจข้อมูล";font-size:7pt;color:#8594a7} }
+.anchor-id{font-size:1pt!important;line-height:1!important;color:rgba(255,255,255,0.01)!important;display:block!important}
 .official-paper{position:relative;font-family:FormalThai,"Noto Looped Thai",NotoThai,sans-serif;color:#222;min-height:208mm;border:1px solid #d6dde3;padding:7mm 9mm 15mm;margin:1mm 0 4mm;font-size:13pt;line-height:1.65;overflow:hidden}
 .official-org{text-align:center;font-weight:bold;font-size:14.5pt;padding:0 0 2mm}
 .official-rule{border-top:2px double #34485d;margin:2mm 0 8mm}
