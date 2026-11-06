@@ -54,7 +54,7 @@ new vm.Script(shared);
 new vm.Script(programJS);
 new vm.Script(resultsJS);
 assert.match(shared,/return "ตรวจล่าสุด "/);
-assert.match(programJS,/ · ไฟล์เผยแพร่บนเว็บ/);
+assert.doesNotMatch(programJS,/ · ไฟล์เผยแพร่บนเว็บ/,"R21 program must avoid technical file-publication copy");
 assert.match(resultsJS,/ · ไฟล์เผยแพร่บนเว็บ/);
 const schedule=JSON.parse(read("data/draft-schedule.json"));
 const published=JSON.parse(read("data/public-results.json"));
