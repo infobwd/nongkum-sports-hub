@@ -4,7 +4,7 @@ import json,hashlib,re,unicodedata,argparse
 from pathlib import Path
 import fitz
 
-SHA="cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0"
+SHA="0f0083bc349b2b0176cbeaa66a09e88e883aeb1cd4078c954582782e5e2bc1ba"
 PDF="assets/souvenir-committee-2569-v3.pdf"
 ROSTER="data/committee-2569-draft-public-review.json"
 OUT="data/committee-pdf-positions-v3.json"
@@ -42,7 +42,7 @@ def build(root):
     pdf_data=(root/PDF).read_bytes()
     if hashlib.sha256(pdf_data).hexdigest()!=SHA:raise ValueError("Pinned PDF SHA changed")
     roster=json.loads((root/ROSTER).read_text("utf8"))
-    if roster["source_sha256"]!=SHA:raise ValueError("Roster PDF SHA changed")
+    if roster.get("editorial_correction",{}).get("corrected_pdf_sha256")!=SHA:raise ValueError("Roster corrected-PDF SHA changed")
     doc=fitz.open(root/PDF)
     if len(doc)!=64:raise ValueError("PDF no longer 64 pages")
     sources={p:rows(doc[p-1]) for p in range(6,17)}
