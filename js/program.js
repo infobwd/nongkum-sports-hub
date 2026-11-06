@@ -105,7 +105,7 @@
       const dateBadge="<span class='fixture-meta-item fixture-meta-date "+(anomaly?"unconfirmed":verifiedDate?"verified":"")+"'>"+
         CAL_ICON+"<span><small>วันที่แข่งขัน</small><strong>"+safe(dateText)+"</strong></span></span>";
       const timeBadge="<span class='fixture-meta-item fixture-meta-time "+(verifiedTime?"verified":"")+"'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3.5 2'/></svg><span><small>เวลาแข่งขัน</small><strong>"+(time?safe(time)+" น.":"รอกำหนด")+"</strong></span></span>";
-      const venue=verifiedField?m.planning_venue:field;
+      const venue=verifiedField?[m.planning_venue,field].filter(Boolean).join(" · "):field;
       const venueBadge="<span class='fixture-meta-item fixture-meta-venue "+(verifiedField?"verified":"")+"'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 21s7-7.4 7-12a7 7 0 1 0-14 0c0 4.6 7 12 7 12Z'/><circle cx='12' cy='9' r='2.5'/></svg><span><small>สนามแข่งขัน</small><strong>"+safe(venue||"รอกำหนด")+"</strong></span></span>";
       const flags=[];
       if(confirmedSchedule)flags.push("<span class='tag verified'>✓ ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว</span>");
@@ -298,8 +298,11 @@
         m.planning_venue_confirmation==="confirmed"&&
         m.planning_time_confirmation==="confirmed").length;
       const rest=state.data.fixtures.length-confirmed;
-      els.verificationSummary.textContent="กำหนดการแข่งขันยืนยันแล้ว "+confirmed+
-        " รายการ · อีก "+rest+" รายการอยู่ระหว่างตรวจรับรายละเอียด · โปรดตรวจสอบก่อนเดินทาง";
+      const venueConfirmed=state.data.fixtures.every(m=>
+        m.planning_venue_confirmation==="confirmed"&&m.planning_venue==="โรงเรียนบ้านหนองกระทุ่ม");
+      els.verificationSummary.textContent=(venueConfirmed?"สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม (ยืนยันแล้ว) · ":"")+
+        "กำหนดวันและเวลายืนยันแล้ว "+confirmed+" รายการ · อีก "+rest+
+        " รายการอยู่ระหว่างตรวจรับวันและเวลา";
     }
     if(els.orderNote){
       const filters=[];
