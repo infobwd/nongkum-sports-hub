@@ -25,6 +25,18 @@ export function validatePublication(data,program,rules,{previous=null}={}){
   if(rules?.football_league&&program?.fixtures){
     try{engine.assertFootballPhaseMapping(program.fixtures,rules.football_league);}
     catch(e){error("FOOTBALL_MAPPING",e.message);}
+    const leagueRule=rules.football_league;
+    if(leagueRule.tie_break_status==="approved"){
+      if(!Array.isArray(leagueRule.tie_breakers)||leagueRule.tie_breakers.length!==1||
+         leagueRule.tie_breakers[0]!=="head_to_head_goal_difference"||
+         leagueRule.tie_break_scope!=="mutual_matches_among_equal_points_teams")
+        error("FOOTBALL_TIE_BREAK","approved tie-break must be mutual head-to-head goal difference only");
+      if(leagueRule.tie_break_source?.kind!=="organizer_instruction"||
+         !string(leagueRule.tie_break_source.date)||!string(leagueRule.tie_break_source.source_ref))
+        error("FOOTBALL_TIE_BREAK_SOURCE","approved head-to-head rule needs traceable organizer instruction");
+    }
+    if(leagueRule.approval_status==="approved"&&leagueRule.tie_break_status!=="approved")
+      error("FOOTBALL_TIE_BREAK_PENDING","full football approval cannot bypass tie-break approval");
   }
   const sourceMap=new Map((program?.fixtures||[]).map(f=>[f.id,f]));
   const schoolIds=new Set(data.schools.map(s=>s.id)),sportIds=new Set(data.sports.map(s=>s.id));
@@ -108,7 +120,10 @@ export function buildSnapshot(data,program,rules){
   const standings=[];
   const rule=rules.football_league;
   const sport=rules.sport_policies.find(x=>x.sport_id==="football");
-  if(rule.approval_status==="approved"&&rule.tie_break_status==="approved"&&
+  const footballLeagueIds=new Set(rule.phases.league);
+  const hasApprovedLeagueResult=data.results.some(r=>r.status==="approved"&&
+    r.sport_id==="football"&&footballLeagueIds.has(r.fixture_id));
+  if(hasApprovedLeagueResult&&rule.approval_status==="approved"&&rule.tie_break_status==="approved"&&
      sport?.status==="implemented"){
     const group=engine.calculateLeague(program.fixtures,data.results,rule);
     // Only approved fixtures/rules can produce public standings. No made-up placements.
