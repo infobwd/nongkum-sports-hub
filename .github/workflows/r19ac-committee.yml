@@ -6,6 +6,8 @@ on:
       - "committee.html"
       - "committee-pdf-viewer.html"
       - "js/committee-pdf-preview.js"
+      - "js/committee-pdf-highlight.js"
+      - "css/committee-pdf-viewer.css"
       - "js/pdf-viewer.js"
       - "assets/souvenir-committee-2569-v3.pdf"
       - "css/committee.css"
@@ -21,6 +23,8 @@ on:
       - "committee.html"
       - "committee-pdf-viewer.html"
       - "js/committee-pdf-preview.js"
+      - "js/committee-pdf-highlight.js"
+      - "css/committee-pdf-viewer.css"
       - "js/pdf-viewer.js"
       - "assets/souvenir-committee-2569-v3.pdf"
       - "css/committee.css"
@@ -43,3 +47,4 @@ jobs:
       - run: node scripts/committee/test-r19b.mjs
       - run: node scripts/committee/test-r19e.mjs
       - run: node scripts/committee/test-r19i-reader.mjs
+      - run: node scripts/committee/test-r19j-highlight.mjs

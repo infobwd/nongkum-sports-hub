@@ -12,18 +12,26 @@ function pageNumber(input) {
   const n = Number(input);
   return Number.isInteger(n) && n >= 1 && n <= totalPages ? n : 1;
 }
-function readerUrl(page,embedded) {
+function readerUrl(page,embedded,reference) {
   const url = new URL("./committee-pdf-viewer.html", location.href);
   url.searchParams.set("doc", "committee");
   url.searchParams.set("page", String(page));
   if (embedded) url.searchParams.set("embedded", "1");
+  // Only roster-provided entries on the same page get name highlighting.
+  if (reference && Number(reference.pdf_page) === page &&
+      /^\d+(?:\.\d+){1,3}$/.test(String(reference.number || "")) &&
+      typeof reference.name === "string" && reference.name.trim().length >= 4 &&
+      reference.name.length <= 160) {
+    url.searchParams.set("number", reference.number);
+    url.searchParams.set("name", reference.name);
+  }
   return url.toString();
 }
-function open(page) {
+function open(page, reference) {
   const n = pageNumber(page);
   if (external) external.href = drive + "#page=" + n;
   if (!dialog || !frame || typeof dialog.showModal !== "function") {
-    root.open(readerUrl(n,false), "_blank", "noopener,noreferrer");
+    root.open(readerUrl(n,false,reference), "_blank", "noopener,noreferrer");
     return;
   }
   if (!dialog.open) {
@@ -31,8 +39,8 @@ function open(page) {
     dialog.showModal();
   }
   if (context) context.textContent = "เปิดต้นฉบับหน้า " + n + " จาก " + totalPages + " หน้า";
-  frame.src = readerUrl(n,true);
-  document.getElementById("committeePdfClose")?.focus();
+  frame.src = readerUrl(n,true,reference);
+  document.getElementById("committeePdfClose")?.focus({preventScroll:true});
 }
 function close() {
   if (dialog?.open) dialog.close();

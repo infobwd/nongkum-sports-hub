@@ -204,3 +204,13 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
   .committee-pdf-dialog-footer span{font-size:.68rem}
 }
 @media(max-width:390px){.committee-pdf-dialog-footer{gap:6px}.committee-pdf-dialog-footer span{max-width:70%}}
+
+/* R19-J: compact mobile PDF affordances. Preserve accessible 44px touch targets.
+   The browser viewport already accounts for the iOS system safe-top inside <dialog>. */
+.committee-pdf-page-link{min-height:44px;padding:7px 12px;border-radius:10px;font-weight:700;font-size:.86rem}
+.committee-pdf-dialog-head button:focus:not(:focus-visible){outline:none;box-shadow:none}
+@media(max-width:690px){
+  .committee-pdf-dialog-head{padding:8px 12px}
+  .committee-pdf-dialog-title strong{font-size:.84rem}
+  .committee-pdf-dialog-head button{min-height:44px;padding:7px 12px;font-size:.82rem}
+}
