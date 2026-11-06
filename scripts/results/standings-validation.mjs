@@ -27,13 +27,24 @@ export function validatePublication(data,program,rules,{previous=null}={}){
     catch(e){error("FOOTBALL_MAPPING",e.message);}
     const leagueRule=rules.football_league;
     if(leagueRule.tie_break_status==="approved"){
-      if(!Array.isArray(leagueRule.tie_breakers)||leagueRule.tie_breakers.length!==1||
-         leagueRule.tie_breakers[0]!=="head_to_head_goal_difference"||
+      const expectedOrder=["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
+      if(!Array.isArray(leagueRule.tie_breakers)||leagueRule.tie_breakers.length!==expectedOrder.length||
+         leagueRule.tie_breakers.some((key,i)=>key!==expectedOrder[i])||
          leagueRule.tie_break_scope!=="mutual_matches_among_equal_points_teams")
-        error("FOOTBALL_TIE_BREAK","approved tie-break must be mutual head-to-head goal difference only");
+        error("FOOTBALL_TIE_BREAK","approved tie-break sequence must be H2H GD, fewest reds, then fewest yellows");
       if(leagueRule.tie_break_source?.kind!=="organizer_instruction"||
          !string(leagueRule.tie_break_source.date)||!string(leagueRule.tie_break_source.source_ref))
         error("FOOTBALL_TIE_BREAK_SOURCE","approved head-to-head rule needs traceable organizer instruction");
+      const cards=leagueRule.disciplinary_tie_break;
+      if(!cards||cards.status!=="approved"||
+         cards.ranking_method!=="fewest_red_then_fewest_yellow"||
+         cards.scope!=="all_approved_league_fixtures"||
+         cards.ranking_only_when_league_complete!==true||
+         cards.require_explicit_per_team_counts!==true)
+        error("FOOTBALL_CARD_TIE_BREAK","approved cards must be fewer reds, then fewer yellows from complete league");
+      if(cards?.source?.kind!=="organizer_instruction"||
+         !string(cards.source.date)||!string(cards.source.source_ref))
+        error("FOOTBALL_CARD_TIE_BREAK_SOURCE","approved card order needs traceable organizer decision");
     }
     if(leagueRule.approval_status==="approved"&&leagueRule.tie_break_status!=="approved")
       error("FOOTBALL_TIE_BREAK_PENDING","full football approval cannot bypass tie-break approval");

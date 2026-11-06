@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "rules_version": "r15-bc.3-cards-petanque",
+  "rules_version": "r15-bc.4-red-then-yellow",
   "publication_authority": "committee_approval_required",
   "source": {
     "candidate_path": "data/program-from-pdf-2569-20261104-draft.json",
@@ -25,7 +25,9 @@
     },
     "points_provenance": "operational requirement R15-B; not separately ratified in the available draft PDF",
     "tie_breakers": [
-      "head_to_head_goal_difference"
+      "head_to_head_goal_difference",
+      "fewest_red_cards",
+      "fewest_yellow_cards"
     ],
     "tie_break_status": "approved",
     "qualification_status": "pending_rule_approval",
@@ -71,23 +73,24 @@
       "source_ref": "docs/R15BC_FOOTBALL_HEAD_TO_HEAD_GD_20261106.md",
       "statement": "If football league points are equal, decide by head-to-head goal difference among tied teams."
     },
-    "unresolved_tie_policy": "position_null_pending_additional_approval",
+    "unresolved_tie_policy": "position_null_when_points_h2h_red_yellow_equal",
     "disciplinary_tie_break": {
-      "status": "approved_count_cards_pending_method",
+      "status": "approved",
       "after": "head_to_head_goal_difference",
       "card_fields": [
         "yellow",
         "red"
       ],
       "require_explicit_per_team_counts": true,
-      "ranking_method": "pending_organizer_confirmation",
-      "scope": "pending_organizer_confirmation",
+      "ranking_method": "fewest_red_then_fewest_yellow",
+      "scope": "all_approved_league_fixtures",
       "yellow_red_conversion": "pending_organizer_confirmation",
       "source": {
         "kind": "organizer_instruction",
         "date": "2026-11-06",
-        "source_ref": "docs/R15BC_CARDS_PETANQUE_KNOCKOUT_20261106.md"
-      }
+        "source_ref": "docs/R15BC_FOOTBALL_RED_THEN_YELLOW_20261106.md"
+      },
+      "ranking_only_when_league_complete": true
     }
   },
   "sport_policies": [
@@ -96,7 +99,7 @@
       "status": "pending_rule_approval",
       "format": "mixed_league_and_knockout",
       "result_type": "score",
-      "note": "H2H GD confirmed; if still tied count yellow/red disciplinary cards (fields required; weighting, scope and sorting method pending). Football phase qualification remains pending."
+      "note": "Organizer confirmed equal-points H2H GD, then fewest red cards, then fewest yellow cards (15 league fixtures only; card rank only after all league fixtures approved); no inferred weighted points. Football full qualification/other unresolved rules remain gated."
     },
     {
       "sport_id": "shootout",
