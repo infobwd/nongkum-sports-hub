@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/program.css?v=r18-date1">
+  <link rel="stylesheet" href="./css/program.css?v=r18b-date1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 </head>
 <body data-view="program">
@@ -86,7 +86,12 @@
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
       <div id="scheduleDaySwitch" class="schedule-day-switch" role="group" aria-label="เลือกช่วงวันแข่งขัน">
         <button type="button" data-day-mode="upcoming" aria-pressed="true">วันนี้ / วันแข่งขันถัดไป</button>
+        <button type="button" data-day-mode="date" aria-pressed="false">เลือกวันที่</button>
         <button type="button" data-day-mode="all" aria-pressed="false">ทุกวัน</button>
+      </div>
+      <div class="schedule-date-picker" id="scheduleDatePicker" hidden>
+        <p class="schedule-date-picker-label">เลือกวันที่มีการแข่งขัน (เลื่อนซ้าย–ขวาเพื่อดูเพิ่มเติม)</p>
+        <div class="schedule-date-options" id="scheduleDateOptions" role="group" aria-label="วันที่แข่งขันที่มีรายการ"></div>
       </div>
       <p class="subtle" id="scheduleDayHint" role="status" aria-live="polite"></p>
       <p class="subtle" id="resultNote">เรียงตามวันที่และเวลาแข่งขัน · เปิดสูจิบัตรจากแต่ละรายการได้ทันที</p>
@@ -134,6 +139,6 @@
 <script src="./js/review-share.js?v=r14-share1"></script>
 <script src="./js/ui-toast.js?v=r13-main1"></script>
 <script src="./js/schedule-order.js?v=r18-date1"></script>
-<script src="./js/program.js?v=r19-venue1"></script>
+<script src="./js/program.js?v=r18b-date1"></script>
 </body>
 </html>
