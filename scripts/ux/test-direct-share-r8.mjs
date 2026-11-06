@@ -9,6 +9,7 @@ const approvedPublic=JSON.parse(read("data/public-results.json"));
 const index=JSON.parse(read("data/share-index.json"));
 const shared=read("js/shared.js");
 const sorter=read("js/schedule-order.js");
+const corrections=read("js/program-corrections.js");
 const program=read("js/program.js");
 const results=read("js/results.js");
 const renderers=read("js/results-renderers.js");
@@ -104,6 +105,7 @@ async function mountProgram(query,stored=""){
  });
  new vm.Script(shared).runInContext(context);
  new vm.Script(sorter).runInContext(context);
+ new vm.Script(corrections).runInContext(context);
  new vm.Script(program).runInContext(context);
  for(let i=0;i<18;i++)await Promise.resolve();
  return {els,history,context};
