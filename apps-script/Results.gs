@@ -70,7 +70,17 @@ function nkApproveResultsSelection(){
   if(!selected||selected.getRow()<2||selected.getNumRows()>40)throw Error("เลือกได้ครั้งละ 1–40 แถว ไม่รวมส่วนหัว");
   var c=NK_RESULT_TABS[kind],start=selected.getRow(),n=selected.getNumRows();
   var rows=s.getRange(start,1,n,s.getLastColumn()).getValues();
-  rows.forEach(function(r,i){try{nkCheckResultRow_(kind,r);}catch(e){throw Error("แถว "+(start+i)+": "+e.message);}});
+  // Do not let a selected draft row jump directly to public approval.
+  nkEntryCheckDuplicate_(ss,kind);
+  rows.forEach(function(r,i){
+    if(nkTrim_(r[c.status])!=="review")
+      throw Error("แถว "+(start+i)+": กรุณาส่งผลให้ตรวจสอบก่อนยืนยันผล");
+    try{
+      nkCheckResultRow_(kind,r);
+      nkEntryCheckSource_(ss,kind,r);
+      nkEntryRequireApprovedSource_(ss,kind,r);
+    }catch(e){throw Error("แถว "+(start+i)+": "+e.message);}
+  });
   var now=new Date();
   s.getRange(start,c.status+1,n,1).setValues(rows.map(function(){return ["approved"]; }));
   s.getRange(start,c.by+1,n,2).setValues(rows.map(function(){return [email,now];}));

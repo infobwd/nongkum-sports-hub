@@ -83,7 +83,8 @@
         throw Error("ตรวจรายการหรือสถานะไม่ผ่าน");
       ids.add(f.id);
     }
-    if(data.fixtures.length!==237||data.fixtures.filter(x=>x.kind==="match").length!==187||
+    if(![236,237].includes(data.fixtures.length)||
+       data.fixtures.filter(x=>x.kind==="match").length!==data.fixtures.length-50||
        data.fixtures.filter(x=>x.kind==="track_event").length!==50||
        data.fixtures.filter(x=>x.kind==="track_event").reduce((n,x)=>n+(x.lanes?.length||0),0)!==289)
       throw Error("จำนวนรายการไม่ตรงกับ PDF revision นี้");

@@ -1,4 +1,4 @@
-/* R11D read-only 237-item PDF preview. Changes are sent in ChatGPT by the organizer, not written here. */
+/* R11D read-only revised PDF preview with organizer-confirmed exclusions. Changes are sent in ChatGPT by the organizer, not written here. */
 (function(){
   "use strict";
   const M=globalThis.NongkumReviewModel;
@@ -388,7 +388,8 @@
     if(first)ui.skeleton.hidden=false;
     else ui.status.textContent="กำลังตรวจข้อมูลฉบับใหม่ โดยยังแสดงรายการเดิมไว้…";
     try{
-      const candidate=M.validate(await fetchJson(M.SOURCE_PATH));
+      const raw=await fetchJson(M.SOURCE_PATH);
+       const candidate=M.validate(globalThis.NongkumProgramCorrections?.apply(raw)||raw);
       if(serial!==requestSerial)return;
       let diff=null;
       try{

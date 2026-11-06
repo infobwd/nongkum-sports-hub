@@ -27,14 +27,17 @@ var NK_COLS = Object.freeze({
 });
 
 function onOpen() {
-  SpreadsheetApp.getUi().createMenu("มิตรภาพเกม · กรรมการ")
-    .addItem("ดูสถานะการตรวจข้อมูล", "nkShowReadiness")
-    .addItem("รับรองแถวที่เลือก (ผู้มีสิทธิ์เท่านั้น)", "nkApproveSelection")
+  SpreadsheetApp.getUi().createMenu("มิตรภาพเกมส์ · บันทึกผล")
+    .addItem("เริ่มบันทึกผลคู่แข่งขันที่เลือก", "nkStartPairResultFromSelectedFixture")
+    .addItem("เริ่มบันทึกผลกรีฑาที่เลือก", "nkStartTrackResultFromSelectedLane")
+    .addItem("ส่งผลที่เลือกให้ตรวจ", "nkSubmitResultsForReview")
+    .addItem("ยืนยันผลที่เลือก (ผู้มีสิทธิ์)", "nkApproveResultsSelection")
     .addSeparator()
-    .addItem("สร้าง JSON เฉพาะ Approved ใน Drive ส่วนตัว", "nkExportApprovedToDrive")
+    .addItem("เตรียมผลสำหรับเผยแพร่ (ผู้ดูแล)", "nkExportApprovedResultsToDrive")
     .addSeparator()
-    .addItem("รับรองผลการแข่งขันแถวที่เลือก", "nkApproveResultsSelection")
-    .addItem("ส่งออกผล Approved เป็น JSON ส่วนตัว", "nkExportApprovedResultsToDrive")
+    .addItem("ดูสถานะข้อมูลการแข่งขัน", "nkShowReadiness")
+    .addItem("ยืนยันข้อมูลรายการแข่งขัน (ผู้มีสิทธิ์)", "nkApproveSelection")
+    .addItem("เตรียมข้อมูลรายการแข่งขัน (ผู้ดูแล)", "nkExportApprovedToDrive")
     .addToUi();
 }
 

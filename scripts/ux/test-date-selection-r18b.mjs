@@ -6,7 +6,7 @@ import {readFileSync} from "node:fs";
 const read=path=>readFileSync(new URL("../../"+path,import.meta.url),"utf8");
 const data=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
 const html=read("index.html"),css=read("css/program.css");
-const shared=read("js/shared.js"),sorter=read("js/schedule-order.js"),program=read("js/program.js");
+const shared=read("js/shared.js"),sorter=read("js/schedule-order.js"),program=read("js/program.js"),corrections=read("js/program-corrections.js");
 assert.equal(data.fixtures.length,237);
 for(const source of [shared,sorter,program])new vm.Script(source);
 assert.match(html,/data-day-mode="date"/);
@@ -42,7 +42,7 @@ async function mount(url){
     document:{getElementById:id=>els[id]||null,createElement:tag=>element(tag)},
     fetch:async()=>({ok:true,json:async()=>data})
   });
-  for(const source of [shared,sorter,program])new vm.Script(source).runInContext(context);
+  for(const source of [shared,sorter,corrections,program])new vm.Script(source).runInContext(context);
   for(let i=0;i<20;i++)await Promise.resolve();
   return els;
 }
@@ -54,7 +54,7 @@ assert.match(els.scheduleDayHint.textContent,/วันแข่งขันถ�
 els.scheduleDaySwitch.handlers.click(mode("date"));
 assert.equal(els.scheduleDatePicker.hidden,false);
 for(const [iso,count] of [["2026-11-12",12],["2026-11-13",12],["2026-11-16",73],
- ["2026-11-17",38],["2026-11-18",33],["2026-11-19",37],["2026-11-20",29]])
+ ["2026-11-17",38],["2026-11-18",33],["2026-11-19",37],["2026-11-20",28]])
   assert.match(els.scheduleDateOptions.innerHTML,new RegExp(iso+"[\\s\\S]*?"+count+" รายการ"));
 assert.match(els.scheduleDateOptions.innerHTML,/data-selected-day='unknown'/);
 assert.match(els.scheduleDateOptions.innerHTML,/รอยืนยันวัน/);
@@ -83,7 +83,7 @@ assert.match(returned.cards.innerHTML,/รอยืนยันวันแข�
 assert.doesNotMatch(returned.cards.innerHTML,/วันจันทร์ที่ 17 พฤศจิกายน 2569/);
 returned.scheduleDaySwitch.handlers.click(mode("all"));
 assert.equal(returned.scheduleDatePicker.hidden,true);
-assert.match(returned.count.textContent,/พบ 237 รายการ/);
+assert.match(returned.count.textContent,/พบ 236 รายการ/);
 assert.equal(returned.more.hidden,false);
 assert.equal(JSON.parse(read("data/public-results.json")).results.length,0);
 console.log("R18-B PASS: 7 real days + 3 unknown, date chips, 73-item pagination counts, return-state, fresh-default and approved-only.");

@@ -21,7 +21,7 @@ assert.match(html,/src="\.\/js\/pdf-viewer\.js\?v=r14-book1"/);
 assert.match(reviewHtml,/id="pdfPreviewClose"/);
 assert.match(reviewHtml,/class="review-preview-footer"/);
 assert.match(reviewHtml,/href="\.\/css\/review\.css\?v=r11d6"/);
-assert.match(reviewHtml,/src="\.\/js\/review\.js\?v=r11d6"/);
+assert.match(reviewHtml,/src="\.\/js\/review\.js\?v=r11d6(?:-r20b1)?"/);
 assert.match(reviewCss,/padding-top:env\(safe-area-inset-top,0px\);padding-bottom:env\(safe-area-inset-bottom,0px\)/);
 assert.doesNotMatch(reviewCss,/padding-top:max\(env\(safe-area-inset-top,0px\),44px\)/);
 assert.match(css,/\.pdf-embedded \.pdf-book-header\{display:none\}/);

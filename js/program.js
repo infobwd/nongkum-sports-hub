@@ -480,9 +480,11 @@
       const path="./data/program-from-pdf-2569-20261104-draft.json?refresh="+Date.now();
       const response=await fetch(path,{cache:"no-store"});
       if(!response.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");
-      const data=await response.json();
+      const raw=await response.json();
+      if(!globalThis.NongkumProgramCorrections)throw Error("ไม่สามารถตรวจข้อมูลกำหนดการแข่งขัน");
+      const data=globalThis.NongkumProgramCorrections.apply(raw);
       const candidate=data.metadata?.source_status==="revised_pdf_draft"&&
-        data.schema_version===3&&data.fixtures?.length===237&&
+        data.schema_version===3&&data.fixtures?.length===236&&
         data.metadata.website_publication_status==="not_released";
       const legacy=data.metadata?.status==="prototype";
       if(!data.metadata||data.metadata.all_data_approved!==false||
@@ -512,7 +514,7 @@
       setFailure(false);
       restoreTabListingAfterLoad();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
-        (candidate?" · โปรแกรมการแข่งขัน 237 รายการ":" · โปรแกรมการแข่งขันชุดเดิม")+
+        (candidate?" · โปรแกรมการแข่งขัน 236 รายการ":" · โปรแกรมการแข่งขันชุดเดิม")+
         " · ไฟล์เผยแพร่บนเว็บ";
     }catch(e){
       els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้":"โหลดโปรแกรมไม่สำเร็จ · ลองใหม่อีกครั้ง";

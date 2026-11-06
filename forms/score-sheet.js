@@ -114,10 +114,11 @@
       // Legacy data/draft-schedule.json is retained as a historical source, not today's printable fixture feed.
       const response=await fetch("../data/program-from-pdf-2569-20261104-draft.json?refresh="+Date.now(),{cache:"no-store"});
       if(!response.ok)throw Error("ไม่สามารถอ่านข้อมูลต้นทาง");
-      const data=await response.json();
+      const raw=await response.json();
+      const data=globalThis.NongkumProgramCorrections?.apply(raw)||raw;
       if(!data.metadata||data.metadata.all_data_approved!==false||
          !Array.isArray(data.fixtures)||!Array.isArray(data.sports)||!Array.isArray(data.schools)||
-         !(data.metadata.source_status==="revised_pdf_draft"&&data.fixtures.length===237||
+         !(data.metadata.source_status==="revised_pdf_draft"&&[236,237].includes(data.fixtures.length)||
            data.metadata.status==="prototype"))
         throw Error("ข้อมูลต้นทางไม่ผ่านการตรวจสอบ");
       const item=data.fixtures.find(x=>x.id===id);
