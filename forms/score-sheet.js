@@ -140,7 +140,8 @@
       text("fixtureId",item.id);
       for(const key of Object.keys(fields))text(key,fields[key]);
       const date=item.planning_date_confirmation==="confirmed"?item.planning_date:(item.source_pdf?.source_date_text||item.date);
-      const venue=item.planning_venue_confirmation==="confirmed"?item.planning_venue:(item.source_pdf?.source_field||item.field);
+      const field=item.source_pdf?.source_field||item.field||"";
+      const venue=item.planning_venue_confirmation==="confirmed"?[item.planning_venue,field].filter(Boolean).join(" · "):field;
       text("date",date);
       text("venue",venue);
       text("time",""); // actual start/end time must be recorded at the field, not copied from PDF
