@@ -190,4 +190,13 @@ const missingResultH2H=engine.calculateLeague(fixtures,[
 ],league);
 assert.ok(missingResultH2H.rows.every(r=>r.position===null),
   "production publication remains blocked when football approval is incomplete");
-console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0 ties, goal difference, prestart zeros, partial rounds, KO, athletics, sets, invalid JSON, revision audit and digest");
+
+const badOfficialH2H=clone(rules);badOfficialH2H.football_league.tie_breakers=["goal_difference"];
+assert.ok(validatePublication(data,program,badOfficialH2H).some(x=>x.code==="FOOTBALL_TIE_BREAK"),
+  "a rules-only regression must fail CI before any results are published");
+const noProvenanceH2H=clone(rules);delete noProvenanceH2H.football_league.tie_break_source;
+assert.ok(validatePublication(data,program,noProvenanceH2H).some(x=>x.code==="FOOTBALL_TIE_BREAK_SOURCE"),
+  "traceable organizer rule decision is required");
+assert.equal(buildSnapshot(data,program,simulatedRules).standings.length,0,
+  "never publish zero-result standings even if a future rule is fully approved");
+console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
