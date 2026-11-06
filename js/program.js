@@ -302,7 +302,7 @@
         m.planning_venue_confirmation==="confirmed"&&m.planning_venue==="โรงเรียนบ้านหนองกระทุ่ม");
       els.verificationSummary.textContent=(venueConfirmed?"สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม (ยืนยันแล้ว) · ":"")+
         "กำหนดวันและเวลายืนยันแล้ว "+confirmed+" รายการ · อีก "+rest+
-        " รายการอยู่ระหว่างตรวจรับวันและเวลา";
+        " รายการอยู่ระหว่างตรวจรับรายละเอียดวันและเวลา";
     }
     if(els.orderNote){
       const filters=[];
