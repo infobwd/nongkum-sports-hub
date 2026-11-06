@@ -24,6 +24,7 @@ jobs:
       - run: node scripts/ux/test-score-sheet-r5.mjs
       - run: node scripts/ux/test-mobile-navigation-r6.mjs
       - run: node scripts/ux/test-visual-consistency-r7.mjs
+      - run: node scripts/ux/test-program-menu-r21.mjs
       - run: node scripts/share/build-match-pages.mjs --check
       - run: node scripts/ux/test-direct-share-r8.mjs
       - run: node scripts/ux/test-loading-r9.mjs
