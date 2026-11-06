@@ -13,7 +13,7 @@ import json
 import re
 
 SOURCE_PAGES = tuple(range(6, 17))
-SECTION = re.compile(r"^([1-9]|1[0-9]|20)\.\s+(?!\d)(.+)")
+SECTION = re.compile(r"^([1-9]|1[0-9]|20)\.\s+((?:คณะกรรมการ|ฝ่าย).+)")
 MEMBER = re.compile(r"^\d{1,2}(?:\.\d{1,2}){1,3}(?![\d.])(?:\s+|$)")
 SUBSECTION = re.compile(r"^\d{1,2}\.\d{1,2}\s+")
 PAGE_FOOT = re.compile(r"^-\s*\d+\s*-$")
