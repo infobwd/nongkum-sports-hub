@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183762">
+  <meta name="description" content="มิตรภาพเกมส์ 2569 — สารสนเทศเตรียมการคณะกรรมการและฝ่ายจัดการแข่งขัน">
+  <title>สารสนเทศคณะกรรมการ — มิตรภาพเกมส์ 2569</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/committee.css?v=r19ac1">
+</head>
+<body data-view="committee">
+<header class="top">
+  <div class="shell">
+    <div class="brand">
+      <a class="report-brand" href="./index.html"><span class="report-brand-icon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></a>
+      <span class="mode">เตรียมการปี 2569</span>
+    </div>
+    <nav class="site-nav" aria-label="เมนูเว็บไซต์">
+      <a href="./index.html">โปรแกรมการแข่งขัน</a>
+      <a href="./results.html">ผลการแข่งขัน</a>
+      <a href="./committee.html" aria-current="page">คณะกรรมการ</a>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">กลุ่มโรงเรียนหนองกุ่ม</p>
+      <h1>ความพร้อมกรรมการและฝ่ายจัดการแข่งขัน</h1>
+      <p>สารสนเทศสำหรับเตรียมงาน · ไม่ใช่คำสั่งแต่งตั้ง</p>
+    </div>
+  </div>
+</header>
+<main class="shell" id="committeeMain">
+  <nav class="committee-shortcuts" aria-label="ไปหน้าหลักของการแข่งขัน">
+    <a href="./index.html">← ตารางการแข่งขัน</a>
+    <a href="./results.html">ผลการแข่งขัน</a>
+  </nav>
+  <aside class="notice committee-legal" aria-label="ข้อควรทราบเรื่องสถานะคณะกรรมการ">
+    <span aria-hidden="true">ℹ️</span>
+    <div><strong>อยู่ระหว่างเตรียมการแต่งตั้งปี 2569</strong>
+      <p>แม่แบบคณะกรรมการที่ใช้อ้างอิงมาจากคำสั่งปี 2568 ไม่ใช่การแต่งตั้งในปี 2569 และไม่ใช่ทะเบียนครูฉบับเต็ม</p>
+    </div>
+  </aside>
+  <div class="committee-loader" id="committeeLoading" role="status" aria-live="polite">
+    <span class="committee-loading-line"></span><span class="committee-loading-line short"></span>
+    <p>กำลังโหลดข้อมูลการเตรียมกรรมการ…</p>
+  </div>
+  <section class="load-failure" id="committeeLoadFailure" role="alert" hidden>
+    <h2>ยังเปิดข้อมูลคณะกรรมการไม่ได้</h2>
+    <p>ยังไม่มีข้อมูลที่จะยืนยันได้ กรุณาตรวจการเชื่อมต่อ แล้วลองใหม่อีกครั้ง</p>
+    <button type="button" class="load-retry" id="committeeRetry">↻ ลองอีกครั้ง</button>
+  </section>
+  <div id="committeeReport" hidden>
+    <section class="committee-overview panel" aria-labelledby="committeeOverviewTitle">
+      <div class="committee-section-top">
+        <div>
+          <p class="committee-kicker">ข้อมูลเตรียมการจาก Repo</p>
+          <h2 id="committeeOverviewTitle">ภาพรวมความพร้อม</h2>
+        </div>
+        <button type="button" class="refresh-button" id="committeeRefresh">↻ รีเฟรช</button>
+      </div>
+      <p class="committee-caption" id="committeeRevision">กำลังตรวจรุ่นข้อมูล…</p>
+      <div id="committeeMetrics" class="committee-metrics" aria-label="ตัวชี้วัดภาพรวม"></div>
+      <p class="committee-caption" id="committeeApprovalHint">จำนวนรายชื่อที่รับรองหมายถึงข้อมูลที่มีหลักฐานและอนุญาตให้เผยแพร่ในชุดนี้เท่านั้น</p>
+    </section>
+    <section class="committee-venue panel" aria-labelledby="committeeVenueTitle">
+      <div class="committee-venue-icon" aria-hidden="true">📍</div>
+      <div>
+        <h2 id="committeeVenueTitle">สนามหลักการแข่งขัน</h2>
+        <p id="committeeVenueName"></p>
+        <p class="committee-caption" id="committeeVenueScope"></p>
+      </div>
+    </section>
+    <section class="panel committee-explorer" aria-labelledby="committeeExplorerTitle">
+      <h2 id="committeeExplorerTitle">สำรวจข้อมูลกรรมการ</h2>
+      <div class="committee-views" role="group" aria-label="เลือกมุมมองรายงาน" id="committeeViews">
+        <button type="button" data-report-mode="sports" aria-pressed="true">ชนิดกีฬา</button>
+        <button type="button" data-report-mode="groups" aria-pressed="false">ฝ่ายกรรมการ</button>
+        <button type="button" data-report-mode="schools" aria-pressed="false">โรงเรียน</button>
+        <button type="button" data-report-mode="review" aria-pressed="false">ประเด็นตรวจ</button>
+      </div>
+      <div class="committee-filters">
+        <div>
+          <label for="committeeSport" class="fieldlabel">เลือกชนิดกีฬา</label>
+          <select id="committeeSport"><option value="">ทุกชนิดกีฬา</option></select>
+        </div>
+        <div>
+          <label for="committeeDivision" class="fieldlabel">เลือกรุ่นแข่งขัน</label>
+          <select id="committeeDivision" disabled><option value="">ทุกรุ่นแข่งขัน</option></select>
+        </div>
+        <div class="committee-search-wrap">
+          <label for="committeeSearch" class="fieldlabel">ค้นหาชื่อกีฬา / ฝ่าย / โรงเรียน / รายการ</label>
+          <input id="committeeSearch" type="search" autocomplete="off" placeholder="เช่น เปตอง, ประธาน, วังด้ง">
+        </div>
+      </div>
+      <p id="committeeCount" class="committee-caption" role="status" aria-live="polite"></p>
+      <div id="committeeCards" class="committee-cards" aria-live="polite" aria-relevant="additions text"></div>
+      <p class="committee-caption committee-source-note">ชื่อผู้รับผิดชอบจะปรากฏได้เฉพาะเมื่อผ่านการรับรองปี 2569 และตรวจสิทธิ์การเผยแพร่แล้ว</p>
+    </section>
+    <section class="panel committee-next" aria-labelledby="committeeNextTitle">
+      <h2 id="committeeNextTitle">ขั้นตอนก่อนใช้ข้อมูลรายชื่อจริง</h2>
+      <p>ผู้จัดตรวจทะเบียนครูในพื้นที่จำกัดสิทธิ์ → ตรวจการมอบหมายและวันชนกัน → ออกคำสั่งรับรองปี 2569 → ตรวจสิทธิ์เผยแพร่ → จึงปรับข้อมูลรายงานสาธารณะ</p>
+      <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/R19AC_COMMITTEE_REPORT_IMPLEMENTATION_PLAN.md">อ่านแผนและขอบเขตการใช้ข้อมูล R19-A/C</a>
+    </section>
+  </div>
+</main>
+<footer class="shell">มิตรภาพเกมส์ 2569 · หน้ารายงานเตรียมการกรรมการ · ไม่ใช่คำสั่งแต่งตั้ง</footer>
+<script src="./js/committee.js?v=r19ac1"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/* R19-C — isolated mobile-first committee planning report.
+   Program/results two-tab bottom nav remains unchanged. */
+body[data-view="committee"]{padding-bottom:max(20px,env(safe-area-inset-bottom,0px));}
+body[data-view="committee"] .top{background:#183762}
+body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10px;color:#fff;font-size:1rem;font-weight:800;text-decoration:none;min-height:44px}
+.report-brand-icon{display:grid;place-items:center;background:#fff2bf;border-radius:10px;font-size:20px;width:36px;height:36px}
+.committee-shortcuts{display:flex;gap:9px;padding-top:13px}
+.committee-shortcuts a{flex:1;min-height:45px;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #cbd9e8;color:#164875;border-radius:11px;font-size:.85rem;font-weight:750;text-align:center}
+.committee-shortcuts a:focus-visible,.committee-views button:focus-visible,.committee-next a:focus-visible{outline:3px solid #e3b335;outline-offset:3px}
+.committee-legal{margin:14px 0 16px}
+.committee-legal p{margin:4px 0 0;font-size:.82rem}
+.committee-loader{border-radius:18px;border:1px solid #e0e7ee;background:#fff;min-height:170px;padding:25px;margin-top:12px}
+.committee-loader p{font-size:.82rem;color:#64788e}
+.committee-loading-line{display:block;height:20px;width:70%;background:#e8edf4;border-radius:8px;margin-bottom:17px}
+.committee-loading-line.short{width:45%;height:13px}
+.committee-loader[hidden],#committeeReport[hidden],#committeeLoadFailure[hidden]{display:none!important}
+.committee-kicker{font-size:.74rem;color:#55728c;font-weight:700;letter-spacing:.025em;margin:0 0 3px}
+.committee-section-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.committee-section-top h2{margin:0}
+.committee-caption{font-size:.76rem;color:#526c87;line-height:1.6;margin:8px 0}
+.committee-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0}
+.committee-metric{background:#f1f5fa;border:1px solid #e2eaf2;border-radius:12px;text-align:center;padding:11px 5px}
+.committee-metric strong{display:block;font-size:1.55rem;line-height:1.25;color:#183762;font-variant-numeric:tabular-nums}
+.committee-metric span{display:block;font-size:.74rem;color:#45627f;margin-top:3px}
+.committee-venue{display:flex;gap:12px;align-items:flex-start;background:#fdfdf8}
+.committee-venue-icon{display:grid;place-items:center;background:#fff2bf;border-radius:12px;min-width:43px;height:43px;font-size:22px}
+.committee-venue h2{margin:0 0 4px}
+.committee-venue p{margin:0 0 4px}
+#committeeVenueName{font-weight:800;color:#183762}
+.committee-views{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+.committee-views button{font:inherit;font-weight:750;font-size:.8rem;border-radius:10px;min-height:48px;background:#f7fafc;color:#335876;border:1px solid #c8d7e7;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.committee-views button[aria-pressed="true"]{background:#183762;color:#fff;border-color:#183762}
+.committee-filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:13px 0}
+.committee-filters select,.committee-filters input{width:100%;min-height:48px}
+.committee-filters select:disabled{background:#f2f5f8;color:#7b8ea2}
+.committee-search-wrap{grid-column:1/-1}
+.committee-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:10px}
+.committee-card{border:1px solid #dbe4ef;border-radius:15px;padding:14px;background:#fff;min-width:0}
+.committee-card h3{font-size:1rem;line-height:1.38;margin:4px 0 7px;color:#183762}
+.committee-card p{font-size:.82rem;color:#526c87;margin:5px 0;overflow-wrap:anywhere}
+.committee-card .committee-card-kicker{font-size:.71rem;font-weight:750;color:#38648b}
+.committee-card .committee-card-meta{font-size:.75rem}
+.committee-card .committee-card-state{font-size:.76rem;font-weight:700;background:#fff5d7;border:1px solid #f1deb3;border-radius:9px;color:#755914;padding:7px 9px;margin-top:10px}
+.committee-card .committee-card-divider{border-top:1px solid #ebf0f5;margin-top:10px;padding-top:9px}
+.committee-roles{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.committee-role{font-size:.73rem;color:#27557d;background:#edf4fa;border-radius:8px;padding:5px 8px}
+.committee-card h4{margin:8px 0 5px;font-size:.84rem;color:#1f4c78}
+.committee-division-list{padding:0;margin:8px 0 0;list-style:none}
+.committee-division-list li{padding:7px 0;border-top:1px solid #edf1f5;font-size:.79rem;color:#284a68}
+.committee-division-list li:first-child{border-top:0}
+.committee-empty{grid-column:1/-1;background:#f5f8fc;border:1px dashed #9eb4cb;text-align:center;padding:25px 13px;border-radius:14px}
+.committee-empty h3{margin:0 0 7px}
+.committee-empty p{color:#506a85;font-size:.85rem}
+.committee-next p{font-size:.85rem;color:#49637d}
+.committee-next a{display:inline-flex;align-items:center;min-height:44px;font-size:.82rem;font-weight:700}
+.committee-source-note{margin-top:14px}
+@media(max-width:690px){
+ body[data-view="committee"] > header.top{position:sticky;top:0;z-index:1100;margin-top:calc(-1 * var(--safe-top));padding-top:var(--safe-top);background:#fff;color:#183762;border-bottom:1px solid #d7e2ed}
+ body[data-view="committee"] .report-brand{color:#183762}
+ body[data-view="committee"] > header.top .hero,body[data-view="committee"] > header.top .site-nav{display:none}
+ body[data-view="committee"] > header.top .brand{padding:6px 0}
+ body[data-view="committee"] > header.top .mode{color:#355878;border-color:#d3e0ec}
+ .committee-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .committee-cards{grid-template-columns:1fr}
+ .committee-views button{font-size:.76rem;padding:6px 3px}
+ .committee-filters{grid-template-columns:1fr}
+}
+@media(max-width:370px){.committee-views{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.committee-views button,.committee-shortcuts a{transition:none}}
+@media print{.committee-shortcuts,.committee-views,.committee-filters,#committeeRefresh,.committee-next a{display:none!important}.committee-cards{grid-template-columns:1fr 1fr}}
