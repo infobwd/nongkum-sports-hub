@@ -12,6 +12,7 @@ on:
       - "scripts/ux/test-program-line-r14.mjs"
       - "scripts/ux/test-tab-return-confirmed-r17.mjs"
       - "scripts/ux/test-date-aware-program-r18.mjs"
+      - "scripts/ux/test-date-selection-r18b.mjs"
       - "data/program-from-pdf-2569-20261104-draft.json"
       - ".github/workflows/r14-field-ready.yml"
   push:
@@ -34,6 +35,7 @@ jobs:
       - run: node scripts/ux/test-schedule-chronological-r16.mjs
       - run: node scripts/ux/test-tab-return-confirmed-r17.mjs
       - run: node scripts/ux/test-date-aware-program-r18.mjs
+      - run: node scripts/ux/test-date-selection-r18b.mjs
       - run: node scripts/ux/test-unified-pdf-r11d6.mjs
       - run: node scripts/ux/test-mobile-navigation-r6.mjs
       - run: node scripts/ux/test-visual-consistency-r7.mjs
