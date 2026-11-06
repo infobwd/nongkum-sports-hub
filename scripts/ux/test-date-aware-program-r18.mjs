@@ -39,7 +39,7 @@ assert.match(html,/data-day-mode="all"/);
 assert.match(css,/min-height:48px/);
 assert.ok(!html.includes("ข้อมูลร่าง"),"public schedule must not be globally marked draft");
 assert.ok(!program.includes("รายละเอียด · ข้อมูลร่าง"));
-assert.match(html,/program\.js\?v=r18-date1/);
+assert.match(html,/program\.js\?v=r19-venue1/);
 assert.match(html,/schedule-order\.js\?v=r18-date1/);
 
 function element(id){
@@ -81,7 +81,9 @@ assert.equal(day.els.more.hidden,true,"next day has exactly twelve confirmed mat
 assert.match(day.els.cards.innerHTML,/ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว/);
 assert.doesNotMatch(day.els.cards.innerHTML,/ควรตรวจเพิ่ม|ข้อสังเกตจาก PDF|ข้อมูลร่าง/);
 assert.match(day.els.cards.innerHTML,/รายละเอียดการแข่งขัน/);
-assert.match(day.els.scheduleVerificationSummary.textContent,/24 รายการ.*213 รายการ/);
+assert.match(day.els.scheduleVerificationSummary.textContent,/สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม.*45 รายการ.*192 รายการ/);
+assert.match(day.els.cards.innerHTML,/โรงเรียนบ้านหนองกระทุ่ม/);
+assert.match(day.els.cards.innerHTML,/สนาม [1-4]/);
 assert.ok(latest.fixtures.filter(x=>x.planning_time_confirmation==="confirmed").some(x=>x.qa_flags?.length),
  "QA metadata retained even though warnings are not shown to public");
 const modeEvent=mode=>({target:{closest:()=>({dataset:{dayMode:mode}})}});
