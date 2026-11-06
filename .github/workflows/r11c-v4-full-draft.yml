@@ -1,10 +1,12 @@
 name: R11C V4.1 full draft PDF review
 on:
   push:
-    branches: ["feat/r11c-v4-full-draft-builder-20261106"]
+    branches: ["feat/r11c-v41-magazine-formal-risk-review-20261106"]
     paths:
       - "scripts/docs/build-v4-full.py"
       - "scripts/docs/v41_editorial.py"
+      - "scripts/docs/test-v41-editorial.py"
+      - "docs/R11C_V41_IMPLEMENTATION_QA_20261106.md"
       - "docs/R11C_V41_EDITORIAL_FORMAL_RISK_PLAN_20261106.md"
       - "data/analysis/r12a-school-time-risk-20261104.json"
       - ".github/workflows/r11c-v4-full-draft.yml"
@@ -39,7 +41,7 @@ jobs:
           python scripts/docs/test-v41-editorial.py
       - name: Build full V4.1 DRAFT PDF from verified repository sources
         run: python scripts/docs/build-v4-full.py --root . --out build/v4-review
-      - name: Upload review PDF, HTML and 536 stable ID anchors
+      - name: Upload review PDF, HTML and 486 stable ID anchors
         uses: actions/upload-artifact@v4
         with:
           name: R11C-V41-full-draft-review
