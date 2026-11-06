@@ -1,0 +1,58 @@
+name: R11C V42-F integrated review PDF (no publication)
+on:
+  push:
+    branches: ["feat/r11c-v42f-full-book-review-20261107"]
+    paths:
+      - "scripts/docs/**"
+      - ".github/workflows/r11c-v42f-review.yml"
+      - "docs/R11C_V42F_FULL_BOOK_QA_20261107.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Thai render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-core libpango-1.0-0 libharfbuzz0b
+          python -m pip install "weasyprint==68.0" "PyMuPDF==1.26.7" "Pillow==12.0.0"
+      - name: Install Sarabun complete fonts (OFL, runner only)
+        run: |
+          mkdir -p /tmp/v41-fonts
+          for font in Sarabun-Regular.ttf Sarabun-Bold.ttf; do
+            curl -fLsS --retry 3 --connect-timeout 15 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/$font" -o "/tmp/v41-fonts/$font"
+            test -s "/tmp/v41-fonts/$font"
+          done
+          curl -fLsS --retry 3 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/OFL.txt" -o /tmp/v41-fonts/OFL.txt
+          test -s /tmp/v41-fonts/OFL.txt
+      - name: Source and editorial regressions before expensive PDF render
+        run: |
+          python -m py_compile scripts/docs/v42_ceremony.py scripts/docs/v42_rules.py scripts/docs/v42_matchday.py scripts/docs/v42_brackets.py scripts/docs/build-v4-full.py
+          python scripts/docs/test-v41-editorial.py
+          python scripts/docs/test-v42a-official.py
+          python scripts/docs/test-v42b-ceremony.py
+          python scripts/docs/test-v42c-rules.py
+          python scripts/docs/test-v42d-matchday.py
+          python scripts/docs/test-v42e-brackets.py
+      - name: Build integrated V42-F A4 review PDF
+        run: python scripts/docs/build-v4-full.py --root . --out build/v42f-review
+      - name: Verify PDF anchors, A4, all source counts, visual sample
+        run: python scripts/docs/test-v42f-pdf-qa.py build/v42f-review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: R11C-V42F-integrated-review-not-for-publication
+          path: |
+            build/v42f-review/souvenir-v4-full-draft.pdf
+            build/v42f-review/souvenir-v4-page-map.json
+            build/v42f-review/souvenir-v4-qa.json
+            build/v42f-review/souvenir-v42f-stage-qa.json
+            build/v42f-review/souvenir-v42f-pdf-preflight.json
+            build/v42f-review/souvenir-v42f-contact-sheet.png
+            build/v42f-review/souvenir-v42a-official-source-qa.json
+          retention-days: 30
