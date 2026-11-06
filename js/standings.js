@@ -174,7 +174,7 @@
     if(ui.listing?.setAttribute)ui.listing.setAttribute("aria-busy",String(active));
   }
   async function load(refresh){
-    if(loading)return;
+    if(loading)return false;
     loading=true;
     const first=!state.data;
     if(first){setLoading(true);ui.failure.hidden=true;}
@@ -188,6 +188,7 @@
       try{await loadRules(data);}catch(ruleError){state.snapshot=null;render();console.error(ruleError);}
       ui.failure.hidden=true;
       ui.status.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+" · ผลรับรองจากไฟล์บนเว็บ";
+      return true;
     }catch(error){
       ui.status.textContent=state.data
         ?"รีเฟรชไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้"
@@ -197,10 +198,12 @@
         ui.empty.hidden=true;ui.pending.hidden=true;ui.failure.hidden=false;
       }
       console.error(error);
+      return false;
     }finally{
       setLoading(false);ui.refresh.disabled=false;loading=false;
     }
   }
+  globalThis.NongkumPageRefresh=()=>load(true);
   ui.refresh.addEventListener("click",()=>load(true));
   ui.retry.addEventListener("click",()=>load(false));
   load(false);
