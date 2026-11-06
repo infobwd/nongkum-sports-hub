@@ -8,7 +8,8 @@ const index=JSON.parse(read("data/committee-pdf-positions-v3.json"));
 const roster=JSON.parse(read("data/committee-2569-draft-public-review.json"));
 const pdf=readFileSync(new URL("../../assets/souvenir-committee-2569-v3.pdf",import.meta.url));
 assert.equal(index.source_sha256,createHash("sha256").update(pdf).digest("hex"));
-assert.equal(index.source_sha256,roster.source_sha256);
+assert.equal(index.source_sha256,roster.editorial_correction.corrected_pdf_sha256);
+assert.equal(roster.source_sha256,roster.editorial_correction.original_source_sha256);
 assert.equal(index.roster_revision,roster.revision);
 assert.equal(index.source_pdf_pages,64);
 assert.equal(index.qa.total,250);
@@ -28,7 +29,7 @@ assert.doesNotMatch(viewer,/page\.getTextContent\(\)/,"no per-device text extrac
 assert.match(bridge,/url\.searchParams\.set\("entry", reference\.id\)/);
 assert.match(bridge,/กำลังดู/);
 assert.match(html,/pdfHighlightLayer/);
-assert.match(html,/js\/pdf-viewer\.js\?v=r19k1/);
+assert.match(html,/js\/pdf-viewer\.js\?v=r19k2/);
 assert.match(parent,/committee-pdf-preview\.js\?v=r19k1/);
 new vm.Script(script);
 new vm.Script(viewer);
