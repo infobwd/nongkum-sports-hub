@@ -15,6 +15,7 @@
     dayOptions:optionalElement("scheduleDateOptions"),
     dayHint:optionalElement("scheduleDayHint"),
     verificationSummary:optionalElement("scheduleVerificationSummary"),
+    verificationCounts:optionalElement("scheduleVerificationCounts"),
     empty:document.getElementById("empty"),
     more:document.getElementById("more"),
     advanced:document.getElementById("advancedFilters"),
@@ -173,7 +174,7 @@
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
     const confirmedSchedule=m.planning_date_confirmation==="confirmed"&&m.planning_venue_confirmation==="confirmed"&&m.planning_time_confirmation==="confirmed";
     const flags=!confirmedSchedule&&m.qa_flags&&m.qa_flags.length
-      ? "<p class='qa-note'>⚠ จุดที่ควรตรวจจาก PDF: "+safe(m.qa_flags.join(", "))+"</p>":"";
+      ? "<p class='qa-note'>⚠ ควรตรวจข้อมูล "+m.qa_flags.length+" จุดจากสูจิบัตรอีกครั้ง</p>":"";
     const confirmation=confirmedSchedule
       ? "<p class='schedule-confirmation-note'>✓ กำหนดการแข่งขันยืนยันแล้ว · ผลการแข่งขันจะแจ้งแยกต่างหาก</p>"
       : "";
@@ -344,9 +345,13 @@
       const rest=state.data.fixtures.length-confirmed;
       const venueConfirmed=state.data.fixtures.every(m=>
         m.planning_venue_confirmation==="confirmed"&&m.planning_venue==="โรงเรียนบ้านหนองกระทุ่ม");
-      els.verificationSummary.textContent=(venueConfirmed?"สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม (ยืนยันแล้ว) · ":"")+
-        "กำหนดวันและเวลายืนยันแล้ว "+confirmed+" รายการ · อีก "+rest+
-        " รายการอยู่ระหว่างตรวจรับรายละเอียดวันและเวลา";
+      els.verificationSummary.textContent=venueConfirmed
+        ?"สถานที่แข่งขัน: โรงเรียนบ้านหนองกระทุ่ม (ยืนยันแล้ว)"
+        :"โปรดตรวจสอบสถานที่แข่งขันของแต่ละรายการก่อนเดินทาง";
+      if(els.verificationCounts){
+        els.verificationCounts.textContent="ยืนยันวันและเวลาแล้ว "+confirmed+
+          " รายการ · รอตรวจสอบเพิ่มเติม "+rest+" รายการ";
+      }
     }
     if(els.orderNote){
       const filters=[];
@@ -355,8 +360,8 @@
       if(state.level)filters.push(LEVELS.find(l=>l.id===state.level)?.name||state.level);
       if(q)filters.push("คำค้น");
       els.orderNote.textContent="เรียงตามวันที่และเวลาแข่งขัน · "+
-        (filters.length?"ตัวกรองที่ใช้: "+filters.join(" · "):"ทุกโรงเรียน · ทุกกีฬา")+
-        " · เปิดสูจิบัตรจากแต่ละรายการได้ทันที";
+        (filters.length?"ที่เลือก: "+filters.join(" · "):"ทุกโรงเรียน · ทุกกีฬา")+
+        " · ดูสูจิบัตรจากแต่ละรายการได้";
     }
     els.empty.hidden=displayed.length!==0;
     els.more.hidden=displayed.length<=state.limit;
@@ -516,10 +521,10 @@
       restoreTabListingAfterLoad();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         (candidate?" · โปรแกรมการแข่งขัน 236 รายการ":" · โปรแกรมการแข่งขันชุดเดิม")+
-        " · ไฟล์เผยแพร่บนเว็บ";
+        "";
       return true;
     }catch(e){
-      els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้":"โหลดโปรแกรมไม่สำเร็จ · ลองใหม่อีกครั้ง";
+      els.refreshStatus.textContent=state.data?"อัปเดตไม่สำเร็จ · ยังคงข้อมูลล่าสุดที่โหลดไว้":"ยังเปิดตารางแข่งไม่ได้ · ลองใหม่อีกครั้ง";
       if(!state.data){
         if(state.directMode&&els.directStatus)els.directStatus.textContent="ยังเปิดคู่แข่งขันไม่ได้ โปรดลองอีกครั้ง";
         els.count.textContent="อ่านข้อมูลไม่ได้";
