@@ -163,6 +163,7 @@
     dutySummary:el("myDutySummary"),dutyScheduleStatus:el("myDutyScheduleStatus"),
     dutyCards:el("myDutyCards")
   };
+  const dutyUIReady=Boolean(ui.dutySchool&&ui.dutySearch&&ui.dutyHint&&ui.dutyMatches&&ui.dutySelected&&ui.dutyName&&ui.dutySchoolName&&ui.dutySummary&&ui.dutyScheduleStatus&&ui.dutyCards);
   let state={data:null,roster:null,mode:"sports",loading:false,schedule:null,scheduleStatus:"loading",scheduleRequest:0,selectedTeacher:""};
   const params=new URLSearchParams(root.location?.search||"");
   function make(tag,klass,txt){
@@ -424,6 +425,7 @@
   }
 
   function buildDutySchools(){
+    if(!dutyUIReady)return;
     const previous=ui.dutySchool.value;
     ui.dutySchool.replaceChildren();
     const first=make("option","","เลือกโรงเรียนของฉัน");first.value="";
@@ -515,7 +517,7 @@
     ui.dutySelected.hidden=false;
   }
   function renderMyDuty(){
-    if(!state.roster||!state.data)return;
+    if(!dutyUIReady||!state.roster||!state.data)return;
     ui.dutyMatches.replaceChildren();
     const schoolId=ui.dutySchool.value;
     const query=ui.dutySearch.value;
@@ -619,15 +621,17 @@
       ui.refresh.disabled=false;
     }
   }
-  ui.dutySchool.addEventListener("change",()=>{
-    state.selectedTeacher="";
-    ui.dutySearch.value="";
-    renderMyDuty();
-  });
-  ui.dutySearch.addEventListener("input",()=>{
-    state.selectedTeacher="";
-    renderMyDuty();
-  });
+  if(dutyUIReady){
+    ui.dutySchool.addEventListener("change",()=>{
+      state.selectedTeacher="";
+      ui.dutySearch.value="";
+      renderMyDuty();
+    });
+    ui.dutySearch.addEventListener("input",()=>{
+      state.selectedTeacher="";
+      renderMyDuty();
+    });
+  }
   ui.school.addEventListener("change",redraw);
   ui.sport.addEventListener("change",()=>{updateDivisionChoices();redraw();});
   ui.division.addEventListener("change",redraw);
