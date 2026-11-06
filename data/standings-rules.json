@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "rules_version": "r15-bc.1",
+  "rules_version": "r15-bc.2-h2h-gd",
   "publication_authority": "committee_approval_required",
   "source": {
     "candidate_path": "data/program-from-pdf-2569-20261104-draft.json",
@@ -24,8 +24,10 @@
       "loss": 0
     },
     "points_provenance": "operational requirement R15-B; not separately ratified in the available draft PDF",
-    "tie_breakers": [],
-    "tie_break_status": "pending_rule_approval",
+    "tie_breakers": [
+      "head_to_head_goal_difference"
+    ],
+    "tie_break_status": "approved",
     "qualification_status": "pending_rule_approval",
     "phase_mapping_note": "15 explicit league fixtures (source match numbers 1-6,8-16); 17,18 semifinals; 19 final",
     "team_ids": [
@@ -61,7 +63,15 @@
       "final": [
         "football-p07-12-ปี-ชาย-019"
       ]
-    }
+    },
+    "tie_break_scope": "mutual_matches_among_equal_points_teams",
+    "tie_break_source": {
+      "kind": "organizer_instruction",
+      "date": "2026-11-06",
+      "source_ref": "docs/R15BC_FOOTBALL_HEAD_TO_HEAD_GD_20261106.md",
+      "statement": "If football league points are equal, decide by head-to-head goal difference among tied teams."
+    },
+    "unresolved_tie_policy": "position_null_pending_additional_approval"
   },
   "sport_policies": [
     {
@@ -69,7 +79,7 @@
       "status": "pending_rule_approval",
       "format": "mixed_league_and_knockout",
       "result_type": "score",
-      "note": "12 ปี ชาย mapped, 3/1/0 arithmetic implemented; tie-break, qualification and secondary duplicated finals awaiting approval"
+      "note": "12 ปี ชาย: 15 league + 2 playoff + final mapped; organizer-confirmed tie-break H2H GD among points-tied teams; full football approval/qualification and secondary finals remain pending."
     },
     {
       "sport_id": "shootout",
