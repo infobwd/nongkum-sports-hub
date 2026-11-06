@@ -223,6 +223,10 @@ async function startViewer() {
     pdf = await task.promise;
     if (pdf.numPages !== DOCUMENT_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
     committeeCoordinateIndex = await coordinatesPromise;
+    if (isCommittee && committeeCoordinateIndex &&
+        committeeCoordinateIndex.source_pdf_pages !== pdf.numPages) {
+      committeeCoordinateIndex = null; // Never use coordinates against a different page count.
+    }
     pageNumber = Math.min(pageNumber, pdf.numPages);
     updateToolbar();
     await renderPage();
