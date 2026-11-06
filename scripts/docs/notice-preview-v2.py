@@ -61,7 +61,7 @@ for r in source:
         last={"type":"body","text":t,"ids":[i]};cur["items"].append(last)
 if len(units)!=20 or len(closing)!=5 or sum(x["type"]=="duty" for u in units for x in u["items"])!=20:
     raise ValueError("Source structural counts changed")
-E=lambda x:html.escape(str(x),quote=True)
+E=lambda x:html.escape(str(x).replace("\u0E33","\u0E4D\u0E32"),quote=True)  # Compatibility-equivalent Thai Sara Am; preserves glyph shaping and extraction.
 A=lambda ids:' data-source-ids="'+",".join(ids)+'"'
 def join(items):
     return "".join((" " if k and items[k-1]["text"].rstrip().endswith(("หนองกุ่ม","เต็มความสามารถ")) else "")
