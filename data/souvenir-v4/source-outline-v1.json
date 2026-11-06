@@ -1,0 +1,681 @@
+{
+  "schema_version": 1,
+  "status": "phase1_source_inventory_only",
+  "created_date": "2026-11-06",
+  "source_pdf": {
+    "path": "assets/souvenir-committee-2569-v3.pdf",
+    "pages": 64,
+    "sha256": "cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0",
+    "status": "V3_draft_for_review"
+  },
+  "working_copy": {
+    "identity": "R11C Google Docs V3 transcription; ID intentionally omitted from public repo",
+    "source_text_page_markers": 64,
+    "native_tables": 0,
+    "explicit_page_breaks": 0,
+    "paragraphs": 1953,
+    "physical_page_layout_unverified": true,
+    "notes": "【หน้า NN / 64】 are text markers, not actual Google Docs page breaks; page roles are a planning inventory, not V4 page numbers."
+  },
+  "data_sources": {
+    "ceremony_and_editorial": "Google Docs V3 working copy; requires organizer content verification",
+    "committee": "data/committee-2569-draft-public-review.json",
+    "sports_raw": "data/program-from-pdf-2569-20261104-draft.json",
+    "approved_overlay": "js/program-corrections.js",
+    "venue_confirmation": "organizer-confirmed planning fields in candidate dataset; do not promote unconfirmed source PDF fields",
+    "results": "approved-only results separately; not imported in Phase 1",
+    "old_v3_positions": "data/committee-pdf-positions-v3.json"
+  },
+  "sections": [
+    {
+      "id": "cover",
+      "source_pages": [
+        1,
+        2
+      ],
+      "source": "editorial",
+      "publication_state": "not_approved"
+    },
+    {
+      "id": "ceremonies",
+      "source_pages": [
+        3,
+        4
+      ],
+      "source": "editorial",
+      "publication_state": "requires_review"
+    },
+    {
+      "id": "school_identity",
+      "source_pages": [
+        5,
+        5
+      ],
+      "source": "editorial",
+      "publication_state": "requires_review"
+    },
+    {
+      "id": "committee",
+      "source_pages": [
+        6,
+        16
+      ],
+      "source": "committee_draft",
+      "publication_state": "public_review_only"
+    },
+    {
+      "id": "rules_and_teams",
+      "source_pages": [
+        17,
+        23
+      ],
+      "source": "pdf_and_candidate",
+      "publication_state": "requires_review"
+    },
+    {
+      "id": "sports_program",
+      "source_pages": [
+        24,
+        41
+      ],
+      "source": "candidate_plus_approved_corrections",
+      "publication_state": "requires_review"
+    },
+    {
+      "id": "athletics",
+      "source_pages": [
+        42,
+        55
+      ],
+      "source": "candidate_events_and_lanes",
+      "publication_state": "requires_review"
+    },
+    {
+      "id": "forms_and_score_summaries",
+      "source_pages": [
+        56,
+        64
+      ],
+      "source": "blank_templates_and_approved_rules",
+      "publication_state": "not_results"
+    }
+  ],
+  "pages": [
+    {
+      "source_page_marker": 1,
+      "chapter": "cover",
+      "role": "front_cover",
+      "template": "cover",
+      "working_copy_text_chars": 27,
+      "working_copy_has_readable_body": false,
+      "verification": "source_page_visual_qa_required"
+    },
+    {
+      "source_page_marker": 2,
+      "chapter": "cover",
+      "role": "inside_cover",
+      "template": "cover",
+      "working_copy_text_chars": 11,
+      "working_copy_has_readable_body": false,
+      "verification": "source_page_visual_qa_required"
+    },
+    {
+      "source_page_marker": 3,
+      "chapter": "ceremonies",
+      "role": "opening_ceremony",
+      "template": "ceremony",
+      "working_copy_text_chars": 2484,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 4,
+      "chapter": "ceremonies",
+      "role": "closing_ceremony",
+      "template": "ceremony",
+      "working_copy_text_chars": 1250,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 5,
+      "chapter": "school_identity",
+      "role": "school_colors_and_pledge",
+      "template": "school_identity",
+      "working_copy_text_chars": 925,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 6,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3227,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 7,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3679,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 8,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3249,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 9,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3541,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 10,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3600,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 11,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3857,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 12,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 2891,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 13,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3463,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 14,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3036,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 15,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 3458,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 16,
+      "chapter": "committee",
+      "role": "committee_continued",
+      "template": "committee_roster",
+      "working_copy_text_chars": 510,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 17,
+      "chapter": "rules_and_teams",
+      "role": "scoring_rules_and_sport_list",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1894,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 18,
+      "chapter": "rules_and_teams",
+      "role": "sport_groups",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1298,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 19,
+      "chapter": "rules_and_teams",
+      "role": "sport_groups",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1671,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 20,
+      "chapter": "rules_and_teams",
+      "role": "sport_groups",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1863,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 21,
+      "chapter": "rules_and_teams",
+      "role": "sport_groups",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1622,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 22,
+      "chapter": "rules_and_teams",
+      "role": "sport_groups",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1583,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 23,
+      "chapter": "rules_and_teams",
+      "role": "sport_groups",
+      "template": "rules_and_groups",
+      "working_copy_text_chars": 1003,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 24,
+      "chapter": "sports_program",
+      "role": "football_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 591,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 25,
+      "chapter": "sports_program",
+      "role": "football_schedule",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 2894,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 26,
+      "chapter": "sports_program",
+      "role": "shootout_schedule_and_groups",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 1830,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 27,
+      "chapter": "sports_program",
+      "role": "futsal_schedule_and_groups",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 2205,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 28,
+      "chapter": "sports_program",
+      "role": "volleyball_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 942,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 29,
+      "chapter": "sports_program",
+      "role": "volleyball_schedule",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 2603,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 30,
+      "chapter": "sports_program",
+      "role": "takraw_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 1018,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 31,
+      "chapter": "sports_program",
+      "role": "takraw_schedule",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 3004,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 32,
+      "chapter": "sports_program",
+      "role": "takraw_schedule_cont",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 523,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 33,
+      "chapter": "sports_program",
+      "role": "petanque_preschool_schedule_and_groups",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 2783,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 34,
+      "chapter": "sports_program",
+      "role": "petanque_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 2156,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 35,
+      "chapter": "sports_program",
+      "role": "petanque_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 1336,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 36,
+      "chapter": "sports_program",
+      "role": "petanque_schedule",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 3257,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 37,
+      "chapter": "sports_program",
+      "role": "petanque_schedule_cont",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 1999,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 38,
+      "chapter": "sports_program",
+      "role": "tabletennis_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 1329,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 39,
+      "chapter": "sports_program",
+      "role": "tabletennis_schedule",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 1872,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 40,
+      "chapter": "sports_program",
+      "role": "tugofwar_teams",
+      "template": "sport_group",
+      "working_copy_text_chars": 1779,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 41,
+      "chapter": "sports_program",
+      "role": "tugofwar_schedule",
+      "template": "sports_schedule",
+      "working_copy_text_chars": 2363,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 42,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 1325,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 43,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 1181,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 44,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 1015,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 45,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 886,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 46,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 1000,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 47,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 845,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 48,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 843,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 49,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 844,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 50,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 953,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 51,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 983,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 52,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 851,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 53,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 900,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 54,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 831,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 55,
+      "chapter": "athletics",
+      "role": "athletics_events_and_lanes",
+      "template": "athletics_lanes",
+      "working_copy_text_chars": 654,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 56,
+      "chapter": "forms_and_score_summaries",
+      "role": "athlete_form",
+      "template": "athlete_roster_blank",
+      "working_copy_text_chars": 1022,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 57,
+      "chapter": "forms_and_score_summaries",
+      "role": "early_years_score_summary",
+      "template": "score_summary",
+      "working_copy_text_chars": 455,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 58,
+      "chapter": "forms_and_score_summaries",
+      "role": "primary_score_summary",
+      "template": "score_summary",
+      "working_copy_text_chars": 521,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 59,
+      "chapter": "forms_and_score_summaries",
+      "role": "primary_score_summary_cont",
+      "template": "score_summary",
+      "working_copy_text_chars": 352,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 60,
+      "chapter": "forms_and_score_summaries",
+      "role": "secondary_score_summary",
+      "template": "score_summary",
+      "working_copy_text_chars": 356,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 61,
+      "chapter": "forms_and_score_summaries",
+      "role": "unverified_page_marker",
+      "template": "score_summary",
+      "working_copy_text_chars": 8,
+      "working_copy_has_readable_body": false,
+      "verification": "source_page_visual_qa_required"
+    },
+    {
+      "source_page_marker": 62,
+      "chapter": "forms_and_score_summaries",
+      "role": "athletics_score_summary",
+      "template": "score_summary",
+      "working_copy_text_chars": 537,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 63,
+      "chapter": "forms_and_score_summaries",
+      "role": "score_sheet",
+      "template": "score_sheet_blank",
+      "working_copy_text_chars": 2118,
+      "working_copy_has_readable_body": true,
+      "verification": "transcription_only_not_page_layout_verified"
+    },
+    {
+      "source_page_marker": 64,
+      "chapter": "forms_and_score_summaries",
+      "role": "unverified_trailing_page_marker",
+      "template": "score_summary",
+      "working_copy_text_chars": 8,
+      "working_copy_has_readable_body": false,
+      "verification": "source_page_visual_qa_required"
+    }
+  ]
+}
