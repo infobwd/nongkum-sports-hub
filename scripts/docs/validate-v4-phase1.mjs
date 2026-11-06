@@ -103,7 +103,7 @@ assert.equal(corrected.fixtures.filter(x=>x.planning_date_confirmation==="confir
 x.planning_time_confirmation==="confirmed"&&x.planning_venue_confirmation==="confirmed").length,45);
 assert.equal(draftRosters.source_sha256,outline.source_pdf.sha256);
 assert.equal(draftRosters.entries.length,250);
-assert.equal(oldCoords.source_sha256,outline.source_pdf.sha256);
+assert.equal(oldCoords.source_sha256,draftRosters.editorial_correction.corrected_pdf_sha256);
 assert.equal(oldCoords.source_pdf_pages,64);
 assert.equal(Object.keys(oldCoords.entries).length,250);
 // Old R19K rectangles are pinned to V3; they must not be used as V4 geometry.

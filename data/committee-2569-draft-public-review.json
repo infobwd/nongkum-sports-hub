@@ -2,7 +2,7 @@
   "schema_version": 1,
   "source_type": "2569_draft_pdf_public_school_review",
   "publication_status": "draft_names_for_school_verification_only_not_approved_appointments",
-  "revision": "R19E-2569-20261106-v1",
+  "revision": "R19K-2569-20261106-v2",
   "source_sha256": "cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0",
   "source_pdf_pages": "6–16",
   "retrieved_on": "2026-11-06",
@@ -16,12 +16,12 @@
     "pdf_page",
     "flags"
   ],
-  "legal_note": "ชื่อและหน้าที่จากสูจิบัตรฉบับร่างปี 2569 เผยแพร่เพื่อให้โรงเรียนและผู้เกี่ยวข้องตรวจทานเท่านั้น ยังไม่ใช่คำสั่งแต่งตั้งที่ลงนามหรือรับรองผลการตรวจ",
+  "legal_note": "รายชื่อและหน้าที่จากสูจิบัตรฉบับร่างปี 2569 มีการแก้สะกดชื่อที่ตรวจพบหลักฐานตรงกันตาม R19K; ชื่อและสังกัดอื่นยังรอโรงเรียนยืนยัน ไม่ใช่คำสั่งแต่งตั้งที่ลงนาม",
   "totals": {
     "rows": 250,
     "school_rows": 209,
     "central_or_unresolved_rows": 41,
-    "distinct_name_strings_unverified": 151
+    "distinct_name_strings_unverified": 147
   },
   "schools": [
     {
@@ -1886,7 +1886,7 @@
     {
       "id": "pdf-p11-l17",
       "number": "13.7",
-      "name": "นางสาวนุชจิเนตร สุวะสี",
+      "name": "นางสาวนุชจิเนตร สุวะศรี",
       "affiliation": "เจ้าหน้าที่ธุรการโรงเรียนบ้านหนองกุ่ม",
       "role": "กรรมการ",
       "section": "13",
@@ -2094,7 +2094,7 @@
     {
       "id": "pdf-p12-l04",
       "number": "14.3.1",
-      "name": "ว่าที่ร้อยตรีจตุพล อยู่เพ็ชร",
+      "name": "ว่าที่ร้อยตรีจตุพล อยู่เพ็ชร์",
       "affiliation": "ครูโรงเรียนบ้านรางขาม",
       "role": "ประธานกรรมการ",
       "section": "14",
@@ -2211,7 +2211,7 @@
     {
       "id": "pdf-p12-l15",
       "number": "14.5.2",
-      "name": "นางสาวศุภนาฎ ศิริคงคา",
+      "name": "นางสาวศุภนาฏ ศิริคงคา",
       "affiliation": "ครูโรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)",
       "role": "กรรมการ",
       "section": "14",
@@ -2382,7 +2382,7 @@
     {
       "id": "pdf-p12-l30",
       "number": "14.6.2",
-      "name": "นากฤษฎา หวังดี",
+      "name": "นายกฤษฎา หวังดี",
       "affiliation": "ครูโรงเรียนบ้านเสาหงส์",
       "role": "กรรมการ",
       "section": "14",
@@ -2390,9 +2390,7 @@
       "subdivision": null,
       "school_id": "saohong",
       "pdf_page": 12,
-      "flags": [
-        "title_possible_typo"
-      ]
+      "flags": []
     },
     {
       "id": "pdf-p12-l31",
@@ -2943,7 +2941,7 @@
     {
       "id": "pdf-p14-l19",
       "number": "",
-      "name": "นายกิจรภัฎดล วงศ์แสง",
+      "name": "นายกิจรภัฏดล วงศ์แสง",
       "affiliation": "ครูโรงเรียนบ้านหนองกระทุ่ม",
       "role": "กรรมการและเลขานุการ",
       "section": "15",
@@ -3151,7 +3149,7 @@
     {
       "id": "pdf-p15-l16",
       "number": "19.2",
-      "name": "นายภูมิภัทร โมกขพันธ์",
+      "name": "นายภูมิภัทร โมกขพันธุ์",
       "affiliation": "ครูโรงเรียนวังเขาแก้ว (หงำอุปถัมภ์)",
       "role": "กรรมการ",
       "section": "19",
@@ -3164,7 +3162,7 @@
     {
       "id": "pdf-p15-l17",
       "number": "19.3",
-      "name": "นางสาวปนัดา พึ่งกุล",
+      "name": "นางสาวปนัดดา พึ่งกุล",
       "affiliation": "ครูโรงเรียนบ้านรางขาม",
       "role": "กรรมการ",
       "section": "19",
@@ -3398,7 +3396,7 @@
     {
       "id": "pdf-p15-l37",
       "number": "20.8",
-      "name": "นางสางพิริยา แผนกุล",
+      "name": "นางสาวพิริยา แผนกุล",
       "affiliation": "ครูโรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)",
       "role": "กรรมการและเลขานุการ",
       "section": "20",
@@ -3406,9 +3404,21 @@
       "subdivision": null,
       "school_id": "thungmasang",
       "pdf_page": 15,
-      "flags": [
-        "title_possible_typo"
-      ]
+      "flags": []
     }
-  ]
+  ],
+  "editorial_correction": {
+    "revision": "R19K-2569-20261106-v2",
+    "corrected_pdf_sha256": "0f0083bc349b2b0176cbeaa66a09e88e883aeb1cd4078c954582782e5e2bc1ba",
+    "original_source_sha256": "cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0",
+    "corrected_entry_count": 8,
+    "corrected_pdf_pages": [
+      11,
+      12,
+      14,
+      15
+    ],
+    "correction_scope": "name_spelling_only; unverified affiliations untouched; not appointment approval",
+    "source_copy_retained": true
+  }
 }

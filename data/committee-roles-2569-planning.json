@@ -896,7 +896,8 @@
       "151 เป็นจำนวนชื่อที่แตกต่างตามการเทียบข้อความ ไม่ใช่จำนวนบุคคลที่ยืนยันตัวตนแล้ว",
       "ยังไม่ใช่คำสั่งแต่งตั้งรับรองหรือข้อมูลที่ได้รับอนุญาตให้เผยแพร่รายบุคคล",
       "หมวด 14.6 ใช้ซ้ำทั้งเทเบิลเทนนิสและชักเย่อ; ยิงจุดโทษไม่มีหมวดรายชื่อเฉพาะ",
-      "กรีฑานับบรรทัดบทบาทจากส่วน 15–19 จำนวน 58 แถว"
+      "กรีฑานับบรรทัดบทบาทจากส่วน 15–19 จำนวน 58 แถว",
+      "R19K: ชื่อสะกดในเอกสารร่างและ public directory ปรับเฉพาะ 8 entry โดยอ้าง PDF ฉบับแก้ไขแยก SHA; source_sha256 เดิมยังใช้ระบุ raw PDF ก่อนแก้และ encrypted review R19D"
     ],
     "review_issue_codes": [
       "NAME_PREFIX_TYPO",
@@ -905,6 +906,16 @@
       "DUPLICATE_COMMITTEE_SECTION_14_6",
       "NO_SEPARATE_SHOOTOUT_COMMITTEE",
       "SPORT_VENUE_HEADER_CONFLICT"
-    ]
+    ],
+    "editorial_correction": {
+      "revision": "R19K-2569-20261106-v2",
+      "corrected_pdf_sha256": "0f0083bc349b2b0176cbeaa66a09e88e883aeb1cd4078c954582782e5e2bc1ba",
+      "original_source_sha256": "cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0",
+      "public_name_entries_corrected": 8,
+      "remaining_source_review_flags": 4,
+      "original_source_normalized_distinct_name_strings": 151,
+      "displayed_distinct_name_strings": 147,
+      "status": "draft_names_still_unverified"
+    }
   }
 }
