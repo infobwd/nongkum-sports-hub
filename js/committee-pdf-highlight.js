@@ -1,7 +1,7 @@
 /* R19-K: use verified coordinates for the fixed V3 PDF; never infer positions on-device. */
 (function (root) {
   "use strict";
-  const SOURCE_SHA = "cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0";
+  const SOURCE_SHA = "0f0083bc349b2b0176cbeaa66a09e88e883aeb1cd4078c954582782e5e2bc1ba";
   function select(index, target, page) {
     if (!index || !target || index.schema_version !== 1 ||
         index.source_sha256 !== SOURCE_SHA || index.source_pdf_pages !== 64 ||
