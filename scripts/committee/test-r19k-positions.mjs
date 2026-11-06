@@ -30,7 +30,7 @@ assert.match(bridge,/url\.searchParams\.set\("entry", reference\.id\)/);
 assert.match(bridge,/กำลังดู/);
 assert.match(html,/pdfHighlightLayer/);
 assert.match(html,/js\/pdf-viewer\.js\?v=r19k2/);
-assert.match(parent,/committee-pdf-preview\.js\?v=r19k1/);
+assert.match(parent,/committee-pdf-preview\.js\?v=r19k2/);
 new vm.Script(script);
 new vm.Script(viewer);
 const world={window:{}};
