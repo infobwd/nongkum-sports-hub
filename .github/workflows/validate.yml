@@ -28,3 +28,4 @@ jobs:
       - run: node scripts/ux/test-loading-r9.mjs
       - run: node scripts/ops/test-field-console-r10.mjs
       - run: node scripts/ops/test-public-intake-r11.mjs
+      - run: node scripts/committee/test-my-duty-r19f.mjs

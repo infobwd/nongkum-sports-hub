@@ -4,6 +4,7 @@
   "use strict";
   const DATA_URL="./data/committee-roles-2569-planning.json";
   const PUBLIC_ROSTER_URL="./data/committee-2569-draft-public-review.json";
+  const PROGRAM_URL="./data/program-from-pdf-2569-20261104-draft.json";
   const MODES=["sports","groups","schools","review"];
   function valid(data){
     if(!data||data.schema_version!==1||!Array.isArray(data.sports)||!Array.isArray(data.divisions)||
@@ -84,8 +85,67 @@
         sportNames[x.sport_id]||""].join(" ")).includes(term);
     });
   }
+
+  // R19-F: never infer identity from a matching name across different schools.
+  function normalizeTeacher(value){
+    return norm(value).replace(/\s+/g,"");
+  }
+  function teacherMatches(roster,schoolId,query){
+    if(!schoolId||normalizeTeacher(query).length<2)return [];
+    const names=new Map();
+    for(const row of roster?.entries||[]){
+      if(row.school_id!==schoolId||!normalizeTeacher(row.name).includes(normalizeTeacher(query)))continue;
+      const key=normalizeTeacher(row.name);
+      const found=names.get(key);
+      if(found)found.count++;
+      else names.set(key,{name:row.name,count:1});
+    }
+    return Array.from(names.values()).sort((a,b)=>a.name.localeCompare(b.name,"th"));
+  }
+  function teacherAssignments(roster,schoolId,name){
+    const needle=normalizeTeacher(name);
+    if(!schoolId||!needle)return [];
+    return (roster?.entries||[]).filter(row=>row.school_id===schoolId&&normalizeTeacher(row.name)===needle);
+  }
+  function safeIsoDate(value){
+    const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value||""));
+    if(!match)return null;
+    const y=Number(match[1]),m=Number(match[2]),d=Number(match[3]);
+    const dt=new Date(Date.UTC(y,m-1,d));
+    return dt.getUTCFullYear()===y&&dt.getUTCMonth()+1===m&&dt.getUTCDate()===d?match[0]:null;
+  }
+  // Date groups describe SPORT fixtures, never the individual person's duty shift.
+  function sportSchedule(program,sportId){
+    if(!sportId||!Array.isArray(program?.fixtures))return null;
+    const fixtures=program.fixtures.filter(x=>x.sport_id===sportId);
+    const confirmed=new Map(),draft=new Map();
+    let unknown=0;
+    for(const fixture of fixtures){
+      const confirmedDate=fixture.planning_date_confirmation==="confirmed"
+        ?safeIsoDate(fixture.planning_date):null;
+      if(confirmedDate){
+        confirmed.set(confirmedDate,(confirmed.get(confirmedDate)||0)+1);
+        continue;
+      }
+      // Some PDF rows retain an anomalous 2568 year: don't present that as 2569.
+      const inconsistent=/(?:พ\.ย\.\s*68|2568)/.test(String(fixture.source_pdf?.source_date_text||""));
+      const draftDate=inconsistent?null:safeIsoDate(fixture.draft_date||fixture.source_pdf?.source_date_iso);
+      if(draftDate)draft.set(draftDate,(draft.get(draftDate)||0)+1);
+      else unknown++;
+    }
+    function days(map){return Array.from(map,([date,count])=>({date,count})).sort((a,b)=>a.date.localeCompare(b.date));}
+    return {confirmed:days(confirmed),draft:days(draft),unknown,total:fixtures.length};
+  }
+  function thaiDate(iso){
+    const date=safeIsoDate(iso);
+    if(!date)return "วันไม่ระบุ";
+    const parts=date.split("-").map(Number);
+    const months=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+    return parts[2]+" "+months[parts[1]-1]+" "+(parts[0]+543);
+  }
   root.NongkumCommitteeReport=Object.freeze({
-    valid,approvedCount,filteredSports,safeVenue,validPublicDraft,personRows
+    valid,approvedCount,filteredSports,safeVenue,validPublicDraft,personRows,
+    normalizeTeacher,teacherMatches,teacherAssignments,safeIsoDate,sportSchedule,thaiDate
   });
   if(typeof document==="undefined"||!document.getElementById("committeeMain"))return;
   const el=id=>document.getElementById(id);
@@ -96,9 +156,15 @@
     venueName:el("committeeVenueName"),venueScope:el("committeeVenueScope"),
     draftPanel:el("committeeDraftSummary"),draftMetrics:el("committeeDraftMetrics"),draftFootnote:el("committeeDraftFootnote"),
     views:el("committeeViews"),school:el("committeeSchool"),sport:el("committeeSport"),division:el("committeeDivision"),
-    search:el("committeeSearch"),cards:el("committeeCards"),count:el("committeeCount")
+    search:el("committeeSearch"),cards:el("committeeCards"),count:el("committeeCount"),
+    dutySchool:el("myDutySchool"),dutySearch:el("myDutySearch"),
+    dutyHint:el("myDutyHint"),dutyMatches:el("myDutyMatches"),dutySelected:el("myDutySelected"),
+    dutyName:el("myDutyPersonName"),dutySchoolName:el("myDutyPersonSchool"),
+    dutySummary:el("myDutySummary"),dutyScheduleStatus:el("myDutyScheduleStatus"),
+    dutyCards:el("myDutyCards")
   };
-  let state={data:null,roster:null,mode:"sports",loading:false};
+  const dutyUIReady=Boolean(ui.dutySchool&&ui.dutySearch&&ui.dutyHint&&ui.dutyMatches&&ui.dutySelected&&ui.dutyName&&ui.dutySchoolName&&ui.dutySummary&&ui.dutyScheduleStatus&&ui.dutyCards);
+  let state={data:null,roster:null,mode:"sports",loading:false,schedule:null,scheduleStatus:"loading",scheduleRequest:0,selectedTeacher:""};
   const params=new URLSearchParams(root.location?.search||"");
   function make(tag,klass,txt){
     const n=document.createElement(tag);
@@ -357,6 +423,167 @@
     updateDivisionChoices();
     if(Array.from(ui.division.options).some(o=>o.value===previous))ui.division.value=previous;
   }
+
+  function buildDutySchools(){
+    if(!dutyUIReady)return;
+    const previous=ui.dutySchool.value;
+    ui.dutySchool.replaceChildren();
+    const first=make("option","","เลือกโรงเรียนของฉัน");first.value="";
+    ui.dutySchool.appendChild(first);
+    for(const school of state.roster.schools){
+      const option=make("option","",school.name);
+      option.value=school.id;
+      ui.dutySchool.appendChild(option);
+    }
+    const fromLink=params.get("school");
+    if(state.roster.schools.some(x=>x.id===previous))ui.dutySchool.value=previous;
+    else if(state.roster.schools.some(x=>x.id===fromLink))ui.dutySchool.value=fromLink;
+  }
+  function renderDutyDates(card,sportId){
+    if(!sportId){
+      line(card,"my-duty-small-note","ฝ่ายงานทั่วไป: ยังไม่มีการเชื่อมวันแข่งขันเฉพาะกีฬา");
+      return;
+    }
+    const sport=state.data.sports.find(x=>x.sport_id===sportId);
+    if(!sport){
+      line(card,"my-duty-small-note","ยังไม่ได้ระบุชนิดกีฬาที่เชื่อมได้");
+      return;
+    }
+    if(state.scheduleStatus!=="ready"){
+      line(card,"my-duty-small-note",state.scheduleStatus==="failed"
+        ?"โหลดกำหนดการแข่งขันไม่สำเร็จ · ตรวจโปรแกรมแข่งขันโดยตรง"
+        :"กำลังตรวจข้อมูลวันแข่งขันของกีฬานี้…");
+    }else{
+      const days=sportSchedule(state.schedule,sportId);
+      if(days?.confirmed.length){
+        line(card,"my-duty-date-head","วันแข่งขันที่ผู้จัดยืนยัน (ระดับชนิดกีฬา)");
+        const group=make("div","my-duty-date-list");
+        for(const day of days.confirmed){
+          const tag=make("span","my-duty-date confirmed","✓ "+thaiDate(day.date)+" · "+day.count+" รายการ");
+          group.appendChild(tag);
+        }
+        card.appendChild(group);
+      }
+      if(days?.draft.length){
+        line(card,"my-duty-date-head","วันที่แข่งขันตามร่าง · ยังไม่รับรอง");
+        const group=make("div","my-duty-date-list");
+        for(const day of days.draft){
+          group.appendChild(make("span","my-duty-date draft",thaiDate(day.date)+" · "+day.count+" รายการ"));
+        }
+        card.appendChild(group);
+      }
+      if(!days||(!days.confirmed.length&&!days.draft.length))
+        line(card,"my-duty-small-note","ยังไม่พบวันแข่งขันที่นำมาแสดงได้จากไฟล์ปัจจุบัน");
+      if(days?.unknown)
+        line(card,"my-duty-small-note","มีอีก "+days.unknown+" รายการที่ยังระบุวันไม่ได้อย่างน่าเชื่อถือ");
+      line(card,"my-duty-small-note","วันที่ข้างต้นเป็นวันแข่งขันของชนิดกีฬา ไม่ใช่วัน/เวลาเข้าเวรของครู และยังไม่ได้ระบุคู่ที่รับผิดชอบ");
+    }
+    const link=make("a","my-duty-schedule-link","ดูตารางแข่งขัน"+sport.sport_name+" →");
+    link.href="./index.html?sport="+encodeURIComponent(sportId);
+    card.appendChild(link);
+  }
+  function renderDutyPerson(){
+    const rows=teacherAssignments(state.roster,ui.dutySchool.value,state.selectedTeacher);
+    if(!rows.length){
+      state.selectedTeacher="";
+      ui.dutySelected.hidden=true;
+      return;
+    }
+    const school=state.roster.schools.find(x=>x.id===ui.dutySchool.value);
+    ui.dutyName.textContent=state.selectedTeacher;
+    ui.dutySchoolName.textContent=school?.name||"สังกัดรอตรวจ";
+    const sports=new Set(rows.filter(x=>x.sport_id).map(x=>x.sport_id));
+    ui.dutySummary.textContent="พบ "+rows.length+" บรรทัดหน้าที่ในร่าง · "+sports.size+" ชนิดกีฬาที่ระบุ";
+    ui.dutyScheduleStatus.textContent=state.scheduleStatus==="ready"
+      ?"เชื่อมวันแข่งขันจากสูจิบัตรฉบับร่างล่าสุด · วันปฏิบัติหน้าที่ของครูยังรอยืนยัน"
+      :state.scheduleStatus==="failed"
+      ?"ข้อมูลวันแข่งขันโหลดไม่สำเร็จ แต่รายชื่อและหน้าที่จากร่างยังตรวจได้"
+      :"กำลังอ่านข้อมูลวันแข่งขันเพิ่มเติม…";
+    ui.dutyCards.replaceChildren();
+    for(const row of rows){
+      const sport=state.data.sports.find(s=>s.sport_id===row.sport_id);
+      const group=state.roster.sections.find(s=>s.id===row.section);
+      const card=make("article","my-duty-card");
+      line(card,"my-duty-kind",sport?"ชนิดกีฬา · "+sport.sport_name:"ฝ่ายงานทั่วไป · ร่างปี 2569");
+      card.appendChild(make("h4","",group?.title||(sport?.sport_name||"ฝ่ายกรรมการ")));
+      line(card,"my-duty-role","หน้าที่: "+(row.role||"รอตรวจข้อความ"));
+      if(row.subdivision)line(card,"","ส่วนงาน/รุ่น: "+row.subdivision);
+      line(card,"my-duty-small-note","ข้อ "+(row.number||row.section)+" · PDF หน้า "+row.pdf_page);
+      if(row.flags?.length)line(card,"my-duty-warning","มีข้อความจากต้นฉบับที่ต้องตรวจเพิ่มเติม");
+      line(card,"my-duty-date-unknown","วันและเวลาปฏิบัติหน้าที่ของครู: รอผู้จัดกำหนด/รับรอง");
+      renderDutyDates(card,row.sport_id);
+      ui.dutyCards.appendChild(card);
+    }
+    ui.dutySelected.hidden=false;
+  }
+  function renderMyDuty(){
+    if(!dutyUIReady||!state.roster||!state.data)return;
+    ui.dutyMatches.replaceChildren();
+    const schoolId=ui.dutySchool.value;
+    const query=ui.dutySearch.value;
+    const normalized=normalizeTeacher(query);
+    if(!schoolId){
+      state.selectedTeacher="";
+      ui.dutySelected.hidden=true;
+      ui.dutyHint.textContent="เลือกโรงเรียนก่อน แล้วพิมพ์ชื่อหรือสกุลอย่างน้อย 2 ตัวอักษร";
+      return;
+    }
+    if(normalized.length<2){
+      state.selectedTeacher="";
+      ui.dutySelected.hidden=true;
+      ui.dutyHint.textContent="พิมพ์ชื่อหรือสกุลอย่างน้อย 2 ตัวอักษรเพื่อค้นหาจากสูจิบัตรร่าง";
+      return;
+    }
+    const choices=teacherMatches(state.roster,schoolId,query);
+    if(state.selectedTeacher&&normalizeTeacher(state.selectedTeacher)===normalized){
+      ui.dutyHint.textContent="แสดงหน้าที่ตามชื่อที่เลือกจากร่างปี 2569 · หากชื่อซ้ำให้โรงเรียนตรวจยืนยันตัวบุคคล";
+      renderDutyPerson();
+      return;
+    }
+    state.selectedTeacher="";
+    ui.dutySelected.hidden=true;
+    if(!choices.length){
+      ui.dutyHint.textContent="ไม่พบชื่อนี้ในชุดร่างของโรงเรียนที่เลือก (ไม่ได้หมายความว่าไม่มีหน้าที่) · ตรวจตัวสะกดหรือแจ้งโรงเรียนตรวจ";
+      return;
+    }
+    ui.dutyHint.textContent="พบ "+choices.length+" ชื่อที่ตรงกับคำค้น · แตะเลือกชื่อเพื่อดูทุกหน้าที่";
+    for(const choice of choices.slice(0,15)){
+      const button=make("button","","");
+      button.type="button";
+      button.appendChild(make("strong","",choice.name));
+      button.appendChild(make("small","","พบ "+choice.count+" บรรทัดหน้าที่"));
+      button.addEventListener("click",()=>{
+        state.selectedTeacher=choice.name;
+        ui.dutySearch.value=choice.name;
+        renderMyDuty();
+      });
+      ui.dutyMatches.appendChild(button);
+    }
+    if(choices.length>15)
+      line(ui.dutyMatches,"my-duty-small-note","มีชื่ออื่นอีก "+(choices.length-15)+" ชื่อ · พิมพ์ให้ละเอียดขึ้น");
+  }
+  async function loadDutySchedule(){
+    const request=++state.scheduleRequest;
+    state.schedule=null;
+    state.scheduleStatus="loading";
+    renderMyDuty();
+    try{
+      const response=await root.fetch(PROGRAM_URL,{cache:"no-store"});
+      if(!response.ok)throw new Error("schedule_unavailable");
+      const data=await response.json();
+      if(data?.schema_version!==3||data?.metadata?.source_status!=="revised_pdf_draft"||
+         data?.metadata?.all_data_approved!==false||!Array.isArray(data.fixtures))
+        throw new Error("schedule_revision_mismatch");
+      if(request!==state.scheduleRequest)return;
+      state.schedule=data;
+      state.scheduleStatus="ready";
+    }catch(_error){
+      if(request!==state.scheduleRequest)return;
+      state.scheduleStatus="failed";
+      state.schedule=null;
+    }
+    if(request===state.scheduleRequest)renderMyDuty();
+  }
   async function load(){
     if(state.loading)return;
     state.loading=true;
@@ -375,17 +602,22 @@
       state.data=data;
       state.roster=roster;
       buildSelectors();
+      buildDutySchools();
       metrics();
       renderDraftSummary();
       const venue=safeVenue(data);
       ui.venueName.textContent=venue.name;
       ui.venueScope.textContent=venue.scope;
       ui.report.hidden=false;
+      renderMyDuty();
       redraw();
+      if(dutyUIReady)loadDutySchedule();
     }catch(_error){
       // Do not show historical people, stale appointments or invented placeholder data.
       state.data=null;
       state.roster=null;
+      ++state.scheduleRequest;
+      state.schedule=null;
       ui.report.hidden=true;
       ui.failure.hidden=false;
     }finally{
@@ -393,6 +625,17 @@
       ui.loading.hidden=true;
       ui.refresh.disabled=false;
     }
+  }
+  if(dutyUIReady){
+    ui.dutySchool.addEventListener("change",()=>{
+      state.selectedTeacher="";
+      ui.dutySearch.value="";
+      renderMyDuty();
+    });
+    ui.dutySearch.addEventListener("input",()=>{
+      state.selectedTeacher="";
+      renderMyDuty();
+    });
   }
   ui.school.addEventListener("change",redraw);
   ui.sport.addEventListener("change",()=>{updateDivisionChoices();redraw();});

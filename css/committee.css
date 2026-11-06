@@ -94,3 +94,50 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 .committee-explorer .committee-search-wrap{grid-column:1/-1}
 @media(max-width:690px){.committee-explorer .committee-filters{grid-template-columns:1fr}}
 @media print{.committee-people-extra{display:block}.committee-people-extra>summary{display:none}}
+
+/* R19-F: teacher-first lookup and date-aware, draft-safe duty cards. */
+.committee-my-duty{border:1px solid #bdd2e8;background:linear-gradient(180deg,#fafdff,#fff 150px)}
+.committee-my-duty h2{font-size:1.25rem;color:#17385f;line-height:1.35;margin:5px 0 9px}
+.my-duty-fields{display:grid;grid-template-columns:1fr 1.2fr;gap:12px;margin-top:14px}
+.my-duty-fields select,.my-duty-fields input{font:inherit;width:100%;min-height:50px;padding:10px 12px;background:#fff;border:1px solid #a8bfd8;color:#183762;border-radius:11px;box-sizing:border-box}
+.my-duty-fields label{display:block;margin-bottom:7px}
+.my-duty-fields :is(select,input):focus-visible,.my-duty-matches button:focus-visible,.my-duty-review-link:focus-visible,.my-duty-schedule-link:focus-visible{outline:3px solid #e3b335;outline-offset:2px}
+.my-duty-matches{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.my-duty-matches:empty{display:none}
+.my-duty-matches button{font:inherit;text-align:left;min-height:46px;padding:9px 13px;border:1px solid #bdd0e3;background:#f3f8fd;color:#173b68;border-radius:11px;cursor:pointer;font-size:.88rem;touch-action:manipulation}
+.my-duty-matches button[aria-pressed="true"]{background:#183762;color:#fff}
+.my-duty-matches button small{display:block;font-size:.73rem;opacity:.83}
+.my-duty-selected{border-top:1px solid #e3ebf3;margin-top:17px;padding-top:17px}
+.my-duty-selected[hidden]{display:none!important}
+.my-duty-person-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.my-duty-person-head h3{margin:2px 0 0;font-size:1.15rem;color:#17385f;overflow-wrap:anywhere}
+.my-duty-draft-tag{flex-shrink:0;background:#fff4d8;border:1px solid #edd18e;border-radius:30px;color:#6c5118;padding:6px 9px;font-size:.74rem;font-weight:750}
+.my-duty-summary{font-size:.9rem;font-weight:750;color:#214b73;margin:12px 0}
+.my-duty-warning{padding:10px 12px;border:1px solid #edda9e;border-radius:11px;background:#fff9e8;color:#725319;font-size:.8rem;line-height:1.5}
+.my-duty-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.my-duty-card{border:1px solid #dbe6f2;border-radius:14px;padding:14px;background:#fff;min-width:0}
+.my-duty-card h4{color:#183762;font-size:.95rem;margin:5px 0 7px;line-height:1.4;overflow-wrap:anywhere}
+.my-duty-card p{font-size:.8rem;color:#476783;margin:6px 0;line-height:1.55}
+.my-duty-card .my-duty-kind{font-weight:750;color:#295b83;font-size:.74rem}
+.my-duty-card .my-duty-role{font-size:.85rem;font-weight:750;color:#19395c}
+.my-duty-card .my-duty-date-unknown{color:#725319;font-weight:750}
+.my-duty-date-head{margin:12px 0 5px!important;font-weight:750;color:#1c4b79!important}
+.my-duty-date-list{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.my-duty-date{border:1px solid #cfdfec;border-radius:8px;padding:5px 8px;font-size:.75rem;font-weight:700;line-height:1.4;color:#325675;background:#f5f8fc}
+.my-duty-date.confirmed{border-color:#b5d7c5;color:#226043;background:#eff9f2}
+.my-duty-date.draft{border-color:#edd7a9;color:#805a18;background:#fff9e9}
+.my-duty-small-note{font-size:.73rem!important;color:#6d7f8d!important}
+.my-duty-schedule-link{display:inline-flex;align-items:center;min-height:44px;font-weight:750;font-size:.8rem;color:#165a93}
+.my-duty-review-link{display:inline-flex;align-items:center;min-height:48px;border:1px solid #9eb9d5;border-radius:10px;padding:8px 12px;margin-top:13px;color:#18558c;font-weight:750;font-size:.83rem;text-decoration:none}
+.my-duty-empty{padding:10px 12px;background:#f7f9fc;border:1px dashed #bfd0e1;border-radius:10px;color:#49647d;font-size:.82rem}
+@media(max-width:690px){
+ .my-duty-fields{grid-template-columns:1fr;gap:11px}
+ .my-duty-cards{grid-template-columns:1fr}
+ .my-duty-person-head{flex-wrap:wrap}
+ .my-duty-matches{display:grid;grid-template-columns:1fr}
+ .my-duty-matches button{width:100%}
+}
+@media print{
+ .my-duty-fields,.my-duty-matches,.my-duty-review-link{display:none!important}
+ .my-duty-cards{grid-template-columns:1fr 1fr}
+}

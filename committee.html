@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/committee.css?v=r19e1">
+  <link rel="stylesheet" href="./css/committee.css?v=r19f1">
 </head>
 <body data-view="committee">
 <header class="top">
@@ -42,11 +42,6 @@
       <p>ชื่อ สังกัด และหน้าที่มาจากสูจิบัตรฉบับร่างปี 2569 ยังไม่ใช่คำสั่งแต่งตั้งที่ผ่านการรับรอง ส่วนคำสั่งปี 2568 เก็บเป็นแม่แบบประวัติเท่านั้น</p>
     </div>
   </aside>
-  <section class="panel" aria-labelledby="committeeSchoolReviewLinkHeading">
-    <h2 id="committeeSchoolReviewLinkHeading">พบชื่อแล้ว? ตรวจและยืนยันความถูกต้องกับผู้จัด</h2>
-    <p class="committee-caption">อ่านชื่อจากร่างปี 2569 ได้ในหน้านี้ทันทีโดยไม่ต้องใส่รหัส ส่วนการทำเครื่องหมายถูกต้อง/ขอแก้ไขและส่งผลทาง LINE ให้ใช้หน้าตรวจยืนยันเดิมของโรงเรียน</p>
-    <a class="direct-back" href="./committee-review.html" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 14px;border:1px solid #9db6d0;border-radius:11px">โรงเรียนตรวจและแจ้งยืนยันรายชื่อ</a>
-  </section>
   <div class="committee-loader" id="committeeLoading" role="status" aria-live="polite">
     <span class="committee-loading-line"></span><span class="committee-loading-line short"></span>
     <p>กำลังโหลดข้อมูลการเตรียมกรรมการ…</p>
@@ -57,6 +52,41 @@
     <button type="button" class="load-retry" id="committeeRetry">↻ ลองอีกครั้ง</button>
   </section>
   <div id="committeeReport" hidden>
+    <section class="panel committee-my-duty" aria-labelledby="myDutyTitle" id="myDuty">
+      <p class="committee-kicker">สำหรับคุณครู · ค้นหาชื่อครั้งเดียว</p>
+      <h2 id="myDutyTitle">📋 หน้าที่กรรมการของฉัน</h2>
+      <p class="committee-caption">ค้นหาตามโรงเรียนและชื่อ–สกุล เพื่อรวมทุกหน้าที่ที่ปรากฏในสูจิบัตรร่างปี 2569 โดยไม่ต้องเลือกชนิดกีฬาหรือฝ่ายก่อน</p>
+      <div class="my-duty-fields">
+        <div>
+          <label class="fieldlabel" for="myDutySchool">โรงเรียนของฉัน</label>
+          <select id="myDutySchool"><option value="">เลือกโรงเรียน</option></select>
+        </div>
+        <div>
+          <label class="fieldlabel" for="myDutySearch">ชื่อ–สกุลคุณครู</label>
+          <input id="myDutySearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="พิมพ์ชื่อหรือสกุลอย่างน้อย 2 ตัวอักษร" aria-controls="myDutyMatches">
+        </div>
+      </div>
+      <p id="myDutyHint" class="committee-caption" role="status" aria-live="polite">กรุณาเลือกโรงเรียนและพิมพ์ชื่อครู</p>
+      <div id="myDutyMatches" class="my-duty-matches" role="group" aria-label="เลือกชื่อครูที่พบ"></div>
+      <div id="myDutySelected" class="my-duty-selected" hidden>
+        <div class="my-duty-person-head">
+          <div><p class="committee-kicker">สรุปตามข้อความชื่อและโรงเรียนในร่าง</p>
+            <h3 id="myDutyPersonName"></h3><p class="committee-caption" id="myDutyPersonSchool"></p></div>
+          <span class="my-duty-draft-tag">ข้อมูลร่าง · รอตรวจ</span>
+        </div>
+        <p class="my-duty-summary" id="myDutySummary"></p>
+        <p class="my-duty-warning">ยังไม่มีคำสั่งแต่งตั้งที่ผ่านการรับรอง · วันแข่งขันเป็นข้อมูลประกอบ ไม่ใช่วันหรือเวลาปฏิบัติหน้าที่ของคุณครู</p>
+        <p id="myDutyScheduleStatus" class="committee-caption" role="status" aria-live="polite"></p>
+        <div id="myDutyCards" class="my-duty-cards"></div>
+        <a class="my-duty-review-link" href="./committee-review.html">พบข้อผิดพลาด? ให้โรงเรียนตรวจและแจ้งแก้ไขรายชื่อ →</a>
+      </div>
+    </section>
+  <section class="panel" aria-labelledby="committeeSchoolReviewLinkHeading">
+    <h2 id="committeeSchoolReviewLinkHeading">พบชื่อแล้ว? ตรวจและยืนยันความถูกต้องกับผู้จัด</h2>
+    <p class="committee-caption">อ่านชื่อจากร่างปี 2569 ได้ในหน้านี้ทันทีโดยไม่ต้องใส่รหัส ส่วนการทำเครื่องหมายถูกต้อง/ขอแก้ไขและส่งผลทาง LINE ให้ใช้หน้าตรวจยืนยันเดิมของโรงเรียน</p>
+    <a class="direct-back" href="./committee-review.html" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 14px;border:1px solid #9db6d0;border-radius:11px">โรงเรียนตรวจและแจ้งยืนยันรายชื่อ</a>
+  </section>
+
     <section class="committee-overview panel" aria-labelledby="committeeOverviewTitle">
       <div class="committee-section-top">
         <div>
@@ -121,6 +151,6 @@
   </div>
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · หน้ารายงานเตรียมการกรรมการ · ไม่ใช่คำสั่งแต่งตั้ง</footer>
-<script src="./js/committee.js?v=r19e1"></script>
+<script src="./js/committee.js?v=r19f1"></script>
 </body>
 </html>
