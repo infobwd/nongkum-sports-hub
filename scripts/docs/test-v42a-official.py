@@ -26,6 +26,9 @@ assert "สั่ง ณ วันที่" in html_text
 assert "มีหน้าที่" in html_text
 assert "20. คณะกรรมการ" in html_text
 assert "รายชื่อสะกดที่ปรับแก้ล่าสุด" in html_text
+assert "ไม่คัดลอกภาพทั้งสอง" in html_text
+assert audit["per_page"][0]["embedded_image_count"]>=1
+assert audit["per_page"][-1]["embedded_image_count"]>=1
 assert html_text.count('data-source-page="')==11
 assert html_text.count('data-source-line="')==audit["total_source_lines"]
 for page in model["pages"]:

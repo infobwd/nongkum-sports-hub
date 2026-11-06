@@ -67,6 +67,7 @@ def build_source_model(pdf):
         if not records:
             raise ValueError(f"V3 page {page_number} has no extractable text")
         pages.append({"source_page": page_number, "lines": records,
+                      "embedded_image_count": len(pdf[page_number-1].get_images(full=True)),
                       "line_count": len(records),
                       "sha256": hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()})
     if sorted(set(seen_sections), key=int) != [str(i) for i in range(1, 21)]:
@@ -88,7 +89,8 @@ def build_source_model(pdf):
             "full_text_sha256": hashlib.sha256("\n".join(all_lines).encode("utf-8")).hexdigest(),
             "unverified_items": ["official_document_type", "legal_authority",
                                  "signing_date_and_signatory",
-                                 "numbering_and_affiliations"]}
+                                 "numbering_and_affiliations",
+                                 "source_garuda_and_signature_images_not_imported"]}
 
 def official_full_html(model):
     content = [
@@ -99,6 +101,8 @@ def official_full_html(model):
         ' รวมทั้งคณะกรรมการ 20 หมวดและข้อความ “มีหน้าที่” '
         'รายชื่อสะกดที่ปรับแก้ล่าสุดอยู่ในตารางกรรมการถัดไป '
         'รายการจากต้นฉบับด้านล่างอาจมีชื่อหรือเลขข้อที่ยังรอตรวจ</p>',
+        '<p>PDF ต้นฉบับมีภาพตราครุฑและภาพลายเซ็น การจัดหน้าใหม่นี้คงข้อความต้นฉบับ'
+        ' แต่ไม่คัดลอกภาพทั้งสองมาเป็นตรารับรองหรือลายเซ็นของฉบับใหม่</p>',
         '<p class="v42-official-warning">ต้นฉบับใช้หัวข้อ “ประกาศ” แต่ใช้ถ้อยคำปิด'
         ' “สั่ง ณ วันที่” ต้องให้ผู้มีอำนาจตรวจรูปแบบและการลงนามก่อนใช้จริง</p>',
         '</div>',
@@ -152,6 +156,7 @@ def source_audit(model, rendered_html):
             "kind_counts": model["kind_counts"],
             "full_text_sha256": model["full_text_sha256"],
             "per_page": [{"page": p["source_page"], "lines": p["line_count"],
+                          "embedded_image_count": p["embedded_image_count"],
                           "sha256": p["sha256"]} for p in model["pages"]],
             "unverified_items": model["unverified_items"]}
 

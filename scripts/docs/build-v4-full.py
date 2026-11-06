@@ -156,7 +156,7 @@ def build(root,out):
  official_report=source_audit(official_model,official_html)
  pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / ข้อความต้นฉบับครบ",
   official_html,
-  "Sarabun มีหัว · ข้อความจาก V3 หน้า 6–16 ครบทุกบรรทัด · ยังไม่ใช่คำสั่งหรือประกาศลงนาม"))
+  "Sarabun มีหัว · ข้อความจาก V3 หน้า 6–16 ครบทุกบรรทัด · ยังไม่คัดลอกลายเซ็นมาเป็นเอกสารฉบับใหม่"))
  heads=["ข้อ","ชื่อ–สกุล","สังกัด","หน้าที่"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
