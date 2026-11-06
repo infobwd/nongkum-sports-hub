@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/committee.css?v=r19g1">
+  <link rel="stylesheet" href="./css/committee.css?v=r19i-committee1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
 </head>
 <body data-view="committee">
@@ -39,7 +39,7 @@
     <a href="./index.html">← ตารางการแข่งขัน</a>
     <a href="./results.html">ผลการแข่งขัน</a>
   </nav>
-  <section class="panel committee-pdf-access" aria-labelledby="committeePdfTitle"><h2 id="committeePdfTitle">📄 สูจิบัตรร่างกรรมการ ปี 2569</h2><p class="committee-caption">เปิดดูต้นฉบับ V3 (รอตรวจ) เพื่อเทียบชื่อและหน้าที่กรรมการ · ยังไม่ใช่คำสั่งแต่งตั้ง</p><div class="committee-pdf-actions"><button type="button" id="committeePdfOpen" class="load-retry">ดูตัวอย่างสูจิบัตรร่าง</button><a href="https://drive.google.com/file/d/1WwyCXlJYU8Iqxv3-l1QGsJzVUTDD4CoQ/view" target="_blank" rel="noopener noreferrer">เปิด PDF ใน Google Drive</a></div></section>
+  <section class="panel committee-pdf-access" aria-labelledby="committeePdfTitle"><h2 id="committeePdfTitle">📄 สูจิบัตรร่างกรรมการ ปี 2569</h2><p class="committee-caption">เปิดดูรายชื่อและหน้าที่จากต้นฉบับ V3 เพื่อช่วยตรวจสอบ · ยังไม่ใช่คำสั่งแต่งตั้ง</p><div class="committee-pdf-actions"><button type="button" id="committeePdfOpen" class="load-retry">เปิดอ่านสูจิบัตร</button><a href="https://drive.google.com/file/d/1WwyCXlJYU8Iqxv3-l1QGsJzVUTDD4CoQ/view" target="_blank" rel="noopener noreferrer">เปิด PDF ใน Google Drive</a></div></section>
   <div class="committee-loader" id="committeeLoading" role="status" aria-live="polite">
     <span class="committee-loading-line"></span><span class="committee-loading-line short"></span>
     <p>กำลังโหลดข้อมูลการเตรียมกรรมการ…</p>
@@ -154,9 +154,16 @@
     </section>
   </div>
 </main>
-<dialog id="committeePdfDialog" class="committee-pdf-dialog" aria-label="ตัวอย่างสูจิบัตรร่าง"><div class="committee-pdf-dialog-head"><strong>สูจิบัตรร่าง V3 · รอตรวจ</strong><button type="button" id="committeePdfClose" aria-label="ปิดตัวอย่าง">✕ ปิด</button></div><p>หากไม่แสดงตัวอย่าง ให้กดเปิด PDF ใน Google Drive</p><iframe id="committeePdfFrame" title="ตัวอย่าง PDF สูจิบัตรร่าง" loading="lazy"></iframe><a id="committeePdfExternal" href="https://drive.google.com/file/d/1WwyCXlJYU8Iqxv3-l1QGsJzVUTDD4CoQ/view" target="_blank" rel="noopener noreferrer">เปิดเอกสารใน Google Drive</a></dialog>
+<dialog id="committeePdfDialog" class="committee-pdf-dialog" aria-label="อ่านสูจิบัตรกรรมการฉบับร่าง" aria-describedby="committeePdfHelp">
+  <div class="committee-pdf-dialog-head">
+    <div class="committee-pdf-dialog-title"><strong>สูจิบัตรกรรมการ V3 · รอตรวจ</strong><span id="committeePdfContext">ต้นฉบับสำหรับตรวจสอบ</span></div>
+    <button type="button" id="committeePdfClose" aria-label="ปิดสูจิบัตรและกลับไปหน้ากรรมการ">← กลับ</button>
+  </div>
+  <iframe id="committeePdfFrame" title="อ่านสูจิบัตรกรรมการ เลือกหน้าและขยายเอกสารได้" loading="lazy" referrerpolicy="same-origin"></iframe>
+  <div class="committee-pdf-dialog-footer"><span id="committeePdfHelp">สำหรับตรวจสอบรายชื่อ · ยังไม่ใช่คำสั่งแต่งตั้ง</span><a id="committeePdfExternal" href="https://drive.google.com/file/d/1WwyCXlJYU8Iqxv3-l1QGsJzVUTDD4CoQ/view" target="_blank" rel="noopener noreferrer">Google Drive</a></div>
+</dialog>
 <footer class="shell">มิตรภาพเกมส์ 2569 · หน้ารายงานเตรียมการกรรมการ · ไม่ใช่คำสั่งแต่งตั้ง</footer>
-<script src="./js/committee-pdf-preview.js?v=r19g1"></script>
+<script src="./js/committee-pdf-preview.js?v=r19i-committee1"></script>
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="./js/committee.js?v=r19fux2-r20b1"></script>
 <script src="./js/committee-mobile-ux.js?v=r19fux5" defer></script>

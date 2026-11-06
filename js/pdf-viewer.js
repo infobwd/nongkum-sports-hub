@@ -1,12 +1,16 @@
 /**
  * R11D.2 — source-PDF viewer. This file only runs when pdf-viewer.html is opened.
- * PDF and requested page are same-origin/fixed; only source_pdf.page becomes ?page=N.
+ * PDF paths are fixed to two same-origin approved documents (41-page program or 64-page committee V3).
+ * doc=committee selects the committee document; other values retain the original program PDF.
  * PDF.js and worker use the same pinned version. If CDN fails, offer local PDF.
  */
-const PDF_URL = "./assets/souvenir-2569-v2.pdf";
+const query = new URLSearchParams(location.search);
+const isCommittee = query.get("doc") === "committee";
+const PDF_URL = isCommittee ? "./assets/souvenir-committee-2569-v3.pdf" : "./assets/souvenir-2569-v2.pdf";
 const PDF_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs";
 const PDF_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs";
-const EXPECTED_PAGES = 41;
+const EXPECTED_PAGES = 41; // Existing fixture source and its tests stay unchanged.
+const DOCUMENT_PAGES = isCommittee ? 64 : EXPECTED_PAGES;
 const $ = (id) => document.getElementById(id);
 const el = {
   prev: $("pdfPrev"), next: $("pdfNext"), input: $("pdfPage"),
@@ -20,7 +24,7 @@ const el = {
 const pageQuery = new URLSearchParams(location.search).get("page");
 function initialPage(raw) {
   if (!/^\d{1,2}$/.test(String(raw ?? ""))) return 1;
-  return Math.max(1, Math.min(EXPECTED_PAGES, Number(raw)));
+  return Math.max(1, Math.min(DOCUMENT_PAGES, Number(raw)));
 }
 let pageNumber = initialPage(pageQuery);
 let pdf = null;
@@ -33,21 +37,36 @@ let resizeDebounce = null;
 let swipeStart = null;
 let pinchStart = null;
 let lastTap = null;
-const query = new URLSearchParams(location.search);
 const fixtureRef = query.get("fixture") || "";
 const embedded = query.get("embedded") === "1" &&
   typeof window !== "undefined" && window.parent && window.parent !== window;
-const openedFromProgram = query.get("from")==="program";
-const backUrl = new URL(openedFromProgram?"./index.html":"./review.html", location.href);
+const openedFromProgram = !isCommittee && query.get("from")==="program";
+const backUrl = new URL(isCommittee ? "./committee.html" : (openedFromProgram ? "./index.html" : "./review.html"), location.href);
 // Never accept an arbitrary redirect target. Only a known same-origin program/review
 // route can be selected. A valid fixture ID narrows the destination to the same card.
-if (fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef)) {
+if (!isCommittee && fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef)) {
   backUrl.searchParams.set("fixture", fixtureRef);
 }
 el.back.href = backUrl.toString();
 if(openedFromProgram){
   el.back.textContent="← กลับไปตารางแข่ง";
   el.back.setAttribute("aria-label","ปิด PDF และกลับไปคู่แข่งขันในตาราง");
+}
+if (isCommittee) {
+  document.title = "อ่านสูจิบัตรกรรมการ V3 · มิตรภาพเกมส์ 2569";
+  el.back.textContent = "← กลับไปหน้ากรรมการ";
+  el.back.setAttribute("aria-label", "ปิด PDF แล้วกลับไปหน้ากรรมการ");
+  const heading = document.querySelector(".pdf-book-title");
+  if (heading) {
+    heading.textContent = "สูจิบัตรกรรมการ ";
+    const caption = document.createElement("small");
+    caption.textContent = "V3 · รอตรวจ";
+    heading.appendChild(caption);
+  }
+  const footer = document.querySelector(".pdf-draft");
+  if (footer) footer.textContent = "สูจิบัตรกรรมการ V3 · รอตรวจ ไม่ใช่คำสั่งแต่งตั้ง";
+  const sourceLink = document.getElementById("pdfOpenOriginal");
+  if (sourceLink) sourceLink.textContent = "เปิด PDF ฉบับเต็ม";
 }
 // An embedded reader uses the parent Review header and warning. Reuse the
 // existing options menu in the *same* bottom navigation (no duplicate controls).
@@ -65,7 +84,7 @@ function updateOpenLinks() {
   el.fallback.href = url;
 }
 function updateToolbar() {
-  const pages = pdf?.numPages ?? EXPECTED_PAGES;
+  const pages = pdf?.numPages ?? DOCUMENT_PAGES;
   el.input.value = String(pageNumber);
   el.input.max = String(pages);
   el.total.textContent = "/ " + pages;
@@ -163,7 +182,7 @@ async function startViewer() {
     pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
     const task = pdfjs.getDocument({ url: PDF_URL });
     pdf = await task.promise;
-    if (pdf.numPages !== EXPECTED_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
+    if (pdf.numPages !== DOCUMENT_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
     pageNumber = Math.min(pageNumber, pdf.numPages);
     updateToolbar();
     await renderPage();
