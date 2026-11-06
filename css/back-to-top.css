@@ -1,0 +1,5 @@
+/* Shared accessible back-to-top: mobile safe area and nav aware. */
+.shared-back-top{position:fixed;z-index:810;right:16px;bottom:calc(var(--back-top-bottom,20px) + env(safe-area-inset-bottom,0px));width:48px;height:48px;min-width:48px;min-height:48px;border-radius:50%;border:1px solid #c1d1e4;background:#183762;color:#fff;box-shadow:0 5px 17px #102a4a35;display:grid;place-items:center;cursor:pointer;touch-action:manipulation;padding:0;line-height:1}
+.shared-back-top[hidden]{display:none!important}.shared-back-top svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.shared-back-top:focus-visible{outline:3px solid #e3b335;outline-offset:3px}
+@media print{.shared-back-top{display:none!important}}
