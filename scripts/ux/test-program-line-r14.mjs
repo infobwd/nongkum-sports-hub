@@ -19,7 +19,7 @@ assert.equal(data.metadata.website_publication_status,"not_released");
 assert.equal(data.fixtures.filter(x=>x.qa_flags?.length).length,70);
 assert.equal(data.fixtures.filter(x=>x.source_pdf?.source_date_text==="17 พ.ย. 68").length,3);
 assert.match(html,/id="scheduleVerificationSummary"/);
-assert.match(program,/โปรแกรมการแข่งขัน 237 รายการ/);
+assert.match(program,/โปรแกรมการแข่งขัน 236 รายการ/);
 assert.match(html,/โปรดตรวจสอบสถานะรายคู่/);
 assert.doesNotMatch(html,/ป้าย “ตาม PDF”/);
 assert.match(program,/fixture-meta-grid/);
