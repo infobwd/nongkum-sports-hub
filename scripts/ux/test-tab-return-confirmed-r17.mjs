@@ -34,7 +34,7 @@ assert.equal(latest.metadata.website_publication_status,"not_released");
 assert.equal(JSON.parse(read("data/public-results.json")).results.length,0);
 
 const shared=read("js/shared.js"),navigation=read("js/navigation.js");
-const order=read("js/schedule-order.js"),program=read("js/program.js");
+const order=read("js/schedule-order.js"),program=read("js/program.js"),corrections=read("js/program-corrections.js");
 for(const [name,source] of [["shared",shared],["navigation",navigation],["order",order],["program",program]]){
   new vm.Script(source,{filename:name});
 }
@@ -80,6 +80,7 @@ function harness(url,view,source=latest){
   new vm.Script(navigation).runInContext(ctx);
   if(view==="program"){
     new vm.Script(order).runInContext(ctx);
+    new vm.Script(corrections).runInContext(ctx);
     new vm.Script(program).runInContext(ctx);
   }
   return {location,links,elements,scrollCalls,history,frameCallbacks};
