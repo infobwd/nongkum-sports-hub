@@ -171,3 +171,13 @@
 - เครื่องมือสร้าง PDF V4.2 เดิมรับ selected artwork แบบฝังไฟล์, fallback ได้เมื่อไม่มีภาพ
 - ทดสอบ A4 มือถือ ขาวดำ, ภาพ/ตัวอักษร, source anchor และสถานะร่างผ่าน
 - **ไม่มีการตีความว่า visual approval เท่ากับ document/content approval**
+
+## 8. บันทึกผลตรวจรับภาพปกทดลอง (7 พฤศจิกายน 2569)
+
+**VIS-COVER: ผู้จัดเห็นชอบตัวอย่างปก A4 ที่ใช้ภาพจริงจาก Google Drive ในด้านองค์ประกอบและเลย์เอาต์แล้ว** ให้ใช้ต้นแบบนี้ต่อยอด ไม่ต้องทำภาพปกใหม่ซ้ำโดยไม่มีเหตุผล บันทึกรายละเอียดใน [แผนทดลองปกและผลตรวจรับ](R11C_V42_VIS_COVER_A4_LAYOUT_TRIAL_20261107.md#7-ผลตรวจรับหน้าปกจากผู้จัด-7-พฤศจิกายน-2569)
+
+- Approved scope: visual composition / navy–gold masthead / horizontal hero photo / readable footer
+- Pending gate: image source, photographer rights, permissions to publish identifiable students, public-sharing suitability
+- Do not commit the original Drive photo, children's identities, private Drive IDs or cover PDF with recognizable children to public repo
+- Do not modify V42-B–F source content or official live PDF; integrating image slots waits for a separate renderer PR and rights confirmation
+- Recommended immediate content work: **V42-B พิธีเปิด–ปิด** (especially 08.45 subevents), followed by V42-C → D → E → F
