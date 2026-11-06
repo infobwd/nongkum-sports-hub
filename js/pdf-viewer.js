@@ -23,9 +23,11 @@ const el = {
   back: $("pdfBack"), tools: $("pdfTools"), bottomBar: $("pdfBottomBar")
 };
 const pageQuery = new URLSearchParams(location.search).get("page");
-const selectedCommittee = isCommittee && /^\d+(?:\.\d+){1,3}$/.test(query.get("number") || "") &&
-  (query.get("name") || "").trim().length >= 4 && (query.get("name") || "").length <= 160
-  ? {number:query.get("number"),name:query.get("name")} : null;
+const selectedCommittee = isCommittee && /^pdf-p\d{2}-l\d{2}$/.test(query.get("entry") || "") &&
+  (query.get("name") || "").trim().length >= 4 && (query.get("name") || "").length <= 160 &&
+  (query.get("number") || "").length <= 24
+  ? {id:query.get("entry"),number:query.get("number") || "",name:query.get("name")} : null;
+let committeeCoordinateIndex = null;
 function initialPage(raw) {
   if (!/^\d{1,2}$/.test(String(raw ?? ""))) return 1;
   return Math.max(1, Math.min(DOCUMENT_PAGES, Number(raw)));
@@ -174,23 +176,15 @@ async function renderPage() {
     el.canvas.setAttribute("aria-label", "สูจิบัตรหน้า " + pageNumber + " จาก " + pdf.numPages + " หน้า");
     if (isCommittee && selectedCommittee && el.highlight && el.matchStatus &&
         pageNumber === selectedCommitteePage && window.NongkumCommitteeHighlight) {
-      // Text extraction is optional: it must never blank an otherwise readable PDF.
-      let mark = null;
-      try {
-        const textContent = await page.getTextContent();
-        if (requestId !== generation) return;
-        mark = window.NongkumCommitteeHighlight.draw({
-          items:textContent.items, target:selectedCommittee, viewport,
-          overlay:el.highlight, canvas:el.canvas
-        });
-      } catch (highlightError) {
-        console.warn("R19-J: committee name highlight unavailable", highlightError);
-      }
-      if (requestId !== generation) return;
+      // Use only previously verified, SHA-pinned coordinates; never guess a row.
+      const mark = window.NongkumCommitteeHighlight.draw({
+        index:committeeCoordinateIndex, target:selectedCommittee, page:pageNumber,
+        viewport, overlay:el.highlight, canvas:el.canvas
+      });
       el.matchStatus.hidden = false;
       el.matchStatus.textContent = mark
-        ? "เน้นชื่อที่เลือก · ข้อ " + selectedCommittee.number
-        : "ไม่พบชื่อและเลขข้อที่ตรงกัน โปรดตรวจสอบข้อความใน PDF";
+        ? "เน้นชื่อ " + selectedCommittee.name + " · ข้อ " + (selectedCommittee.number || "ไม่ระบุเลขข้อ")
+        : "กำลังตรวจชื่อ " + selectedCommittee.name + " · ยังไม่มีพิกัดที่ยืนยันได้ในเอกสาร";
       if (mark && !committeePositioned) {
         committeePositioned = true;
         const surface = $("pdfPageSurface");
@@ -216,12 +210,19 @@ async function startViewer() {
   el.status.textContent = "กำลังเปิดสูจิบัตร PDF…";
   updateToolbar();
   try {
+    // Map data comes from the pinned PDF and public roster; never infer from a live text layer.
+    const coordinatesPromise = isCommittee && selectedCommittee
+      ? fetch("./data/committee-pdf-positions-v3.json?v=r19k1", {cache:"no-store"})
+          .then(response => { if (!response.ok) throw Error("map_unavailable"); return response.json(); })
+          .catch(err => { console.warn("R19-K coordinate index unavailable", err); return null; })
+      : Promise.resolve(null);
     // Import only when the viewer is explicitly opened. Never load PDF.js for all 237 cards.
     const pdfjs = await import(PDF_JS_URL);
     pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
     const task = pdfjs.getDocument({ url: PDF_URL });
     pdf = await task.promise;
     if (pdf.numPages !== DOCUMENT_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
+    committeeCoordinateIndex = await coordinatesPromise;
     pageNumber = Math.min(pageNumber, pdf.numPages);
     updateToolbar();
     await renderPage();

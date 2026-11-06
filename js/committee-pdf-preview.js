@@ -17,12 +17,14 @@ function readerUrl(page,embedded,reference) {
   url.searchParams.set("doc", "committee");
   url.searchParams.set("page", String(page));
   if (embedded) url.searchParams.set("embedded", "1");
-  // Only roster-provided entries on the same page get name highlighting.
+  // Source-row ID is required: name alone can occur more than once in the PDF.
   if (reference && Number(reference.pdf_page) === page &&
-      /^\d+(?:\.\d+){1,3}$/.test(String(reference.number || "")) &&
+      /^pdf-p\d{2}-l\d{2}$/.test(String(reference.id || "")) &&
       typeof reference.name === "string" && reference.name.trim().length >= 4 &&
-      reference.name.length <= 160) {
-    url.searchParams.set("number", reference.number);
+      reference.name.length <= 160 &&
+      String(reference.number || "").length <= 24) {
+    url.searchParams.set("entry", reference.id);
+    if (reference.number) url.searchParams.set("number", reference.number);
     url.searchParams.set("name", reference.name);
   }
   return url.toString();
@@ -38,7 +40,9 @@ function open(page, reference) {
     returnFocus = document.activeElement;
     dialog.showModal();
   }
-  if (context) context.textContent = "เปิดต้นฉบับหน้า " + n + " จาก " + totalPages + " หน้า";
+  if (context) context.textContent = reference?.name && Number(reference.pdf_page) === n
+    ? "กำลังดู " + reference.name + " · ข้อ " + (reference.number || "ไม่ระบุเลขข้อ") + " · หน้า " + n
+    : "เปิดต้นฉบับหน้า " + n + " จาก " + totalPages + " หน้า";
   frame.src = readerUrl(n,true,reference);
   document.getElementById("committeePdfClose")?.focus({preventScroll:true});
 }
