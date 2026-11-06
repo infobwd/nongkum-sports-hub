@@ -1,0 +1,20 @@
+/* R11C-V4 Phase 2 print design tokens; sample PDF layout is a trial, not released. */
+@page { size: A4; margin: 18mm 17mm 15mm; }
+:root{
+  --v4-navy:#132e50;--v4-navy-mid:#1b3d63;--v4-gold:#efc653;
+  --v4-paper:#ffffff;--v4-text:#18324b;--v4-muted:#698097;
+  --v4-border:#dbe4ee;--v4-tint:#f1f5fa;--v4-warning-bg:#fff6e6;
+}
+html,body{font-family:"Noto Sans Thai",sans-serif;color:var(--v4-text);font-size:10pt;line-height:1.5;}
+h1,h2,h3{font-weight:700;break-after:avoid;}
+h1{font-size:24pt} h2{font-size:17pt} h3{font-size:11pt}
+table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:8.5pt;}
+thead{display:table-header-group;} tr{break-inside:avoid;}
+th{background:var(--v4-navy-mid);color:white;padding:3mm 2.6mm;text-align:left;}
+td{padding:2.5mm 2.6mm;border-bottom:1px solid var(--v4-border);overflow-wrap:anywhere;}
+tr:nth-child(even) td{background:#f6f9fc;}
+section.doc-section{break-before:page;}
+.keep-together{break-inside:avoid;}
+.review-label{display:inline-block;background:#fff4da;color:#73541a;padding:1.2mm 3mm;border-radius:5px;}
+.print-footer{font-size:8pt;color:var(--v4-muted);border-top:1px solid var(--v4-border);}
+@media print{.screen-only{display:none!important;}}

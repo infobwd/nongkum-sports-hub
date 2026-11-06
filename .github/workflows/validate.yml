@@ -31,3 +31,4 @@ jobs:
       - run: node scripts/ops/test-public-intake-r11.mjs
       - run: node scripts/committee/test-my-duty-r19f.mjs
       - run: node scripts/docs/validate-v4-phase1.mjs
+      - run: node scripts/docs/validate-v4-phase2.mjs
