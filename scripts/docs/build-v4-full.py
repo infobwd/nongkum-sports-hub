@@ -9,6 +9,8 @@ import fitz
 from weasyprint import HTML
 from v41_editorial import (formal_font_css, notice, ceremony_timeline, colors_and_oath,
     sports_cards, bracket_note, special_observations, extra_css)
+from v42_official import (build_source_model, official_full_html,
+    source_audit, official_css as v42_official_css)
 
 SPORTS=["football","shootout","futsal","volleyball","takraw","petanque","tabletennis","tugofwar"]
 MONTHS=["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"]
@@ -134,9 +136,9 @@ def build(root,out):
  if status_verified!=45:raise ValueError("Confirmed scheduling rows changed")
  names={x["id"]:x["name"] for x in raw["sports"]}
  pages=[]
- pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4 • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
+ pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4.2-A • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
  pages.append(sec("ข้อมูลสำหรับผู้อ่าน","บทนำ / สถานะข้อมูล",
- """<div class="warning"><b>สถานะเอกสาร:</b> V4 ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
+ """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-A ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
  <p>ข้อมูลทั้งหมด 236 รายการ: กีฬาเป็นคู่ 186 คู่ และกรีฑา 50 รายการ (289 ลู่) พร้อมรายชื่อหน้าที่กรรมการรอตรวจ 250 แถว</p>
  <p>วัน–เวลาได้รับการยืนยัน 45 คู่ • สนามหลักยืนยันโรงเรียนบ้านหนองกระทุ่ม • ฟุตบอลมัธยมหญิงชิงวันที่ 18 พฤศจิกายน ไม่ใช้รายการซ้ำวันที่ 20 พฤศจิกายน</p>
  <p>รายชื่อกรรมการอยู่ระหว่างตรวจโรงเรียน จึงมิใช่คำสั่งแต่งตั้งที่ได้รับการลงนาม และไม่มีการพิมพ์ผลการแข่งขันสมมติ</p>
@@ -149,9 +151,12 @@ def build(root,out):
   "ลำดับกิจกรรมตามสูจิบัตร V3 หน้า 4 · ยังรอตรวจ"))
  pages.append(sec("สีประจำโรงเรียนและคำปฏิญาณนักกีฬา","MAGAZINE / SCHOOL SPIRIT",
   colors_and_oath(read_source(pdf,5)),"ข้อมูลสีจาก V3 หน้า 5 · การ์ดสีเป็นตัวอย่าง"))
- pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / ต้องตรวจรับ",
-  notice(read_source(pdf,6),read_source(pdf,16)),
-  "รูปแบบเอกสารทางการใช้ฟอนต์ไทยมีหัว · ยังไม่มีลายมือชื่อและเลขที่รับรอง"))
+ official_model=build_source_model(pdf)
+ official_html=official_full_html(official_model)
+ official_report=source_audit(official_model,official_html)
+ pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / ข้อความต้นฉบับครบ",
+  official_html,
+  "Sarabun มีหัว · ข้อความจาก V3 หน้า 6–16 ครบทุกบรรทัด · ยังไม่คัดลอกลายเซ็นมาเป็นเอกสารฉบับใหม่"))
  heads=["ข้อ","ชื่อ–สกุล","สังกัด","หน้าที่"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
@@ -224,11 +229,13 @@ def build(root,out):
  pages.append(sec("ภาคผนวกผังสายจาก V3","เอกสารต้นทางเพื่ออ้างอิง",
   '<div class="warning">หน้าที่นำมาต่อท้ายเป็นหน้าจริงของ V3 มีบางรายการร่างที่ถูกแก้ไขแล้วในโปรแกรม V4 หลัก จึงห้ามใช้ภาคผนวกนี้เป็นกำหนดการประกาศ</div>'))
  official_css,official_font_used=formal_font_css()
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.1 ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
- if "ข้อสังเกตและรายการตรวจเป็นพิเศษ" not in html_body or "คำปฏิญาณนักกีฬา" not in html_body or "official-paper" not in html_body:
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-A ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
+ if "ข้อสังเกตและรายการตรวจเป็นพิเศษ" not in html_body or "คำปฏิญาณนักกีฬา" not in html_body or "v42-official-content" not in html_body:
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
+ (out/"souvenir-v42a-official-source-qa.json").write_text(
+  json.dumps(official_report,ensure_ascii=False,indent=2)+"\n","utf-8")
  main=out/"souvenir-v4-main.pdf"
  HTML(string=html_body,base_url=str(root)).write_pdf(main)
  document=fitz.open(main)
@@ -259,7 +266,12 @@ def build(root,out):
  if not all(abs(p.rect.width-595.3)<2 and abs(p.rect.height-841.9)<2 for p in chk):
   raise ValueError("Unexpected non-A4 pages")
  result={"schema_version":1,"status":"draft_not_approved","source_pdf_sha256":sha,
-  "layout_revision":"R11C-V4.1", "formal_font":official_font_used,
+  "layout_revision":"R11C-V4.2-A", "formal_font":official_font_used,
+  "official_source_pages":official_report["source_pages"],
+  "official_source_lines":official_report["total_source_lines"],
+  "official_rendered_lines":official_report["rendered_source_lines"],
+  "official_section_count":len(official_report["verified_section_ids"]),
+  "official_source_sha256":official_report["full_text_sha256"],
   "editorial_sections":["formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","sports_matchups","schedule_conflict_review"],
   "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),
