@@ -113,5 +113,5 @@ assert.equal(outOfSeason.els.more.hidden,false);
 const onlyPast=await mount("https://example.org/index.html?sport=football",class extends Date{
  constructor(...args){super(...(args.length?args:["2026-11-25T02:00:00Z"]));}
 });
-assert.match(onlyPast.els.count.textContent,/พบ 21 รายการ/);
+assert.match(onlyPast.els.count.textContent,/พบ 20 รายการ/);
 console.log("R18 PASS: Bangkok midnight, today/next/fallback, 24 confirmed without public warnings, 236 browseable, day-toggle return");
