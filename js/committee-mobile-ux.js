@@ -3,9 +3,8 @@
   "use strict";
   const hint=document.getElementById("committeePullHint");
   const label=document.getElementById("committeePullText");
-  const top=document.getElementById("committeeBackTop");
   const notice=document.getElementById("committeeRefreshNotice");
-  if(!hint||!label||!top||!notice)return;
+  if(!hint||!label||!notice)return;
   const header=document.querySelector("header.top");
   const positionHint=()=>{
     const headerBottom=header?.getBoundingClientRect().bottom||0;
@@ -20,10 +19,6 @@
   let startX=0,startY=0,distance=0,armed=false,busy=false;
   const threshold=85;
   const reset=()=>{armed=false;distance=0;hint.classList.remove("visible","ready");};
-  const updateTop=()=>{top.hidden=window.scrollY<350;};
-  window.addEventListener("scroll",updateTop,{passive:true});
-  updateTop();
-  top.addEventListener("click",()=>window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"}));
   let hideNotice;
   function showNotice(message){notice.textContent=message;notice.hidden=false;clearTimeout(hideNotice);hideNotice=setTimeout(()=>{notice.hidden=true;},3200);}
   document.addEventListener("touchstart",event=>{
