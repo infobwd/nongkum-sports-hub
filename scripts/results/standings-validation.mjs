@@ -38,6 +38,31 @@ export function validatePublication(data,program,rules,{previous=null}={}){
     if(leagueRule.approval_status==="approved"&&leagueRule.tie_break_status!=="approved")
       error("FOOTBALL_TIE_BREAK_PENDING","full football approval cannot bypass tie-break approval");
   }
+  const petPolicy=(rules?.sport_policies||[]).find(p=>p.sport_id==="petanque");
+  if(petPolicy?.elimination_status==="approved"){
+    if(petPolicy.format!=="knockout"||petPolicy.advancement!=="winner_only"||
+       petPolicy.eliminated!=="loser"||petPolicy.loser_reentry!==false)
+      error("PETANQUE_ELIMINATION","petanque must eliminate loser, advance only winner, without re-entry");
+    if(petPolicy.elimination_source?.kind!=="organizer_instruction"||
+       !string(petPolicy.elimination_source.date)||!string(petPolicy.elimination_source.source_ref))
+      error("PETANQUE_ELIMINATION_SOURCE","confirmed petanque knockout needs organizer provenance");
+    const petFixtures=(program?.fixtures||[]).filter(f=>f.sport_id==="petanque");
+    const byDivision=new Map();
+    for(const f of petFixtures){
+      const phases=byDivision.get(f.division)||{first:0,semi:0,final:0,invalid:0};
+      if(f.round==="รอบแรก")phases.first++;
+      else if(f.round==="รองชนะเลิศ")phases.semi++;
+      else if(f.round==="ชิงชนะเลิศ")phases.final++;
+      else phases.invalid++;
+      byDivision.set(f.division,phases);
+    }
+    const expectedEight=["ปฐมวัยชาย","ปฐมวัยหญิง","8 ปี ชาย","8 ปี หญิง","10 ปี ชาย","10 ปี หญิง","12 ปี ชาย","12 ปี หญิง"];
+    const secondary=["มัธยมชาย","มัธยมหญิง"];
+    if(petFixtures.length!==58||byDivision.size!==10||
+       expectedEight.some(id=>{const p=byDivision.get(id);return !p||p.first!==4||p.semi!==2||p.final!==1||p.invalid;})||
+       secondary.some(id=>{const p=byDivision.get(id);return !p||p.first!==0||p.semi!==0||p.final!==1||p.invalid;}))
+      error("PETANQUE_BRACKET","candidate petanque knockout phases must stay 8*(4+2+1)+2 finals");
+  }
   const sourceMap=new Map((program?.fixtures||[]).map(f=>[f.id,f]));
   const schoolIds=new Set(data.schools.map(s=>s.id)),sportIds=new Set(data.sports.map(s=>s.id));
   const types=new Map((rules?.sport_policies||[]).map(p=>[p.sport_id,p.result_type]));
@@ -76,6 +101,15 @@ export function validatePublication(data,program,rules,{previous=null}={}){
     if(r.team_a_id!==f.team_a_id||r.team_b_id!==f.team_b_id||r.team_a_id===r.team_b_id||
        !schoolIds.has(r.team_a_id)||!schoolIds.has(r.team_b_id))error("TEAMS",prefix+"team order/ID disagrees with fixture");
     const a=r.team_a_id,b=r.team_b_id;
+    if(r.sport_id==="football"){
+      const cards=r.disciplinary_cards;
+      const keysOk=cards&&typeof cards==="object"&&
+        Object.keys(cards).length===2&&["team_a","team_b"].every(side=>
+          cards[side]&&typeof cards[side]==="object"&&
+          Object.keys(cards[side]).length===2&&
+          isInt(cards[side].yellow)&&isInt(cards[side].red));
+      if(!keysOk)error("DISCIPLINARY_CARDS",prefix+"explicit nonnegative yellow/red counts required for each team; missing is not zero");
+    }
     if(SCORE_SPORTS.has(r.sport_id)){
       if(!isInt(r.score_a)||!isInt(r.score_b)){error("SCORE",prefix+"nonnegative integer scores required");continue;}
       const expected=r.score_a===r.score_b?null:r.score_a>r.score_b?a:b;

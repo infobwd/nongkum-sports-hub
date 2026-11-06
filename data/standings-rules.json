@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "rules_version": "r15-bc.2-h2h-gd",
+  "rules_version": "r15-bc.3-cards-petanque",
   "publication_authority": "committee_approval_required",
   "source": {
     "candidate_path": "data/program-from-pdf-2569-20261104-draft.json",
@@ -71,7 +71,24 @@
       "source_ref": "docs/R15BC_FOOTBALL_HEAD_TO_HEAD_GD_20261106.md",
       "statement": "If football league points are equal, decide by head-to-head goal difference among tied teams."
     },
-    "unresolved_tie_policy": "position_null_pending_additional_approval"
+    "unresolved_tie_policy": "position_null_pending_additional_approval",
+    "disciplinary_tie_break": {
+      "status": "approved_count_cards_pending_method",
+      "after": "head_to_head_goal_difference",
+      "card_fields": [
+        "yellow",
+        "red"
+      ],
+      "require_explicit_per_team_counts": true,
+      "ranking_method": "pending_organizer_confirmation",
+      "scope": "pending_organizer_confirmation",
+      "yellow_red_conversion": "pending_organizer_confirmation",
+      "source": {
+        "kind": "organizer_instruction",
+        "date": "2026-11-06",
+        "source_ref": "docs/R15BC_CARDS_PETANQUE_KNOCKOUT_20261106.md"
+      }
+    }
   },
   "sport_policies": [
     {
@@ -79,7 +96,7 @@
       "status": "pending_rule_approval",
       "format": "mixed_league_and_knockout",
       "result_type": "score",
-      "note": "12 ปี ชาย: 15 league + 2 playoff + final mapped; organizer-confirmed tie-break H2H GD among points-tied teams; full football approval/qualification and secondary finals remain pending."
+      "note": "H2H GD confirmed; if still tied count yellow/red disciplinary cards (fields required; weighting, scope and sorting method pending). Football phase qualification remains pending."
     },
     {
       "sport_id": "shootout",
@@ -114,7 +131,16 @@
       "status": "pending_rule_approval",
       "format": "knockout",
       "result_type": "sets",
-      "note": "Draft PDF p3: kindergarten knockout single set to 11 incl final; primary prelim/semi one set to 11, final best of three to 11; secondary final best of three to 11. Exact round mapping and ratification pending"
+      "note": "Organizer confirmed petanque single-elimination (loser out, winner progresses) for all 58 fixtures; 8 seven-match brackets and 2 secondary finals. V2 set counts and downstream placeholder team mapping still need ratification, hence sport-level publication pending.",
+      "elimination_status": "approved",
+      "advancement": "winner_only",
+      "eliminated": "loser",
+      "loser_reentry": false,
+      "elimination_source": {
+        "kind": "organizer_instruction",
+        "date": "2026-11-06",
+        "source_ref": "docs/R15BC_CARDS_PETANQUE_KNOCKOUT_20261106.md"
+      }
     },
     {
       "sport_id": "tabletennis",
