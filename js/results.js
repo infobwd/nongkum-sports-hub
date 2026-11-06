@@ -170,6 +170,7 @@
     if(els.directFailure)els.directFailure.hidden=!active;
   }
   async function loadResults(refresh){
+    if(els.refresh.disabled)return false;
     const initial=!state.data;
     if(initial){setInitialLoading(!state.directMode);setFailure(false);}
     els.refresh.disabled=true;
@@ -182,6 +183,7 @@
       setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         " · ไฟล์เผยแพร่บนเว็บ";
+      return true;
     }catch(e){
       els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงผลล่าสุดที่โหลดไว้":"โหลดผลรับรองไม่สำเร็จ · ลองใหม่อีกครั้ง";
       if(!state.data){
@@ -191,8 +193,10 @@
         setFailure(true);
       }
       console.error(e);
+      return false;
     }finally{setInitialLoading(false);els.refresh.disabled=false;}
   }
+  globalThis.NongkumPageRefresh=()=>loadResults(true);
   els.refresh.addEventListener("click",()=>loadResults(true));
   if(els.retry)els.retry.addEventListener("click",()=>loadResults(false));
   if(els.directRetry)els.directRetry.addEventListener("click",()=>loadResults(false));
