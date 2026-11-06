@@ -18,7 +18,7 @@
 - ต้นทางร่าง V3 ยังไม่ใช่คำสั่งแต่งตั้ง
 
 ## กลไก
-- pdf-viewer.html?doc=committee&page=N เลือกไฟล์ committee 64 หน้าโดย allowlist; หากไม่มี doc หรือเป็นค่าอื่น ใช้สูจิบัตรแข่งขัน V2 41 หน้าเดิม
+- committee-pdf-viewer.html?doc=committee&page=N เลือกไฟล์ committee 64 หน้าโดย allowlist; หากไม่มี doc หรือเป็นค่าอื่น ใช้สูจิบัตรแข่งขัน V2 41 หน้าเดิม
 - committee-pdf-preview.js เปิด iframe แบบ same-origin `embedded=1`; iframe ใช้ตัวอ่าน PDF.js เดิมและส่งปุ่มกลับผ่าน postMessage ที่ตรวจ origin/source
 - หน้า committee.html ใช้ native dialog: mobile fullscreen; desktop หน้าต่างอ่านขนาดใหญ่ เปิดเฉพาะเมื่อกด
 - ปุ่ม “ดูต้นฉบับหน้า N” จากหน้าที่ของฉันและรายการกรรมการเรียก `NongkumCommitteePdf.open(N)` เหมือนเดิม
@@ -36,8 +36,12 @@
 
 ## ขอบเขตแก้ไฟล์
 - committee.html, css/committee.css, js/committee-pdf-preview.js
-- pdf-viewer.html และ js/pdf-viewer.js (เพิ่ม allowlist doc=committee; โหมดแข่งขันเดิมเป็นค่า default)
+- committee-pdf-viewer.html และ js/pdf-viewer.js (เพิ่ม allowlist doc=committee; โหมดแข่งขันเดิมเป็นค่า default)
 - assets/souvenir-committee-2569-v3.pdf
 - docs/R19I_COMMITTEE_PDF_READER.md
 
 ไม่แก้ข้อมูล JSON รายชื่อ ตารางแข่ง ผล หรือระบบ Sheets/Apps Script
+
+## การรองรับย้อนหลัง
+- คง pdf-viewer.html สำหรับรายการแข่งขันเดิมและรหัส cache `r14-book1` เพื่อให้ชุดทดสอบ R11D.6 ยังผ่านตามสัญญาเดิม
+- สร้าง committee-pdf-viewer.html แยกเพื่อโหลด PDF.js รุ่นใหม่ `r19i-committee1` สำหรับกรรมการ

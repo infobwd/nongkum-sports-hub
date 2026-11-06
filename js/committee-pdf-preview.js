@@ -13,7 +13,7 @@ function pageNumber(input) {
   return Number.isInteger(n) && n >= 1 && n <= totalPages ? n : 1;
 }
 function readerUrl(page,embedded) {
-  const url = new URL("./pdf-viewer.html", location.href);
+  const url = new URL("./committee-pdf-viewer.html", location.href);
   url.searchParams.set("doc", "committee");
   url.searchParams.set("page", String(page));
   if (embedded) url.searchParams.set("embedded", "1");

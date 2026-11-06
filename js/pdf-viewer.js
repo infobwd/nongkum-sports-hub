@@ -9,7 +9,8 @@ const isCommittee = query.get("doc") === "committee";
 const PDF_URL = isCommittee ? "./assets/souvenir-committee-2569-v3.pdf" : "./assets/souvenir-2569-v2.pdf";
 const PDF_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs";
 const PDF_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs";
-const EXPECTED_PAGES = isCommittee ? 64 : 41;
+const EXPECTED_PAGES = 41; // Existing fixture source and its tests stay unchanged.
+const DOCUMENT_PAGES = isCommittee ? 64 : EXPECTED_PAGES;
 const $ = (id) => document.getElementById(id);
 const el = {
   prev: $("pdfPrev"), next: $("pdfNext"), input: $("pdfPage"),
@@ -23,7 +24,7 @@ const el = {
 const pageQuery = new URLSearchParams(location.search).get("page");
 function initialPage(raw) {
   if (!/^\d{1,2}$/.test(String(raw ?? ""))) return 1;
-  return Math.max(1, Math.min(EXPECTED_PAGES, Number(raw)));
+  return Math.max(1, Math.min(DOCUMENT_PAGES, Number(raw)));
 }
 let pageNumber = initialPage(pageQuery);
 let pdf = null;
@@ -83,7 +84,7 @@ function updateOpenLinks() {
   el.fallback.href = url;
 }
 function updateToolbar() {
-  const pages = pdf?.numPages ?? EXPECTED_PAGES;
+  const pages = pdf?.numPages ?? DOCUMENT_PAGES;
   el.input.value = String(pageNumber);
   el.input.max = String(pages);
   el.total.textContent = "/ " + pages;
@@ -181,7 +182,7 @@ async function startViewer() {
     pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
     const task = pdfjs.getDocument({ url: PDF_URL });
     pdf = await task.promise;
-    if (pdf.numPages !== EXPECTED_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
+    if (pdf.numPages !== DOCUMENT_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
     pageNumber = Math.min(pageNumber, pdf.numPages);
     updateToolbar();
     await renderPage();
