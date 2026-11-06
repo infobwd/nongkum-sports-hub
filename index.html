@@ -6,12 +6,13 @@
   <meta name="theme-color" content="#183762">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="มิตรภาพเกมส์ ปี 2569 — ค้นหาโปรแกรมการแข่งขันกลุ่มหนองกุ่มบนมือถือ">
-  <title>มิตรภาพเกมส์ 2569 — โปรแกรมและข้อมูลการแข่งขัน</title>
+  <title>มิตรภาพเกมส์ 2569 — ตารางแข่งขันและข้อมูลการแข่งขัน</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
   <link rel="stylesheet" href="./css/program.css?v=r18-date1-r18b">
+  <link rel="stylesheet" href="./css/program-more.css?v=r21-1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
 <link rel="stylesheet" href="./css/pull-refresh.css?v=phase1a">
@@ -22,13 +23,22 @@
     <div class="shell">
       <div class="brand">
         <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div>
-        <span class="mode">ตารางการแข่งขัน</span>
+        <div class="brand-tools">
+          <span class="mode">ตารางการแข่งขัน</span>
+          <details class="program-more">
+            <summary class="program-more-trigger">เพิ่มเติม <span aria-hidden="true">⌄</span></summary>
+            <nav class="program-more-panel" aria-label="เอกสารและข้อมูลเพิ่มเติม">
+              <a class="program-more-link" href="./review.html"><span class="program-more-icon" aria-hidden="true">📖</span><span><strong>สูจิบัตรและตรวจข้อมูล</strong><small>อ่านเอกสารและตรวจรายละเอียดการแข่งขัน</small></span></a>
+              <a class="program-more-link" href="./committee.html"><span class="program-more-icon" aria-hidden="true">👥</span><span><strong>รายชื่อและหน้าที่กรรมการ</strong><small>ค้นหาชื่อและตรวจหน้าที่ที่ได้รับมอบหมาย</small></span></a>
+            </nav>
+          </details>
+        </div>
       </div>
       <nav class="site-nav" aria-label="เมนูหลัก">
-        <a data-nav-view="program" href="./index.html" aria-current="page">โปรแกรมการแข่งขัน</a>
+        <a data-nav-view="program" href="./index.html" aria-current="page">ตารางการแข่งขัน</a>
         <a data-nav-view="results" id="resultsLink" href="./results.html">ผลการแข่งขัน</a>
       </nav>
-      <div class="hero"><h1>โปรแกรมการแข่งขัน · ปี 2569</h1></div>
+      <div class="hero"><h1>ตารางการแข่งขัน · ปี 2569</h1></div>
     </div>
   </header>
 
@@ -57,7 +67,7 @@
       </div>
       <div id="sports" class="chips" role="group" aria-labelledby="sportLabel"></div>
       <details class="advanced-filter" id="advancedFilters">
-        <summary>ตัวกรองเพิ่มเติม <span id="activeFiltersHint" class="advanced-hint"></span></summary>
+        <summary>ตัวเลือกเพิ่มเติม <span id="activeFiltersHint" class="advanced-hint"></span></summary>
         <div class="advanced-body">
           <label class="fieldlabel" for="search">ค้นหาชื่อทีม / รุ่นอายุ / รายการ</label>
           <input id="search" type="search" placeholder="เช่น วังด้ง, 12 ปี, ฟุตซอล">
@@ -69,27 +79,13 @@
 
     <aside class="notice" aria-label="สถานะข้อมูลการแข่งขัน">
       <span aria-hidden="true">📅</span>
-      <div id="scheduleVerificationSummary"><strong>โปรแกรมการแข่งขัน</strong> โปรดตรวจสอบสถานะรายคู่และกำหนดการแข่งขันล่าสุดก่อนเดินทาง</div>
+      <div id="scheduleVerificationSummary">กำลังตรวจสอบสถานที่แข่งขัน…</div>
     </aside>
-
-    <section class="panel" aria-labelledby="revisedPdfReviewTitle">
-      <h2 id="revisedPdfReviewTitle">เอกสารสูจิบัตรและแจ้งแก้ไขข้อมูล</h2>
-      <p class="subtle">ดูสูจิบัตรจากแต่ละคู่ได้โดยตรง ส่วนหน้าเทียบต้นฉบับสำหรับผู้จัดและผู้ช่วยตรวจข้อมูล</p>
-      <div class="direct-actions">
-        <a class="direct-back" href="./review.html">เปิด PDF และตรวจรายละเอียดเพิ่มเติม</a>
-      </div>
-    </section>
-
-    <section class="panel" aria-labelledby="committeeReportLinkTitle">
-      <h2 id="committeeReportLinkTitle">กรรมการและฝ่ายจัดการแข่งขัน</h2>
-      <p class="subtle">ตรวจหน้าที่กรรมการตามชนิดกีฬา ฝ่าย และโรงเรียน เพื่อเตรียมการปี 2569 · รายชื่อยังรอรับรอง</p>
-      <div class="direct-actions"><a class="direct-back" href="./committee.html">ดูสารสนเทศความพร้อมกรรมการ</a></div>
-    </section>
 
     <section id="programListing" aria-labelledby="resultTitle" aria-busy="true">
       <div class="results-top">
-        <h2 id="resultTitle">โปรแกรมการแข่งขัน</h2>
-        <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ รีเฟรช</button></div>
+        <h2 id="resultTitle">ตารางการแข่งขัน</h2>
+        <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ อัปเดต</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
       <div id="scheduleDaySwitch" class="schedule-day-switch" role="group" aria-label="เลือกช่วงวันแข่งขัน">
@@ -102,22 +98,23 @@
         <div class="schedule-date-options" id="scheduleDateOptions" role="group" aria-label="วันที่แข่งขันที่มีรายการ"></div>
       </div>
       <p class="subtle" id="scheduleDayHint" role="status" aria-live="polite"></p>
-      <p class="subtle" id="resultNote">เรียงตามวันที่และเวลาแข่งขัน · เปิดสูจิบัตรจากแต่ละรายการได้ทันที</p>
+      <p class="subtle" id="resultNote">เรียงตามวันที่และเวลาแข่งขัน · ดูสูจิบัตรจากแต่ละรายการได้</p>
+      <p class="schedule-verification-counts" id="scheduleVerificationCounts" role="status" aria-live="polite"></p>
       <div id="programSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
-      <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลโปรแกรมไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
+      <div id="programLoadFailure" class="load-failure" role="alert" hidden><strong>ยังเปิดตารางแข่งขันไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดข้อมูลอีกครั้ง</p><button type="button" class="load-retry" id="retryProgram">↻ ลองอีกครั้ง</button></div>
       <div id="cards"></div>
       <div id="empty" class="empty" hidden><strong>ไม่พบรายการตามตัวกรอง</strong>
-        <p>ลองเลือกทุกโรงเรียนหรือทุกกีฬา รายการระดับศูนย์ฯ ยังไม่ผูกกับโรงเรียนรายแห่ง</p>
+        <p>ลองเลือกทุกโรงเรียนหรือทุกกีฬา บางรายการยังไม่ได้ระบุโรงเรียน</p>
       </div>
       <button id="more" class="more" type="button" hidden>แสดงรายการเพิ่มเติม</button>
     </section>
 
     <details class="admin">
-      <summary>สำหรับผู้จัดการแข่งขัน · ข้อมูลตรวจรับ P2</summary>
-      <p>มี Google Sheets P2 สำหรับกรรมการตรวจสอบและแก้ไขข้อมูลแล้ว แต่ยังไม่เชื่อมผลรับรองเข้ากับเว็บไซต์นี้โดยอัตโนมัติ โปรดใช้เอกสารและสิทธิ์ที่ผู้จัดกำหนด</p>
+      <summary>สำหรับผู้จัดการแข่งขัน · เอกสารและคู่มือ</summary>
+      <p>รายการที่แก้ไขในตารางออนไลน์จะยังไม่แสดงบนเว็บทันที ผู้จัดต้องตรวจสอบและเผยแพร่ข้อมูลก่อน</p>
       <div class="admin-links">
         <a href="./forms/score-sheet.html">ใบบันทึกผลการแข่งขัน A4</a>
-        <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/P2_SHEETS_WORKFLOW.md">คู่มือ Google Sheets P2</a>
+        <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/P2_SHEETS_WORKFLOW.md">คู่มือการแก้ไขข้อมูลออนไลน์</a>
         <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/SOURCE_QA_2569.md">รายการข้อมูลที่ต้องตรวจ</a>
         <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/SPORTS_PROGRAM_WEB_PLAN.md">แผนพัฒนาเว็บ</a>
       </div>
