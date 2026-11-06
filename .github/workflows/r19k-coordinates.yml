@@ -1,0 +1,25 @@
+name: R19K Build source-verified PDF positions
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "scripts/committee/build-r19k-pdf-positions.py"
+      - "assets/souvenir-committee-2569-v3.pdf"
+      - "data/committee-2569-draft-public-review.json"
+      - "data/committee-pdf-positions-v3.json"
+      - "js/pdf-viewer.js"
+      - "js/committee-pdf-preview.js"
+      - "committee-pdf-viewer.html"
+      - ".github/workflows/r19k-coordinates.yml"
+permissions:
+  contents: read
+jobs:
+  source-positions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install PyMuPDF==1.26.7
+      - run: python scripts/committee/build-r19k-pdf-positions.py --print-json
