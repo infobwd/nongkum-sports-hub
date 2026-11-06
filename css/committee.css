@@ -178,5 +178,29 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 .committee-refresh-notice.with-back-top{left:auto;right:76px;transform:none;max-width:min(calc(100vw - 154px),300px)}
 @media(max-width:340px){.committee-refresh-notice.with-back-top{left:50%;right:auto;bottom:calc(78px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:85vw}}
 
-/* R19-G draft PDF preview */
-.committee-pdf-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.committee-pdf-actions a,.committee-pdf-page-link{min-height:44px;display:inline-flex;align-items:center;padding:8px 12px;border:1px solid #8caac7;border-radius:10px;background:transparent;color:inherit;font:inherit;cursor:pointer;text-decoration:none}.committee-pdf-page-link{margin-top:6px}.committee-pdf-dialog{width:min(960px,96vw);height:min(92dvh,900px);max-width:none;max-height:none;padding:12px;border:0;border-radius:14px;background:#fff;color:#183762}.committee-pdf-dialog::backdrop{background:rgba(0,0,0,.7)}.committee-pdf-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.committee-pdf-dialog-head button{min-height:44px}.committee-pdf-dialog iframe{width:100%;height:calc(100% - 135px);border:0;background:#f1f4f8}.committee-pdf-dialog>a{display:inline-block;padding:8px 0}
+/* R19-I — use the same PDF.js reader as the fixture preview, full-height on mobile. */
+.committee-pdf-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.committee-pdf-actions .load-retry{min-height:46px;padding:9px 16px;font:inherit;font-size:.94rem;font-weight:800}
+.committee-pdf-actions a,.committee-pdf-page-link{display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:8px 12px;border:1px solid #98b5d2;border-radius:11px;color:#224d79;text-decoration:none;background:#fff;font:inherit}
+.committee-pdf-page-link{margin-top:6px;cursor:pointer}
+.committee-pdf-dialog{box-sizing:border-box;width:min(960px,96vw);height:min(92dvh,900px);max-width:none;max-height:none;padding:0;border:0;border-radius:16px;overflow:hidden;background:#f2f6fb;color:#183762;box-shadow:0 12px 38px #102b4e40}
+.committee-pdf-dialog[open]{display:flex;flex-direction:column}
+.committee-pdf-dialog::backdrop{background:rgba(8,24,46,.62)}
+.committee-pdf-dialog-head{flex:none;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 13px;background:#fff;border-bottom:1px solid #dce6f1}
+.committee-pdf-dialog-title{min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.4}
+.committee-pdf-dialog-title strong{font-size:.89rem}
+.committee-pdf-dialog-title span{font-size:.75rem;color:#5c7590}
+.committee-pdf-dialog-head button{flex:none;min-height:46px;padding:8px 12px;border:1px solid #bbd0e3;border-radius:11px;background:#f1f6fc;color:#1b4e7b;font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}
+.committee-pdf-dialog iframe{display:block;flex:1;min-height:0;width:100%;border:0;background:#e9f0f7}
+.committee-pdf-dialog-footer{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px;padding:7px 13px;background:#fff;border-top:1px solid #dce6f1}
+.committee-pdf-dialog-footer span{font-size:.72rem;color:#546c84}
+.committee-pdf-dialog-footer a{white-space:nowrap;font-size:.78rem;color:#245c91;text-decoration:underline}
+@media(max-width:690px){
+  .committee-pdf-dialog{position:fixed;inset:0;width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;border-radius:0;margin:0}
+  .committee-pdf-dialog-head{padding:calc(7px + env(safe-area-inset-top,0px)) 10px 7px}
+  .committee-pdf-dialog-footer{padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px))}
+  .committee-pdf-dialog-title strong{font-size:.82rem}
+  .committee-pdf-dialog-title span{font-size:.71rem}
+  .committee-pdf-dialog-footer span{font-size:.68rem}
+}
+@media(max-width:390px){.committee-pdf-dialog-footer{gap:6px}.committee-pdf-dialog-footer span{max-width:70%}}
