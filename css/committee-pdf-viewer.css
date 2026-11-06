@@ -13,3 +13,6 @@
 .pdf-embedded .pdf-book-tools summary{min-width:44px;min-height:44px;padding:6px 7px}
 .pdf-embedded .pdf-page-total{font-size:.76rem}
 @media(max-width:360px){.pdf-embedded .pdf-page-controls button{min-width:44px}.pdf-embedded .pdf-page-controls button span{display:none}}
+
+/* R19-K: when a name is selected, make the context readable but keep the PDF area tall. */
+.committee-pdf-match-status{font-size:.76rem;font-weight:700;line-height:1.35;padding:6px 10px;max-height:3.2em;overflow:hidden}
