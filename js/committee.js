@@ -590,7 +590,7 @@
     if(request===state.scheduleRequest)renderMyDuty();
   }
   async function load(){
-    if(state.loading)return;
+    if(state.loading)return false;
     state.loading=true;
     ui.failure.hidden=true;
     ui.loading.hidden=false;
@@ -617,6 +617,7 @@
       renderMyDuty();
       redraw();
       if(dutyUIReady)loadDutySchedule();
+      return true;
     }catch(_error){
       // Do not show historical people, stale appointments or invented placeholder data.
       state.data=null;
@@ -625,6 +626,7 @@
       state.schedule=null;
       ui.report.hidden=true;
       ui.failure.hidden=false;
+      return false;
     }finally{
       state.loading=false;
       ui.loading.hidden=true;
@@ -653,6 +655,7 @@
       redraw();
     });
   });
+  root.NongkumCommitteeRefresh={refresh:load};
   ui.retry.addEventListener("click",load);
   ui.refresh.addEventListener("click",load);
   load();
