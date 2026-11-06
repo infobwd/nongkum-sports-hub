@@ -122,7 +122,7 @@ assert.equal(digest(data),digest(clone(data)));
 const simulatedRules=clone(rules);
 simulatedRules.football_league.approval_status="approved";
 simulatedRules.football_league.tie_break_status="approved";
-simulatedRules.football_league.tie_breakers=["head_to_head_goal_difference"];
+simulatedRules.football_league.tie_breakers=["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
 simulatedRules.sport_policies.find(p=>p.sport_id==="football").status="implemented";
 const simulatedSnapshot=buildSnapshot(publish([win,draw]),program,simulatedRules);
 assert.equal(simulatedSnapshot.standings.length,1);
