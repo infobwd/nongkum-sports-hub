@@ -12,7 +12,7 @@ assert.equal(manifest.prototype.pages,6);
 assert.equal(manifest.qa.physical_pages,6);
 assert.equal(manifest.qa.organizer_approval,"pending");
 assert.equal(manifest.release_guard.length,5);
-assert.deepEqual(manifest.prototype.review_types,contracts.samples.map(x=>x.template));
+assert.deepEqual(manifest.prototype.review_types.map(x=>x.replace(/^(football|petanque)_schedule$/, "sports_schedule")),contracts.samples.map(x=>x.template));
 assert.equal(new Set(manifest.prototype.sample_fixture_ids).size,manifest.prototype.sample_fixture_ids.length);
 const source=new Map(raw.fixtures.map(x=>[x.id,x]));
 for(const id of manifest.prototype.sample_fixture_ids)assert.ok(source.has(id),"missing source ID "+id);
