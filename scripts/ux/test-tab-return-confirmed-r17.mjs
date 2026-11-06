@@ -22,7 +22,12 @@ assert.ok(confirmed.every(f=>f.planning_source===historicalById.get(f.id).planni
 assert.ok(confirmed.some(f=>f.qa_flags.includes("QA-06")),"retain unresolved PDF/fixture-map QA");
 assert.equal(latest.fixtures.filter(f=>f.qa_flags?.length).length,70);
 assert.equal(latest.fixtures.filter(f=>f.source_pdf?.source_date_text==="17 พ.ย. 68").length,3);
-assert.ok(latest.fixtures.filter(f=>!confirmed.some(c=>c.id===f.id)).every(f=>f.planning_time_confirmation!=="confirmed"));
+const newConfirmed=latest.fixtures.filter(f=>[8,14].includes(f.source_page));
+assert.equal(newConfirmed.length,21);
+assert.ok(newConfirmed.every(f=>f.planning_date==="2026-11-16"&&f.planning_date_confirmation==="confirmed"&&
+  f.planning_time_confirmation==="confirmed"&&f.planning_time===f.source_pdf.source_time));
+assert.ok(latest.fixtures.filter(f=>!confirmed.some(c=>c.id===f.id)&&!newConfirmed.some(c=>c.id===f.id))
+  .every(f=>f.planning_time_confirmation!=="confirmed"));
 assert.equal(legacy.fixtures.length,236,"historical draft remains untouched");
 assert.equal(latest.metadata.all_data_approved,false);
 assert.equal(latest.metadata.website_publication_status,"not_released");
@@ -118,7 +123,7 @@ const page=read("index.html"),resultsPage=read("results.html");
 assert.match(page,/js\/navigation\.js\?v=r17-tab1/);
 assert.match(resultsPage,/js\/navigation\.js\?v=r17-tab1/);
 assert.match(page,/js\/schedule-order\.js\?v=r18-date1/);
-assert.match(page,/js\/program\.js\?v=r18-date1/);
+assert.match(page,/js\/program\.js\?v=r19-venue1/);
 assert.match(program,/from"\)==="results"/);
 assert.match(program,/restoreTabListingAfterLoad\(\)/);
 assert.match(program,/data\/program-from-pdf-2569-20261104-draft\.json/);
