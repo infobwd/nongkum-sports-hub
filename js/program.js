@@ -11,6 +11,8 @@
     count:document.getElementById("count"),
     orderNote:optionalElement("resultNote"),
     daySwitch:optionalElement("scheduleDaySwitch"),
+    dayPicker:optionalElement("scheduleDatePicker"),
+    dayOptions:optionalElement("scheduleDateOptions"),
     dayHint:optionalElement("scheduleDayHint"),
     verificationSummary:optionalElement("scheduleVerificationSummary"),
     empty:document.getElementById("empty"),
@@ -36,14 +38,28 @@
   const returnedFromResults=!requestedFixture&&entryParams.get("from")==="results";
   let returnScrollHandled=false;
   const dayModeStorageKey="nongkum-program-day-mode";
+  const selectedDayStorageKey="nongkum-program-selected-day";
   function restoredDayMode(){
+    if(!returnedFromResults)return "upcoming";
     try{
-      return returnedFromResults&&typeof sessionStorage!=="undefined"&&
-        sessionStorage.getItem(dayModeStorageKey)==="all"?"all":"upcoming";
+      const mode=sessionStorage.getItem(dayModeStorageKey);
+      return ["upcoming","date","all"].includes(mode)?mode:"upcoming";
     }catch(_){return "upcoming";}
   }
+  function restoredSelectedDay(){
+    if(!returnedFromResults)return "";
+    try{return sessionStorage.getItem(selectedDayStorageKey)||"";}catch(_){return "";}
+  }
+  function saveDayView(){
+    try{
+      if(typeof sessionStorage!=="undefined"){
+        sessionStorage.setItem(dayModeStorageKey,state.dayMode);
+        sessionStorage.setItem(selectedDayStorageKey,state.selectedDay);
+      }
+    }catch(_){}
+  }
   const state={data:null,school:"",sport:"",level:"",query:"",limit:12,
-    dayMode:restoredDayMode(),focusId:"",directMode:!!requestedFixture};
+    dayMode:restoredDayMode(),selectedDay:restoredSelectedDay(),focusId:"",directMode:!!requestedFixture};
   if(state.directMode&&els.direct&&els.overview){
     els.direct.hidden=false;els.overview.hidden=true;
   }
@@ -263,25 +279,53 @@
     if(state.directMode){renderDirect();return;}
     const q=state.query.trim().toLocaleLowerCase("th");
     const matched=state.data.fixtures.filter(function(m){return matchesFilters(m,q);});
-    // Filter then sort all matches, then select either the nearest whole day or every day.
+    // Filter first, then use the same ordered fixture set for every date mode.
     const order=globalThis.NongkumScheduleOrder;
     const ordered=order.sortedFixtures(matched,state.data.sports);
     const today=order.bangkokToday(new Date());
     const nearest=order.nearestDay(ordered,today);
-    const displayed=state.dayMode==="all"?ordered:nearest.fixtures;
+    const allGroups=order.groupVisible(ordered);
+    const options=allGroups.map(g=>({key:g.day||"unknown",day:g.day,count:g.fixtures.length,label:g.label}));
+    const validKeys=options.map(g=>g.key);
+    if(state.dayMode==="date"&&!validKeys.includes(state.selectedDay)){
+      // A chosen date may vanish after filtering; select the next matching day, never invent one.
+      state.selectedDay=validKeys.includes(nearest.day)?nearest.day:(validKeys[0]||"");
+      resetLimit();
+      saveDayView();
+    }
+    const displayed=state.dayMode==="all"?ordered:
+      state.dayMode==="date"?ordered.filter(m=>(order.effectiveDay(m)||"unknown")===state.selectedDay):
+      nearest.fixtures;
     const visible=displayed.slice(0,state.limit);
     const groups=order.groupVisible(visible);
+    const dayTotals=new Map(options.map(g=>[g.key,g.count]));
     els.cards.innerHTML=groups.map(function(g){
+      const total=dayTotals.get(g.day||"unknown")||g.fixtures.length;
+      const shown=g.fixtures.length;
+      const totalLabel=shown<total?"แสดง "+shown+" จาก "+total+" รายการ":total+" รายการ";
       return "<section class='schedule-day"+(g.day?"":" awaiting-date")+"' aria-label='"+safe(g.label)+"'>"+
         "<div class='day-heading'><h3>"+(g.day?"<span class='day-icon' aria-hidden='true'>"+CAL_ICON+"</span>":"<span class='day-caution' aria-hidden='true'>⚠</span>")+safe(g.label)+"</h3>"+
-        "<span class='day-count'>"+g.fixtures.length+" รายการ</span></div>"+
+        "<span class='day-count'>"+totalLabel+"</span></div>"+
         (g.day?"":"<p class='day-warning'>โปรดตรวจสอบวันที่จากผู้จัดก่อนเดินทาง · ไม่เติมปีแทนต้นฉบับ</p>")+
         "<div class='cards'>"+g.fixtures.map(card).join("")+"</div></section>";
     }).join("");
-    els.count.textContent="พบ "+matched.length+" รายการ · แสดง "+visible.length;
+    if(els.dayPicker)els.dayPicker.hidden=state.dayMode!=="date";
+    if(els.dayOptions){
+      const shortMonths=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+      els.dayOptions.innerHTML=options.map(function(opt){
+        const short=opt.day?Number(opt.day.slice(8))+" "+shortMonths[Number(opt.day.slice(5,7))]:"รอยืนยันวัน";
+        return "<button type='button' class='schedule-date-chip' data-selected-day='"+safe(opt.key)+
+          "' aria-pressed='"+String(state.selectedDay===opt.key)+
+          "' aria-label='"+safe(opt.label+" "+opt.count+" รายการ")+"'>"+
+          "<span>"+safe(short)+"</span><small>"+opt.count+" รายการ</small></button>";
+      }).join("");
+    }
+    els.count.textContent="พบ "+(state.dayMode==="date"?displayed.length:matched.length)+" รายการ · แสดง "+visible.length;
     if(els.dayHint){
-      els.dayHint.textContent=state.dayMode==="all"
-        ?"แสดงครบทุกวันที่มีรายการ · เรียงตามวันที่และเวลาแข่งขัน"
+      els.dayHint.textContent=state.dayMode==="date"
+        ? (options.find(g=>g.key===state.selectedDay)?.label||"ไม่พบรายการวันที่เลือก")+
+          " · "+displayed.length+" รายการ"+(displayed.length>state.limit?" · แสดงเพิ่มได้":"")
+        :state.dayMode==="all"?"แสดงครบทุกวันที่มีรายการ · เรียงตามวันที่และเวลาแข่งขัน"
         :nearest.kind==="today"?"วันนี้ "+order.formatDayLabel(nearest.day)+" · แสดงทุกรายการของวันนี้"
         :nearest.kind==="next"?"วันแข่งขันถัดไป "+order.formatDayLabel(nearest.day)
         :"ไม่พบวันแข่งขันตั้งแต่วันนี้ตามตัวกรอง · แสดงรายการทุกวัน รวมรายการย้อนหลัง";
@@ -314,7 +358,7 @@
         (filters.length?"ตัวกรองที่ใช้: "+filters.join(" · "):"ทุกโรงเรียน · ทุกกีฬา")+
         " · เปิดสูจิบัตรจากแต่ละรายการได้ทันที";
     }
-    els.empty.hidden=matched.length!==0;
+    els.empty.hidden=displayed.length!==0;
     els.more.hidden=displayed.length<=state.limit;
     const remaining=displayed.length-state.limit;
     els.more.textContent=remaining>0?"แสดงเพิ่มอีก "+Math.min(12,remaining)+" รายการ":"";
@@ -349,12 +393,25 @@
     els.more.addEventListener("click",function(){state.limit+=12;render();});
     if(els.daySwitch)els.daySwitch.addEventListener("click",function(event){
       const btn=event.target?.closest?.("[data-day-mode]");
-      if(!btn||!["upcoming","all"].includes(btn.dataset.dayMode))return;
+      if(!btn||!["upcoming","date","all"].includes(btn.dataset.dayMode))return;
       if(state.dayMode===btn.dataset.dayMode)return;
       state.dayMode=btn.dataset.dayMode;
-      try{if(typeof sessionStorage!=="undefined")
-        sessionStorage.setItem(dayModeStorageKey,state.dayMode);}catch(_){}
-      resetLimit();render();
+      resetLimit();render();saveDayView();
+    });
+    if(els.dayOptions)els.dayOptions.addEventListener("click",function(event){
+      const btn=event.target?.closest?.("[data-selected-day]");
+      if(!btn||state.dayMode!=="date")return;
+      const selected=btn.dataset.selectedDay;
+      if(selected===state.selectedDay)return;
+      // Only date chips rendered from filtered, validated data can change the selected day.
+      const order=globalThis.NongkumScheduleOrder;
+      const q=state.query.trim().toLocaleLowerCase("th");
+      const known=order.groupVisible(order.sortedFixtures(
+        state.data.fixtures.filter(m=>matchesFilters(m,q)),state.data.sports))
+        .some(g=>(g.day||"unknown")===selected);
+      if(!known)return;
+      state.selectedDay=selected;
+      resetLimit();render();saveDayView();
     });
     async function shareLatestCandidate(item){
       const sport=getSport(item.sport_id);
