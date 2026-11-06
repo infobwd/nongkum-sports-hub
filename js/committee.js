@@ -3,6 +3,7 @@
 (function(root){
   "use strict";
   const DATA_URL="./data/committee-roles-2569-planning.json";
+  const PUBLIC_ROSTER_URL="./data/committee-2569-draft-public-review.json";
   const MODES=["sports","groups","schools","review"];
   function valid(data){
     if(!data||data.schema_version!==1||!Array.isArray(data.sports)||!Array.isArray(data.divisions)||
@@ -54,7 +55,38 @@
       return {name:"รอตรวจสนามหลัก",scope:"ยังไม่มีหลักฐานยืนยัน"};
     return {name:venue.name,scope:venue.confirmation_scope};
   }
-  root.NongkumCommitteeReport=Object.freeze({valid,approvedCount,filteredSports,safeVenue});
+  function validPublicDraft(roster,plan){
+    if(roster?.schema_version!==1||
+       roster.publication_status!=="draft_names_for_school_verification_only_not_approved_appointments"||
+       roster.source_sha256!==plan?.draft_source_review?.source_sha256||
+       !Array.isArray(roster.entries)||roster.entries.length!==250||
+       !Array.isArray(roster.schools)||roster.schools.length!==8||
+       !Array.isArray(roster.sections)||roster.sections.length!==20)return false;
+    if(new Set(roster.entries.map(x=>x.id)).size!==250)return false;
+    const schoolIds=new Set(plan.school_crosswalk.map(s=>s.sports_school_id));
+    return roster.entries.every(x=>x.id&&x.name&&typeof x.affiliation==="string"&&
+      typeof x.role==="string"&&typeof x.section==="string"&&
+      (x.school_id===null||schoolIds.has(x.school_id))&&
+      x.pdf_page>=6&&x.pdf_page<=16&&Array.isArray(x.flags));
+  }
+  function personRows(roster,filters){
+    const term=norm(filters.search||"");
+    const sportNames={football:"ฟุตบอล",shootout:"ยิงจุดโทษ",futsal:"ฟุตซอล",
+      volleyball:"วอลเลย์บอล",takraw:"เซปักตะกร้อ",petanque:"เปตอง",
+      tabletennis:"เทเบิลเทนนิส",tugofwar:"ชักเย่อ",athletics:"กรีฑา"};
+    return (roster?.entries||[]).filter(x=>{
+      if(filters.school&&x.school_id!==filters.school)return false;
+      if(filters.sport&&x.sport_id!==filters.sport)return false;
+      if(filters.section&&x.section!==filters.section)return false;
+      if(!term)return true;
+      const heading=roster.sections.find(g=>g.id===x.section)?.title||"";
+      return norm([x.name,x.affiliation,x.role,x.section,heading,x.subdivision||"",
+        sportNames[x.sport_id]||""].join(" ")).includes(term);
+    });
+  }
+  root.NongkumCommitteeReport=Object.freeze({
+    valid,approvedCount,filteredSports,safeVenue,validPublicDraft,personRows
+  });
   if(typeof document==="undefined"||!document.getElementById("committeeMain"))return;
   const el=id=>document.getElementById(id);
   const ui={
@@ -63,10 +95,10 @@
     metrics:el("committeeMetrics"),revision:el("committeeRevision"),approval:el("committeeApprovalHint"),
     venueName:el("committeeVenueName"),venueScope:el("committeeVenueScope"),
     draftPanel:el("committeeDraftSummary"),draftMetrics:el("committeeDraftMetrics"),draftFootnote:el("committeeDraftFootnote"),
-    views:el("committeeViews"),sport:el("committeeSport"),division:el("committeeDivision"),
+    views:el("committeeViews"),school:el("committeeSchool"),sport:el("committeeSport"),division:el("committeeDivision"),
     search:el("committeeSearch"),cards:el("committeeCards"),count:el("committeeCount")
   };
-  let state={data:null,mode:"sports",loading:false};
+  let state={data:null,roster:null,mode:"sports",loading:false};
   const params=new URLSearchParams(root.location?.search||"");
   function make(tag,klass,txt){
     const n=document.createElement(tag);
@@ -89,6 +121,38 @@
     article.appendChild(make("h3","",title));
     return article;
   }
+  function appendPersonNames(parent,rows){
+    const area=make("div","committee-people");
+    area.appendChild(make("p","committee-people-heading","รายชื่อจากร่างปี 2569 · "+rows.length+" รายการ"));
+    if(!rows.length){
+      line(area,"committee-card-meta","ไม่พบรายชื่อที่ตรงกับตัวกรอง (ไม่ได้หมายความว่าไม่มีกรรมการ)");
+      parent.appendChild(area);return;
+    }
+    const allAtOnce=Boolean(norm(ui.search.value))||rows.length<=7;
+    const firstCount=allAtOnce?rows.length:3;
+    function appendList(target,people){
+      const ol=make("ol","committee-person-list");
+      for(const row of people){
+        const li=make("li","committee-person");
+        const body=make("div","committee-person-body");
+        body.appendChild(make("strong","committee-person-name",row.name));
+        body.appendChild(make("span","committee-person-role",row.role||"ไม่ระบุบทบาท"));
+        line(body,"committee-person-affiliation",row.affiliation||"สังกัดรอตรวจ");
+        if(row.subdivision)line(body,"committee-person-small",row.subdivision);
+        if(row.flags?.length)line(body,"committee-person-warning","ข้อความจากต้นฉบับควรตรวจทานเพิ่มเติม");
+        line(body,"committee-person-small","ข้อ "+(row.number||row.section)+" · PDF หน้า "+row.pdf_page);
+        li.appendChild(body);ol.appendChild(li);
+      }
+      target.appendChild(ol);
+    }
+    appendList(area,rows.slice(0,firstCount));
+    if(rows.length>firstCount){
+      const details=make("details","committee-people-extra");
+      details.appendChild(make("summary","","ดูรายชื่อเพิ่มเติม "+(rows.length-firstCount)+" รายการ"));
+      appendList(details,rows.slice(firstCount));area.appendChild(details);
+    }
+    parent.appendChild(area);
+  }
   function updateDivisionChoices(){
     ui.division.textContent="";
     const first=make("option","","ทุกรุ่นแข่งขัน");
@@ -108,6 +172,16 @@
     ui.division.disabled=false;
   }
   function buildSelectors(){
+    ui.school.replaceChildren();
+    const everyone=make("option","","ทุกโรงเรียนและหน่วยงาน");
+    everyone.value="";ui.school.appendChild(everyone);
+    for(const s of state.data.school_crosswalk){
+      const option=make("option","",s.name);
+      option.value=s.sports_school_id;
+      ui.school.appendChild(option);
+    }
+    const schoolParam=params.get("school");
+    if(state.data.school_crosswalk.some(s=>s.sports_school_id===schoolParam))ui.school.value=schoolParam;
     ui.sport.textContent="";
     const all=make("option","","ทุกชนิดกีฬา");all.value="";
     ui.sport.appendChild(all);
@@ -135,8 +209,8 @@
       box.appendChild(make("span","",label));
       ui.draftMetrics.appendChild(box);
     }
-    ui.draftFootnote.textContent="ถอดจาก PDF ร่างปี "+draft.year_be+" หน้า "+draft.source_pdf_pages+
-      " · ไม่ใช่คำสั่งที่รับรองและไม่ได้เผยแพร่รายชื่อบุคคลในเว็บนี้";
+    ui.draftFootnote.textContent="รายชื่อจาก PDF ร่างปี "+draft.year_be+" หน้า "+draft.source_pdf_pages+
+      " เปิดให้ทุกโรงเรียนค้นหาได้โดยตรง · ยังไม่ใช่คำสั่งแต่งตั้งที่รับรอง";
     ui.draftPanel.hidden=false;
   }
   function metrics(){
@@ -155,9 +229,9 @@
     }
     const released=approvedCount(d);
     ui.approval.textContent=released===0
-      ?"ยังไม่มีข้อมูลรายชื่อกรรมการปี 2569 ที่ผ่านการรับรองและอนุญาตเผยแพร่ในชุดข้อมูลนี้ (ไม่ใช่ข้อสรุปว่าไม่มีกรรมการ)"
-      :"แสดงเฉพาะจำนวนข้อมูลที่มีสถานะรับรองและอนุญาตเผยแพร่; ชื่อบุคคลยังไม่แสดงบนหน้านี้";
-    ui.revision.textContent="ข้อมูลสำหรับวางแผน · "+(d.report_metadata?.report_revision||"R19")+" · แม่แบบกรรมการปี 2568";
+      ?"มีรายชื่อจากสูจิบัตรร่างปี 2569 ให้ตรวจสอบแล้ว แต่คำสั่งแต่งตั้งที่รับรองในฐานนี้ยังเป็น 0"
+      :"ยอดรับรองแยกจากรายชื่อฉบับร่างที่เปิดให้โรงเรียนตรวจ";
+    ui.revision.textContent="รายชื่อสำหรับตรวจทาน · "+(state.roster?.revision||"R19-E")+" · ยังไม่ใช่คำสั่งแต่งตั้งที่รับรอง";
   }
   function renderSports(){
     const items=filteredSports(state.data,{sport:ui.sport.value,division:ui.division.value,query:ui.search.value});
@@ -251,11 +325,15 @@
     ui.refresh.disabled=true;
     if(!state.data)ui.report.hidden=true;
     try{
-      const response=await root.fetch(DATA_URL,{cache:"no-store"});
-      if(!response.ok)throw new Error("HTTP "+response.status);
-      const data=await response.json();
-      if(!valid(data))throw new Error("Invalid committee planning data");
+      const responses=await Promise.all([
+        root.fetch(DATA_URL,{cache:"no-store"}),
+        root.fetch(PUBLIC_ROSTER_URL,{cache:"no-store"})
+      ]);
+      if(responses.some(r=>!r.ok))throw new Error("Missing committee data");
+      const [data,roster]=await Promise.all(responses.map(r=>r.json()));
+      if(!valid(data)||!validPublicDraft(roster,data))throw new Error("Invalid source or roster revision");
       state.data=data;
+      state.roster=roster;
       buildSelectors();
       metrics();
       renderDraftSummary();
@@ -267,6 +345,7 @@
     }catch(_error){
       // Do not show historical people, stale appointments or invented placeholder data.
       state.data=null;
+      state.roster=null;
       ui.report.hidden=true;
       ui.failure.hidden=false;
     }finally{
@@ -275,6 +354,7 @@
       ui.refresh.disabled=false;
     }
   }
+  ui.school.addEventListener("change",redraw);
   ui.sport.addEventListener("change",()=>{updateDivisionChoices();redraw();});
   ui.division.addEventListener("change",redraw);
   ui.search.addEventListener("input",redraw);
