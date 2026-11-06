@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "workstream": "R11C-V4",
+  "phase": 2,
+  "status": "six_page_visual_prototype_ready_pending_organizer_review",
+  "prepared_on": "2026-11-06",
+  "source_bindings": {
+    "plan": "docs/R11C_V4_DOCUMENT_BUILDER_PLAN_20261106.md",
+    "sample_contract": "data/souvenir-v4/sample-page-contracts-v1.json",
+    "candidate": "data/program-from-pdf-2569-20261104-draft.json",
+    "confirmed_schedule_overlay": "js/program-corrections.js",
+    "committee_preview": "data/committee-2569-draft-public-review.json",
+    "committee_pending_update": "PR #73 R19K: V3 name corrections; do not lock V4 committee content until merged",
+    "venue": "โรงเรียนบ้านหนองกระทุ่ม"
+  },
+  "prototype": {
+    "media": "PDF A4",
+    "pages": 6,
+    "output_name": "r11c_v4_phase2_six_page_preview.pdf",
+    "pdf_sha256": "4543339a03a92da945f93202caffc38fd1f2c548b396cdaf63af2cd1d7777239",
+    "intended_status": "visual signoff only, not public program or approved order",
+    "layout_engine_trial": "WeasyPrint 68.0 with embedded Thai fonts",
+    "review_types": [
+      "cover",
+      "committee_roster",
+      "football_schedule",
+      "petanque_schedule",
+      "athletics_lanes",
+      "score_sheet_blank"
+    ],
+    "sample_fixture_ids": [
+      "football-p07-12-ปี-ชาย-001",
+      "football-p07-12-ปี-ชาย-002",
+      "football-p07-12-ปี-ชาย-003",
+      "football-p07-12-ปี-ชาย-004",
+      "football-p07-12-ปี-ชาย-005",
+      "football-p07-12-ปี-ชาย-006",
+      "football-p07-มัธยมหญิง-007",
+      "petanque-p17-10-ปี-หญิง-013",
+      "petanque-p17-10-ปี-หญิง-014",
+      "petanque-p17-10-ปี-หญิง-015",
+      "petanque-p17-10-ปี-หญิง-016",
+      "athletics-p23-001-m",
+      "athletics-p23-002-f",
+      "athletics-p23-003-m"
+    ],
+    "sample_committee_entry_ids": [
+      "pdf-p11-l35",
+      "pdf-p11-l36",
+      "pdf-p11-l37",
+      "pdf-p11-l38"
+    ],
+    "excluded_duplicate_fixture_id": "football-p07-มัธยมหญิง-020-repeated-final"
+  },
+  "qa": {
+    "physical_pages": 6,
+    "a4_all_pages": true,
+    "searchable_text_all_pages": true,
+    "embedded_thai_fonts": true,
+    "out_of_page_text_spans": 0,
+    "raster_contact_sheet_inspected": true,
+    "device_qa": "pending_iPhone_and_print_100_percent",
+    "organizer_approval": "pending",
+    "source_revision_lock": "pending_PR73_name_correction"
+  },
+  "release_guard": [
+    "do_not_update_pages_pdf_reader",
+    "do_not_overwrite_V2_or_V3",
+    "do_not_publish_V4_to_website",
+    "do_not_treat_draft_fixture_times_as_confirmed",
+    "do_not_reuse_V3_positions_for_V4"
+  ]
+}
