@@ -256,7 +256,8 @@
       "assignments_2569": [],
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
-      "source_warnings": []
+      "source_warnings": [],
+      "draft_2569_named_role_rows_observed": 9
     },
     {
       "sport_id": "shootout",
@@ -286,7 +287,8 @@
       "source_type": "2026_sport_catalog_only",
       "source_warnings": [
         "no_separate_legacy_2568_committee_found"
-      ]
+      ],
+      "draft_2569_named_role_rows_observed": 0
     },
     {
       "sport_id": "futsal",
@@ -315,7 +317,8 @@
       "assignments_2569": [],
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
-      "source_warnings": []
+      "source_warnings": [],
+      "draft_2569_named_role_rows_observed": 4
     },
     {
       "sport_id": "volleyball",
@@ -346,7 +349,8 @@
       "assignments_2569": [],
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
-      "source_warnings": []
+      "source_warnings": [],
+      "draft_2569_named_role_rows_observed": 4
     },
     {
       "sport_id": "takraw",
@@ -377,7 +381,8 @@
       "assignments_2569": [],
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
-      "source_warnings": []
+      "source_warnings": [],
+      "draft_2569_named_role_rows_observed": 4
     },
     {
       "sport_id": "petanque",
@@ -418,7 +423,8 @@
       "assignments_2569": [],
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
-      "source_warnings": []
+      "source_warnings": [],
+      "draft_2569_named_role_rows_observed": 13
     },
     {
       "sport_id": "tabletennis",
@@ -451,7 +457,8 @@
       "source_type": "2568_committee_template_only",
       "source_warnings": [
         "legacy_section_14_6_number_reused"
-      ]
+      ],
+      "draft_2569_named_role_rows_observed": 9
     },
     {
       "sport_id": "tugofwar",
@@ -485,7 +492,8 @@
       "source_type": "2568_committee_template_only",
       "source_warnings": [
         "legacy_section_14_6_number_reused"
-      ]
+      ],
+      "draft_2569_named_role_rows_observed": 5
     },
     {
       "sport_id": "athletics",
@@ -515,7 +523,8 @@
       "appointment_status_2569": "not_verified",
       "source_type": "2568_committee_template_only",
       "source_warnings": [],
-      "candidate_event_count": 50
+      "candidate_event_count": 50,
+      "draft_2569_named_role_rows_observed": 58
     }
   ],
   "divisions": [
@@ -827,11 +836,75 @@
   },
   "report_metadata": {
     "report_type": "public_preparation_status_only",
-    "report_revision": "R19-A/C.1",
+    "report_revision": "R19-B.1",
     "report_title": "ความพร้อมกรรมการและฝ่ายจัดการแข่งขัน",
     "caution_th": "รายชื่อและหน้าที่กรรมการปี 2569 ยังไม่มีหลักฐานรับรองในชุดข้อมูลนี้; แม่แบบฝ่ายมาจากคำสั่งปี 2568",
     "total_athletics_events_in_candidate": 50,
     "publication_state": "planning_only",
-    "person_name_export_allowed": false
+    "person_name_export_allowed": false,
+    "draft_source_review_available": true
+  },
+  "draft_source_review": {
+    "year_be": 2569,
+    "source_type": "draft_pdf_not_schema_v3_schedule_json",
+    "source_title": "ร่าง สูจิบัตร กีฬากลุ่ม 2569 .pdf",
+    "source_pdf_pages": "6–16",
+    "source_sha256": "cab4c65eb15d5480d63da00a81a2e662f8c7857e0ae39ea80475733f5bc795e0",
+    "reviewed_on": "2026-11-06",
+    "source_status": "draft_2569_not_official_appointment",
+    "publication_scope": "aggregate_only_no_names",
+    "person_role_rows_observed": 250,
+    "normalized_distinct_name_strings_observed": 151,
+    "name_strings_with_multiple_role_rows": 55,
+    "nonperson_group_or_unfilled_rows": 10,
+    "rows_needing_text_review": 6,
+    "by_committee_section": {
+      "1": 21,
+      "2": 17,
+      "3": 9,
+      "4": 5,
+      "5": 2,
+      "6": 2,
+      "7": 15,
+      "8": 18,
+      "9": 5,
+      "10": 15,
+      "11": 8,
+      "12": 10,
+      "13": 9,
+      "14": 48,
+      "15": 31,
+      "16": 5,
+      "17": 6,
+      "18": 3,
+      "19": 13,
+      "20": 8
+    },
+    "by_sport": {
+      "football": 9,
+      "shootout": 0,
+      "futsal": 4,
+      "volleyball": 4,
+      "takraw": 4,
+      "petanque": 13,
+      "tabletennis": 9,
+      "tugofwar": 5,
+      "athletics": 58
+    },
+    "notes": [
+      "ตัวเลขมาจาก PDF ร่างหน้า 6–16 ไม่ใช่ JSON โปรแกรมแข่งขัน schema_version 3",
+      "151 เป็นจำนวนชื่อที่แตกต่างตามการเทียบข้อความ ไม่ใช่จำนวนบุคคลที่ยืนยันตัวตนแล้ว",
+      "ยังไม่ใช่คำสั่งแต่งตั้งรับรองหรือข้อมูลที่ได้รับอนุญาตให้เผยแพร่รายบุคคล",
+      "หมวด 14.6 ใช้ซ้ำทั้งเทเบิลเทนนิสและชักเย่อ; ยิงจุดโทษไม่มีหมวดรายชื่อเฉพาะ",
+      "กรีฑานับบรรทัดบทบาทจากส่วน 15–19 จำนวน 58 แถว"
+    ],
+    "review_issue_codes": [
+      "NAME_PREFIX_TYPO",
+      "TRUNCATED_ROLE",
+      "MULTI_ROLE_NAME",
+      "DUPLICATE_COMMITTEE_SECTION_14_6",
+      "NO_SEPARATE_SHOOTOUT_COMMITTEE",
+      "SPORT_VENUE_HEADER_CONFLICT"
+    ]
   }
 }
