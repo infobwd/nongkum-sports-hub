@@ -12,7 +12,7 @@
     "website_publication_status": "not_released",
     "all_data_approved": false,
     "last_approved_at": null,
-    "date_time_venue_confirmation": "24 petanque fixtures on 12-13 Nov 2026: event date, times as displayed in PDF, and school venue confirmed by organizer 5 Nov 2026; other rows remain PDF draft pending review",
+    "date_time_venue_confirmation": "45 fixtures have confirmed date/time/venue: 24 petanque offround fixtures on 12-13 Nov 2026 (confirmed 5 Nov) and 21 shootout/petanque early-years fixtures on 16 Nov 2026 (confirmed 6 Nov); venue confirmed for all 237 fixtures at Ban Nong Krathum School, other fixture date/time pending review.",
     "count_schools": 8,
     "count_sports": 9,
     "count_divisions": 33,
@@ -23,7 +23,10 @@
     "previous_web_matches": 186,
     "previous_web_total": 236,
     "disclaimer": "ข้อมูลถอดจากสูจิบัตร PDF ฉบับใหม่สำหรับตรวจรับ ไม่ใช่ประกาศแข่งขันทางการ ไม่ใช่ผลแข่งขัน; ปี 2568 ที่ปรากฏในบางแถวต้องให้ผู้จัดยืนยันก่อนแสดงวัน",
-    "integration_note": "Staging JSON: keep data/draft-schedule.json and published LINE share URLs unchanged pending QA. Fixture IDs retained where possible; one repeated football women's fixture added."
+    "integration_note": "Staging JSON: keep data/draft-schedule.json and published LINE share URLs unchanged pending QA. Fixture IDs retained where possible; one repeated football women's fixture added.",
+    "venue_confirmation": "ผู้จัดยืนยัน 6 พฤศจิกายน 2569: กีฬาทั้ง 9 ชนิดแข่งขันที่โรงเรียนบ้านหนองกระทุ่ม ทุก 237 รายการ; สนามย่อยให้คงตามสูจิบัตร",
+    "count_confirmed_schedule_rows": 45,
+    "count_confirmed_venues": 237
   },
   "schools": [
     {
@@ -1762,7 +1765,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "08:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-002",
@@ -1795,7 +1801,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "08:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-003",
@@ -1828,7 +1837,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-004",
@@ -1861,7 +1873,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-005",
@@ -1894,7 +1909,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-006",
@@ -1927,7 +1945,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-มัธยมหญิง-007",
@@ -1963,7 +1984,10 @@
       ],
       "draft_date": "2026-11-18",
       "draft_time": "08:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-008",
@@ -1996,7 +2020,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-009",
@@ -2029,7 +2056,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-010",
@@ -2062,7 +2092,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "11:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-011",
@@ -2095,7 +2128,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "11:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-012",
@@ -2128,7 +2164,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-013",
@@ -2161,7 +2200,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-014",
@@ -2194,7 +2236,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "08:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-015",
@@ -2227,7 +2272,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "09:10",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-016",
@@ -2260,7 +2308,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "09:50",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-017",
@@ -2293,7 +2344,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "13:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-018",
@@ -2329,7 +2383,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "13:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-12-ปี-ชาย-019",
@@ -2362,7 +2419,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "12:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-มัธยมหญิง-020-repeated-final",
@@ -2398,7 +2458,10 @@
       ],
       "draft_date": "2026-11-20",
       "draft_time": "12:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "football-p07-มัธยมชาย-018",
@@ -2435,7 +2498,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "13:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "shootout-p08-ปฐมวัย-001",
@@ -2468,7 +2534,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "13:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "13:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "shootout-p08-ปฐมวัย-002",
@@ -2501,7 +2578,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "13:50",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "13:50",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "shootout-p08-ปฐมวัย-003",
@@ -2534,7 +2622,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:10",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:10",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "shootout-p08-ปฐมวัย-004",
@@ -2567,7 +2666,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "shootout-p08-ปฐมวัย-005",
@@ -2600,7 +2710,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:50",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:50",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "shootout-p08-ปฐมวัย-006",
@@ -2633,7 +2754,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "15:10",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "15:10",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "shootout-p08-ปฐมวัย-007",
@@ -2666,7 +2798,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "15:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "15:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 8 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 8 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 8 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-A-001",
@@ -2699,7 +2842,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-A-002",
@@ -2732,7 +2878,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-B-003",
@@ -2765,7 +2914,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-A-004",
@@ -2798,7 +2950,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-A-005",
@@ -2831,7 +2986,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-B-006",
@@ -2864,7 +3022,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-A-007",
@@ -2897,7 +3058,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-A-008",
@@ -2930,7 +3094,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-B-009",
@@ -2963,7 +3130,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-010",
@@ -2996,7 +3166,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-011",
@@ -3029,7 +3202,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-10-ปี-ชาย-012",
@@ -3062,7 +3238,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-มัธยมหญิง-013",
@@ -3095,7 +3274,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "futsal-p09-มัธยมชาย-014",
@@ -3128,7 +3310,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-A-003",
@@ -3161,7 +3346,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "08:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-B-004",
@@ -3194,7 +3382,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-A-001",
@@ -3227,7 +3418,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-B-002",
@@ -3260,7 +3454,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-A-007",
@@ -3293,7 +3490,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-B-008",
@@ -3326,7 +3526,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "15:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-A-005",
@@ -3359,7 +3562,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "08:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-B-006",
@@ -3392,7 +3598,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-A-011",
@@ -3425,7 +3634,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-B-012",
@@ -3458,7 +3670,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-A-009",
@@ -3491,7 +3706,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-B-010",
@@ -3524,7 +3742,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "15:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-015",
@@ -3560,7 +3781,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "08:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-016",
@@ -3596,7 +3820,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-013",
@@ -3632,7 +3859,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-014",
@@ -3668,7 +3898,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "11:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-มัธยม-ชาย-017",
@@ -3704,7 +3937,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-มัธยมหญิง-018",
@@ -3740,7 +3976,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-ชาย-019",
@@ -3776,7 +4015,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "15:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "volleyball-p11-12-ปี-หญิง-020",
@@ -3812,7 +4054,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "16:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-A-001",
@@ -3845,7 +4090,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-A-002",
@@ -3878,7 +4126,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-B-003",
@@ -3911,7 +4162,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-B-004",
@@ -3944,7 +4198,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "11:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-หญิง-A-005",
@@ -3977,7 +4234,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-หญิง-A-006",
@@ -4010,7 +4270,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-หญิง-B-007",
@@ -4043,7 +4306,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-A-008",
@@ -4076,7 +4342,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "14:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-A-009",
@@ -4109,7 +4378,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p12-12-ปี-ชาย-B-010",
@@ -4142,7 +4414,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-B-011",
@@ -4175,7 +4450,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-A-012",
@@ -4208,7 +4486,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "11:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-A-013",
@@ -4241,7 +4522,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-B-014",
@@ -4274,7 +4558,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-A-015",
@@ -4307,7 +4594,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-A-016",
@@ -4340,7 +4630,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "14:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-B-017",
@@ -4373,7 +4666,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-B-018",
@@ -4406,7 +4702,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-A-019",
@@ -4439,7 +4738,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-A-020",
@@ -4472,7 +4774,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "11:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-B-021",
@@ -4505,7 +4810,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-022",
@@ -4538,7 +4846,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-023",
@@ -4571,7 +4882,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-024",
@@ -4608,7 +4922,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "14:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-025",
@@ -4641,7 +4958,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "15:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-มัธยม-ชาย-026",
@@ -4674,7 +4994,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "08:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-มัธยมหญิง-027",
@@ -4707,7 +5030,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-ชาย-028",
@@ -4740,7 +5066,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "takraw-p13-12-ปี-หญิง-029",
@@ -4773,7 +5102,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-001",
@@ -4806,7 +5138,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "12:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "12:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-002",
@@ -4839,7 +5182,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "12:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "12:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-003",
@@ -4872,7 +5226,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "12:30",
-      "draft_field": "สนาม 3"
+      "draft_field": "สนาม 3",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "12:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-004",
@@ -4905,7 +5270,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "12:30",
-      "draft_field": "สนาม 4"
+      "draft_field": "สนาม 4",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "12:30",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-005",
@@ -4938,7 +5314,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "13:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "13:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-006",
@@ -4971,7 +5358,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "13:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "13:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-007",
@@ -5004,7 +5402,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "13:00",
-      "draft_field": "สนาม 3"
+      "draft_field": "สนาม 3",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "13:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-008",
@@ -5037,7 +5446,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "13:00",
-      "draft_field": "สนาม 4"
+      "draft_field": "สนาม 4",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "13:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-009",
@@ -5070,7 +5490,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-010",
@@ -5103,7 +5534,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-011",
@@ -5136,7 +5578,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:00",
-      "draft_field": "สนาม 3"
+      "draft_field": "สนาม 3",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-012",
@@ -5169,7 +5622,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "14:00",
-      "draft_field": "สนาม 4"
+      "draft_field": "สนาม 4",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "14:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยชาย-013",
@@ -5202,7 +5666,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "15:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "15:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p14-ปฐมวัยหญิง-014",
@@ -5235,7 +5710,18 @@
       },
       "draft_date": "2026-11-16",
       "draft_time": "15:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "planning_date": "2026-11-16",
+      "planning_date_confirmation": "confirmed",
+      "planning_time": "15:00",
+      "planning_time_confirmation": "confirmed",
+      "planning_time_source": "ผู้จัดยืนยันตามตารางสูจิบัตรหน้า 14 ในวันที่ 6 พฤศจิกายน 2569",
+      "planning_status": "review",
+      "planning_source": "ผู้จัดยืนยันวันที่ 16 พฤศจิกายน 2569 เวลาแข่งตามสูจิบัตรหน้า 14 วันที่ 6 พฤศจิกายน 2569",
+      "planning_schedule_confirmation_note": "ยืนยันวัน เวลา และสถานที่เฉพาะโปรแกรมหน้า 14 ตามภาพที่ผู้จัดส่ง 6 พฤศจิกายน 2569; ยังคงสถานะรอตรวจรับประเด็นอื่นและผลการแข่งขันแยกต่างหาก"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-009",
@@ -5283,7 +5769,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-010",
@@ -5331,7 +5818,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-011",
@@ -5378,7 +5866,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-012",
@@ -5425,7 +5914,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-013",
@@ -5472,7 +5962,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-014",
@@ -5519,7 +6010,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-015",
@@ -5566,7 +6058,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-016",
@@ -5613,7 +6106,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-029",
@@ -5660,7 +6154,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-ชาย-030",
@@ -5708,7 +6203,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-031",
@@ -5755,7 +6251,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-10-ปี-หญิง-032",
@@ -5802,7 +6299,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-017",
@@ -5848,7 +6346,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-018",
@@ -5894,7 +6393,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-019",
@@ -5940,7 +6440,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-ชาย-020",
@@ -5986,7 +6487,8 @@
       "planning_time": "09:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-021",
@@ -6032,7 +6534,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-022",
@@ -6078,7 +6581,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-023",
@@ -6124,7 +6628,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-12-ปี-หญิง-024",
@@ -6170,7 +6675,8 @@
       "planning_time": "10:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-12-ปี-ชาย-033",
@@ -6216,7 +6722,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-12-ปี-ชาย-034",
@@ -6262,7 +6769,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-12-ปี-หญิง-035",
@@ -6308,7 +6816,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-12-ปี-หญิง-036",
@@ -6354,7 +6863,8 @@
       "planning_time": "13:00",
       "planning_time_confirmation": "confirmed",
       "planning_time_source": "รับรองกำหนดแข่งขันตามเวลาที่แสดงจากสูจิบัตรฉบับ 4 พ.ย. 2569 โดยผู้จัดโครงการวันที่ 5 พ.ย. 2569",
-      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก"
+      "planning_schedule_confirmation_note": "5 พฤศจิกายน 2569: ผู้จัดยืนยันกำหนดการแข่งขันเปตอง 12–13 พฤศจิกายนตามตารางที่แสดง วันและสถานที่เดิมยืนยันไว้แล้ว; เวลาแต่ละคู่ตามสูจิบัตรฉบับ 4 พฤศจิกายนได้รับการยืนยันครั้งนี้. ข้อสังเกต/ผังการแข่งขันยังตรวจรับแยกต่างหาก",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-มัธยมชาย-043",
@@ -6390,7 +6900,10 @@
       ],
       "draft_date": "2026-11-16",
       "draft_time": "09:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-มัธยมหญิง-044",
@@ -6426,7 +6939,10 @@
       ],
       "draft_date": "2026-11-16",
       "draft_time": "09:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-001",
@@ -6463,7 +6979,10 @@
       ],
       "draft_date": null,
       "draft_time": "09:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-002",
@@ -6500,7 +7019,10 @@
       ],
       "draft_date": null,
       "draft_time": "09:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-003",
@@ -6537,7 +7059,10 @@
       ],
       "draft_date": null,
       "draft_time": "09:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-004",
@@ -6573,7 +7098,10 @@
       ],
       "draft_date": "2026-11-17",
       "draft_time": "09:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-หญิง-005",
@@ -6609,7 +7137,10 @@
       ],
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-หญิง-006",
@@ -6645,7 +7176,10 @@
       ],
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-หญิง-007",
@@ -6681,7 +7215,10 @@
       ],
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-หญิง-008",
@@ -6717,7 +7254,10 @@
       ],
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-025",
@@ -6753,7 +7293,10 @@
       ],
       "draft_date": "2026-11-18",
       "draft_time": "09:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-ชาย-026",
@@ -6789,7 +7332,10 @@
       ],
       "draft_date": "2026-11-18",
       "draft_time": "09:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-หญิง-027",
@@ -6825,7 +7371,10 @@
       ],
       "draft_date": "2026-11-18",
       "draft_time": "09:00",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p17-8-ปี-หญิง-028",
@@ -6861,7 +7410,10 @@
       ],
       "draft_date": "2026-11-18",
       "draft_time": "09:00",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-8-ปี-ชาย-037",
@@ -6897,7 +7449,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "08:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-8-ปี-หญิง-038",
@@ -6933,7 +7488,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "08:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-10-ปี-ชาย-039",
@@ -6969,7 +7527,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "08:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-10-ปี-หญิง-040",
@@ -7005,7 +7566,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "08:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-12-ปี-ชาย-041",
@@ -7041,7 +7605,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "10:30",
-      "draft_field": "สนาม 1"
+      "draft_field": "สนาม 1",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "petanque-p18-12-ปี-หญิง-042",
@@ -7077,7 +7644,10 @@
       ],
       "draft_date": "2026-11-19",
       "draft_time": "10:30",
-      "draft_field": "สนาม 2"
+      "draft_field": "สนาม 2",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-001",
@@ -7110,7 +7680,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-002",
@@ -7143,7 +7716,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-003",
@@ -7176,7 +7752,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "11:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-004",
@@ -7209,7 +7788,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "11:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-005",
@@ -7242,7 +7824,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-006",
@@ -7275,7 +7860,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "13:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-007",
@@ -7308,7 +7896,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "14:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-008",
@@ -7341,7 +7932,10 @@
       },
       "draft_date": "2026-11-17",
       "draft_time": "14:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-009",
@@ -7374,7 +7968,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-010",
@@ -7407,7 +8004,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-011",
@@ -7440,7 +8040,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-012",
@@ -7473,7 +8076,10 @@
       },
       "draft_date": "2026-11-18",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-มัธยม-ชาย-013",
@@ -7506,7 +8112,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-มัธยม-หญิง-014",
@@ -7539,7 +8148,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-ชาย-015",
@@ -7572,7 +8184,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "11:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tabletennis-p20-12-ปี-หญิง-016",
@@ -7605,7 +8220,10 @@
       },
       "draft_date": "2026-11-19",
       "draft_time": "11:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-001",
@@ -7638,7 +8256,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "08:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-002",
@@ -7671,7 +8292,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "08:40",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-003",
@@ -7704,7 +8328,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "08:50",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-004",
@@ -7737,7 +8364,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-005",
@@ -7770,7 +8400,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:10",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-006",
@@ -7803,7 +8436,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:20",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-007",
@@ -7836,7 +8472,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-008",
@@ -7869,7 +8508,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:40",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-หญิง-009",
@@ -7902,7 +8544,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "09:50",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-หญิง-010",
@@ -7935,7 +8580,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-หญิง-011",
@@ -7968,7 +8616,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:10",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-012",
@@ -8001,7 +8652,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:20",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-013",
@@ -8034,7 +8688,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-014",
@@ -8067,7 +8724,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:40",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-015",
@@ -8100,7 +8760,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "10:50",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-หญิง-016",
@@ -8133,7 +8796,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "11:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-หญิง-017",
@@ -8166,7 +8832,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "11:10",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-มัธยมชาย-018",
@@ -8199,7 +8868,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "11:20",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-มัธยมหญิง-019",
@@ -8232,7 +8904,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "11:30",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-ปฐมวัย-020",
@@ -8265,7 +8940,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "11:40",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-ชาย-021",
@@ -8298,7 +8976,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "11:50",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "tugofwar-p22-12-ปี-หญิง-022",
@@ -8331,7 +9012,10 @@
       },
       "draft_date": "2026-11-20",
       "draft_time": "12:00",
-      "draft_field": null
+      "draft_field": null,
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p23-001-m",
@@ -8380,7 +9064,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p23-002-f",
@@ -8429,7 +9116,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p23-003-m",
@@ -8478,7 +9168,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p23-004-f",
@@ -8527,7 +9220,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p23-005-m",
@@ -8576,7 +9272,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p23-006-f",
@@ -8625,7 +9324,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p24-007-m",
@@ -8674,7 +9376,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p24-008-f",
@@ -8723,7 +9428,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p24-009-m",
@@ -8772,7 +9480,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p24-010-f",
@@ -8821,7 +9532,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p25-011-m",
@@ -8900,7 +9614,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p25-012-f",
@@ -8979,7 +9696,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p25-013-m",
@@ -9058,7 +9778,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p26-014-f",
@@ -9137,7 +9860,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p26-015-m",
@@ -9219,7 +9945,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p26-016-f",
@@ -9301,7 +10030,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p27-017-m",
@@ -9380,7 +10112,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p27-018-f",
@@ -9459,7 +10194,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p27-019-m",
@@ -9538,7 +10276,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p28-020-f",
@@ -9617,7 +10358,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p28-021-m",
@@ -9696,7 +10440,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p28-022-f",
@@ -9775,7 +10522,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p29-023-m",
@@ -9854,7 +10604,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p29-024-f",
@@ -9933,7 +10686,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p29-025-m",
@@ -10012,7 +10768,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p30-026-f",
@@ -10091,7 +10850,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p30-027-m",
@@ -10170,7 +10932,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p30-028-f",
@@ -10249,7 +11014,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p31-029-m",
@@ -10331,7 +11099,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p31-030-f",
@@ -10413,7 +11184,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p31-031-m",
@@ -10456,7 +11230,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p31-032-f",
@@ -10499,7 +11276,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p31-033-m",
@@ -10542,7 +11322,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p32-034-f",
@@ -10585,7 +11368,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p32-035-m",
@@ -10632,7 +11418,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p32-035-f",
@@ -10679,7 +11468,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p32-036-m",
@@ -10761,7 +11553,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p32-037-f",
@@ -10843,7 +11638,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p33-038-m",
@@ -10922,7 +11720,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p33-039-f",
@@ -11001,7 +11802,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p33-040-m",
@@ -11083,7 +11887,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p34-041-f",
@@ -11156,7 +11963,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p34-042-m",
@@ -11199,7 +12009,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p34-043-f",
@@ -11242,7 +12055,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p34-044-m",
@@ -11321,7 +12137,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p34-045-f",
@@ -11400,7 +12219,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p35-046-m",
@@ -11482,7 +12304,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p35-047-f",
@@ -11564,7 +12389,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p35-048-m",
@@ -11611,7 +12439,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     },
     {
       "id": "athletics-p35-048-f",
@@ -11658,7 +12489,10 @@
         "date_review_required": true,
         "origin": "PDF draft; not an approved competition announcement"
       },
-      "draft_date": "2026-11-16"
+      "draft_date": "2026-11-16",
+      "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
+      "planning_venue_confirmation": "confirmed",
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
     }
   ]
 }
