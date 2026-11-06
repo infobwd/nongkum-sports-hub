@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/committee-review.css?v=r19d1">
+<link rel="stylesheet" href="./css/committee-review.css?v=smis-prep1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
 </head>
 <body data-view="committee-review">
@@ -26,16 +26,16 @@
 <nav class="cr-shortcuts" aria-label="ทางลัด"><a href="./committee.html">← กลับรายงานกรรมการ</a><a href="./index.html">ตารางการแข่งขัน</a></nav>
 <aside class="notice cr-caution">
   <span aria-hidden="true">🔒</span><div><strong>สำหรับโรงเรียนตรวจทาน — ยังไม่ใช่คำสั่งแต่งตั้ง</strong>
-  <p>ใช้รหัสเฉพาะโรงเรียนที่ผู้จัดส่งให้แบบส่วนตัวเพื่อเปิดรายชื่อในร่างปี 2569 เว็บไซต์ไม่เก็บรหัสและไม่บันทึกผลการตรวจบนเซิร์ฟเวอร์</p></div>
+  <p>ขณะนี้ยังใช้รหัสเดิมที่ผู้จัดส่งให้เพื่อเปิดข้อมูลเข้ารหัส · กำลังเตรียมเปลี่ยนเป็นรหัส SMIS ของโรงเรียน เมื่อยืนยันทะเบียนและปรับชุดข้อมูลแล้ว เว็บไซต์ไม่เก็บรหัสหรือผลตรวจบนเซิร์ฟเวอร์</p></div>
 </aside>
 <section class="panel cr-unlock" aria-labelledby="crUnlockTitle">
  <h2 id="crUnlockTitle">1. เปิดรายชื่อโรงเรียน</h2>
- <p class="cr-muted">เลือกรายชื่อโรงเรียน แล้วใส่รหัสเปิดข้อมูลจากผู้จัดการแข่งขัน</p>
+ <p class="cr-muted">เลือกโรงเรียน แล้วกรอกรหัสเปิดรายชื่อ (กำลังเปลี่ยนเป็น SMIS)</p>
  <div class="cr-fields">
  <div><label class="fieldlabel" for="crSchool">โรงเรียนที่ต้องการตรวจ</label><select id="crSchool"><option value="">กำลังโหลดรายชื่อโรงเรียน…</option></select></div>
- <div><label class="fieldlabel" for="crCode">รหัสเฉพาะโรงเรียน</label><div class="cr-password"><input type="password" id="crCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="รหัสจากผู้จัด" maxlength="35"><button type="button" id="crShowCode" aria-pressed="false">แสดง</button></div></div>
+ <div><label class="fieldlabel" for="crCode">รหัสเปิดรายชื่อโรงเรียน</label><div class="cr-password"><input type="password" id="crCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="รหัสเดิมจากผู้จัด" maxlength="35"><button type="button" id="crShowCode" aria-pressed="false" aria-label="แสดงหรือซ่อนรหัส" title="แสดงหรือซ่อนรหัส">◉</button></div></div>
  </div>
- <div class="cr-action-row"><button type="button" id="crUnlock" class="cr-primary">เปิดข้อมูลรายชื่อ</button><button type="button" id="crLock" class="cr-outline" hidden>ปิดรายชื่อ</button></div>
+ <div class="cr-action-row"><button type="button" id="crUnlock" class="cr-primary">เปิดรายชื่อกรรมการ</button><button type="button" id="crLock" class="cr-outline" hidden>ปิดรายชื่อ</button></div>
  <p id="crUnlockStatus" class="cr-message" role="status" aria-live="polite">กำลังตรวจไฟล์ข้อมูลเข้ารหัส…</p>
 </section>
 <div id="crPrivate" hidden>
