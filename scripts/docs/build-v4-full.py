@@ -140,9 +140,9 @@ def build(root,out):
  if status_verified!=45:raise ValueError("Confirmed scheduling rows changed")
  names={x["id"]:x["name"] for x in raw["sports"]}
  pages=[]
- pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4.2-A • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
+ pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4.2-F • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
  pages.append(sec("ข้อมูลสำหรับผู้อ่าน","บทนำ / สถานะข้อมูล",
- """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-A ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
+ """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-F ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
  <p>ข้อมูลทั้งหมด 236 รายการ: กีฬาเป็นคู่ 186 คู่ และกรีฑา 50 รายการ (289 ลู่) พร้อมรายชื่อหน้าที่กรรมการรอตรวจ 250 แถว</p>
  <p>วัน–เวลาได้รับการยืนยัน 45 คู่ • สนามหลักยืนยันโรงเรียนบ้านหนองกระทุ่ม • ฟุตบอลมัธยมหญิงชิงวันที่ 18 พฤศจิกายน ไม่ใช้รายการซ้ำวันที่ 20 พฤศจิกายน</p>
  <p>รายชื่อกรรมการอยู่ระหว่างตรวจโรงเรียน จึงมิใช่คำสั่งแต่งตั้งที่ได้รับการลงนาม และไม่มีการพิมพ์ผลการแข่งขันสมมติ</p>
@@ -234,10 +234,8 @@ def build(root,out):
  pages.append(sec("ข้อสังเกตและสิ่งที่ควรตรวจเป็นพิเศษ","SAFETY & SCHEDULE QA",
    special_observations(r12_screen),
    "คัดกรองก่อนแข่งขัน • แยกความเสี่ยงระดับโรงเรียนจากการชนจริงของนักกีฬา"))
- pages.append(sec("ภาคผนวกผังสายจาก V3","เอกสารต้นทางเพื่ออ้างอิง",
-  '<div class="warning">หน้าที่นำมาต่อท้ายเป็นหน้าจริงของ V3 มีบางรายการร่างที่ถูกแก้ไขแล้วในโปรแกรม V4 หลัก จึงห้ามใช้ภาคผนวกนี้เป็นกำหนดการประกาศ</div>'))
  official_css,official_font_used=formal_font_css()
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-F ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css()+matchday_css()+brackets_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-F ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-F ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42F • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
  if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","v42-official-content","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets")):
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
@@ -249,7 +247,10 @@ def build(root,out):
  (out/"souvenir-v42a-official-source-qa.json").write_text(
   json.dumps(official_report,ensure_ascii=False,indent=2)+"\n","utf-8")
  main=out/"souvenir-v4-main.pdf"
- HTML(string=html_body,base_url=str(root)).write_pdf(main)
+ # NotoSansThai PDF text layer can extract U+0E33 as a stray ASCII ';' with some shaping engines.
+ # Render only in compatibility-equivalent Thai nikhahit + sara aa; retain original source/HTML.
+ pdf_render_html=html_body.replace("\u0e33","\u0e4d\u0e32")
+ HTML(string=pdf_render_html,base_url=str(root)).write_pdf(main)
  document=fitz.open(main)
  original_appendix=[17,18,19,20,21,22,23,24,26,27,28,30,33,34,35,38,40]
  for n in original_appendix:
@@ -258,7 +259,7 @@ def build(root,out):
   page.draw_rect(fitz.Rect(14,12,page.rect.width-14,40),color=None,fill=(1,.96,.81),overlay=True)
   page.insert_text((21,30),"V3 DRAFT REFERENCE ONLY - CHECK MAIN V4 PROGRAM",fontsize=8,fontname="helv",color=(.43,.27,.09),overlay=True)
  final=out/"souvenir-v4-full-draft.pdf"
- document.set_metadata({"title":"มิตรภาพเกมส์ 2569 - สูจิบัตร V4 ร่างจัดหน้า","subject":"Draft only; 236 fixtures and 250 committee rows"})
+ document.set_metadata({"title":"มิตรภาพเกมส์ 2569 - สูจิบัตร V4.2-F ร่างจัดหน้า","subject":"Draft only; 236 fixtures and 250 committee rows"})
  document.save(final,garbage=3,deflate=True)
  document.close()
  chk=fitz.open(final)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Post-PDF review artifact preflight; preserves coverage without official publication."""
-import json, pathlib, sys
+import json, pathlib, sys, re
 import fitz
 from PIL import Image,ImageDraw
 
@@ -10,6 +10,10 @@ stage=json.loads((out/"souvenir-v42f-stage-qa.json").read_text("utf-8"))
 anchors=json.loads((out/"souvenir-v4-page-map.json").read_text("utf-8"))["entries"]
 pdf=fitz.open(out/"souvenir-v4-full-draft.pdf")
 assert len(pdf)==q["pdf_pages"] and len(pdf)>100
+# Check text extraction from the *newly generated* pages, not the unchanged V3 appendix.
+new_text="\n".join(p.get_text() for p in list(pdf)[:-17])
+assert not re.search(r"[ก-๙];[ก-๙]",new_text), "Thai Sara Am incorrectly extracted with ASCII semicolon"
+assert not re.search(r"[ก-๙]a[ก-๙]",new_text), "Thai Sara Am incorrectly extracted with Latin a"
 assert all(abs(z.rect.width-595.28)<1.5 and abs(z.rect.height-841.89)<1.5 for z in pdf)
 assert q["layout_revision"]=="R11C-V4.2-F" and q["status"]=="draft_not_approved"
 assert (q["program_items"],q["matches"],q["athletics"],q["athletics_lanes"])==(236,186,50,289)
@@ -50,6 +54,6 @@ result={"status":"review_only_pass","pages":len(pdf),"a4":True,"anchors":len(anc
         "bracket_verified_edges":q["bracket_verified_edges"],
         "bracket_groups_needing_review":q["bracket_groups_needing_review"],
         "v3_appendix_pages_retained":q["appendix_pages"],"selected_preview_pages":pages,
-        "cover_image_rights":"pending"}
+        "cover_image_rights":"pending","th_any_ascii_semicolon_between_thai":0}
 (out/"souvenir-v42f-pdf-preflight.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n","utf-8")
 print(json.dumps(result,ensure_ascii=False,indent=2))
