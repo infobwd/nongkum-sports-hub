@@ -1,0 +1,33 @@
+name: R19-A/C committee report
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "committee.html"
+      - "css/committee.css"
+      - "js/committee.js"
+      - "data/committee-roles-2569-planning.json"
+      - "scripts/committee/**"
+      - "docs/R19AC_COMMITTEE_REPORT_IMPLEMENTATION_PLAN.md"
+      - ".github/workflows/r19ac-committee.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "committee.html"
+      - "css/committee.css"
+      - "js/committee.js"
+      - "data/committee-roles-2569-planning.json"
+      - "scripts/committee/**"
+      - ".github/workflows/r19ac-committee.yml"
+permissions:
+  contents: read
+jobs:
+  committee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --check js/committee.js
+      - run: node scripts/committee/test-r19ac.mjs
