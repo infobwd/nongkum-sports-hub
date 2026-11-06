@@ -63,7 +63,11 @@ export function screenDraftProgram(dataset, nearMinutes = 30) {
       stats.unresolved_match_team_refs += 1;
       unresolvedMatchTeams.push(fixture.id);
     }
+    // Historical R12A snapshot counts only 12–13 Nov off-round petanque (24 matches).
+    // Venue for all sports and 16 Nov early-years fixtures were confirmed later;
+    // they must not be reclassified as part of this old off-round cohort.
     if (fixture.sport_id === 'petanque' &&
+        ['2026-11-12', '2026-11-13'].includes(fixture.planning_date) &&
         fixture.planning_date_confirmation === 'confirmed' &&
         fixture.planning_venue_confirmation === 'confirmed') {
       stats.confirmed_petanque_day_venue_only += 1;
