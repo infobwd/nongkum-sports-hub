@@ -147,7 +147,7 @@ function headMatch(team1,team2,goals1,goals2){
   return newResult(fixture,fixture.team_a_id===team1?goals1:goals2,
     fixture.team_a_id===team1?goals2:goals1);
 }
-assert.deepEqual(league.tie_breakers,["head_to_head_goal_difference"]);
+assert.deepEqual(league.tie_breakers,["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"]);
 assert.equal(league.tie_break_status,"approved");
 assert.equal(league.approval_status,"pending_rule_approval",
   "confirming the tie-break alone cannot publish official standings");
@@ -204,9 +204,9 @@ assert.equal(buildSnapshot(data,program,simulatedRules).standings.length,0,
 // Organizer follow-up 2026-11-06: count yellow/red as separate auditable
 // statistics without inventing a conversion/sort order. Petanque loser out.
 assert.equal(rules.football_league.disciplinary_tie_break.status,
-  "approved_count_cards_pending_method");
+  "approved");
 assert.equal(rules.football_league.disciplinary_tie_break.ranking_method,
-  "pending_organizer_confirmation");
+  "fewest_red_then_fewest_yellow");
 const recordedCards=newResult(first,2,0);
 recordedCards.disciplinary_cards={team_a:{yellow:2,red:1},team_b:{yellow:1,red:0}};
 assert.deepEqual(codes(publish([recordedCards])),[]);
@@ -215,7 +215,7 @@ assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_a_id).yellow_cards,
 assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_a_id).red_cards,1);
 assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_b_id).yellow_cards,1);
 assert.equal(cardsLeague.rows.find(x=>x.team_id===first.team_b_id).red_cards,0);
-assert.equal(cardsLeague.card_tie_break_status,"pending_count_method");
+assert.equal(cardsLeague.card_tie_break_status,"approved_red_then_yellow");
 const missingCards=publish([newResult(first,1,0)]);
 delete missingCards.results[0].disciplinary_cards;
 assert.ok(codes(missingCards).includes("DISCIPLINARY_CARDS"),
@@ -265,4 +265,58 @@ const badPetRule=clone(rules);badPetRule.sport_policies.find(x=>x.sport_id==="pe
 assert.ok(validatePublication(data,program,badPetRule).some(x=>x.code==="PETANQUE_ELIMINATION"));
 const noPetSource=clone(rules);delete noPetSource.sport_policies.find(x=>x.sport_id==="petanque").elimination_source;
 assert.ok(validatePublication(data,program,noPetSource).some(x=>x.code==="PETANQUE_ELIMINATION_SOURCE"));
-console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, cards audited/no guessed weighting, petanque knockout, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
+
+// New organizer confirmation: after H2H GD, fewest RED cards ranks first;
+// only when reds tie, fewer YELLOW cards ranks higher. No weighting points.
+const allDraws=league.phases.league.map(id=>
+  newResult(fixtures.find(f=>f.id===id),0,0));
+const cardTargets=new Map([
+  [ha,{red:1,yellow:0}], // despite the fewest yellows, red loses to all zero-red teams
+  [hb,{red:0,yellow:4}],
+  [hc,{red:0,yellow:2}],
+  [hd,{red:0,yellow:1}],
+  [he,{red:0,yellow:0}],
+  [league.team_ids[5],{red:2,yellow:0}]
+]);
+for(const [teamId,totals] of cardTargets){
+  const r=allDraws.find(x=>x.team_a_id===teamId||x.team_b_id===teamId);
+  assert.ok(r);
+  r.disciplinary_cards[r.team_a_id===teamId?"team_a":"team_b"]={...totals};
+}
+const officialCardTest=engine.calculateLeague(fixtures,allDraws,activeH2H);
+assert.equal(officialCardTest.complete,true);
+assert.equal(officialCardTest.ranking_status,"final");
+assert.equal(officialCardTest.rows.every(x=>x.points===5&&x.head_to_head_goal_difference===0),true);
+assert.deepEqual(officialCardTest.rows.map(x=>x.team_id),
+  [he,hd,hc,hb,ha,league.team_ids[5]],"sort fewer red cards first; then fewer yellows");
+assert.deepEqual(officialCardTest.rows.map(x=>x.position),[1,2,3,4,5,6]);
+assert.ok(officialCardTest.rows.find(x=>x.team_id===ha).yellow_cards<
+  officialCardTest.rows.find(x=>x.team_id===hb).yellow_cards);
+assert.ok(officialCardTest.rows.find(x=>x.team_id===ha).position>
+  officialCardTest.rows.find(x=>x.team_id===hb).position,
+  "a red card outranks any number of yellows, without weighted points");
+const equalFinalCards=structuredClone(allDraws);
+const oneYellow=equalFinalCards.find(x=>x.team_a_id===hd||x.team_b_id===hd);
+oneYellow.disciplinary_cards[oneYellow.team_a_id===hd?"team_a":"team_b"].yellow=0;
+const unresolvedFull=engine.calculateLeague(fixtures,equalFinalCards,activeH2H);
+assert.equal(unresolvedFull.complete,true);
+assert.ok([he,hd].every(id=>unresolvedFull.rows.find(x=>x.team_id===id).position===null));
+assert.equal(unresolvedFull.ranking_status,"provisional",
+  "equal H2H and identical red/yellow remains unresolved even with complete league");
+const incompleteCardLeague=engine.calculateLeague(fixtures,allDraws.slice(0,-1),activeH2H);
+assert.equal(incompleteCardLeague.complete,false);
+assert.ok(incompleteCardLeague.rows.filter(x=>x.points===5).every(x=>x.position===null),
+  "do not rank tied cards while remaining league fixtures might change card totals");
+const changedCardPriority=clone(rules);
+changedCardPriority.football_league.tie_breakers=["head_to_head_goal_difference","fewest_yellow_cards","fewest_red_cards"];
+assert.ok(validatePublication(data,program,changedCardPriority).some(x=>x.code==="FOOTBALL_TIE_BREAK"));
+const wrongCardMethod=clone(rules);
+wrongCardMethod.football_league.disciplinary_tie_break.ranking_method="weighted_cards";
+assert.ok(validatePublication(data,program,wrongCardMethod).some(x=>x.code==="FOOTBALL_CARD_TIE_BREAK"));
+const wrongCardScope=clone(rules);
+wrongCardScope.football_league.disciplinary_tie_break.scope="head_to_head_only";
+assert.ok(validatePublication(data,program,wrongCardScope).some(x=>x.code==="FOOTBALL_CARD_TIE_BREAK"));
+const noCardApproval=clone(rules);
+delete noCardApproval.football_league.disciplinary_tie_break.source;
+assert.ok(validatePublication(data,program,noCardApproval).some(x=>x.code==="FOOTBALL_CARD_TIE_BREAK_SOURCE"));
+console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, red-then-yellow (full 15 matches), unresolved card ties, petanque knockout, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
