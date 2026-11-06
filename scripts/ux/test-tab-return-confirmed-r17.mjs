@@ -105,7 +105,7 @@ assert.doesNotMatch(returned.elements.cards.innerHTML,/ข้อสังเก�
 assert.match(returned.elements.cards.innerHTML,/fixture-meta-time verified/);
 assert.match(returned.elements.cards.innerHTML,/ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว/);
 assert.match(returned.elements.count.textContent,/แสดง 12/);
-assert.match(returned.elements.resultNote.textContent,/ตัวกรองที่ใช้: กีฬา เปตอง/);
+assert.match(returned.elements.resultNote.textContent,/ที่เลือก: กีฬา เปตอง/);
 assert.equal(returned.scrollCalls.length,1,"tab return scrolls after rendered data");
 assert.equal(returned.frameCallbacks.length,1,"repeat after layout update");
 returned.frameCallbacks[0]();
