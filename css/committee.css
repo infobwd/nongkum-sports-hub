@@ -166,3 +166,9 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 .committee-refresh-notice{position:fixed;z-index:950;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#183762;color:#fff;padding:11px 16px;border-radius:14px;font-size:.79rem;max-width:min(90vw,400px);text-align:center;box-shadow:0 6px 20px #102a4a33}
 @media(min-width:1024px){.committee-pull-hint{display:none}.committee-back-top{bottom:24px}}
 @media(prefers-reduced-motion:reduce){.committee-pull-hint{transition:none}}
+
+/* R19-F/UX-3: hint below the actual sticky header, never behind it. */
+.committee-pull-hint{top:var(--committee-hint-top,calc(90px + env(safe-area-inset-top,0px)));transform:translate(-50%,-135%)}
+.committee-pull-hint.visible{transform:translate(-50%,0)}
+.committee-refresh-notice{bottom:calc(158px + env(safe-area-inset-bottom,0px));width:max-content;max-width:min(85vw,360px)}
+@media(min-width:1024px){.committee-refresh-notice{bottom:24px}}
