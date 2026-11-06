@@ -1,9 +1,12 @@
-name: R11C V4.1 full draft PDF review
+name: R11C V4.2-A full draft PDF review
 on:
   push:
-    branches: ["feat/r11c-v41-magazine-formal-risk-review-20261106"]
+    branches: ["feat/r11c-v42a-official-source-fidelity-20261107"]
     paths:
       - "scripts/docs/build-v4-full.py"
+      - "scripts/docs/v42_official.py"
+      - "scripts/docs/test-v42a-official.py"
+      - "docs/R11C_V42A_OFFICIAL_SOURCE_QA_20261107.md"
       - "scripts/docs/v41_editorial.py"
       - "scripts/docs/test-v41-editorial.py"
       - "docs/R11C_V41_IMPLEMENTATION_QA_20261106.md"
@@ -35,19 +38,21 @@ jobs:
           done
           curl -fLsS --retry 3 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/OFL.txt" -o /tmp/v41-fonts/OFL.txt
           test -s /tmp/v41-fonts/OFL.txt
-      - name: Validate V4.1 editorial and conflict notices
+      - name: Validate V4.1 editorial and V4.2-A complete official draft
         run: |
-          python -m py_compile scripts/docs/v41_editorial.py scripts/docs/build-v4-full.py
+          python -m py_compile scripts/docs/v41_editorial.py scripts/docs/v42_official.py scripts/docs/build-v4-full.py
           python scripts/docs/test-v41-editorial.py
-      - name: Build full V4.1 DRAFT PDF from verified repository sources
+          python scripts/docs/test-v42a-official.py
+      - name: Build full V4.2-A DRAFT PDF from verified repository sources
         run: python scripts/docs/build-v4-full.py --root . --out build/v4-review
       - name: Upload review PDF, HTML and 486 stable ID anchors
         uses: actions/upload-artifact@v4
         with:
-          name: R11C-V41-full-draft-review
+          name: R11C-V42A-full-draft-review
           path: |
             build/v4-review/souvenir-v4-full-draft.pdf
             build/v4-review/souvenir-v4-full-draft.html
             build/v4-review/souvenir-v4-page-map.json
             build/v4-review/souvenir-v4-qa.json
+            build/v4-review/souvenir-v42a-official-source-qa.json
           retention-days: 30
