@@ -44,6 +44,7 @@ except ValueError: pass
 else: raise AssertionError("Missing line must block rendering")
 css=official_css()
 assert ".v42-official-content" in css and ".v42-duty-line" in css
+assert "R11C-V4.2-A" in css
 builder=(ROOT/"scripts/docs/build-v4-full.py").read_text("utf-8")
 assert "official_html=official_full_html(official_model)" in builder
 assert "notice(read_source" not in builder,"No truncated notice content may be rendered"

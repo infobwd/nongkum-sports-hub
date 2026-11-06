@@ -162,6 +162,8 @@ def source_audit(model, rendered_html):
 
 def official_css():
     return """
+@page { @top-left {content:"มิตรภาพเกมส์ 2569 • V4.2-A ฉบับร่าง";font-size:8pt;color:#647e98}
+        @bottom-left {content:"R11C-V4.2-A • รอตรวจข้อมูล";font-size:7pt;color:#8594a7} }
 .v42-official-guide{font-family:FormalThai,NotoThai,sans-serif;border-top:3px solid #233e57;
  padding:6mm 0 5mm;margin:3mm 0 5mm;break-inside:avoid}
 .v42-official-draft{display:inline-block;background:#fff1dd;color:#825e27;font-size:9pt;
