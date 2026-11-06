@@ -109,3 +109,7 @@
 - เปตอง: ยืนยัน **single-elimination ทุก 58 คู่** (8 สายที่มี 4 รอบแรก+2 รอง+1 ชิง, 2 สายชิงโดยตรง); ผู้ชนะผ่าน ผู้แพ้ตกรอบ; ไม่มีตารางคะแนนพบกันหมด. Pure engine ตรวจผลเป็นเซ็ตและคืนทีมชนะ/แพ้โดยไม่อนุมานคู่ถัดไปหรืออันดับสามจาก placeholder. ยอดเซ็ตตาม PDF V2 ยังรอรับรองเป็นรายการย่อย
 - Rule version เปลี่ยนเป็น `r15-bc.3-cards-petanque`, ไม่แก้ผลจริง, ไม่ปลด gate คำรับรองกติกาหรือ public snapshot โดยพลการ
 - CI เพิ่มทดสอบบัตร missing/invalid/แก้หลังประกาศ, H2H tie ยัง unresolved, เปตองผลแพ้คัดออกและ fixture placeholder
+
+
+## บันทึก 6 พ.ย. 2569 — รับรองฟุตบอลใบแดงน้อยกว่าก่อนใบเหลือง
+อ้าง [R15BC_FOOTBALL_RED_THEN_YELLOW_20261106.md](R15BC_FOOTBALL_RED_THEN_YELLOW_20261106.md): ลำดับ tie-break ฉบับล่าสุด **H2H GD → ใบแดงน้อยกว่า → ใบเหลืองน้อยกว่า** โดยไม่มีสูตรคะแนนถ่วงน้ำหนัก. ใช้บัตรจากเกมลีกที่ approved ครบ 15 นัดเท่านั้นก่อนนำมาตัดอันดับ. หากบัตรยังเท่ากัน `position=null`; ข้อมูลไม่ครบไม่ถือว่าเป็น 0. กติกาเข้ารอบรอง/ชิงและ status ระดับกีฬายังคง pending ไม่ออกอันดับสาธารณะก่อนอนุมัติทั้งหมด. `rules_version=r15-bc.4-red-then-yellow`; CI เพิ่ม synthetic test ลีกครบ 15 นัด, red precedence, yellow secondary, incomplete, equal-card unresolved, validator rejection of wrong config.
