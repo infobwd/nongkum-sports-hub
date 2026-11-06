@@ -133,8 +133,10 @@ pdf=fitz.open(pdfpath);extracted="\n".join(page.get_text() for page in pdf)
 if not all(abs(page.rect.width-595.28)<1 and abs(page.rect.height-841.89)<1 for page in pdf):
     raise ValueError("Non-A4")
 bad=re.findall(r"[ก-๙]a[ก-๙]",extracted)
-queries={q:q in unicodedata.normalize("NFC",extracted)
+normalized_text=unicodedata.normalize("NFKC",extracted).replace("\u200b","").replace("\ufeff","")
+queries={q:unicodedata.normalize("NFKC",q) in normalized_text
           for q in ("ดำเนินการ","ตำบล","อำนวยการ","จัดทำ","น้ำดื่ม")}
+print("THAI_FONT_DEBUG",repr(extracted[:500]),"SAMPLE_NFKC",repr(normalized_text[:300]),"CHECKS",queries)
 if bad or not all(queries.values()):
     raise ValueError("Font extraction failed: "+json.dumps({"bad":bad,"search":queries},ensure_ascii=False))
 fonts=sorted({f[3] for page in pdf for f in page.get_fonts()})
