@@ -60,11 +60,13 @@ assert.equal(threeAnomalies.length,3);
 assert.ok(threeAnomalies.every(f=>f.draft_date===null&&M.sourceDate(f)==="17 พ.ย. 68"),
   "must show source year 2568 exactly, never auto-normalize");
 const planning=pdf.fixtures.filter(M.hasConfirmedPlanning);
-assert.equal(planning.length,24);
+assert.equal(planning.length,45);
 assert.deepEqual(
   [...new Set(planning.map(f=>f.planning_date))].sort(),
-  ["2026-11-12","2026-11-13"]
+  ["2026-11-12","2026-11-13","2026-11-16"]
 );
+assert.equal(planning.filter(f=>[8,14].includes(f.source_page)).length,21);
+assert.equal(pdf.fixtures.filter(f=>f.planning_venue_confirmation==="confirmed"&&f.planning_venue==="โรงเรียนบ้านหนองกระทุ่ม").length,237);
 assert.ok(planning.every(f=>f.planning_venue==="โรงเรียนบ้านหนองกระทุ่ม"));
 assert.equal(M.thaiDate("2026-11-12"),"12 พ.ย. 2569");
 const repeated=pdf.fixtures.find(f=>f.id==="football-p07-มัธยมหญิง-020-repeated-final");
