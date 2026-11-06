@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/committee.css?v=r19ac1">
+  <link rel="stylesheet" href="./css/committee.css?v=r19e1">
 </head>
 <body data-view="committee">
 <header class="top">
@@ -38,13 +38,13 @@
   </nav>
   <aside class="notice committee-legal" aria-label="ข้อควรทราบเรื่องสถานะคณะกรรมการ">
     <span aria-hidden="true">ℹ️</span>
-    <div><strong>อยู่ระหว่างเตรียมการแต่งตั้งปี 2569</strong>
-      <p>แม่แบบคณะกรรมการที่ใช้อ้างอิงมาจากคำสั่งปี 2568 ไม่ใช่การแต่งตั้งในปี 2569 และไม่ใช่ทะเบียนครูฉบับเต็ม</p>
+    <div><strong>เปิดรายชื่อกรรมการร่างปี 2569 ให้ทุกโรงเรียนตรวจสอบได้</strong>
+      <p>ชื่อ สังกัด และหน้าที่มาจากสูจิบัตรฉบับร่างปี 2569 ยังไม่ใช่คำสั่งแต่งตั้งที่ผ่านการรับรอง ส่วนคำสั่งปี 2568 เก็บเป็นแม่แบบประวัติเท่านั้น</p>
     </div>
   </aside>
   <section class="panel" aria-labelledby="committeeSchoolReviewLinkHeading">
-    <h2 id="committeeSchoolReviewLinkHeading">สำหรับโรงเรียน · ตรวจรายชื่อกรรมการปี 2569</h2>
-    <p class="committee-caption">เปิดรายชื่อจากร่างสูจิบัตรด้วยรหัสเฉพาะโรงเรียน ตรวจหน้าที่และขอแก้ไข แล้วส่งผลตรวจให้ผู้จัดทาง LINE โดยยังไม่ถือเป็นคำสั่งแต่งตั้ง</p>
+    <h2 id="committeeSchoolReviewLinkHeading">พบชื่อแล้ว? ตรวจและยืนยันความถูกต้องกับผู้จัด</h2>
+    <p class="committee-caption">อ่านชื่อจากร่างปี 2569 ได้ในหน้านี้ทันทีโดยไม่ต้องใส่รหัส ส่วนการทำเครื่องหมายถูกต้อง/ขอแก้ไขและส่งผลทาง LINE ให้ใช้หน้าตรวจยืนยันเดิมของโรงเรียน</p>
     <a class="direct-back" href="./committee-review.html" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 14px;border:1px solid #9db6d0;border-radius:11px">โรงเรียนตรวจและแจ้งยืนยันรายชื่อ</a>
   </section>
   <div class="committee-loader" id="committeeLoading" role="status" aria-live="polite">
@@ -67,13 +67,13 @@
       </div>
       <p class="committee-caption" id="committeeRevision">กำลังตรวจรุ่นข้อมูล…</p>
       <div id="committeeMetrics" class="committee-metrics" aria-label="ตัวชี้วัดภาพรวม"></div>
-      <p class="committee-caption" id="committeeApprovalHint">จำนวนรายชื่อที่รับรองหมายถึงข้อมูลที่มีหลักฐานและอนุญาตให้เผยแพร่ในชุดนี้เท่านั้น</p>
+      <p class="committee-caption" id="committeeApprovalHint">รายชื่อร่างเผยแพร่ให้ครูตรวจสอบได้ แต่ยังไม่มีคำสั่งแต่งตั้งที่ผ่านการรับรอง</p>
     </section>
     <section class="panel committee-draft-summary" id="committeeDraftSummary" aria-labelledby="committeeDraftHeading" hidden>
       <p class="committee-kicker">สูจิบัตรฉบับร่างปี 2569 · ยังไม่ใช่รายชื่อกรรมการที่ผ่านการรับรอง</p>
       <h2 id="committeeDraftHeading">ตรวจพบรายชื่อกรรมการในร่างสูจิบัตร</h2>
       <div id="committeeDraftMetrics" class="committee-metrics" aria-label="สถิติรายชื่อจากเอกสารร่าง"></div>
-      <p class="committee-caption" id="committeeDraftFootnote">ข้อมูลนี้ต้องตรวจชื่อซ้ำ ตำแหน่ง และคำสั่งก่อนนำรายชื่อจริงมาเผยแพร่</p>
+      <p class="committee-caption" id="committeeDraftFootnote">รายชื่อจากร่างปี 2569 แสดงให้ตรวจได้ทันที แต่ต้องตรวจชื่อซ้ำ ตัวสะกด และหน้าที่ก่อนรับรอง</p>
     </section>
     <section class="committee-venue panel" aria-labelledby="committeeVenueTitle">
       <div class="committee-venue-icon" aria-hidden="true">📍</div>
@@ -84,7 +84,7 @@
       </div>
     </section>
     <section class="panel committee-explorer" aria-labelledby="committeeExplorerTitle">
-      <h2 id="committeeExplorerTitle">สำรวจข้อมูลกรรมการ</h2>
+      <h2 id="committeeExplorerTitle">รายชื่อกรรมการตามร่างปี 2569</h2><p class="committee-caption">กรองโรงเรียนหรือค้นหาชื่อครูเพื่อดูหน้าที่จากสูจิบัตรร่าง · 1 คนอาจปรากฏหลายหน้าที่</p>
       <div class="committee-views" role="group" aria-label="เลือกมุมมองรายงาน" id="committeeViews">
         <button type="button" data-report-mode="sports" aria-pressed="true">ชนิดกีฬา</button>
         <button type="button" data-report-mode="groups" aria-pressed="false">ฝ่ายกรรมการ</button>
@@ -92,6 +92,10 @@
         <button type="button" data-report-mode="review" aria-pressed="false">ประเด็นตรวจ</button>
       </div>
       <div class="committee-filters">
+        <div>
+          <label for="committeeSchool" class="fieldlabel">เลือกโรงเรียนของฉัน</label>
+          <select id="committeeSchool"><option value="">ทุกโรงเรียนและหน่วยงาน</option></select>
+        </div>
         <div>
           <label for="committeeSport" class="fieldlabel">เลือกชนิดกีฬา</label>
           <select id="committeeSport"><option value="">ทุกชนิดกีฬา</option></select>
@@ -101,22 +105,22 @@
           <select id="committeeDivision" disabled><option value="">ทุกรุ่นแข่งขัน</option></select>
         </div>
         <div class="committee-search-wrap">
-          <label for="committeeSearch" class="fieldlabel">ค้นหาชื่อกีฬา / ฝ่าย / โรงเรียน / รายการ</label>
-          <input id="committeeSearch" type="search" autocomplete="off" placeholder="เช่น เปตอง, ประธาน, วังด้ง">
+          <label for="committeeSearch" class="fieldlabel">ค้นหาชื่อครู / สังกัด / ฝ่าย / หน้าที่</label>
+          <input id="committeeSearch" type="search" autocomplete="off" placeholder="พิมพ์ชื่อครูหรือชื่อโรงเรียน">
         </div>
       </div>
       <p id="committeeCount" class="committee-caption" role="status" aria-live="polite"></p>
       <div id="committeeCards" class="committee-cards" aria-live="polite" aria-relevant="additions text"></div>
-      <p class="committee-caption committee-source-note">ชื่อผู้รับผิดชอบจะปรากฏได้เฉพาะเมื่อผ่านการรับรองปี 2569 และตรวจสิทธิ์การเผยแพร่แล้ว</p>
+      <p class="committee-caption committee-source-note">ชื่อและหน้าที่ข้างบนเป็นข้อความจากร่างสูจิบัตรปี 2569 หากพบคลาดเคลื่อน ให้ <a href="./committee-review.html">โรงเรียนตรวจและแจ้งแก้ไข</a> โดยผู้จัดจะเป็นผู้รับรองสุดท้าย</p>
     </section>
     <section class="panel committee-next" aria-labelledby="committeeNextTitle">
-      <h2 id="committeeNextTitle">ขั้นตอนก่อนใช้ข้อมูลรายชื่อจริง</h2>
-      <p>ผู้จัดตรวจทะเบียนครูในพื้นที่จำกัดสิทธิ์ → ตรวจการมอบหมายและวันชนกัน → ออกคำสั่งรับรองปี 2569 → ตรวจสิทธิ์เผยแพร่ → จึงปรับข้อมูลรายงานสาธารณะ</p>
+      <h2 id="committeeNextTitle">ขั้นตอนหลังโรงเรียนตรวจรายชื่อ</h2>
+      <p>โรงเรียนอ่านรายชื่อในหน้านี้ → เปิดหน้าตรวจเฉพาะโรงเรียนทำเครื่องหมายและส่งผล LINE → ผู้จัดตรวจรับข้อแก้ไข → ออกคำสั่งรับรองปี 2569 → อัปเดตรายชื่อทางการ</p>
       <a href="https://github.com/infobwd/nongkum-sports-hub/blob/main/docs/R19AC_COMMITTEE_REPORT_IMPLEMENTATION_PLAN.md">อ่านแผนและขอบเขตการใช้ข้อมูล R19-A/C</a>
     </section>
   </div>
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · หน้ารายงานเตรียมการกรรมการ · ไม่ใช่คำสั่งแต่งตั้ง</footer>
-<script src="./js/committee.js?v=r19ac1"></script>
+<script src="./js/committee.js?v=r19e1"></script>
 </body>
 </html>

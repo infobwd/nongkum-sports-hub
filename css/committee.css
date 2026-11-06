@@ -74,3 +74,23 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 .committee-draft-summary .committee-metrics{margin-top:12px}
 .committee-draft-summary .committee-metric{background:#fff}
 .committee-draft-summary[hidden]{display:none!important}
+
+/* R19-E: 2569 public draft directory, legible on mobile and safe area. */
+.committee-people{border-top:1px solid #e3ebf4;margin:12px 0 9px;padding-top:12px}
+.committee-people-heading{font-size:.82rem!important;font-weight:800;color:#1a477a!important;margin:0 0 7px!important}
+.committee-person-list{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.committee-person{padding:10px 11px;border:1px solid #e5edf5;background:#f9fbfe;border-radius:11px}
+.committee-person-body{min-width:0;display:flex;flex-wrap:wrap;align-items:flex-start;gap:3px 8px}
+.committee-person-name{color:#152d4b;font-size:.9rem;flex:1 1 150px;overflow-wrap:anywhere}
+.committee-person-role{font-size:.74rem;color:#1a477a;background:#e7f1fb;border-radius:7px;padding:2px 6px}
+.committee-person-affiliation{margin:4px 0 0!important;width:100%;font-size:.77rem!important;color:#365a78!important}
+.committee-person-small{margin:2px 0 0!important;font-size:.71rem!important;color:#62778d!important;width:100%}
+.committee-person-warning{margin:5px 0 0!important;background:#fff2d6;color:#725513!important;border-radius:6px;padding:4px 7px;font-size:.74rem!important}
+.committee-people-extra{margin-top:7px;border:1px solid #dae5f0;border-radius:10px;padding:4px 10px 9px}
+.committee-people-extra summary{min-height:44px;display:flex;align-items:center;justify-content:center;color:#164875;font-size:.83rem;font-weight:800}
+.committee-people-extra summary:focus-visible{outline:3px solid #e3b335;outline-offset:2px}
+.committee-school-review-link{display:inline-flex;min-height:44px;align-items:center;font-size:.8rem;font-weight:800}
+.committee-explorer .committee-filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+.committee-explorer .committee-search-wrap{grid-column:1/-1}
+@media(max-width:690px){.committee-explorer .committee-filters{grid-template-columns:1fr}}
+@media print{.committee-people-extra{display:block}.committee-people-extra>summary{display:none}}
