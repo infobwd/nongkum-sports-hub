@@ -62,7 +62,7 @@ async function mount(url,dateClass=Clock){
  const ids=["school","search","sports","levels","cards","count","empty","more","advancedFilters",
   "activeFiltersHint","resultsLink","refreshProgram","programRefreshStatus","sharedFixture",
   "sharedFixtureCard","sharedFixtureStatus","programOverview","showFullSchedule","scheduleDaySwitch",
-  "scheduleDayHint","scheduleVerificationSummary","resultNote","programListing"];
+  "scheduleDayHint","scheduleVerificationSummary","scheduleVerificationCounts","resultNote","programListing"];
  const els=Object.fromEntries(ids.map(id=>[id,element(id)]));
  const history={latest:"",replaceState(_a,_b,u){this.latest=u;}};
  els.programListing.scrollIntoView=()=>{};
@@ -86,7 +86,8 @@ assert.equal(day.els.more.hidden,true,"next day has exactly twelve confirmed mat
 assert.match(day.els.cards.innerHTML,/ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว/);
 assert.doesNotMatch(day.els.cards.innerHTML,/ควรตรวจเพิ่ม|ข้อสังเกตจาก PDF|ข้อมูลร่าง/);
 assert.match(day.els.cards.innerHTML,/รายละเอียดการแข่งขัน/);
-assert.match(day.els.scheduleVerificationSummary.textContent,/สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม.*45 รายการ.*191 รายการ/);
+assert.match(day.els.scheduleVerificationSummary.textContent,/สถานที่แข่งขัน: โรงเรียนบ้านหนองกระทุ่ม \(ยืนยันแล้ว\)/);
+assert.match(day.els.scheduleVerificationCounts.textContent,/ยืนยันวันและเวลาแล้ว 45 รายการ.*รอตรวจสอบเพิ่มเติม 191 รายการ/);
 assert.match(day.els.cards.innerHTML,/โรงเรียนบ้านหนองกระทุ่ม/);
 assert.match(day.els.cards.innerHTML,/สนาม [1-4]/);
 assert.ok(latest.fixtures.filter(x=>x.planning_time_confirmation==="confirmed").some(x=>x.qa_flags?.length),

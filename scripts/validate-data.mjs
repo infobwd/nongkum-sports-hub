@@ -77,7 +77,7 @@ check(/src="\.\/js\/program\.js(?:\?[^"]*)?"/.test(html) && /href="\.\/css\/prog
 for(const [name,source] of [["shared.js",shared],["program.js",program]]){
   try{new Script(source,{filename:name});}catch(e){issues.push("JavaScript syntax "+name+": "+e.message);}
 }
-check(html.includes("scheduleVerificationSummary") && program.includes("อยู่ระหว่างตรวจรับรายละเอียด") && program.includes("planning_time_confirmation"),"per-fixture confirmation must not imply universal approval");
+check(html.includes("scheduleVerificationSummary") && html.includes("scheduleVerificationCounts") && program.includes("รอตรวจสอบเพิ่มเติม ") && program.includes("planning_time_confirmation"),"per-fixture confirmation must not imply universal approval");
 check(program.includes("m.lanes") && program.includes("source_team_a_label"),"athletics and bracket support missing");
 check(css.includes("@media") && css.includes("safe-area-inset-top"),"mobile CSS or iPhone safe area missing");
 const listedDivisions=sourceDivisions.divisions;
