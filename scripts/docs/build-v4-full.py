@@ -7,8 +7,11 @@ import argparse,collections,datetime,hashlib,html,json,re
 from pathlib import Path
 import fitz
 from weasyprint import HTML
-from v41_editorial import (formal_font_css, notice, ceremony_timeline, colors_and_oath,
-    sports_cards, bracket_note, special_observations, extra_css)
+from v41_editorial import (formal_font_css, colors_and_oath, special_observations, extra_css)
+from v42_ceremony import render as render_ceremony, css as ceremony_css
+from v42_rules import render as render_rules, css as rules_css
+from v42_matchday import render as render_matchday, css as matchday_css
+from v42_brackets import render as render_brackets, css as brackets_css
 from v42_official import (build_source_model, official_full_html,
     source_audit, official_css as v42_official_css)
 
@@ -38,7 +41,7 @@ def sec(title,tag,body,subtitle=""):
 def sheetrows(title,heads,rows,classname=""):
  h="".join(f"<th>{esc(x)}</th>" for x in heads)
  body="".join("<tr>"+"".join(f"<td>{x}</td>" for x in rr)+"</tr>" for rr in rows)
- return f'<div class="block"><h2>{esc(title)}</h2><table class="data {classname}"><thead><tr>{h}</tr></thead><tbody>{body}</tbody></table></div>'
+ return f'<div class="block{" score-block" if classname=="score" else ""}"><h2>{esc(title)}</h2><table class="data {classname}"><thead><tr>{h}</tr></thead><tbody>{body}</tbody></table></div>'
 def marked(id,text):
  return esc(text)+f'<span class="anchor-id">{token(id)}</span>'
 def read_source(pdf,p):
@@ -98,6 +101,7 @@ p{margin-bottom:2.3mm}
 .cover-bottom strong{font-size:12pt}.cover-bottom p{font-size:9pt;color:#536f87}
 .cover .seal{display:inline-block;background:#ffe6a2;color:#72521d;padding:1mm 3mm;border-radius:5px;font-size:8pt;margin-bottom:4mm}
 .score td{height:13mm}
+.score-block{break-inside:avoid}
 """.replace("@@FONT@@",uri).replace("@@BOLD@@",bold)
 def pick_font():
  from pathlib import Path
@@ -110,6 +114,7 @@ def pick_font():
 def build(root,out):
  raw=get(root/"data/program-from-pdf-2569-20261104-draft.json")
  roster=get(root/"data/committee-2569-draft-public-review.json")
+ policy=get(root/"data/standings-rules.json")
  pdfpath=root/"assets/souvenir-committee-2569-v3.pdf"
  pdf=fitz.open(pdfpath)
  if len(pdf)!=64 or len(raw.get("fixtures",[]))!=237 or len(roster.get("entries",[]))!=250:
@@ -136,19 +141,19 @@ def build(root,out):
  if status_verified!=45:raise ValueError("Confirmed scheduling rows changed")
  names={x["id"]:x["name"] for x in raw["sports"]}
  pages=[]
- pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4.2-A • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
+ pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4.2-F • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
  pages.append(sec("ข้อมูลสำหรับผู้อ่าน","บทนำ / สถานะข้อมูล",
- """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-A ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
+ """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-F ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
  <p>ข้อมูลทั้งหมด 236 รายการ: กีฬาเป็นคู่ 186 คู่ และกรีฑา 50 รายการ (289 ลู่) พร้อมรายชื่อหน้าที่กรรมการรอตรวจ 250 แถว</p>
  <p>วัน–เวลาได้รับการยืนยัน 45 คู่ • สนามหลักยืนยันโรงเรียนบ้านหนองกระทุ่ม • ฟุตบอลมัธยมหญิงชิงวันที่ 18 พฤศจิกายน ไม่ใช้รายการซ้ำวันที่ 20 พฤศจิกายน</p>
  <p>รายชื่อกรรมการอยู่ระหว่างตรวจโรงเรียน จึงมิใช่คำสั่งแต่งตั้งที่ได้รับการลงนาม และไม่มีการพิมพ์ผลการแข่งขันสมมติ</p>
  <div class="info">เพื่อรักษาผังสายจากต้นฉบับ V3 เอกสารส่วนท้ายมีภาคผนวกหน้าผังสายเดิมสำหรับอ้างอิง ซึ่งยังไม่รับรองเช่นกัน</div>"""))
+ opening_html,opening_qa=render_ceremony(pdf,3)
+ closing_html,closing_qa=render_ceremony(pdf,4)
  pages.append(sec("กำหนดการพิธีเปิดการแข่งขัน","MAGAZINE / พิธีการ",
-  ceremony_timeline(read_source(pdf,3),"พิธีเปิด","16 พฤศจิกายน 2569"),
-  "ลำดับกิจกรรมตามสูจิบัตร V3 หน้า 3 · ยังรอตรวจ"))
+  opening_html,"กิจกรรมช่วง 08.45 น. แยกเป็นขั้นตอนโดยไม่เพิ่มเวลาใหม่ · รอตรวจ"))
  pages.append(sec("กำหนดการพิธีปิดการแข่งขัน","MAGAZINE / พิธีการ",
-  ceremony_timeline(read_source(pdf,4),"พิธีปิด","20 พฤศจิกายน 2569"),
-  "ลำดับกิจกรรมตามสูจิบัตร V3 หน้า 4 · ยังรอตรวจ"))
+  closing_html,"กำหนดการตาม V3 หน้า 4 · รอตรวจ"))
  pages.append(sec("สีประจำโรงเรียนและคำปฏิญาณนักกีฬา","MAGAZINE / SCHOOL SPIRIT",
   colors_and_oath(read_source(pdf,5)),"ข้อมูลสีจาก V3 หน้า 5 · การ์ดสีเป็นตัวอย่าง"))
  official_model=build_source_model(pdf)
@@ -169,18 +174,22 @@ def build(root,out):
   body='<div class="warning">รายชื่อและสังกัดตามร่างฉบับแก้สะกดล่าสุด ยังรอโรงเรียนตรวจ ไม่ใช่คำสั่งแต่งตั้ง</div>'
   body+=sheetrows(section_titles.get(sid,"หมวด "+sid)+f" ({len(rows)} รายการ)",heads,rr,"committee")
   pages.append(sec("คณะกรรมการ / หมวด "+sid,"ข้อมูลกรรมการ • รอตรวจรายชื่อ",body))
- pages.append(sec("หลักเกณฑ์การแข่งขันและคะแนนรวม","กติกาจาก PDF V3",
-   '<div class="warning">หลักเกณฑ์ตามร่าง V3 ห้ามแทนการรับรองกติกาที่ผู้จัดได้แจ้งเพิ่มเติม</div>'+excerpt(pdf,17)))
- pages.append(sec("ผังสายและการแบ่งทีม","เนื้อหาภาคผนวก V3",
-   '<div class="info">หน้าผังสายที่มีการจัดด้วยช่องว่างและภาพต้นฉบับจัดวางใหม่ได้ไม่แน่นอน จึงคงหน้าอ้างอิงจาก V3 ไว้ท้ายเล่ม เพื่อให้กรรมการตรวจ ไม่คาดเดาทีมจากผัง</div>'))
+ rules_html,rules_qa=render_rules(pdf,policy)
+ pages.append(sec("หลักเกณฑ์การแข่งขันและคะแนนรวม","V42-C · กติกาและคะแนนถ้วย",
+   rules_html,"คะแนนถ้วยรวมกับคะแนนฟุตบอลแยกกัน · สถานะรับรองดูตามหมวด"))
+ brackets_html,brackets_qa=render_brackets(matches,raw["sports"])
+ pages.append(sec("ผังสายและการประกบคู่ใหม่","V42-E · โครงสร้างจากคู่แข่งขันจริง",
+   brackets_html,"โยงผู้ชนะเฉพาะเลขคู่ที่อ้างอิงได้ชัด • ข้อผิดพลาดต้นฉบับติดป้ายรอตรวจ"))
+ matchday_audits=[]
  for sport in SPORTS:
   rows=[x for x in matches if x["sport_id"]==sport]
   if not rows:continue
   bydate=collections.OrderedDict()
   for x in rows:bydate.setdefault(selected_date(x) or "รอตรวจวัน",[]).append(x)
   body=f'<div class="info">จำนวน {len(rows)} คู่ • สนามหลัก โรงเรียนบ้านหนองกระทุ่ม • วันเวลาที่ไม่รับรองแสดงตามร่าง</div>'
-  body+=sports_cards(rows,names.get(sport,sport))
-  body+=bracket_note(rows)
+  matchday_html,matchday_qa=render_matchday(rows,raw["schools"],names.get(sport,sport))
+  matchday_audits.append(matchday_qa)
+  body+=matchday_html
   for day,rr in bydate.items():
    r=[]
    for x in rr:
@@ -226,18 +235,23 @@ def build(root,out):
  pages.append(sec("ข้อสังเกตและสิ่งที่ควรตรวจเป็นพิเศษ","SAFETY & SCHEDULE QA",
    special_observations(r12_screen),
    "คัดกรองก่อนแข่งขัน • แยกความเสี่ยงระดับโรงเรียนจากการชนจริงของนักกีฬา"))
- pages.append(sec("ภาคผนวกผังสายจาก V3","เอกสารต้นทางเพื่ออ้างอิง",
-  '<div class="warning">หน้าที่นำมาต่อท้ายเป็นหน้าจริงของ V3 มีบางรายการร่างที่ถูกแก้ไขแล้วในโปรแกรม V4 หลัก จึงห้ามใช้ภาคผนวกนี้เป็นกำหนดการประกาศ</div>'))
  official_css,official_font_used=formal_font_css()
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-A ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
- if "ข้อสังเกตและรายการตรวจเป็นพิเศษ" not in html_body or "คำปฏิญาณนักกีฬา" not in html_body or "v42-official-content" not in html_body:
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-F ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-F ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42F • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
+ if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","v42-official-content","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets")):
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
+ stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending",
+     "ceremony":{"opening":opening_qa,"closing":closing_qa},
+     "rules":rules_qa,"matchday":matchday_audits,"brackets":brackets_qa}
+ (out/"souvenir-v42f-stage-qa.json").write_text(json.dumps(stage_qa,ensure_ascii=False,indent=2)+"\n","utf-8")
  (out/"souvenir-v42a-official-source-qa.json").write_text(
   json.dumps(official_report,ensure_ascii=False,indent=2)+"\n","utf-8")
  main=out/"souvenir-v4-main.pdf"
- HTML(string=html_body,base_url=str(root)).write_pdf(main)
+ # NotoSansThai PDF text layer can extract U+0E33 as a stray ASCII ';' with some shaping engines.
+ # Render only in compatibility-equivalent Thai nikhahit + sara aa; retain original source/HTML.
+ pdf_render_html=html_body.replace("\u0e33","\u0e4d\u0e32")
+ HTML(string=pdf_render_html,base_url=str(root)).write_pdf(main)
  document=fitz.open(main)
  original_appendix=[17,18,19,20,21,22,23,24,26,27,28,30,33,34,35,38,40]
  for n in original_appendix:
@@ -246,7 +260,7 @@ def build(root,out):
   page.draw_rect(fitz.Rect(14,12,page.rect.width-14,40),color=None,fill=(1,.96,.81),overlay=True)
   page.insert_text((21,30),"V3 DRAFT REFERENCE ONLY - CHECK MAIN V4 PROGRAM",fontsize=8,fontname="helv",color=(.43,.27,.09),overlay=True)
  final=out/"souvenir-v4-full-draft.pdf"
- document.set_metadata({"title":"มิตรภาพเกมส์ 2569 - สูจิบัตร V4 ร่างจัดหน้า","subject":"Draft only; 236 fixtures and 250 committee rows"})
+ document.set_metadata({"title":"มิตรภาพเกมส์ 2569 - สูจิบัตร V4.2-F ร่างจัดหน้า","subject":"Draft only; 236 fixtures and 250 committee rows"})
  document.save(final,garbage=3,deflate=True)
  document.close()
  chk=fitz.open(final)
@@ -266,13 +280,19 @@ def build(root,out):
  if not all(abs(p.rect.width-595.3)<2 and abs(p.rect.height-841.9)<2 for p in chk):
   raise ValueError("Unexpected non-A4 pages")
  result={"schema_version":1,"status":"draft_not_approved","source_pdf_sha256":sha,
-  "layout_revision":"R11C-V4.2-A", "formal_font":official_font_used,
+  "layout_revision":"R11C-V4.2-F", "formal_font":official_font_used,
+  "cover_image_status":"approved_design_pending_publication_rights",
+  "ceremony_opening_events":opening_qa["events"],"ceremony_closing_events":closing_qa["events"],
+  "rules_rank_points":rules_qa["award_rank_points"],
+  "bracket_verified_edges":brackets_qa["verified_edges"],
+  "bracket_groups_needing_review":brackets_qa["groups_with_source_ambiguity"],
+  "matchday_card_count":sum(x["cards"] for x in matchday_audits),
   "official_source_pages":official_report["source_pages"],
   "official_source_lines":official_report["total_source_lines"],
   "official_rendered_lines":official_report["rendered_source_lines"],
   "official_section_count":len(official_report["verified_section_ids"]),
   "official_source_sha256":official_report["full_text_sha256"],
-  "editorial_sections":["formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","sports_matchups","schedule_conflict_review"],
+  "editorial_sections":["formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review"],
   "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),
   "program_items":len(fixtures),"matches":len(matches),"athletics":len(athletics),

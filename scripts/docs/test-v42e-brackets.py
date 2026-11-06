@@ -11,6 +11,9 @@ assert len(APPENDIX_SOURCE_PAGES)==17
 assert qa["verified_edges"]>0 and qa["division_groups"]>=40
 assert len(qa["source_ambiguities"])>0
 assert qa["appendix_replaced_pages"]==[]
+petanque_boys=next(g for g in groups if g["sport"]=="petanque" and g["division"]=="10 ปี ชาย")
+assert any("reused or omitted" in p["cause"] for p in petanque_boys["problems"])
+assert not petanque_boys["full_bracket_verified"]
 markup,_=render(rows,j["sports"])
 assert "การประกบคู่" in markup and "รอตรวจผังสาย" in markup
 assert 'data-fixture="petanque-' in markup
