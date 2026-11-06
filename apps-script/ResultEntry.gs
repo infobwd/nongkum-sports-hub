@@ -137,3 +137,18 @@ function nkSubmitResultsForReview(){
     return count;
   });
 }
+
+/** Only a separately approved schedule can authorize final result approval.
+ * Draft fixtures may accept submissions for review, never final publication.
+ */
+function nkEntryRequireApprovedSource_(ss,kind,r){
+  var name=kind==="pair"?"04_คู่แข่งขัน":"03_รายการ";
+  var id=nkTrim_(r[1]),source=nkRows_(ss,name).find(function(x){
+    return nkTrim_(x.values[0])===id;
+  });
+  if(!source||nkTrim_(source.values[NK_COLS[name].status])!=="approved")
+    throw Error("รายการแข่งขันต้นทางยังไม่ได้ยืนยัน กรุณาติดต่อผู้ดูแลก่อนยืนยันผล");
+  var issues=[],allow=nkAllowedEmails_();
+  nkValidApproval_(source.values,NK_COLS[name],allow,"รายการแข่งขัน",issues);
+  if(issues.length)throw Error("ข้อมูลรายการแข่งขันเปลี่ยนหลังยืนยัน กรุณาให้ผู้ดูแลตรวจสอบ");
+}
