@@ -10,7 +10,7 @@ from weasyprint import HTML
 from v41_editorial import (formal_font_css, notice, ceremony_timeline, colors_and_oath,
     sports_cards, bracket_note, special_observations, extra_css)
 from v42_official import (build_source_model, official_full_html,
-    source_audit, official_css)
+    source_audit, official_css as v42_official_css)
 
 SPORTS=["football","shootout","futsal","volleyball","takraw","petanque","tabletennis","tugofwar"]
 MONTHS=["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"]
@@ -229,7 +229,7 @@ def build(root,out):
  pages.append(sec("ภาคผนวกผังสายจาก V3","เอกสารต้นทางเพื่ออ้างอิง",
   '<div class="warning">หน้าที่นำมาต่อท้ายเป็นหน้าจริงของ V3 มีบางรายการร่างที่ถูกแก้ไขแล้วในโปรแกรม V4 หลัก จึงห้ามใช้ภาคผนวกนี้เป็นกำหนดการประกาศ</div>'))
  official_css,official_font_used=formal_font_css()
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-A ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+official_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-A ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
  if "ข้อสังเกตและรายการตรวจเป็นพิเศษ" not in html_body or "คำปฏิญาณนักกีฬา" not in html_body or "v42-official-content" not in html_body:
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
