@@ -493,9 +493,9 @@
     ui.dutyName.textContent=state.selectedTeacher;
     ui.dutySchoolName.textContent=school?.name||"สังกัดรอตรวจ";
     const sports=new Set(rows.filter(x=>x.sport_id).map(x=>x.sport_id));
-    ui.dutySummary.textContent="พบ "+rows.length+" บรรทัดหน้าที่ในร่าง · "+sports.size+" ชนิดกีฬาที่ระบุ";
+    ui.dutySummary.textContent="พบหน้าที่ "+rows.length+" รายการในร่าง · "+sports.size+" ชนิดกีฬา";
     ui.dutyScheduleStatus.textContent=state.scheduleStatus==="ready"
-      ?"เชื่อมวันแข่งขันจากสูจิบัตรฉบับร่างล่าสุด · วันปฏิบัติหน้าที่ของครูยังรอยืนยัน"
+      ?"วันแข่งขันเป็นข้อมูลประกอบ · ไม่ใช่วันปฏิบัติหน้าที่"
       :state.scheduleStatus==="failed"
       ?"ข้อมูลวันแข่งขันโหลดไม่สำเร็จ แต่รายชื่อและหน้าที่จากร่างยังตรวจได้"
       :"กำลังอ่านข้อมูลวันแข่งขันเพิ่มเติม…";
@@ -507,11 +507,15 @@
       line(card,"my-duty-kind",sport?"ชนิดกีฬา · "+sport.sport_name:"ฝ่ายงานทั่วไป · ร่างปี 2569");
       card.appendChild(make("h4","",group?.title||(sport?.sport_name||"ฝ่ายกรรมการ")));
       line(card,"my-duty-role","หน้าที่: "+(row.role||"รอตรวจข้อความ"));
-      if(row.subdivision)line(card,"","ส่วนงาน/รุ่น: "+row.subdivision);
-      line(card,"my-duty-small-note","ข้อ "+(row.number||row.section)+" · PDF หน้า "+row.pdf_page);
+      line(card,"my-duty-date-unknown","วันปฏิบัติหน้าที่: รอผู้จัดยืนยัน");
       if(row.flags?.length)line(card,"my-duty-warning","มีข้อความจากต้นฉบับที่ต้องตรวจเพิ่มเติม");
-      line(card,"my-duty-date-unknown","วันและเวลาปฏิบัติหน้าที่ของครู: รอผู้จัดกำหนด/รับรอง");
-      renderDutyDates(card,row.sport_id);
+      const more=make("details","my-duty-details");
+      const summary=make("summary","","ดูรายละเอียดและวันแข่งขัน");
+      more.appendChild(summary);
+      if(row.subdivision)line(more,"","ส่วนงาน/รุ่น: "+row.subdivision);
+      line(more,"my-duty-small-note","ข้อ "+(row.number||row.section)+" · PDF หน้า "+row.pdf_page);
+      renderDutyDates(more,row.sport_id);
+      card.appendChild(more);
       ui.dutyCards.appendChild(card);
     }
     ui.dutySelected.hidden=false;
