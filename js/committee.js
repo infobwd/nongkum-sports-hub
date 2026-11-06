@@ -602,17 +602,22 @@
       state.data=data;
       state.roster=roster;
       buildSelectors();
+      buildDutySchools();
       metrics();
       renderDraftSummary();
       const venue=safeVenue(data);
       ui.venueName.textContent=venue.name;
       ui.venueScope.textContent=venue.scope;
       ui.report.hidden=false;
+      renderMyDuty();
       redraw();
+      if(dutyUIReady)loadDutySchedule();
     }catch(_error){
       // Do not show historical people, stale appointments or invented placeholder data.
       state.data=null;
       state.roster=null;
+      ++state.scheduleRequest;
+      state.schedule=null;
       ui.report.hidden=true;
       ui.failure.hidden=false;
     }finally{
