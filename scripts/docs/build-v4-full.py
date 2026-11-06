@@ -41,7 +41,7 @@ def sec(title,tag,body,subtitle=""):
 def sheetrows(title,heads,rows,classname=""):
  h="".join(f"<th>{esc(x)}</th>" for x in heads)
  body="".join("<tr>"+"".join(f"<td>{x}</td>" for x in rr)+"</tr>" for rr in rows)
- return f'<div class="block"><h2>{esc(title)}</h2><table class="data {classname}"><thead><tr>{h}</tr></thead><tbody>{body}</tbody></table></div>'
+ return f'<div class="block{" score-block" if classname=="score" else ""}"><h2>{esc(title)}</h2><table class="data {classname}"><thead><tr>{h}</tr></thead><tbody>{body}</tbody></table></div>'
 def marked(id,text):
  return esc(text)+f'<span class="anchor-id">{token(id)}</span>'
 def read_source(pdf,p):
@@ -101,6 +101,7 @@ p{margin-bottom:2.3mm}
 .cover-bottom strong{font-size:12pt}.cover-bottom p{font-size:9pt;color:#536f87}
 .cover .seal{display:inline-block;background:#ffe6a2;color:#72521d;padding:1mm 3mm;border-radius:5px;font-size:8pt;margin-bottom:4mm}
 .score td{height:13mm}
+.score-block{break-inside:avoid}
 """.replace("@@FONT@@",uri).replace("@@BOLD@@",bold)
 def pick_font():
  from pathlib import Path
