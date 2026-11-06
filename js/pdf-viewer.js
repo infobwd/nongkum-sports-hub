@@ -174,12 +174,19 @@ async function renderPage() {
     el.canvas.setAttribute("aria-label", "สูจิบัตรหน้า " + pageNumber + " จาก " + pdf.numPages + " หน้า");
     if (isCommittee && selectedCommittee && el.highlight && el.matchStatus &&
         pageNumber === selectedCommitteePage && window.NongkumCommitteeHighlight) {
-      const textContent = await page.getTextContent();
+      // Text extraction is optional: it must never blank an otherwise readable PDF.
+      let mark = null;
+      try {
+        const textContent = await page.getTextContent();
+        if (requestId !== generation) return;
+        mark = window.NongkumCommitteeHighlight.draw({
+          items:textContent.items, target:selectedCommittee, viewport,
+          overlay:el.highlight, canvas:el.canvas
+        });
+      } catch (highlightError) {
+        console.warn("R19-J: committee name highlight unavailable", highlightError);
+      }
       if (requestId !== generation) return;
-      const mark = window.NongkumCommitteeHighlight.draw({
-        items:textContent.items, target:selectedCommittee, viewport,
-        overlay:el.highlight, canvas:el.canvas
-      });
       el.matchStatus.hidden = false;
       el.matchStatus.textContent = mark
         ? "เน้นชื่อที่เลือก · ข้อ " + selectedCommittee.number
@@ -187,8 +194,11 @@ async function renderPage() {
       if (mark && !committeePositioned) {
         committeePositioned = true;
         const surface = $("pdfPageSurface");
-        const top = (surface?.offsetTop || 0) + mark.top + mark.height / 2;
-        el.host.scrollTop = Math.max(0, top - el.host.clientHeight / 2);
+        const relativeTop = surface?.getBoundingClientRect && el.host.getBoundingClientRect
+          ? surface.getBoundingClientRect().top - el.host.getBoundingClientRect().top
+          : 0;
+        el.host.scrollTop = Math.max(0,
+          el.host.scrollTop + relativeTop + mark.top + mark.height / 2 - el.host.clientHeight / 2);
       }
     }
   } catch (err) {
