@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="description" content="มิตรภาพเกมส์ 2569 — โรงเรียนตรวจรายชื่อกรรมการจากสูจิบัตรร่างอย่างเป็นส่วนตัว">
+<title>โรงเรียนตรวจกรรมการ — มิตรภาพเกมส์ 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/committee-review.css?v=r19d1">
+</head>
+<body data-view="committee-review">
+<header class="top"><div class="shell">
+  <div class="brand"><a class="cr-brand" href="./index.html"><span aria-hidden="true">🏆</span> มิตรภาพเกมส์</a><span class="mode">โรงเรียนตรวจกรรมการ</span></div>
+  <nav class="site-nav" aria-label="เมนูเว็บไซต์">
+    <a href="./index.html">ตารางแข่งขัน</a><a href="./results.html">ผลแข่งขัน</a>
+    <a href="./committee.html">ภาพรวมกรรมการ</a><a href="./committee-review.html" aria-current="page">ตรวจรายชื่อโรงเรียน</a>
+  </nav>
+  <div class="hero"><h1>ตรวจรายชื่อกรรมการ ปี 2569</h1><p>เฉพาะข้อมูลของโรงเรียนที่ได้รับรหัส · สูจิบัตรฉบับร่าง รอรับรอง</p></div>
+</div></header>
+<main class="shell cr-main" id="schoolReviewRoot">
+<nav class="cr-shortcuts" aria-label="ทางลัด"><a href="./committee.html">← กลับรายงานกรรมการ</a><a href="./index.html">ตารางการแข่งขัน</a></nav>
+<aside class="notice cr-caution">
+  <span aria-hidden="true">🔒</span><div><strong>สำหรับโรงเรียนตรวจทาน — ยังไม่ใช่คำสั่งแต่งตั้ง</strong>
+  <p>ใช้รหัสเฉพาะโรงเรียนที่ผู้จัดส่งให้แบบส่วนตัวเพื่อเปิดรายชื่อในร่างปี 2569 เว็บไซต์ไม่เก็บรหัสและไม่บันทึกผลการตรวจบนเซิร์ฟเวอร์</p></div>
+</aside>
+<section class="panel cr-unlock" aria-labelledby="crUnlockTitle">
+ <h2 id="crUnlockTitle">1. เปิดรายชื่อโรงเรียน</h2>
+ <p class="cr-muted">เลือกรายชื่อโรงเรียน แล้วใส่รหัสเปิดข้อมูลจากผู้จัดการแข่งขัน</p>
+ <div class="cr-fields">
+ <div><label class="fieldlabel" for="crSchool">โรงเรียนที่ต้องการตรวจ</label><select id="crSchool"><option value="">กำลังโหลดรายชื่อโรงเรียน…</option></select></div>
+ <div><label class="fieldlabel" for="crCode">รหัสเฉพาะโรงเรียน</label><div class="cr-password"><input type="password" id="crCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="รหัสจากผู้จัด" maxlength="35"><button type="button" id="crShowCode" aria-pressed="false">แสดง</button></div></div>
+ </div>
+ <div class="cr-action-row"><button type="button" id="crUnlock" class="cr-primary">เปิดข้อมูลรายชื่อ</button><button type="button" id="crLock" class="cr-outline" hidden>ปิดรายชื่อ</button></div>
+ <p id="crUnlockStatus" class="cr-message" role="status" aria-live="polite">กำลังตรวจไฟล์ข้อมูลเข้ารหัส…</p>
+</section>
+<div id="crPrivate" hidden>
+ <section class="panel" aria-labelledby="crListTitle">
+  <div class="cr-heading"><div><p class="cr-kicker">รายชื่อจากคำสั่งฉบับร่างปี 2569</p><h2 id="crListTitle">2. ตรวจรายการมอบหมายกรรมการ</h2><p id="crSourceNote" class="cr-muted"></p></div>
+    <span id="crProgress" class="cr-progress" aria-live="polite">0/0</span></div>
+  <div class="cr-tools"><div><label for="crSearch" class="fieldlabel">ค้นหาชื่อ / ฝ่าย / กีฬา</label><input id="crSearch" type="search" placeholder="ค้นหาในโรงเรียนนี้"></div>
+  <button type="button" id="crBulkCorrect" class="cr-outline">ทำเครื่องหมายถูกต้องทุกรายการ</button></div>
+  <p class="cr-muted">ตรวจชื่อ โรงเรียน และหน้าที่ของแต่ละคน เลือก “ถูกต้อง”, “ขอแก้ไข” หรือ “ไม่แน่ใจ” หากเลือกขอแก้ไข ให้ระบุรายละเอียดเพื่อส่งผู้จัด</p>
+  <div id="crEntries" class="cr-entries"></div>
+  <p id="crNoMatch" class="cr-muted" hidden>ไม่พบรายการตามคำค้น</p>
+ </section>
+ <section class="panel cr-submit" aria-labelledby="crSubmitTitle">
+   <h2 id="crSubmitTitle">3. ส่งผลตรวจให้ผู้จัดการแข่งขัน</h2>
+   <p class="cr-muted">ขั้นตอนนี้ <strong>ยังไม่ส่งหรือบันทึกอัตโนมัติ</strong> กรุณากดเปิด LINE และเลือกแชท/กลุ่มผู้จัดที่ติดต่ออยู่เพื่อส่งข้อความ จากนั้นรอผู้จัดตอบรับ</p>
+   <div class="cr-fields">
+    <div><label class="fieldlabel" for="crReviewer">ชื่อผู้ตรวจ / ผู้รับรองข้อมูลโรงเรียน</label><input id="crReviewer" type="text" maxlength="80" autocomplete="name" placeholder="ชื่อ–สกุลผู้ตรวจ"></div>
+    <div><label class="fieldlabel" for="crOverallNote">หมายเหตุภาพรวม (ถ้ามี)</label><textarea id="crOverallNote" rows="2" maxlength="500" placeholder="เช่น กรรมการบางส่วนยังไม่พร้อมปฏิบัติหน้าที่"></textarea></div>
+   </div>
+   <label class="cr-checkbox"><input type="checkbox" id="crConfirmReviewed"><span>ข้าพเจ้าตรวจข้อมูลตามร่างแล้ว และเข้าใจว่าผู้จัดยังต้องตรวจรับผลอีกครั้ง</span></label>
+   <div class="cr-action-row"><button type="button" id="crShareLine" class="cr-primary">ส่งผลตรวจผ่าน LINE</button><button type="button" id="crCopy" class="cr-outline">คัดลอกข้อความผลตรวจ</button></div>
+   <p id="crSendStatus" class="cr-message" role="status" aria-live="polite"></p>
+ </section>
+</div>
+<section class="panel cr-help"><h2>การตรวจครั้งนี้ครอบคลุมอะไรบ้าง?</h2>
+ <p>หน้าเว็บแสดงเฉพาะชื่อกรรมการที่ต้นฉบับระบุสังกัดโรงเรียนของท่าน หน่วยงานภายนอกและรายชื่อที่ยังระบุโรงเรียนไม่ชัดเจน ผู้จัดต้องตรวจต่างหาก ข้อมูลยังไม่เชื่อมทะเบียนครู Sillapa โดยอัตโนมัติ</p>
+ <p>เมื่อเปิดข้อมูลแล้วสามารถค้นหา เลือกสถานะรายชื่อ และแจ้งแก้ไขได้ รายชื่อจะหายจากหน้าจอเมื่อปิดหรือรีเฟรชเพื่อคุ้มครองข้อมูล</p>
+</section>
+</main>
+<footer class="shell">มิตรภาพเกมส์ 2569 · โรงเรียนตรวจข้อมูลรายชื่อกรรมการ (ร่าง) · ผู้จัดเป็นผู้รับรองขั้นสุดท้าย</footer>
+<script src="./js/committee-review.js?v=r19d1"></script>
+</body>
+</html>
