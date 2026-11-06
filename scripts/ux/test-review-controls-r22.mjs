@@ -51,7 +51,7 @@ const window={
  innerHeight:800,scrollY:0,
  matchMedia:q=>({matches:q.includes("min-width:1001px")?desktop:false}),
  scrollTo:({top})=>{window.scrollY=top;},
- addEventListener:(type,fn)=>{winHandlers[type]=fn;},
+ addEventListener:(type,fn)=>{(winHandlers[type]??=[]).push(fn);},
  NongkumPageRefresh:async()=>{refreshCalls++;return true;}
 };
 const document={
@@ -72,12 +72,12 @@ assert.ok(button&&button.hidden,"back-to-top initially hidden");
 assert.ok(stored["shared-pull-hint"],"shared pull hint installed");
 assert.equal(typeof window.NongkumBackTopUpdate,"function");
 
-window.scrollY=420;winHandlers.scroll();
+window.scrollY=420;winHandlers.scroll.forEach(fn=>fn());
 assert.equal(button.hidden,false,"normal review scroll shows button");
 assert.match(button.style.bottom,/px/,"clearance above mobile tabs");
 button.handlers.click();
 assert.equal(window.scrollY,0,"normal click returns document to top");
-winHandlers.scroll();
+winHandlers.scroll.forEach(fn=>fn());
 assert.equal(button.hidden,true,"button hides at document top");
 
 desktop=true;body.classList.add("review-pdf-open");main.scrollTop=450;
