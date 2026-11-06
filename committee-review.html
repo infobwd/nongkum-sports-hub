@@ -26,14 +26,14 @@
 <nav class="cr-shortcuts" aria-label="ทางลัด"><a href="./committee.html">← กลับรายงานกรรมการ</a><a href="./index.html">ตารางการแข่งขัน</a></nav>
 <aside class="notice cr-caution">
   <span aria-hidden="true">🔒</span><div><strong>สำหรับโรงเรียนตรวจทาน — ยังไม่ใช่คำสั่งแต่งตั้ง</strong>
-  <p>ขณะนี้ยังใช้รหัสเดิมที่ผู้จัดส่งให้เพื่อเปิดข้อมูลเข้ารหัส · กำลังเตรียมเปลี่ยนเป็นรหัส SMIS ของโรงเรียน เมื่อยืนยันทะเบียนและปรับชุดข้อมูลแล้ว เว็บไซต์ไม่เก็บรหัสหรือผลตรวจบนเซิร์ฟเวอร์</p></div>
+  <p>ใช้รหัสโรงเรียน 8 หลักตามทะเบียน Sillapa เพื่อเปิดรายชื่อร่าง หรือใช้รหัสเดิมจากผู้จัดได้ · รหัสโรงเรียนเป็นเพียงตัวช่วยเลือกรายชื่อ ไม่ใช่รหัสลับหรือการยืนยันตัวตน</p></div>
 </aside>
 <section class="panel cr-unlock" aria-labelledby="crUnlockTitle">
  <h2 id="crUnlockTitle">1. เปิดรายชื่อโรงเรียน</h2>
- <p class="cr-muted">เลือกโรงเรียน แล้วกรอกรหัสเปิดรายชื่อ (กำลังเปลี่ยนเป็น SMIS)</p>
+ <p class="cr-muted">เลือกโรงเรียน แล้วกรอกรหัสโรงเรียน 8 หลัก</p>
  <div class="cr-fields">
  <div><label class="fieldlabel" for="crSchool">โรงเรียนที่ต้องการตรวจ</label><select id="crSchool"><option value="">กำลังโหลดรายชื่อโรงเรียน…</option></select></div>
- <div><label class="fieldlabel" for="crCode">รหัสเปิดรายชื่อโรงเรียน</label><div class="cr-password"><input type="password" id="crCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="รหัสเดิมจากผู้จัด" maxlength="35"><button type="button" id="crShowCode" aria-pressed="false" aria-label="แสดงหรือซ่อนรหัส" title="แสดงหรือซ่อนรหัส">◉</button></div></div>
+ <div><label class="fieldlabel" for="crCode">รหัสโรงเรียน 8 หลัก</label><div class="cr-password"><input type="password" id="crCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="กรอกรหัสโรงเรียน 8 หลัก" maxlength="35" inputmode="numeric"><button type="button" id="crShowCode" aria-pressed="false" aria-label="แสดงหรือซ่อนรหัส" title="แสดงหรือซ่อนรหัส">◉</button></div></div>
  </div>
  <div class="cr-action-row"><button type="button" id="crUnlock" class="cr-primary">เปิดรายชื่อกรรมการ</button><button type="button" id="crLock" class="cr-outline" hidden>ปิดรายชื่อ</button></div>
  <p id="crUnlockStatus" class="cr-message" role="status" aria-live="polite">กำลังตรวจไฟล์ข้อมูลเข้ารหัส…</p>
@@ -66,7 +66,7 @@
 </section>
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · โรงเรียนตรวจข้อมูลรายชื่อกรรมการ (ร่าง) · ผู้จัดเป็นผู้รับรองขั้นสุดท้าย</footer>
-<script src="./js/committee-review.js?v=r19d1"></script>
+<script src="./js/committee-review.js?v=r19h1"></script>
 <script src="./js/back-to-top.js?v=r19fux4"></script>
 </body>
 </html>

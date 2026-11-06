@@ -4,6 +4,8 @@
 (function(root){
 "use strict";
 const URL_DATA="./data/committee-school-rosters-2569.encrypted.json";
+const URL_PUBLIC="./data/committee-2569-draft-public-review.json";
+const URL_SCHOOLS="./data/committee-roles-2569-planning.json";
 const sports={football:"ฟุตบอล",futsal:"ฟุตซอล",volleyball:"วอลเลย์บอล",takraw:"เซปักตะกร้อ",petanque:"เปตอง",tabletennis:"เทเบิลเทนนิส",tugofwar:"ชักเย่อ",athletics:"กรีฑา"};
 const statuses={correct:"ถูกต้อง",change:"ขอแก้ไข",unsure:"ไม่แน่ใจ"};
 const codeNormal=s=>String(s||"").toUpperCase().replace(/[\s-]/g,"");
@@ -60,7 +62,7 @@ root.NongkumSchoolCommittee=Object.freeze({unlockBundle,buildConfirmation,codeNo
 if(!root.document||!root.document.getElementById("schoolReviewRoot"))return;
 const doc=root.document,el=id=>doc.getElementById(id);
 const ui=Object.fromEntries(["crSchool","crCode","crShowCode","crUnlock","crLock","crUnlockStatus","crPrivate","crListTitle","crProgress","crSourceNote","crSearch","crBulkCorrect","crEntries","crNoMatch","crReviewer","crOverallNote","crConfirmReviewed","crShareLine","crCopy","crSendStatus"].map(id=>[id,el(id)]));
-let manifest=null,payload=null,selections=Object.create(null),busy=false;
+let manifest=null,payload=null,selections=Object.create(null),busy=false,schoolCodes=null,publicDraft=null;
 function make(tag,klass,text){
  const e=doc.createElement(tag);
  if(klass)e.className=klass;
@@ -154,6 +156,16 @@ function validationError(e){
  if(s==="not_confirmed")return "กรุณาทำเครื่องหมายว่าตรวจข้อมูลและเข้าใจสถานะร่างแล้ว";
  return "ยังเตรียมข้อความไม่ได้ กรุณาตรวจข้อมูลและลองอีกครั้ง";
 }
+async function openPublicSchool(school,code){
+ if(!schoolCodes||!publicDraft)return null;
+ const entry=schoolCodes.find(x=>x.sports_school_id===school);
+ if(!entry||codeNormal(code)!==String(entry.sillapa_school_id))return null;
+ const rows=publicDraft.entries.filter(x=>x.school_id===school).map(x=>[x.id,x.number,x.name,x.affiliation,x.role,x.section,x.sport_id,x.pdf_page,x.flags]);
+ const name=publicDraft.schools.find(x=>x.id===school)?.name;
+ if(!name||!rows.length||rows.some(x=>x.length!==9))return null;
+ const sections=Object.fromEntries(publicDraft.sections.map(x=>[x.id,x.title]));
+ return {v:1,school_id:school,name,revision:publicDraft.revision,source_sha256:publicDraft.source_sha256,rows,sections};
+}
 async function loadManifest(){
  try{
   const r=await root.fetch(URL_DATA,{cache:"no-store"});
@@ -163,13 +175,20 @@ async function loadManifest(){
       !Array.isArray(d.schools)||d.schools.length!==8||
       new Set(d.schools.map(s=>s.id)).size!==8)throw Error("schema");
   manifest=d;
+  try{const [schoolResponse,publicResponse]=await Promise.all([root.fetch(URL_SCHOOLS,{cache:"no-store"}),root.fetch(URL_PUBLIC,{cache:"no-store"})]);
+   if(schoolResponse.ok&&publicResponse.ok){const planning=await schoolResponse.json(),draft=await publicResponse.json();
+    if(Array.isArray(planning.school_crosswalk)&&planning.school_crosswalk.length===8&&draft.source_sha256===d.source_sha256&&draft.publication_status&&Array.isArray(draft.entries)&&Array.isArray(draft.schools)&&Array.isArray(draft.sections)){
+      schoolCodes=planning.school_crosswalk;publicDraft=draft;
+    }
+   }
+  }catch(_error){/* Legacy encrypted access remains available offline. */}
   ui.crSchool.replaceChildren();
   const first=make("option","","เลือกโรงเรียน");first.value="";ui.crSchool.appendChild(first);
   for(const s of d.schools){const opt=make("option","",s.name+" ("+s.count+" รายการ)");opt.value=s.id;ui.crSchool.appendChild(opt);}
   const p=new URLSearchParams(root.location?.search||"");
   const requested=p.get("school");
   if(d.schools.some(s=>s.id===requested))ui.crSchool.value=requested;
-  status(ui.crUnlockStatus,"เลือกโรงเรียนแล้วกรอกรหัสที่ผู้จัดส่งให้","ok");
+  status(ui.crUnlockStatus,schoolCodes?"กรอกรหัสโรงเรียน 8 หลักตามทะเบียน Sillapa หรือรหัสเดิมจากผู้จัด":"กรอกรหัสเดิมที่ผู้จัดส่งให้","ok");
  }catch(_e){
   status(ui.crUnlockStatus,"เปิดรายการโรงเรียนไม่ได้ กรุณาตรวจอินเทอร์เน็ตแล้วโหลดหน้าใหม่","error");
  }
@@ -177,10 +196,10 @@ async function loadManifest(){
 ui.crShowCode.addEventListener("click",()=>{
  const show=ui.crCode.type==="password";
  ui.crCode.type=show?"text":"password";
- ui.crShowCode.textContent=show?"ซ่อน":"แสดง";
+ ui.crShowCode.textContent=show?"ซ่อน":"◉";
  ui.crShowCode.setAttribute("aria-pressed",String(show));
 });
-ui.crSchool.addEventListener("change",()=>{reset(true);status(ui.crUnlockStatus,"กรอกรหัสเฉพาะของโรงเรียนที่เลือก","");});
+ui.crSchool.addEventListener("change",()=>{reset(true);status(ui.crUnlockStatus,"กรอกรหัสโรงเรียน 8 หลัก หรือรหัสเดิมจากผู้จัด","");});
 ui.crLock.addEventListener("click",()=>{reset(true);status(ui.crUnlockStatus,"ปิดข้อมูลรายชื่อแล้ว","ok");});
 ui.crUnlock.addEventListener("click",async()=>{
  if(busy||!manifest)return;
@@ -189,14 +208,15 @@ ui.crUnlock.addEventListener("click",async()=>{
  busy=true;ui.crUnlock.disabled=true;
  status(ui.crUnlockStatus,"กำลังตรวจรหัสและเปิดข้อมูล…","");
  try{
-  payload=await unlockBundle(manifest,school,pass);
+  payload=await openPublicSchool(school,pass);
+  if(!payload)payload=await unlockBundle(manifest,school,pass);
   if(!payload)throw Error("failed");
   ui.crCode.value="";
   selections=Object.create(null);
   ui.crListTitle.textContent="2. ตรวจรายชื่อ — "+payload.name;
   ui.crSourceNote.textContent="ฉบับร่างปี 2569 · "+payload.rows.length+" รายการ · รุ่น "+payload.revision;
   ui.crPrivate.hidden=false;ui.crLock.hidden=false;
-  status(ui.crUnlockStatus,"เปิดข้อมูลเฉพาะโรงเรียนสำเร็จ ไม่ได้ส่งข้อมูลขึ้นเซิร์ฟเวอร์","ok");
+  status(ui.crUnlockStatus,"เปิดรายชื่อร่างของโรงเรียนสำเร็จ · ผู้จัดต้องตรวจรับผลทาง LINE","ok");
   render();
  }catch(e){
   reset(true);
