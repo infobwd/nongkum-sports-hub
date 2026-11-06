@@ -3,13 +3,17 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
 const read=p=>readFileSync(new URL("../../"+p,import.meta.url),"utf8");
-const latest=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
+const raw=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
+const corrections=read("js/program-corrections.js");
+const correctionContext=vm.createContext({});
+new vm.Script(corrections).runInContext(correctionContext);
+const latest=correctionContext.NongkumProgramCorrections.apply(raw);
 const sorter=read("js/schedule-order.js");
 const ctx=vm.createContext({Intl,Date,Map,Number,Math});
 new vm.Script(sorter).runInContext(ctx);
 const order=ctx.NongkumScheduleOrder;
 const sorted=order.sortedFixtures(latest.fixtures,latest.sports);
-assert.equal(sorted.length,237);
+assert.equal(sorted.length,236);
 assert.equal(order.bangkokToday(new Date("2026-11-11T16:59:00Z")),"2026-11-11");
 assert.equal(order.bangkokToday(new Date("2026-11-11T17:00:00Z")),"2026-11-12");
 assert.equal(order.bangkokToday(new Date("2026-11-12T18:30:00Z")),"2026-11-13");
@@ -23,7 +27,7 @@ assert.equal(onDay.fixtures.length,12,"today keeps whole day, even if morning en
 assert.equal(order.nearestDay(sorted,"2026-11-13").day,"2026-11-13");
 assert.equal(order.nearestDay(sorted,"2026-11-14").day,"2026-11-16");
 assert.equal(order.nearestDay(sorted,"2026-11-21").kind,"all-fallback");
-assert.equal(order.nearestDay(sorted,"2026-11-21").fixtures.length,237);
+assert.equal(order.nearestDay(sorted,"2026-11-21").fixtures.length,236);
 assert.equal(order.nearestDay([], "2026-11-05").fixtures.length,0);
 assert.equal(sorted.slice(-3).filter(f=>!order.effectiveDay(f)).length,3,"source-year anomalies remain at end");
 assert.ok(first.fixtures.every(f=>f.planning_date_confirmation==="confirmed"&&f.planning_time_confirmation==="confirmed"));
@@ -70,18 +74,19 @@ async function mount(url,dateClass=Clock){
   fetch:async()=>({ok:true,json:async()=>latest})});
  new vm.Script(shared).runInContext(context);
  new vm.Script(sorter).runInContext(context);
+ new vm.Script(corrections).runInContext(context);
  new vm.Script(program).runInContext(context);
  for(let i=0;i<16;i++)await Promise.resolve();
  return {els,history,context};
 }
 const day=await mount("https://example.org/index.html");
 assert.match(day.els.scheduleDayHint.textContent,/วันแข่งขันถัดไป.*12 พฤศจิกายน 2569/);
-assert.match(day.els.count.textContent,/พบ 237 รายการ · แสดง 12/);
+assert.match(day.els.count.textContent,/พบ 236 รายการ · แสดง 12/);
 assert.equal(day.els.more.hidden,true,"next day has exactly twelve confirmed matches");
 assert.match(day.els.cards.innerHTML,/ยืนยันวัน เวลา และสถานที่แข่งขันแล้ว/);
 assert.doesNotMatch(day.els.cards.innerHTML,/ควรตรวจเพิ่ม|ข้อสังเกตจาก PDF|ข้อมูลร่าง/);
 assert.match(day.els.cards.innerHTML,/รายละเอียดการแข่งขัน/);
-assert.match(day.els.scheduleVerificationSummary.textContent,/สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม.*45 รายการ.*192 รายการ/);
+assert.match(day.els.scheduleVerificationSummary.textContent,/สถานที่แข่งขันทุกกีฬา: โรงเรียนบ้านหนองกระทุ่ม.*45 รายการ.*191 รายการ/);
 assert.match(day.els.cards.innerHTML,/โรงเรียนบ้านหนองกระทุ่ม/);
 assert.match(day.els.cards.innerHTML,/สนาม [1-4]/);
 assert.ok(latest.fixtures.filter(x=>x.planning_time_confirmation==="confirmed").some(x=>x.qa_flags?.length),
@@ -109,4 +114,4 @@ const onlyPast=await mount("https://example.org/index.html?sport=football",class
  constructor(...args){super(...(args.length?args:["2026-11-25T02:00:00Z"]));}
 });
 assert.match(onlyPast.els.count.textContent,/พบ 21 รายการ/);
-console.log("R18 PASS: Bangkok midnight, today/next/fallback, 24 confirmed without public warnings, 237 browseable, day-toggle return");
+console.log("R18 PASS: Bangkok midnight, today/next/fallback, 24 confirmed without public warnings, 236 browseable, day-toggle return");
