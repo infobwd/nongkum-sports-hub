@@ -1,0 +1,40 @@
+name: V42-A Notice Full Sarabun Font Fix
+on:
+  push:
+    branches: ["feat/r11c-v42a-full-sarabun-fontfix-preview-20261107"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notice-fontfix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-core libpango-1.0-0 libharfbuzz0b
+          python -m pip install "weasyprint==68.0" "PyMuPDF==1.26.7" "fonttools==4.60.1" "beautifulsoup4==4.14.2" "Pillow==12.0.0"
+      - name: Download full Google Fonts Sarabun (OFL) in runner only
+        run: |
+          mkdir -p /tmp/v42a-fonts
+          for font in Sarabun-Regular.ttf Sarabun-Bold.ttf; do
+            curl -fLsS --retry 3 --connect-timeout 15 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/$font" -o "/tmp/v42a-fonts/$font"
+          done
+          curl -fLsS --retry 3 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/OFL.txt" -o /tmp/v42a-fonts/OFL.txt
+          test -s /tmp/v42a-fonts/OFL.txt
+      - name: Generate source text, not for publication
+        run: python scripts/docs/build-v4-full.py --root . --out build/v42a-source
+      - name: Generate full-font notice-only preview
+        run: python scripts/docs/notice-preview-v2.py --html build/v42a-source/souvenir-v4-full-draft.html --fonts /tmp/v42a-fonts --out build/v42a-preview
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Announcement-Full-Sarabun-V2
+          path: |
+            build/v42a-preview/announcement_formal_preview_v2.pdf
+            build/v42a-preview/announcement_formal_preview_v2_contact.png
+            build/v42a-preview/announcement_fontfix_v2_qa.json
+          retention-days: 30
