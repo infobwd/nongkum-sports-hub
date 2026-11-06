@@ -157,3 +157,12 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 .my-duty-details[open] summary{border-bottom:1px solid #e4ebf3}
 .my-duty-details .my-duty-small-note{margin-top:9px}
 @media(max-width:690px){.committee-shortcuts{padding-top:8px}.committee-shortcuts a{min-height:42px}.committee-my-duty{padding:15px}.committee-my-duty h2{margin:4px 0 6px}.committee-legal{margin:8px 0}.my-duty-card{padding:12px}.my-duty-card h4{font-size:.92rem}}
+
+/* R19-F/UX-2: safe-area aware refresh and back-to-top controls */
+.committee-pull-hint{position:fixed;z-index:1001;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translate(-50%,-150%);opacity:0;pointer-events:none;display:flex;align-items:center;gap:8px;background:#fff;color:#183762;border:1px solid #cbd9e8;border-radius:24px;padding:10px 15px;box-shadow:0 7px 25px #152f4d2a;font-size:.8rem;font-weight:800;white-space:nowrap;transition:transform .18s,opacity .18s}
+.committee-pull-hint.visible{transform:translate(-50%,0);opacity:1}.committee-pull-hint.ready{border-color:#277d58}.committee-pull-hint>span:first-child{font-size:1.1rem}
+.committee-back-top{position:fixed;z-index:800;right:16px;bottom:calc(86px + env(safe-area-inset-bottom,0px));min-width:56px;min-height:56px;border:1px solid #b7cce0;border-radius:18px;background:#183762;color:#fff;box-shadow:0 5px 20px #102a4a33;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font:800 .69rem/1.1 inherit;cursor:pointer;touch-action:manipulation}
+.committee-back-top[hidden],.committee-refresh-notice[hidden]{display:none!important}.committee-back-top>span{font-size:.69rem}.committee-back-top:focus-visible{outline:3px solid #e3b335;outline-offset:3px}
+.committee-refresh-notice{position:fixed;z-index:950;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#183762;color:#fff;padding:11px 16px;border-radius:14px;font-size:.79rem;max-width:min(90vw,400px);text-align:center;box-shadow:0 6px 20px #102a4a33}
+@media(min-width:1024px){.committee-pull-hint{display:none}.committee-back-top{bottom:24px}}
+@media(prefers-reduced-motion:reduce){.committee-pull-hint{transition:none}}
