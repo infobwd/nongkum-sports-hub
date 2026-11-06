@@ -1,0 +1,16 @@
+/* R22 review-only geometry for shared controls. The right PDF pane scrolls independently. */
+@media(min-width:1001px){
+  body[data-view="review"].review-pdf-open .shared-back-top{
+    right:calc(57vw + 12px);
+  }
+}
+/* The full-screen PDF reader owns all mobile/tablet gestures. */
+body[data-view="review"].review-pdf-open .shared-pull-hint,
+body[data-view="review"].review-pdf-open .shared-pull-toast{
+  display:none!important;
+}
+@media(max-width:1000px){
+  body[data-view="review"].review-pdf-open .shared-back-top{
+    display:none!important;
+  }
+}

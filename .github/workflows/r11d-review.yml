@@ -6,6 +6,10 @@ on:
       - "index.html"
       - "css/review.css"
       - "js/review*.js"
+      - "js/back-to-top.js"
+      - "js/pull-refresh.js"
+      - "css/review-controls.css"
+      - "scripts/ux/test-review-controls-r22.mjs"
       - "data/program-from-pdf-2569-20261104-draft.json"
       - "data/reconciliation/**"
       - "scripts/ux/test-review-r11d.mjs"
@@ -26,6 +30,10 @@ on:
       - "index.html"
       - "css/review.css"
       - "js/review*.js"
+      - "js/back-to-top.js"
+      - "js/pull-refresh.js"
+      - "css/review-controls.css"
+      - "scripts/ux/test-review-controls-r22.mjs"
       - "data/program-from-pdf-2569-20261104-draft.json"
       - "data/reconciliation/**"
       - "scripts/ux/test-review-r11d.mjs"
@@ -59,6 +67,8 @@ jobs:
         run: node scripts/ux/test-pdf-viewer-r11d2.mjs
       - name: R11D.3 responsive split scroll and mobile PDF fit modes
         run: node scripts/ux/test-review-r11d3.mjs
+      - name: R22 shared back-to-top and guarded pull-down on review
+        run: node scripts/ux/test-review-controls-r22.mjs
       - name: R11D.4 mobile book-style PDF reader and safe return
         run: node scripts/ux/test-pdf-book-reader-r11d4.mjs
       - name: R11D.5 iOS Safe Area and review disclosure regression

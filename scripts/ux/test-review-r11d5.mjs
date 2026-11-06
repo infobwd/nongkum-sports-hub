@@ -25,7 +25,7 @@ assert.match(base, /No fixed pseudo-element may cover the header while scrolling
 assert.match(css, /body\.review-pdf-open \.review-pdf-preview\{z-index:1300\}/);
 assert.match(css, /body\.review-pdf-open \.mobile-nav\{display:none!important\}/);
 assert.match(html, /href="\.\/css\/review\.css\?v=r11d[56]"/);
-assert.match(html, /src="\.\/js\/review\.js\?v=r11d[56](?:-r20b1)?"/);
+assert.match(html, /src="\.\/js\/review\.js\?v=r11d[56](?:-r20b1)?(?:-r22)?"/);
 assert.match(html, /id="reviewCollapseExtras"/);
 assert.match(css, /\.review-collapse-filters/);
 assert.match(css, /\.review-card-details:not\(\[open\]\)>\.review-extra-content\{display:none\}/);
