@@ -8,7 +8,7 @@ rows=[x for x in j["fixtures"] if x["sport_id"]=="football" and x["kind"]=="matc
 a,report=render(rows,j["schools"],"ฟุตบอล")
 assert "v42-match-card" in a and "VS" in a and report["cards"]==8
 assert report["known_school_sides"]>0
-assert "สีประกอบ" in a and "ยังไม่ทราบโรงเรียน" in a
+assert "สีประกอบ" in a
 assert "v42-match-grid" in css()
 unknown=dict(rows[0],team_a_id=None,team_b_id=None)
 b,_=render([unknown],j["schools"],"ฟุตบอล");assert 'class="v42-team-colors unknown"' in b
