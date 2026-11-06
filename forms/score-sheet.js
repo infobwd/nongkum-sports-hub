@@ -129,7 +129,9 @@
         " / "+(item.kind==="track_event"?"รายการ ":"คู่ที่ ")+item.source_match_no:"");
       const fields={
         division:item.division||"",round,sourcePage:String(item.source_pdf?.page||item.source_page||""),
-        sourceTime:(item.source_pdf?.source_time||item.time)?"ตาม PDF "+(item.source_pdf?.source_time||item.time)+" น. (ยังรอยืนยัน)":"",
+        sourceTime:(item.planning_time_confirmation==="confirmed"&&item.planning_time)
+          ?"เวลาแข่งยืนยันแล้ว "+item.planning_time+" น."
+          :(item.source_pdf?.source_time||item.time)?"ตาม PDF "+(item.source_pdf?.source_time||item.time)+" น. (ยังรอยืนยัน)":"",
         teamA:item.kind==="track_event"?"":school(data,item.team_a_id,item.source_team_a_label),
         teamB:item.kind==="track_event"?"":school(data,item.team_b_id,item.source_team_b_label)
       };
