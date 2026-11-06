@@ -1,0 +1,15 @@
+/* R19-J: scoped changes to the committee reader. Fixture PDF controls are unchanged. */
+.committee-pdf-page-surface{position:relative;display:block;width:max-content;max-width:none;margin:0 auto}
+.committee-pdf-page-surface canvas{display:block;margin:0;background:#fff}
+.committee-pdf-highlight-layer{position:absolute;top:0;left:0;pointer-events:none;overflow:hidden}
+.committee-pdf-name-highlight{position:absolute;box-sizing:border-box;background:rgba(255,210,37,.49);border:1px solid rgba(207,135,2,.55);border-radius:3px;box-shadow:0 0 0 2px rgba(255,237,123,.24)}
+.committee-pdf-match-status{flex:none;margin:0;padding:5px 10px;font-size:.72rem;line-height:1.4;text-align:center;background:#fff4cd;color:#675015;border-top:1px solid #f1e2a8}
+.committee-pdf-match-status[hidden]{display:none!important}
+.pdf-embedded .pdf-bottom-bar{padding:5px 7px;gap:5px}
+.pdf-embedded .pdf-page-controls{width:100%;min-height:44px;gap:5px}
+.pdf-embedded .pdf-page-controls button{min-width:70px;min-height:44px;padding:6px 8px;font-size:1rem;border-radius:10px}
+.pdf-embedded .pdf-page-controls button span{font-size:.72rem}
+.pdf-embedded .pdf-page-field input{min-height:44px;width:45px}
+.pdf-embedded .pdf-book-tools summary{min-width:44px;min-height:44px;padding:6px 7px}
+.pdf-embedded .pdf-page-total{font-size:.76rem}
+@media(max-width:360px){.pdf-embedded .pdf-page-controls button{min-width:44px}.pdf-embedded .pdf-page-controls button span{display:none}}

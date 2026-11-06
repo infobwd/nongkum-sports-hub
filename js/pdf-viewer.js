@@ -19,14 +19,21 @@ const el = {
   zoomLabel: $("pdfZoomLabel"), open: $("pdfOpenOriginal"),
   status: $("pdfStatus"), failure: $("pdfFailure"), fallback: $("pdfFallback"),
   retry: $("pdfRetry"), host: $("pdfCanvasHost"), canvas: $("pdfCanvas"),
+  highlight: $("pdfHighlightLayer"), matchStatus: $("pdfMatchStatus"),
   back: $("pdfBack"), tools: $("pdfTools"), bottomBar: $("pdfBottomBar")
 };
 const pageQuery = new URLSearchParams(location.search).get("page");
+const selectedCommittee = isCommittee && /^\d+(?:\.\d+){1,3}$/.test(query.get("number") || "") &&
+  (query.get("name") || "").trim().length >= 4 && (query.get("name") || "").length <= 160
+  ? {number:query.get("number"),name:query.get("name")} : null;
 function initialPage(raw) {
   if (!/^\d{1,2}$/.test(String(raw ?? ""))) return 1;
   return Math.max(1, Math.min(DOCUMENT_PAGES, Number(raw)));
 }
 let pageNumber = initialPage(pageQuery);
+const selectedCommitteePage = pageNumber;
+let committeePositioned = false;
+const gestureSurface = isCommittee && $("pdfPageSurface") || $("pdfCanvas");
 let pdf = null;
 let activeTask = null;
 let generation = 0;
@@ -129,6 +136,9 @@ async function renderPage() {
   }
   if (requestId !== generation) return;
   busy = true;
+  // Clear stale highlights before switching pages or changing zoom.
+  if (isCommittee && el.highlight) el.highlight.replaceChildren();
+  if (isCommittee && el.matchStatus) el.matchStatus.hidden = true;
   el.status.hidden = false;
   el.status.textContent = "กำลังแสดงหน้า " + pageNumber + "…";
   el.failure.hidden = true;
@@ -162,6 +172,35 @@ async function renderPage() {
     activeTask = null;
     el.status.hidden = true;
     el.canvas.setAttribute("aria-label", "สูจิบัตรหน้า " + pageNumber + " จาก " + pdf.numPages + " หน้า");
+    if (isCommittee && selectedCommittee && el.highlight && el.matchStatus &&
+        pageNumber === selectedCommitteePage && window.NongkumCommitteeHighlight) {
+      // Text extraction is optional: it must never blank an otherwise readable PDF.
+      let mark = null;
+      try {
+        const textContent = await page.getTextContent();
+        if (requestId !== generation) return;
+        mark = window.NongkumCommitteeHighlight.draw({
+          items:textContent.items, target:selectedCommittee, viewport,
+          overlay:el.highlight, canvas:el.canvas
+        });
+      } catch (highlightError) {
+        console.warn("R19-J: committee name highlight unavailable", highlightError);
+      }
+      if (requestId !== generation) return;
+      el.matchStatus.hidden = false;
+      el.matchStatus.textContent = mark
+        ? "เน้นชื่อที่เลือก · ข้อ " + selectedCommittee.number
+        : "ไม่พบชื่อและเลขข้อที่ตรงกัน โปรดตรวจสอบข้อความใน PDF";
+      if (mark && !committeePositioned) {
+        committeePositioned = true;
+        const surface = $("pdfPageSurface");
+        const relativeTop = surface?.getBoundingClientRect && el.host.getBoundingClientRect
+          ? surface.getBoundingClientRect().top - el.host.getBoundingClientRect().top
+          : 0;
+        el.host.scrollTop = Math.max(0,
+          el.host.scrollTop + relativeTop + mark.top + mark.height / 2 - el.host.clientHeight / 2);
+      }
+    }
   } catch (err) {
     if (requestId !== generation || err?.name === "RenderingCancelledException") return;
     el.status.textContent = "ไม่สามารถแสดงหน้าที่เลือกได้";
@@ -239,8 +278,8 @@ el.host.addEventListener("touchmove", event => {
   pinchStart.previewZoom = Math.max(0.8, Math.min(2,
     pinchStart.zoomAtStart * distance / pinchStart.distance));
   // Lightweight preview; commit to a PDF.js render only after the gesture finishes.
-  el.canvas.style.transformOrigin = "center top";
-  el.canvas.style.transform = "scale(" + (pinchStart.previewZoom / zoom) + ")";
+  gestureSurface.style.transformOrigin = "center top";
+  gestureSurface.style.transform = "scale(" + (pinchStart.previewZoom / zoom) + ")";
 }, { passive: false });
 el.host.addEventListener("touchend", event => {
   if (pinchStart) {
@@ -249,8 +288,8 @@ el.host.addEventListener("touchend", event => {
       pinchStart = null;
       swipeStart = null;
       lastTap = null;
-      el.canvas.style.transform = "";
-      el.canvas.style.transformOrigin = "";
+      gestureSurface.style.transform = "";
+      gestureSurface.style.transformOrigin = "";
       updateZoom(next);
     }
     return;
@@ -283,8 +322,8 @@ el.host.addEventListener("touchcancel", () => {
   swipeStart = null;
   pinchStart = null;
   lastTap = null;
-  el.canvas.style.transform = "";
-  el.canvas.style.transformOrigin = "";
+  gestureSurface.style.transform = "";
+  gestureSurface.style.transformOrigin = "";
 }, { passive: true });
 // The enclosing mobile review dialog has its own close button. The direct
 // viewer can always navigate to the same-origin review page, even from LINE.

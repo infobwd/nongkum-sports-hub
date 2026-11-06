@@ -207,7 +207,7 @@
         if(row.subdivision)line(body,"committee-person-small",row.subdivision);
         if(row.flags?.length)line(body,"committee-person-warning","ข้อความจากต้นฉบับควรตรวจทานเพิ่มเติม");
         line(body,"committee-person-small","ข้อ "+(row.number||row.section)+" · PDF หน้า "+row.pdf_page);
-        if(Number.isInteger(Number(row.pdf_page))&&Number(row.pdf_page)>0){const link=make("button","committee-pdf-page-link","ดูต้นฉบับหน้า "+row.pdf_page);link.type="button";link.addEventListener("click",()=>root.NongkumCommitteePdf?.open(Number(row.pdf_page)));body.appendChild(link);}
+        if(Number.isInteger(Number(row.pdf_page))&&Number(row.pdf_page)>0){const link=make("button","committee-pdf-page-link","🔎 ดูตำแหน่งใน PDF");link.type="button";link.setAttribute("aria-label","เปิด PDF หน้า "+row.pdf_page+" และเน้นชื่อ "+row.name+" ข้อ "+row.number);link.addEventListener("click",()=>root.NongkumCommitteePdf?.open(Number(row.pdf_page),row));body.appendChild(link);}
         li.appendChild(body);ol.appendChild(li);
       }
       target.appendChild(ol);
@@ -515,7 +515,7 @@
       more.appendChild(summary);
       if(row.subdivision)line(more,"","ส่วนงาน/รุ่น: "+row.subdivision);
       line(more,"my-duty-small-note","ข้อ "+(row.number||row.section)+" · PDF หน้า "+row.pdf_page);
-      if(Number.isInteger(Number(row.pdf_page))&&Number(row.pdf_page)>0){const link=make("button","committee-pdf-page-link","ดูต้นฉบับหน้า "+row.pdf_page);link.type="button";link.addEventListener("click",()=>root.NongkumCommitteePdf?.open(Number(row.pdf_page)));more.appendChild(link);}
+      if(Number.isInteger(Number(row.pdf_page))&&Number(row.pdf_page)>0){const link=make("button","committee-pdf-page-link","🔎 ดูตำแหน่งใน PDF");link.type="button";link.setAttribute("aria-label","เปิด PDF หน้า "+row.pdf_page+" และเน้นชื่อ "+row.name+" ข้อ "+row.number);link.addEventListener("click",()=>root.NongkumCommitteePdf?.open(Number(row.pdf_page),row));more.appendChild(link);}
       renderDutyDates(more,row.sport_id);
       card.appendChild(more);
       ui.dutyCards.appendChild(card);
