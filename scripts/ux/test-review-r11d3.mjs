@@ -112,6 +112,9 @@ async function reviewScenario(mobile){
   new vm.Script(reviewJs).runInContext(ctx);
   await flush();
   assert.equal(elements.reviewCards.children.length,8);
+  assert.equal(typeof ctx.NongkumPageRefresh,"function","review exposes read-only loader to pull gesture");
+  assert.equal(await ctx.NongkumPageRefresh(),true,"review pull callback reports successful fetch");
+  assert.equal(elements.reviewCards.children.length,8,"refresh retains the list layout");
   assert.equal(elements.reviewPdfDetails.open,!mobile,
     "PDF tools default collapsed only on narrow mobile viewports");
   const card=elements.reviewCards.children[0];
@@ -119,6 +122,7 @@ async function reviewScenario(mobile){
   assert.ok(button);
   button.handlers.click();
   assert.equal(elements.pdfPreview.hidden,false);
+  assert.equal(await ctx.NongkumPageRefresh(),false,"active PDF blocks page pull-to-refresh");
   assert.ok(classes.has("review-pdf-open"));
   assert.equal(elements.pdfPreview.attrs["aria-modal"],mobile?"true":"false");
   assert.equal(elements.reviewMain.inert,mobile);
