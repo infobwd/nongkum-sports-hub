@@ -6,7 +6,7 @@
  */
 const query = new URLSearchParams(location.search);
 const isCommittee = query.get("doc") === "committee";
-const PDF_URL = isCommittee ? "./assets/souvenir-committee-2569-v3.pdf" : "./assets/souvenir-2569-v2.pdf";
+const PDF_URL = isCommittee ? "./assets/souvenir-committee-2569-v3.pdf?v=r19k2" : "./assets/souvenir-2569-v2.pdf";
 const PDF_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs";
 const PDF_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs";
 const EXPECTED_PAGES = 41; // Existing fixture source and its tests stay unchanged.
@@ -212,7 +212,7 @@ async function startViewer() {
   try {
     // Map data comes from the pinned PDF and public roster; never infer from a live text layer.
     const coordinatesPromise = isCommittee && selectedCommittee
-      ? fetch("./data/committee-pdf-positions-v3.json?v=r19k1", {cache:"no-store"})
+      ? fetch("./data/committee-pdf-positions-v3.json?v=r19k2", {cache:"no-store"})
           .then(response => { if (!response.ok) throw Error("map_unavailable"); return response.json(); })
           .catch(err => { console.warn("R19-K coordinate index unavailable", err); return null; })
       : Promise.resolve(null);
