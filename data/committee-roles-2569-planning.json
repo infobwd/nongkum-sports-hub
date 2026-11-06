@@ -1,0 +1,765 @@
+{
+  "schema_version": 1,
+  "dataset_id": "nongkum-2569-committee-role-planning",
+  "metadata": {
+    "event": "มิตรภาพเกมส์ ปี 2569",
+    "generated_date": "2026-11-06",
+    "status": "planning_only_not_a_2026_appointment",
+    "intended_use": "สร้างหน้ารายงานวางแผนกรรมการตามฝ่าย ชนิดกีฬา รุ่น และโรงเรียน",
+    "public_json_contains_personal_roster": false,
+    "current_teacher_assignments_approved": 0,
+    "reference_sources": [
+      {
+        "name": "R11C Google Docs สูจิบัตรฉบับทำงาน",
+        "source_year_be": 2568,
+        "note": "คำสั่งกรรมการในภาคอ้างอิงเป็นปี 2568 ห้ามถือเป็นคำสั่งปี 2569"
+      },
+      {
+        "name": "infobwd/sillapa teacher-directory.html และ nongkum-schools.js",
+        "source_year_be": 2569,
+        "note": "ทะเบียนครูฉบับเต็มอยู่ใน Sheets จำกัดสิทธิ์; ใช้เฉพาะข้อมูลรวมและรหัสโรงเรียนสาธารณะ"
+      },
+      {
+        "name": "data/competition-divisions-2569-draft.json",
+        "source_year_be": 2569,
+        "note": "รายการรุ่นกีฬา 33 รายการยังเป็น draft"
+      }
+    ],
+    "source_document_ids_included": false,
+    "publication_gate": "No teacher names or person IDs in this public planning JSON until separate authorization and approval"
+  },
+  "school_crosswalk": [
+    {
+      "sports_school_id": "saohong",
+      "sillapa_school_id": "71020017",
+      "name": "โรงเรียนบ้านเสาหงส์"
+    },
+    {
+      "sports_school_id": "wangdong",
+      "sillapa_school_id": "71020019",
+      "name": "โรงเรียนบ้านวังด้ง"
+    },
+    {
+      "sports_school_id": "phuphrom",
+      "sillapa_school_id": "71020020",
+      "name": "โรงเรียนบ้านพุพรหม"
+    },
+    {
+      "sports_school_id": "wangkhaokaew",
+      "sillapa_school_id": "71020021",
+      "name": "โรงเรียนบ้านวังเขาแก้ว"
+    },
+    {
+      "sports_school_id": "nongkrathum",
+      "sillapa_school_id": "71020022",
+      "name": "โรงเรียนบ้านหนองกระทุ่ม"
+    },
+    {
+      "sports_school_id": "nongkum",
+      "sillapa_school_id": "71020023",
+      "name": "โรงเรียนบ้านหนองกุ่ม"
+    },
+    {
+      "sports_school_id": "thungmasang",
+      "sillapa_school_id": "71020024",
+      "name": "โรงเรียนวัดทุ่งมะสัง (มิตรภาพที่ 9)"
+    },
+    {
+      "sports_school_id": "rangkham",
+      "sillapa_school_id": "71020025",
+      "name": "โรงเรียนบ้านรางขาม"
+    }
+  ],
+  "legacy_committee_groups": [
+    {
+      "section": "1",
+      "name": "คณะกรรมการอํานวยการแข่งขัน",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "2",
+      "name": "คณะกรรมการจัดการแข่งขัน",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "3",
+      "name": "คณะกรรมการฝ่ายต้อนรับ",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "4",
+      "name": "คณะกรรมการฝ่ายประชาสัมพันธ์",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "5",
+      "name": "คณะกรรมการฝ่ายรักษาความปลอดภัย",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "6",
+      "name": "คณะกรรมการฝ่ายปฐมพยาบาล",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "7",
+      "name": "คณะกรรมการฝ่ายบริการ",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "8",
+      "name": "ฝ่ายจัดเตรียมสถานที่และสนามแข่งขัน",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "9",
+      "name": "คณะกรรมการฝ่ายการเงิน",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "10",
+      "name": "คณะกรรมการฝ่ายจัดรางวัล/จัดพิมพ์วุฒิบัตร",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "11",
+      "name": "คณะกรรมการฝ่ายบันทึกผลการแข่งขันกีฬาและกรีฑา",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "12",
+      "name": "คณะกรรมการจัดทําสูจิบัตรและถ่ายรูปนักกีฬา",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "13",
+      "name": "คณะกรรมการจัดทําแฟ้มหลักฐานนักกีฬาประเภทต่างๆ",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "14",
+      "name": "คณะกรรมการตรวจสอบหลักฐานและกรรมการตัดสินกีฬาประจําสนามแข่ง",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "15",
+      "name": "คณะกรรมการตรวจสอบคุณสมบัตินักกรีฑา",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "16",
+      "name": "คณะกรรมการตัดสินกรีฑาประเภทลู่",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "17",
+      "name": "คณะกรรมการประจําเส้นชัย",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "18",
+      "name": "คณะกรรมการประจําหมุด",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "19",
+      "name": "คณะกรรมการฝ่ายจัดส่งตัวนักกรีฑา",
+      "historical_source_year_be": 2568
+    },
+    {
+      "section": "20",
+      "name": "คณะกรรมการฝ่ายจัดขบวนพาเหรดและตัดสินขบวนพาเหรด",
+      "historical_source_year_be": 2568
+    }
+  ],
+  "proposed_role_catalog": [
+    {
+      "role": "chair",
+      "label": "ประธานกรรมการ",
+      "note": "ประสานงานกำกับภาพรวม"
+    },
+    {
+      "role": "eligibility_check",
+      "label": "ตรวจหลักฐานและคุณสมบัตินักกีฬา",
+      "note": "ตรวจหลักฐานก่อนแข่งขัน"
+    },
+    {
+      "role": "referee",
+      "label": "กรรมการตัดสิน",
+      "note": "ปฏิบัติหน้าที่ตามกติกาชนิดกีฬา"
+    },
+    {
+      "role": "result_recorder",
+      "label": "ผู้บันทึกผล",
+      "note": "ส่งผลตามขั้นตอนรับรอง R15"
+    },
+    {
+      "role": "secretary",
+      "label": "กรรมการและเลขานุการ",
+      "note": "รวบรวมข้อสรุปและประสานสนาม"
+    },
+    {
+      "role": "starter",
+      "label": "กรรมการปล่อยตัว",
+      "note": "เฉพาะกรีฑา"
+    },
+    {
+      "role": "finish_line",
+      "label": "กรรมการเส้นชัย",
+      "note": "เฉพาะกรีฑา"
+    },
+    {
+      "role": "track_marker",
+      "label": "กรรมการประจำหมุด",
+      "note": "เฉพาะกรีฑา"
+    },
+    {
+      "role": "athlete_dispatch",
+      "label": "กรรมการจัดส่งตัวนักกรีฑา",
+      "note": "เฉพาะกรีฑา"
+    }
+  ],
+  "sports": [
+    {
+      "sport_id": "football",
+      "sport_name": "ฟุตบอล",
+      "candidate_division_catalog_numbers": [
+        1,
+        2,
+        3
+      ],
+      "legacy_2568_section": "14.1",
+      "legacy_2568_venue_school_id": "saohong",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": []
+    },
+    {
+      "sport_id": "shootout",
+      "sport_name": "ยิงจุดโทษ",
+      "candidate_division_catalog_numbers": [
+        4
+      ],
+      "legacy_2568_section": null,
+      "legacy_2568_venue_school_id": null,
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2026_sport_catalog_only",
+      "source_warnings": [
+        "no_separate_legacy_2568_committee_found"
+      ]
+    },
+    {
+      "sport_id": "futsal",
+      "sport_name": "ฟุตซอล",
+      "candidate_division_catalog_numbers": [
+        5,
+        6
+      ],
+      "legacy_2568_section": "14.2",
+      "legacy_2568_venue_school_id": "nongkrathum",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": []
+    },
+    {
+      "sport_id": "volleyball",
+      "sport_name": "วอลเลย์บอล",
+      "candidate_division_catalog_numbers": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "legacy_2568_section": "14.3",
+      "legacy_2568_venue_school_id": "rangkham",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": []
+    },
+    {
+      "sport_id": "takraw",
+      "sport_name": "เซปักตะกร้อ",
+      "candidate_division_catalog_numbers": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "legacy_2568_section": "14.4",
+      "legacy_2568_venue_school_id": "thungmasang",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": []
+    },
+    {
+      "sport_id": "petanque",
+      "sport_name": "เปตอง",
+      "candidate_division_catalog_numbers": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "legacy_2568_section": "14.5",
+      "legacy_2568_venue_school_id": "phuphrom",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": {
+        "school_id": "nongkrathum",
+        "confirmed_scope": "เปตองนอกรอบ 12–13 พฤศจิกายน 2569 เท่านั้น",
+        "validation_note": "ยืนยันวันและสนาม; ไม่ยืนยันการแต่งตั้งกรรมการรายบุคคล"
+      },
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": []
+    },
+    {
+      "sport_id": "tabletennis",
+      "sport_name": "เทเบิลเทนนิส",
+      "candidate_division_catalog_numbers": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "legacy_2568_section": "14.6",
+      "legacy_2568_venue_school_id": "wangdong",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": [
+        "legacy_section_14_6_number_reused"
+      ]
+    },
+    {
+      "sport_id": "tugofwar",
+      "sport_name": "ชักเย่อ",
+      "candidate_division_catalog_numbers": [
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "legacy_2568_section": "14.6",
+      "legacy_2568_venue_school_id": "nongkrathum",
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "referee",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": [
+        "legacy_section_14_6_number_reused"
+      ]
+    },
+    {
+      "sport_id": "athletics",
+      "sport_name": "กรีฑา",
+      "candidate_division_catalog_numbers": [],
+      "legacy_2568_section": "15–19",
+      "legacy_2568_venue_school_id": null,
+      "legacy_venue_is_current": false,
+      "current_2569_venue": null,
+      "proposed_role_keys": [
+        "chair",
+        "eligibility_check",
+        "starter",
+        "finish_line",
+        "track_marker",
+        "athlete_dispatch",
+        "result_recorder",
+        "secretary"
+      ],
+      "assignments_2569": [],
+      "appointment_status_2569": "not_verified",
+      "source_type": "2568_committee_template_only",
+      "source_warnings": []
+    }
+  ],
+  "divisions": [
+    {
+      "catalog_no": 1,
+      "sport_id": "football",
+      "label": "ฟุตบอล ระดับประถมศึกษา รุ่นอายุไม่เกิน 12 ปี (ชาย เล่น 7 สารอง 5 รวม 12 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 2,
+      "sport_id": "football",
+      "label": "ฟุตบอลระดับมัธยม ชาย (เล่น 7 สารอง 5 รวม 12 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 3,
+      "sport_id": "football",
+      "label": "ฟุตบอลระดับมัธยม หญิง (เล่น 7 สารอง 5 รวม 12 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 4,
+      "sport_id": "shootout",
+      "label": "ยิงจุดโทษ ระดับปฐมวัย 5 คน (รวมชาย,หญิง)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 5,
+      "sport_id": "futsal",
+      "label": "ฟุตซอล ระดับประถมศึกษา รุ่นอายุ 10 ปี ( เล่น 5 สารอง 5 รวม 10 คน )",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 6,
+      "sport_id": "futsal",
+      "label": "ฟุตซอล ระดับมัธยมศึกษา (ชาย-หญิง) ( เล่น 5 สารอง 5 รวม 10 คน )",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 7,
+      "sport_id": "volleyball",
+      "label": "วอลเลย์บอล ระดับประถมศึกษา รุ่นอายุ 12 ปี (ชาย เล่น 6 สารอง 6 รวม 12)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 8,
+      "sport_id": "volleyball",
+      "label": "วอลเลย์บอล ระดับประถมศึกษา รุ่นอายุ 12 ปี (หญิง เล่น 6 สารอง 6 รวม 12)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 9,
+      "sport_id": "volleyball",
+      "label": "วอลเลย์บอล ระดับมัธยม (ชาย เล่น 6 สารอง 6 รวม 12)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 10,
+      "sport_id": "volleyball",
+      "label": "วอลเลย์บอล ระดับมัธยม (หญิง เล่น 6 สารอง 6 รวม 12)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 11,
+      "sport_id": "takraw",
+      "label": "เซปักตะกร้อ ระดับประถมศึกษา รุ่นอายุ 12 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 12,
+      "sport_id": "takraw",
+      "label": "เซปักตะกร้อ ระดับประถมศึกษา รุ่นอายุ 12 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 13,
+      "sport_id": "takraw",
+      "label": "เซปักตะกร้อ ระดับมัธยม (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 14,
+      "sport_id": "takraw",
+      "label": "เซปักตะกร้อ ระดับมัธยม (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 15,
+      "sport_id": "petanque",
+      "label": "เปตอง ระดับปฐมวัย (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 16,
+      "sport_id": "petanque",
+      "label": "เปตอง ระดับปฐมวัย (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 17,
+      "sport_id": "petanque",
+      "label": "เปตองประถมศึกษา รุ่นอายุ 8 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 18,
+      "sport_id": "petanque",
+      "label": "เปตองประถมศึกษา รุ่นอายุ 8 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 19,
+      "sport_id": "petanque",
+      "label": "เปตองประถมศึกษา รุ่นอายุ 10 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 20,
+      "sport_id": "petanque",
+      "label": "เปตองประถมศึกษา รุ่นอายุ 10 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 21,
+      "sport_id": "petanque",
+      "label": "เปตองประถมศึกษา รุ่นอายุ 12 ปี (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 22,
+      "sport_id": "petanque",
+      "label": "เปตองประถมศึกษา รุ่นอายุ 12 ปี (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 23,
+      "sport_id": "petanque",
+      "label": "เปตอง มัธยมศึกษา (ชาย เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 24,
+      "sport_id": "petanque",
+      "label": "เปตอง มัธยมศึกษา (หญิง เล่น 3 สารอง 2 รวม 5 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 25,
+      "sport_id": "tabletennis",
+      "label": "เทเบิลเทนนิส ระดับประถมศึกษา (ชาย เล่น 1 สารอง 1 รวม 2 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 26,
+      "sport_id": "tabletennis",
+      "label": "เทเบิลเทนนิส ระดับประถมศึกษา (หญิง เล่น 1 สารอง 1 รวม 2 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 27,
+      "sport_id": "tabletennis",
+      "label": "เทเบิลเทนนิส ระดับมัธยม (ชาย เล่น 1 สารอง 1 รวม 2 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 28,
+      "sport_id": "tabletennis",
+      "label": "เทเบิลเทนนิส ระดับมัธยม (หญิง เล่น 1 สารอง 1 รวม 2 คน)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 29,
+      "sport_id": "tugofwar",
+      "label": "ชักเย่อ ปฐมวัย รวม ชาย 4 ,หญิง 4 รวม 8 คน (แพ้ตกรอบ)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 30,
+      "sport_id": "tugofwar",
+      "label": "ชักเย่อ 12 ปี ชาย 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 31,
+      "sport_id": "tugofwar",
+      "label": "ชักเย่อ 12 ปี หญิง 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 32,
+      "sport_id": "tugofwar",
+      "label": "ชักเย่อมัธยม ชาย 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "reference_status": "draft_2569_no_approved_committee"
+    },
+    {
+      "catalog_no": 33,
+      "sport_id": "tugofwar",
+      "label": "ชักเย่อมัธย หญิง 8 คน (ชนะ 2 ใน 3 เกม) (แพ้ตกรอบ)",
+      "reference_status": "draft_2569_no_approved_committee"
+    }
+  ],
+  "proposed_report_views": [
+    {
+      "id": "by_sport",
+      "label": "ตามชนิดกีฬา",
+      "group_by": [
+        "sport_id",
+        "catalog_no"
+      ]
+    },
+    {
+      "id": "by_committee",
+      "label": "ตามฝ่ายกรรมการ",
+      "group_by": [
+        "legacy_2568_section"
+      ]
+    },
+    {
+      "id": "by_school",
+      "label": "ตามโรงเรียน",
+      "group_by": [
+        "sports_school_id"
+      ]
+    },
+    {
+      "id": "pending_review",
+      "label": "รอตรวจสอบและรับรอง",
+      "filter": "appointment_status_2569 != committee_approved"
+    }
+  ],
+  "teacher_directory_reconciliation": {
+    "snapshot_date": "2026-11-04",
+    "source": "sillapa_public_snapshot_only",
+    "total_registered_reported": 112,
+    "marked_reviewed_reported": 17,
+    "publicly_displayed_teacher_rows": 10,
+    "legacy_2568_name_overlaps_with_public_directory": 5,
+    "proven_identity_matches_for_2569": 0,
+    "proven_sports_appointments_2569": 0,
+    "exact_name_match_is_not_identity_or_role_verification": true,
+    "warning": "พบบันทึกตำแหน่งในคำสั่งเก่าที่ต่างจากสถานะในทะเบียนปัจจุบัน ต้องตรวจบุคคล/โรงเรียน/หน้าที่ในแหล่งที่จำกัดสิทธิ์"
+  },
+  "review_flags": [
+    {
+      "code": "OLD_YEAR_2568",
+      "severity": "block_appointment",
+      "detail": "คำสั่งกรรมการและสนามในภาคอ้างอิงของ Docs เป็นปี 2568"
+    },
+    {
+      "code": "LEGACY_14_6_DUPLICATE",
+      "severity": "review",
+      "detail": "หัวข้อ 14.6 ในคำสั่งเก่าถูกใช้ทั้งเทเบิลเทนนิสและชักเย่อ"
+    },
+    {
+      "code": "SHOOTOUT_NO_LEGACY_GROUP",
+      "severity": "review",
+      "detail": "ยิงจุดโทษมีรายการแข่งขันปี 2569 แต่ไม่พบคณะกรรมการเฉพาะในหัวข้อ 14 ของคำสั่งเก่า"
+    },
+    {
+      "code": "PETANQUE_LEGACY_VENUE_DIFFERS",
+      "severity": "review",
+      "detail": "สนามเปตองที่ระบุในคำสั่งเก่าต่างจากสถานที่นอกรอบ 12–13 พ.ย. 2569 ที่ได้รับการยืนยัน"
+    },
+    {
+      "code": "TEACHER_ROLE_MISMATCH_POSSIBLE",
+      "severity": "block_identity",
+      "detail": "การสะกดชื่อที่ตรงกันไม่ยืนยันบุคคลเดียวกัน และมีคำบรรยายตำแหน่งต่างกัน"
+    },
+    {
+      "code": "TEACHER_ROSTER_RESTRICTED",
+      "severity": "block_publication",
+      "detail": "ข้อมูลครูที่ยังไม่อนุมัติเผยแพร่และรหัสครูภายในห้ามคัดลอกเข้า public Git history"
+    },
+    {
+      "code": "CANDIDATE_DIVISIONS_DRAFT",
+      "severity": "review",
+      "detail": "รายการ 33 รุ่นยังอยู่ในชุดร่าง ต้องเชื่อมกับ revision ที่อนุมัติก่อนใช้จริง"
+    }
+  ],
+  "approval_contract": {
+    "editable_internal_register": "restricted Google Sheets or authenticated backend only",
+    "minimum_internal_fields": [
+      "assignment_id",
+      "committee_group",
+      "sport_id",
+      "catalog_no",
+      "teacher_identity_ref",
+      "school_id",
+      "role_key",
+      "assignment_state",
+      "evidence",
+      "verified_by",
+      "verified_at"
+    ],
+    "states": [
+      "proposed",
+      "school_verified",
+      "committee_approved",
+      "rejected"
+    ],
+    "public_export_requires": [
+      "committee_approved",
+      "purpose_and_publication_authorization",
+      "data_minimization_review"
+    ],
+    "public_person_export_default": "disabled",
+    "display_before_approval": "แสดงหน้าที่และสถานะรอยืนยันเท่านั้น"
+  }
+}
