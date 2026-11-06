@@ -7,6 +7,8 @@ import argparse,collections,datetime,hashlib,html,json,re
 from pathlib import Path
 import fitz
 from weasyprint import HTML
+from v41_editorial import (formal_font_css, notice, ceremony_timeline, colors_and_oath,
+    sports_cards, bracket_note, special_observations, extra_css)
 
 SPORTS=["football","shootout","futsal","volleyball","takraw","petanque","tabletennis","tugofwar"]
 MONTHS=["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"]
@@ -139,10 +141,17 @@ def build(root,out):
  <p>วัน–เวลาได้รับการยืนยัน 45 คู่ • สนามหลักยืนยันโรงเรียนบ้านหนองกระทุ่ม • ฟุตบอลมัธยมหญิงชิงวันที่ 18 พฤศจิกายน ไม่ใช้รายการซ้ำวันที่ 20 พฤศจิกายน</p>
  <p>รายชื่อกรรมการอยู่ระหว่างตรวจโรงเรียน จึงมิใช่คำสั่งแต่งตั้งที่ได้รับการลงนาม และไม่มีการพิมพ์ผลการแข่งขันสมมติ</p>
  <div class="info">เพื่อรักษาผังสายจากต้นฉบับ V3 เอกสารส่วนท้ายมีภาคผนวกหน้าผังสายเดิมสำหรับอ้างอิง ซึ่งยังไม่รับรองเช่นกัน</div>"""))
- pages.append(sec("พิธีเปิดและพิธีปิดการแข่งขัน","กำหนดการตามร่าง V3",excerpt(pdf,3,"กำหนดการพิธีเปิด")+excerpt(pdf,4,"กำหนดการพิธีปิด"),"คงข้อความจากต้นฉบับร่างเพื่อให้ผู้จัดตรวจ"))
- pages.append(sec("สีประจำโรงเรียนและคำปฏิญาณนักกีฬา","เนื้อหาพิธีการ",excerpt(pdf,5)))
- pages.append(sec("ข้อความประกอบการจัดการแข่งขัน","ต้นฉบับร่าง ไม่ใช่คำสั่งลงนาม",
-   '<div class="warning">ข้อความต้นทางมีถ้อยคำเกี่ยวกับการแต่งตั้ง แต่ยังไม่ได้รับรองตามกระบวนการออกคำสั่ง</div>'+excerpt(pdf,6)+excerpt(pdf,16)))
+ pages.append(sec("กำหนดการพิธีเปิดการแข่งขัน","MAGAZINE / พิธีการ",
+  ceremony_timeline(read_source(pdf,3),"พิธีเปิด","16 พฤศจิกายน 2569"),
+  "ลำดับกิจกรรมตามสูจิบัตร V3 หน้า 3 · ยังรอตรวจ"))
+ pages.append(sec("กำหนดการพิธีปิดการแข่งขัน","MAGAZINE / พิธีการ",
+  ceremony_timeline(read_source(pdf,4),"พิธีปิด","20 พฤศจิกายน 2569"),
+  "ลำดับกิจกรรมตามสูจิบัตร V3 หน้า 4 · ยังรอตรวจ"))
+ pages.append(sec("สีประจำโรงเรียนและคำปฏิญาณนักกีฬา","MAGAZINE / SCHOOL SPIRIT",
+  colors_and_oath(read_source(pdf,5)),"ข้อมูลสีจาก V3 หน้า 5 · การ์ดสีเป็นตัวอย่าง"))
+ pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / ต้องตรวจรับ",
+  notice(read_source(pdf,6),read_source(pdf,16)),
+  "รูปแบบเอกสารทางการใช้ฟอนต์ไทยมีหัว · ยังไม่มีลายมือชื่อและเลขที่รับรอง"))
  heads=["ข้อ","ชื่อ–สกุล","สังกัด","หน้าที่"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
@@ -165,6 +174,8 @@ def build(root,out):
   bydate=collections.OrderedDict()
   for x in rows:bydate.setdefault(selected_date(x) or "รอตรวจวัน",[]).append(x)
   body=f'<div class="info">จำนวน {len(rows)} คู่ • สนามหลัก โรงเรียนบ้านหนองกระทุ่ม • วันเวลาที่ไม่รับรองแสดงตามร่าง</div>'
+  body+=sports_cards(rows,names.get(sport,sport))
+  body+=bracket_note(rows)
   for day,rr in bydate.items():
    r=[]
    for x in rr:
@@ -206,9 +217,16 @@ def build(root,out):
   rows=[[s]+[""]*(len(cols)+2) for s in schoolnames]
   body+=sheetrows("แบบสรุปคะแนน "+title,["โรงเรียน"]+cols+["รวม","ลำดับ"],rows,"score")
  pages.append(sec("ตารางสรุปคะแนน","แบบฟอร์มว่าง • ไม่ใช่ผลการแข่งขัน",body))
+ r12_screen=get(root/"data/analysis/r12a-school-time-risk-20261104.json")
+ pages.append(sec("ข้อสังเกตและสิ่งที่ควรตรวจเป็นพิเศษ","SAFETY & SCHEDULE QA",
+   special_observations(r12_screen),
+   "คัดกรองก่อนแข่งขัน • แยกความเสี่ยงระดับโรงเรียนจากการชนจริงของนักกีฬา"))
  pages.append(sec("ภาคผนวกผังสายจาก V3","เอกสารต้นทางเพื่ออ้างอิง",
   '<div class="warning">หน้าที่นำมาต่อท้ายเป็นหน้าจริงของ V3 มีบางรายการร่างที่ถูกแก้ไขแล้วในโปรแกรม V4 หลัก จึงห้ามใช้ภาคผนวกนี้เป็นกำหนดการประกาศ</div>'))
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4 ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+'</style></head><body>'+''.join(pages)+'</body></html>'
+ official_css,official_font_used=formal_font_css()
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.1 ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+'</style></head><body>'+''.join(pages)+'</body></html>'
+ if "ข้อสังเกตและรายการตรวจเป็นพิเศษ" not in html_body or "คำปฏิญาณนักกีฬา" not in html_body or "official-paper" not in html_body:
+  raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
  main=out/"souvenir-v4-main.pdf"
@@ -241,6 +259,9 @@ def build(root,out):
  if not all(abs(p.rect.width-595.3)<2 and abs(p.rect.height-841.9)<2 for p in chk):
   raise ValueError("Unexpected non-A4 pages")
  result={"schema_version":1,"status":"draft_not_approved","source_pdf_sha256":sha,
+  "layout_revision":"R11C-V4.1", "formal_font":official_font_used,
+  "editorial_sections":["formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","sports_matchups","schedule_conflict_review"],
+  "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),
   "program_items":len(fixtures),"matches":len(matches),"athletics":len(athletics),
   "athletics_lanes":sum(len(x["lanes"]) for x in athletics),"committee_entries":len(roster["entries"]),

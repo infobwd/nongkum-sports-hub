@@ -1,9 +1,12 @@
-name: R11C V4 full draft PDF review
+name: R11C V4.1 full draft PDF review
 on:
   push:
     branches: ["feat/r11c-v4-full-draft-builder-20261106"]
     paths:
       - "scripts/docs/build-v4-full.py"
+      - "scripts/docs/v41_editorial.py"
+      - "docs/R11C_V41_EDITORIAL_FORMAL_RISK_PLAN_20261106.md"
+      - "data/analysis/r12a-school-time-risk-20261104.json"
       - ".github/workflows/r11c-v4-full-draft.yml"
   workflow_dispatch:
 permissions:
@@ -21,12 +24,25 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y fonts-noto-core libpango-1.0-0 libharfbuzz0b
           python -m pip install "weasyprint==68.0" "PyMuPDF==1.26.7"
-      - name: Build full V4 DRAFT PDF from verified repository sources
+      - name: Install licensed looped Thai font for official pages
+        run: |
+          mkdir -p /tmp/v41-fonts
+          for font in Sarabun-Regular.ttf Sarabun-Bold.ttf; do
+            curl -fLsS --retry 3 --connect-timeout 15 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/$font" -o "/tmp/v41-fonts/$font"
+            test -s "/tmp/v41-fonts/$font"
+          done
+          curl -fLsS --retry 3 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/OFL.txt" -o /tmp/v41-fonts/OFL.txt
+          test -s /tmp/v41-fonts/OFL.txt
+      - name: Validate V4.1 editorial and conflict notices
+        run: |
+          python -m py_compile scripts/docs/v41_editorial.py scripts/docs/build-v4-full.py
+          python scripts/docs/test-v41-editorial.py
+      - name: Build full V4.1 DRAFT PDF from verified repository sources
         run: python scripts/docs/build-v4-full.py --root . --out build/v4-review
       - name: Upload review PDF, HTML and 536 stable ID anchors
         uses: actions/upload-artifact@v4
         with:
-          name: R11C-V4-full-draft-review
+          name: R11C-V41-full-draft-review
           path: |
             build/v4-review/souvenir-v4-full-draft.pdf
             build/v4-review/souvenir-v4-full-draft.html
