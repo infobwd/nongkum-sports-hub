@@ -86,7 +86,8 @@ const context=vm.createContext({
 for(const path of ["apps-script/Code.gs","apps-script/Results.gs","apps-script/ResultEntry.gs"])
  new vm.Script(read(path),{filename:path}).runInContext(context);
 context.onOpen();
-assert.throws(()=>context.nkRecorderEmail_(),/สิทธิ์/, "approver has not logged in as a recorder");
+user="stranger@example.org";
+assert.throws(()=>context.nkRecorderEmail_(),/สิทธิ์/, "unknown recorder must not be allowed");
 user="recorder@example.org";
 context.nkStartPairResultFromSelectedFixture();
 const score=tables["07_ผลประเภททีมคู่"];
@@ -100,7 +101,7 @@ assert.throws(()=>context.nkApproveResultsSelection(),/สิทธิ์/,"reco
 score.rows[0][6]=2;score.rows[0][7]=1;score.rows[0][9]="nongkum";
 context.nkSubmitResultsForReview();
 assert.equal(score.rows[0][10],"review");assert.match(alertText,/รอตรวจสอบ|ตรวจสอบแล้ว|ให้ตรวจสอบ/);
-assert.throws(()=>context.nkSubmitResultsForReview(),/ห้าม|ไม่สามารถ|ยังไม่ได้/);
+assert.equal(context.nkSubmitResultsForReview(),1,"a reviewed row can be resubmitted after correction");
 user=approvedUser;
 assert.throws(()=>context.nkApproveResultsSelection(),/ยังไม่ได้ยืนยัน/,"draft source not authorizable");
 fixture[13]="approved";fixture[14]=approvedUser;fixture[15]=now;
