@@ -570,7 +570,8 @@
     try{
       const response=await root.fetch(PROGRAM_URL,{cache:"no-store"});
       if(!response.ok)throw new Error("schedule_unavailable");
-      const data=await response.json();
+      const raw=await response.json();
+      const data=root.NongkumProgramCorrections?.apply(raw)||raw;
       if(data?.schema_version!==3||data?.metadata?.source_status!=="revised_pdf_draft"||
          data?.metadata?.all_data_approved!==false||!Array.isArray(data.fixtures))
         throw new Error("schedule_revision_mismatch");
