@@ -86,3 +86,16 @@
 7. คะแนนรวม 5/3/2: ชิงอันดับ 3 หรือแบ่งอันดับ 3 ร่วม, โรงเรียนส่งหลายทีม, รายการยกเลิก/เหลือเพียง 2 ทีม, tie-break ถ้วยรวม?
 
 หลังได้รับหลักฐานมติ อัปเดต \`rules_version\` + source decision reference + policy \`approval_status\`, เพิ่ม test ของกฎนั้น, สร้าง snapshot จาก approved results และผ่าน CI/PR ก่อนเผยแพร่. ห้ามยกระดับ status จากร่างเพียงเพราะฟังก์ชันทดสอบผ่าน.
+
+
+## บันทึกเพิ่มเติม 6 พฤศจิกายน 2569 — ฟุตบอล tie-break Head-to-Head
+
+กติกา **คะแนนเท่ากันใช้ผลต่างประตูได้–เสียจากการพบกันเอง** ได้รับข้อกำหนดจากผู้จัดแล้ว อ่านรายละเอียดที่ [R15BC_FOOTBALL_HEAD_TO_HEAD_GD_20261106.md](R15BC_FOOTBALL_HEAD_TO_HEAD_GD_20261106.md).
+
+- ปรับ rulebook เป็น `r15-bc.2-h2h-gd`; `tie_break_status=approved` เฉพาะเกณฑ์ H2H GD นี้และระบุ `tie_break_source` ย้อนตรวจได้
+- สองทีมแต้มเท่า: ผลต่างประตูจากนัดที่พบกัน; สามทีมขึ้นไปแต้มเท่า: mini-table เฉพาะการแข่งขันระหว่างทีมในกลุ่มนั้น
+- ถ้าการพบกันในกลุ่มยังไม่ครบหรือ H2H GD เท่ากันอีก: **ไม่จัดอันดับตัดสิน** (`position=null`) และรอเกณฑ์ถัดไป; ไม่อนุมานผลจากประตูได้–เสียรวมทั้งหมด
+- ยังคง `football_league.approval_status=pending_rule_approval` / `qualification_status=pending_rule_approval` / `sport_policies.football.status=pending_rule_approval` เพราะเงื่อนไขเข้ารอบและกรณีเสมอซ้ำยังไม่ผ่านรับรอง
+- Synthetic tests ตรวจ 2 ทีม H2H สวนทาง GD รวม, 3 ทีม mini-table, H2H ยังไม่ครบ, H2H เสมอกัน, fail-closed invalid configuration และไม่มีผลจริง
+
+> ข้อความเดิมในเอกสารนี้ที่ว่า tie-break ยังไม่ได้รับรอง เป็นสถานะ **ณ 5 พฤศจิกายน 2569**; ให้ถือบันทึก 6 พฤศจิกายนนี้เป็นสถานะล่าสุดสำหรับ **เฉพาะกติกา H2H GD** ไม่ใช่การอนุญาตให้เผยแพร่อันดับทุกกรณี.

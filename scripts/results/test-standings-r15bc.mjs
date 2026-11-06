@@ -121,7 +121,7 @@ assert.equal(digest(data),digest(clone(data)));
 const simulatedRules=clone(rules);
 simulatedRules.football_league.approval_status="approved";
 simulatedRules.football_league.tie_break_status="approved";
-simulatedRules.football_league.tie_breakers=["goal_difference","goals_for"];
+simulatedRules.football_league.tie_breakers=["head_to_head_goal_difference"];
 simulatedRules.sport_policies.find(p=>p.sport_id==="football").status="implemented";
 const simulatedSnapshot=buildSnapshot(publish([win,draw]),program,simulatedRules);
 assert.equal(simulatedSnapshot.standings.length,1);
@@ -134,4 +134,69 @@ assert.equal(knockout.final_positions,null,"knockout must not invent medal posit
 assert.equal(knockout.matches.length,1);
 assert.equal(engine.calculateRankingEvent(ranking).rows.length,2);
 assert.throws(()=>engine.calculateRankingEvent({...ranking,event_complete:false}),/complete/);
-console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0 ties, goal difference, prestart zeros, partial rounds, KO, athletics, sets, invalid JSON, revision audit and digest");
+
+// R15-B/C follow-up 2026-11-06: organizer-approved H2H goal difference.
+// These scores exist exclusively in tests; never write to public results.
+const [ha,hb,hc,hd,he]=league.team_ids;
+const activeH2H={...league,approval_status:"approved"};
+function headMatch(team1,team2,goals1,goals2){
+  const fixture=fixtures.find(f=>league.phases.league.includes(f.id)&&
+    ((f.team_a_id===team1&&f.team_b_id===team2)||(f.team_a_id===team2&&f.team_b_id===team1)));
+  assert.ok(fixture,"must have explicit real league fixture for test pair");
+  return newResult(fixture,fixture.team_a_id===team1?goals1:goals2,
+    fixture.team_a_id===team1?goals2:goals1);
+}
+assert.deepEqual(league.tie_breakers,["head_to_head_goal_difference"]);
+assert.equal(league.tie_break_status,"approved");
+assert.equal(league.approval_status,"pending_rule_approval",
+  "confirming the tie-break alone cannot publish official standings");
+const h2hTwo=engine.calculateLeague(fixtures,[
+  headMatch(ha,hb,1,0), // A defeats B directly
+  headMatch(hb,hc,9,0), // B has much better total goal difference
+  headMatch(hd,ha,8,0), // A has much worse total goal difference
+  headMatch(hd,he,1,0)  // D leads points; A and B both have 3
+],activeH2H);
+const rowTwo=id=>h2hTwo.rows.find(r=>r.team_id===id);
+assert.equal(rowTwo(ha).points,3);assert.equal(rowTwo(hb).points,3);
+assert.ok(rowTwo(ha).goal_difference<rowTwo(hb).goal_difference,
+  "global GD opposes head-to-head; do not use global GD to decide");
+assert.equal(rowTwo(ha).head_to_head_goal_difference,1);
+assert.equal(rowTwo(hb).head_to_head_goal_difference,-1);
+assert.ok(rowTwo(ha).position<rowTwo(hb).position,"H2H directly wins tie");
+assert.equal(h2hTwo.ranking_status,"provisional","not all 15 fixtures approved");
+const h2hThree=engine.calculateLeague(fixtures,[
+  headMatch(ha,hb,2,0),headMatch(hb,hc,2,1),headMatch(hc,ha,1,0)
+],activeH2H);
+const rowThree=id=>h2hThree.rows.find(r=>r.team_id===id);
+assert.equal(rowThree(ha).points,3);assert.equal(rowThree(hb).points,3);assert.equal(rowThree(hc).points,3);
+assert.deepEqual([rowThree(ha).head_to_head_goal_difference,
+  rowThree(hc).head_to_head_goal_difference,rowThree(hb).head_to_head_goal_difference],[1,0,-1]);
+assert.deepEqual([rowThree(ha).position,rowThree(hc).position,rowThree(hb).position],[1,2,3],
+  "three tied teams mini-table H2H GD only");
+const incompleteH2H=engine.calculateLeague(fixtures,[
+  headMatch(ha,hb,0,0),headMatch(ha,hc,0,0),headMatch(ha,hd,0,0)
+],activeH2H);
+const missingGroup=incompleteH2H.head_to_head_groups.find(g=>g.teams.length===3&&g.points===1);
+assert.ok(missingGroup&&!missingGroup.complete&&missingGroup.required_matches===3);
+assert.ok([hb,hc,hd].every(id=>incompleteH2H.rows.find(r=>r.team_id===id).position===null),
+  "do not resolve multi-way tie before all mutual meetings");
+const drawnH2H=engine.calculateLeague(fixtures,[headMatch(ha,hb,0,0)],activeH2H);
+assert.ok([ha,hb].every(id=>drawnH2H.rows.find(r=>r.team_id===id).position===null),
+  "a drawn direct match stays unresolved, not decided by overall GD or alphabet");
+assert.throws(()=>engine.calculateLeague(fixtures,[headMatch(ha,hb,2,0)],
+  {...activeH2H,tie_breakers:["goal_difference"]}),/unsupported official tie-break/);
+const missingResultH2H=engine.calculateLeague(fixtures,[
+  headMatch(ha,hb,1,0),headMatch(hb,hc,9,0),headMatch(hd,ha,8,0),headMatch(hd,he,1,0)
+],league);
+assert.ok(missingResultH2H.rows.every(r=>r.position===null),
+  "production publication remains blocked when football approval is incomplete");
+
+const badOfficialH2H=clone(rules);badOfficialH2H.football_league.tie_breakers=["goal_difference"];
+assert.ok(validatePublication(data,program,badOfficialH2H).some(x=>x.code==="FOOTBALL_TIE_BREAK"),
+  "a rules-only regression must fail CI before any results are published");
+const noProvenanceH2H=clone(rules);delete noProvenanceH2H.football_league.tie_break_source;
+assert.ok(validatePublication(data,program,noProvenanceH2H).some(x=>x.code==="FOOTBALL_TIE_BREAK_SOURCE"),
+  "traceable organizer rule decision is required");
+assert.equal(buildSnapshot(data,program,simulatedRules).standings.length,0,
+  "never publish zero-result standings even if a future rule is fully approved");
+console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
