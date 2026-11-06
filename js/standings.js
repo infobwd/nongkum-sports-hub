@@ -74,21 +74,21 @@
     const schoolById=new Map(state.data.schools.map(s=>[s.id,s]));
     const rows=prestart
       ?rule.team_ids.map(id=>({team_id:id,played:0,won:0,drawn:0,lost:0,goals_for:0,goals_against:0,
-        goal_difference:0,points:0,position:null}))
+        goal_difference:0,points:0,yellow_cards:0,red_cards:0,position:null}))
       :snapshot.rows;
     const filtered=rows.filter(x=>!state.school||x.team_id===state.school);
     const before=prestart?"รายชื่อทีมเบื้องต้น · ยังไม่จัดอันดับ":
       snapshot.ranking_status==="final"?"ตารางคะแนนตามผลรับรองครบทุกคู่":"ตารางคะแนนระหว่างการแข่งขัน · ยังไม่ใช่อันดับสุดท้าย";
     const header="<h3>"+safe(before)+"</h3><p class='standings-provenance'>"+
       (prestart?"ข้อมูลทีมจากสูจิบัตรฉบับร่าง · ค่า 0 หมายถึงยังไม่เริ่มบันทึกผล ไม่ใช่ผลตัดสิน":
-      "คำนวณเฉพาะผลที่รับรองแล้ว "+snapshot.matches_approved+"/"+snapshot.matches_total+" คู่")+"</p>";
+      "คำนวณเฉพาะผลที่รับรองแล้ว "+snapshot.matches_approved+"/"+snapshot.matches_total+" คู่ · นับใบเหลืองและใบแดงแยกจากผลรับรอง (วิธีตัดสินอันดับจากบัตรยังรอรับรอง)")+"</p>";
     const table="<div class='standings-table-scroll'><table class='standings-table'><thead><tr>"+
       "<th scope='col'>อันดับ</th><th scope='col'>ทีม</th><th scope='col'>แข่ง</th><th scope='col'>ชนะ</th>"+
       "<th scope='col'>เสมอ</th><th scope='col'>แพ้</th><th scope='col'>ได้</th><th scope='col'>เสีย</th>"+
-      "<th scope='col'>ผลต่าง</th><th scope='col'>คะแนน</th></tr></thead><tbody>"+
+      "<th scope='col'>ผลต่าง</th><th scope='col'>คะแนน</th><th scope='col' title='จำนวนใบเหลืองจากผลรับรอง'>เหลือง</th><th scope='col' title='จำนวนใบแดงจากผลรับรอง'>แดง</th></tr></thead><tbody>"+
       filtered.map(row=>"<tr><td>"+(row.position??"—")+"</td><th scope='row'>"+
       safe(schoolById.get(row.team_id)?.short||row.team_id)+"</th>"+
-      ["played","won","drawn","lost","goals_for","goals_against","goal_difference","points"].
+      ["played","won","drawn","lost","goals_for","goals_against","goal_difference","points","yellow_cards","red_cards"].
       map(k=>"<td>"+safe(String(row[k]))+"</td>").join("")+"</tr>").join("")+
       "</tbody></table></div>";
     ui.roster.innerHTML=header+(filtered.length?table:"<p>ไม่มีทีมตรงกับตัวกรอง</p>");
