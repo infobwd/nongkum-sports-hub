@@ -61,3 +61,6 @@ body[data-view="committee-review"]{padding-bottom:max(26px,env(safe-area-inset-b
 }
 @media(max-width:380px){.cr-action-row>*{flex:1}.cr-entry-state{grid-template-columns:1fr}}
 @media print{.cr-caution,.cr-shortcuts,.cr-unlock,.cr-submit{display:none!important}}
+
+/* SMIS transition: compact inline reveal control on mobile */
+.cr-password{position:relative;display:flex;align-items:stretch}.cr-password input{flex:1;min-width:0;padding-right:54px}.cr-password #crShowCode{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;line-height:1}
