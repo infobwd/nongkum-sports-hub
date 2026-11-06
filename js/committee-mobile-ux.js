@@ -20,7 +20,17 @@
   const threshold=85;
   const reset=()=>{armed=false;distance=0;hint.classList.remove("visible","ready");};
   let hideNotice;
-  function showNotice(message){notice.textContent=message;notice.hidden=false;clearTimeout(hideNotice);hideNotice=setTimeout(()=>{notice.hidden=true;},3200);}
+  function positionNotice(){
+    const topButton=document.getElementById("sharedBackTop");
+    const visible=topButton&&!topButton.hidden&&getComputedStyle(topButton).display!=="none";
+    notice.classList.toggle("with-back-top",Boolean(visible));
+  }
+  function showNotice(message){
+    notice.textContent=message;positionNotice();notice.hidden=false;
+    clearTimeout(hideNotice);hideNotice=setTimeout(()=>{notice.hidden=true;notice.classList.remove("with-back-top");},2000);
+  }
+  window.addEventListener("scroll",()=>{if(!notice.hidden)positionNotice();},{passive:true});
+  window.addEventListener("resize",()=>{if(!notice.hidden)positionNotice();},{passive:true});
   document.addEventListener("touchstart",event=>{
     if(busy||event.touches.length!==1||window.scrollY>2)return;
     if(event.target.closest("input,textarea,select,button,a,summary,details,[role=dialog],.committee-views"))return;

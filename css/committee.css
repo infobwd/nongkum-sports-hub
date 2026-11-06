@@ -172,3 +172,8 @@ body[data-view="committee"] .report-brand{display:flex;align-items:center;gap:10
 .committee-pull-hint.visible{transform:translate(-50%,0)}
 .committee-refresh-notice{bottom:calc(158px + env(safe-area-inset-bottom,0px));width:max-content;max-width:min(85vw,360px)}
 @media(min-width:1024px){.committee-refresh-notice{bottom:24px}}
+
+/* R19-F/UX-5: low unobtrusive refresh feedback, independent of old back-to-top. */
+.committee-refresh-notice{bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:min(78vw,300px);padding:9px 13px;border-radius:12px;font-size:.78rem;line-height:1.35;pointer-events:none}
+.committee-refresh-notice.with-back-top{left:auto;right:76px;transform:none;max-width:min(calc(100vw - 154px),300px)}
+@media(max-width:340px){.committee-refresh-notice.with-back-top{left:50%;right:auto;bottom:calc(78px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:85vw}}
