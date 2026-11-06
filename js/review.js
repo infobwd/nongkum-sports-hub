@@ -208,6 +208,7 @@
     ui.pdfPreview.hidden=false;
     document.body.classList.add("review-pdf-open");
     updatePdfModality();
+    globalThis.NongkumBackTopUpdate?.();
     ui.pdfFrame.src=url.toString(); // Load the PDF.js iframe only on user action.
     ui.pdfClose.focus();
   }
@@ -231,6 +232,7 @@
     pdfReturnFocus=null;
     pdfReturnScroll=null;
     pdfEntryMainScroll=null;
+    globalThis.NongkumBackTopUpdate?.();
   }
   function showToast(title,detail,failed=false){
     if(!ui.toast)return;
@@ -378,7 +380,7 @@
     return response.json();
   }
   async function load(){
-    if(loading)return;
+    if(loading)return false;
     loading=true;
     const serial=++requestSerial;
     const first=!data;
@@ -390,14 +392,14 @@
     try{
       const raw=await fetchJson(M.SOURCE_PATH);
        const candidate=M.validate(globalThis.NongkumProgramCorrections?.apply(raw)||raw);
-      if(serial!==requestSerial)return;
+      if(serial!==requestSerial)return false;
       let diff=null;
       try{
         diff=await fetchJson(M.DIFF_PATH);
         if(diff?.references?.canonical_candidate_revision!==M.REVISION ||
            diff?.summary?.candidate_total!==candidate.fixtures.length)diff=null;
       }catch(_){ /* optional comparison; preview remains usable */ }
-      if(serial!==requestSerial)return;
+      if(serial!==requestSerial)return false;
       data=candidate;
       byId=new Map(data.fixtures.map(x=>[x.id,x]));
       sportNames=new Map(data.sports.map(x=>[x.id,(x.emoji?x.emoji+" ":"")+x.name]));
@@ -417,6 +419,7 @@
       ui.status.textContent=NK.formatCheckedAt(new Date())+
         " · ข้อมูลจากสูจิบัตรฉบับใหม่ (ยังไม่รับรอง)"+
         (!diff?" · ดูความแตกต่างจากฉบับเดิมไม่ได้ในขณะนี้":"");
+      return true;
     }catch(err){
       ui.skeleton.hidden=true;
       ui.listing.setAttribute("aria-busy","false");
@@ -425,9 +428,10 @@
         ui.count.textContent="ยังโหลดรายการไม่ได้";
         ui.status.textContent="เชื่อมต่อข้อมูลร่างไม่สำเร็จ · ลองอีกครั้ง";
       }else{
-        ui.status.textContent="รีเฟรชไม่สำเร็จ · ยังแสดงข้อมูลฉบับก่อนหน้าที่โหลดได้";
+        ui.status.textContent="อัปเดตไม่สำเร็จ · ยังแสดงข้อมูลฉบับก่อนหน้าที่โหลดได้";
       }
       if(globalThis.console&&console.error)console.error("R11D read-only fetch failed",err);
+      return false;
     }finally{
       loading=false;
       ui.refresh.disabled=false;
@@ -495,5 +499,7 @@
       }
     });
   }
+  // Reuse the existing read-only loader for shared pull-to-refresh; never refresh over an open PDF.
+  globalThis.NongkumPageRefresh=()=>ui.pdfPreview.hidden?load():Promise.resolve(false);
   load();
 })();
