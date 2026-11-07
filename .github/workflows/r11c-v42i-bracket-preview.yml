@@ -1,0 +1,36 @@
+name: R11C V42-I Bracket A4 Preview QA
+
+on:
+  pull_request:
+    paths:
+      - "scripts/docs/v42i_bracket_preview.py"
+      - "scripts/docs/test-v42i-bracket-preview.py"
+      - ".github/workflows/r11c-v42i-bracket-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bracket-a4-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check bracket source and review indicators
+        run: python scripts/docs/test-v42i-bracket-preview.py
+      - name: Build source-grounded A4 HTML proof (review only)
+        run: |
+          mkdir -p out/v42i-review
+          python scripts/docs/v42i_bracket_preview.py \
+            --output out/v42i-review/bracket-a4-review.html \
+            --qa-output out/v42i-review/bracket-a4-qa.json
+      - name: Upload HTML preview and QA (not official publication)
+        uses: actions/upload-artifact@v4
+        with:
+          name: r11c-v42i-bracket-a4-html-review
+          path: out/v42i-review/
+          if-no-files-found: error
+          retention-days: 14
