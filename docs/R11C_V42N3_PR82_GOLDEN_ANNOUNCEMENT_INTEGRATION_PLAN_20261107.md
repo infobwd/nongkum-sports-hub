@@ -98,3 +98,17 @@
 - รวม PDF และแทรกก่อน 17-page V3 appendix/คำนวณ page-map 486 anchors; expected total pages เป็นผลจาก render จริงไม่กำหนดล่วงหน้า
 - เพิ่ม `notice_layout_revision=PR82-V2-N3B` และตำแหน่งเริ่ม/สิ้นสุดที่คำนวณจริงใน QA JSON
 - CI ออก preview artifact เท่านั้น; ไม่เผยแพร่หน้าเว็บ ไม่ทับไฟล์ PR #82/N1/N2 ใน Google Drive; ต้องดู render และ QA ก่อน Merge.
+
+## 8. N3-B — ผลดำเนินการรวมเล่มจริง (7 พ.ย. 2569)
+
+**IMPLEMENTED / CI PASS / VISUAL QA PASS / REVIEW-ONLY** — [PR #102](https://github.com/infobwd/nongkum-sports-hub/pull/102). Merge/Drive official status ให้ตรวจจาก PR และ Drive metadata ล่าสุด; ส่วนนี้ไม่ใช่คำสั่งลงนามหรือการเผยแพร่ทางการ.
+
+- `scripts/docs/build-v4-full.py` **เลิกพิมพ์** หน้าเปิดประกาศ V4.1/N1 และเนื้อหา N2 แบบนิตยสาร; เก็บ `build_source_model()` และ `source_audit()` 341/341 line IDs, 20 sections, 20 duty paragraphs ไว้สำหรับ audit
+- ใช้ renderer `v42_notice_pr82.render_official_notice_v2()` (จาก PR #101) สร้าง PDF ประกาศ PR #82 **11 หน้า A4** โดยตรงและฝังในเล่มหลังสีโรงเรียน/คำปฏิญาณ: **หน้า PDF 8–18**; ตารางตรวจชื่อกรรมการเริ่มหน้า **19**
+- พบ visual defect ระหว่าง QA ครั้งแรก: หลังแทรก 11 หน้า เลขหน้าท้ายกระดาษส่วนที่ตามหลังยังเป็นเลขเก่า. แก้แล้วโดย **สำรอง 11 HTML slot ก่อน render** จากนั้นลบ slot และแทนด้วย 11 หน้า PR82; จึงทำให้ WeasyPrint page counters ของตารางกรรมการและส่วนอื่น ๆ ตรงเลขหน้าจริง โดยไม่พิมพ์เลขทับ
+- ตรวจ `souvenir-v42f-pdf-preflight.json`: `status=review_only_pass`, **125 หน้า A4**, PR82 visual/text **11/11**, **236 รายการแข่งขัน (186 คู่ + 50 กรีฑา / 289 ลู่)**, **250 กรรมการ**, **486 PDF anchors** (คำนวณใหม่หลังแทนหน้า), **341/341 source lines**, **20 sections**, 6 organizer bracket reviews, **17 V3 appendix pages**, 45 คู่ยืนยันวันเวลา และ 31 เหตุการณ์พิธีเปิด/ปิด
+- ตรวจภาพจริงหน้า 8 (หัวประกาศ), 13 (ช่วงกลาง), 18 (ท้ายประกาศ), 19 (ตารางกรรมการ), 41 (กติกา) และ 108 (ท้ายเล่ม); สระ/วรรณยุกต์และระยะขอบ PR82 ไม่เปลี่ยน; หน้า PDF 19 มีเลขท้ายกระดาษ **19** ตรงกับเลขจริง และ automated QA ตรวจเลขหน้าท้ายกระดาษทุกหน้าก่อน/หลังหมวดประกาศ
+- ไฟล์ QA output review `souvenir-v4-full-draft.pdf` checksum SHA-256 `979353bbb9a9878fdf5fffe7370f920426de3c18834c4dee19e3834d47251394` เมื่อได้จาก GitHub Actions run [42350564859](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42350564859) = **SUCCESS**, รวม `Validate draft data` run [42350564823](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42350564823) = **SUCCESS**
+- Review artifact: `R11C-V42-N3B-PR82-integrated-review-only`. ใน CI มีไฟล์แยกประกาศ PR82 11 หน้าและ QA JSON ด้วย; ไม่มีการเผยแพร่ PDF หน้าเว็บ/เปลี่ยน Google Docs/V3/Golden Drive file เดิม
+
+**Gate ที่ยังเหลือ:** ปก G2 Full Photo/สิทธิ์ภาพ; ตรวจรับข้อสังเกตผังสายและรายการเปตอง 10 ปีชาย; ตรวจรับรายชื่อกรรมการ/คำสั่งที่มีอำนาจลงนาม; **R11E publication ยังไม่ผ่าน**. PDF 125 หน้าเป็น *ฉบับร่างตรวจรับ*.
