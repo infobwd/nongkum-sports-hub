@@ -55,6 +55,13 @@ fonts={span["font"] for p in list(pdf)[notice_start:notice_end]
 assert any("SarabunFull" in name for name in fonts),f"Embedded PR82 Sarabun font missing: {fonts}"
 assert len([p for p in list(pdf)[:-17] if "ข้อมูลกรรมการ" in p.get_text() and re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",p.get_text())])==1
 reference.close()
+# All subsequent magazine/booklet footer numbers must reflect *physical*
+# PDF page numbers; N3-B reserves 11 HTML slots before PDF substitution.
+assert "PR82-INTEGRATION-SLOT" not in new_text, "A temporary slot leaked into the finished PDF"
+for page_index in list(range(1,notice_start))+list(range(notice_end,len(pdf)-17)):
+    footer=[word[4] for word in pdf[page_index].get_text("words")
+            if word[0]>535 and word[1]>800 and re.fullmatch(r"\d+",word[4])]
+    assert footer==[str(page_index+1)],f"Wrong booklet footer number on PDF page {page_index+1}: {footer}"
 assert q["ceremony_opening_events"]==22 and q["ceremony_closing_events"]==9
 assert stage["rules"]["award_rank_points"]=={"1":5,"2":3,"3":2}
 assert q["bracket_verified_edges"]>0
