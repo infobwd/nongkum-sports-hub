@@ -7,6 +7,12 @@ on:
       - ".github/workflows/r11c-v42f-review.yml"
       - "docs/R11C_V42F_FULL_BOOK_QA_20261107.md"
       - "docs/R11C_V42H_ORGANIZER_BRACKET_REVIEW_PLAN_20261107.md"
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/docs/**"
+      - ".github/workflows/r11c-v42f-review.yml"
+      - "docs/R11C_V42H_ORGANIZER_BRACKET_REVIEW_PLAN_20261107.md"
   workflow_dispatch:
 permissions:
   contents: read
