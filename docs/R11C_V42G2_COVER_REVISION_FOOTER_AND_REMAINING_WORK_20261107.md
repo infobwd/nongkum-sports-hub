@@ -78,3 +78,14 @@
 8. **R11E ก่อนเผยแพร่** รับรองข้อมูล/ภาพ/เอกสาร, A4 print proof, เวลาแก้ไขและฉบับ PDF ที่ใช้งาน, Safari/LINE/iPhone, sync Drive/Docs/web อย่างมี revision/rollback และผู้จัดเซ็นรับรอง explicit
 
 **การตีความสถานะ:** ตัวสร้าง G2 พร้อมแล้ว ≠ มีภาพ G2 จริงใน PDF; PDF review QA PASS ≠ ผู้จัดตรวจรับหรือเผยแพร่ทางการ. สำคัญให้รักษาความแตกต่างนี้ทุกแชท.
+
+## 6. Final source-commit timestamp correctness (PR #107) — ตรวจรับเชิงเทคนิคแล้ว
+
+- **PR [#107](https://github.com/infobwd/nongkum-sports-hub/pull/107) MERGED**, merge SHA `040831990d5aa33a59ebcd16a9df3c61ecb49047`
+- พบว่าการ build บน `pull_request` อาจ checkout SHA ชั่วคราว; PR #107 แก้ให้ `actions/checkout` ใช้ head ที่แท้จริงและ full history จากนั้นดึง `git log -1 -- scripts/docs data assets` เพื่อหาการเปลี่ยน *ไฟล์งานจริง* ไม่เปลี่ยนวัน–เวลาเพราะ workflow rerun หรือแก้ docs-only
+- Final review artifact จาก PR #107 CI run [42353593511](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42353593511) **SUCCESS** และ Validate draft data ผ่าน; source-edit commit `8db2d05f04fd96ab3fa21bd2a44dfd79f71a8a6f`, แสดงท้ายหน้า **“ปรับปรุงล่าสุด 7 พ.ย. 2569 เวลา 15:00 น.”**
+- ตรวจครบ **125/125 หน้า A4**, PDF 125 หน้า/236 fixtures/250 committee/486 anchors/17 V3 appendix, PR82 11/11 content parity above revision footer, 6 bracket notes, ชื่อหน้ากากไทยค้นหาได้และสระ–วรรณยุกต์ไม่มีอักขระแทรก
+- รูปใน final PDF **ยังเป็น G1 fallback**; G2 private Full Photo slot ผ่าน unit render 1-page A4 ด้วยภาพสีทดสอบ *ไม่ใช่ภาพผู้จัด*. ยังไม่ได้รับภาพ Full Photo V2 จริงจาก Drive เนื่องจาก account-link plugin error; ไม่ถือว่าปก G2 ตรวจรับหรือเผยแพร่
+- ยังคง **review-only ไม่อัปโหลด Google Drive ในรอบนี้** เพราะ Google Drive plugin ไม่พร้อม และไม่แก้ GitHub Pages. ไฟล์ PDF ของ PR #107 เป็นร่างสำหรับผู้จัดตรวจจนกว่า R11E ผ่าน gate.
+
+**บทสรุปงานค้าง:** P0 เปตอง 12–13 พ.ย. และ 6 bracket group approvals; P1 ภาพ G2+rights/300dpi, คำสั่งกรรมการ/กติกา; P2 crosswalk 17 appendix pages/R12 roster privacy; R11E print/mobile/revision/organizer signoff/publishing. เอกสาร snapshot ก่อนหน้าเป็นประวัติ ไม่ใช่สถานะล่าสุด.
