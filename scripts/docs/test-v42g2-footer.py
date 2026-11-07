@@ -80,6 +80,7 @@ with tempfile.TemporaryDirectory(prefix="g2-layout-unit-") as folder:
     main_titles=[span for span in all_spans if span["text"]=="มิตรภาพเกมส์"]
     assert len(main_titles)==1, f"Sport Thai title must stay single/searchable: {main_titles}"
     assert main_titles[0]["size"]>=40, "Sports masthead title should be visibly dominant"
+    assert "G2SportThai" in main_titles[0]["font"], f"G2 masthead fell back to generic Bold: {main_titles[0]['font']}"
     assert main_titles[0]["bbox"][3]<proof[0].rect.height*.42, "Title may not obscure athletes or venue"
     year=[span for span in all_spans if span["text"]=="2569" and span["size"]>60]
     assert len(year)==1, "Sport year must be a single native PDF text span"
