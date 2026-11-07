@@ -19,7 +19,7 @@ assert qa["group_count"] == 44 and qa["rendered_fixture_count"] == 186
 assert doc.count('<section class="paper full-coverage"') == 44
 assert doc.count('data-fixture="') == 186
 assert "@page {size:A4;margin:0}" in doc
-assert "ไม่ใช่ผลการแข่งขัน" not in doc or "ไม่ใช่ผลการแข่งขัน" in doc  # no fake output asserted below
+assert "ข้อมูลจากเอกสารอ้างอิง" in doc
 assert "REVIEW ONLY" in doc and "ห้ามเผยแพร่แทนสูจิบัตรจริง" in doc
 assert "⚠" in doc and "ⓘ" in doc
 
