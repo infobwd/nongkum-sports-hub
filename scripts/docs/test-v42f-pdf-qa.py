@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Post-PDF review artifact preflight; preserves coverage without official publication."""
-import json, pathlib, sys, re
+import json, pathlib, sys, re, unicodedata
 import fitz
 from PIL import Image,ImageDraw
 
@@ -35,7 +35,7 @@ notice_start=q["notice_inserted_start_page"]-1
 notice_end=q["notice_inserted_end_page"]
 assert notice_end-notice_start==11
 assert notice_start>=1 and notice_end<len(pdf)-17
-assert "คำปฏิญาณ" in pdf[notice_start-1].get_text()
+assert unicodedata.normalize("NFKC","คำปฏิญาณ") in unicodedata.normalize("NFKC",pdf[notice_start-1].get_text())
 assert "ข้อมูลกรรมการ" in pdf[notice_end].get_text()
 assert re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",pdf[notice_end].get_text())
 assert "รอชื่อผู้ลงนาม" not in "\n".join(p.get_text() for p in list(pdf)[:notice_end]), "Old N1 opening must not reappear"
