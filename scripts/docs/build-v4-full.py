@@ -13,7 +13,8 @@ from v42_rules import render as render_rules, css as rules_css
 from v42_matchday import render as render_matchday, css as matchday_css
 from v42_brackets import render as render_brackets, css as brackets_css
 from v42_organizer_review import render as render_organizer_review, css as organizer_review_css
-from v42_cover import cover_html, cover_css
+from v42_cover import cover_html, cover_css, cover_g2_html, cover_g2_css
+from v42_revision_footer import revision_stamp, apply_revision_footer
 from v42_notice_pr82 import render_official_notice_v2
 from v42_official import (build_source_model, official_full_html,
     source_audit, official_css as v42_official_css)
@@ -114,7 +115,7 @@ def pick_font():
  found=list(Path("/usr/share/fonts").rglob("NotoSansThai-Regular.ttf"))
  if not found:raise RuntimeError("Noto Sans Thai font not installed on build runner")
  return found[0]
-def build(root,out):
+def build(root,out,cover_photo=None,last_updated_iso=None):
  raw=get(root/"data/program-from-pdf-2569-20261104-draft.json")
  roster=get(root/"data/committee-2569-draft-public-review.json")
  policy=get(root/"data/standings-rules.json")
@@ -143,8 +144,30 @@ def build(root,out):
  status_verified=sum(1 for x in matches if x.get("planning_date_confirmation")=="confirmed" and x.get("planning_time_confirmation")=="confirmed")
  if status_verified!=45:raise ValueError("Confirmed scheduling rows changed")
  names={x["id"]:x["name"] for x in raw["sports"]}
+ # Full Photo V2 may only use an explicitly provided local/private original.
+ # The rights gate and print-quality decision are independent of visual QA.
+ cover_quality={"selected":"full_photo_v2","rendered":"g1_fallback","photo_rights":"unverified"}
+ if cover_photo is not None:
+  from PIL import Image
+  photo=Path(cover_photo).resolve()
+  if not photo.is_file() or photo.suffix.lower() not in (".jpg",".jpeg",".png"):
+   raise ValueError("Private G2 photo must be an existing JPG or PNG")
+  with Image.open(photo) as img:
+   img.verify()
+  with Image.open(photo) as img:
+   w,h=img.size
+  if h<=w or w<800 or h<1000:
+   raise ValueError("G2 requires a genuine high-enough-resolution portrait photo")
+  ppi=min(w/(210/25.4),h/(297/25.4))
+  cover_quality={"selected":"full_photo_v2","rendered":"g2_private_preview",
+    "photo_rights":"unverified","width_px":w,"height_px":h,
+    "effective_full_page_dpi":round(ppi,1),
+    "print_300dpi_ready":ppi>=300}
+  cover_markup=cover_g2_html(photo.as_uri())
+ else:
+  cover_markup=cover_html()
  pages=[]
- pages.append(cover_html())
+ pages.append(cover_markup)
  pages.append(sec("ข้อมูลสำหรับผู้อ่าน","บทนำ / สถานะข้อมูล",
  """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-H ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
  <p>ข้อมูลทั้งหมด 236 รายการ: กีฬาเป็นคู่ 186 คู่ และกรีฑา 50 รายการ (289 ลู่) พร้อมรายชื่อหน้าที่กรรมการรอตรวจ 250 แถว</p>
@@ -249,12 +272,13 @@ def build(root,out):
  pages.append(sec("รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด","ORGANIZER REVIEW • V4.2-H",organizer_html,
    "จากสูจิบัตร V2/V3 และตารางต้นทาง • ข้อเสนอแก้ยังต้องมีมติผู้จัดก่อนใช้จริง"))
  official_css,official_font_used=formal_font_css()
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-H ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+organizer_review_css()+cover_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-H ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42H • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-H ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+organizer_review_css()+cover_css()+cover_g2_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-H ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42H • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
  if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets","รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด")):
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
  stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending","cover_typography_status":"G1_sport_masthead_review_only",
+     "cover_g2_preview":cover_quality,
      "notice_pr82":{"revision":"PR82-V2-N3B","status":"draft_review_only","source_pages":[6,16],"full_source_retained":official_report["total_source_lines"]==official_report["rendered_source_lines"]==341},
      "ceremony":{"opening":opening_qa,"closing":closing_qa},
      "rules":rules_qa,"matchday":matchday_audits,"brackets":brackets_qa,"organizer_review":organizer_qa}
@@ -306,7 +330,12 @@ def build(root,out):
   page.draw_rect(fitz.Rect(14,12,page.rect.width-14,40),color=None,fill=(1,.96,.81),overlay=True)
   page.insert_text((21,30),"V3 DRAFT REFERENCE ONLY - CHECK MAIN V4 PROGRAM",fontsize=8,fontname="helv",color=(.43,.27,.09),overlay=True)
  final=out/"souvenir-v4-full-draft.pdf"
- document.set_metadata({"title":"มิตรภาพเกมส์ 2569 - สูจิบัตร V4.2-H ร่างจัดหน้า","subject":"Draft only; 236 fixtures and 250 committee rows"})
+ # Attach one truthful revision timestamp to every physical A4 page,
+ # including the untouched PR82 source text and the V3 appendix.
+ revision=revision_stamp(root,last_updated_iso)
+ footer_pages=apply_revision_footer(document,pick_font(),out,revision)
+ document.set_metadata({"title":"มิตรภาพเกมส์ 2569 - สูจิบัตร V4.2-H ร่างจัดหน้า","subject":"Draft only; 236 fixtures and 250 committee rows",
+   "keywords":"Review-only; "+revision["source_revision_sha"]})
  document.save(final,garbage=3,deflate=True)
  document.close()
  chk=fitz.open(final)
@@ -328,7 +357,8 @@ def build(root,out):
  result={"schema_version":1,"status":"draft_not_approved","source_pdf_sha256":sha,
   "layout_revision":"R11C-V4.2-H", "formal_font":official_font_used,
   "cover_image_status":"approved_design_pending_publication_rights","cover_typography_revision":"V42-G1",
-  "selected_cover_design":"full_photo_v2","rendered_cover_design":"g1_text_only_fallback",
+  "selected_cover_design":"full_photo_v2","rendered_cover_design":"g2_private_preview" if cover_photo is not None else "g1_text_only_fallback",
+  "cover_g2_preview":cover_quality,
   "notice_layout_revision":"PR82-V2-N3B","notice_visual_reference":"PR82-V2",
    "notice_inserted_start_page":notice_start,"notice_inserted_end_page":notice_end,
    "notice_rendered_pages":11,"notice_golden_pdf_sha256":pr82["qa"]["sha256"],
@@ -350,6 +380,10 @@ def build(root,out):
   "editorial_sections":["pr82_official_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review","organizer_six_group_review"],
   "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),
+   "source_revision_sha":revision["source_revision_sha"],
+   "source_last_modified_iso":revision["source_last_modified_iso"],
+   "source_last_modified_bangkok":revision["source_last_modified_bangkok"],
+   "last_updated_footer_text":revision["footer_text"],"timestamp_footer_pages":footer_pages,
   "program_items":len(fixtures),"matches":len(matches),"athletics":len(athletics),
   "athletics_lanes":sum(len(x["lanes"]) for x in athletics),"committee_entries":len(roster["entries"]),
   "confirmed_date_and_time":status_verified,"anchors":len(pages_by_id),"appendix_pages":len(original_appendix),
@@ -360,5 +394,7 @@ def build(root,out):
  return result
 def main():
  p=argparse.ArgumentParser();p.add_argument("--root",type=Path,default=Path(__file__).resolve().parents[2]);p.add_argument("--out",type=Path,default=None)
- a=p.parse_args();build(a.root,a.out or a.root/"build/v4-review")
+ p.add_argument("--cover-photo",type=Path,default=None,help="Private organizer-selected portrait image; never committed")
+ p.add_argument("--last-updated-iso",default=None,help="Only for explicit reproducible local preview, otherwise Git commit time")
+ a=p.parse_args();build(a.root,a.out or a.root/"build/v4-review",a.cover_photo,a.last_updated_iso)
 if __name__=="__main__":main()
