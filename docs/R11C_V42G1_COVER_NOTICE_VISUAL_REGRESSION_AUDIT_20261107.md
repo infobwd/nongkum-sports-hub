@@ -59,3 +59,15 @@
 - PDF visual QA ต้องตรวจหน้าแรกของประกาศ (ไม่ว่าง ไม่กินสองหน้า), หน้าแรกของรายละเอียดต้นฉบับ (ถัดจากหน้าเปิดจริง), และเกณฑ์ครบ 341/20/250/236/486/17 appendix
 - `cover_design_selected=full_photo_v2` ในแผนแยกจาก `cover_rendered=fallback_g1`; **ห้ามบอกว่าปกภาพเต็มหน้าเสร็จแล้ว** ก่อนมีการฝังภาพที่ผ่านสิทธิ์และ QA
 - PR เฉพาะโค้ด PDF builder / tests / CI / docs, **ไม่เปลี่ยน data source, GitHub Pages หรือ Google Drive public URL**, และไม่มีคำสั่งเผยแพร่ทางการ
+
+## 6. ผลลงมือจริง N1 — COMPLETED / PDF QA PASSED (7 พฤศจิกายน 2569)
+
+- **PR #96 MERGED**: https://github.com/infobwd/nongkum-sports-hub/pull/96 ; merge SHA `8dc6cd08a8ab2250397ac8f664c79234d56de98b`
+- ตัวสร้าง PDF ใช้ `notice()` V4.1 เป็นหน้าเปิดประกาศ **PDF หน้า 8** (A4 หนึ่งหน้า) ตามด้วยรายละเอียดต้นฉบับ V3 **หน้า 9**; ตรวจ PNG render สองหน้าด้วยตาแล้วว่าไม่มีข้อความล้นหน้า/หน้าว่าง
+- ไฟล์ review มี **126 หน้า A4** (เพิ่มหน้าเปิดจาก 125 เป็น 126), **236 รายการแข่งขัน**, **250 กรรมการ**, **486 anchors**, **341/341 source lines**, **20 หมวดประกาศ**, **17 หน้า appendix V3**, พิธีการ 31 ขั้นตอน และรายการตรวจผังสาย 6 กลุ่มครบ
+- GitHub Actions `Validate draft data` และ `R11C V42 organizer review PDF (no publication)` บน PR #96 **SUCCESS**; workflow PDF run `42343972511`, artifact `R11C-V42H-G1-N1-formal-notice-review-only`
+- QA ตรวจว่า `notice_opening_revision=V42-N1-V41-restored`; `detail_page == notice_page+1`; `full_source_retained=true`; ไม่แก้ program JSON, result, roster, committee, live PDF URL, Google Docs หรือ Drive images
+- ยังมีข้อสังเกตสำคัญ: `selected_cover_design=full_photo_v2` **แต่** `rendered_cover_design=g1_text_only_fallback`. จึง **ยังไม่สำเร็จ G2**, ยังต้องตรวจสิทธิ์ภาพ/พิมพ์ก่อนฝังภาพและผ่าน gate R11E อีกครั้ง
+- PDF 126 หน้าเป็น **ฉบับร่างตรวจรับเท่านั้น**; ไม่ได้อัปโหลดเป็นฉบับทางการบนเว็บไซต์หรือแทนที่เอกสารเดิมบน Drive
+
+**งานถัดไป:** ให้ผู้จัดตรวจหน้าเปิดประกาศ PDF หน้า 8 และปก G1; จากนั้นเดิน G2 เมื่อภาพใช้ได้จริง และรับรองข้อมูลหกกลุ่ม/คำสั่งก่อน R11E.
