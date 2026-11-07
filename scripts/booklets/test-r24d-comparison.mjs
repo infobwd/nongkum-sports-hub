@@ -1,0 +1,78 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import vm from "node:vm";
+import {createHash} from "node:crypto";
+
+const read=p=>fs.readFileSync(new URL("../../"+p,import.meta.url)).toString("utf8");
+const json=p=>JSON.parse(read(p));
+const registry=json("data/booklet-versions.json");
+const program=json("data/program-from-pdf-2569-20261104-draft.json");
+const roster=json("data/committee-2569-draft-public-review.json");
+const pmap=json("data/program-pdf-positions-v2.json");
+const cmap=json("data/committee-pdf-positions-v3.json");
+const context={console:{}};
+vm.runInNewContext(read("js/booklet-comparison-model.js"),context);
+const engine=context.NongkumBookletReconcile;
+
+assert.equal(engine.validSource(registry,program,roster,pmap,cmap),true,
+  "all 236 fixture and 250 committee coordinates should match existing source IDs/revisions");
+const result=engine.build(registry,program,roster,pmap,cmap);
+assert.equal(result.counts.fixtures,236);
+assert.equal(result.counts.committee,250);
+assert.equal(result.total_records,486);
+assert.equal(result.counts.integrated_anchors,486);
+assert.equal(result.counts.v2_anchors,236);
+assert.equal(result.counts.v3_anchors,250);
+assert.equal(result.counts.matched,0,"never infer content parity from matching IDs");
+assert.equal(result.counts.different,0,"never infer actual content differences without an independent PDF field audit");
+assert.equal(result.counts.needs_review,486);
+assert.equal(result.counts.unavailable,0);
+assert.ok(result.counts.committee_flag_rows>0);
+assert.equal(Object.keys(result.bySport).length,9);
+assert.equal(result.issues.length,236);
+assert.equal(result.issues.every(x=>x.content_state==="NEEDS_REVIEW" && x.anchor_state==="ANCHOR_VERIFIED"),true);
+assert.equal(result.issues.filter(x=>x.kind==="match").length,186);
+assert.equal(result.issues.filter(x=>x.kind==="track_event").length,50);
+assert.ok(!result.issues.some(x=>x.id==="football-p07-มัธยมหญิง-020-repeated-final"));
+const example=result.issues.find(x=>x.id==="football-p07-12-ปี-ชาย-006");
+assert.equal(example.number,"6");
+assert.equal(example.v2_page,7);
+assert.match(engine.issueText(example),/ยังไม่รับรอง/);
+assert.match(engine.issueText(example),/รหัสรายการ/);
+assert.ok(!/ผู้จัดรับรองแล้ว|ยืนยันผลแล้ว|published/.test(engine.issueText(example)));
+
+const badProgramMap={...pmap,entries:{...pmap.entries}};
+delete badProgramMap.entries[example.id];
+assert.equal(engine.validSource(registry,program,roster,badProgramMap,cmap),false);
+assert.throws(()=>engine.build(registry,program,roster,badProgramMap,cmap),/source_revision/);
+const badSha={...pmap,source_sha256:"f".repeat(64)};
+assert.equal(engine.validSource(registry,program,roster,badSha,cmap),false);
+const badPage={...pmap,entries:{...pmap.entries,[example.id]:{...pmap.entries[example.id],page:8}}};
+assert.equal(engine.validSource(registry,program,roster,badPage,cmap),false);
+const badCommittee={...cmap,roster_revision:"wrong_revision"};
+assert.equal(engine.validSource(registry,program,roster,pmap,badCommittee),false);
+const wrongIndex={...registry,documents:registry.documents.map(d=>d.version_id==="integrated-v42i10-g2"?{...d,access_mode:"public"}:d)};
+assert.equal(engine.validSource(wrongIndex,program,roster,pmap,cmap),false);
+assert.deepEqual([...engine.reviewStates],["MATCHED","DIFFERENT","NEEDS_REVIEW","UNAVAILABLE"]);
+const html=read("booklet-comparison.html");
+const view=read("js/booklet-comparison.js");
+const catalog=read("booklets.html");
+assert.match(catalog,/href="\.\/booklet-comparison\.html"/);
+assert.match(html,/booklet-comparison-model\.js\?v=r24d1/);
+assert.match(html,/committee-review\.html/,"reuse existing encrypted R19-D school confirmation");
+assert.match(view,/\.textContent\s*=/);
+assert.match(view,/NongkumBookletReconcile/);
+assert.match(view,/booklet-private-viewer\.html\?fixture=/);
+assert.match(view,/pdf-viewer\.html\?page=/);
+assert.doesNotMatch(html+view,/drive\.google\.com\/file\/d\//);
+assert.doesNotMatch(html+view,/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/);
+assert.doesNotMatch(html+view,/localStorage|sessionStorage|indexedDB|approved\s*=\s*true/);
+assert.match(read("js/committee-review.js"),/buildConfirmation/);
+assert.match(read("docs/R19D_SCHOOL_COMMITTEE_CONFIRMATION_QA.md"),/organizer|ผู้จัด/);
+
+// Verify the source still points to exactly the selected PDF revisions, not swapped file paths.
+assert.equal(registry.documents.find(d=>d.version_id==="program-v2").pdf_revision_sha256,pmap.source_sha256);
+assert.equal(registry.documents.find(d=>d.version_id==="committee-v3").pdf_revision_sha256,cmap.source_sha256);
+for (const d of registry.documents)assert.equal(d.approved_at,null);
+assert.equal(createHash("sha256").update(fs.readFileSync(new URL("../../assets/souvenir-2569-v2.pdf",import.meta.url))).digest("hex"),pmap.source_sha256);
+console.log("R24-D PASS: source revisions 236+250, identity-only vs content review, no inferred approval, existing school review reuse");

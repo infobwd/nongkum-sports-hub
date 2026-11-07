@@ -99,8 +99,9 @@
 
 ## R24 — ศูนย์เอกสารสูจิบัตร 3 ฉบับและตรวจเทียบข้ามฉบับ (บันทึก 7 พฤศจิกายน 2569)
 
-- **สถานะ: PLANNED ONLY / NOT IMPLEMENTED / NOT MERGED / NOT DEPLOYED.** แผนหลัก: [R24 Three-Version Booklet Review Hub](R24_THREE_VERSION_BOOKLET_REVIEW_HUB_PLAN_20261107.md). ผู้จัดต้องการเก็บ V2 (ตาราง 41 หน้า) และ V3 (กรรมการ 64 หน้า) ไว้ แล้วเพิ่มเล่ม V4.2-I10 G2 (155 หน้า) สำหรับตรวจเทียบและยืนยันต่อเนื่อง.
-- **R24-A:** เลือกดูเอกสารทั้งสามฉบับผ่านเมนู “เพิ่มเติม”; V2/V3 เปิด/ไฮไลท์ตามเดิม; V4.2 แสดง “ฉบับตรวจร่าง” และต้องตรวจสิทธิ์เข้าถึงก่อนเปิดเผย.
-- **R24-B/C:** ตรวจ revision/SHA PDF 155 หน้ากับ page-map 486 รายการใน PR #116 ก่อนเชื่อมเปิดตรงคู่แข่งขันหรือชื่อกรรมการ. ไม่ใช้พิกัด V2/V3 ซ้ำหรือคาดเดาหมายเลขหน้า.
-- **R24-D/E:** เพิ่มการตรวจเทียบ/ยืนยันแบบมีสิทธิ์และหลักฐานแยกจากการรับรองทางการ; ผ่าน CI, การทดลอง Safari/LINE/Android และ R11E ก่อนเผยแพร่. PDF 155 หน้าปกล่าสุดจาก PR #118 ยัง **review only**, PR #116/#118 ยัง Draft.
+- **สถานะจริง ณ 7 พ.ย. 2569:** [PR #120](https://github.com/infobwd/nongkum-sports-hub/pull/120) PLAN **MERGED**, [PR #121](https://github.com/infobwd/nongkum-sports-hub/pull/121) R24-A/B **MERGED**, [PR #122](https://github.com/infobwd/nongkum-sports-hub/pull/122) R24-C **MERGED**. `main` หลังงานนี้ `5be80c7edacdd07bb5e923a3797262ae4e8a5668`. **MERGED CODE ≠ live/deployed/device accepted/organizer approved.**
+- **R24-A:** เพิ่ม `booklets.html` ให้เลือก V2 (41 หน้า) และ V3 (64 หน้า) เปิดจากเอกสารเดิม; เล่ม V4.2-I10 G2 155 หน้าติดป้าย `review only` และยังไม่เปิด PDF จาก Drive ต่อสาธารณะ.
+- **R24-B/C:** ตรวจรายการอ้างอิง 486 ID จาก 236 fixture+250 committee ตรงกับ PDF 155 หน้า; private local-file viewer เปิดตรงได้หลังผู้มีสิทธิ์เลือกไฟล์ PDF+map ที่ SHA ตรงเท่านั้น; ข้อมูลและพิกัดส่วนตัวไม่อยู่ใน public repository.
+- **R24-D1:** [PR #123](https://github.com/infobwd/nongkum-sports-hub/pull/123) **DEVELOPED / CI PASS / DRAFT NOT MERGED** เพิ่มหน้ารายงานตรวจเทียบแบบอ่านอย่างเดียวและกลับไปยัง R19D school review. แสดง 486 จุดที่มีหลักฐานตำแหน่ง แต่อ้าง `NEEDS_REVIEW` ในเชิงเนื้อหาทุกแถว จนกว่าจะตรวจ fields จริงและมีผู้จัดรับรอง. [แผน R24-D](R24D_READONLY_DOCUMENT_RECONCILIATION_PLAN_20261107.md), [ผล QA](R24D_READONLY_DOCUMENT_RECONCILIATION_QA_20261107.md).
+- **R24-D2/E ที่ค้าง:** ตรวจ PDF V2/V3 vs 155 แบบ field-by-field, ขอผู้มีอำนาจตรวจรับ/ยืนยันสิทธิ์ภาพเด็ก, แยก private organizer acknowledgement กับการกด LINE, manual Safari/LINE/Android, release gate R11E. PR #116/#118 ของเล่มยัง Draft และไม่เปลี่ยนด้วยงานนี้.
 - **ข้อจำกัด:** ห้ามแก้ source PDF V2/V3, fixture raw 237/active 236, ข้อมูลกรรมการ, ผล/อันดับ หรือไฟล์เล่มใน Drive จากงานบันทึกแผนนี้. ควรทำ PR พัฒนาแยกจากงานเล่มและผัง.
