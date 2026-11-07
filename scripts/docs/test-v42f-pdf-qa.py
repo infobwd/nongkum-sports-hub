@@ -21,6 +21,23 @@ assert (q["committee_entries"],q["anchors"],q["confirmed_date_and_time"])==(250,
 assert q["appendix_pages"]==17 and stage["brackets"]["appendix_replaced_pages"]==[]
 assert q["official_source_lines"]==q["official_rendered_lines"]==341
 assert q["official_section_count"]==20
+assert q["notice_opening_revision"]=="V42-N1-V41-restored"
+assert q["selected_cover_design"]=="full_photo_v2" and q["rendered_cover_design"]=="g1_text_only_fallback"
+assert stage["notice_opening"]=={
+    "revision":"V42-N1-V41-restored","status":"draft_review_only",
+    "source_pages":[6,16],"full_source_retained":True}
+# The restored preview must fit on one page and precede the complete V3 transcription.
+def normalize_notice_text(t):
+    return re.sub(r"\s+","",t.replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32)))
+opening_pages=[i for i,p in enumerate(list(pdf)[:-17])
+               if "เลขที่ประกาศ" in normalize_notice_text(p.get_text())
+               and "รอชื่อผู้ลงนาม" in normalize_notice_text(p.get_text())]
+detail_pages=[i for i,p in enumerate(list(pdf)[:-17])
+              if "รายละเอียดประกาศตามสูจิบัตรต้นฉบับV3" in normalize_notice_text(p.get_text())]
+assert len(opening_pages)==1, f"Restored V4.1 notice should be one complete page: {opening_pages}"
+assert len(detail_pages)==1, f"Full V3 source must follow once: {detail_pages}"
+assert detail_pages[0]==opening_pages[0]+1, "V4.1 notice must fit one A4 page immediately before full V3 details"
+assert opening_pages[0] >= 6, "Formal notice cannot precede ceremony and school-colours sections"
 assert q["ceremony_opening_events"]==22 and q["ceremony_closing_events"]==9
 assert stage["rules"]["award_rank_points"]=={"1":5,"2":3,"3":2}
 assert q["bracket_verified_edges"]>0
@@ -52,7 +69,7 @@ for i,z in enumerate(pdf):
         if key not in pages and any(term in txt for term in terms):pages[key]=i
 assert "organizer" in pages and pages["organizer"] < len(pdf)-17
 assert len(pdf[len(pdf)-18].get_text())>800, "Orphan closing note in a mostly empty A4 page"
-render=list(dict.fromkeys([0]+list(pages.values())+[len(pdf)-18]))
+render=list(dict.fromkeys([0,opening_pages[0],detail_pages[0]]+list(pages.values())+[len(pdf)-18]))
 thumbs=[]
 for i in render[:7]:
     pix=pdf[i].get_pixmap(matrix=fitz.Matrix(1.08,1.08),alpha=False)
@@ -70,6 +87,7 @@ result={"status":"review_only_pass","pages":len(pdf),"a4":True,"anchors":len(anc
         "bracket_groups_needing_review":q["bracket_groups_needing_review"],
         "organizer_review_rows":q["organizer_review_rows"],
         "v3_appendix_pages_retained":q["appendix_pages"],"selected_preview_pages":pages,
+        "notice_opening_pdf_page":opening_pages[0]+1,"full_v3_source_start_pdf_page":detail_pages[0]+1,
         "cover_image_rights":"pending","th_any_ascii_semicolon_between_thai":0}
 (out/"souvenir-v42f-pdf-preflight.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n","utf-8")
 print(json.dumps(result,ensure_ascii=False,indent=2))
