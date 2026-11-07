@@ -24,6 +24,8 @@ jobs:
   mobile-browser-smoke:
     name: Chromium localhost viewport QA (not real Safari or LINE)
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +40,7 @@ jobs:
       - name: Install isolated Playwright test dependency
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright@1.56.1
-          npx playwright install --with-deps chromium
+          node -e "const {chromium}=require('playwright');console.log(chromium.executablePath())"
       - name: Serve local static build
         run: |
           python -m http.server 8765 --bind 127.0.0.1 >/tmp/r24e-static.log 2>&1 &
@@ -50,14 +52,32 @@ jobs:
           exit 1
       - name: Test iPhone-size Android-size and desktop Chromium viewport
         run: node scripts/booklets/test-r24e-browser.mjs
-      - name: Observe deployed GitHub Pages HTTP from CI runner (not live device acceptance)
-        continue-on-error: true
-        run: node scripts/booklets/test-r24e-live-http.mjs
       - name: Save screenshots without private/personal data
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: r24e-chromium-local-no-personal-data
           path: r24e-browser-artifacts/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  production-http-probe:
+    name: GitHub Pages production HTTP observation (not device QA)
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check deployed Pages HTTP and source PDFs from public network
+        continue-on-error: true
+        run: node scripts/booklets/test-r24e-live-http.mjs
+      - name: Save HTTP probe evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r24e-production-http-probe
+          path: r24e-browser-artifacts/production-http-probe.json
           if-no-files-found: ignore
           retention-days: 7
