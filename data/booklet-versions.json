@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": "R24-A1-20261107",
+  "revision": "R24-D1-20261107",
   "publication_scope": "source_document_review_only",
   "note": "การเปิดดูและข้อมูลตรงกันระหว่างเอกสาร ไม่ใช่มติรับรองการแข่งขันหรือคำสั่งแต่งตั้ง",
   "documents": [
@@ -63,7 +63,7 @@
     "unique_anchors": 486,
     "position_parity_against_baseline": 486,
     "anchor_ids_digest_sha256": "21feb66eb393f6fa24f0012e9dd3052a7e8eabca84bf40c3a5c73a3dda380d99",
-    "record_crosswalk_status": "pending independent source-index test until CI confirms",
+    "record_crosswalk_status": "verified_486_source_ids_with_r24ab_ci",
     "publication_approved": false
   }
 }
