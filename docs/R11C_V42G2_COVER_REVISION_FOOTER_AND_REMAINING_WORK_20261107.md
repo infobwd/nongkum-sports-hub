@@ -128,3 +128,14 @@
 6. แยกสถานะ **`G2 sport-title proof built` ≠ `user visual accepted` ≠ `image rights/300dpi approved` ≠ `R11E official release`**. ไม่ลงวันที่/เวลารับรองเอง
 
 **งานร่วมกัน:** branch นี้แตะเฉพาะ helper ปก/การตรวจ typography และแผน; ไม่แก้ `scripts/docs/build-v4-full.py` ซึ่งอาจมีงาน R11E/ผังสายอื่น, ไม่เปลี่ยนโปรแกรมแข่ง JSON หรือ PR82 notice.
+
+### ผลลงมือแก้ Typography จริง — G2 Sport Masthead V2.1 (7 พ.ย. 2569)
+
+**IMPLEMENTED IN REVIEW / PRIVATE PDF QA PASSED / GOOGLE DRIVE REVIEW UPLOADED / VISUAL USER ACCEPTANCE PENDING**
+
+- ติดตั้ง G2 helper `cover_g2_html()/cover_g2_css()` ใน `scripts/docs/v42_cover.py`: อักษร **Noto Sans Thai Black** 43pt, skew ทั้งคำ -7°, navy tapered panel + gold highlight/speed stripes; ปี 2569 ตัวหนา 70pt + plate/slanted speed accents. ตัวสะกดจริงยังเป็น text layer ค้นหาได้; decoration ไม่แทรกในคำหรือสระ–วรรณยุกต์. ระยะเผื่อข้อความและแผงด้านล่างไม่เปลี่ยน
+- เพิ่ม source & synthetic-image PDF layout regression ใน `scripts/docs/test-v42g2-footer.py`: ตรวจว่า title ไม่กลับไปเป็น Bold ทั่วไป, มี `data-title-revision`, ชื่อไทยไม่แยกบรรทัด, การค้นหาใน PDF ได้, A4 1 หน้า, ตัวเลขเป็น native text และ local-only image gate. **ไม่ได้ใช้ภาพเด็กใน CI**
+- GitHub Actions source/regression และ full booklet fallback QA ของ [PR #111](https://github.com/infobwd/nongkum-sports-hub/pull/111) **PASS**: `Validate draft data` และ `R11C V42 organizer review PDF`, run `42358089660` SUCCESS. CI ไม่ได้ฝังภาพจริงเพราะเป็น private source; private preview ด้านล่างทำต่างหาก
+- Private G2 PDF review V2.1 สร้างจากไฟล์ตรวจร่าง 125 หน้าเดิม โดยเปลี่ยนเฉพาะหน้า 1; **หน้า 2–125 text + rendered pixels 124/124 เหมือนเดิม**, A4 125 หน้า, รูปเดิม SHA `c6ee9f11867eb5aab8d14993687f83d2e98ad568bca2eb4397e200a11bcbd0da`; ฟอนต์หัวเรื่องค้นหา/คัดลอกได้. Output PDF SHA-256 `0621f618912cee5ab0b16d4da553ae49f6250836ce0e760a46a4d901dfbd9388` ขนาด **3,002,632 bytes**
+- Upload private PDF review **รุ่นใหม่ชื่อ `MittraphapGames_2569_G2_SportMasthead_V21_125pages_REVIEW.pdf`** ไปโฟลเดอร์สูจิบัตร Drive สำเร็จ และตรวจ metadata readback: MIME `application/pdf`, parent ถูกต้อง, ขนาด 3,002,632 bytes; ไม่ทับ G2 V2, PR82 หรือ N3-B เดิม; ไม่ commit private image or Drive ID ลง GitHub
+- **Print & release gates ยังไม่ผ่าน:** ภาพ 1055×1491 px (~127.5dpi A4), rights/children image use unverified, ยังไม่ผ่านผู้จัดดูหน้าปก V2.1 จาก PDF จริงบนมือถือ/กระดาษ; R11E ยังไม่อนุมัติ. อย่าสับสนการ Merge กับการตรวจรับรูปลักษณ์จริง.
