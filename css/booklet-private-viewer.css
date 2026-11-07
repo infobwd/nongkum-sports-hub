@@ -1,0 +1,24 @@
+.private-reader{padding-top:20px;padding-bottom:28px}
+.file-gate{padding:18px;border:1px solid #d8e2ed;border-radius:18px;background:#fff;margin-top:18px}
+.file-gate h2{margin-bottom:6px}
+.file-gate p{font-size:.9rem;color:#526479;margin:5px 0 13px}
+.private-inputs{display:grid;gap:12px;margin:16px 0}
+.private-inputs label{display:block;font-size:.87rem;font-weight:650;color:#1e3f65}
+.private-inputs input{display:block;width:100%;min-width:0;margin-top:8px;font-size:.88rem;min-height:44px;border:1px solid #a4b6ca;border-radius:10px;background:#f8fafc;padding:9px}
+.private-action,.private-tools button{border:1px solid #27577f;background:#1d4b79;border-radius:10px;color:#fff;padding:10px 13px;min-height:44px;font:inherit;font-size:.86rem;font-weight:650;cursor:pointer}
+.private-action:disabled,.private-tools button:disabled{opacity:.45;cursor:default}
+.private-status{padding:11px 14px;border:1px solid #bfd1e0;border-radius:11px;background:#f0f6fb;color:#1c4d75;font-size:.87rem;margin:14px 0}
+.private-status[data-error="true"]{background:#fff4ed;border-color:#eac5a3;color:#92461f}
+.private-context{font-size:.87rem;color:#214364;font-weight:600}
+.private-tools{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding:10px 0}
+.private-tools[hidden],.private-canvas-host[hidden]{display:none!important}
+.private-tools label{font-size:.84rem;font-weight:600;color:#39546b}
+.private-tools input{width:57px;min-height:44px;padding:6px;text-align:center;font:inherit;background:#fff;border:1px solid #a6b7ca;border-radius:8px}
+.private-canvas-host{height:min(69vh,740px);overflow:auto;position:relative;border:1px solid #d3dfec;border-radius:12px;background:#dbe6f1;-webkit-overflow-scrolling:touch}
+.private-page-surface{position:relative;display:block;width:max-content;margin:0 auto}
+.private-page-surface canvas{display:block;background:#fff}
+.private-highlight-layer{position:absolute;inset:0 auto auto 0;pointer-events:none}
+.private-selected-row{position:absolute;background:rgba(255,212,46,.36);border:1.5px solid rgba(171,115,8,.92);box-shadow:0 0 0 2px rgba(255,255,255,.29) inset;border-radius:2px}
+.file-note{font-size:.82rem;color:#596a7c}
+.private-action:focus-visible,.private-tools button:focus-visible,.private-inputs input:focus-visible{outline:3px solid #e6c16b;outline-offset:3px}
+@media (min-width:720px){.private-inputs{grid-template-columns:1fr 1fr}}
