@@ -15,6 +15,15 @@ g2=cover_g2_html("file:///tmp/private-selected-portrait.jpg")
 assert 'data-cover-revision="V42-G2-PRIVATE-PROOF"' in g2
 assert 'src="file:///tmp/private-selected-portrait.jpg"' in g2
 assert "<h1" in g2 and "มิตรภาพเกมส์" in g2 and "2569" in g2
+assert 'data-title-revision="V42-G2-SPORT-MASTHEAD-V21"' in g2
+assert 'class="g2-title-panel"' in g2 and 'class="g2-speed"' in g2
+assert 'class="g2-year-plate"' in g2 and 'g2-year-speed' in g2
+assert 'font:900 43pt' in cover_g2_css() and 'G2SportThai' in cover_g2_css()
+assert 'transform:skewX(-7deg)' in cover_g2_css()
+assert 'font:900 70pt' in cover_g2_css()
+assert 'text-shadow:2.4pt' in cover_g2_css()
+assert '.g2-year-speed.g2-short' in cover_g2_css()
+assert cover_g2_css().count('NotoSansThai-Black.ttf')==1
 assert "ตัวอย่างตรวจแบบเท่านั้น" in g2
 assert "16–20 พฤศจิกายน 2569" in g2
 assert ".cover-g2 .g2-hero-photo" in cover_g2_css()
@@ -65,6 +74,16 @@ with tempfile.TemporaryDirectory(prefix="g2-layout-unit-") as folder:
     assert "มิตรภาพเกมส์" in normalized and "2569" in normalized
     assert "ตัวอย่างตรวจแบบเท่านั้น" in normalized
     assert len(proof[0].get_images())>=1, "Private photo is not embedded in G2 proof"
+    all_spans=[span for block in proof[0].get_text("dict")["blocks"]
+               if "lines" in block for line in block["lines"]
+               for span in line["spans"]]
+    main_titles=[span for span in all_spans if span["text"]=="มิตรภาพเกมส์"]
+    assert len(main_titles)==1, f"Sport Thai title must stay single/searchable: {main_titles}"
+    assert main_titles[0]["size"]>=40, "Sports masthead title should be visibly dominant"
+    assert main_titles[0]["bbox"][3]<proof[0].rect.height*.42, "Title may not obscure athletes or venue"
+    year=[span for span in all_spans if span["text"]=="2569" and span["size"]>60]
+    assert len(year)==1, "Sport year must be a single native PDF text span"
+    assert year[0]["bbox"][3]<proof[0].rect.height*.43
     proof.close()
 # The source timestamp must be stable across a CI re-run and a docs-only
 # commit. It is not the ephemeral GitHub pull-request merge SHA.
