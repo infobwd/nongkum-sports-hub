@@ -168,9 +168,9 @@ def build(root,out):
   raise ValueError("V4.1 formal draft notice missing")
  pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / หน้าเปิดประกาศ",
   notice_html,"รูปแบบ V4.1 สำหรับตรวจรับ · ยังไม่ใช่ประกาศที่ลงนาม"))
- pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ","เอกสารทางการ / ข้อความต้นฉบับครบ",
-  official_html,"Sarabun มีหัว · V3 หน้า 6–16 ครบ 341 บรรทัด 20 หมวด · ยังไม่ใช่คำสั่งลงนาม"))
- heads=["ข้อ","ชื่อ–สกุล","สังกัด","หน้าที่"]
+ pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)","เอกสารทางการ / ประกาศและหน้าที่",
+  official_html,"เรียบเรียงตามข้อความในสูจิบัตรร่างเดิม · รอผู้จัดตรวจรับก่อนประกาศใช้"))
+ heads=["ข้อ","ชื่อ–สกุล","สังกัด","ตำแหน่งในคณะ"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
  for x in roster["entries"]:group[str(x["section"])].append(x)
@@ -308,6 +308,8 @@ def build(root,out):
   "official_rendered_lines":official_report["rendered_source_lines"],
   "official_section_count":len(official_report["verified_section_ids"]),
   "official_source_sha256":official_report["full_text_sha256"],
+  "official_duty_paragraphs":official_html.count('class="v42-duty-paragraph"'),
+  "official_duty_wrapped_lines":official_html.count('class="v42-duty-continuation"'),
   "editorial_sections":["formal_notice_opening","formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review","organizer_six_group_review"],
   "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),

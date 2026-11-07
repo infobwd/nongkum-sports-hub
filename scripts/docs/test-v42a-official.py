@@ -24,6 +24,15 @@ assert audit["missing_source_line_ids"]==[]
 assert "ร่างเพื่อการตรวจสอบ" in html_text
 assert "สั่ง ณ วันที่" in html_text
 assert "มีหน้าที่" in html_text
+# Source-wrapped duty prose must be a continuous administrative paragraph.
+assert html_text.count('class="v42-duty-paragraph"')==20
+assert html_text.count('class="v42-duty-continuation"')==14
+for paragraph in re.findall(r'<p class="v42-duty-paragraph">(.*?)</p>',html_text,re.S):
+    assert "มีหน้าที่" in paragraph
+    assert "ฝ่ายเชิญเหรียญ" not in paragraph
+assert '.v42-duty-paragraph{' in official_css()
+assert '.v42-page-label{display:none}' in official_css()
+assert '.v42-official-guide{display:none}' in official_css()
 assert "20. คณะกรรมการ" in html_text
 assert "รายชื่อสะกดที่ปรับแก้ล่าสุด" in html_text
 assert "ไม่คัดลอกภาพทั้งสอง" in html_text
@@ -49,8 +58,8 @@ builder=(ROOT/"scripts/docs/build-v4-full.py").read_text("utf-8")
 assert "official_html=official_full_html(official_model)" in builder
 assert "notice_html=notice(read_source(pdf,6),read_source(pdf,16))" in builder, "Restore the approved V4.1 visual preview"
 assert 'pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"' in builder
-assert 'pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ"' in builder
-assert builder.index('pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"') < builder.index('pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ"')
+assert 'pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)"' in builder
+assert builder.index('pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"') < builder.index('pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)"')
 assert '"full_source_retained":official_report["total_source_lines"]==official_report["rendered_source_lines"]==341' in builder
 # The short opening is an extra view, not a replacement for the complete model.
 assert "source_audit(official_model,official_html)" in builder
