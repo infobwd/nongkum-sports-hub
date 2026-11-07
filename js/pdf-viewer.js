@@ -28,6 +28,8 @@ const selectedCommittee = isCommittee && /^pdf-p\d{2}-l\d{2}$/.test(query.get("e
   (query.get("number") || "").length <= 24
   ? {id:query.get("entry"),number:query.get("number") || "",name:query.get("name")} : null;
 let committeeCoordinateIndex = null;
+let programCoordinateIndex = null;
+let programPositioned = false;
 function initialPage(raw) {
   if (!/^\d{1,2}$/.test(String(raw ?? ""))) return 1;
   return Math.max(1, Math.min(DOCUMENT_PAGES, Number(raw)));
@@ -35,7 +37,7 @@ function initialPage(raw) {
 let pageNumber = initialPage(pageQuery);
 const selectedCommitteePage = pageNumber;
 let committeePositioned = false;
-const gestureSurface = isCommittee && $("pdfPageSurface") || $("pdfCanvas");
+const gestureSurface = $("pdfPageSurface") || $("pdfCanvas");
 let pdf = null;
 let activeTask = null;
 let generation = 0;
@@ -47,6 +49,9 @@ let swipeStart = null;
 let pinchStart = null;
 let lastTap = null;
 const fixtureRef = query.get("fixture") || "";
+const selectedProgram = !isCommittee && fixtureRef.length > 0 &&
+  fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef);
+const selectedProgramPage = pageNumber;
 const embedded = query.get("embedded") === "1" &&
   typeof window !== "undefined" && window.parent && window.parent !== window;
 const openedFromProgram = !isCommittee && query.get("from")==="program";
@@ -139,8 +144,8 @@ async function renderPage() {
   if (requestId !== generation) return;
   busy = true;
   // Clear stale highlights before switching pages or changing zoom.
-  if (isCommittee && el.highlight) el.highlight.replaceChildren();
-  if (isCommittee && el.matchStatus) el.matchStatus.hidden = true;
+  if (el.highlight) el.highlight.replaceChildren();
+  if (el.matchStatus) el.matchStatus.hidden = true;
   el.status.hidden = false;
   el.status.textContent = "กำลังแสดงหน้า " + pageNumber + "…";
   el.failure.hidden = true;
@@ -195,6 +200,28 @@ async function renderPage() {
           el.host.scrollTop + relativeTop + mark.top + mark.height / 2 - el.host.clientHeight / 2);
       }
     }
+    if (selectedProgram && el.highlight && el.matchStatus &&
+        pageNumber === selectedProgramPage && window.NongkumProgramPdfHighlight) {
+      // Verify the exact fixture ID, requested page, document revision, and row geometry.
+      const mark = window.NongkumProgramPdfHighlight.draw({
+        index:programCoordinateIndex, fixtureId:fixtureRef, page:pageNumber,
+        viewport, overlay:el.highlight, canvas:el.canvas
+      });
+      el.matchStatus.hidden = false;
+      el.matchStatus.textContent = mark
+        ? "เน้นรายการที่เลือก · " + (mark.kind === "track_event" ? "รายการที่ " : "คู่ที่ ") +
+          mark.number + " · " + mark.division
+        : "ยังไม่พบตำแหน่งรายการที่ตรวจสอบแล้วในสูจิบัตรฉบับนี้";
+      if (mark && !programPositioned) {
+        programPositioned = true;
+        const surface = $("pdfPageSurface");
+        const relativeTop = surface?.getBoundingClientRect && el.host.getBoundingClientRect
+          ? surface.getBoundingClientRect().top - el.host.getBoundingClientRect().top
+          : 0;
+        el.host.scrollTop = Math.max(0,
+          el.host.scrollTop + relativeTop + mark.top + mark.height / 2 - el.host.clientHeight / 2);
+      }
+    }
   } catch (err) {
     if (requestId !== generation || err?.name === "RenderingCancelledException") return;
     el.status.textContent = "ไม่สามารถแสดงหน้าที่เลือกได้";
@@ -216,13 +243,23 @@ async function startViewer() {
           .then(response => { if (!response.ok) throw Error("map_unavailable"); return response.json(); })
           .catch(err => { console.warn("R19-K coordinate index unavailable", err); return null; })
       : Promise.resolve(null);
-    // Import only when the viewer is explicitly opened. Never load PDF.js for all 237 cards.
+    const programCoordinatesPromise = selectedProgram
+      ? fetch("./data/program-pdf-positions-v2.json?v=r23a1", {cache:"no-store"})
+          .then(response => { if (!response.ok) throw Error("program_map_unavailable"); return response.json(); })
+          .catch(err => { console.warn("R23 fixture coordinate index unavailable", err); return null; })
+      : Promise.resolve(null);
+    // Import only when the viewer is explicitly opened. Never load PDF.js for all 236 cards.
     const pdfjs = await import(PDF_JS_URL);
     pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
     const task = pdfjs.getDocument({ url: PDF_URL });
     pdf = await task.promise;
     if (pdf.numPages !== DOCUMENT_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
     committeeCoordinateIndex = await coordinatesPromise;
+    programCoordinateIndex = await programCoordinatesPromise;
+    if (selectedProgram && programCoordinateIndex &&
+        programCoordinateIndex.source_pdf_pages !== pdf.numPages) {
+      programCoordinateIndex = null;
+    }
     if (isCommittee && committeeCoordinateIndex &&
         committeeCoordinateIndex.source_pdf_pages !== pdf.numPages) {
       committeeCoordinateIndex = null; // Never use coordinates against a different page count.
