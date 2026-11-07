@@ -50,7 +50,11 @@ function card(doc) {
    actions.append(link);
  }else{
    actions.append(el("p","restricted-note",
-     "ยังไม่เปิดไฟล์ 155 หน้าบนเว็บไซต์ ผู้มีสิทธิ์สามารถตรวจร่างจาก Google Drive ของผู้จัดได้ตามสิทธิ์ที่ได้รับ"));
+     "ยังไม่เปิดไฟล์ 155 หน้าจาก Google Drive โดยตรง ผู้มีสิทธิ์สามารถเลือกไฟล์จากอุปกรณ์เพื่อตรวจในหน้าเว็บได้"));
+   const local = el("a","document-link","ตรวจจากไฟล์ในเครื่อง");
+   local.href = "./booklet-private-viewer.html";
+   local.setAttribute("aria-label","ตรวจสูจิบัตร 155 หน้าที่ได้รับอนุญาตจากไฟล์ในเครื่อง");
+   actions.append(local);
  }
  article.append(top,purpose,status,actions);
  return article;
