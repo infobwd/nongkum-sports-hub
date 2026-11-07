@@ -7,6 +7,7 @@
   <meta name="description" content="อ่านสูจิบัตรกีฬากลุ่ม ปี 2569 แบบหนังสือทีละหน้า">
   <title>อ่านสูจิบัตร PDF ตามหน้า · มิตรภาพเกมส์ 2569</title>
   <link rel="stylesheet" href="./css/pdf-viewer.css?v=r11d6">
+  <link rel="stylesheet" href="./css/program-pdf-highlight.css?v=r23a1">
 </head>
 <body>
   <main class="pdf-app">
@@ -31,8 +32,9 @@
     </header>
     <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite">กำลังเปิดสูจิบัตร PDF…</p>
     <div id="pdfCanvasHost" class="pdf-canvas-host" aria-label="หน้าหนังสือ ปัดซ้ายหรือขวาเพื่อเปลี่ยนหน้าเมื่อไม่ได้ขยาย">
-      <canvas id="pdfCanvas" aria-label="หน้าสูจิบัตร PDF"></canvas>
+      <div id="pdfPageSurface" class="program-pdf-page-surface"><canvas id="pdfCanvas" aria-label="หน้าสูจิบัตร PDF"></canvas><div id="pdfHighlightLayer" class="program-pdf-highlight-layer" aria-hidden="true"></div></div>
     </div>
+    <p id="pdfMatchStatus" class="program-pdf-match-status" role="status" aria-live="polite" hidden></p>
     <section id="pdfFailure" class="pdf-failure" role="alert" hidden>
       <strong>ไม่สามารถแสดง PDF ภายในเว็บได้</strong>
       <p>อาจเกิดจากการเชื่อมต่อหรือเบราว์เซอร์ไม่รองรับการอ่าน PDF ในหน้านี้</p>
@@ -52,6 +54,7 @@
     </nav>
     <p class="pdf-draft">สูจิบัตรฉบับร่างสำหรับตรวจสอบ • ไม่ใช่โปรแกรมแข่งขันที่รับรองแล้ว</p>
   </main>
-  <script type="module" src="./js/pdf-viewer.js?v=r14-book1"></script>
+  <script src="./js/program-pdf-highlight.js?v=r23a1"></script>
+  <script type="module" src="./js/pdf-viewer.js?v=r23a1"></script>
 </body>
 </html>
