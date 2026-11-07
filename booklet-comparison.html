@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="รายงานตรวจเทียบเอกสารสูจิบัตร V2, V3 และเล่มรวมฉบับตรวจร่าง 155 หน้า">
+  <title>ตรวจเทียบสูจิบัตร · มิตรภาพเกมส์ 2569</title>
+  <link rel="stylesheet" href="./css/booklets.css?v=r24a1">
+  <link rel="stylesheet" href="./css/booklet-comparison.css?v=r24d1">
+</head>
+<body>
+  <header class="booklets-header">
+    <div class="booklets-shell">
+      <a class="back" href="./booklets.html">← กลับไปเอกสารสูจิบัตร</a>
+      <p class="eyebrow">มิตรภาพเกมส์ 2569 · ตรวจสอบหลักฐาน</p>
+      <h1>รายงานตรวจเทียบสูจิบัตร</h1>
+      <p class="lead">ดูรายการอ้างอิงระหว่างฉบับ โดยแยกข้อมูลที่พบในเอกสารออกจากข้อมูลที่ผู้จัดรับรองแล้ว</p>
+    </div>
+  </header>
+  <main class="booklets-shell booklet-compare">
+    <section class="review-notice" aria-label="ข้อควรทราบ">
+      <strong>ตำแหน่งเอกสารตรงกัน ไม่ได้หมายความว่ารับรองข้อมูลแล้ว</strong>
+      <span>การเปรียบเทียบข้อความรายช่องยังรอตรวจจากต้นฉบับโดยผู้รับผิดชอบ โปรดอย่าสรุปว่าคู่แข่งขันหรือกรรมการผ่านการยืนยันจากตัวเลขจำนวนอ้างอิง</span>
+    </section>
+    <p class="compare-loading" id="compareStatus" role="status" aria-live="polite">กำลังตรวจแหล่งข้อมูลและรุ่นเอกสาร…</p>
+    <section class="compare-metrics" id="compareSummary" aria-label="ภาพรวมการตรวจ" hidden>
+      <div class="compare-metric"><strong id="compareFixtures">—</strong><span>รายการแข่งขันที่มีพิกัด V2</span></div>
+      <div class="compare-metric"><strong id="compareCommittee">—</strong><span>รายการกรรมการที่มีพิกัด V3</span></div>
+      <div class="compare-metric"><strong id="compareIntegrated">—</strong><span>จุดอ้างอิงในเล่ม 155 หน้า</span></div>
+      <div class="compare-metric"><strong id="compareNeedsReview">—</strong><span>รายการที่ยังรอตรวจเนื้อหา</span></div>
+    </section>
+    <section class="compare-panel" id="compareProgram" aria-labelledby="compareProgramTitle" hidden>
+      <div class="compare-head">
+        <h2 id="compareProgramTitle">ตรวจตารางแข่งขันและกรีฑา</h2>
+        <p class="compare-subtitle">เปิดตำแหน่งเดิมใน V2 หรือเทียบกับเล่ม 155 หน้าด้วยไฟล์ที่มีสิทธิ์</p>
+      </div>
+      <div class="compare-filter">
+        <label for="compareSport">ชนิดกีฬา
+          <select id="compareSport"><option value="">ทุกชนิดกีฬา</option></select>
+        </label>
+        <label for="compareQuery">ค้นหาคู่หรือรุ่น
+          <input id="compareQuery" type="search" placeholder="เลขคู่ / รุ่น / ชื่อทีม">
+        </label>
+      </div>
+      <p class="compare-count" id="compareCount" aria-live="polite"></p>
+      <div class="compare-items" id="compareItems"></div>
+      <button class="compare-more" id="compareMore" type="button" hidden>แสดงรายการเพิ่มเติม</button>
+      <label class="compare-copylabel" for="compareCopyText" id="compareCopyLabel" hidden>ข้อความสำหรับนำไปแจ้งผู้จัด
+        <textarea id="compareCopyText" readonly rows="7"></textarea>
+      </label>
+    </section>
+    <section class="compare-panel compare-staff" id="compareStaff" aria-labelledby="compareStaffTitle" hidden>
+      <h2 id="compareStaffTitle">ตรวจรายชื่อและหน้าที่กรรมการ</h2>
+      <p>พบจุดอ้างอิงของกรรมการ 250 รายการใน V3 และเล่มรวม แต่ยังไม่ใช่คำสั่งแต่งตั้งที่ได้รับรอง หากเป็นผู้ประสานงานโรงเรียน ให้ใช้ช่องทางตรวจร่างที่มีระบบแยกข้อมูลและรหัสโรงเรียนอยู่แล้ว</p>
+      <div class="related-links">
+        <a href="./committee.html">ค้นหาหน้าที่กรรมการ</a>
+        <a href="./committee-review.html">ตรวจร่างและส่งผลของโรงเรียน</a>
+      </div>
+      <p class="compare-note">เมื่อโรงเรียนส่งข้อความผ่าน LINE ผู้จัดต้องตรวจสอบตัวตนผู้ส่งและตอบรับแยก ไม่ถือว่ากดส่งแล้วรับรองทันที</p>
+    </section>
+    <section class="compare-panel" aria-labelledby="compareNextTitle">
+      <h2 id="compareNextTitle">สถานะการตรวจเทียบ</h2>
+      <p><strong>พบพิกัดอ้างอิง:</strong> ระบุได้ว่าตารางหรือชื่อกรรมการอยู่ที่ใดในฉบับที่ตรวจ</p>
+      <p><strong>ข้อความตรงกัน / ข้อแตกต่างจริง:</strong> จะระบุได้เมื่อมีผลตรวจเนื้อหาจาก PDF ต้นทางรายช่องพร้อมหลักฐาน ไม่อ้างจากรหัสรายการเพียงอย่างเดียว</p>
+      <p><strong>รับรองข้อมูล:</strong> เป็นการดำเนินการแยกโดยผู้จัดหรือผู้มีอำนาจ ไม่เกิดขึ้นจากการใช้งานหน้านี้</p>
+    </section>
+  </main>
+  <footer class="booklets-shell footer">เอกสารเพื่อการตรวจร่าง · ไม่ใช่ประกาศผลการแข่งขันหรือคำสั่งแต่งตั้ง</footer>
+  <script src="./js/booklet-comparison-model.js?v=r24d1"></script>
+  <script src="./js/booklet-comparison.js?v=r24d1" defer></script>
+</body>
+</html>
