@@ -28,9 +28,12 @@ assert detail_html.count('class="v42-duty-paragraph"')==20
 assert detail_html.count('class="v42-duty-continuation"')==14
 assert audit["missing_source_line_ids"]==audit["duplicate_source_line_ids"]==[]
 builder=(root/"scripts/docs/build-v4-full.py").read_text("utf-8")
-assert 'notice_html=notice(read_source(pdf,6),read_source(pdf,16))' in builder
+assert 'notice_html=notice(read_source(pdf,6),read_source(pdf,16))' not in builder
 assert 'official_html=official_full_html(official_model)' in builder
 assert 'official_report=source_audit(official_model,official_html)' in builder
-assert builder.index('pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"') < builder.index('pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)"')
+assert 'pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"' not in builder
+assert 'pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)"' not in builder
+assert 'render_official_notice_v2(official_model' in builder
+assert 'document.insert_pdf(pr82_pdf,start_at=insert_at)' in builder
 assert '"rendered_cover_design":"g1_text_only_fallback"' in builder
-print("V42-N1 PASS: V4.1 notice styling restored, 341 source lines and 20 committee sections preserved; review-only")
+print("V42-N3B PASS: historical V4.1 notice remains testable but only PR82 renders in booklet; source audit complete")
