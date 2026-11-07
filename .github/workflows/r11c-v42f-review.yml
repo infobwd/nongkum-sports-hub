@@ -1,11 +1,12 @@
-name: R11C V42-F integrated review PDF (no publication)
+name: R11C V42 organizer review PDF (no publication)
 on:
   push:
-    branches: ["feat/r11c-v42f-full-book-review-20261107"]
+    branches: ["feat/r11c-v42f-full-book-review-20261107", "feat/r11c-v42h-organizer-bracket-review-20261107"]
     paths:
       - "scripts/docs/**"
       - ".github/workflows/r11c-v42f-review.yml"
       - "docs/R11C_V42F_FULL_BOOK_QA_20261107.md"
+      - "docs/R11C_V42H_ORGANIZER_BRACKET_REVIEW_PLAN_20261107.md"
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,20 +34,21 @@ jobs:
           test -s /tmp/v41-fonts/OFL.txt
       - name: Source and editorial regressions before expensive PDF render
         run: |
-          python -m py_compile scripts/docs/v42_ceremony.py scripts/docs/v42_rules.py scripts/docs/v42_matchday.py scripts/docs/v42_brackets.py scripts/docs/build-v4-full.py
+          python -m py_compile scripts/docs/v42_ceremony.py scripts/docs/v42_rules.py scripts/docs/v42_matchday.py scripts/docs/v42_brackets.py scripts/docs/v42_organizer_review.py scripts/docs/build-v4-full.py
           python scripts/docs/test-v41-editorial.py
           python scripts/docs/test-v42a-official.py
           python scripts/docs/test-v42b-ceremony.py
           python scripts/docs/test-v42c-rules.py
           python scripts/docs/test-v42d-matchday.py
           python scripts/docs/test-v42e-brackets.py
+          python scripts/docs/test-v42h-organizer-review.py
       - name: Build integrated V42-F A4 review PDF
         run: python scripts/docs/build-v4-full.py --root . --out build/v42f-review
       - name: Verify PDF anchors, A4, all source counts, visual sample
         run: python scripts/docs/test-v42f-pdf-qa.py build/v42f-review
       - uses: actions/upload-artifact@v4
         with:
-          name: R11C-V42F-integrated-review-not-for-publication
+          name: R11C-V42H-organizer-review-not-for-publication
           path: |
             build/v42f-review/souvenir-v4-full-draft.pdf
             build/v42f-review/souvenir-v4-page-map.json
