@@ -1,7 +1,15 @@
-name: V42-A Notice Full Sarabun Font Fix
+name: R11C N3-A PR82 Golden Notice Layout QA (review only)
 on:
   push:
     branches: ["feat/r11c-v42a-full-sarabun-fontfix-preview-20261107"]
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/docs/notice-preview-v2.py"
+      - "scripts/docs/v42_notice_pr82.py"
+      - "scripts/docs/test-v42n3a-pr82-source.py"
+      - "scripts/docs/test-v42n3a-pr82-pdf.py"
+      - ".github/workflows/notice-preview-v2.yml"
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,13 +34,17 @@ jobs:
           done
           curl -fLsS --retry 3 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/OFL.txt" -o /tmp/v42a-fonts/OFL.txt
           test -s /tmp/v42a-fonts/OFL.txt
-      - name: Generate source text, not for publication
-        run: python scripts/docs/build-v4-full.py --root . --out build/v42a-source
-      - name: Generate full-font notice-only preview
-        run: python scripts/docs/notice-preview-v2.py --html build/v42a-source/souvenir-v4-full-draft.html --fonts /tmp/v42a-fonts --out build/v42a-preview
+      - name: Check original V3 source contract before generation
+        run: |
+          python -m py_compile scripts/docs/v42_notice_pr82.py scripts/docs/notice-preview-v2.py scripts/docs/test-v42n3a-pr82-source.py scripts/docs/test-v42n3a-pr82-pdf.py
+          python scripts/docs/test-v42n3a-pr82-source.py
+      - name: Generate PR82 full-font 11-page notice directly from V3 source
+        run: python scripts/docs/notice-preview-v2.py --source-pdf assets/souvenir-committee-2569-v3.pdf --fonts /tmp/v42a-fonts --out build/v42a-preview
+      - name: Check PR82 typography, page count, role columns and searchable Thai
+        run: python scripts/docs/test-v42n3a-pr82-pdf.py build/v42a-preview
       - uses: actions/upload-artifact@v4
         with:
-          name: Announcement-Full-Sarabun-V2
+          name: R11C-N3A-PR82-Golden-Notice-11page-review-only
           path: |
             build/v42a-preview/announcement_formal_preview_v2.pdf
             build/v42a-preview/announcement_formal_preview_v2_contact.png
