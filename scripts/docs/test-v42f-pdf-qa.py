@@ -30,6 +30,14 @@ assert stage["organizer_review"]["publication_state"]=="review_only" and stage["
 assert "ORGANIZER REVIEW" in new_text
 assert len(anchors)==486 and all(1<=v["page"]<=len(pdf) for v in anchors.values())
 assert stage["cover_status"]=="layout_approved_hero_rights_pending"
+assert stage["cover_typography_status"]=="G1_sport_masthead_review_only"
+assert q["cover_typography_revision"]=="V42-G1"
+# Noto Thai renders Sara Am as canonically-equivalent combining marks for PDF text-layer compatibility.
+def thai_search_normalized(text):
+    return re.sub(r"\\s+","",text.replace("\\u0e33","\\u0e4d\\u0e32"))
+first_page=thai_search_normalized(pdf[0].get_text())
+assert thai_search_normalized("มิตรภาพเกมส์") in first_page, "Sport masthead must be native, searchable Thai PDF text"
+assert "2569" in first_page and thai_search_normalized("ร่างสำหรับตรวจข้อมูล") in first_page
 assert len(stage["matchday"])==8
 pages={}
 for i,z in enumerate(pdf):
