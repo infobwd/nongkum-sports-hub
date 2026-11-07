@@ -1,5 +1,8 @@
 # มิตรภาพเกม 2569 — สถานะงานคู่ขนานและจุดส่งต่องาน (snapshot)
 
+> **สถานะปัจจุบันหลัง V4.2-H (7 พ.ย. 2569):** เอกสารนี้เป็นหลักฐาน snapshot 4 พ.ย. เท่านั้น การติดตามงานค้างและการส่ง PDF เข้า Google Drive ให้ใช้ [แผนปัจจุบันหลัง V4.2-H](SPORTS_2569_V42H_NEXT_STEPS_AND_DRIVE_DELIVERY_20261107.md) เป็นรายการอ้างอิงล่าสุด โดยไม่แก้ตัวเลขประวัติใน snapshot นี้
+
+
 **วันที่ตรวจ:** 4 พฤศจิกายน 2569 · **แหล่งตรวจ:** GitHub `infobwd/nongkum-sports-hub` branch `main`, PR list, action runs และเอกสารแผนใน repo  
 **ลักษณะเอกสาร:** Snapshot / ตรวจเฉพาะหลักฐานที่เข้าถึงได้ — ไม่ใช่การยืนยัน Deploy หรือผลกรรมการตรวจรับ  
 **แผนใหม่:** [R12 Document-to-JSON conflict analysis](R12_ATHLETE_DOCUMENT_TO_JSON_SCHEDULE_CONFLICT_PLAN.md)
