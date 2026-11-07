@@ -35,5 +35,5 @@ assert 'pages.append(sec("ประกาศกลุ่มเครือข่
 assert 'pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)"' not in builder
 assert 'render_official_notice_v2(official_model' in builder
 assert 'document.insert_pdf(pr82_pdf,start_at=insert_at)' in builder
-assert '"rendered_cover_design":"g1_text_only_fallback"' in builder
+assert '"rendered_cover_design":"g2_private_preview" if cover_photo is not None else "g1_text_only_fallback"' in builder
 print("V42-N3B PASS: historical V4.1 notice remains testable but only PR82 renders in booklet; source audit complete")
