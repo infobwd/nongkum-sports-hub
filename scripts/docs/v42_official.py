@@ -220,7 +220,7 @@ def official_css():
 .v42-official-guide{display:none}
 .v42-page-label{display:none}
 .v42-duty-paragraph{font-family:FormalThai,NotoThai,sans-serif;font-size:11.2pt;
- line-height:1.75;text-align:justify;text-indent:7mm;margin:2.5mm 0 3.5mm;
+ line-height:1.75;text-align:left;text-indent:7mm;margin:2.5mm 0 3.5mm;
  border:0;background:none;padding:0;color:#202936;break-inside:avoid}
 .v42-duty-paragraph span{font-family:inherit;font-size:inherit}
 """
