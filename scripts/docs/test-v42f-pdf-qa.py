@@ -28,7 +28,7 @@ assert stage["notice_opening"]=={
     "source_pages":[6,16],"full_source_retained":True}
 # The restored preview must fit on one page and precede the complete V3 transcription.
 def normalize_notice_text(t):
-    return re.sub(r"\\s+","",t.replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32)))
+    return re.sub(r"\s+","",t.replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32)))
 opening_pages=[i for i,p in enumerate(list(pdf)[:-17])
                if "เลขที่ประกาศ" in normalize_notice_text(p.get_text())
                and "รอชื่อผู้ลงนาม" in normalize_notice_text(p.get_text())]
