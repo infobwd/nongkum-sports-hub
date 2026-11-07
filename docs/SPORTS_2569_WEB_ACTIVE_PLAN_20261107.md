@@ -91,7 +91,16 @@
 
 ## R23 (7 พฤศจิกายน 2569) — ไฮไลท์รายการใน PDF ตารางแข่งขัน 41 หน้า
 
-- **สถานะ: พัฒนาแล้ว / QA CI ผ่าน / PR #119 ยัง Draft / ยังไม่ได้ Merge หรือ Deploy** ([PR #119](https://github.com/infobwd/nongkum-sports-hub/pull/119)). งานนี้เพิ่มไฮไลท์รายการในตัวอ่าน PDF V2 ที่เว็บใช้ผ่าน `fixture=ID` โดยไม่แก้ข้อมูลรายการ, ผล, กรรมการ หรือเล่ม 155 หน้า.
+- **สถานะ: พัฒนาแล้ว / CI ผ่าน / PR #119 MERGED INTO MAIN (7 พ.ย. 2569, commit `339050dc6df494f22922ecc59a70a5a7dc8c9ab5`) / การ Deploy และตรวจรับมือถือยังไม่ยืนยัน** ([PR #119](https://github.com/infobwd/nongkum-sports-hub/pull/119)). งานนี้เพิ่มไฮไลท์รายการในตัวอ่าน PDF V2 ที่เว็บใช้ผ่าน `fixture=ID` โดยไม่แก้ข้อมูลรายการ, ผล, กรรมการ หรือเล่ม 155 หน้า.
 - สร้างพิกัดจาก PDF SHA เดิม 41 หน้า **236 รายการครบ** (186 คู่ + 50 กรีฑา), แยกเลขคู่/รายการที่ซ้ำ, ตรวจ revision ก่อนแสดง. รายละเอียด: [แผน R23](R23_PROGRAM_PDF_FIXTURE_HIGHLIGHT_PHASE1_PLAN_20261107.md) และ [ผล QA](R23_PROGRAM_PDF_HIGHLIGHT_PHASE1_QA_20261107.md).
 - ชุด CI [R23](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059887), [R11D](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059918), [R14](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059860), [R19 committee](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059857), [R19K](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059865), [Validate](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059849) **PASS** บน head `7c25fec7` ก่อนแก้ข้อความแผนนี้. ก่อน Merge ตรวจใหม่บน latest head.
-- **ค้าง:** ผู้จัดอนุญาต Merge, ทดลอง iPhone Safari/LINE WebView/Android จริงหลัง staging/deploy, ตรวจกรณีซูม/ปัด/กลับการ์ดและหน้า PDF ร่าง; เฟส 2 เล่มใหม่ 155 หน้าแยกงานจาก PR #116/#118.
+- **ค้าง:** ตรวจการเผยแพร่จริงหลัง Merge และทดลอง iPhone Safari/LINE WebView/Android, ตรวจซูม/ปัด/กลับการ์ดและหน้า PDF; เฟส 2 เล่มใหม่ 155 หน้าแยกงานจาก PR #116/#118.
+
+
+## R24 — ศูนย์เอกสารสูจิบัตร 3 ฉบับและตรวจเทียบข้ามฉบับ (บันทึก 7 พฤศจิกายน 2569)
+
+- **สถานะ: PLANNED ONLY / NOT IMPLEMENTED / NOT MERGED / NOT DEPLOYED.** แผนหลัก: [R24 Three-Version Booklet Review Hub](R24_THREE_VERSION_BOOKLET_REVIEW_HUB_PLAN_20261107.md). ผู้จัดต้องการเก็บ V2 (ตาราง 41 หน้า) และ V3 (กรรมการ 64 หน้า) ไว้ แล้วเพิ่มเล่ม V4.2-I10 G2 (155 หน้า) สำหรับตรวจเทียบและยืนยันต่อเนื่อง.
+- **R24-A:** เลือกดูเอกสารทั้งสามฉบับผ่านเมนู “เพิ่มเติม”; V2/V3 เปิด/ไฮไลท์ตามเดิม; V4.2 แสดง “ฉบับตรวจร่าง” และต้องตรวจสิทธิ์เข้าถึงก่อนเปิดเผย.
+- **R24-B/C:** ตรวจ revision/SHA PDF 155 หน้ากับ page-map 486 รายการใน PR #116 ก่อนเชื่อมเปิดตรงคู่แข่งขันหรือชื่อกรรมการ. ไม่ใช้พิกัด V2/V3 ซ้ำหรือคาดเดาหมายเลขหน้า.
+- **R24-D/E:** เพิ่มการตรวจเทียบ/ยืนยันแบบมีสิทธิ์และหลักฐานแยกจากการรับรองทางการ; ผ่าน CI, การทดลอง Safari/LINE/Android และ R11E ก่อนเผยแพร่. PDF 155 หน้าปกล่าสุดจาก PR #118 ยัง **review only**, PR #116/#118 ยัง Draft.
+- **ข้อจำกัด:** ห้ามแก้ source PDF V2/V3, fixture raw 237/active 236, ข้อมูลกรรมการ, ผล/อันดับ หรือไฟล์เล่มใน Drive จากงานบันทึกแผนนี้. ควรทำ PR พัฒนาแยกจากงานเล่มและผัง.
