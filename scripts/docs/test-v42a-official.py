@@ -51,7 +51,7 @@ assert "notice_html=notice(read_source(pdf,6),read_source(pdf,16))" in builder, 
 assert 'pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"' in builder
 assert 'pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ"' in builder
 assert builder.index('pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"') < builder.index('pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ"')
-assert '"full_source_retained":official_report["total_lines"]==official_report["rendered_source_lines"]==341' in builder
+assert '"full_source_retained":official_report["total_source_lines"]==official_report["rendered_source_lines"]==341' in builder
 # The short opening is an extra view, not a replacement for the complete model.
 assert "source_audit(official_model,official_html)" in builder
 assert "souvenir-v42a-official-source-qa.json" in builder
