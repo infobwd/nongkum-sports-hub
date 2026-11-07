@@ -1,0 +1,34 @@
+name: R24-D Read-only Booklet Reconciliation
+on:
+  pull_request:
+    paths:
+      - 'booklet-comparison.html'
+      - 'booklets.html'
+      - 'css/booklet-comparison.css'
+      - 'js/booklet-comparison*.js'
+      - 'scripts/booklets/**'
+      - 'docs/R24D_**'
+      - '.github/workflows/r24d-booklet-review.yml'
+      - 'data/program-from-pdf-2569-20261104-draft.json'
+      - 'data/committee-2569-draft-public-review.json'
+      - 'data/program-pdf-positions-v2.json'
+      - 'data/committee-pdf-positions-v3.json'
+      - 'data/booklet-versions.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reconcile-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JavaScript source
+        run: |
+          node --check js/booklet-comparison-model.js
+          node --check js/booklet-comparison.js
+          node --check scripts/booklets/test-r24d-comparison.mjs
+      - name: Validate evidence-only comparison, R19D reuse and safe routes
+        run: node scripts/booklets/test-r24d-comparison.mjs
