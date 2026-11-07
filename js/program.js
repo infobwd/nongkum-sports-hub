@@ -184,7 +184,9 @@
       (!confirmedSchedule&&m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันแข่งขันนอกรอบรอตรวจรับ")+"</p>":"")+
       "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
-      "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
+      "<div class='source'><a href='./booklet-private-viewer.html?fixture="+encodeURIComponent(m.id)+
+       "'>เทียบในเล่มรวม 155 หน้า (ผู้มีสิทธิ์)</a></div>"+
+       "<div class='source'>อ้างอิง PDF หน้า "+safe(m.source_pdf?.page||m.source_page)+
       (confirmedSchedule?" · กำหนดการแข่งขันยืนยันแล้ว":" · โปรดตรวจสอบกำหนดกับผู้จัด")+"</div></details>";
     const page=Number(m.source_pdf?.page||m.source_page);
     const sourceButton=Number.isInteger(page)&&page>=1&&page<=41
