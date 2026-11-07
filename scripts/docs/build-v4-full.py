@@ -253,7 +253,7 @@ def build(root,out):
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
  stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending","cover_typography_status":"G1_sport_masthead_review_only",
-     "notice_opening":{"revision":"V42-N1-V41-restored","status":"draft_review_only","source_pages":[6,16],"full_source_retained":official_report["total_lines"]==official_report["rendered_source_lines"]==341},
+     "notice_opening":{"revision":"V42-N1-V41-restored","status":"draft_review_only","source_pages":[6,16],"full_source_retained":official_report["total_source_lines"]==official_report["rendered_source_lines"]==341},
      "ceremony":{"opening":opening_qa,"closing":closing_qa},
      "rules":rules_qa,"matchday":matchday_audits,"brackets":brackets_qa,"organizer_review":organizer_qa}
  (out/"souvenir-v42f-stage-qa.json").write_text(json.dumps(stage_qa,ensure_ascii=False,indent=2)+"\n","utf-8")
