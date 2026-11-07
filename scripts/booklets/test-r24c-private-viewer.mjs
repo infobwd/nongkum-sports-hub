@@ -26,7 +26,7 @@ assert.match(code,/crypto\.subtle\.digest/);
 assert.match(code,/PDF_SHA/);
 assert.match(code,/MAP_SHA/);
 assert.match(code,/sourceRow\(\)/);
-assert.match(code,/row\.id !== "football-p07-มัธยมหญิง-020-repeated-final"/);
+assert.match(code,/f\.id !== "football-p07-มัธยมหญิง-020-repeated-final"/);
 assert.match(code,/new Uint8Array\(pdfBytes\)/);
 assert.match(code,/clearMark\(\)/);
 assert.match(code,/getDocument\(\{data:/);
