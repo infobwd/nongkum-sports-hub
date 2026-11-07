@@ -7,7 +7,7 @@ import argparse,collections,datetime,hashlib,html,json,re
 from pathlib import Path
 import fitz
 from weasyprint import HTML
-from v41_editorial import (formal_font_css, colors_and_oath, special_observations, extra_css)
+from v41_editorial import (formal_font_css, colors_and_oath, special_observations, extra_css, notice)
 from v42_ceremony import render as render_ceremony, css as ceremony_css
 from v42_rules import render as render_rules, css as rules_css
 from v42_matchday import render as render_matchday, css as matchday_css
@@ -161,9 +161,15 @@ def build(root,out):
  official_model=build_source_model(pdf)
  official_html=official_full_html(official_model)
  official_report=source_audit(official_model,official_html)
- pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / ข้อความต้นฉบับครบ",
-  official_html,
-  "Sarabun มีหัว · ข้อความจาก V3 หน้า 6–16 ครบทุกบรรทัด · ยังไม่คัดลอกลายเซ็นมาเป็นเอกสารฉบับใหม่"))
+ # V42-N1: restore V4.1 formal opening before full V3 transcription.
+ # The one-page visual preview must never replace the 341 source lines.
+ notice_html=notice(read_source(pdf,6),read_source(pdf,16))
+ if 'class="official-paper"' not in notice_html or "รอชื่อผู้ลงนาม" not in notice_html:
+  raise ValueError("V4.1 formal draft notice missing")
+ pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / หน้าเปิดประกาศ",
+  notice_html,"รูปแบบ V4.1 สำหรับตรวจรับ · ยังไม่ใช่ประกาศที่ลงนาม"))
+ pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ","เอกสารทางการ / ข้อความต้นฉบับครบ",
+  official_html,"Sarabun มีหัว · V3 หน้า 6–16 ครบ 341 บรรทัด 20 หมวด · ยังไม่ใช่คำสั่งลงนาม"))
  heads=["ข้อ","ชื่อ–สกุล","สังกัด","หน้าที่"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
@@ -242,11 +248,12 @@ def build(root,out):
    "จากสูจิบัตร V2/V3 และตารางต้นทาง • ข้อเสนอแก้ยังต้องมีมติผู้จัดก่อนใช้จริง"))
  official_css,official_font_used=formal_font_css()
  html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-H ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+organizer_review_css()+cover_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-H ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42H • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
- if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","v42-official-content","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets","รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด")):
+ if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","official-paper","v42-official-content","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets","รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด")):
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
  stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending","cover_typography_status":"G1_sport_masthead_review_only",
+     "notice_opening":{"revision":"V42-N1-V41-restored","status":"draft_review_only","source_pages":[6,16],"full_source_retained":official_report["total_lines"]==official_report["rendered_source_lines"]==341},
      "ceremony":{"opening":opening_qa,"closing":closing_qa},
      "rules":rules_qa,"matchday":matchday_audits,"brackets":brackets_qa,"organizer_review":organizer_qa}
  (out/"souvenir-v42f-stage-qa.json").write_text(json.dumps(stage_qa,ensure_ascii=False,indent=2)+"\n","utf-8")
@@ -287,6 +294,8 @@ def build(root,out):
  result={"schema_version":1,"status":"draft_not_approved","source_pdf_sha256":sha,
   "layout_revision":"R11C-V4.2-H", "formal_font":official_font_used,
   "cover_image_status":"approved_design_pending_publication_rights","cover_typography_revision":"V42-G1",
+  "selected_cover_design":"full_photo_v2","rendered_cover_design":"g1_text_only_fallback",
+  "notice_opening_revision":"V42-N1-V41-restored",
   "ceremony_opening_events":opening_qa["events"],"ceremony_closing_events":closing_qa["events"],
   "rules_rank_points":rules_qa["award_rank_points"],
   "bracket_verified_edges":brackets_qa["verified_edges"],
@@ -299,7 +308,7 @@ def build(root,out):
   "official_rendered_lines":official_report["rendered_source_lines"],
   "official_section_count":len(official_report["verified_section_ids"]),
   "official_source_sha256":official_report["full_text_sha256"],
-  "editorial_sections":["formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review","organizer_six_group_review"],
+  "editorial_sections":["formal_notice_opening","formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review","organizer_six_group_review"],
   "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),
   "program_items":len(fixtures),"matches":len(matches),"athletics":len(athletics),
