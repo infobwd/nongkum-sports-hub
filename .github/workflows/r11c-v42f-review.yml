@@ -40,9 +40,10 @@ jobs:
           test -s /tmp/v41-fonts/OFL.txt
       - name: Source and editorial regressions before expensive PDF render
         run: |
-          python -m py_compile scripts/docs/v42_cover.py scripts/docs/test-v42g1-cover.py scripts/docs/v42_ceremony.py scripts/docs/v42_rules.py scripts/docs/v42_matchday.py scripts/docs/v42_brackets.py scripts/docs/v42_organizer_review.py scripts/docs/build-v4-full.py
+          python -m py_compile scripts/docs/test-v42n1-formal-notice.py scripts/docs/v42_cover.py scripts/docs/test-v42g1-cover.py scripts/docs/v42_ceremony.py scripts/docs/v42_rules.py scripts/docs/v42_matchday.py scripts/docs/v42_brackets.py scripts/docs/v42_organizer_review.py scripts/docs/build-v4-full.py
           python scripts/docs/test-v41-editorial.py
           python scripts/docs/test-v42a-official.py
+          python scripts/docs/test-v42n1-formal-notice.py
           python scripts/docs/test-v42b-ceremony.py
           python scripts/docs/test-v42c-rules.py
           python scripts/docs/test-v42d-matchday.py
@@ -55,7 +56,7 @@ jobs:
         run: python scripts/docs/test-v42f-pdf-qa.py build/v42f-review
       - uses: actions/upload-artifact@v4
         with:
-          name: R11C-V42H-G1-cover-review-not-for-publication
+          name: R11C-V42H-G1-N1-formal-notice-review-only
           path: |
             build/v42f-review/souvenir-v4-full-draft.pdf
             build/v42f-review/souvenir-v4-page-map.json
