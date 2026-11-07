@@ -89,3 +89,28 @@
 - ยังคง **review-only ไม่อัปโหลด Google Drive ในรอบนี้** เพราะ Google Drive plugin ไม่พร้อม และไม่แก้ GitHub Pages. ไฟล์ PDF ของ PR #107 เป็นร่างสำหรับผู้จัดตรวจจนกว่า R11E ผ่าน gate.
 
 **บทสรุปงานค้าง:** P0 เปตอง 12–13 พ.ย. และ 6 bracket group approvals; P1 ภาพ G2+rights/300dpi, คำสั่งกรรมการ/กติกา; P2 crosswalk 17 appendix pages/R12 roster privacy; R11E print/mobile/revision/organizer signoff/publishing. เอกสาร snapshot ก่อนหน้าเป็นประวัติ ไม่ใช่สถานะล่าสุด.
+
+## 7. G2 real selected-photo private PDF proof — 7 พฤศจิกายน 2569
+
+**สถานะ: PHOTO SELECTED / PRIVATE PDF REVIEW BUILT / DRIVE UPLOADED & VERIFIED / PRINT & RIGHTS GATES STILL OPEN**
+
+ตามคำสั่งผู้จัดในแชท ให้ใช้ภาพ **`เยาวชนไทยรวมพลังบนสนามกีฬา.png`** ที่มีอยู่ใน Google Drive หมวด `01_ภาพปก` โดยไม่สร้างภาพทดแทนและไม่เปลี่ยนแนว Full Photo V2 / sport-display title ที่ผู้จัดเคยเห็นชอบตาม PR #85.
+
+### สิ่งที่ดำเนินการแล้ว (private runtime, no public source asset)
+
+- อ่าน image file ตัวจริงที่ผู้จัดระบุ: `PNG 1055×1491 px`, **2,391,826 bytes**, SHA-256 `c6ee9f11867eb5aab8d14993687f83d2e98ad568bca2eb4397e200a11bcbd0da`. ตรงชื่อ/ขนาดของ Google Drive file ที่ตรวจ metadata ได้. **ห้ามเผยแพร่ private Drive file ID / image bytes ใน public repo**
+- ใช้ภาพนี้เป็นหน้า Full Photo V2 อัตราส่วนใกล้ A4 portrait, ไม่มี crop คน, วางหัวเรื่อง **“มิตรภาพเกมส์ 2569” แบบ sport display** สีขาว–ทองพร้อมเส้นเน้น/เงาบางและพื้นอ่านง่าย; อักษรไทยเป็น PDF text layer ไม่ใช่ตัวอักษรที่ AI วาดลงภาพ. อักขระสระอำแสดงรูปแบบ Unicode render-equivalent `U+0E4D + U+0E32` เพื่อคงสระ–วรรณยุกต์และค้นหาได้
+- ทำ **review-only full booklet 125 A4 pages** โดยแทน **เฉพาะหน้า 1** ของไฟล์ review baseline PR #107 ที่ตรวจ QA ไว้แล้ว; ตรวจ rendered pixels + PDF text เทียบกันหลังดำเนินงาน **124/124 หน้าที่เหลือเท่าเดิม**, ไม่มีหน้าใหม่หรือเปลี่ยนเนื้อหาอื่น
+- Source PDF baseline SHA-256 `d019c9921841083846acce48516e2eaa88feeeef90e49c54441dc342804c9464`; G2 private PDF preview SHA-256 `7090ec514046264208f4c056c4a8e7ab57c08bd00fc00297ee44af216c0f88dc`, ขนาด **2,995,602 bytes**. ข้อมูลต้นทางในเล่ม: PR82 ประกาศ 11 หน้า, การแข่งขัน 236 รายการ, กรรมการ 250 รายการ, ภาคผนวก V3 17 หน้า และรายการตรวจผังสาย 6 กลุ่ม **อาศัยฐาน QA เดิม; ไม่กล่าวว่า regenerate source audit ในรอบ private cover proof**
+- ท้ายกระดาษคงข้อความ **“ปรับปรุงล่าสุด 7 พ.ย. 2569 เวลา 15:00 น.”** ของ *source-edit revision* ในฐานเดิม. ห้ามตีความว่าเป็นเวลาสร้าง PDF หน้า G2 หรือเวลารับรอง/เผยแพร่
+- Upload PDF G2 review ใหม่เข้า **โฟลเดอร์สูจิบัตรใน Google Drive** ผ่าน authenticated file reference สำเร็จ; connector readback ตรวจพบชื่อ MIME `application/pdf`, ขนาด **2,995,602 bytes**, parent folder ตรงเป้าหมาย. **เก็บชื่อรุ่นและหลักฐานในแชท ไม่บันทึก Drive IDs/URLs ส่วนตัวใน public repo**. ไม่เขียนทับ PDF N3-B/PR82/V3 หรืออัปโหลดรูปบุคคลลง GitHub
+- **ยังไม่เปลี่ยน builder ของ GitHub**, GitHub Pages PDF, official Google Docs, fixtures JSON, results, referee roster หรือคำสั่งลงนาม. ตัวสร้าง `build-v4-full.py --cover-photo` ที่ Merge จาก PR #105 ยังคงรองรับภาพส่วนตัวอยู่แล้ว; private review นี้ใช้วิธี **replace cover page of QA-passed PDF baseline** เพื่อตรวจเร็วและไม่แตะอีก 124 หน้า
+
+### Gate ที่ยังเปิด
+
+1. **Image/children usage rights:** ยังไม่พบหลักฐานสิทธิ์ผู้ถ่าย/ฐานเผยแพร่ภาพเด็กสำหรับการเผยแพร่เป็นทางการ. การเลือกภาพของผู้จัดใช้ได้เพื่อทำ **private PDF proof** แต่ไม่ใช่ release approval
+2. **300dpi print master:** `effective_full_page_dpi≈127.5`, ไม่ผ่าน 300dpi; หากจะพิมพ์ A4 คุณภาพสูงต้องได้ภาพต้นฉบับที่ละเอียดขึ้น (ประมาณ 2480×3508 px สำหรับ A4 300dpi) หรือผู้จัดรับรองมาตรฐานพิมพ์ที่ต่ำกว่าอย่างชัดเจนตามการทดสอบพิมพ์จริง
+3. **Final visual acceptance:** ให้ผู้จัดเปิด PDF G2 review บน iPhone/LINE และพิมพ์ A4 ทดลอง; ยืนยันว่า crop/คอนทราสต์/title/footer ลงตัว ก่อนอนุมัติเป็นปกใช้งานจริง
+4. **Reproducible release build:** เมื่อต้องออกรุ่นทางการ ให้นำภาพที่ผ่าน rights/print gates มาสร้างผ่าน `--cover-photo` จากต้นฉบับที่ได้รับอนุญาต, รัน GitHub/source/page-anchor QA ครบและ R11E. ห้ามนำ private preview ไปแทน live PDF โดยลัดขั้นตอน
+
+**สถานะสรุป:** G2 *ภาพที่ผู้จัดเลือกถูกนำลง PDF ตรวจร่างและเก็บ Drive แล้ว* ≠ `G2 print approved` ≠ `R11E publication approved`.
