@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Post-PDF review artifact preflight; preserves coverage without official publication."""
-import json, pathlib, sys, re
+import json, pathlib, sys, re, unicodedata
 import fitz
 from PIL import Image,ImageDraw
 
@@ -24,35 +24,44 @@ assert q["official_section_count"]==20
 assert q["official_duty_paragraphs"]==20
 assert q["official_duty_wrapped_lines"]==14
 assert q["formal_font"]=="Sarabun (Google Fonts, OFL)", "Full Sarabun Regular/Bold is required"
-assert q["notice_opening_revision"]=="V42-N1-V41-restored"
+assert q["notice_layout_revision"]=="PR82-V2-N3B"
+assert q["notice_visual_reference"]=="PR82-V2"
 assert q["selected_cover_design"]=="full_photo_v2" and q["rendered_cover_design"]=="g1_text_only_fallback"
-assert stage["notice_opening"]=={
-    "revision":"V42-N1-V41-restored","status":"draft_review_only",
+assert stage["notice_pr82"]=={
+    "revision":"PR82-V2-N3B","status":"draft_review_only",
     "source_pages":[6,16],"full_source_retained":True}
-# The restored preview must fit on one page and precede the complete V3 transcription.
-def normalize_notice_text(t):
-    return re.sub(r"\s+","",t.replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32)))
-opening_pages=[i for i,p in enumerate(list(pdf)[:-17])
-               if "เลขที่ประกาศ" in normalize_notice_text(p.get_text())
-               and "รอชื่อผู้ลงนาม" in normalize_notice_text(p.get_text())]
-detail_pages=[i for i,p in enumerate(list(pdf)[:-17])
-              if "ข้อความประกาศแต่งตั้งคณะกรรมการ(ฉบับร่าง)" in normalize_notice_text(p.get_text())]
-assert len(opening_pages)==1, f"Restored V4.1 notice should be one complete page: {opening_pages}"
-assert len(detail_pages)==1, f"Full V3 source must follow once: {detail_pages}"
-assert detail_pages[0]==opening_pages[0]+1, "V4.1 notice must fit one A4 page immediately before full V3 details"
-assert opening_pages[0] >= 6, "Formal notice cannot precede ceremony and school-colours sections"
-# N2: The prose belongs in the announcement, not in an editorial QA document.
-committee_page=next(i for i in range(detail_pages[0]+1,len(pdf)-17)
-    if "ข้อมูลกรรมการ" in pdf[i].get_text() and "คณะกรรมการ / หมวด 1" in pdf[i].get_text())
-official_pages=list(pdf)[detail_pages[0]:committee_page]
-official_text="\\n".join(p.get_text() for p in official_pages)
-assert "ต้นฉบับ V3 · หน้า" not in official_text, "Source audit page labels must stay out of the printed notice"
-assert "341 บรรทัด" not in official_text, "Technical audit should not be printed in official prose"
-assert "มีหน้าที่" in official_text
-font_names={span["font"] for p in [pdf[opening_pages[0]]]+official_pages
-    for b in p.get_text("dict")["blocks"] if "lines" in b
-    for line in b["lines"] for span in line["spans"]}
-assert {"FormalThai","FormalThai-Bold"}<=font_names, f"Missing full Sarabun PDF font faces: {font_names}"
+assert q["notice_rendered_pages"]==11
+notice_start=q["notice_inserted_start_page"]-1
+notice_end=q["notice_inserted_end_page"]
+assert notice_end-notice_start==11
+assert notice_start>=1 and notice_end<len(pdf)-17
+assert unicodedata.normalize("NFKC","คำปฏิญาณ") in unicodedata.normalize("NFKC",pdf[notice_start-1].get_text())
+assert "ข้อมูลกรรมการ" in pdf[notice_end].get_text()
+assert re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",pdf[notice_end].get_text())
+assert "รอชื่อผู้ลงนาม" not in "\n".join(p.get_text() for p in list(pdf)[:notice_end]), "Old N1 opening must not reappear"
+reference=fitz.open(out/"announcement_formal_preview_v2.pdf")
+assert len(reference)==11
+assert q["notice_golden_pdf_sha256"]==__import__("hashlib").sha256((out/"announcement_formal_preview_v2.pdf").read_bytes()).hexdigest()
+assert q["notice_golden_page_text_hashes_checked"]==11 and q["notice_golden_page_pixel_hashes_checked"]==11
+for i in range(11):
+    expected=reference[i];actual=pdf[notice_start+i]
+    assert expected.get_text()==actual.get_text(),f"Golden PR82 notice text changed on embedded page {i+1}"
+    a=actual.get_pixmap(matrix=fitz.Matrix(1.4,1.4),alpha=False)
+    b=expected.get_pixmap(matrix=fitz.Matrix(1.4,1.4),alpha=False)
+    assert a.width==b.width and a.height==b.height and a.samples==b.samples, f"Golden PR82 visual layout changed on embedded page {i+1}"
+fonts={span["font"] for p in list(pdf)[notice_start:notice_end]
+    for block in p.get_text("dict")["blocks"] if "lines" in block
+    for line in block["lines"] for span in line["spans"]}
+assert any("SarabunFull" in name for name in fonts),f"Embedded PR82 Sarabun font missing: {fonts}"
+assert len([p for p in list(pdf)[:-17] if "ข้อมูลกรรมการ" in p.get_text() and re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",p.get_text())])==1
+reference.close()
+# All subsequent magazine/booklet footer numbers must reflect *physical*
+# PDF page numbers; N3-B reserves 11 HTML slots before PDF substitution.
+assert "PR82-INTEGRATION-SLOT" not in new_text, "A temporary slot leaked into the finished PDF"
+for page_index in list(range(1,notice_start))+list(range(notice_end,len(pdf)-17)):
+    footer=[word[4] for word in pdf[page_index].get_text("words")
+            if word[0]>535 and word[1]>800 and re.fullmatch(r"\d+",word[4])]
+    assert footer==[str(page_index+1)],f"Wrong booklet footer number on PDF page {page_index+1}: {footer}"
 assert q["ceremony_opening_events"]==22 and q["ceremony_closing_events"]==9
 assert stage["rules"]["award_rank_points"]=={"1":5,"2":3,"3":2}
 assert q["bracket_verified_edges"]>0
@@ -84,7 +93,7 @@ for i,z in enumerate(pdf):
         if key not in pages and any(term in txt for term in terms):pages[key]=i
 assert "organizer" in pages and pages["organizer"] < len(pdf)-17
 assert len(pdf[len(pdf)-18].get_text())>800, "Orphan closing note in a mostly empty A4 page"
-render=list(dict.fromkeys([0,opening_pages[0],detail_pages[0]]+list(pages.values())+[len(pdf)-18]))
+render=list(dict.fromkeys([0,notice_start,notice_start+5,notice_end-1,notice_end]+list(pages.values())+[len(pdf)-18]))
 thumbs=[]
 for i in render[:7]:
     pix=pdf[i].get_pixmap(matrix=fitz.Matrix(1.08,1.08),alpha=False)
@@ -102,7 +111,8 @@ result={"status":"review_only_pass","pages":len(pdf),"a4":True,"anchors":len(anc
         "bracket_groups_needing_review":q["bracket_groups_needing_review"],
         "organizer_review_rows":q["organizer_review_rows"],
         "v3_appendix_pages_retained":q["appendix_pages"],"selected_preview_pages":pages,
-        "notice_opening_pdf_page":opening_pages[0]+1,"full_v3_source_start_pdf_page":detail_pages[0]+1,
+        "notice_golden_pr82_pdf_pages":11,"notice_golden_start_pdf_page":notice_start+1,"notice_golden_end_pdf_page":notice_end,
+        "notice_text_visual_parity":"11_of_11",
         "cover_image_rights":"pending","th_any_ascii_semicolon_between_thai":0}
 (out/"souvenir-v42f-pdf-preflight.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n","utf-8")
 print(json.dumps(result,ensure_ascii=False,indent=2))
