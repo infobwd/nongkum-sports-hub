@@ -107,8 +107,11 @@ def main(args=None):
     html_doc, manifest=render_all(source)
     if manifest["group_count"]!=44 or manifest["rendered_fixture_count"]!=186:
         raise ValueError("V42-I source coverage changed")
-    # The 1/44 indicator is a division index and is labeled explicitly in the combined book.
-    html_doc=re.sub(r">(\d+)/44 · A4<",lambda m:">ผังที่ "+m.group(1)+" จาก 44<",html_doc)
+    # The header already states its division order. Suppress the standalone 1/44
+    # footer in the booklet to keep exactly ONE physical page number per A4 page.
+    html_doc,numbers_removed=re.subn(r">(\d+)/44 · A4<","> <",html_doc)
+    if numbers_removed!=44:
+        raise ValueError(f"Expected 44 standalone sheet numbers to remove, got {numbers_removed}")
     (opts.out/"brackets-44-groups.html").write_text(html_doc,encoding="utf8")
     (opts.out/"brackets-44-groups-manifest.json").write_text(
         json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
