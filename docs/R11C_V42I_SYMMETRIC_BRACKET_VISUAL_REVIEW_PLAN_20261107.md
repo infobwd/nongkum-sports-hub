@@ -89,3 +89,25 @@
 2. ตรวจ PR ใหม่อีกครั้ง (โดยเฉพาะสาย G2 cover) ก่อนเขียนโค้ด
 3. เปิดงานพัฒนา V42-I2 บน branch เฉพาะผัง, สร้างตัวอย่าง A4 และให้ผู้จัดตรวจ
 4. จัดการรายการค้าง V42-H ตามมติจริงก่อน R11E ไม่เปลี่ยนคู่หรือชื่อทีมโดยอัตโนมัติ
+
+
+## 10. มติด้านรูปแบบจากผู้จัด และแผนขยายทุกผัง (7 พ.ย. 2569)
+
+**มติผู้จัดในแชทหลังดู PDF A4 ตัวอย่าง 3 หน้า:** “ผมพอใจผังนะโอเคบันทึกแนวทางในแผนได้ แล้วเราค่อยทำเต็มระบบทุกแผนผังใช่หรือไม่”
+
+**สถานะที่ยืนยัน:** `VISUAL DESIGN ACCEPTED FOR PILOT` — เห็นชอบ **แนวทางออกแบบผังสองฝั่ง เส้นบาง และสัญลักษณ์รอตรวจ** ในตัวอย่าง V42-I เท่านั้น; **ไม่ใช่** การรับรองเลขคู่/ชื่อทีม/กติกา, การผ่านพิมพ์จริงทุกหน้า, การ Merge PR #113, หรืออนุมัติเผยแพร่เล่มเต็ม. ห้ามยกคำว่า "พอใจผัง" ไปถือว่าอนุมัติข้อมูลแข่งขัน 6 กลุ่มที่ค้างใน V42-H.
+
+**หลักฐานตัวอย่าง:** [รายงานและ QA V42-I](R11C_V42I_A4_BRACKET_PREVIEW_QA_20261107.md), [PR #113](https://github.com/infobwd/nongkum-sports-hub/pull/113) (review-only); [GitHub Actions: V42-I source-grounded preview PASS](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42361100804). งาน CI ตรวจข้อมูลและสร้าง HTML proof ผ่าน; PDF 3 หน้าตรวจในแชท ยังไม่ใช่เอกสารเผยแพร่.
+
+### ขยายสู่ผังครบทุกชนิดกีฬา/รุ่นที่ต้องใช้ผัง (ไม่สร้าง bracket ปลอม)
+
+1. **Inventory/Coverage manifest (V42-I6):** นับจาก effective fixtures ล่าสุดภายใต้ `sport_id + division` ไม่ใช้ภาพ/จำนวนใน V3 เป็นฐานนับเพียงอย่างเดียว; จัดหมวด `8-team knockout`, `7-team bye`, `4-team`, `2-team/direct final`, `other knockout`, `league/round-robin`, `league+playoff`, `athletics/non-bracket`. เก็บ source fixture IDs, match numbers, inferred?=false, reference resolution, warnings, source revision, match count ต่อกลุ่ม. ตรวจว่าทุกกลุ่มถูกจัดประเภทจริงหรือมีเหตุผลชัดเจนที่ไม่มีผัง
+2. **Generic mirrored renderer (V42-I7):** แปลงตัวอย่างแบบ hard-coded 3 กลุ่มให้เป็นการจัดวางตามชนิดผังและจำนวนทีมจริง; reuse `v42_brackets.analyze()`/verified_links, ไม่เขียนตารางแข่งใหม่. รูปแบบ knockout มีทีมสองฝั่งเข้ากลางเมื่อโครงสร้างจริงรองรับ; สายพบกันหมดแสดงตาราง/การ์ดตามจริง; กรีฑาใช้ตารางรายการ ไม่บังคับวาดสาย 8 ทีม. `8/7/4/2/other` ต้องผ่านเงื่อนไขข้อมูลก่อนใช้ template, กรณีแปลกหรือข้อมูลไม่ครบใช้ safe fallback ที่มองเห็นง่ายแทนการคาดเดา
+3. **Precise issue badges (V42-I8):** ผูก `⚠` ที่คู่/เส้น/หัวรุ่นจาก audit ที่ตรวจยืนยันได้ และ `ⓘ` สำหรับ bye ที่มีหลักฐาน; รายงาน 6 กลุ่มเดิมต้องอยู่ครบ โดยแยกข้อผิดพลาดจริงกับหมายเหตุ 7 ทีม. รอยต่อที่ไม่รับรองให้หยุดสายเส้น ไม่แสดงต่อราวกับยืนยันแล้ว; ข้อความอ้างอิงต้องอ่านได้ในขาวดำ
+4. **Full coverage QA (V42-I9):** test ทุก division/fixture, ไม่ให้จำนวน 236 effective / 186 matches + 50 athletics เปลี่ยนจากงานตกแต่ง, ตรวจ 250 กรรมการ, 486 anchors และ 17 V3 appendix คงเดิมจนทำ page-by-page crosswalk; ตรวจการเชื่อมไม่ข้ามรุ่น ไม่ซ้ำ ไม่วาดคู่หรือผู้ชนะเอง, ไทยค้นหาได้, A4 ไม่แตกหน้า/ล้นขอบ, ตัวอักษรไม่เล็กเกิน, สี/ขาวดำ/มือถือ iPhone Safari LINE
+5. **Integrate PDF review (V42-I10):** หลังตรวจ main/PR งานปก G2 ล่าสุดแล้ว จึงบูรณาการเข้า `scripts/docs/build-v4-full.py` แบบ PR แยกโดยคงปก/ประกาศ/กติกา/กรรมการ/ลิงก์เดิมและทำ before-after regression; ไม่แตะภาพคนหรือ URL PDF สาธารณะใน PR ของผัง
+6. **Organizer gate + release (V42-I11):** ผู้จัดตรวจชุดตัวอย่างจากทุก topology และ summary coverage; ติดตามมติ V42-H รายปัญหาใน source-approved overlay ก่อนจัดทำฉบับเผยแพร่จริง. `DESIGN ACCEPTED` ไม่เท่ากับ `FIXTURE APPROVED`, `RELEASE APPROVED`, `PUBLISHED` หรือ `ACCEPTED ALL PAGES`; R11E gate เป็นขั้นสุดท้ายต่างหาก
+
+**ลำดับถัดไป:** ปิด PR #113 เป็นงานต้นแบบเมื่อผ่านการตรวจโค้ดและได้รับอนุญาต Merge แล้วจึงเปิด PR งานขยาย generic renderer/coverage แยกจากงานปก พร้อม QA รายรูปแบบ ไม่เปิดอีกชุดทำงานที่ซ้ำกับตัวสร้างเดิม.
+
+**ขอบเขตขนาน:** ในแชทผังแตะ `v42_brackets.py`/tests/manifest เป็นหลัก; งานหน้าปก G2 แตะ `v42_cover.py`, แหล่งภาพและตัวอักษร; ไฟล์ร่วม `build-v4-full.py` จัดการรวมภายหลังโดย rebase ก่อนเสมอ และไม่มีการ Merge/เผยแพร่อัตโนมัติ.
