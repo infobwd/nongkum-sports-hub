@@ -34,7 +34,7 @@ assert stage["cover_typography_status"]=="G1_sport_masthead_review_only"
 assert q["cover_typography_revision"]=="V42-G1"
 # Noto Thai renders Sara Am as canonically-equivalent combining marks for PDF text-layer compatibility.
 def thai_search_normalized(text):
-    return re.sub(r"\\s+","",text.replace("\\u0e33","\\u0e4d\\u0e32"))
+    return re.sub(r"\s+","",text.replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32)))
 first_page=thai_search_normalized(pdf[0].get_text())
 assert thai_search_normalized("มิตรภาพเกมส์") in first_page, "Sport masthead must be native, searchable Thai PDF text"
 assert "2569" in first_page and thai_search_normalized("ร่างสำหรับตรวจข้อมูล") in first_page
