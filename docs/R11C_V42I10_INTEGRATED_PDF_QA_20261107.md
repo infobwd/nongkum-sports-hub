@@ -45,3 +45,14 @@
 4. R11E จึงอนุญาตให้อัปเดต Google Drive/Docs/เว็บ พร้อม rollback และการตรวจรับฉบับเผยแพร่จริง
 
 **ข้อยืนยัน:** Merge PR source code ไม่เท่ากับเผยแพร่ PDF จริง, และไม่ได้หมายความว่าคู่แข่งที่ยังติด `⚠` ได้รับการรับรองแล้ว.
+
+
+## หลักฐานนำส่ง Google Drive (7 พฤศจิกายน 2569)
+
+- **ผู้จัดอนุญาตให้นำ PDF ตรวจร่างขึ้น Google Drive แล้ว** (คำสั่งในแชท: “เอาไฟล์ลง Google Drive ได้เลยไหม”)
+- อัปโหลดเป็น **ไฟล์ใหม่** (ไม่เขียนทับต้นฉบับหรือ PDF 125 หน้า): [MittraphapGames_2569_V42I10_155pages_REVIEW_ONLY_20261107.pdf](https://drive.google.com/file/d/1gtT1kDOYX00cmO7cPgrixHBdAC9JEaY0/view?usp=drivesdk)
+- Drive file ID: `1gtT1kDOYX00cmO7cPgrixHBdAC9JEaY0`; parent folder [สูจิบัตร](https://drive.google.com/drive/folders/1c4diWWZfqaMzEcwj3-crd3T3Up06phT0), บัญชีโครงการโรงเรียน `info@bwd.ac.th`.
+- ตรวจอ่าน metadata หลังอัปโหลด: `application/pdf`, 2,077,365 bytes, parent ตรงโฟลเดอร์; ตรวจไฟล์ที่บริการอัปโหลดได้รับกับ PDF GitHub artifact: ข้อความทุกหน้าเหมือนกัน **155/155**, รูปแบบทั้งสองไฟล์ A4 และยังมี 155 หน้า. บริการไฟล์เปลี่ยน metadata PDF/ขนาด bytes โดยไม่เปลี่ยนข้อความ 155 หน้า (ไม่อ้างว่า SHA เหมือนกัน)
+- สถานะ: **DELIVERED TO DRIVE FOR PRIVATE REVIEW / NOT OFFICIAL RELEASE**; ยังไม่เปลี่ยนสิทธิ์แชร์ ไม่แทน Google Docs ต้นฉบับ ไม่เปลี่ยนเว็บ และไม่อนุญาตเผยแพร่ทางการ.
+- ปกใน PDF ฉบับนี้เป็น **G1 fallback ตามการสร้าง baseline CI** ไม่ใช่ไฟล์ภาพ Full Photo G2 ส่วนตัวที่อีกแชทกำลังรับรอง และยังไม่บรรจุรูปปกจริง
+- ยังต้องตรวจรับบนมือถือ/พิมพ์จริง, มติคู่แข่งขันที่เตือน, ภาพปกและสิทธิ์ภาพ, R11E; PR #116 แยกจากขั้นเผยแพร่.
