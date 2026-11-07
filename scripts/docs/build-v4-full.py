@@ -7,13 +7,14 @@ import argparse,collections,datetime,hashlib,html,json,re
 from pathlib import Path
 import fitz
 from weasyprint import HTML
-from v41_editorial import (formal_font_css, colors_and_oath, special_observations, extra_css, notice)
+from v41_editorial import (formal_font_css, colors_and_oath, special_observations, extra_css)
 from v42_ceremony import render as render_ceremony, css as ceremony_css
 from v42_rules import render as render_rules, css as rules_css
 from v42_matchday import render as render_matchday, css as matchday_css
 from v42_brackets import render as render_brackets, css as brackets_css
 from v42_organizer_review import render as render_organizer_review, css as organizer_review_css
 from v42_cover import cover_html, cover_css
+from v42_notice_pr82 import render_official_notice_v2
 from v42_official import (build_source_model, official_full_html,
     source_audit, official_css as v42_official_css)
 
@@ -161,15 +162,11 @@ def build(root,out):
  official_model=build_source_model(pdf)
  official_html=official_full_html(official_model)
  official_report=source_audit(official_model,official_html)
- # V42-N1: restore V4.1 formal opening before full V3 transcription.
- # The one-page visual preview must never replace the 341 source lines.
- notice_html=notice(read_source(pdf,6),read_source(pdf,16))
- if 'class="official-paper"' not in notice_html or "รอชื่อผู้ลงนาม" not in notice_html:
-  raise ValueError("V4.1 formal draft notice missing")
- pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)","เอกสารทางการ / หน้าเปิดประกาศ",
-  notice_html,"รูปแบบ V4.1 สำหรับตรวจรับ · ยังไม่ใช่ประกาศที่ลงนาม"))
- pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)","เอกสารทางการ / ประกาศและหน้าที่",
-  official_html,"เรียบเรียงตามข้อความในสูจิบัตรร่างเดิม · รอผู้จัดตรวจรับก่อนประกาศใช้"))
+ # V42-N3-B: keep audited 341 V3 source-line IDs, but do not print the
+ # N1 opening or N2 magazine-styled announcement. The accepted PR82
+ # 11-page PDF is inserted before committee review tables after render.
+ if not (official_report["total_source_lines"]==official_report["rendered_source_lines"]==341):
+  raise ValueError("V3 official announcement source not complete")
  heads=["ข้อ","ชื่อ–สกุล","สังกัด","ตำแหน่งในคณะ"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
@@ -248,12 +245,12 @@ def build(root,out):
    "จากสูจิบัตร V2/V3 และตารางต้นทาง • ข้อเสนอแก้ยังต้องมีมติผู้จัดก่อนใช้จริง"))
  official_css,official_font_used=formal_font_css()
  html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-H ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+organizer_review_css()+cover_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-H ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42H • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
- if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","official-paper","v42-official-content","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets","รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด")):
+ if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets","รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด")):
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
  stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending","cover_typography_status":"G1_sport_masthead_review_only",
-     "notice_opening":{"revision":"V42-N1-V41-restored","status":"draft_review_only","source_pages":[6,16],"full_source_retained":official_report["total_source_lines"]==official_report["rendered_source_lines"]==341},
+     "notice_pr82":{"revision":"PR82-V2-N3B","status":"draft_review_only","source_pages":[6,16],"full_source_retained":official_report["total_source_lines"]==official_report["rendered_source_lines"]==341},
      "ceremony":{"opening":opening_qa,"closing":closing_qa},
      "rules":rules_qa,"matchday":matchday_audits,"brackets":brackets_qa,"organizer_review":organizer_qa}
  (out/"souvenir-v42f-stage-qa.json").write_text(json.dumps(stage_qa,ensure_ascii=False,indent=2)+"\n","utf-8")
@@ -265,6 +262,27 @@ def build(root,out):
  pdf_render_html=html_body.replace("\u0e33","\u0e4d\u0e32")
  HTML(string=pdf_render_html,base_url=str(root)).write_pdf(main)
  document=fitz.open(main)
+ # Identify the first numbered public-review committee chapter from its own
+ # text, never by a hard-coded page. Insert PR #82 *before* that chapter.
+ import re as _re
+ first_committee_pages=[i for i,page in enumerate(document)
+   if "ข้อมูลกรรมการ" in page.get_text()
+   and _re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",page.get_text())]
+ if len(first_committee_pages)!=1:
+  raise ValueError("Expected one first committee chapter insertion point: "+str(first_committee_pages))
+ insert_at=first_committee_pages[0]
+ if insert_at<1 or "คำปฏิญาณ" not in document[insert_at-1].get_text():
+  raise ValueError("PR82 notice should be inserted directly after athlete oath")
+ pr82=render_official_notice_v2(official_model,Path("/tmp/v41-fonts"),out)
+ pr82_pdf=fitz.open(pr82["pdf"])
+ if len(pr82_pdf)!=11 or pr82["qa"]["source_lines"]!=341 or pr82["qa"]["sections"]!=20 or pr82["qa"]["duty_paragraphs"]!=20:
+  raise ValueError("PR82 11-page golden notice gate failed")
+ document.insert_pdf(pr82_pdf,start_at=insert_at)
+ pr82_pdf.close()
+ notice_start=insert_at+1 # one-based PDF page number
+ notice_end=insert_at+11
+ if "ข้อมูลกรรมการ" not in document[notice_end].get_text():
+  raise ValueError("Committee chapter did not follow 11-page PR82 announcement")
  original_appendix=[17,18,19,20,21,22,23,24,26,27,28,30,33,34,35,38,40]
  for n in original_appendix:
   document.insert_pdf(pdf,from_page=n-1,to_page=n-1)
@@ -295,7 +313,10 @@ def build(root,out):
   "layout_revision":"R11C-V4.2-H", "formal_font":official_font_used,
   "cover_image_status":"approved_design_pending_publication_rights","cover_typography_revision":"V42-G1",
   "selected_cover_design":"full_photo_v2","rendered_cover_design":"g1_text_only_fallback",
-  "notice_opening_revision":"V42-N1-V41-restored",
+  "notice_layout_revision":"PR82-V2-N3B","notice_visual_reference":"PR82-V2",
+   "notice_inserted_start_page":notice_start,"notice_inserted_end_page":notice_end,
+   "notice_rendered_pages":11,"notice_golden_pdf_sha256":pr82["qa"]["sha256"],
+   "notice_golden_page_text_hashes_checked":11,"notice_golden_page_pixel_hashes_checked":11,
   "ceremony_opening_events":opening_qa["events"],"ceremony_closing_events":closing_qa["events"],
   "rules_rank_points":rules_qa["award_rank_points"],
   "bracket_verified_edges":brackets_qa["verified_edges"],
@@ -310,7 +331,7 @@ def build(root,out):
   "official_source_sha256":official_report["full_text_sha256"],
   "official_duty_paragraphs":official_html.count('class="v42-duty-paragraph"'),
   "official_duty_wrapped_lines":official_html.count('class="v42-duty-continuation"'),
-  "editorial_sections":["formal_notice_opening","formal_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review","organizer_six_group_review"],
+  "editorial_sections":["pr82_official_announcement","opening_timeline","closing_timeline","school_colors","athlete_oath","rules_infographics","school_color_matchups","source_verified_brackets","schedule_conflict_review","organizer_six_group_review"],
   "risk_source_revision":r12_screen["source"]["revision"],
   "committee_revision":roster["revision"],"source_pdf_pages":64,"pdf_pages":len(chk),
   "program_items":len(fixtures),"matches":len(matches),"athletics":len(athletics),
