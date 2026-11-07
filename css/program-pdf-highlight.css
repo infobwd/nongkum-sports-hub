@@ -1,0 +1,6 @@
+/* R23: same geometry as the committee reader, scoped to program viewer. */
+.program-pdf-page-surface{position:relative;display:block;width:max-content;max-width:none;margin:0 auto}
+.program-pdf-highlight-layer{position:absolute;top:0;left:0;pointer-events:none;overflow:hidden}
+.program-pdf-fixture-highlight{position:absolute;box-sizing:border-box;background:rgba(255,210,37,.42);border:1px solid rgba(194,135,0,.7);border-radius:3px;box-shadow:0 0 0 2px rgba(255,237,123,.23)}
+.program-pdf-match-status{flex:none;margin:0;padding:6px 10px;font-size:.76rem;font-weight:700;line-height:1.35;text-align:center;background:#fff4cd;color:#675015;border-top:1px solid #f1e2a8;max-height:3.2em;overflow:hidden}
+.program-pdf-match-status[hidden]{display:none!important}
