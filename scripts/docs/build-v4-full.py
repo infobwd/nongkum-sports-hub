@@ -167,6 +167,11 @@ def build(root,out):
  # 11-page PDF is inserted before committee review tables after render.
  if not (official_report["total_source_lines"]==official_report["rendered_source_lines"]==341):
   raise ValueError("V3 official announcement source not complete")
+ # Reserve 11 physical A4 pages in WeasyPrint *before* rendering the rest
+ # of the book, so CSS page counters for later chapters are already correct.
+ # Replace these uniquely marked slots with the PR82 PDF after HTML render.
+ for slot in range(1,12):
+  pages.append(f'<section class="chapter pr82-replacement-slot"><p>PR82-INTEGRATION-SLOT-{slot:02}</p></section>')
  heads=["ข้อ","ชื่อ–สกุล","สังกัด","ตำแหน่งในคณะ"]
  section_titles={str(x["id"]):x["title"] for x in roster["sections"]}
  group=collections.defaultdict(list)
@@ -262,21 +267,32 @@ def build(root,out):
  pdf_render_html=html_body.replace("\u0e33","\u0e4d\u0e32")
  HTML(string=pdf_render_html,base_url=str(root)).write_pdf(main)
  document=fitz.open(main)
- # Identify the first numbered public-review committee chapter from its own
- # text, never by a hard-coded page. Insert PR #82 *before* that chapter.
+ # Validate eleven consecutively numbered temporary A4 page slots.
+ # These exist ONLY to let CSS counters know the final physical page indices.
  import re as _re
+ slots=[]
+ for i,page in enumerate(document):
+  found=_re.findall(r"PR82-INTEGRATION-SLOT-(\d{2})",page.get_text())
+  if found:
+   if len(found)!=1:raise ValueError("Multiple PR82 slots on one A4 page")
+   slots.append((i,int(found[0])))
+ if [n for _,n in slots]!=list(range(1,12)):
+  raise ValueError("Expected PR82 staging pages 01–11, got "+str(slots))
+ insert_at=slots[0][0]
+ if [p for p,_ in slots]!=list(range(insert_at,insert_at+11)):
+  raise ValueError("PR82 staging pages are not consecutive")
  first_committee_pages=[i for i,page in enumerate(document)
    if "ข้อมูลกรรมการ" in page.get_text()
    and _re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",page.get_text())]
- if len(first_committee_pages)!=1:
-  raise ValueError("Expected one first committee chapter insertion point: "+str(first_committee_pages))
- insert_at=first_committee_pages[0]
+ if first_committee_pages!=[insert_at+11]:
+  raise ValueError("PR82 staging pages must precede first committee chapter: "+str(first_committee_pages))
  if insert_at<1 or unicodedata.normalize("NFKC","คำปฏิญาณ") not in unicodedata.normalize("NFKC",document[insert_at-1].get_text()):
-  raise ValueError("PR82 notice should be inserted directly after athlete oath")
+  raise ValueError("PR82 notice should replace slots directly after athlete oath")
  pr82=render_official_notice_v2(official_model,Path("/tmp/v41-fonts"),out)
  pr82_pdf=fitz.open(pr82["pdf"])
  if len(pr82_pdf)!=11 or pr82["qa"]["source_lines"]!=341 or pr82["qa"]["sections"]!=20 or pr82["qa"]["duty_paragraphs"]!=20:
   raise ValueError("PR82 11-page golden notice gate failed")
+ document.delete_pages(from_page=insert_at,to_page=insert_at+10)
  document.insert_pdf(pr82_pdf,start_at=insert_at)
  pr82_pdf.close()
  notice_start=insert_at+1 # one-based PDF page number
