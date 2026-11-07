@@ -93,6 +93,22 @@ async function verifyViewport(browser,profile){
   overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   assert.ok(overflow<=4,profile.name+" comparison overflow "+overflow);
 
+  // Actual PDF.js rendering with the same public PDF V2 used on the website.
+  await page.goto(target("pdf-viewer.html?page=7&from=program&fixture=football-p07-12-ปี-ชาย-006"),
+    {waitUntil:"domcontentloaded"});
+  await page.locator("#pdfHighlightLayer .program-pdf-fixture-highlight").waitFor({timeout:25000});
+  assert.match(await page.locator("#pdfMatchStatus").innerText(),/เน้นรายการที่เลือก/);
+  assert.equal(await page.locator("#pdfPage").inputValue(),"7");
+  await page.locator("#pdfNext").click();
+  await page.waitForFunction(()=>document.getElementById("pdfPage")?.value==="8");
+  assert.equal(await page.locator("#pdfHighlightLayer .program-pdf-fixture-highlight").count(),0);
+  // Committee V3 must still load its original 64-page PDF in the common reader.
+  await page.goto(target("committee-pdf-viewer.html?doc=committee&page=6"),
+    {waitUntil:"domcontentloaded"});
+  await page.waitForFunction(()=>Number(document.getElementById("pdfCanvas")?.width)>300,
+    null,{timeout:25000});
+  assert.equal(await page.locator("#pdfTotal").innerText(),"64");
+
   await page.goto(target("index.html"),{waitUntil:"domcontentloaded"});
   const more=page.locator("details.program-more summary").first();
   await more.waitFor();await more.click();
