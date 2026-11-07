@@ -14,6 +14,7 @@ source_path=root/"assets/souvenir-committee-2569-v3.pdf"
 with fitz.open(source_path) as original:
     model=build_source_model(original)
 rows=source_rows_from_model(model)
+assert model["full_text_sha256"]=="31d86c20a790377cbc3d839dfdb7641ccb520a1e71192894c89628d1b633bdd3", "V3 source contents changed; organizer review is required"
 assert len(rows)==341
 assert len({row["id"] for row in rows})==341
 assert rows[0]["kind"]=="v42-document-title" and rows[1]["kind"]=="v42-document-title"
