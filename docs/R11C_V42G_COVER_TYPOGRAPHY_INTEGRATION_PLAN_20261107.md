@@ -59,3 +59,18 @@ Repository: `infobwd/nongkum-sports-hub`
 3. อัปเดตเอกสารผล QA หลัง build และส่ง R11E เฉพาะเมื่อ source, rights, layout และผลตรวจพร้อม.
 
 **Done ของรอบปัจจุบัน:** มีแผนใน `docs/` ของ `main` เท่านั้น ไม่มีโค้ด/รูป/PDF ถูกสร้างหรือเปลี่ยนจากงานนี้.
+
+## 6. สถานะหลังลงมือ G1 — 7 พฤศจิกายน 2569 (PR #94)
+
+**G1 IMPLEMENTED / CI & PDF QA PASSED / REVIEW-ONLY / G2 NOT IMPLEMENTED.** ข้อความต้นแผนด้านบนเป็น snapshot ก่อนเริ่มลงมือ
+
+- แยก helper `scripts/docs/v42_cover.py` สำหรับปกกีฬา text-only ใช้คำจริง **มิตรภาพเกมส์ 2569** ตัวอักษร Thai native/selectable/searchable มีแถบกรมท่า–ทอง เส้นกรอบ/เส้นสปีดและเงาบางบนปก A4
+- บูรณาการกับ `scripts/docs/build-v4-full.py` ที่ฐาน V42-H อยู่แล้ว; badge ปกแสดง `V4.2-H + G1 • ร่างสำหรับตรวจข้อมูล`, ไม่ปลอมสถานะเป็น official
+- เพิ่ม `scripts/docs/test-v42g1-cover.py`, ตรวจ PDF text layer ใน `test-v42f-pdf-qa.py` และเพิ่ม regression ใน review-only GitHub Actions
+- หลักฐาน PR #94: Validate draft data **SUCCESS**, R11C V42 organizer review PDF **SUCCESS**; artifact `R11C-V42H-G1-cover-review-not-for-publication`
+- Review PDF ที่สร้างสำเร็จ: **125 หน้า A4, 236 รายการแข่งขัน (186 คู่ + 50 กรีฑา / 289 ลู่), 250 กรรมการ, 486 anchors, 45 วันและเวลายืนยัน, 17 หน้า appendix V3**, 6 กลุ่มข้อสังเกตยังอยู่
+- ตรวจภาพปกจาก rendered PDF แล้ว: ตัวหนังสือไม่ล้นกระดาษ, สีและวรรณยุกต์ไทยอ่านได้, PDF `get_text()` ให้ชื่อไทยและปีครบ; artifact checksum จาก QA: `f40ad830dbefd1a813636321febd9a105c4abd539a9420caffb248a5e091ef5f`
+- **G2 ยังรอสิทธิ์ภาพและคุณภาพ 300dpi**, ภาพ Drive/รูปเด็กไม่ถูก commit หรือย้าย, ไม่มีการเปลี่ยน PDF หน้าเว็บ/ข้อมูลผล/ตาราง/Google Docs และยังไม่ผ่าน R11E publication gate
+- **การส่ง Google Drive:** ดำเนินการแบบ file reference เมื่อพร้อมและตรวจ readback ชื่อ/ขนาด/parent; ห้ามอ้างว่า upload สำเร็จจนมี Drive ID จริง
+
+**ถัดไป:** ผู้จัดตรวจแบบปก G1 บน PDF ใน Drive/ไฟล์ review; เมื่อพร้อมค่อยประเมิน G2 จากภาพที่ได้รับสิทธิ์ หรือเลือก fallback เป็นปกทางการตามมติ ก่อนเข้าสู่ R11E.
