@@ -112,3 +112,10 @@
 - Review artifact: `R11C-V42-N3B-PR82-integrated-review-only`. ใน CI มีไฟล์แยกประกาศ PR82 11 หน้าและ QA JSON ด้วย; ไม่มีการเผยแพร่ PDF หน้าเว็บ/เปลี่ยน Google Docs/V3/Golden Drive file เดิม
 
 **Gate ที่ยังเหลือ:** ปก G2 Full Photo/สิทธิ์ภาพ; ตรวจรับข้อสังเกตผังสายและรายการเปตอง 10 ปีชาย; ตรวจรับรายชื่อกรรมการ/คำสั่งที่มีอำนาจลงนาม; **R11E publication ยังไม่ผ่าน**. PDF 125 หน้าเป็น *ฉบับร่างตรวจรับ*.
+
+## 9. N3-B merged และ Drive review handoff ผ่าน (7 พ.ย. 2569)
+
+- **PR #102 MERGED**: merge SHA `7c3179f3617ad2c6bb816ec8564c3f3adc526259`; source code + 125-page preview from final CI remain in `main`.
+- ไฟล์ `MittraphapGames_2569_V42N3B_PR82_Review_125pages.pdf` **อัปโหลดใหม่** เข้า Shared Drive โฟลเดอร์ `สูจิบัตร` สำเร็จ ไม่แทน `announcement_formal_preview_v2.pdf`, N1 หรือ N2; ตรวจ Drive metadata readback ชื่อ MIME `application/pdf`, parent folder และ file URL ได้จริง (ไม่เก็บ file ID ของ Shared Drive ใน repo สาธารณะ)
+- ดาวน์โหลด PDF ที่อัปโหลดกลับจาก Drive แล้วเทียบ `PyMuPDF`: **125/125 หน้า text extraction ตรง และ 125/125 หน้า RGB rendered pixels ตรง** กับไฟล์ GitHub review PDF ที่ผ่าน CI (ตรวจที่ .55×); Drive ทำให้ byte size และ PDF metadata เปลี่ยน จึง **ไม่อ้างว่า SHA-256 ของไฟล์ที่ดาวน์โหลดกลับเท่ากับ build artifact**. ความถูกต้องด้านเนื้อหา/ภาพผ่าน.
+- ยังคงสถานะ **DRAFT / REVIEW ONLY** และยังไม่แทน PDF ทางการบนเว็บไซต์. งานคงเหลือ: ปก G2 rights/high-resolution; รับรองข้อสงสัยผังสาย/เปตอง 10 ปีชาย; ตรวจคำสั่งและรายชื่อผู้ลงนาม; **R11E release approval**.
