@@ -1,0 +1,39 @@
+name: R23 Program PDF Fixture Highlight
+on:
+  pull_request:
+    paths:
+      - 'data/program-pdf-positions-v2.json'
+      - 'js/program-pdf-highlight.js'
+      - 'js/pdf-viewer.js'
+      - 'pdf-viewer.html'
+      - 'css/program-pdf-highlight.css'
+      - 'scripts/program/**'
+      - 'docs/R23_PROGRAM_PDF_FIXTURE_HIGHLIGHT_PHASE1_PLAN_20261107.md'
+      - '.github/workflows/r23-program-pdf-highlight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-fixture-pdf-coordinates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned PyMuPDF
+        run: python -m pip install 'pymupdf==1.26.7'
+      - name: Verify PDF SHA, 236 coordinate rows and source number-column positions
+        run: python scripts/program/build-r23-pdf-positions.py --check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check source syntax
+        run: |
+          node --check js/program-pdf-highlight.js
+          node --check js/pdf-viewer.js
+          node --check scripts/program/test-r23-pdf-highlight.mjs
+      - name: Check program/committee viewer regressions
+        run: node scripts/program/test-r23-pdf-highlight.mjs
