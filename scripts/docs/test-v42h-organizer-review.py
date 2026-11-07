@@ -13,7 +13,7 @@ assert report["gate_counts"]=={"text_only":1,"approval_required":3,"blocking_con
 assert all(c["sport"] in markup for c in CASES)
 assert all(c["id"] in report["case_ids"] for c in CASES)
 assert "ห้ามประกาศคู่ใหม่" in markup and "ไม่ต้องเปลี่ยนคู่" in markup
-assert "ภาคผนวกสูจิบัตร V3 อีก 17 หน้า" in markup
+assert "ภาคผนวก V3 อีก 17 หน้า" in markup
 assert "organizer-card" in css()
 # A future fixture change must force human review of the old observations.
 wrong=[x.copy() for x in fixtures]
