@@ -17,7 +17,6 @@ from collections import Counter
 import fitz
 from weasyprint import HTML
 
-from build_v4_full_compat import ensure_legacy_builder_available
 from v42_revision_footer import apply_revision_footer
 from v42i_full_bracket_review import render_all
 
@@ -155,7 +154,7 @@ def main(args=None):
     for fixture_id, record in base_map.items():
         old_index=record["page"]-1
         new_index=physical_page(old_index,start,end,44)
-        token=ensure_legacy_builder_available(fixture_id)
+        token="v4"+hashlib.sha1(fixture_id.encode("utf8")).hexdigest()[:12]
         found=document[new_index].search_for(token)
         if len(found)!=1:
             raise ValueError(f"Anchor moved or missing after bracket replacement: {fixture_id} ({len(found)})")
