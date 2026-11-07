@@ -37,7 +37,7 @@ function initialPage(raw) {
 let pageNumber = initialPage(pageQuery);
 const selectedCommitteePage = pageNumber;
 let committeePositioned = false;
-const gestureSurface = $("pdfPageSurface") || $("pdfCanvas");
+const gestureSurface = isCommittee && $("pdfPageSurface") || $("pdfCanvas");
 let pdf = null;
 let activeTask = null;
 let generation = 0;
@@ -322,6 +322,11 @@ el.host.addEventListener("touchmove", event => {
   // Lightweight preview; commit to a PDF.js render only after the gesture finishes.
   gestureSurface.style.transformOrigin = "center top";
   gestureSurface.style.transform = "scale(" + (pinchStart.previewZoom / zoom) + ")";
+  // Keep R11D's canvas gesture contract unchanged and preview program overlays in sync.
+  if (!isCommittee && el.highlight) {
+    el.highlight.style.transformOrigin = "center top";
+    el.highlight.style.transform = gestureSurface.style.transform;
+  }
 }, { passive: false });
 el.host.addEventListener("touchend", event => {
   if (pinchStart) {
@@ -332,6 +337,10 @@ el.host.addEventListener("touchend", event => {
       lastTap = null;
       gestureSurface.style.transform = "";
       gestureSurface.style.transformOrigin = "";
+      if (!isCommittee && el.highlight) {
+        el.highlight.style.transform = "";
+        el.highlight.style.transformOrigin = "";
+      }
       updateZoom(next);
     }
     return;
@@ -366,6 +375,10 @@ el.host.addEventListener("touchcancel", () => {
   lastTap = null;
   gestureSurface.style.transform = "";
   gestureSurface.style.transformOrigin = "";
+  if (!isCommittee && el.highlight) {
+    el.highlight.style.transform = "";
+    el.highlight.style.transformOrigin = "";
+  }
 }, { passive: true });
 // The enclosing mobile review dialog has its own close button. The direct
 // viewer can always navigate to the same-origin review page, even from LINE.
