@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="same-origin">
+  <meta name="description" content="เปิดสูจิบัตรฉบับรวม 155 หน้าแบบไฟล์ส่วนตัว ตรวจฉบับก่อนเน้นตำแหน่งรายการ">
+  <title>ตรวจตำแหน่งในสูจิบัตรฉบับรวม · มิตรภาพเกมส์ 2569</title>
+  <link rel="stylesheet" href="./css/booklets.css?v=r24a1">
+  <link rel="stylesheet" href="./css/booklet-private-viewer.css?v=r24c1">
+</head>
+<body>
+  <header class="booklets-header">
+    <div class="booklets-shell">
+      <a id="privateBack" class="back" href="./booklets.html">← กลับ</a>
+      <p class="eyebrow">สูจิบัตรมิตรภาพเกมส์ 2569 · สำหรับผู้มีสิทธิ์ตรวจร่าง</p>
+      <h1>ตรวจรายการในเล่มรวม 155 หน้า</h1>
+      <p class="lead">เปิดไฟล์ PDF และไฟล์ตำแหน่งตรวจสอบจากอุปกรณ์ของคุณ โดยไม่ส่งไฟล์ขึ้นเว็บไซต์</p>
+    </div>
+  </header>
+  <main class="booklets-shell private-reader">
+    <div class="review-notice" role="note"><strong>เล่มรวมยังเป็นฉบับตรวจร่าง</strong>
+      <span>การเน้นสีเหลืองหมายถึงตำแหน่งรายการที่เลือก ไม่ใช่มติรับรองข้อมูลแข่งขันหรือคำสั่งแต่งตั้ง</span>
+    </div>
+    <section class="file-gate" aria-label="เลือกเอกสารที่ได้รับสิทธิ์">
+      <h2>เลือกไฟล์ที่ได้รับอนุญาต</h2>
+      <p id="privateFileHint">ต้องใช้สูจิบัตรฉบับรวมที่ตรวจแล้ว และแผนที่ตำแหน่งจากผู้รับผิดชอบโครงการ</p>
+      <div class="private-inputs">
+        <label for="privatePdf">1. สูจิบัตรฉบับรวม (PDF 155 หน้า)
+          <input type="file" id="privatePdf" accept=".pdf,application/pdf">
+        </label>
+        <label for="privateMap">2. แผนที่ตำแหน่งตรวจร่าง (JSON)
+          <input type="file" id="privateMap" accept=".json,application/json">
+        </label>
+      </div>
+      <button id="privateOpen" class="private-action" type="button">ตรวจไฟล์และเปิดอ่าน</button>
+      <p class="file-note">ไฟล์ถูกอ่านในหน่วยความจำของหน้านี้เท่านั้น ไม่มีการอัปโหลดหรือเก็บไว้เมื่อปิดหน้าเว็บ หากเปิดใหม่ต้องเลือกไฟล์อีกครั้ง</p>
+    </section>
+    <p id="privateStatus" role="status" aria-live="polite" class="private-status">พร้อมตรวจไฟล์เอกสารที่ได้รับสิทธิ์</p>
+    <section class="private-pdf-section" aria-label="ตัวอ่านเอกสาร PDF">
+      <p id="privateContext" class="private-context" aria-live="polite"></p>
+      <div id="privateTools" class="private-tools" hidden>
+        <button type="button" id="privatePrev" aria-label="หน้าเอกสารก่อนหน้า">‹ ก่อนหน้า</button>
+        <label for="privatePage">หน้า <input id="privatePage" type="number" min="1" max="155" value="1" inputmode="numeric"><span id="privatePages"> / 155</span></label>
+        <button type="button" id="privateNext" aria-label="หน้าเอกสารถัดไป">ถัดไป ›</button>
+        <button type="button" id="privateZoomOut" aria-label="ย่อเอกสาร">−</button>
+        <button type="button" id="privateZoomIn" aria-label="ขยายเอกสาร">+</button>
+      </div>
+      <div id="privateHost" class="private-canvas-host" hidden>
+        <div class="private-page-surface">
+          <canvas id="privateCanvas" aria-label="หน้าสูจิบัตรฉบับรวม"></canvas>
+          <div id="privateOverlay" class="private-highlight-layer" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+    <p class="file-note">ไม่ควรเปิดเอกสารที่มีข้อมูลส่วนบุคคลบนอุปกรณ์ที่ผู้อื่นใช้ร่วมกันโดยไม่ได้รับอนุญาต</p>
+  </main>
+  <footer class="booklets-shell footer">ฉบับตรวจร่าง · ไม่ใช่ประกาศผลหรือเอกสารเผยแพร่ทางการ</footer>
+  <script src="./js/booklet-private-viewer.js?v=r24c1" defer></script>
+</body>
+</html>

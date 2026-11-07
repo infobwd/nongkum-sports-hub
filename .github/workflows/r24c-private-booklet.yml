@@ -1,0 +1,32 @@
+name: R24-C Private Booklet Deep Links
+on:
+  pull_request:
+    paths:
+      - 'booklet-private-viewer.html'
+      - 'css/booklet-private-viewer.css'
+      - 'js/booklet-private-viewer.js'
+      - 'js/booklets.js'
+      - 'js/program.js'
+      - 'js/committee.js'
+      - 'scripts/booklets/**'
+      - 'docs/R24C_**'
+      - '.github/workflows/r24c-private-booklet.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  private-viewer-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate viewer syntax and source code
+        run: |
+          node --check js/booklet-private-viewer.js
+          node --check js/booklets.js
+          node --check js/program.js
+          node --check js/committee.js
+      - name: Verify 236+250 deep links and fail-closed private document gate
+        run: node scripts/booklets/test-r24c-private-viewer.mjs
