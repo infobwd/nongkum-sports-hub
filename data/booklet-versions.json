@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "revision": "R24-A1-20261107",
+  "publication_scope": "source_document_review_only",
+  "note": "การเปิดดูและข้อมูลตรงกันระหว่างเอกสาร ไม่ใช่มติรับรองการแข่งขันหรือคำสั่งแต่งตั้ง",
+  "documents": [
+    {
+      "version_id": "program-v2",
+      "display_name": "ตารางแข่งขัน V2",
+      "purpose": "ดูโปรแกรมแข่งขันและกรีฑาจากเอกสารอ้างอิงเดิม",
+      "page_count": 41,
+      "source_kind": "same_origin_repository",
+      "source_path": "assets/souvenir-2569-v2.pdf",
+      "pdf_revision_sha256": "1cd0d0166fe202b2b69e18f5ec2e1c2d80439386767a1826bf21d7d5da9e0bbf",
+      "document_status": "source_draft_for_review",
+      "access_mode": "same_origin_reader",
+      "viewer_route": "./pdf-viewer.html?page=1",
+      "coordinate_map_revision": "r23-v2-236",
+      "approved_at": null,
+      "icon": "calendar",
+      "availability": "available"
+    },
+    {
+      "version_id": "committee-v3",
+      "display_name": "รายชื่อกรรมการ V3",
+      "purpose": "ตรวจรายชื่อและหน้าที่กรรมการจากเอกสารอ้างอิงเดิม",
+      "page_count": 64,
+      "source_kind": "same_origin_repository",
+      "source_path": "assets/souvenir-committee-2569-v3.pdf",
+      "pdf_revision_sha256": "0f0083bc349b2b0176cbeaa66a09e88e883aeb1cd4078c954582782e5e2bc1ba",
+      "document_status": "source_draft_for_review",
+      "access_mode": "same_origin_reader",
+      "viewer_route": "./committee-pdf-viewer.html?page=1",
+      "coordinate_map_revision": "r19k-v3-250",
+      "approved_at": null,
+      "icon": "users",
+      "availability": "available"
+    },
+    {
+      "version_id": "integrated-v42i10-g2",
+      "display_name": "สูจิบัตรฉบับรวม V4.2-I10",
+      "purpose": "รวมปก ประกาศ กรรมการ โปรแกรมแข่งขันและผัง 44 กลุ่ม",
+      "page_count": 155,
+      "source_kind": "restricted_google_drive_review",
+      "source_path": null,
+      "pdf_revision_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",
+      "document_status": "draft_review_not_approved",
+      "access_mode": "restricted_review_pending_permission",
+      "viewer_route": null,
+      "coordinate_map_revision": "r24b-audit-486-only",
+      "approved_at": null,
+      "icon": "book",
+      "availability": "pending_permission"
+    }
+  ],
+  "audit_155": {
+    "status": "local_pdf_verified_for_anchor_integrity_only",
+    "cover_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",
+    "baseline_sha256": "0c052af59d73bbefbe66f43dd797f08c5041ef2c00733805cd95a1ffbce6edec",
+    "page_count": 155,
+    "bookmarks": 175,
+    "anchor_count": 486,
+    "unique_anchors": 486,
+    "position_parity_against_baseline": 486,
+    "anchor_ids_digest_sha256": "21feb66eb393f6fa24f0012e9dd3052a7e8eabca84bf40c3a5c73a3dda380d99",
+    "record_crosswalk_status": "pending independent source-index test until CI confirms",
+    "publication_approved": false
+  }
+}
