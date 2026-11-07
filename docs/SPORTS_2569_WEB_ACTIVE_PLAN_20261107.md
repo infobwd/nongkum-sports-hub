@@ -87,3 +87,11 @@
 - [R15-B/C engine & rules](R15BC_RULES_ENGINE_JSON_VALIDATION_QA.md), [R15-D SOP](R15D_PHOTO_RESULTS_INTAKE_SOP.md), [R15-E mobile QA](R15E_MOBILE_ACCEPTANCE_QA.md)
 - [R19-F My Duty QA](R19F_MY_DUTY_PHASE_A_B_QA.md), [R12 conflict workflow](R12_ATHLETE_DOCUMENT_TO_JSON_SCHEDULE_CONFLICT_PLAN.md)
 - [R10 deploy QA](R10_FIELD_OPERATIONS_DEPLOY_QA.md), [R11 deploy QA](R11_PUBLIC_REQUEST_DEPLOY_AND_QA.md), [P2 Sheets workflow](P2_SHEETS_WORKFLOW.md)
+
+
+## R23 (7 พฤศจิกายน 2569) — ไฮไลท์รายการใน PDF ตารางแข่งขัน 41 หน้า
+
+- **สถานะ: พัฒนาแล้ว / QA CI ผ่าน / PR #119 ยัง Draft / ยังไม่ได้ Merge หรือ Deploy** ([PR #119](https://github.com/infobwd/nongkum-sports-hub/pull/119)). งานนี้เพิ่มไฮไลท์รายการในตัวอ่าน PDF V2 ที่เว็บใช้ผ่าน `fixture=ID` โดยไม่แก้ข้อมูลรายการ, ผล, กรรมการ หรือเล่ม 155 หน้า.
+- สร้างพิกัดจาก PDF SHA เดิม 41 หน้า **236 รายการครบ** (186 คู่ + 50 กรีฑา), แยกเลขคู่/รายการที่ซ้ำ, ตรวจ revision ก่อนแสดง. รายละเอียด: [แผน R23](R23_PROGRAM_PDF_FIXTURE_HIGHLIGHT_PHASE1_PLAN_20261107.md) และ [ผล QA](R23_PROGRAM_PDF_HIGHLIGHT_PHASE1_QA_20261107.md).
+- ชุด CI [R23](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059887), [R11D](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059918), [R14](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059860), [R19 committee](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059857), [R19K](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059865), [Validate](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42379059849) **PASS** บน head `7c25fec7` ก่อนแก้ข้อความแผนนี้. ก่อน Merge ตรวจใหม่บน latest head.
+- **ค้าง:** ผู้จัดอนุญาต Merge, ทดลอง iPhone Safari/LINE WebView/Android จริงหลัง staging/deploy, ตรวจกรณีซูม/ปัด/กลับการ์ดและหน้า PDF ร่าง; เฟส 2 เล่มใหม่ 155 หน้าแยกงานจาก PR #116/#118.
