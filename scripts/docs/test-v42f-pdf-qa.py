@@ -21,6 +21,9 @@ assert (q["committee_entries"],q["anchors"],q["confirmed_date_and_time"])==(250,
 assert q["appendix_pages"]==17 and stage["brackets"]["appendix_replaced_pages"]==[]
 assert q["official_source_lines"]==q["official_rendered_lines"]==341
 assert q["official_section_count"]==20
+assert q["official_duty_paragraphs"]==20
+assert q["official_duty_wrapped_lines"]==14
+assert q["formal_font"]=="Sarabun (Google Fonts, OFL)", "Full Sarabun Regular/Bold is required"
 assert q["notice_opening_revision"]=="V42-N1-V41-restored"
 assert q["selected_cover_design"]=="full_photo_v2" and q["rendered_cover_design"]=="g1_text_only_fallback"
 assert stage["notice_opening"]=={
@@ -33,11 +36,23 @@ opening_pages=[i for i,p in enumerate(list(pdf)[:-17])
                if "เลขที่ประกาศ" in normalize_notice_text(p.get_text())
                and "รอชื่อผู้ลงนาม" in normalize_notice_text(p.get_text())]
 detail_pages=[i for i,p in enumerate(list(pdf)[:-17])
-              if "รายละเอียดประกาศตามสูจิบัตรต้นฉบับV3" in normalize_notice_text(p.get_text())]
+              if "ข้อความประกาศแต่งตั้งคณะกรรมการ(ฉบับร่าง)" in normalize_notice_text(p.get_text())]
 assert len(opening_pages)==1, f"Restored V4.1 notice should be one complete page: {opening_pages}"
 assert len(detail_pages)==1, f"Full V3 source must follow once: {detail_pages}"
 assert detail_pages[0]==opening_pages[0]+1, "V4.1 notice must fit one A4 page immediately before full V3 details"
 assert opening_pages[0] >= 6, "Formal notice cannot precede ceremony and school-colours sections"
+# N2: The prose belongs in the announcement, not in an editorial QA document.
+committee_page=next(i for i in range(detail_pages[0]+1,len(pdf)-17)
+    if "ข้อมูลกรรมการ" in pdf[i].get_text() and "คณะกรรมการ / หมวด 1" in pdf[i].get_text())
+official_pages=list(pdf)[detail_pages[0]:committee_page]
+official_text="\\n".join(p.get_text() for p in official_pages)
+assert "ต้นฉบับ V3 · หน้า" not in official_text, "Source audit page labels must stay out of the printed notice"
+assert "341 บรรทัด" not in official_text, "Technical audit should not be printed in official prose"
+assert "มีหน้าที่" in official_text
+font_names={span["font"] for p in [pdf[opening_pages[0]]]+official_pages
+    for b in p.get_text("dict")["blocks"] if "lines" in b
+    for line in b["lines"] for span in line["spans"]}
+assert {"FormalThai","FormalThai-Bold"}<=font_names, f"Missing full Sarabun PDF font faces: {font_names}"
 assert q["ceremony_opening_events"]==22 and q["ceremony_closing_events"]==9
 assert stage["rules"]["award_rank_points"]=={"1":5,"2":3,"3":2}
 assert q["bracket_verified_edges"]>0
