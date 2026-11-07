@@ -87,6 +87,8 @@ async function verifyViewport(browser,profile){
   assert.match(await page.locator("#compareCount").innerText(),/จาก 0 รายการ/);
   await page.locator("#compareQuery").fill("");
   await page.locator(".compare-record button").first().click();
+  await page.waitForFunction(()=>/คัดลอก|กรุณาคัดลอก/.test(
+    document.getElementById("compareStatus")?.textContent||""),{timeout:5000});
   assert.match(await page.locator("#compareStatus").innerText(),/คัดลอก|กรุณาคัดลอก/);
   overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   assert.ok(overflow<=4,profile.name+" comparison overflow "+overflow);
