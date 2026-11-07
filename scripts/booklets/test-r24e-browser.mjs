@@ -96,7 +96,23 @@ async function verifyViewport(browser,profile){
   // Actual PDF.js rendering with the same public PDF V2 used on the website.
   await page.goto(target("pdf-viewer.html?page=7&from=program&fixture=football-p07-12-ปี-ชาย-006"),
     {waitUntil:"domcontentloaded"});
-  await page.locator("#pdfHighlightLayer .program-pdf-fixture-highlight").waitFor({timeout:25000});
+  try {
+    await page.locator("#pdfHighlightLayer .program-pdf-fixture-highlight").waitFor({timeout:25000});
+  } catch (error) {
+    const debug=await page.evaluate(()=>({
+      title:document.title,status:document.getElementById("pdfStatus")?.textContent,
+      failureHidden:document.getElementById("pdfFailure")?.hidden,
+      failureText:document.getElementById("pdfFailure")?.textContent?.slice(0,280),
+      canvasWidth:document.getElementById("pdfCanvas")?.width,
+      page:document.getElementById("pdfPage")?.value,
+      matchStatus:document.getElementById("pdfMatchStatus")?.textContent,
+      markCount:document.querySelectorAll("#pdfHighlightLayer .program-pdf-fixture-highlight").length
+    }));
+    console.error("R24-E PDF fixture diagnostic: "+JSON.stringify(debug));
+    console.error("R24-E JS errors: "+JSON.stringify(errors.slice(-4)));
+    console.error("R24-E CDN requests: "+JSON.stringify(requests.filter(x=>/cdnjs\.cloudflare\.com/.test(x.url)).slice(-8)));
+    throw error;
+  }
   assert.match(await page.locator("#pdfMatchStatus").innerText(),/เน้นรายการที่เลือก/);
   assert.equal(await page.locator("#pdfPage").inputValue(),"7");
   await page.locator("#pdfNext").click();
