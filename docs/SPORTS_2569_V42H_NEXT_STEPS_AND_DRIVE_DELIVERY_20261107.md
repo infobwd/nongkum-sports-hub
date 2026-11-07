@@ -1,0 +1,94 @@
+# มิตรภาพเกมส์ 2569 — แผนงานคงเหลือหลัง V4.2-H และแนวทางส่งสูจิบัตรเข้า Google Drive
+
+**วันที่ตรวจ:** 7 พฤศจิกายน 2569 (Asia/Bangkok)
+**สถานะ:** CURRENT WORK PLAN / PDF REVIEW ONLY / ไม่ใช่คำสั่งเผยแพร่
+**Repo:** `infobwd/nongkum-sports-hub` / `main` หลัง PR #92
+**เอกสารหลักที่ใช้ประกอบ:** `R11C_V42_EDITORIAL_RULES_BRACKETS_PLAN_20261107.md`, `R11C_V42G_COVER_TYPOGRAPHY_INTEGRATION_PLAN_20261107.md`, `R11C_V42H_ORGANIZER_BRACKET_REVIEW_PLAN_20261107.md`, `R11C_V42F_REVIEW_RESULT_20261107.md`, `R12C_PRIVATE_ROSTER_CONFLICT_ENGINE.md`, `SPORTS_2569_PARALLEL_WORKSTREAMS_PLAN.md`.
+**หมายเหตุ:** `SPORTS_2569_ACTIVE_WORK_STATUS_20261104.md` เป็น snapshot วันที่ 4 พ.ย. ไม่ใช่สถานะล่าสุด โปรดอ่านฉบับนี้ร่วมด้วย
+
+## 1) สิ่งที่ทำแล้ว (ห้ามนำกลับมานับเป็นงานค้าง)
+
+| งาน | สถานะที่ตรวจพบ | หลักฐาน |
+|---|---|---|
+| V42-A คำสั่ง/ประกาศครบถ้วน | ตัวสร้าง PDF มีข้อความอ้างอิงครบ 341 บรรทัด / 20 หมวด; รอรับรองข้อมูลทางการ ไม่ใช่งานจัดหน้าค้าง | PR #82, V42-F QA |
+| V42-B พิธีเปิด/ปิด | 22 + 9 ขั้นตอนใน PDF แล้ว | PR #90 |
+| V42-C กติกาและคะแนน | infographic พร้อมคะแนนถ้วยรวม 5/3/2 และฟุตบอล 3/1/0; ข้อกติกาปลีกย่อยยังรอรับรอง | PR #87 |
+| V42-D การ์ด Match Day | 63 การ์ด; โทนสีโรงเรียนที่ยังไม่รับรองเป็นสีประกอบ | PR #88 |
+| V42-E ผังสาย | 82 เส้นที่โยงจากหลักฐาน; ข้อคลาดเคลื่อนหกกลุ่มติดตามแยก | PR #89 |
+| V42-F รวม PDF | 124 หน้า A4 QA ผ่าน (historical) | PR #90 |
+| V42-G ปกสปอร์ต/ภาพเต็มหน้า | **มีแผนและแบบที่ผู้จัดชอบ แต่ยังไม่ได้ลงมือ G1/G2 ในตัวสร้าง** | PR #91 |
+| V42-H ท้ายเล่มสำหรับผู้จัด | **สำเร็จ**: 6 รายการตรวจรับอยู่ท้ายเนื้อหาหลักก่อนภาคผนวก V3 | PR #92 |
+| V42-H PDF ล่าสุด | **125 หน้า A4**, 236 รายการ (186 คู่ + 50 กรีฑา/289 ลู่), กรรมการ 250 รายการ, จุดอ้างอิง 486/486, 45 คู่ยืนยันวันเวลา; ภาคผนวก V3 17 หน้า | PR #92 / GitHub Actions SUCCESS 7 พ.ย. / SHA-256 `5933f2ec65b7fc10660084e9d951b7593667d857e796dd5d95542f49fceef82b` |
+| Drive delivery แบบมีผู้สั่งใน ChatGPT | **ทดลองสำเร็จ 7 พ.ย.** ส่ง PDF V42-H 125 หน้าเข้า Shared Drive โฟลเดอร์ `ปี 2569/สูจิบัตร` ด้วย Google Drive connector; ได้ file ID/readback และขนาด 1,731,537 bytes ตรงไฟล์ต้นทาง | ยืนยันผ่าน Drive metadata ของไฟล์ที่อัปโหลด (ไม่บันทึก ID ของ Drive ส่วนตัวไว้ใน public repo) |
+
+**คำสำคัญ:** `MERGED/BUILT/QA PASSED` ไม่เท่ากับ `OFFICIAL APPROVED/PUBLISHED`. PDF V42-H ใน Drive คือ **ฉบับร่างตรวจรับ** เท่านั้น ไม่แทน V2/V3 และไม่ปรับลิงก์เผยแพร่หน้าเว็บ
+
+## 2) งานคงเหลือเรียงความสำคัญ
+
+| ลำดับ | Workstream | งานที่ต้องทำ | สิ่งที่ต้องส่งมอบ | Gate / ผู้ให้มติ |
+|---|---|---|---|---|
+| **P0** | วันแข่งขัน 12–13 พ.ย. / R11E | ยืนยันเปตองนอกรอบ 24 คู่เรื่องคอร์ต เวลาและสนามย่อย, แก้เฉพาะตามหลักฐาน; ตรวจเวลาเปลี่ยนหลังแก้ | source-and-approval diff และตารางสำหรับกรรมการ | ผู้จัด/กรรมการสนาม |
+| **P0** | ผังสาย 6 กลุ่ม / R20 | ยิงจุดโทษปฐมวัยเป็นการสะกด JSON, วอลเลย์บอลชาย/หญิงคู่ชิงอ้างรอบรองกลับกัน, ตะกร้อคู่ 24 ระบุรุ่นชายทั้งที่โยงชิงหญิง, **เปตอง 10 ปีชาย** อ้างคู่ 2 ซ้ำและรายชื่อทีมในคู่แรกซ้ำ, ชักเย่อหญิง 7 ทีมบายถูกต้อง | มติรายข้อ; เปตองต้องยืนยันรายชื่อและคู่จริงก่อนเปลี่ยน source | ผู้จัด; **ห้าม auto-fix รายชื่อ/คู่** |
+| **P1** | V42-G1 | เพิ่ม sport display title “มิตรภาพเกมส์ 2569” บนปก fallback โดยตัวอักษรไทยยังเลือกและค้นหาได้; ทดสอบสระ/วรรณยุกต์ การพิมพ์และมือถือ | PR แยกเฉพาะ cover+regression, PDF review | ตรวจภาพ/ข้อความ, QA ผ่าน |
+| **P1** | V42-G2 | ฝังปก Full Photo V2 เฉพาะเมื่อมีการอนุญาตใช้ภาพผู้ถ่าย/บุคคล, ไฟล์เหมาะกับพิมพ์จริงและผ่านการครอป | cover asset ผ่าน rights/print QA; local/private ไม่ commit ภาพเด็กลง public | เจ้าของภาพ/ผู้จัด |
+| **P1** | ข้อมูลรายการ/กรีฑา | ตรวจวันเวลา/คอร์ตที่ยังไม่รับรอง, กรีฑา 50 รายการและลู่ 289, กติกาตัดสินฟุตบอล head-to-head/ใบเหลือง-ใบแดง, เกณฑ์เปตองและคำสั่ง | checklist source/old/new/decision/approved-by ในพื้นที่ที่เหมาะสม | ผู้จัดและกรรมการแต่ละกีฬา |
+| **P1** | เอกสารทางการ/กรรมการ | ตรวจชนิดคำสั่ง/เลขที่/วันลงนาม/ผู้ลงนาม ตำแหน่งและสังกัดกรรมการ; ห้ามสร้างลายเซ็นปลอมหรือแสดงว่ารับรองแล้ว | official notice approval list | ผู้มีอำนาจลงนาม |
+| **P2** | ภาคผนวก V3 | ทำ coverage map ทีละหน้าเทียบ 17 หน้าเดิมกับหน้า V42 ใหม่ (คู่/รุ่น/รอบ/โรงเรียน/กติกา) แล้วตัดหน้า V3 เฉพาะที่แทนได้ครบและมีมติ | appendix-to-new-pages crosswalk + no-loss QA | ตรวจรับรายหน้า |
+| **P2** | ปิด R12 roster risk | R12A เป็นแค่ระดับโรงเรียนจาก snapshot 237; R12B/R12C ต้องรับรายชื่อจริง 8 โรงเรียนใน private workspace และตรวจเงื่อนไขรายคน/เวลา/พัก/เดินทาง | รายงานชนจริงในพื้นที่จำกัดสิทธิ์ โดยไม่เผยแพร่ชื่อนักเรียน | เจ้าหน้าที่/แต่ละโรงเรียน |
+| **P2** | พิมพ์และการอ่าน | ทดสอบสีขาวดำ/ความคม A4, 300dpi effective สำหรับภาพ, Thai PDF search, page break, สารบัญ, ลิงก์เปิดตรงหน้าใน Safari/LINE/Android | QA ฉบับพิมพ์ + sample print proof | ผู้จัดตรวจรับ |
+| **Release** | R11E | ตรวจมติข้อมูล, ภาพ, กติกา, คำสั่ง, 236 รายการ/486 anchors, sync เว็บไซต์/Drive/Docs/LINE และ rollback ก่อนเปลี่ยน PDF public | approval manifest + published revision + rollback | ผู้จัดอนุมัติ explicit |
+
+**เส้นทางดำเนินงาน:** งานปก G1 และงานออกแบบหน้าพิมพ์เดินหน้าได้โดยไม่ต้องรอเปตองหรือภาพ G2; การทำ PDF review ไม่ติดขัดเพียงเพราะท้ายเล่มมีรายการรอรับรอง แต่ **ห้ามถือเป็นสูจิบัตรรับรองการแข่งขัน**.
+
+## 3) ปรับรูปแบบการบริหารแผนไม่ให้ “งานที่เสร็จแล้ว” กลับมาเป็นงานค้าง
+
+1. แผนฉบับนี้เป็น **current roadmap หลัง V42-H**; เอกสาร V42-A–H และ `SPORTS_2569_ACTIVE_WORK_STATUS_20261104.md` ยังเก็บเป็นหลักฐานประวัติ ไม่แก้ย้อนสถานะเดิม
+2. แต่ละงานระบุ `status = done / doing / blocked / ready-for-review`, `owner/approver`, `evidence link (PR, Drive file or source)`, `next action`, `blocking condition`, `source revision`, `updated_at`
+3. แยก `source ambiguity` จาก `proposed correction` และ `approved correction`; ห้ามแก้ข้อมูลกลางหรือเว็บจากการคาดเดา
+4. ห้ามยึดตัวเลข `124/125 หน้า` เป็นเกณฑ์ตายตัวหลังการออกแบบ; ตรวจจาก PDF ที่สร้างจริงพร้อม SHA, page-map, QA และบันทึก diff
+5. หากมีการเปลี่ยน source จาก 237 archived candidate เป็น 236 effective publication entries ต้องบันทึก exclusion ของ football repeated-final และตรวจผลต่อทุกหน้า; **อย่าแก้ snapshot R12A 237 ให้กลายเป็น 236 อย่างเงียบ ๆ**
+6. สาย R15 ผลแข่งขัน/Google Sheets, R19 กรรมการ, R12 รายชื่อนักกีฬา และ R11C ปกสามารถทำคู่ขนาน แต่หลีกเลี่ยงการแก้ไฟล์ builder/master schedule พร้อมกัน; merge พร้อม regression
+
+## 4) ส่ง PDF รวมเล่มเข้า Google Drive แทนให้เจ้าของงานโหลดเอง
+
+**Drive target:** Shared Drive `ปี 2569/สูจิบัตร` (ตรวจว่าเข้าถึงได้และมี PDF V42-F อยู่แล้ว, ไม่มีการเปลี่ยนสิทธิ์การแชร์)
+
+### ระดับ 1 — จากแชทหลัง Build: ใช้ได้แล้ว (DONE)
+
+- เมื่อมี QA PDF ผ่าน ให้ส่งไฟล์ PDF ตัวจริงจาก runtime ผ่าน **file reference** ให้ Google Drive connector `upload_file` ในโฟลเดอร์สูจิบัตร
+- ตั้งชื่อแบบ versioned: `MittraphapGames_2569_V42H_Review_125pages.pdf` (หรือ version ใหม่, นับหน้าตามจริง); ไม่ overwrite รุ่นก่อน ไม่ใช้ชื่อ “ฉบับทางการ” ก่อน R11E
+- ตรวจ Drive metadata readback: file ID, ชื่อ, `application/pdf`, byte size, parent folder และ browser URL; รายงานลิงก์ที่ได้จริงกลับให้ผู้จัด
+- ทำงาน **ภายในแชทที่สั่ง Build/อัปโหลด**. นี่ไม่ใช่ trigger ที่ GitHub Actions จะส่งอัตโนมัติเองเมื่อเราไม่ได้เปิดแชท
+- ต้องระวังขนาดไฟล์/สิทธิ์ Drive; หากส่งไม่สำเร็จให้ส่งลิงก์ artifact และแจ้งข้อผิดพลาด ไม่รายงานว่าอัปโหลดแล้ว
+
+### ระดับ 2 — จาก GitHub Actions ส่ง Drive อัตโนมัติหลังผ่าน QA (PROPOSED / ยังไม่ได้เปิด)
+
+1. GitHub Actions review PDF ใช้งานได้อยู่แล้ว แต่ **ยังไม่ได้รับสิทธิ์ Google Drive**; GitHub artifact ไม่ใช่ Drive sync
+2. ออกแบบ uploader แยกขั้นหลัง QA PASS โดยใช้ Google Drive API; สำหรับ Shared Drive ต้องได้รับสิทธิ์ service identity เข้าถึงโฟลเดอร์ที่กำหนดโดยผู้ดูแล
+3. แนะนำ **GitHub OIDC / Workload Identity Federation** + service identity สิทธิ์จำกัดแทนใส่ token/JSON key ถาวรใน repo; ตรวจนโยบายองค์กรและ shared-drive access ก่อน
+4. Run guard: เฉพาะ `workflow_dispatch` หรือ reviewer-authorized build, QA PASS, approved source revision; ฝั่ง review ให้ไปเฉพาะโฟลเดอร์ร่าง ไม่เปลี่ยน public PDF, GitHub Pages, Google Docs, Sheet, หรือ LINE
+5. ใช้ versioned immutable names ตาม version + commit SHA หรือ approved revision; idempotent ก่อน upload เพื่อป้องกันไฟล์ซ้ำเมื่อ rerun; เก็บ latest-review pointer แยกเฉพาะเมื่อผ่าน QA และผู้จัดเห็นชอบ
+6. QA upload: ตรวจ Drive file ID/size/parent, upload revision, link, failure/retry และ audit log โดย **ไม่บันทึก OAuth token/secret/private Drive IDs ลง public repo**
+7. R11E เท่านั้นที่อนุญาตเผยแพร่จริงหรือเปลี่ยน `LATEST_OFFICIAL`; ห้ามให้ workflow review ทำดังกล่าว
+8. งานระดับ 2 ต้องมีการอนุมัติการตั้งค่าบัญชีและสิทธิ์จากเจ้าของงานก่อน; **ไม่ได้ดำเนินการใน PR แผนนี้**
+
+### ตัวเลือกด้านประสบการณ์ใช้งาน
+
+- ใช้ไฟล์แบบระบุรุ่น `V42H_Review`, `V42G1_Review` เพื่อให้ตรวจย้อนหลังได้
+- เมื่อพร้อม อาจมีไฟล์ **LATEST_REVIEW.pdf** เป็นลิงก์คงที่ แยกจาก **LATEST_OFFICIAL.pdf** อย่างชัดเจน; ห้ามแทน official จน release gate ผ่าน
+- หน้าเว็บ PDF viewer และ Google Drive file คือคนละ release channel; การอัปโหลด Drive สำเร็จ **ไม่ได้แปลว่าเว็บเปลี่ยนสูจิบัตรแล้ว**
+
+## 5) เกณฑ์ตรวจรับก่อน R11E publication
+
+- [ ] ตรวจทุก source correction ที่มีข้อสงสัยและบันทึกมติ (เปตอง 10 ปีชายเป็นกรณีสำคัญ)
+- [ ] วัน/เวลา/สนามย่อย/คู่ 12–13 พ.ย. และกรีฑาได้รับการตรวจรับตามจริง
+- [ ] ประกาศ/คำสั่ง/ลงนาม/ชื่อกรรมการถูกต้องครบ
+- [ ] กติกาและวิธีตัดสินเรียงลำดับชัดและมีหลักฐานยืนยัน
+- [ ] ปก Full Photo หากใช้ มีสิทธิ์ภาพ/quality gate ผ่าน หรือเลือก fallback ที่อนุมัติแทน
+- [ ] 17 หน้า V3 appendix ตรวจ coverage รายหน้า; อนุญาตเก็บต่อถ้าไม่มีหลักฐานแทน
+- [ ] 236 รายการตามมติ, 250 กรรมการ, 486 anchors (ถ้าฐานไม่เปลี่ยน), A4 QA, no orphan pages, ความถูกต้องภาษาไทย
+- [ ] มี Drive review PDF พร้อม metadata readback และ revision/QA manifest
+- [ ] มีผู้จัดอนุมัติ explicit พร้อมหลักฐาน และแผน rollback URL/live PDF
+- [ ] ทดสอบ Safari/iPhone, LINE และอุปกรณ์สนามจริง; แยกการยืนยันระบบกับความถูกต้องด้านข้อมูล
+
+**ขอบเขต PR นี้:** บันทึก/ชี้แผนอย่างเดียว; ไม่แก้ builder, fixture, results, Google Docs, Drive sharing, GitHub Action credentials, Apps Script หรือหน้าสาธารณะ
