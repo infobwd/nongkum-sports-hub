@@ -38,4 +38,32 @@ except ValueError:
     pass
 else:
     raise AssertionError("A timezone-naive timestamp must never be accepted")
+# Render a 1-page G2 proof using a color-only synthetic fixture; never a child
+# image, selected photo, or public-ready cover. This validates layout mechanics.
+import tempfile
+from PIL import Image
+from weasyprint import HTML
+import fitz
+with tempfile.TemporaryDirectory(prefix="g2-layout-unit-") as folder:
+    tmp=Path(folder)
+    fixture=tmp/"synthetic-no-person-color-card.jpg"
+    Image.new("RGB",(1200,1700),(37,76,109)).save(fixture,quality=88)
+    candidates=list(Path("/usr/share/fonts").rglob("NotoSansThai-Regular.ttf"))
+    assert candidates, "Noto Thai font required for G2 review preview"
+    font_url=candidates[0].resolve().as_uri()
+    source="""<!doctype html><html lang="th"><head><meta charset="utf-8"><style>
+    @font-face{font-family:NotoThai;src:url('"""+font_url+"""');font-weight:400}
+    @font-face{font-family:NotoThai;src:url('"""+font_url+"""');font-weight:700}
+    @page{size:A4;margin:0}body{margin:0;padding:0}
+    """+cover_g2_css()+"""</style></head><body>"""+cover_g2_html(fixture.resolve().as_uri())+"""</body></html>"""
+    out=tmp/"g2-private-layout-unit.pdf"
+    HTML(string=source,base_url=str(tmp)).write_pdf(out)
+    proof=fitz.open(out)
+    assert len(proof)==1, "Full Photo V2 should occupy exactly one A4 page"
+    assert abs(proof[0].rect.width-595.28)<1 and abs(proof[0].rect.height-841.89)<1
+    normalized=proof[0].get_text().replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32))
+    assert "มิตรภาพเกมส์" in normalized and "2569" in normalized
+    assert "ตัวอย่างตรวจแบบเท่านั้น" in normalized
+    assert len(proof[0].get_images())>=1, "Private photo is not embedded in G2 proof"
+    proof.close()
 print("G2 cover source/rights gate PASS; Thai footer conversion from explicit UTC to Bangkok PASS")
