@@ -11,7 +11,7 @@ anchors=json.loads((out/"souvenir-v4-page-map.json").read_text("utf-8"))["entrie
 pdf=fitz.open(out/"souvenir-v4-full-draft.pdf")
 assert len(pdf)==q["pdf_pages"] and len(pdf)>100
 assert q["timestamp_footer_pages"]==len(pdf)
-assert q["source_revision_sha"]==subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+assert q["source_revision_sha"]==subprocess.check_output(["git","log","-1","--format=%H","--","scripts/docs","data","assets"],text=True).strip()
 assert q["source_last_modified_bangkok"].endswith("+07:00")
 assert datetime.datetime.fromisoformat(q["source_last_modified_bangkok"]).utcoffset()==datetime.timedelta(hours=7)
 footer_expected=unicodedata.normalize("NFKC",q["last_updated_footer_text"])
