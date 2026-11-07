@@ -27,3 +27,11 @@
 ## Regression Gate
 - ห้ามแก้เอกสาร PDF V2/V3, source results/standings, roster, page-map private, Apps Script
 - หาก fail ให้แก้ใน PR เดียวกันพร้อมผล CI ใหม่; PR ยัง Draft จนก่อนอนุญาต Merge
+
+## Addendum: browser compatibility defect discovered BEFORE viewer fix
+
+- Local Chromium runtime in Playwright 1.56.1 on Ubuntu Noble, actual PDF.js V6.4.299 modern build failed at `PDFPageProxy.render`: `TypeError: this[#da].getOrInsertComputed is not a function` (CI [evidence](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42389873447)).
+- The error occurred after PDF got page 7 and canvas set dimensions, but *before* fixture highlight. Both PDF CDN scripts returned network responses; not a broken PDF or map. Modern PDF.js uses `Map.prototype.getOrInsertComputed` and browsers without that native feature cannot render.
+- Public browser compatibility references: Mozilla PDF.js recommends its `legacy` distribution for browsers lacking newer JS features; browser compatibility of `Map.getOrInsertComputed` varies by Chrome/Safari versions. This specifically affects the user project's iOS/Safari/LINE support gate.
+- **Scoped remediation before code:** switch `js/pdf-viewer.js` and `js/booklet-private-viewer.js` to the **matching `pdfjs-dist@6.4.299/legacy/build/pdf.min.mjs` and `pdf.worker.min.mjs`** URLs, pinned to same package version; preserve all source PDF files, coordinates and routes; update the R11D test assertion to new pinned source; run R11D, R14, R19, R24C/D/E suites and actual Chromium PDF rendering smoke. If legacy build fails, do not claim fix/acceptance.
+- Avoid injecting custom unreviewed global polyfills into Safari/LINE. Do not change Drive permission or make 155-page PDF public.
