@@ -75,3 +75,17 @@
 **แนวทางที่วิเคราะห์แนะนำ:** ใช้ **PR #82 โดยตรง** เป็น golden document สำหรับหน้าประกาศ; เปลี่ยนเนื้อหาในสูจิบัตรจาก N1+N2 12 หน้าเป็น PR82-compatible 11 หน้า; รักษาเนื้อหา/แหล่งที่มา/ชื่อผู้มีหน้าที่ครบ; QA layout เทียบกับ PDF Drive ทุกช่วง.
 
 **สถานะ ณ บันทึกแผน:** มีการตรวจ PDF Drive/โค้ด/เปรียบเทียบภาพจริงแล้ว และบันทึกแผนเข้า Repo เท่านั้น **ยังไม่ได้เปลี่ยนตัวสร้าง PDF หรือเผยแพร่ PDF ใหม่**.
+
+## 6. N3-A — Renderer reusable / Golden PDF parity (ผลตรวจ 7 พ.ย. 2569)
+
+**N3-A IMPLEMENTED AND GOLDEN QA PASSED** in [PR #101](https://github.com/infobwd/nongkum-sports-hub/pull/101). **N3-B ยังไม่ได้ลงมือ**; PDF รวมเล่มใน `main` ยังคง N1/N2 จนกว่า integration PR จะผ่านการตรวจ.
+
+- เพิ่ม `scripts/docs/v42_notice_pr82.py` ที่แยก CSS/layout engine **เดิมจาก PR #82 โดยไม่ปรับ layout** เป็น `render_official_notice_v2(source_model, fonts_dir, output_dir)`; CLI `notice-preview-v2.py` เรียกใช้ module นี้ได้
+- รับ source model ที่ผ่าน `build_source_model(V3)` โดยตรง ไม่อ่าน HTML N1/N2. Contract แยก `source_rows_from_model(model)` เก็บ IDs/text/ลำดับ **341/341**, 20 sections, 20 duty starts และ 5 closing lines; source SHA `31d86c20a790377cbc3d839dfdb7641ccb520a1e71192894c89628d1b633bdd3` ถูกล็อก
+- Golden PDF from user's Drive `announcement_formal_preview_v2.pdf`: SHA-256 `8cc68ba476192fe47310280600a9c681afdbe98378dc7881bf183d977d8928d8` / **11 A4 pages**. Generated preview from PR #101 SHA-256 `d692eae5335fe1349871b3d0b643d3e59b93977115b3ebeb4f696f8e9dfe4af9`. Binary differs in PDF internals/font subset prefixes, **not in content or rendering**
+- Real PDF comparison using PyMuPDF 1.26.7 at **1.4× RGB**: **11/11 pages have identical text extraction AND identical RGB pixels**. This includes all paragraph breaks, 3-column member/role alignment, 20 «มีหน้าที่» paragraphs, first/last headers, and the signatory text from the V3 draft. Not just samples 1/6/11
+- Add permanent `scripts/docs/test-v42n3a-pr82-source.py` and `test-v42n3a-pr82-pdf.py`: source SHA, exact **11 golden page text hashes and 11 rendered-pixel hashes**, SarabunFull Regular/Bold, no inserted ASCII `a`, Unicode NFKC Thai search, right role column and 11 pages
+- Preview-only Actions `.github/workflows/notice-preview-v2.yml` now runs for PR to `main`. **Run #42348714011 SUCCESS**; output artifact `R11C-N3A-PR82-Golden-Notice-11page-review-only`. Full booklet review workflow and general data validation remain independently gated
+- **No changes to `scripts/docs/build-v4-full.py`**, no booklet PDF replacement, no public webpage or Drive modifications, no image/signature creation. Full Sarabun TTF download remains runner-local only
+
+**N3-B next:** Replace the **two** N1/N2 output parts with the **one** Golden PR82 11-page PDF block; use PDF insertion before page-map/anchors, retain complete V3 source audit, 250 committee roster table, 236 fixtures, 486 anchors and 17-page V3 appendix. Visual QA again after insertion and review PDF approval before merge/public release.
