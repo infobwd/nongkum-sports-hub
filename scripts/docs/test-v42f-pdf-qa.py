@@ -37,8 +37,8 @@ assert notice_end-notice_start==11
 assert notice_start>=1 and notice_end<len(pdf)-17
 assert "คำปฏิญาณ" in pdf[notice_start-1].get_text()
 assert "ข้อมูลกรรมการ" in pdf[notice_end].get_text()
-assert re.search(r"คณะกรรมการ\\s*/\\s*หมวด\\s*1(?:\\s|$)",pdf[notice_end].get_text())
-assert "รอชื่อผู้ลงนาม" not in "\\n".join(p.get_text() for p in list(pdf)[:notice_end]), "Old N1 opening must not reappear"
+assert re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",pdf[notice_end].get_text())
+assert "รอชื่อผู้ลงนาม" not in "\n".join(p.get_text() for p in list(pdf)[:notice_end]), "Old N1 opening must not reappear"
 reference=fitz.open(out/"announcement_formal_preview_v2.pdf")
 assert len(reference)==11
 assert q["notice_golden_pdf_sha256"]==__import__("hashlib").sha256((out/"announcement_formal_preview_v2.pdf").read_bytes()).hexdigest()
@@ -53,7 +53,7 @@ fonts={span["font"] for p in list(pdf)[notice_start:notice_end]
     for block in p.get_text("dict")["blocks"] if "lines" in block
     for line in block["lines"] for span in line["spans"]}
 assert any("SarabunFull" in name for name in fonts),f"Embedded PR82 Sarabun font missing: {fonts}"
-assert len([p for p in list(pdf)[:-17] if "ข้อมูลกรรมการ" in p.get_text() and "คณะกรรมการ / หมวด 1" in p.get_text()])==1
+assert len([p for p in list(pdf)[:-17] if "ข้อมูลกรรมการ" in p.get_text() and re.search(r"คณะกรรมการ\s*/\s*หมวด\s*1(?:\s|$)",p.get_text())])==1
 reference.close()
 assert q["ceremony_opening_events"]==22 and q["ceremony_closing_events"]==9
 assert stage["rules"]["award_rank_points"]=={"1":5,"2":3,"3":2}
