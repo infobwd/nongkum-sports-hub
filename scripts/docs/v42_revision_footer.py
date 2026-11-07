@@ -29,6 +29,7 @@ def revision_stamp(root: Path, last_updated_iso: str | None = None) -> dict:
         if last_updated_iso is None:
             raise RuntimeError("A real Git revision is required for footer timestamp") from error
         revision = "local-explicit-preview"
+    timestamp_origin = "git_commit" if last_updated_iso is None else "explicit_preview"
     if last_updated_iso is None:
         last_updated_iso = subprocess.check_output(
             ["git", "show", "-s", "--format=%cI", "HEAD"], cwd=root, text=True
@@ -45,7 +46,7 @@ def revision_stamp(root: Path, last_updated_iso: str | None = None) -> dict:
         "source_last_modified_bangkok": thai.isoformat(),
         "footer_text": "ปรับปรุงล่าสุด " + human,
         "timezone": "Asia/Bangkok",
-        "timestamp_origin": "git_commit" if last_updated_iso is not None and revision != "local-explicit-preview" else "explicit_preview",
+        "timestamp_origin": timestamp_origin,
     }
 
 
