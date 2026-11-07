@@ -127,7 +127,10 @@ async function verifyViewport(browser,profile){
     {waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>Number(document.getElementById("pdfCanvas")?.width)>300,
     null,{timeout:25000});
-  assert.equal(await page.locator("#pdfTotal").innerText(),"64");
+  await page.waitForFunction(()=>document.getElementById("pdfStatus")?.hidden===true,
+    null,{timeout:20000});
+  assert.equal(await page.locator("#pdfFailure").isHidden(),true,"V3 PDF render must be successful");
+  assert.match(await page.locator("#pdfTotal").innerText(),/64/);
 
   await page.goto(target("index.html"),{waitUntil:"domcontentloaded"});
   const more=page.locator("details.program-more summary").first();
