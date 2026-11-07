@@ -92,6 +92,21 @@ def build_source_model(pdf):
                                  "numbering_and_affiliations",
                                  "source_garuda_and_signature_images_not_imported"]}
 
+def is_duty_continuation(line):
+    """Continue only V3 wrapped prose within the preceding 'มีหน้าที่' item.
+
+    Preserve all original line ids and do not absorb a subsequent heading.
+    """
+    if line["kind"] != "paragraph":
+        return False
+    text = line["text"].strip()
+    if text.startswith(("ฝ่าย", "คณะกรรมการ", "เรื่อง ", "ประกาศ", "ทั้งนี้")):
+        return False
+    if re.match(r"^\d{1,2}\.\s+", text):
+        return False
+    return True
+
+
 def official_full_html(model):
     content = [
         '<div class="v42-official-guide">',
@@ -113,10 +128,23 @@ def official_full_html(model):
         n = source_page["source_page"]
         content.append('<div class="v42-source-page" data-source-page="'+str(n)+'">')
         content.append('<div class="v42-page-label">ต้นฉบับ V3 · หน้า '+str(n)+'</div>')
+        duty_open = False
         for line in source_page["lines"]:
             kind = line["kind"]
             id_ = line["id"]
             text = html.escape(line["text"], quote=True)
+            if duty_open and is_duty_continuation(line):
+                content.append(f' <span class="v42-duty-continuation" data-source-line="{id_}">{text}</span>')
+                rendered_ids.append(id_)
+                continue
+            if duty_open:
+                content.append("</p>")
+                duty_open = False
+            if kind == "duty":
+                content.append(f'<p class="v42-duty-paragraph"><span class="v42-duty-start" data-source-line="{id_}">{text}</span>')
+                rendered_ids.append(id_)
+                duty_open = True
+                continue
             if kind == "section":
                 tag, class_name = "h3", "v42-section-title"
             elif kind == "subsection":
@@ -133,6 +161,8 @@ def official_full_html(model):
                 tag, class_name = "p", "v42-body-line"
             content.append(f'<{tag} class="{class_name}" data-source-line="{id_}">{text}</{tag}>')
             rendered_ids.append(id_)
+        if duty_open:
+            content.append("</p>")
         content.append("</div>")
     content.append("</article>")
     if len(rendered_ids) != model["total_lines"] or len(set(rendered_ids)) != len(rendered_ids):
@@ -185,4 +215,12 @@ def official_css():
 .v42-duty-line{font-size:10.5pt;padding:1.2mm 3mm;background:#f0f5f9;
  border-left:2px solid #7d9db7;margin:2mm 0 1mm;break-inside:avoid}
 .v42-closing-line{font-size:11.2pt;margin:2mm 0;padding-left:6mm;break-inside:avoid}
+/* N2: clean administrative-document presentation; source-page labels and
+   editorial QA notes remain in the audited HTML but not the printed notice. */
+.v42-official-guide{display:none}
+.v42-page-label{display:none}
+.v42-duty-paragraph{font-family:FormalThai,NotoThai,sans-serif;font-size:11.2pt;
+ line-height:1.75;text-align:justify;text-indent:7mm;margin:2.5mm 0 3.5mm;
+ border:0;background:none;padding:0;color:#202936;break-inside:avoid}
+.v42-duty-paragraph span{font-family:inherit;font-size:inherit}
 """
