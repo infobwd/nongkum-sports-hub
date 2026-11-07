@@ -22,9 +22,15 @@ MONTHS_TH = ("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.
 def revision_stamp(root: Path, last_updated_iso: str | None = None) -> dict:
     root = Path(root).resolve()
     try:
+        # Query the latest *source-changing* commit, not GitHub Actions'
+        # ephemeral PR merge commit or a subsequent documentation-only commit.
         revision = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=root, text=True, stderr=subprocess.DEVNULL
+            ["git", "log", "-1", "--format=%H", "--",
+             "scripts/docs", "data", "assets"],
+            cwd=root, text=True, stderr=subprocess.DEVNULL
         ).strip()
+        if not revision:
+            raise RuntimeError("No source-changing Git commit found")
     except (subprocess.CalledProcessError, FileNotFoundError) as error:
         if last_updated_iso is None:
             raise RuntimeError("A real Git revision is required for footer timestamp") from error
@@ -32,7 +38,7 @@ def revision_stamp(root: Path, last_updated_iso: str | None = None) -> dict:
     timestamp_origin = "git_commit" if last_updated_iso is None else "explicit_preview"
     if last_updated_iso is None:
         last_updated_iso = subprocess.check_output(
-            ["git", "show", "-s", "--format=%cI", "HEAD"], cwd=root, text=True
+            ["git", "show", "-s", "--format=%cI", revision], cwd=root, text=True
         ).strip()
     parsed = datetime.datetime.fromisoformat(last_updated_iso.replace("Z", "+00:00"))
     if parsed.tzinfo is None:

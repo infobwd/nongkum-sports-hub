@@ -66,4 +66,14 @@ with tempfile.TemporaryDirectory(prefix="g2-layout-unit-") as folder:
     assert "ตัวอย่างตรวจแบบเท่านั้น" in normalized
     assert len(proof[0].get_images())>=1, "Private photo is not embedded in G2 proof"
     proof.close()
+# The source timestamp must be stable across a CI re-run and a docs-only
+# commit. It is not the ephemeral GitHub pull-request merge SHA.
+import subprocess
+root=Path(__file__).resolve().parents[2]
+git_source_sha=subprocess.check_output(
+    ["git","log","-1","--format=%H","--","scripts/docs","data","assets"],
+    cwd=root,text=True).strip()
+source_stamp=revision_stamp(root)
+assert source_stamp["source_revision_sha"]==git_source_sha
+assert source_stamp["timestamp_origin"]=="git_commit"
 print("G2 cover source/rights gate PASS; Thai footer conversion from explicit UTC to Bangkok PASS")
