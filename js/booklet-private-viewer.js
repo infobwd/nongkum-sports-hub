@@ -97,7 +97,7 @@
     return {y:(top + bottom)/2 * viewport.height};
   }
   async function render() {
-    if (!doc || loading) return;
+    if (!doc) return;
     const mySeq = ++sequence;
     if (activeRender) {
       activeRender.cancel();
@@ -140,7 +140,7 @@
     loading = true; ui.open.disabled=true;
     status("กำลังตรวจรุ่นเอกสารและตำแหน่งอ้างอิง…");
     try {
-      if (!crypto?.subtle) throw Error("secure_context_required");
+      if (typeof crypto === "undefined" || !crypto.subtle) throw Error("secure_context_required");
       if (ui.pdfInput.files[0].size > 35000000 || ui.mapInput.files[0].size > 2000000) throw Error("file_size");
       const pdfBytes = await ui.pdfInput.files[0].arrayBuffer();
       if ((await digest("SHA-256", pdfBytes)) !== PDF_SHA) throw Error("pdf_revision");
