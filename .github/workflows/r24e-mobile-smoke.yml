@@ -12,6 +12,7 @@ on:
       - 'data/program-*.json'
       - 'data/committee-*.json'
       - 'scripts/booklets/test-r24e-browser.mjs'
+      - 'scripts/booklets/test-r24e-live-http.mjs'
       - 'docs/R24E_*'
       - '.github/workflows/r24e-mobile-smoke.yml'
   workflow_dispatch:
@@ -49,6 +50,9 @@ jobs:
           exit 1
       - name: Test iPhone-size Android-size and desktop Chromium viewport
         run: node scripts/booklets/test-r24e-browser.mjs
+      - name: Observe deployed GitHub Pages HTTP from CI runner (not live device acceptance)
+        continue-on-error: true
+        run: node scripts/booklets/test-r24e-live-http.mjs
       - name: Save screenshots without private/personal data
         if: always()
         uses: actions/upload-artifact@v4
