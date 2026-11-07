@@ -1,0 +1,68 @@
+name: R11C V42-I Full 44-Group Bracket A4 Review
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/docs/v42i_bracket_preview.py"
+      - "scripts/docs/v42i_full_bracket_review.py"
+      - "scripts/docs/test-v42i-full-coverage.py"
+      - ".github/workflows/r11c-v42i-full-bracket-review.yml"
+      - "docs/R11C_V42I_FULL_44_GROUP_COVERAGE_IMPLEMENTATION_20261107.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-bracket-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test source coverage and all bracket topologies (no new match results)
+        run: |
+          python scripts/docs/test-v42e-brackets.py
+          python scripts/docs/test-v42i-bracket-preview.py
+          python scripts/docs/test-v42i-full-coverage.py
+      - name: Build HTML plus 44-division manifest for organizer review
+        run: |
+          mkdir -p build/v42i-full
+          python scripts/docs/v42i_full_bracket_review.py \
+            --source data/program-from-pdf-2569-20261104-draft.json \
+            --output build/v42i-full/brackets-44-groups.html \
+            --manifest build/v42i-full/brackets-44-groups-manifest.json
+      - name: Install A4 PDF renderer and Thai font (runner only)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-core
+          python -m pip install "weasyprint==68.0" "PyMuPDF==1.26.7"
+      - name: Render and preflight 44-page A4 review PDF
+        run: |
+          python - <<'PY'
+          from weasyprint import HTML
+          import fitz
+          import json
+          from pathlib import Path
+          root=Path("build/v42i-full")
+          html=root/"brackets-44-groups.html"
+          pdfpath=root/"brackets-44-groups-review.pdf"
+          HTML(filename=str(html),base_url=str(Path.cwd())).write_pdf(str(pdfpath))
+          qa=json.loads((root/"brackets-44-groups-manifest.json").read_text("utf8"))
+          pdf=fitz.open(pdfpath)
+          assert len(pdf)==qa["group_count"]==44,(len(pdf),qa["group_count"])
+          for n,p in enumerate(pdf):
+              assert abs(p.rect.width-595.28)<1 and abs(p.rect.height-841.89)<1,(n,p.rect)
+              assert p.get_text().strip(),f"Blank A4 review page {n+1}"
+          assert qa["rendered_fixture_count"]==186
+          print("Full bracket review PDF PASS:",len(pdf),"A4 pages,",qa["rendered_fixture_count"],"fixtures")
+          PY
+      - name: Upload source-grounded 44-page PDF/HTML/coverage manifest (review only)
+        uses: actions/upload-artifact@v4
+        with:
+          name: r11c-v42i-all-44-brackets-a4-review
+          path: build/v42i-full/
+          if-no-files-found: error
+          retention-days: 30

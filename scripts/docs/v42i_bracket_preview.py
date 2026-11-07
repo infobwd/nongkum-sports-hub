@@ -151,16 +151,7 @@ def page(group, sport_name, division, subtitle, index):
     </section>''', qa
 
 
-def render_document(source):
-    fixtures = [x for x in source["fixtures"] if x.get("kind")=="match" and not x["id"].endswith("repeated-final")]
-    groups,_ = analyze(fixtures)
-    by_key = {(g["sport"], g["division"]):g for g in groups}
-    sheets=[]; proof={}
-    for i,(sport,division,name,subtitle) in enumerate(CASES,1):
-        group = by_key[(sport,division)]
-        sheet,qa=page(group,name,division,subtitle,i)
-        proof[f"{sport}/{division}"]=qa
-        sheets.append(sheet)
+def preview_css():
     css = '''
     @page {size:A4;margin:0} *{box-sizing:border-box}
     body{margin:0;font-family:"Noto Sans Thai", "Sarabun", sans-serif;color:#183B57}
@@ -201,6 +192,20 @@ def render_document(source):
     .notes{margin-top:8mm;color:#607589;font-size:8.5pt;line-height:1.7}
     footer{position:absolute;bottom:10mm;left:14mm;right:14mm;border-top:1px solid #D7E0E8;padding-top:3mm;font-size:7.7pt;color:#6B8092;display:flex;justify-content:space-between}
     '''
+    return css
+
+
+def render_document(source):
+    fixtures = [x for x in source["fixtures"] if x.get("kind")=="match" and not x["id"].endswith("repeated-final")]
+    groups,_ = analyze(fixtures)
+    by_key = {(g["sport"], g["division"]):g for g in groups}
+    sheets=[]; proof={}
+    for i,(sport,division,name,subtitle) in enumerate(CASES,1):
+        group = by_key[(sport,division)]
+        sheet,qa=page(group,name,division,subtitle,i)
+        proof[f"{sport}/{division}"]=qa
+        sheets.append(sheet)
+    css = preview_css()
     return '<!doctype html><html lang="th"><head><meta charset="utf-8"><style>'+css+'</style></head><body>'+''.join(sheets)+'</body></html>', proof
 
 
