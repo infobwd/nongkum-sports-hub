@@ -144,7 +144,7 @@ async function renderPage() {
   if (requestId !== generation) return;
   busy = true;
   // Clear stale highlights before switching pages or changing zoom.
-  if (el.highlight) el.highlight.replaceChildren();
+  if (typeof el.highlight?.replaceChildren === "function") el.highlight.replaceChildren();
   if (el.matchStatus) el.matchStatus.hidden = true;
   el.status.hidden = false;
   el.status.textContent = "กำลังแสดงหน้า " + pageNumber + "…";
