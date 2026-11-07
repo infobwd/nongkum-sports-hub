@@ -89,3 +89,12 @@
 - **No changes to `scripts/docs/build-v4-full.py`**, no booklet PDF replacement, no public webpage or Drive modifications, no image/signature creation. Full Sarabun TTF download remains runner-local only
 
 **N3-B next:** Replace the **two** N1/N2 output parts with the **one** Golden PR82 11-page PDF block; use PDF insertion before page-map/anchors, retain complete V3 source audit, 250 committee roster table, 236 fixtures, 486 anchors and 17-page V3 appendix. Visual QA again after insertion and review PDF approval before merge/public release.
+
+## 7. N3-B execution lock — 7 พ.ย. 2569
+
+**เริ่มลงมือใน branch `feat/r11c-v42n3b-pr82-booklet-integration-20261107` หลัง N3-A PR #101 merged**. งานนี้ต้องสร้าง PDF 11 หน้า PR82 จาก source+Sarabun ใน runner, แทรกก่อนหน้าตารางกรรมการหมวดแรกโดยค้นจากข้อความจริงใน PDF **ไม่ใช้เลขหน้า fix**. ตัดผลพิมพ์ N1 (หน้าเปิดแบบ V4.1) และ N2 (ข้อความประกาศยาว) ออกจาก HTML ทั้งคู่ แต่คง `official_model`, `official_html`, `source_audit`, และ crosswalk 341 บรรทัด เป็นหลักฐาน QA; ข้อมูลทะเบียนตรวจชื่อ 250 รายการและ 486 anchors ไม่เปลี่ยน.
+
+- Golden embedded pages ต้อง **11 หน้า A4** โดยรูปภาพที่เรนเดอร์ออกมาตรง PR #82 ทั้ง 11 หน้า (pixel/text match); QA ไม่ให้มีหน้าเปิดประกาศซ้ำ
+- รวม PDF และแทรกก่อน 17-page V3 appendix/คำนวณ page-map 486 anchors; expected total pages เป็นผลจาก render จริงไม่กำหนดล่วงหน้า
+- เพิ่ม `notice_layout_revision=PR82-V2-N3B` และตำแหน่งเริ่ม/สิ้นสุดที่คำนวณจริงใน QA JSON
+- CI ออก preview artifact เท่านั้น; ไม่เผยแพร่หน้าเว็บ ไม่ทับไฟล์ PR #82/N1/N2 ใน Google Drive; ต้องดู render และ QA ก่อน Merge.
