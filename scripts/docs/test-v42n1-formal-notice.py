@@ -24,11 +24,13 @@ assert '.official-paper{' in extra_css()
 assert audit["rendered_source_lines"]==audit["total_source_lines"]==341
 assert audit["verified_section_ids"]==[str(i) for i in range(1,21)]
 assert "มีหน้าที่" in detail_html
+assert detail_html.count('class="v42-duty-paragraph"')==20
+assert detail_html.count('class="v42-duty-continuation"')==14
 assert audit["missing_source_line_ids"]==audit["duplicate_source_line_ids"]==[]
 builder=(root/"scripts/docs/build-v4-full.py").read_text("utf-8")
 assert 'notice_html=notice(read_source(pdf,6),read_source(pdf,16))' in builder
 assert 'official_html=official_full_html(official_model)' in builder
 assert 'official_report=source_audit(official_model,official_html)' in builder
-assert builder.index('pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"') < builder.index('pages.append(sec("รายละเอียดประกาศและหน้าที่กรรมการตามต้นฉบับ"')
+assert builder.index('pages.append(sec("ประกาศกลุ่มเครือข่าย (ฉบับร่าง)"') < builder.index('pages.append(sec("ข้อความประกาศแต่งตั้งคณะกรรมการ (ฉบับร่าง)"')
 assert '"rendered_cover_design":"g1_text_only_fallback"' in builder
 print("V42-N1 PASS: V4.1 notice styling restored, 341 source lines and 20 committee sections preserved; review-only")
