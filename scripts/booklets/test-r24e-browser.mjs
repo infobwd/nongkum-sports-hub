@@ -34,9 +34,11 @@ async function verifyViewport(browser,profile){
   deviceScaleFactor:profile.mobile?2:1,locale:"th-TH",
   permissions:["clipboard-read","clipboard-write"]
  });
- const page=await ctx.newPage(),errors=[],requests=[];
+ const page=await ctx.newPage(),errors=[],requests=[],consoleErrors=[],requestFailures=[];
  page.on("pageerror",e=>errors.push(e.message));
+ page.on("console",msg=>{if(msg.type()==="error")consoleErrors.push(msg.text().slice(0,480));});
  page.on("request",r=>requests.push({method:r.method(),url:r.url()}));
+ page.on("requestfailed",r=>requestFailures.push({url:r.url(),failure:r.failure()?.errorText}));
  try {
   await page.goto(target("booklets.html"),{waitUntil:"domcontentloaded"});
   await page.locator("#bookletsList .document-card").first().waitFor();
@@ -110,6 +112,8 @@ async function verifyViewport(browser,profile){
     }));
     console.error("R24-E PDF fixture diagnostic: "+JSON.stringify(debug));
     console.error("R24-E JS errors: "+JSON.stringify(errors.slice(-4)));
+    console.error("R24-E console errors: "+JSON.stringify(consoleErrors.slice(-6)));
+    console.error("R24-E request failures: "+JSON.stringify(requestFailures.slice(-6)));
     console.error("R24-E CDN requests: "+JSON.stringify(requests.filter(x=>/cdnjs\.cloudflare\.com/.test(x.url)).slice(-8)));
     throw error;
   }
