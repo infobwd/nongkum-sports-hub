@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Post-PDF review artifact preflight; preserves coverage without official publication."""
-import json, pathlib, sys, re, unicodedata
+import json, pathlib, sys, re, unicodedata, subprocess, datetime
 import fitz
 from PIL import Image,ImageDraw
 
@@ -10,6 +10,18 @@ stage=json.loads((out/"souvenir-v42f-stage-qa.json").read_text("utf-8"))
 anchors=json.loads((out/"souvenir-v4-page-map.json").read_text("utf-8"))["entries"]
 pdf=fitz.open(out/"souvenir-v4-full-draft.pdf")
 assert len(pdf)==q["pdf_pages"] and len(pdf)>100
+assert q["timestamp_footer_pages"]==len(pdf)
+assert q["source_revision_sha"]==subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+assert q["source_last_modified_bangkok"].endswith("+07:00")
+assert datetime.datetime.fromisoformat(q["source_last_modified_bangkok"]).utcoffset()==datetime.timedelta(hours=7)
+footer_expected=unicodedata.normalize("NFKC",q["last_updated_footer_text"])
+assert footer_expected.startswith("ปรับปรุงล่าสุด ")
+for page_no, page in enumerate(pdf,1):
+    extracted=unicodedata.normalize("NFKC",page.get_text())
+    assert extracted.count(footer_expected)==1, f"Missing or duplicate revision stamp on PDF page {page_no}"
+    words=[word for word in page.get_text("words")
+           if word[1]>=822 and word[3]<=842]
+    assert words, f"Revision footer missing in bottom margin on page {page_no}"
 # Check text extraction from the *newly generated* pages, not the unchanged V3 appendix.
 new_text="\n".join(p.get_text() for p in list(pdf)[:-17])
 assert not re.search(r"[ก-๙];[ก-๙]",new_text), "Thai Sara Am incorrectly extracted with ASCII semicolon"
@@ -43,11 +55,15 @@ reference=fitz.open(out/"announcement_formal_preview_v2.pdf")
 assert len(reference)==11
 assert q["notice_golden_pdf_sha256"]==__import__("hashlib").sha256((out/"announcement_formal_preview_v2.pdf").read_bytes()).hexdigest()
 assert q["notice_golden_page_text_hashes_checked"]==11 and q["notice_golden_page_pixel_hashes_checked"]==11
+# Exclude only the new timestamp strip (last 16pt) from the exact PR82
+# comparison; the original PR82 header, role grid, duties and footer
+# remain pixel/text-identical to the organizer-approved 11-page reference.
 for i in range(11):
     expected=reference[i];actual=pdf[notice_start+i]
-    assert expected.get_text()==actual.get_text(),f"Golden PR82 notice text changed on embedded page {i+1}"
-    a=actual.get_pixmap(matrix=fitz.Matrix(1.4,1.4),alpha=False)
-    b=expected.get_pixmap(matrix=fitz.Matrix(1.4,1.4),alpha=False)
+    content_clip=fitz.Rect(0,0,expected.rect.width,825)
+    assert expected.get_text(clip=content_clip)==actual.get_text(clip=content_clip),f"Golden PR82 notice text changed on embedded page {i+1}"
+    a=actual.get_pixmap(matrix=fitz.Matrix(1.4,1.4),alpha=False,clip=content_clip)
+    b=expected.get_pixmap(matrix=fitz.Matrix(1.4,1.4),alpha=False,clip=content_clip)
     assert a.width==b.width and a.height==b.height and a.samples==b.samples, f"Golden PR82 visual layout changed on embedded page {i+1}"
 fonts={span["font"] for p in list(pdf)[notice_start:notice_end]
     for block in p.get_text("dict")["blocks"] if "lines" in block
@@ -73,6 +89,9 @@ assert len(anchors)==486 and all(1<=v["page"]<=len(pdf) for v in anchors.values(
 assert stage["cover_status"]=="layout_approved_hero_rights_pending"
 assert stage["cover_typography_status"]=="G1_sport_masthead_review_only"
 assert q["cover_typography_revision"]=="V42-G1"
+assert q["cover_g2_preview"]["selected"]=="full_photo_v2"
+assert q["cover_g2_preview"]["rendered"]=="g1_fallback", "Private photo must not leak into public CI artifacts"
+assert q["cover_g2_preview"]["photo_rights"]=="unverified"
 # Noto Thai renders Sara Am as canonically-equivalent combining marks for PDF text-layer compatibility.
 def thai_search_normalized(text):
     return re.sub(r"\s+","",text.replace(chr(0x0e33),chr(0x0e4d)+chr(0x0e32)))
@@ -112,7 +131,8 @@ result={"status":"review_only_pass","pages":len(pdf),"a4":True,"anchors":len(anc
         "organizer_review_rows":q["organizer_review_rows"],
         "v3_appendix_pages_retained":q["appendix_pages"],"selected_preview_pages":pages,
         "notice_golden_pr82_pdf_pages":11,"notice_golden_start_pdf_page":notice_start+1,"notice_golden_end_pdf_page":notice_end,
-        "notice_text_visual_parity":"11_of_11",
+        "notice_text_visual_parity":"11_of_11_above_revision_footer",
+        "thai_revision_footer":q["last_updated_footer_text"],"revision_footer_pages":q["timestamp_footer_pages"],
         "cover_image_rights":"pending","th_any_ascii_semicolon_between_thai":0}
 (out/"souvenir-v42f-pdf-preflight.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n","utf-8")
 print(json.dumps(result,ensure_ascii=False,indent=2))
