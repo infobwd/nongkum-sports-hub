@@ -88,14 +88,14 @@ def main():
           "public_pdf_link_permission":"not_verified"
         }
         print(json.dumps(report,ensure_ascii=False,indent=2))
-        if args.report:args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\\n","utf-8")
+        if args.report:args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n","utf-8")
         if args.private_map:
             # No names or source IDs; callers keep this file outside the public repo.
             records={token:{"page":val[0],"rect":val[1]} for token,val in sorted(a1.items())}
             result={"schema_version":1,"document_status":"review_only_not_public",
                     "source_sha256":COVER_SHA,"page_count":155,"anchor_count":486,
                     "coordinate_space":"normalized_top_left_cropbox","entries":records}
-            args.private_map.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\\n","utf-8")
+            args.private_map.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n","utf-8")
         return 0
 if __name__=="__main__":
     raise SystemExit(main())
