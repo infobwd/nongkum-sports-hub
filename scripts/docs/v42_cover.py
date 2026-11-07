@@ -60,30 +60,55 @@ def cover_css() -> str:
 """
 
 def cover_g2_html(photo_uri: str) -> str:
-    """Review-only full-photo V2 cover; Thai title remains searchable text."""
+    """Full Photo V2 sport-masthead review cover; searchable Thai, private photo."""
     from html import escape
     if not photo_uri.startswith("file:///"):
         raise ValueError("The selected cover image must be a local private photo")
     src = escape(photo_uri, quote=True)
-    return f"""<section class="cover cover-g2" data-cover-revision="V42-G2-PRIVATE-PROOF">
+    return f"""<section class="cover cover-g2" data-cover-revision="V42-G2-PRIVATE-PROOF"
+       data-title-revision="V42-G2-SPORT-MASTHEAD-V21">
       <img class="g2-hero-photo" src="{src}" alt="" aria-hidden="true">
-      <div class="g2-vignette"></div>
-      <div class="g2-head"><p class="g2-over">NONGKUM YOUTH SPORTS · FRIENDSHIP EDITION</p>
-        <p>กีฬานักเรียนกลุ่มหนองกุ่ม</p>
-        <h1 class="g2-title">มิตรภาพเกมส์</h1><div class="g2-year">2569</div>
-        <div class="g2-rule" aria-hidden="true"></div></div>
-      <div class="g2-foot"><strong>สูจิบัตรการแข่งขันกีฬานักเรียน</strong>
+      <div class="g2-vignette" aria-hidden="true"></div>
+      <div class="g2-head">
+        <p class="g2-over">NONGKUM YOUTH SPORTS · FRIENDSHIP EDITION</p>
+        <p class="g2-category">กีฬานักเรียนกลุ่มหนองกุ่ม</p>
+        <div class="g2-sport-masthead">
+          <div class="g2-title-panel" aria-hidden="true"></div>
+          <div class="g2-gold-kicker" aria-hidden="true"></div>
+          <h1 class="g2-title">มิตรภาพเกมส์</h1>
+          <div class="g2-speed" aria-hidden="true"></div>
+          <div class="g2-speed g2-two" aria-hidden="true"></div>
+          <div class="g2-speed g2-three" aria-hidden="true"></div>
+        </div>
+        <div class="g2-year-lockup">
+          <div class="g2-year-plate" aria-hidden="true"></div>
+          <div class="g2-year">2569</div>
+          <div class="g2-year-speed" aria-hidden="true"></div>
+          <div class="g2-year-speed g2-short" aria-hidden="true"></div>
+          <div class="g2-year-speed g2-tiny" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="g2-foot">
+        <strong>สูจิบัตรการแข่งขันกีฬานักเรียน</strong>
         <p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p>
         <strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong>
         <p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p>
         <strong>16–20 พฤศจิกายน 2569</strong>
         <p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p>
         <small>ตัวอย่างตรวจแบบเท่านั้น · รอตรวจสิทธิ์ภาพและคุณภาพงานพิมพ์</small>
-      </div></section>"""
+      </div>
+    </section>"""
 
 
 def cover_g2_css() -> str:
+    """Sport title is native searchable text; strips and panels are decoration.
+
+    On CI/local Linux the full Noto Thai Black glyph set covers Thai marks;
+    no font files, photographed children or private Drive bytes enter GitHub.
+    """
     return """
+@font-face{font-family:G2SportThai;src:url("file:///usr/share/fonts/truetype/noto/NotoSansThai-Black.ttf");font-weight:900}
+@font-face{font-family:G2SportYear;src:url("file:///usr/share/fonts/truetype/noto/NotoSansThai-CondensedBlack.ttf");font-weight:900}
 .cover.cover-g2{position:relative;width:210mm;height:297mm;padding:0;
  overflow:hidden;background:#153451;color:white;break-after:page}
 .cover-g2 .g2-hero-photo{position:absolute;top:0;left:0;width:100%;height:100%;
@@ -93,16 +118,35 @@ def cover_g2_css() -> str:
  rgba(11,35,58,.91) 100%)}
 .cover-g2:before{content:"";position:absolute;z-index:3;top:0;left:0;
  width:100%;height:5mm;background:#e7c566}
-.cover-g2 .g2-head{position:absolute;top:27mm;left:18mm;right:12mm;
+.cover-g2 .g2-head{position:absolute;top:24mm;left:18mm;right:11mm;
  border-left:2.1mm solid #e7c566;padding-left:7mm;z-index:2}
-.cover-g2 .g2-over{font-size:8pt;letter-spacing:.7pt;color:#f4d78a;
- margin:0 0 12mm}
-.cover-g2 .g2-head>p:not(.g2-over){font-size:9pt;color:#ffedb4;margin:0 0 3mm}
-.cover-g2 h1.g2-title{font:700 40pt/1.3 NotoThai,sans-serif;
- margin:0;padding:0;border:0;color:#fff;text-shadow:1.2pt 2pt #113351}
-.cover-g2 .g2-year{font:700 65pt/1.12 NotoThai,sans-serif;
- color:#ffdc70;text-shadow:1.2pt 2pt #113351}
-.cover-g2 .g2-rule{width:93mm;height:1.4mm;background:#edcc70;margin-top:7mm}
+.cover-g2 .g2-over{font-size:8pt;letter-spacing:.7pt;color:#f4d78a;margin:0 0 7mm}
+.cover-g2 .g2-category{font-size:10.5pt;font-weight:700;color:#ffedb4;margin:0 0 2mm}
+.cover-g2 .g2-sport-masthead{position:relative;margin-top:1mm;width:171mm;height:26mm}
+.cover-g2 .g2-title-panel{position:absolute;top:1mm;left:-2mm;width:156mm;height:24mm;
+ background:linear-gradient(90deg,rgba(4,24,49,.94),rgba(6,30,56,.74) 80%,rgba(6,30,56,0));
+ transform:skewX(-13deg);border-bottom:1.05mm solid #f2ca61}
+.cover-g2 .g2-gold-kicker{position:absolute;top:1mm;left:-2mm;width:21mm;height:1.4mm;
+ background:#efd270;transform:skewX(-20deg)}
+.cover-g2 h1.g2-title{position:absolute;top:.1mm;left:3mm;margin:0;padding:0;border:0;
+ width:160mm;white-space:nowrap;color:#fcfdff;
+ font:900 43pt/1.33 G2SportThai,NotoThai,sans-serif;letter-spacing:-.5pt;
+ transform:skewX(-7deg);text-shadow:2.4pt 2.7pt 0 #051d36}
+.cover-g2 .g2-speed{position:absolute;right:3mm;top:9mm;width:23mm;height:2mm;
+ background:#f5c960;transform:skewX(-28deg)}
+.cover-g2 .g2-speed.g2-two{top:13mm;right:8mm;width:13mm;height:1.3mm;background:#f8de91}
+.cover-g2 .g2-speed.g2-three{top:16mm;right:13mm;width:7mm;height:1mm;background:#f2c35a}
+.cover-g2 .g2-year-lockup{position:relative;margin-top:-.1mm;width:163mm;height:26mm}
+.cover-g2 .g2-year-plate{position:absolute;top:1mm;left:3mm;width:78mm;height:22mm;
+ background:linear-gradient(90deg,rgba(3,26,48,.81),rgba(3,26,48,.21));
+ transform:skewX(-11deg);border-left:2mm solid #f0c965}
+.cover-g2 .g2-year{position:absolute;left:6mm;top:-1.1mm;margin:0;
+ font:900 70pt/1.14 G2SportYear,NotoThai,sans-serif;letter-spacing:-2pt;
+ transform:skewX(-8deg);color:#ffdb72;text-shadow:1.5pt 2.2pt 0 #051c33}
+.cover-g2 .g2-year-speed{position:absolute;top:15mm;left:93mm;width:43mm;height:1.5mm;
+ background:#f3ce70;transform:skewX(-29deg)}
+.cover-g2 .g2-year-speed.g2-short{top:19.2mm;width:25mm;height:1.2mm;background:#e8bb54}
+.cover-g2 .g2-year-speed.g2-tiny{top:23mm;width:12mm;height:.9mm;background:#efd58d}
 .cover-g2 .g2-foot{position:absolute;bottom:0;left:0;right:0;z-index:2;
  background:rgba(8,30,51,.91);border-top:1.4mm solid #e8c66f;
  padding:10mm 18mm 17mm}
