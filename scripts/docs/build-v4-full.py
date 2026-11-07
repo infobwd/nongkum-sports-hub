@@ -3,7 +3,7 @@
 NEVER an automatic official release; no changes to the live PDF reader.
 """
 from __future__ import annotations
-import argparse,collections,datetime,hashlib,html,json,re
+import argparse,collections,datetime,hashlib,html,json,re,unicodedata
 from pathlib import Path
 import fitz
 from weasyprint import HTML
@@ -271,7 +271,7 @@ def build(root,out):
  if len(first_committee_pages)!=1:
   raise ValueError("Expected one first committee chapter insertion point: "+str(first_committee_pages))
  insert_at=first_committee_pages[0]
- if insert_at<1 or "คำปฏิญาณ" not in document[insert_at-1].get_text():
+ if insert_at<1 or unicodedata.normalize("NFKC","คำปฏิญาณ") not in unicodedata.normalize("NFKC",document[insert_at-1].get_text()):
   raise ValueError("PR82 notice should be inserted directly after athlete oath")
  pr82=render_official_notice_v2(official_model,Path("/tmp/v41-fonts"),out)
  pr82_pdf=fitz.open(pr82["pdf"])
