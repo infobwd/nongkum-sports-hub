@@ -43,6 +43,7 @@ for i,z in enumerate(pdf):
       "organizer":["ORGANIZER REVIEW"]}.items():
         if key not in pages and any(term in txt for term in terms):pages[key]=i
 assert "organizer" in pages and pages["organizer"] < len(pdf)-17
+assert len(pdf[len(pdf)-18].get_text())>800, "Orphan closing note in a mostly empty A4 page"
 render=list(dict.fromkeys([0]+list(pages.values())+[len(pdf)-18]))
 thumbs=[]
 for i in render[:7]:
