@@ -13,6 +13,7 @@ from v42_rules import render as render_rules, css as rules_css
 from v42_matchday import render as render_matchday, css as matchday_css
 from v42_brackets import render as render_brackets, css as brackets_css
 from v42_organizer_review import render as render_organizer_review, css as organizer_review_css
+from v42_cover import cover_html, cover_css
 from v42_official import (build_source_model, official_full_html,
     source_audit, official_css as v42_official_css)
 
@@ -142,7 +143,7 @@ def build(root,out):
  if status_verified!=45:raise ValueError("Confirmed scheduling rows changed")
  names={x["id"]:x["name"] for x in raw["sports"]}
  pages=[]
- pages.append("""<section class="cover"><div class="cover-main"><p class="over">NONGKUM SCHOOLS SPORTS 2569</p><h1>มิตรภาพเกมส์</h1><div class="year">2569</div><p style="font-size:13pt;margin-top:5mm">สูจิบัตรการแข่งขันกีฬานักเรียน</p><p>กลุ่มเครือข่ายพัฒนาคุณภาพการศึกษาหนองกุ่ม</p></div><div class="cover-bottom"><span class="seal">V4.2-H • ร่างสำหรับตรวจข้อมูล</span><br><strong>สนามหลัก โรงเรียนบ้านหนองกระทุ่ม</strong><p>อำเภอบ่อพลอย จังหวัดกาญจนบุรี</p><strong>16–20 พฤศจิกายน 2569</strong><p>เปตองนอกรอบ 12–13 พฤศจิกายน 2569</p><p style="margin-top:7mm">เอกสารนี้ยังไม่ใช่โปรแกรมการแข่งขันหรือคำสั่งแต่งตั้งที่รับรองแล้ว</p></div></section>""")
+ pages.append(cover_html())
  pages.append(sec("ข้อมูลสำหรับผู้อ่าน","บทนำ / สถานะข้อมูล",
  """<div class="warning"><b>สถานะเอกสาร:</b> V4.2-H ร่างจัดหน้า โดยใช้ข้อมูลที่มี ณ 6 พฤศจิกายน 2569 ระบุสถานะการยืนยันวัน–เวลาแยกตามรายการ ห้ามใช้เป็นเอกสารคำสั่งหรือผลรับรอง</div>
  <p>ข้อมูลทั้งหมด 236 รายการ: กีฬาเป็นคู่ 186 คู่ และกรีฑา 50 รายการ (289 ลู่) พร้อมรายชื่อหน้าที่กรรมการรอตรวจ 250 แถว</p>
@@ -240,12 +241,12 @@ def build(root,out):
  pages.append(sec("รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด","ORGANIZER REVIEW • V4.2-H",organizer_html,
    "จากสูจิบัตร V2/V3 และตารางต้นทาง • ข้อเสนอแก้ยังต้องมีมติผู้จัดก่อนใช้จริง"))
  official_css,official_font_used=formal_font_css()
- html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-H ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+organizer_review_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-H ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42H • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
+ html_body='<!doctype html><html lang="th"><head><meta charset="utf-8"><title>มิตรภาพเกมส์ สูจิบัตร V4.2-H ฉบับร่างจัดหน้า</title><style>'+style(pick_font())+official_css+extra_css()+v42_official_css()+ceremony_css()+rules_css() +matchday_css()+brackets_css()+organizer_review_css()+cover_css()+'''@page{@top-left{content:"มิตรภาพเกมส์ 2569 • V4.2-H ร่าง";font-size:8pt;color:#647e98}@bottom-left{content:"R11C-V42H • ตรวจรับก่อนเผยแพร่";font-size:7pt;color:#8594a7}}'''+'</style></head><body>'+''.join(pages)+'</body></html>'
  if any(k not in html_body for k in ("ข้อสังเกตและรายการตรวจเป็นพิเศษ","คำปฏิญาณนักกีฬา","v42-official-content","v42-ceremony","v42-rules","v42-match-day","v42-new-brackets","รายการตรวจผังสาย 6 กลุ่มสำหรับผู้จัด")):
   raise ValueError("V4.1 required editorial or risk section missing")
  out.mkdir(parents=True,exist_ok=True)
  (out/"souvenir-v4-full-draft.html").write_text(html_body,"utf-8")
- stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending",
+ stage_qa={"schema_version":1,"release_state":"review_only","cover_status":"layout_approved_hero_rights_pending","cover_typography_status":"G1_sport_masthead_review_only",
      "ceremony":{"opening":opening_qa,"closing":closing_qa},
      "rules":rules_qa,"matchday":matchday_audits,"brackets":brackets_qa,"organizer_review":organizer_qa}
  (out/"souvenir-v42f-stage-qa.json").write_text(json.dumps(stage_qa,ensure_ascii=False,indent=2)+"\n","utf-8")
@@ -285,7 +286,7 @@ def build(root,out):
   raise ValueError("Unexpected non-A4 pages")
  result={"schema_version":1,"status":"draft_not_approved","source_pdf_sha256":sha,
   "layout_revision":"R11C-V4.2-H", "formal_font":official_font_used,
-  "cover_image_status":"approved_design_pending_publication_rights",
+  "cover_image_status":"approved_design_pending_publication_rights","cover_typography_revision":"V42-G1",
   "ceremony_opening_events":opening_qa["events"],"ceremony_closing_events":closing_qa["events"],
   "rules_rank_points":rules_qa["award_rank_points"],
   "bracket_verified_edges":brackets_qa["verified_edges"],
