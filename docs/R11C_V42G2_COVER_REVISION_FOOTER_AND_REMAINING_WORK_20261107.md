@@ -52,3 +52,29 @@
 | R11E release | ตรวจพิมพ์ A4, กระบวนการเซ็นรับรอง, PDF/Drive/Docs/web version sync, mobile QA, rollback และอนุญาตเผยแพร่ explicit |
 
 **ห้ามลดสถานะงาน**: Merge, Build, Drive review upload ไม่เท่ากับ published หรือ organizer-accepted. สถานะรูปประกอบ/รายชื่อ/ผังสายต้องแยกตามหลักฐาน.
+
+## 5. ผลดำเนินการจริงหลัง PR #105 — 7 พฤศจิกายน 2569
+
+**MERGED / G2 PRIVATE COVER SLOT READY / FOOTER COMPLETED / PDF REVIEW QA PASS** — PR [#105](https://github.com/infobwd/nongkum-sports-hub/pull/105), merge SHA `d14f598bc7803e10eb64d6c40948eb1c35bf2216`.
+
+- เพิ่ม `cover_g2_html()/cover_g2_css()` เตรียม A4 Full Photo V2 แบบ **image input จาก private path ที่ผู้จัดเลือกจริง**; รองรับ `--cover-photo` ใน builder และบันทึกภาพ portrait size/effective DPI; ข้อความไทยแยก text layer, ไม่ใช้ภาพตัวอย่างสร้างใหม่แทนภาพจริง
+- เพิ่ม source/regression test `test-v42g2-footer.py`; สร้างไฟล์ทดสอบหน้าเดียวจาก **ภาพสังเคราะห์สีล้วนที่ไม่มีบุคคล** เพื่อทดสอบ CSS เท่านั้น ไม่ใช่ต้นแบบภาพปกที่ผ่านอนุมัติ
+- Google Drive plugin ในรอบนี้ไม่สามารถ fetch รูปเดิมได้: `link_id must identify an eligible linked account`; **G2 real photo still BLOCKED**. CI PDF จึงคง **G1 fallback** (ไม่อ้างว่าปก Full Photo ลงแล้ว), ตัวเลือก G2 ต้องรอสิทธิ์ไฟล์และภาพต้นฉบับพร้อม รวมถึงสิทธิ์เผยแพร่/300dpi print gate แยก
+- เพิ่ม footer **“ปรับปรุงล่าสุด … เวลา … น.”** ผ่าน `scripts/docs/v42_revision_footer.py`: stamp PDF **ครบทั้ง 125 หน้า A4** รวม cover, PR82 PDF 11 หน้า, 17 หน้า V3 appendix; ใช้เวลา commit มี timezone แล้วแปลง Asia/Bangkok และเก็บ SHA ใน QA manifest. **ไม่ใช้เวลาที่กดสร้างไฟล์ใหม่โดยไม่มีการแก้เนื้อหา**
+- Artifact ล่าสุดจาก PR head: `ปรับปรุงล่าสุด 7 พ.ย. 2569 เวลา 14:53 น.`, revision SHA `9569970044f50b0ab1e71d2daccd35598dfa636a`; PDF **125 หน้า**, 236 รายการแข่งขัน, 250 กรรมการ, 486 anchor positions, 17 appendix pages, 6 bracket notes. ประกาศ PR82 **หน้า 8–18** มีข้อความ/ภาพ **11/11 หน้าเดิมครบ โดยไม่รวมแถบเวลาที่เพิ่ม**, ตารางกรรมการเริ่มหน้า 19
+- GitHub Actions [42353115707](https://github.com/infobwd/nongkum-sports-hub/actions/runs/42353115707) review PDF **SUCCESS**, Validate draft data **SUCCESS**, `souvenir-v42f-pdf-preflight.json` status `review_only_pass`
+- ตรวจภาพที่เรนเดอร์หน้า 1/8/18/19/125 ว่า timestamp ไม่ทับเนื้อหาประกาศหรือผังสายท้ายเล่ม; โดยตั้งใจให้เป็นตัวอักษรเล็กที่ขอบล่างเพื่อไม่แย่งพื้นที่จากต้นฉบับ
+- **ยังไม่เผยแพร่** PDF บน GitHub Pages, ไม่แตะข้อมูลผล/ตาราง/คำสั่ง, ไม่เขียนทับ PR82 golden file, ไม่ย้ายรูป Drive และ **ยังไม่มีการยืนยันว่าอัปโหลด PDF รุ่นนี้เข้า Drive สำเร็จ** จนกว่าจะมี Drive ID/readback ใหม่
+
+### งานคงเหลือลำดับปฏิบัติ
+
+1. **P0 เปตองนอกรอบ 12–13 พ.ย.** ตรวจสนามย่อย/คู่ 24 คู่/ทีม/เวลา และรับรองก่อนแจกกรรมการ
+2. **P0 ผังสาย 6 กลุ่ม** รับรองการแก้จากผู้จัด โดยเฉพาะเปตอง 10 ปีชายชื่อทีมและอ้างเลขคู่ซ้ำ, วอลเลย์บอลคู่ชิงชาย/หญิง, ตะกร้อหญิงคู่ 24; ชักเย่อหญิงยืนยันระบบ bye แล้ว, ยิงจุดโทษ typo text-only
+3. **P1 G2 ภาพต้นฉบับ** เปิดสิทธิ์ Drive/ให้ภาพที่เลือกอย่างถูกต้อง, ตรวจสิทธิ์การพิมพ์/เผยแพร่เด็กและ effective 300 dpi หรืออนุมัติใช้ G1 fallback แบบ explicit
+4. **P1 กรรมการ/คำสั่ง** ตรวจรายชื่อ 250 แถว, ตำแหน่ง และต้นฉบับประกาศ PR82 341 บรรทัด, เลขที่/วันที่/ผู้ลงนามให้ตรงเอกสารที่ได้รับรอง; ห้ามเติมโดยเดา
+5. **P1 กติกา** รอรับรองเกณฑ์ tie-break/discipline/เปตอง และรายการกรีฑา/วัน–เวลายืนยัน
+6. **P2 17 หน้า V3 ภาคผนวก** ทำ coverage crosswalk ทีละหน้าแล้วพิจารณาตัดส่วนซ้ำ ไม่ลบต้นฉบับ
+7. **P2 R12 นักกีฬา** รับบัญชีรายคนจาก 8 โรงเรียนใน private workspace และตรวจแข่งหลายชนิด/เวลาชนจริง
+8. **R11E ก่อนเผยแพร่** รับรองข้อมูล/ภาพ/เอกสาร, A4 print proof, เวลาแก้ไขและฉบับ PDF ที่ใช้งาน, Safari/LINE/iPhone, sync Drive/Docs/web อย่างมี revision/rollback และผู้จัดเซ็นรับรอง explicit
+
+**การตีความสถานะ:** ตัวสร้าง G2 พร้อมแล้ว ≠ มีภาพ G2 จริงใน PDF; PDF review QA PASS ≠ ผู้จัดตรวจรับหรือเผยแพร่ทางการ. สำคัญให้รักษาความแตกต่างนี้ทุกแชท.
