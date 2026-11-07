@@ -1,0 +1,59 @@
+name: R24-E Booklet Mobile Viewport Smoke
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'booklets.html'
+      - 'booklet-comparison.html'
+      - 'booklet-private-viewer.html'
+      - 'css/booklet*.css'
+      - 'js/booklet*.js'
+      - 'data/booklet-versions.json'
+      - 'data/program-*.json'
+      - 'data/committee-*.json'
+      - 'scripts/booklets/test-r24e-browser.mjs'
+      - 'docs/R24E_*'
+      - '.github/workflows/r24e-mobile-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mobile-browser-smoke:
+    name: Chromium localhost viewport QA (not real Safari or LINE)
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate source syntax
+        run: node --check scripts/booklets/test-r24e-browser.mjs
+      - name: Install isolated Playwright test dependency
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Serve local static build
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 >/tmp/r24e-static.log 2>&1 &
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8765/booklets.html -o /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/r24e-static.log
+          exit 1
+      - name: Test iPhone-size Android-size and desktop Chromium viewport
+        run: node scripts/booklets/test-r24e-browser.mjs
+      - name: Save screenshots without private/personal data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r24e-chromium-local-no-personal-data
+          path: r24e-browser-artifacts/
+          if-no-files-found: ignore
+          retention-days: 7
