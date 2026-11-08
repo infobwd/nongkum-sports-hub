@@ -78,7 +78,7 @@ const context={
   location:{origin:"https://infobwd.github.io",search:"?page=100",href:"https://infobwd.github.io/nongkum-sports-hub/booklet-drive-viewer.html?page=100"},
   window:{addEventListener(){},devicePixelRatio:2},
   URLSearchParams,URL,Number,String,Array,ArrayBuffer,Uint8Array,TextEncoder,
-  crypto:webcrypto,setTimeout,clearTimeout,console:{},history:{replaceState(){}},
+  crypto:webcrypto,setTimeout,clearTimeout,console:{warn(){}},history:{replaceState(){}},
   fetch:async()=>({ok:true,json:async()=>config})
 };
 vm.runInNewContext(code,context,{filename:"booklet-unified-viewer.js"});
