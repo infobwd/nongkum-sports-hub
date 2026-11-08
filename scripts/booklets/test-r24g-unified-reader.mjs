@@ -14,9 +14,9 @@ const src=registry.documents[2];
 assert.deepEqual(registry.documents.map(d=>d.page_count),[41,64,155]);
 assert.equal(src.pdf_revision_sha256,"a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d");
 assert.equal(src.document_status,"draft_review_not_approved");
-assert.equal(src.access_mode,"google_drive_permissioned_preview");
+assert.equal(src.access_mode,"same_origin_reader");
 assert.equal(src.approved_at,null);
-assert.equal(src.source_path,null);
+assert.equal(src.source_path,"assets/souvenir-2569-v42i10-g2-155pages.pdf");
 assert.equal(registry.audit_155.anchor_count,486);
 assert.equal(registry.audit_155.publication_approved,false);
 assert.equal(config.enabled,false,"Google auth must fail closed until owner config");
@@ -25,7 +25,7 @@ assert.equal(config.allowed_origin,"https://infobwd.github.io");
 assert.equal(config.scope,"https://www.googleapis.com/auth/drive.readonly");
 for(const id of ["pdfCanvasHost","pdfCanvas","pdfPrev","pdfNext","pdfPage","pdfTotal",
   "pdfZoomOut","pdfZoomIn","pdfFitWidth","pdfFitPage","pdfBottomBar",
-  "r24gGoogle","r24gLocalPdf","r24gMap","r24gStart","r24gStatus"]) {
+  "r24gLocalPdf","r24gMap","r24gStart","r24gStatus"]) {
   assert.match(html,new RegExp('id="'+id+'"'),id+" must be in reader HTML");
 }
 assert.match(html,/ฉบับตรวจร่าง/);
@@ -40,12 +40,12 @@ assert.match(code,/legacy\/build\/pdf\.min\.mjs/);
 assert.match(code,/legacy\/build\/pdf\.worker\.min\.mjs/);
 assert.match(code,/crypto\.subtle\.digest/);
 assert.match(code,/verifyPdfBytes\(bytes\)/);
-assert.match(code,/body\.arrayBuffer\(\)/);
-assert.match(code,/info\.capabilities\?\.canDownload===false/);
-assert.match(code,/hasGrantedAllScopes/);
-assert.match(code,/requestAccessToken/);
-assert.match(code,/alt=media&supportsAllDrives=true/);
-assert.match(code,/authorization|Authorization/);
+assert.match(code,/response\.arrayBuffer\(\)/);
+assert.match(code,/const PUBLIC_PDF_URL = "\.\/assets\/souvenir-2569-v42i10-g2-155pages\.pdf"/);
+assert.match(code,/loadPublishedPdf\(\)/);
+assert.match(code,/credentials:"same-origin"/);
+assert.doesNotMatch(code,/alt=media&supportsAllDrives=true/);
+assert.doesNotMatch(code,/requestAccessToken|Bearer /);
 assert.match(code,/r24g-selected/);
 assert.match(code,/const MAP_SHA = "4ca526eb48e2e21edb72e38dc5e474429f52a3e62f8d73fd635e1329b1410e90"/);
 assert.match(code,/sourceId/);
@@ -78,7 +78,7 @@ const context={
   location:{origin:"https://infobwd.github.io",search:"?page=100",href:"https://infobwd.github.io/nongkum-sports-hub/booklet-drive-viewer.html?page=100"},
   window:{addEventListener(){},devicePixelRatio:2},
   URLSearchParams,URL,Number,String,Array,ArrayBuffer,Uint8Array,TextEncoder,
-  crypto:webcrypto,setTimeout,clearTimeout,console:{},history:{replaceState(){}},
+  crypto:webcrypto,setTimeout,clearTimeout,console:{warn(){}},history:{replaceState(){}},
   fetch:async()=>({ok:true,json:async()=>config})
 };
 vm.runInNewContext(code,context,{filename:"booklet-unified-viewer.js"});
@@ -102,4 +102,4 @@ assert.equal(lib.validMap({...map,source_sha256:"f".repeat(64)}),false);
 await assert.rejects(lib.verifyPdfBytes(new ArrayBuffer(200)),/not_pdf/);
 const fake=new TextEncoder().encode("%PDF-"+ "x".repeat(400)).buffer;
 await assert.rejects(lib.verifyPdfBytes(fake),/pdf_revision/);
-console.log("R24-G PASS: V2/V3 unchanged, 155 page navigation, fallback preserved, no public PDF, SHA+486 private-map gates, OAuth disabled by default");
+console.log("R24-G PASS: V2/V3 controls, 155-page PDF auto-load, Drive fallback and private map gate preserved");

@@ -27,32 +27,26 @@
           <span id="pdfZoomLabel" role="status">พอดีความกว้าง</span>
           <button id="pdfZoomIn" type="button" disabled aria-label="ขยาย PDF">+</button>
         </div>
-        <a class="pdf-open-original" href="https://drive.google.com/file/d/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/view" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">เปิดไฟล์เต็มใน Google Drive</a>
+        <a class="pdf-open-original" href="./assets/souvenir-2569-v42i10-g2-155pages.pdf#page=1" target="_blank" rel="noopener noreferrer">เปิด PDF ฉบับเต็ม</a>
         <button type="button" id="r24gChangeSource" class="r24g-change-source" hidden>เลือกวิธีเปิดใหม่</button>
       </div>
     </details>
   </header>
   <section id="r24gStart" class="r24g-start" aria-label="เลือกวิธีอ่านสูจิบัตร">
-    <p class="r24g-notice"><strong>ฉบับตรวจร่าง · ยังไม่ได้รับรองเผยแพร่อย่างเป็นทางการ</strong>
+    <p class="r24g-notice"><strong>ฉบับตรวจร่าง · เปิดอ่านฉบับตรวจร่างได้</strong>
       การอ่านเอกสารไม่ใช่การรับรองคู่แข่งขัน ผัง กรรมการ หรือผลการแข่งขัน</p>
     <h1>อ่านสูจิบัตรรวม 155 หน้า</h1>
-    <p>ตัวอ่านแบบเดียวกับ V2/V3 รองรับเลือกหน้า ซูม และปัดเปลี่ยนหน้าเมื่อเข้าถึงไฟล์ที่ได้รับอนุญาต</p>
+    <p>เว็บเปิดไฟล์ PDF จริงโดยอัตโนมัติ พร้อมปุ่มเลือกหน้า ซูม และปัดเปลี่ยนหน้าเหมือน V2/V3</p>
     <div class="r24g-options">
-      <section class="r24g-option" aria-labelledby="r24gGoogleTitle">
-        <h2 id="r24gGoogleTitle">อ่านด้วยบัญชี Google ที่ได้รับสิทธิ์</h2>
-        <p id="r24gOAuthHint">กำลังตรวจความพร้อมของระบบอ่านแบบยืนยันสิทธิ์…</p>
-        <button type="button" id="r24gGoogle" class="r24g-main-button" hidden disabled>เข้าสู่ระบบ Google และเปิดอ่าน</button>
-        <p class="r24g-small">ระบบจะขอสิทธิ์อ่านไฟล์ผ่าน Google โดยไม่เปิดไฟล์เป็นสาธารณะ และไม่เก็บรหัสหรือข้อมูลเข้าสู่ระบบในเว็บ</p>
-      </section>
       <section class="r24g-option" aria-labelledby="r24gLocalTitle">
-        <h2 id="r24gLocalTitle">อ่านจากไฟล์ที่มีอยู่ในอุปกรณ์</h2>
+        <h2 id="r24gLocalTitle">สำรอง: เลือกไฟล์จากอุปกรณ์</h2>
         <p>ทางเลือกสำหรับผู้มีไฟล์ PDF ฉบับตรงรุ่นอยู่แล้ว ใช้ชุดปุ่มอ่านเดียวกันและไม่ส่งไฟล์ขึ้นเว็บไซต์</p>
         <label class="r24g-file-button" for="r24gLocalPdf">เลือก PDF 155 หน้า
           <input type="file" id="r24gLocalPdf" accept=".pdf,application/pdf">
         </label>
       </section>
     </div>
-    <p id="r24gStatus" role="status" aria-live="polite" class="r24g-status">สามารถเปิดดูผ่าน Google Drive ได้ด้านล่าง</p>
+    <p id="r24gStatus" role="status" aria-live="polite" class="r24g-status">กำลังเปิด PDF 155 หน้า…</p>
     <section id="r24gDirect" class="r24g-preview" aria-label="ดูไฟล์ผ่าน Google Drive">
       <div class="r24g-preview-head">
         <strong>ตัวอ่าน Google Drive (สำรอง)</strong>
@@ -89,8 +83,8 @@
       <button id="pdfNext" type="button" aria-label="หน้าถัดไป" disabled><span>ถัดไป</span> ›</button>
     </div>
   </nav>
-  <p class="pdf-draft">ฉบับตรวจร่าง · ไม่มีการเผยแพร่ไฟล์ส่วนตัวหรือรับรองผลแข่งขันจากหน้านี้</p>
+  <p class="pdf-draft">ฉบับตรวจร่างสำหรับอ่านและตรวจสอบ · เนื้อหายังรอการรับรองตามขั้นตอน</p>
 </main>
-<script type="module" src="./js/booklet-unified-viewer.js?v=r24g1"></script>
+<script type="module" src="./js/booklet-unified-viewer.js?v=r24h1"></script>
 </body>
 </html>

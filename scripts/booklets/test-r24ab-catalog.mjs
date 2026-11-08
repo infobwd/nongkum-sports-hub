@@ -24,10 +24,10 @@ assert.equal(book.page_count,155);
 assert.equal(v2.viewer_route,"./pdf-viewer.html?page=1");
 assert.equal(v3.viewer_route,"./committee-pdf-viewer.html?page=1");
 assert.equal(book.viewer_route,"./booklet-drive-viewer.html");
-assert.equal(book.source_path,null);
+assert.equal(book.source_path,"assets/souvenir-2569-v42i10-g2-155pages.pdf");
 assert.equal(book.document_status,"draft_review_not_approved");
-assert.equal(book.access_mode,"google_drive_permissioned_preview");
-assert.equal(book.availability,"available_to_permitted_accounts");
+assert.equal(book.access_mode,"same_origin_reader");
+assert.equal(book.availability,"available");
 assert.equal(book.approved_at,null);
 assert.equal(registry.audit_155.publication_approved,false);
 assert.equal(registry.audit_155.anchor_count,486);
@@ -39,6 +39,7 @@ for (const d of registry.documents) {
 const hash=p=>createHash("sha256").update(load(p)).digest("hex");
 assert.equal(hash(v2.source_path),v2.pdf_revision_sha256,"V2 exact file SHA");
 assert.equal(hash(v3.source_path),v3.pdf_revision_sha256,"V3 exact file SHA");
+assert.equal(hash(book.source_path),book.pdf_revision_sha256,"155-page source must match original Drive PDF SHA");
 const active=raw.fixtures.filter(f=>f.id!=="football-p07-มัธยมหญิง-020-repeated-final");
 assert.equal(raw.fixtures.length,237);
 assert.equal(active.length,236);
@@ -56,7 +57,7 @@ assert.match(home,/<summary class="program-more-trigger">เพิ่มเต�
 assert.match(html,/id="bookletsList"/);
 assert.match(html,/id="bookletsStatus"/);
 assert.match(html,/role="note"/);
-assert.match(html,/js\/booklets\.js\?v=r24f1/);
+assert.match(html,/js\/booklets\.js\?v=r24h1/);
 assert.match(js,/textContent\s*=/,"untrusted document labels render as safe text");
 assert.match(js,/const allowedRoutes/,"route allowlist, not user-provided URLs");
 assert.match(js,/doc.viewer_route==="\.\/booklet-drive-viewer\.html"/,"155-page route must be an explicit allowlist");
@@ -70,5 +71,5 @@ assert.match(viewer,/souvenir-committee-2569-v3\.pdf/);
 assert.match(viewer,/NongkumProgramPdfHighlight\.draw/);
 assert.match(viewer,/NongkumCommitteeHighlight\.draw/);
 
-console.log("R24-A/B PASS: V2/V3 PDFs unchanged; 155-page reader uses Drive permission gate");
+console.log("R24-A/B PASS: V2/V3 unchanged; 155-page public review PDF exact SHA, still draft");
 console.log("R24-B source crosswalk PASS: 236 fixture + 250 committee IDs = 486 PDF anchors, digest "+tokenDigest);

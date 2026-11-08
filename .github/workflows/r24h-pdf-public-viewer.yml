@@ -1,0 +1,50 @@
+name: R24-H Public 155-page PDF and Unified Reader QA
+on:
+  pull_request:
+    paths:
+      - 'assets/souvenir-2569-v42i10-g2-155pages.pdf'
+      - 'booklet-drive-viewer.html'
+      - 'booklets.html'
+      - 'data/booklet-versions.json'
+      - 'js/booklet-unified-viewer.js'
+      - 'js/booklets.js'
+      - 'js/booklet-comparison-model.js'
+      - 'scripts/booklets/test-r24*.mjs'
+      - 'docs/R24H_*'
+      - '.github/workflows/r24h-pdf-public-viewer.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-source-and-reader:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify immutable source, PDF pages and metadata
+        run: |
+          python -m pip install --disable-pip-version-check pypdf==5.9.0
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          from pypdf import PdfReader
+          p=Path('assets/souvenir-2569-v42i10-g2-155pages.pdf')
+          buf=p.read_bytes()
+          assert len(buf)==4067611
+          assert hashlib.sha256(buf).hexdigest()=='a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d'
+          assert len(PdfReader(p).pages)==155
+          print('155 PDF pages and exact SHA PASS')
+          PY
+      - name: Validate reader JavaScript and source contracts
+        run: |
+          node --check js/booklet-unified-viewer.js
+          node --check js/booklets.js
+          node --check js/booklet-comparison-model.js
+          node scripts/booklets/test-r24h-public-pdf.mjs
+          node scripts/booklets/test-r24ab-catalog.mjs
+          node scripts/booklets/test-r24c-private-viewer.mjs
+          node scripts/booklets/test-r24d-comparison.mjs
+          node scripts/booklets/test-r24f-permissioned-drive-reader.mjs
+          node scripts/booklets/test-r24g-unified-reader.mjs
