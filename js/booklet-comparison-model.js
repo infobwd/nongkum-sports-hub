@@ -15,7 +15,7 @@ function validSource(catalog,raw,roster,programMap,committeeMap){
  const docs=Object.fromEntries(catalog.documents.map(d=>[d.version_id,d]));
  const a=docs[originalDocs.v2],b=docs[originalDocs.v3],c=docs[originalDocs.integrated];
  if(!a||!b||!c||a.page_count!==41||b.page_count!==64||c.page_count!==155||
-    c.access_mode!=="restricted_review_pending_permission"||c.approved_at!==null||
+    (c.access_mode!=="google_drive_permissioned_preview"||c.viewer_route!=="./booklet-drive-viewer.html"||c.source_path!==null)||c.approved_at!==null||
     catalog.audit_155?.anchor_count!==486||catalog.audit_155?.position_parity_against_baseline!==486||
     catalog.audit_155?.publication_approved!==false||
     raw?.schema_version!==3||raw?.metadata?.source_status!=="revised_pdf_draft"||
