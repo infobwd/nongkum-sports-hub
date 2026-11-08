@@ -1,0 +1,33 @@
+name: R24-G Unified 155-page Permissioned PDF Reader
+on:
+  pull_request:
+    paths:
+      - 'booklet-drive-viewer.html'
+      - 'css/booklet-unified-viewer.css'
+      - 'js/booklet-unified-viewer.js'
+      - 'data/booklet-oauth-config.json'
+      - 'scripts/booklets/test-r24g-unified-reader.mjs'
+      - 'docs/R24G_*'
+      - '.github/workflows/r24g-unified-reader.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-unified-reader:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check js/booklet-unified-viewer.js
+          node --check scripts/booklets/test-r24g-unified-reader.mjs
+      - name: Test source SHA, private-map and unified reader fail-closed
+        run: |
+          node scripts/booklets/test-r24g-unified-reader.mjs
+          node scripts/booklets/test-r24f-permissioned-drive-reader.mjs
+          node scripts/booklets/test-r24ab-catalog.mjs
+          node scripts/booklets/test-r24c-private-viewer.mjs
+          node scripts/booklets/test-r24d-comparison.mjs
