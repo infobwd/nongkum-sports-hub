@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "revision": "R24-D1-20261107",
+  "revision": "R24-H-20261108",
   "publication_scope": "source_document_review_only",
-  "note": "ฉบับรวม 155 หน้าเปิดผ่านหน้าเว็บโดยตรวจสิทธิ์จาก Google Drive; เอกสารยังเป็นฉบับตรวจร่าง ไม่ใช่การรับรองหรือเปิดสิทธิ์สาธารณะ",
+  "note": "ผู้จัดอนุญาตเผยแพร่ไฟล์ฉบับรวม 155 หน้าเพื่อเปิดอ่านจากเว็บไซต์โดยตรงแบบ V2/V3; ยังเป็นฉบับตรวจร่าง ไม่ใช่การรับรองรายการแข่งขัน/กรรมการหรือฉบับทางการ",
   "documents": [
     {
       "version_id": "program-v2",
@@ -39,18 +39,18 @@
     {
       "version_id": "integrated-v42i10-g2",
       "display_name": "สูจิบัตรฉบับรวม V4.2-I10",
-      "purpose": "รวมปก ประกาศ กรรมการ โปรแกรมแข่งขันและผัง 44 กลุ่ม",
+      "purpose": "รวมปก ประกาศ กรรมการ โปรแกรมแข่งขันและผัง 44 กลุ่ม · เผยแพร่สำหรับอ่านฉบับตรวจร่าง",
       "page_count": 155,
-      "source_kind": "permissioned_google_drive_review",
-      "source_path": null,
+      "source_kind": "same_origin_repository_public_review",
+      "source_path": "assets/souvenir-2569-v42i10-g2-155pages.pdf",
       "pdf_revision_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",
       "document_status": "draft_review_not_approved",
-      "access_mode": "google_drive_permissioned_preview",
+      "access_mode": "same_origin_reader",
       "viewer_route": "./booklet-drive-viewer.html",
       "coordinate_map_revision": "r24b-audit-486-only",
       "approved_at": null,
       "icon": "book",
-      "availability": "available_to_permitted_accounts"
+      "availability": "available"
     }
   ],
   "audit_155": {
