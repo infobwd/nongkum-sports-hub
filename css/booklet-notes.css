@@ -43,3 +43,7 @@
 [hidden]{display:none!important}
 @media(min-width:640px){.notes-search-row{grid-template-columns:repeat(2,minmax(0,1fr))}.notes-search{grid-column:span 2}.notes-metric{padding:18px}}
 @media(prefers-reduced-motion:reduce){.notes-card{transition:none}}
+
+/* Thumb-friendly back-to-top with iPhone safe-area padding. */
+.notes-to-top{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border:1px solid #b8c7d8;border-radius:50%;background:#173f70;color:#fff;box-shadow:0 4px 14px #081b3240;font-size:1.6rem;font-weight:700;cursor:pointer;z-index:8}
+.notes-to-top:focus-visible{outline:3px solid #d4ac50;outline-offset:2px}
