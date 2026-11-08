@@ -1,0 +1,38 @@
+name: R24-F Permissioned Direct 155-page Booklet Reader
+on:
+  pull_request:
+    paths:
+      - 'booklets.html'
+      - 'booklet-drive-viewer.html'
+      - 'css/booklets.css'
+      - 'js/booklets.js'
+      - 'js/booklet-comparison-model.js'
+      - 'data/booklet-versions.json'
+      - 'scripts/booklets/**'
+      - 'docs/R24F_*'
+      - '.github/workflows/r24f-booklet-drive-reader.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check reader and regression syntax
+        run: |
+          node --check js/booklets.js
+          node --check js/booklet-comparison-model.js
+          node --check scripts/booklets/test-r24ab-catalog.mjs
+          node --check scripts/booklets/test-r24c-private-viewer.mjs
+          node --check scripts/booklets/test-r24d-comparison.mjs
+          node --check scripts/booklets/test-r24f-permissioned-drive-reader.mjs
+      - name: Verify old source rights, 486-anchor comparison, and new permissioned reader
+        run: |
+          node scripts/booklets/test-r24ab-catalog.mjs
+          node scripts/booklets/test-r24c-private-viewer.mjs
+          node scripts/booklets/test-r24d-comparison.mjs
+          node scripts/booklets/test-r24f-permissioned-drive-reader.mjs
