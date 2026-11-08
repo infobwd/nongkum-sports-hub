@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="ข้อสังเกตสูจิบัตรมิตรภาพเกมส์ 2569 เฉพาะจุดที่ควรตรวจและประเด็นที่รอมติผู้จัด">
+  <title>ข้อสังเกตสูจิบัตร · มิตรภาพเกมส์ 2569</title>
+  <link rel="stylesheet" href="./css/booklets.css?v=r24h1">
+  <link rel="stylesheet" href="./css/booklet-notes.css?v=r24i1">
+</head>
+<body>
+  <header class="booklets-header">
+    <div class="booklets-shell">
+      <a class="back" href="./booklets.html">← เอกสารสูจิบัตร</a>
+      <p class="eyebrow">มิตรภาพเกมส์ 2569 · ตรวจเอกสารก่อนรับรอง</p>
+      <h1>ข้อสังเกตสูจิบัตร</h1>
+      <p class="lead">รวมเฉพาะจุดที่ควรตรวจสอบ คำถามที่ต้องตัดสิน และลิงก์ดูหลักฐาน ไม่ใช่รายการแข่งขันทั้งหมด</p>
+    </div>
+  </header>
+  <main class="booklets-shell notes-shell">
+    <div class="review-notice" role="note">
+      <strong>ข้อมูลเพื่อการตรวจร่าง ไม่ใช่มติรับรองหรือประกาศการแข่งขัน</strong>
+      <span>ธงตรวจในตารางและจุดอ้างอิง PDF ไม่ใช่จำนวนข้อผิดพลาด หากพบข้อสังเกตที่เคยจัดการในเว็บแล้ว จะระบุแยกจากเรื่องที่ยังรอตรวจในเล่ม</span>
+    </div>
+    <p id="notesStatus" class="loading" role="status" aria-live="polite">กำลังตรวจรุ่นเอกสารและข้อสังเกต…</p>
+    <section id="notesApp" hidden>
+      <div class="notes-metrics" aria-label="สรุปข้อสังเกต">
+        <div class="notes-metric"><strong id="notesTotal">—</strong><span>กลุ่มประเด็นในหน้านี้</span></div>
+        <div class="notes-metric"><strong id="notesUrgent">—</strong><span>เร่งด่วนก่อนแข่งขัน</span></div>
+        <div class="notes-metric"><strong id="notesPending">—</strong><span>เรื่องที่รอผู้จัดตรวจ</span></div>
+      </div>
+      <p class="notes-source-hint" id="notesSourceHint"></p>
+      <section class="notes-controls" aria-labelledby="notesFilterTitle">
+        <h2 id="notesFilterTitle">ค้นหาและเลือกเรื่องที่ต้องตรวจ</h2>
+        <div class="notes-search-row">
+          <label class="notes-field notes-search" for="notesSearch">ค้นหาคำหรือเลขคู่
+            <input type="search" id="notesSearch" placeholder="เช่น เปตอง / รอบชิง / กรีฑา">
+          </label>
+          <label class="notes-field" for="notesPriority">ความเร่งด่วน
+            <select id="notesPriority">
+              <option value="">ทุกระดับ</option>
+              <option value="urgent">ต้องตรวจก่อนแข่งขัน</option>
+              <option value="important">ควรตรวจก่อนรับรอง</option>
+              <option value="followup">ตรวจเพิ่มเติม</option>
+            </select>
+          </label>
+          <label class="notes-field" for="notesSport">ชนิดกีฬา
+            <select id="notesSport"><option value="">ทุกกีฬา / เรื่องทั่วไป</option></select>
+          </label>
+          <label class="notes-field" for="notesState">สถานะ
+            <select id="notesState">
+              <option value="">ทุกสถานะ</option>
+              <option value="needs_review">รอตรวจ</option>
+              <option value="web_handled_document_pending">ปรับในเว็บแล้ว / เล่มรอตรวจ</option>
+              <option value="reference_only">ข้อมูลอ้างอิง</option>
+            </select>
+          </label>
+        </div>
+        <div class="notes-control-bottom">
+          <p id="notesCount" aria-live="polite"></p>
+          <button id="notesReset" type="button" class="notes-reset">ล้างตัวกรอง</button>
+        </div>
+      </section>
+      <section class="notes-results" aria-label="รายการข้อสังเกต">
+        <div id="notesList" class="notes-list"></div>
+        <p id="notesEmpty" class="notes-empty" hidden>ไม่พบข้อสังเกตตรงกับคำค้นหาหรือตัวกรอง ลองเลือกใหม่</p>
+      </section>
+    </section>
+    <section class="help-section" aria-labelledby="notesHelpTitle">
+      <h2 id="notesHelpTitle">การส่งข้อสังเกตให้ผู้จัด</h2>
+      <p>กดคัดลอกประเด็นจากการ์ด แล้วส่งพร้อมหลักฐานหรือมติจากกรรมการผู้รับผิดชอบ การส่งข้อความยังไม่ใช่การรับรองหรือแก้ข้อมูลในเว็บไซต์</p>
+      <div class="related-links">
+        <a href="./booklet-comparison.html">ตรวจเทียบ V2 / V3 / เล่มรวม</a>
+        <a href="./booklets.html">เปิดสูจิบัตรทั้งสามฉบับ</a>
+        <a href="./review.html">ตรวจตารางแข่งขัน</a>
+      </div>
+    </section>
+    <div id="notesCopyFallback" class="notes-copy-fallback" hidden>
+      <label for="notesCopyText">คัดลอกข้อความด้านล่างด้วยตนเอง
+        <textarea id="notesCopyText" rows="8" readonly></textarea>
+      </label>
+      <button id="notesCopyClose" type="button">ปิด</button>
+    </div>
+  </main>
+  <footer class="booklets-shell footer">ข้อสังเกตสำหรับตรวจร่าง · สถานะการรับรองต้องมีหลักฐานจากผู้จัด</footer>
+  <script src="./js/booklet-notes-model.js?v=r24i1"></script>
+  <script src="./js/booklet-notes.js?v=r24i1" defer></script>
+</body>
+</html>
