@@ -1,0 +1,49 @@
+/* R24-I — only observations, no results or approval actions. Mobile first. */
+.notes-shell{max-width:980px}
+.notes-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:18px 0 8px}
+.notes-metric{background:#fff;border:1px solid #d4dfec;border-radius:15px;padding:13px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.notes-metric strong{font-size:clamp(1.4rem,4vw,2rem);color:#173d6b;line-height:1.1;font-variant-numeric:tabular-nums}
+.notes-metric span{font-size:.78rem;color:#52667d;line-height:1.4}
+.notes-source-hint{color:#4e6076;font-size:.84rem;margin:10px 0 17px}
+.notes-controls{background:#fff;border:1px solid #d4dfec;border-radius:18px;padding:16px;margin:16px 0}
+.notes-controls h2{margin:0 0 12px}
+.notes-search-row{display:grid;grid-template-columns:1fr;gap:12px}
+.notes-field{display:flex;flex-direction:column;gap:6px;font-size:.86rem;font-weight:650;color:#28465f}
+.notes-field input,.notes-field select{font:inherit;color:#142c4a;min-height:46px;border-radius:11px;border:1px solid #aebed0;background:#fff;padding:10px 12px;width:100%;min-width:0}
+.notes-field input:focus-visible,.notes-field select:focus-visible,.notes-reset:focus-visible,.notes-copy:focus-visible,.notes-action:focus-visible{outline:3px solid #d4ac50;outline-offset:2px}
+.notes-control-bottom{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-top:12px}
+.notes-control-bottom p{font-size:.85rem;color:#52627b;margin:0}
+.notes-reset,.notes-copy-fallback button{border:1px solid #aabed3;background:#fff;color:#17416c;font:inherit;font-weight:650;border-radius:11px;padding:10px 15px;min-height:44px;cursor:pointer}
+.notes-list{display:grid;gap:13px}
+.notes-card{background:#fff;border:1px solid #d3dfee;border-radius:18px;padding:16px;box-shadow:0 3px 10px #12345608;min-width:0}
+.notes-card[data-priority="urgent"]{border-left:4px solid #bc7131}
+.notes-card-head{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.notes-card h3{font-size:1.02rem;line-height:1.5;color:#173653;margin:0;flex:1 1 190px}
+.notes-chips{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:9px 0 13px}
+.notes-chip{font-size:.77rem;border-radius:8px;padding:3px 9px;background:#eef2f8;color:#34516e}
+.notes-chip.priority-urgent{background:#fff0df;color:#8d4a16}
+.notes-chip.priority-important{background:#eaf3ff;color:#22558a}
+.notes-chip.state-web{background:#eaf7ec;color:#285f3a}
+.notes-chip.state-context{background:#f2f2f2;color:#4c5b6b}
+.notes-chip.state-pending{background:#fff6da;color:#806018}
+.notes-paragraph{margin:7px 0;font-size:.9rem;color:#364e66;overflow-wrap:anywhere}
+.notes-paragraph strong{color:#193c60}
+.notes-card details{margin-top:13px;border-top:1px solid #e4e9f0;padding-top:12px}
+.notes-card details summary{cursor:pointer;color:#25557d;font-size:.86rem;font-weight:650;min-height:32px}
+.notes-card details p{font-size:.84rem;color:#4e5f72;line-height:1.55;margin:5px 0}
+.notes-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.notes-actions a,.notes-actions button{font:inherit;font-size:.85rem;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;border-radius:11px;text-decoration:none;cursor:pointer;font-weight:650}
+.notes-action{color:#1c4977;background:#fff;border:1px solid #9bb1c7}
+.notes-copy{background:#1c4c7c;color:#fff;border:1px solid #1c4c7c}
+.notes-empty{background:#fff;border:1px dashed #b7c8d8;border-radius:14px;color:#4a5d70;padding:20px;text-align:center}
+.notes-copy-fallback{margin:18px 0;border:1px solid #b6c9db;border-radius:14px;background:#fff;padding:14px}
+.notes-copy-fallback label{display:flex;flex-direction:column;gap:7px;font-size:.87rem;color:#25445f}
+.notes-copy-fallback textarea{font:inherit;border:1px solid #b1c3d3;border-radius:9px;padding:10px;width:100%}
+.notes-copy-fallback button{margin-top:10px}
+[hidden]{display:none!important}
+@media(min-width:640px){.notes-search-row{grid-template-columns:repeat(2,minmax(0,1fr))}.notes-search{grid-column:span 2}.notes-metric{padding:18px}}
+@media(prefers-reduced-motion:reduce){.notes-card{transition:none}}
+
+/* Thumb-friendly back-to-top with iPhone safe-area padding. */
+.notes-to-top{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border:1px solid #b8c7d8;border-radius:50%;background:#173f70;color:#fff;box-shadow:0 4px 14px #081b3240;font-size:1.6rem;font-weight:700;cursor:pointer;z-index:8}
+.notes-to-top:focus-visible{outline:3px solid #d4ac50;outline-offset:2px}

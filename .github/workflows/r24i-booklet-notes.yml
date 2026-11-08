@@ -1,0 +1,35 @@
+name: R24-I booklet observations QA
+
+on:
+  pull_request:
+    paths:
+      - "booklet-notes.html"
+      - "booklets.html"
+      - "booklet-comparison.html"
+      - "css/booklet-notes.css"
+      - "js/booklet-notes*.js"
+      - "data/booklet-observations-2569.json"
+      - "data/program-from-pdf-2569-20261104-draft.json"
+      - "data/public-results.json"
+      - "scripts/booklets/test-r24i-booklet-notes.mjs"
+      - ".github/workflows/r24i-booklet-notes.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  booklet-observations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify source, note states, and no fabricated results
+        run: |
+          node --check js/booklet-notes-model.js
+          node --check js/booklet-notes.js
+          node --check scripts/booklets/test-r24i-booklet-notes.mjs
+          node scripts/booklets/test-r24i-booklet-notes.mjs
