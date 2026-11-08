@@ -1,4 +1,4 @@
-/* R24-A: read-only catalog for approved-to-view source references; no private Drive URLs. */
+/* R24-H: three public source review PDFs; organizer authorized 155-page reading, not content approval. */
 (function() {
 "use strict";
 const LIST = document.getElementById("bookletsList");
@@ -23,14 +23,15 @@ function validDoc(doc) {
    doc.approved_at!==null) return false;
  if(doc.version_id==="integrated-v42i10-g2")
    return doc.document_status==="draft_review_not_approved" &&
-     doc.access_mode==="google_drive_permissioned_preview" &&
-     doc.viewer_route==="./booklet-drive-viewer.html" && doc.source_path===null &&
-     doc.availability==="available_to_permitted_accounts";
+     doc.access_mode==="same_origin_reader" &&
+     doc.viewer_route==="./booklet-drive-viewer.html" &&
+     doc.source_path==="assets/souvenir-2569-v42i10-g2-155pages.pdf" &&
+     doc.availability==="available";
  return doc.access_mode==="same_origin_reader" &&
    doc.viewer_route===allowedRoutes[doc.version_id] && doc.availability==="available";
 }
 function card(doc) {
- const restricted=doc.access_mode!=="same_origin_reader";
+ const restricted=doc.version_id==="integrated-v42i10-g2";
  const article=el("article","document-card");
  article.dataset.restricted=String(restricted);
  const top=el("div","document-top");
@@ -42,7 +43,7 @@ function card(doc) {
  info.append(title,meta);top.append(icon,info);
  const purpose=el("p","document-description",doc.purpose);
  const status=el("span","document-status"+(restricted?" is-restricted":""),
-   restricted?"ฉบับตรวจร่าง · เปิดด้วยสิทธิ์ Google Drive":"เอกสารสำหรับตรวจสอบ");
+   restricted?"ฉบับตรวจร่าง · เปิดอ่านบนเว็บไซต์ได้ทันที":"เอกสารสำหรับตรวจสอบ");
  const actions=el("div","document-actions");
  if(!restricted){
    const link=el("a","document-link","เปิดอ่าน PDF");
@@ -51,10 +52,10 @@ function card(doc) {
    actions.append(link);
  }else{
    actions.append(el("p","restricted-note",
-     "กดเปิดอ่านในหน้าเว็บได้ ผู้ที่ไม่มีสิทธิ์ Google Drive จะต้องขอสิทธิ์จากผู้ดูแลเอกสาร เล่มนี้ยังเป็นฉบับตรวจร่าง"));
+     "ผู้จัดอนุญาตให้เปิด PDF ฉบับรวม 155 หน้าในเว็บไซต์ได้ทันที ไม่ต้องเลือกไฟล์หรือเข้าสู่ระบบ Google · เนื้อหายังอยู่ระหว่างตรวจร่าง"));
    const online = el("a","document-link","เปิดอ่าน PDF 155 หน้า");
    online.href = "./booklet-drive-viewer.html";
-   online.setAttribute("aria-label","เปิดอ่านสูจิบัตรฉบับรวม 155 หน้า ผ่าน Google Drive สำหรับผู้มีสิทธิ์");
+   online.setAttribute("aria-label","เปิดอ่านสูจิบัตรฉบับรวม 155 หน้าในเว็บทันที");
    actions.append(online);
    const local = el("a","document-link document-link-secondary","ตรวจจากไฟล์ในเครื่อง");
    local.href = "./booklet-private-viewer.html";
@@ -75,7 +76,7 @@ function validCatalog(payload) {
 }
 async function start() {
  try {
-   const response=await fetch("./data/booklet-versions.json?v=r24f1",{cache:"no-store"});
+   const response=await fetch("./data/booklet-versions.json?v=r24h1",{cache:"no-store"});
    if(!response.ok)throw Error("source_not_available");
    const payload=await response.json();
    if(!validCatalog(payload))throw Error("invalid_document_revision");
