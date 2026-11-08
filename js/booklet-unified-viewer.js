@@ -1,18 +1,17 @@
-/* R24-G: Unified permissioned 155-page PDF reader. No PDF, map or OAuth token persistence. */
+/* R24-H: Public review PDF delivered same-origin; verified by SHA before display. */
 (() => {
 "use strict";
-const FILE_ID = "1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF";
+const PUBLIC_PDF_URL = "./assets/souvenir-2569-v42i10-g2-155pages.pdf";
 const PDF_SHA = "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d";
 const MAP_SHA = "4ca526eb48e2e21edb72e38dc5e474429f52a3e62f8d73fd635e1329b1410e90";
 const EXPECTED_PAGES = 155;
 const MAX_PDF_BYTES = 35_000_000;
-const SCOPE = "https://www.googleapis.com/auth/drive.readonly";
 const PDF_JS_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.min.mjs";
 const PDF_WORKER_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.worker.min.mjs";
 const $ = id => document.getElementById(id);
 const ui = {
-  start:$("r24gStart"), status:$("r24gStatus"), oauthHint:$("r24gOAuthHint"),
-  google:$("r24gGoogle"), local:$("r24gLocalPdf"), change:$("r24gChangeSource"),
+  start:$("r24gStart"), status:$("r24gStatus"),
+  local:$("r24gLocalPdf"), change:$("r24gChangeSource"),
   pdfStatus:$("pdfStatus"), host:$("pdfCanvasHost"), surface:$("pdfPageSurface"),
   canvas:$("pdfCanvas"), overlay:$("pdfHighlightLayer"),
   prev:$("pdfPrev"), next:$("pdfNext"), page:$("pdfPage"), total:$("pdfTotal"),
@@ -256,65 +255,18 @@ async function loadLocal() {
     showStart("เปิด PDF ไม่ได้: โปรดเลือกไฟล์ฉบับรวม 155 หน้าที่ได้รับอนุญาตและตรงรุ่น",true);
   }finally{ui.local.value="";}
 }
-function loadGoogleScript() {
-  return new Promise((resolve,reject)=>{
-    if(window.google?.accounts?.oauth2){resolve();return;}
-    const script=document.createElement("script");
-    script.src="https://accounts.google.com/gsi/client";
-    script.async=true;script.defer=true;
-    script.onload=()=>window.google?.accounts?.oauth2 ? resolve() : reject(Error("gsi_missing"));
-    script.onerror=()=>reject(Error("gsi_unavailable"));
-    document.head.append(script);
-  });
-}
-async function loadDrive(token) {
-  status("กำลังตรวจสิทธิ์บัญชี Google และรับไฟล์ PDF…");
+async function loadPublishedPdf() {
+  status("กำลังเปิดสูจิบัตร 155 หน้า…");
   try {
-    const headers={Authorization:"Bearer "+token};
-    const metadata=await fetch("https://www.googleapis.com/drive/v3/files/"+FILE_ID+
-      "?fields=id,name,mimeType,size,capabilities(canDownload)&supportsAllDrives=true",
-      {headers,cache:"no-store",credentials:"omit"});
-    if(!metadata.ok)throw Error("drive_permission");
-    const info=await metadata.json();
-    if(info.id!==FILE_ID || info.mimeType!=="application/pdf" ||
-       info.capabilities?.canDownload===false || !Number.isSafeInteger(Number(info.size)) ||
-       Number(info.size)>MAX_PDF_BYTES)throw Error("drive_not_downloadable");
-    const body=await fetch("https://www.googleapis.com/drive/v3/files/"+FILE_ID+
-      "?alt=media&supportsAllDrives=true",{headers,cache:"no-store",credentials:"omit"});
-    if(!body.ok)throw Error("drive_permission");
-    await openBytes(await body.arrayBuffer());
-  }catch(_){
+    const response=await fetch(PUBLIC_PDF_URL+"?v=r24h1",{cache:"no-store",credentials:"same-origin"});
+    if(!response.ok)throw Error("pdf_http_"+response.status);
+    const reportedSize=Number(response.headers?.get?.("content-length")||0);
+    if(reportedSize>MAX_PDF_BYTES)throw Error("pdf_size");
+    await openBytes(await response.arrayBuffer());
+  } catch(err) {
+    console.warn("R24-H PDF reader fallback:",err?.message||"unavailable");
     await closePdf();
-    showStart("ไม่สามารถอ่าน PDF ด้วยบัญชีนี้ได้ ตรวจสิทธิ์ Google Drive หรือลองเปิดผ่านตัวอ่าน Google Drive ด้านล่าง",true);
-  }
-}
-async function configureGoogle() {
-  try {
-    const r=await fetch("./data/booklet-oauth-config.json?v=r24g1",{cache:"no-store"});
-    if(!r.ok)throw Error("config_missing");
-    const c=await r.json();
-    if(c.schema_version!==1 || c.enabled!==true || c.allowed_origin!==location.origin ||
-       c.scope!==SCOPE || !/^\d+-[A-Za-z0-9_-]+\.apps\.googleusercontent\.com$/.test(c.client_id||"")) {
-      ui.oauthHint.textContent="ยังไม่ได้เปิดระบบเข้าสู่ระบบ Google สำหรับตัวอ่านแบบ V2/V3 ขณะนี้เปิดผ่านกรอบ Google Drive หรือไฟล์ในเครื่องได้";
-      return;
-    }
-    await loadGoogleScript();
-    const client=google.accounts.oauth2.initTokenClient({
-      client_id:c.client_id,scope:SCOPE,
-      callback:response=>{
-        if(!response?.access_token || !google.accounts.oauth2.hasGrantedAllScopes(response,SCOPE)) {
-          status("ไม่ได้รับสิทธิ์อ่านไฟล์ผ่านบัญชี Google",true);return;
-        }
-        loadDrive(response.access_token);
-      },
-      error_callback:()=>status("ไม่สามารถเปิดหน้าลงชื่อเข้าใช้ Google ได้ ลองเปิดในเบราว์เซอร์ภายนอก",true)
-    });
-    ui.google.hidden=false;
-    ui.google.disabled=false;
-    ui.oauthHint.textContent="เปิดอ่านด้วยบัญชี Google ที่ผู้ดูแลเอกสารอนุญาต โดยไม่ต้องเลือกไฟล์จากอุปกรณ์";
-    ui.google.addEventListener("click",()=>client.requestAccessToken({prompt:"select_account"}));
-  }catch(_){
-    ui.oauthHint.textContent="ระบบลงชื่อเข้าใช้ Google ยังไม่พร้อม ใช้ตัวอ่าน Google Drive หรือเลือกไฟล์ในอุปกรณ์แทน";
+    showStart("ยังเปิด PDF ผ่านตัวอ่านของเว็บไม่สำเร็จ สามารถใช้ตัวอ่าน Google Drive ด้านล่าง หรือเลือกไฟล์ในเครื่องได้",true);
   }
 }
 async function loadPrivateMap() {
@@ -343,7 +295,7 @@ ui.local.addEventListener("change",loadLocal);
 ui.mapInput.addEventListener("change",loadPrivateMap);
 ui.change.addEventListener("click",async()=>{
   await closePdf();
-  showStart("เลือกวิธีเปิดอ่านใหม่ได้ เอกสารที่เปิดในเว็บไม่ได้ถูกบันทึกไว้");
+  showStart("หากต้องการเปลี่ยนวิธีอ่าน สามารถเลือกเปิดจาก Google Drive หรือไฟล์ในเครื่องได้");
 });
 ui.prev.addEventListener("click",()=>setPage(pageNumber-1));
 ui.next.addEventListener("click",()=>setPage(pageNumber+1));
@@ -410,5 +362,5 @@ document.addEventListener("keydown",e=>{
 });
 window.NongkumUnifiedBooklet=Object.freeze({parsePage,validMap,serializeMap,verifiedMap,verifyPdfBytes});
 if(sourceId) ui.mapStatus.textContent="เลือกแผนที่ตำแหน่งส่วนตัวเพื่อเน้นรายการที่เปิดจากตาราง";
-configureGoogle();
+loadPublishedPdf();
 })();
