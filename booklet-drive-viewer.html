@@ -5,37 +5,92 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="light">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="เปิดอ่านสูจิบัตรมิตรภาพเกมส์ 2569 ฉบับรวม 155 หน้า ผ่าน Google Drive ด้วยสิทธิ์เดิมของผู้ใช้งาน">
-  <title>เปิดสูจิบัตร 155 หน้า · มิตรภาพเกมส์ 2569</title>
-  <link rel="stylesheet" href="./css/booklets.css?v=r24f1">
+  <meta name="description" content="อ่านสูจิบัตรรวม 155 หน้าแบบ V2/V3 บนมือถือ โดยรักษาสิทธิ์เอกสาร Google Drive">
+  <title>อ่านสูจิบัตร 155 หน้า · มิตรภาพเกมส์ 2569</title>
+  <link rel="stylesheet" href="./css/pdf-viewer.css?v=r11d6">
+  <link rel="stylesheet" href="./css/booklet-unified-viewer.css?v=r24g1">
 </head>
 <body>
-  <header class="booklets-header">
-    <div class="booklets-shell">
-      <a class="back" href="./booklets.html">← กลับไปเลือกสูจิบัตร</a>
-      <p class="eyebrow">มิตรภาพเกมส์ 2569 · สูจิบัตรฉบับรวม</p>
-      <h1>เปิดอ่านสูจิบัตร 155 หน้า</h1>
-      <p class="lead">อ่านจาก Google Drive โดยไม่ต้องเลือกไฟล์จากอุปกรณ์</p>
-    </div>
+<main class="pdf-app r24g-app">
+  <header class="pdf-book-header">
+    <a id="pdfBack" class="pdf-back" href="./booklets.html">← สูจิบัตร</a>
+    <span class="pdf-book-title">สูจิบัตรมิตรภาพเกมส์ <small>เล่มรวม 155 หน้า · ฉบับตรวจร่าง</small></span>
+    <details id="pdfTools" class="pdf-book-tools">
+      <summary aria-label="ตัวเลือกการอ่าน PDF">⋯ <span>ตัวเลือก</span></summary>
+      <div class="pdf-tools-panel">
+        <div class="pdf-fit-controls" role="group" aria-label="รูปแบบการแสดง">
+          <button id="pdfFitWidth" type="button" aria-pressed="true" disabled>พอดีกว้าง</button>
+          <button id="pdfFitPage" type="button" aria-pressed="false" disabled>ทั้งหน้า</button>
+        </div>
+        <div class="pdf-zoom-controls" role="group" aria-label="ขยายหรือย่อ">
+          <button id="pdfZoomOut" type="button" disabled aria-label="ย่อ PDF">−</button>
+          <span id="pdfZoomLabel" role="status">พอดีความกว้าง</span>
+          <button id="pdfZoomIn" type="button" disabled aria-label="ขยาย PDF">+</button>
+        </div>
+        <a class="pdf-open-original" href="https://drive.google.com/file/d/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/view" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">เปิดไฟล์เต็มใน Google Drive</a>
+        <button type="button" id="r24gChangeSource" class="r24g-change-source" hidden>เลือกวิธีเปิดใหม่</button>
+      </div>
+    </details>
   </header>
-  <main class="booklets-shell drive-reader">
-    <div class="review-notice" role="note">
-      <strong>ฉบับตรวจร่าง — ยังไม่ใช่ฉบับเผยแพร่ทางการ</strong>
-      <span>เอกสารนี้ยังมีจุดที่ต้องตรวจสอบ การเปิดอ่านไม่ได้หมายความว่ารายการแข่งขัน ผัง หรือกรรมการได้รับรองแล้ว</span>
+  <section id="r24gStart" class="r24g-start" aria-label="เลือกวิธีอ่านสูจิบัตร">
+    <p class="r24g-notice"><strong>ฉบับตรวจร่าง · ยังไม่ได้รับรองเผยแพร่อย่างเป็นทางการ</strong>
+      การอ่านเอกสารไม่ใช่การรับรองคู่แข่งขัน ผัง กรรมการ หรือผลการแข่งขัน</p>
+    <h1>อ่านสูจิบัตรรวม 155 หน้า</h1>
+    <p>ตัวอ่านแบบเดียวกับ V2/V3 รองรับเลือกหน้า ซูม และปัดเปลี่ยนหน้าเมื่อเข้าถึงไฟล์ที่ได้รับอนุญาต</p>
+    <div class="r24g-options">
+      <section class="r24g-option" aria-labelledby="r24gGoogleTitle">
+        <h2 id="r24gGoogleTitle">อ่านด้วยบัญชี Google ที่ได้รับสิทธิ์</h2>
+        <p id="r24gOAuthHint">กำลังตรวจความพร้อมของระบบอ่านแบบยืนยันสิทธิ์…</p>
+        <button type="button" id="r24gGoogle" class="r24g-main-button" hidden disabled>เข้าสู่ระบบ Google และเปิดอ่าน</button>
+        <p class="r24g-small">ระบบจะขอสิทธิ์อ่านไฟล์ผ่าน Google โดยไม่เปิดไฟล์เป็นสาธารณะ และไม่เก็บรหัสหรือข้อมูลเข้าสู่ระบบในเว็บ</p>
+      </section>
+      <section class="r24g-option" aria-labelledby="r24gLocalTitle">
+        <h2 id="r24gLocalTitle">อ่านจากไฟล์ที่มีอยู่ในอุปกรณ์</h2>
+        <p>ทางเลือกสำหรับผู้มีไฟล์ PDF ฉบับตรงรุ่นอยู่แล้ว ใช้ชุดปุ่มอ่านเดียวกันและไม่ส่งไฟล์ขึ้นเว็บไซต์</p>
+        <label class="r24g-file-button" for="r24gLocalPdf">เลือก PDF 155 หน้า
+          <input type="file" id="r24gLocalPdf" accept=".pdf,application/pdf">
+        </label>
+      </section>
     </div>
-    <section aria-labelledby="driveReaderTitle">
-      <h2 id="driveReaderTitle" class="drive-reader-heading">สูจิบัตร V4.2-I10 G2 · 155 หน้า</h2>
-      <p class="drive-reader-help">ใช้บัญชี Google ที่ได้รับสิทธิ์เข้าถึงไฟล์ หากดูในกรอบด้านล่างไม่ได้ โดยเฉพาะ Safari หรือ LINE ให้กด “เปิด PDF ใน Google Drive”</p>
-      <div class="document-actions drive-reader-actions">
-        <a class="document-link" href="https://drive.google.com/file/d/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/view" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">เปิด PDF ใน Google Drive</a>
-        <a class="document-link document-link-secondary" href="./booklet-private-viewer.html">ตรวจจากไฟล์ในเครื่อง</a>
+    <p id="r24gStatus" role="status" aria-live="polite" class="r24g-status">สามารถเปิดดูผ่าน Google Drive ได้ด้านล่าง</p>
+    <section id="r24gDirect" class="r24g-preview" aria-label="ดูไฟล์ผ่าน Google Drive">
+      <div class="r24g-preview-head">
+        <strong>ตัวอ่าน Google Drive (สำรอง)</strong>
+        <a href="https://drive.google.com/file/d/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/view" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">เปิดใน Google Drive</a>
       </div>
-      <div class="drive-frame-wrap">
-        <iframe class="drive-frame" title="ตัวอ่านสูจิบัตรฉบับรวม 155 หน้า จาก Google Drive" src="https://drive.google.com/file/d/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/preview" referrerpolicy="no-referrer" loading="eager" allow="fullscreen"></iframe>
-      </div>
-      <p class="drive-reader-help">หาก Google Drive แจ้งว่าไม่มีสิทธิ์หรือขอให้ลงชื่อเข้าใช้ ต้องให้ผู้ดูแลเอกสารอนุญาตบัญชีของท่านก่อน หน้านี้ไม่ได้เปลี่ยนสิทธิ์การแชร์ของไฟล์</p>
+      <p>หากยังเชื่อมระบบอ่านแบบ V2/V3 ไม่ได้ สามารถอ่านภายในกรอบนี้ตามสิทธิ์ของบัญชี Google ปัจจุบัน</p>
+      <iframe title="แสดงสูจิบัตร 155 หน้าผ่าน Google Drive" src="https://drive.google.com/file/d/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/preview" referrerpolicy="no-referrer" loading="lazy" allow="fullscreen"></iframe>
+      <p>หาก Google Drive แจ้งว่าไม่มีสิทธิ์ ให้ผู้ดูแลอนุญาตบัญชีของท่าน ไม่ต้องส่งรหัสผ่านให้ผู้อื่น</p>
     </section>
-  </main>
-  <footer class="booklets-shell footer">ฉบับตรวจร่าง · ตรวจสอบสิทธิ์โดย Google Drive · ไม่ใช่ประกาศผลการแข่งขัน</footer>
+    <p class="r24g-small"><a href="./booklet-private-viewer.html">เครื่องมือตรวจในเล่มรวมแบบเดิม</a> ยังคงใช้งานได้ โดยต้องเลือก PDF และแผนที่ตำแหน่งตรวจร่างจากอุปกรณ์</p>
+  </section>
+  <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite" hidden></p>
+  <div id="pdfCanvasHost" class="pdf-canvas-host" aria-label="หน้าสูจิบัตร ปัดซ้ายหรือขวาเพื่อเปลี่ยนหน้าเมื่อไม่ขยาย" hidden>
+    <div id="pdfPageSurface" class="r24g-page-surface">
+      <canvas id="pdfCanvas" aria-label="หน้าสูจิบัตรฉบับรวม"></canvas>
+      <div id="pdfHighlightLayer" class="r24g-highlight-layer" aria-hidden="true"></div>
+    </div>
+  </div>
+  <p id="pdfMatchStatus" class="r24g-match-status" role="status" aria-live="polite" hidden></p>
+  <section id="r24gMapSection" class="r24g-map-section" hidden>
+    <label for="r24gMap">หากต้องการเน้นตำแหน่งคู่แข่งขัน/กรรมการ ให้เลือกแผนที่ตรวจร่างส่วนตัว:
+      <input type="file" id="r24gMap" accept=".json,application/json">
+    </label>
+    <span id="r24gMapStatus" role="status" aria-live="polite">ยังไม่ได้เลือกแผนที่ตำแหน่ง</span>
+  </section>
+  <p id="pdfSwipe" class="pdf-swipe-hint" hidden>ปัดซ้าย–ขวาเพื่อเปลี่ยนหน้า · แตะสองครั้งหรือใช้สองนิ้วเพื่อขยาย</p>
+  <nav id="pdfBottomBar" class="pdf-toolbar pdf-bottom-bar" aria-label="เปลี่ยนหน้าสูจิบัตร" hidden>
+    <div class="pdf-page-controls">
+      <button id="pdfPrev" type="button" aria-label="หน้าก่อนหน้า" disabled>‹ <span>ก่อนหน้า</span></button>
+      <label class="pdf-page-field">หน้า
+        <input id="pdfPage" type="number" min="1" max="155" value="1" inputmode="numeric" aria-label="หมายเลขหน้า PDF" disabled>
+      </label>
+      <span id="pdfTotal" class="pdf-page-total">/ 155</span>
+      <button id="pdfNext" type="button" aria-label="หน้าถัดไป" disabled><span>ถัดไป</span> ›</button>
+    </div>
+  </nav>
+  <p class="pdf-draft">ฉบับตรวจร่าง · ไม่มีการเผยแพร่ไฟล์ส่วนตัวหรือรับรองผลแข่งขันจากหน้านี้</p>
+</main>
+<script type="module" src="./js/booklet-unified-viewer.js?v=r24g1"></script>
 </body>
 </html>
