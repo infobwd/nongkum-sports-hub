@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "enabled": false,
+  "client_id": null,
+  "allowed_origin": "https://infobwd.github.io",
+  "scope": "https://www.googleapis.com/auth/drive.readonly",
+  "note": "ต้องตั้งค่า OAuth Web Client ID, consent screen และตรวจสิทธิ์ผู้ใช้งานก่อนเปิดใช้งาน ตัวอ่าน Drive แบบเดิมยังใช้งานได้"
+}
