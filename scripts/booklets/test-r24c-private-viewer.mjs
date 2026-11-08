@@ -14,8 +14,8 @@ const program=read("js/program.js");
 const committee=read("js/committee.js");
 
 assert.equal(registry.documents[2].document_status,"draft_review_not_approved");
-assert.equal(registry.documents[2].viewer_route,null);
-assert.equal(registry.documents[2].access_mode,"restricted_review_pending_permission");
+assert.equal(registry.documents[2].viewer_route,"./booklet-drive-viewer.html");
+assert.equal(registry.documents[2].access_mode,"google_drive_permissioned_preview");
 assert.equal(registry.documents[2].approved_at,null);
 assert.equal(registry.documents[2].pdf_revision_sha256,
   "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d");
