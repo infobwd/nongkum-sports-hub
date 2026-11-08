@@ -29,7 +29,7 @@ assert.match(script,/เปิดอ่าน PDF 155 หน้า/);
 assert.match(script,/online\.href = "\.\/booklet-drive-viewer\.html"/);
 assert.match(script,/local\.href = "\.\/booklet-private-viewer\.html"/);
 assert.match(script,/document_status==="draft_review_not_approved"/);
-assert.match(index,/ฉบับรวม 155 หน้าเปิดอ่านในหน้าเว็บได้/);
+assert.match(index,/เล่มรวม 155 หน้าเปิดอ่านในหน้าเว็บได้/);
 assert.match(viewer,/ฉบับตรวจร่าง/);
 assert.match(viewer,new RegExp("drive\\.google\\.com/file/d/"+fileId+"/preview"));
 assert.match(viewer,new RegExp("drive\\.google\\.com/file/d/"+fileId+"/view"));
