@@ -66,7 +66,7 @@ assert(comparison.includes('./booklet-notes.html'));
 assert(css.includes("safe-area-inset-bottom"));
 assert(!html.includes("ประกาศผลการแข่งขันจริง"));
 const publicResults=json("data/public-results.json");
-assert(publicResults.approved_only===true||publicResults.policy?.approved_only===true,
+assert(publicResults.metadata?.approved_only===true,
   "approved-only results policy must remain");
 assert.deepEqual(publicResults.results,[],"no fabricated results");
 console.log("R24-I PASS: 18 note groups / 11 source flags / 70 original QA rows; 236 active fixtures; copy-only UI and safe links");
