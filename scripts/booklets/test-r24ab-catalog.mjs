@@ -23,11 +23,11 @@ assert.equal(v3.page_count,64);
 assert.equal(book.page_count,155);
 assert.equal(v2.viewer_route,"./pdf-viewer.html?page=1");
 assert.equal(v3.viewer_route,"./committee-pdf-viewer.html?page=1");
-assert.equal(book.viewer_route,null);
+assert.equal(book.viewer_route,"./booklet-drive-viewer.html");
 assert.equal(book.source_path,null);
 assert.equal(book.document_status,"draft_review_not_approved");
-assert.equal(book.access_mode,"restricted_review_pending_permission");
-assert.equal(book.availability,"pending_permission");
+assert.equal(book.access_mode,"google_drive_permissioned_preview");
+assert.equal(book.availability,"available_to_permitted_accounts");
 assert.equal(book.approved_at,null);
 assert.equal(registry.audit_155.publication_approved,false);
 assert.equal(registry.audit_155.anchor_count,486);
@@ -56,10 +56,10 @@ assert.match(home,/<summary class="program-more-trigger">เพิ่มเต�
 assert.match(html,/id="bookletsList"/);
 assert.match(html,/id="bookletsStatus"/);
 assert.match(html,/role="note"/);
-assert.match(html,/js\/booklets\.js\?v=r24a1/);
+assert.match(html,/js\/booklets\.js\?v=r24f1/);
 assert.match(js,/textContent\s*=/,"untrusted document labels render as safe text");
 assert.match(js,/const allowedRoutes/,"route allowlist, not user-provided URLs");
-assert.match(js,/viewer_route===null/,"155-page link must fail closed");
+assert.match(js,/doc.viewer_route==="\.\/booklet-drive-viewer\.html"/,"155-page route must be an explicit allowlist");
 assert.doesNotMatch(html+js+JSON.stringify(registry),/1C1StUK5o1rXeOGzM4mOnvnwCgeuWdPRF/,
   "no restricted Google Drive file ID in published source");
 assert.doesNotMatch(html+js+JSON.stringify(registry),/https:\/\/drive\.google\.com\/file\/d\//,
@@ -70,5 +70,5 @@ assert.match(viewer,/souvenir-committee-2569-v3\.pdf/);
 assert.match(viewer,/NongkumProgramPdfHighlight\.draw/);
 assert.match(viewer,/NongkumCommitteeHighlight\.draw/);
 
-console.log("R24-A/B PASS: V2/V3 source PDFs unchanged; 3-edition catalog rights gate");
+console.log("R24-A/B PASS: V2/V3 PDFs unchanged; 155-page reader uses Drive permission gate");
 console.log("R24-B source crosswalk PASS: 236 fixture + 250 committee IDs = 486 PDF anchors, digest "+tokenDigest);
