@@ -39,3 +39,13 @@ h2{font-size:1.12rem;margin:0;color:#153250}
 .footer{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));font-size:.77rem;color:#697890}
 @media(min-width:720px){.booklets-list{grid-template-columns:repeat(2,minmax(0,1fr))}.document-card:last-child{grid-column:1/-1}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+/* R24-F: permissioned Google Drive preview for 155-page review draft. */
+.document-link-secondary{background:#fff;color:#1d4b79;border:1px solid #acbdd0}
+.drive-reader{width:min(1100px,100%)}
+.drive-reader-heading{margin:22px 0 8px}
+.drive-reader-help{font-size:.9rem;color:#465c73;margin:12px 0}
+.drive-reader-actions{margin:12px 0 18px}
+.drive-frame-wrap{width:100%;background:#e7eef6;border:1px solid #b7c7d8;border-radius:14px;overflow:hidden;min-height:420px}
+.drive-frame{display:block;width:100%;height:min(80dvh,1080px);min-height:520px;border:0;background:#e7eef6}
+@media(max-width:600px){.drive-frame{height:70dvh;min-height:460px}.drive-frame-wrap{border-radius:10px}}
