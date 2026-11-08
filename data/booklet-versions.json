@@ -2,7 +2,7 @@
   "schema_version": 1,
   "revision": "R24-D1-20261107",
   "publication_scope": "source_document_review_only",
-  "note": "การเปิดดูและข้อมูลตรงกันระหว่างเอกสาร ไม่ใช่มติรับรองการแข่งขันหรือคำสั่งแต่งตั้ง",
+  "note": "ฉบับรวม 155 หน้าเปิดผ่านหน้าเว็บโดยตรวจสิทธิ์จาก Google Drive; เอกสารยังเป็นฉบับตรวจร่าง ไม่ใช่การรับรองหรือเปิดสิทธิ์สาธารณะ",
   "documents": [
     {
       "version_id": "program-v2",
@@ -41,16 +41,16 @@
       "display_name": "สูจิบัตรฉบับรวม V4.2-I10",
       "purpose": "รวมปก ประกาศ กรรมการ โปรแกรมแข่งขันและผัง 44 กลุ่ม",
       "page_count": 155,
-      "source_kind": "restricted_google_drive_review",
+      "source_kind": "permissioned_google_drive_review",
       "source_path": null,
       "pdf_revision_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",
       "document_status": "draft_review_not_approved",
-      "access_mode": "restricted_review_pending_permission",
-      "viewer_route": null,
+      "access_mode": "google_drive_permissioned_preview",
+      "viewer_route": "./booklet-drive-viewer.html",
       "coordinate_map_revision": "r24b-audit-486-only",
       "approved_at": null,
       "icon": "book",
-      "availability": "pending_permission"
+      "availability": "available_to_permitted_accounts"
     }
   ],
   "audit_155": {
