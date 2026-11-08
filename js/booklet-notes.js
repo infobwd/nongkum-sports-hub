@@ -137,6 +137,25 @@
     ui.search.value="";ui.priority.value="";ui.sport.value="";ui.state.value="";render();
   });
   ui.copyClose.addEventListener("click",()=>{ui.fallback.hidden=true;ui.copyText.value="";});
+  $("notesRefresh").addEventListener("click",()=>window.location.reload());
+  $("notesBackToTop").addEventListener("click",()=>{
+    const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({top:0,behavior:reduced?"auto":"smooth"});
+  });
+  /* Refresh by pulling down only when already at the top; standard scrolling remains untouched. */
+  let pullStart=null;
+  window.addEventListener("touchstart",e=>{
+    pullStart=window.scrollY<=2&&e.touches.length===1?
+      {x:e.touches[0].clientX,y:e.touches[0].clientY}:null;
+  },{passive:true});
+  window.addEventListener("touchend",e=>{
+    if(!pullStart||!e.changedTouches.length)return;
+    const dx=Math.abs(e.changedTouches[0].clientX-pullStart.x);
+    const dy=e.changedTouches[0].clientY-pullStart.y;
+    pullStart=null;
+    if(dy>=140&&dx<65&&window.scrollY<=2)window.location.reload();
+  },{passive:true});
+
   if(!model){showStatus("ไม่สามารถเปิดเครื่องมือตรวจข้อสังเกตได้",true);return;}
   load();
 })();
