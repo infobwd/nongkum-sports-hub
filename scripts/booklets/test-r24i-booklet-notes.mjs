@@ -30,9 +30,34 @@ assert.equal(model.filter(built.notes,{state:"web_handled_document_pending"}).le
 assert(model.filter(built.notes,{query:"วอลเลย์บอล"}).some(n=>n.id==="PDF69-R02"));
 assert(model.filter(built.notes,{query:"PDF69-R08"}).some(n=>n.id==="PDF69-R04"));
 assert.equal(model.filter(built.notes,{query:"unlikelyunmatchedxyz"}).length,0);
+const sourceNotes=built.notes.filter(n=>n.source_codes.length);
+assert.equal(sourceNotes.length,10,"all original observations must have reader-friendly explanations");
+assert.equal(sourceNotes.reduce((sum,n)=>sum+n.findings.length,0),11);
+const forbiddenJargon=/JSON|PDF|GitHub|QA|schema|dpi|event\s*ID|source_qa|PR\s*#|V[234](?:\.\d+)?/i;
+for(const n of built.notes){
+  for(const field of [n.title,n.impact,n.action,...n.findings]){
+    assert(!forbiddenJargon.test(field),n.id+" contains an internal term in reader text: "+field);
+  }
+  const copied=model.copyText(n);
+  assert(!forbiddenJargon.test(copied),n.id+" copy exposes jargon");
+  assert(!copied.includes("รหัสข้อสังเกต")&&!copied.includes(n.id),
+    "copy must not reveal internal identifiers");
+  for(const code of n.source_codes){
+    assert(!copied.includes(code),"copy must not expose source code");
+    const rawText=raw.source_qa.find(entry=>entry.code===code)?.description;
+    assert(rawText&&n.findings.every(f=>f!==rawText),
+      "the user should read a plain-Thai summary, not raw source QA");
+  }
+}
+assert.throws(()=>model.build({...register,notes:register.notes.map(n=>
+  n.id==="PDF69-R04"?{...n,reader_findings:undefined}:n)},raw),
+  /reader_findings_required/);
+assert.throws(()=>model.build({...register,notes:register.notes.map(n=>
+  n.id==="PDF69-R04"?{...n,reader_findings:["สรุปเพียงข้อเดียว"]}:n)},raw),
+  /reader_findings_required/);
 const sample=built.notes.find(n=>n.id==="PDF69-R04");
 assert(sample&&sample.findings.length===2);
-assert(model.copyText(sample).includes("ยังไม่ใช่มติรับรอง"));
+assert(model.copyText(sample).includes("ยังไม่ใช่ข้อยุติจากผู้จัด"));
 assert(model.copyText(sample).includes("หลักฐาน/มติจากผู้จัด: (รอกรอก)"));
 assert(!model.copyText(sample).includes("ผลการแข่งขัน:"));
 assert(built.notes.every(n=>n.evidence.length&&n.evidence.every(e=>e.url.includes("/blob/main/docs/"))));
@@ -65,6 +90,13 @@ assert(bookletHome.includes('./booklet-notes.html'));
 assert(comparison.includes('./booklet-notes.html'));
 assert(css.includes("safe-area-inset-bottom"));
 assert(!html.includes("ประกาศผลการแข่งขันจริง"));
+for(const term of ["PDF V2","PDF V3","GitHub","PR #","JSON","source_qa"]){
+  assert(!html.includes(term),"page must not present technical term "+term);
+}
+for(const term of ['"รหัสต้นฉบับ: "','"หน้า PDF V2: "','"แหล่งข้อมูลและรหัสอ้างอิง"']){
+  assert(!ui.includes(term),"user interface must not expose technical label "+term);
+}
+assert(ui.includes("คัดลอกข้อความ"),"copy control must have a familiar name");
 const publicResults=json("data/public-results.json");
 assert(publicResults.metadata?.approved_only===true,
   "approved-only results policy must remain");

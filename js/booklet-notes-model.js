@@ -50,9 +50,14 @@
           /^https:\/\/github\.com\/infobwd\/nongkum-sports-hub\/blob\/main\/docs\/[\w.-]+\.md$/.test(e.url)),
         "invalid_note_evidence");
       const findings=[];
+      if(n.source_codes.length)ok(Array.isArray(n.reader_findings)&&
+        n.reader_findings.length===n.source_codes.length&&
+        n.reader_findings.every(t=>typeof t==="string"&&t.length>8),
+        "reader_findings_required");
+      else ok(!n.reader_findings,"unexpected_reader_findings");
       for(const c of n.source_codes) {
         ok(sources.has(c)&&!covered.has(c),"unmatched_or_repeated_source_qa");
-        covered.add(c);findings.push(sources.get(c));
+        covered.add(c);findings.push(n.reader_findings[findings.length]);
       }
       if(!findings.length)ok(typeof n.finding==="string"&&n.finding.length>8,"missing_document_finding");
       if(findings.length)ok(!n.finding,"duplicated_source_finding");
@@ -88,20 +93,19 @@
   }
   function copyText(note){
     return [
-      "มิตรภาพเกมส์ 2569 — ข้อสังเกตสูจิบัตร (ยังไม่ใช่มติรับรอง)",
+      "มิตรภาพเกมส์ 2569 — เรื่องที่ขอให้ช่วยตรวจ (ยังไม่ใช่ข้อยุติจากผู้จัด)",
       "หัวข้อ: "+note.title,
-      "รหัสข้อสังเกต: "+note.id,
       "สถานะ: "+({
         needs_review:"รอตรวจจากผู้รับผิดชอบ",
         web_handled_document_pending:"เว็บจัดการแล้ว แต่สูจิบัตรยังต้องตรวจ",
         reference_only:"ข้อมูลประกอบ ไม่ใช่ข้อผิดพลาดที่ยืนยัน"
       }[note.state]),
-      "หน้าต้นฉบับ V2: "+(note.pages.length?note.pages.join(", "):"เปิดต้นฉบับเพื่อตรวจรายละเอียด"),
+      "สูจิบัตรฉบับแข่งขัน หน้า: "+(note.pages.length?note.pages.join(", "):"โปรดเปิดเอกสารประกอบเพื่อตรวจรายละเอียด"),
       "สิ่งที่พบ: "+note.findings.join(" / "),
-      "ผลกระทบที่ต้องตรวจ: "+note.impact,
-      "ขอให้พิจารณา: "+note.action,
+      "หากข้อมูลไม่ถูกต้องอาจเกิดอะไรขึ้น: "+note.impact,
+      "ขอให้ตรวจสอบ: "+note.action,
       "หลักฐาน/มติจากผู้จัด: (รอกรอก)",
-      "หมายเหตุ: การคัดลอกหรือส่งข้อความไม่ได้เป็นการรับรองข้อมูล"
+      "หมายเหตุ: การส่งข้อความนี้ยังไม่ใช่การยืนยันข้อมูลจากผู้จัด"
     ].join("\n");
   }
   return Object.freeze({build,filter,copyText,PRIORITIES,STATES});
