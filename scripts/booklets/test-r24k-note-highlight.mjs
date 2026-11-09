@@ -26,7 +26,7 @@ for(const [noteId,points] of Object.entries(cfg.groups)){
   const note=reg.notes.find(n=>n.id===noteId);
   assert(note,"every highlighted observation must exist in the source registry");
   const found=helper.resolve(cfg,idx,noteId);
-  assert(found&&found.length===points.length,"all points must have verified positions");
+  assert(found&&found.length===points.length,"note "+noteId+" has "+String(found?.length??"no")+" verified targets (expected "+points.length+")");
   total+=found.length;
   all.push(...found);
   for(const item of found){
