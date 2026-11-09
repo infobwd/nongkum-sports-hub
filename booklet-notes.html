@@ -15,18 +15,18 @@
       <a class="back" href="./booklets.html">← เอกสารสูจิบัตร</a>
       <p class="eyebrow">มิตรภาพเกมส์ 2569 · ตรวจเอกสารก่อนรับรอง</p>
       <h1>ข้อสังเกตสูจิบัตร</h1>
-      <p class="lead">รวมเฉพาะจุดที่ควรตรวจสอบ คำถามที่ต้องตัดสิน และลิงก์ดูหลักฐาน ไม่ใช่รายการแข่งขันทั้งหมด</p>
+      <p class="lead">รวมเรื่องที่ควรตรวจสอบ พร้อมคำอธิบายและเอกสารประกอบ โดยไม่ต้องอ่านรายการแข่งขันทั้งเล่ม</p>
     </div>
   </header>
   <main class="booklets-shell notes-shell">
     <div class="review-notice" role="note">
-      <strong>ข้อมูลเพื่อการตรวจร่าง ไม่ใช่มติรับรองหรือประกาศการแข่งขัน</strong>
-      <span>ธงตรวจในตารางและจุดอ้างอิง PDF ไม่ใช่จำนวนข้อผิดพลาด หากพบข้อสังเกตที่เคยจัดการในเว็บแล้ว จะระบุแยกจากเรื่องที่ยังรอตรวจในเล่ม</span>
+      <strong>รายการเหล่านี้ยังต้องตรวจสอบ ไม่ใช่ข้อยุติหรือประกาศการแข่งขัน</strong>
+      <span>บางรายการเป็นเพียงจุดที่ควรตรวจซ้ำ ไม่ได้หมายความว่าข้อมูลผิดทั้งหมด และจะแยกเรื่องที่แก้ในเว็บแล้วออกจากเรื่องที่ยังต้องตรวจในสูจิบัตร</span>
     </div>
-    <p id="notesStatus" class="loading" role="status" aria-live="polite">กำลังตรวจรุ่นเอกสารและข้อสังเกต…</p>
+    <p id="notesStatus" class="loading" role="status" aria-live="polite">กำลังเปิดรายการที่ควรตรวจสอบ…</p>
     <section id="notesApp" hidden>
       <div class="notes-metrics" aria-label="สรุปข้อสังเกต">
-        <div class="notes-metric"><strong id="notesTotal">—</strong><span>กลุ่มประเด็นในหน้านี้</span></div>
+        <div class="notes-metric"><strong id="notesTotal">—</strong><span>เรื่องที่ควรตรวจ</span></div>
         <div class="notes-metric"><strong id="notesUrgent">—</strong><span>เร่งด่วนก่อนแข่งขัน</span></div>
         <div class="notes-metric"><strong id="notesPending">—</strong><span>เรื่องที่รอผู้จัดตรวจ</span></div>
       </div>
@@ -52,7 +52,7 @@
             <select id="notesState">
               <option value="">ทุกสถานะ</option>
               <option value="needs_review">รอตรวจ</option>
-              <option value="web_handled_document_pending">ปรับในเว็บแล้ว / เล่มรอตรวจ</option>
+              <option value="web_handled_document_pending">ปรับในเว็บแล้ว แต่ยังต้องตรวจในเล่ม</option>
               <option value="reference_only">ข้อมูลอ้างอิง</option>
             </select>
           </label>
@@ -65,27 +65,27 @@
       </section>
       <section class="notes-results" aria-label="รายการข้อสังเกต">
         <div id="notesList" class="notes-list"></div>
-        <p id="notesEmpty" class="notes-empty" hidden>ไม่พบข้อสังเกตตรงกับคำค้นหาหรือตัวกรอง ลองเลือกใหม่</p>
+        <p id="notesEmpty" class="notes-empty" hidden>ไม่พบเรื่องที่ตรงกับคำค้นหา ลองเลือกคำหรือหมวดอื่น</p>
       </section>
     </section>
     <section class="help-section" aria-labelledby="notesHelpTitle">
       <h2 id="notesHelpTitle">การส่งข้อสังเกตให้ผู้จัด</h2>
-      <p>กดคัดลอกประเด็นจากการ์ด แล้วส่งพร้อมหลักฐานหรือมติจากกรรมการผู้รับผิดชอบ การส่งข้อความยังไม่ใช่การรับรองหรือแก้ข้อมูลในเว็บไซต์</p>
+      <p>กด “คัดลอกข้อความ” ในเรื่องที่ต้องการ แล้วส่งให้ผู้จัดพร้อมข้อมูลประกอบ ผู้จัดจะตรวจสอบก่อนสรุปผล การส่งข้อความยังไม่ทำให้ข้อมูลในเว็บไซต์เปลี่ยนไป</p>
       <div class="related-links">
-        <a href="./booklet-comparison.html">ตรวจเทียบ V2 / V3 / เล่มรวม</a>
+        <a href="./booklet-comparison.html">เปรียบเทียบสูจิบัตรทั้งสามฉบับ</a>
         <a href="./booklets.html">เปิดสูจิบัตรทั้งสามฉบับ</a>
         <a href="./review.html">ตรวจตารางแข่งขัน</a>
       </div>
     </section>
     <div id="notesCopyFallback" class="notes-copy-fallback" hidden>
-      <label for="notesCopyText">คัดลอกข้อความด้านล่างด้วยตนเอง
+      <label for="notesCopyText">เลือกข้อความในช่องนี้เพื่อคัดลอก
         <textarea id="notesCopyText" rows="8" readonly></textarea>
       </label>
       <button id="notesCopyClose" type="button">ปิด</button>
     </div>
   </main>
   <button id="notesBackToTop" type="button" class="notes-to-top" aria-label="กลับขึ้นด้านบน" title="กลับขึ้นด้านบน">↑</button>
-  <footer class="booklets-shell footer">ข้อสังเกตสำหรับตรวจร่าง · สถานะการรับรองต้องมีหลักฐานจากผู้จัด</footer>
+  <footer class="booklets-shell footer">เรื่องที่รอตรวจสอบ · การยืนยันต้องมาจากผู้จัด</footer>
   <script src="./js/booklet-notes-model.js?v=r24i1"></script>
   <script src="./js/booklet-notes.js?v=r24i1" defer></script>
 </body>
