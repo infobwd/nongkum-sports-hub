@@ -66,11 +66,13 @@ const oldDocument=globalThis.document;
 globalThis.document={createElement:tag=>({tag,className:"",style:{}})};
 try{
   const mock={targets:petanque,page:17,activeIndex:1,
-    viewport:{width:600,height:840},overlay:{appendChild:z=>fakeMarks.push(z)},
+    viewport:{width:600,height:840},overlay:{style:{},appendChild:z=>fakeMarks.push(z)},
     canvas:{style:{width:"600px",height:"840px"}}};
   const drawn=helper.draw(mock);
   assert.equal(drawn.count,5);
   assert.equal(drawn.selected,1);
+  assert.equal(mock.overlay.style.width,"600px");
+  assert.equal(mock.overlay.style.height,"840px");
   assert(fakeMarks[1].className.includes("current"));
   assert(fakeMarks.every(z=>Number.parseFloat(z.style.left)>=0));
   assert.equal(helper.draw({...mock,page:18}).count,0);
