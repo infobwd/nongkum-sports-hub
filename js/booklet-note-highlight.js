@@ -42,7 +42,7 @@
          !["match","track_event"].includes(t.kind)||
          typeof t.number!=="string"||!/^\d{1,3}$/.test(t.number)||
          typeof t.division!=="string"||
-         typeof t.description!=="string"||t.description.length>4)return null;
+         typeof t.description!=="string"||t.description.length<4)return null;
       const r=index.entries[t.fixture_id];
       if(!r||r.page!==t.page||r.kind!==t.kind||
          r.number!==t.number||r.division!==t.division||
