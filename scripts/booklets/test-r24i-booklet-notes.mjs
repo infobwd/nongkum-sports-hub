@@ -33,7 +33,7 @@ assert.equal(model.filter(built.notes,{query:"unlikelyunmatchedxyz"}).length,0);
 const sourceNotes=built.notes.filter(n=>n.source_codes.length);
 assert.equal(sourceNotes.length,10,"all original observations must have reader-friendly explanations");
 assert.equal(sourceNotes.reduce((sum,n)=>sum+n.findings.length,0),11);
-const forbiddenJargon=/\\b(?:JSON|PDF|GitHub|QA|schema|dpi|event\\s*ID|source_qa|PR\\s*#|V[234](?:\\.\\d+)?)\\b/i;
+const forbiddenJargon=/JSON|PDF|GitHub|QA|schema|dpi|event\s*ID|source_qa|PR\s*#|V[234](?:\.\d+)?/i;
 for(const n of built.notes){
   for(const field of [n.title,n.impact,n.action,...n.findings]){
     assert(!forbiddenJargon.test(field),n.id+" contains an internal term in reader text: "+field);
