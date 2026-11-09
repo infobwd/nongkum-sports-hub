@@ -66,6 +66,9 @@
     if(selected<0)return {count:0,selected:-1,top:null};
     const width=Number.parseFloat(canvas.style.width)||viewport.width;
     const height=Number.parseFloat(canvas.style.height)||viewport.height;
+    // Existing R23 highlight layer clips children; give it the canvas dimensions.
+    overlay.style.width=width+"px";
+    overlay.style.height=height+"px";
     let count=0,focus=null;
     targets.forEach((target,i)=>{
       if(target.page!==page)return;
