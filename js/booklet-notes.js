@@ -18,6 +18,9 @@
     web_handled_document_pending:"ปรับในเว็บแล้ว · รอตรวจสูจิบัตร",
     reference_only:"ข้อมูลอ้างอิง"};
   let data=null;
+  const requestedNote=new URLSearchParams(location.search).get("note")||"";
+  const safeRequestedNote=/^[A-Z0-9-]{4,70}$/.test(requestedNote)?requestedNote:"";
+  let noteFocused=false;
   function node(tag,cls,text){
     const el=document.createElement(tag);
     if(cls)el.className=cls;
@@ -70,7 +73,8 @@
     ),stateLabels[n.state]));
     chips.append(node("span","notes-chip",n.sport?(sportLabels[n.sport]||"ชนิดกีฬา"):"สูจิบัตร"));
     card.append(chips);
-    for(const finding of n.findings)sectionText(card,"สิ่งที่พบ:",finding);
+    n.findings.forEach((finding,i)=>sectionText(card,
+      n.findings.length>1?"จุดที่ต้องตรวจ "+(i+1)+":":"สิ่งที่พบ:",finding));
     sectionText(card,"ผลกระทบที่ต้องตรวจ:",n.impact);
     sectionText(card,"สิ่งที่ต้องพิจารณา:",n.action);
     const more=node("details");
@@ -83,8 +87,10 @@
     }
     card.append(more);
     const actions=node("div","notes-actions");
-    n.pages.forEach(pg=>actions.append(link("./pdf-viewer.html?page="+pg,"ดูสูจิบัตรฉบับแข่งขัน หน้า "+pg)));
-    actions.append(link("./booklet-drive-viewer.html","อ่านเล่ม 155 หน้า"));
+    n.pages.forEach(pg=>actions.append(link("./pdf-viewer.html?page="+pg+
+      "&note="+encodeURIComponent(n.id),"ดูจุดที่ต้องตรวจ · หน้า "+pg)));
+    actions.append(link("./booklet-drive-viewer.html?note="+encodeURIComponent(n.id),
+      "อ่านเล่มรวม 155 หน้า"));
     const copy=node("button","notes-copy","คัดลอกข้อความ");
     copy.type="button";
     copy.addEventListener("click",()=>copyNote(n));
@@ -101,6 +107,17 @@
     ui.list.replaceChildren(...filtered.map(createCard));
     ui.empty.hidden=filtered.length!==0;
     ui.count.textContent="แสดง "+filtered.length+" จาก "+data.counts.total+" เรื่อง";
+    if(!noteFocused&&safeRequestedNote&&data.notes.some(n=>n.id===safeRequestedNote)){
+      noteFocused=true;
+      requestAnimationFrame(()=>{
+        const target=document.getElementById("note-"+safeRequestedNote);
+        if(!target)return;
+        target.classList.add("r24k-note-return");
+        target.scrollIntoView({block:"start",behavior:"auto"});
+        const title=target.querySelector("h3");
+        if(title){title.setAttribute("tabindex","-1");title.focus({preventScroll:true});}
+      });
+    }
   }
   async function load(){
     try{

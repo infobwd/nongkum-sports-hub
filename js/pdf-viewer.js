@@ -20,7 +20,10 @@ const el = {
   status: $("pdfStatus"), failure: $("pdfFailure"), fallback: $("pdfFallback"),
   retry: $("pdfRetry"), host: $("pdfCanvasHost"), canvas: $("pdfCanvas"),
   highlight: $("pdfHighlightLayer"), matchStatus: $("pdfMatchStatus"),
-  back: $("pdfBack"), tools: $("pdfTools"), bottomBar: $("pdfBottomBar")
+  back: $("pdfBack"), tools: $("pdfTools"), bottomBar: $("pdfBottomBar"),
+  noteControls: $("r24kNoteControls"), noteCount: $("r24kNoteCount"),
+  noteDesc: $("r24kNoteDesc"), notePrev: $("r24kNotePrev"),
+  noteNext: $("r24kNoteNext"), noteWarning: $("r24kNoteWarning")
 };
 const pageQuery = new URLSearchParams(location.search).get("page");
 const selectedCommittee = isCommittee && /^pdf-p\d{2}-l\d{2}$/.test(query.get("entry") || "") &&
@@ -55,13 +58,29 @@ const selectedProgramPage = pageNumber;
 const embedded = query.get("embedded") === "1" &&
   typeof window !== "undefined" && window.parent && window.parent !== window;
 const openedFromProgram = !isCommittee && query.get("from")==="program";
-const backUrl = new URL(isCommittee ? "./committee.html" : (openedFromProgram ? "./index.html" : "./review.html"), location.href);
+const noteId = query.get("note") || "";
+const openedFromNotes = !isCommittee && !selectedProgram && !openedFromProgram &&
+  /^[A-Z0-9-]{4,70}$/.test(noteId);
+let noteTargets = null, noteIndex = 0, notePositioned = false;
+const noteHighlighter = window.NongkumBookletNoteHighlight;
+const backUrl = new URL(isCommittee ? "./committee.html" :
+  (openedFromProgram ? "./index.html" : openedFromNotes ? "./booklet-notes.html" : "./review.html"), location.href);
 // Never accept an arbitrary redirect target. Only a known same-origin program/review
 // route can be selected. A valid fixture ID narrows the destination to the same card.
 if (!isCommittee && fixtureRef.length <= 180 && /^[A-Za-z0-9_.\u0E00-\u0E7F-]+$/.test(fixtureRef)) {
   backUrl.searchParams.set("fixture", fixtureRef);
 }
+if(openedFromNotes){
+  backUrl.searchParams.set("note",noteId);
+  backUrl.hash="note-"+noteId;
+}
 el.back.href = backUrl.toString();
+if(openedFromNotes){
+  el.back.textContent="← กลับไปข้อสังเกต";
+  el.back.setAttribute("aria-label","กลับไปยังข้อสังเกตเรื่องเดิม");
+  el.noteWarning.hidden=false;
+  el.noteWarning.textContent="ตำแหน่งสีเหลืองเป็นเพียงแถวที่เกี่ยวข้องเพื่อช่วยตรวจ ไม่ได้หมายความว่าข้อมูลผิดหรือได้รับรองแล้ว";
+}
 if(openedFromProgram){
   el.back.textContent="← กลับไปตารางแข่ง";
   el.back.setAttribute("aria-label","ปิด PDF และกลับไปคู่แข่งขันในตาราง");
@@ -200,6 +219,27 @@ async function renderPage() {
           el.host.scrollTop + relativeTop + mark.top + mark.height / 2 - el.host.clientHeight / 2);
       }
     }
+    if (openedFromNotes && el.highlight && Array.isArray(noteTargets) && noteHighlighter){
+      const next=noteHighlighter.activeForPage(noteTargets,pageNumber,noteIndex);
+      if(next>=0)noteIndex=next;
+      const mark=noteHighlighter.draw({targets:noteTargets,page:pageNumber,
+        activeIndex:noteIndex,viewport,overlay:el.highlight,canvas:el.canvas});
+      if(mark?.count){
+        el.noteControls.hidden=false;
+        el.noteCount.textContent="จุดที่ต้องตรวจ "+(noteIndex+1)+" จาก "+noteTargets.length;
+        el.noteDesc.textContent=noteTargets[noteIndex].description+" · หน้า "+pageNumber;
+        el.notePrev.disabled=noteTargets.length<2;
+        el.noteNext.disabled=noteTargets.length<2;
+        if(!notePositioned&&mark.top!==null){
+          notePositioned=true;
+          const surface=$("pdfPageSurface");
+          const y=surface.getBoundingClientRect().top-el.host.getBoundingClientRect().top;
+          el.host.scrollTop=Math.max(0,el.host.scrollTop+y+mark.top+mark.height/2-el.host.clientHeight/2);
+        }
+      }else{
+        el.noteControls.hidden=true;
+      }
+    }
     if (selectedProgram && el.highlight && el.matchStatus &&
         pageNumber === selectedProgramPage && window.NongkumProgramPdfHighlight) {
       // Verify the exact fixture ID, requested page, document revision, and row geometry.
@@ -243,6 +283,14 @@ async function startViewer() {
           .then(response => { if (!response.ok) throw Error("map_unavailable"); return response.json(); })
           .catch(err => { console.warn("R19-K coordinate index unavailable", err); return null; })
       : Promise.resolve(null);
+    const noteCoordinatesPromise = openedFromNotes ? Promise.all([
+      fetch("./data/booklet-note-targets-v2.json?v=r24k1",{cache:"no-store"}),
+      fetch("./data/program-pdf-positions-v2.json?v=r23a1",{cache:"no-store"})
+    ]).then(async responses=>{
+      if(responses.some(r=>!r.ok))throw Error("note_map_not_loaded");
+      const [notes,positions]=await Promise.all(responses.map(r=>r.json()));
+      return noteHighlighter?.resolve(notes,positions,noteId)||null;
+    }).catch(()=>null) : Promise.resolve(null);
     const programCoordinatesPromise = selectedProgram
       ? fetch("./data/program-pdf-positions-v2.json?v=r23a1", {cache:"no-store"})
           .then(response => { if (!response.ok) throw Error("program_map_unavailable"); return response.json(); })
@@ -256,6 +304,17 @@ async function startViewer() {
     if (pdf.numPages !== DOCUMENT_PAGES) throw Error("จำนวนหน้าของสูจิบัตรเปลี่ยนจากที่ตรวจไว้");
     committeeCoordinateIndex = await coordinatesPromise;
     programCoordinateIndex = await programCoordinatesPromise;
+    noteTargets = await noteCoordinatesPromise;
+    if(openedFromNotes){
+      if(Array.isArray(noteTargets)&&noteTargets.length){
+        const selected=noteHighlighter.activeForPage(noteTargets,pageNumber,noteIndex);
+        noteIndex=selected>=0?selected:0;
+        if(selected<0)pageNumber=noteTargets[0].page;
+        el.noteWarning.textContent="กรอบสีเหลืองเน้นแถวที่เกี่ยวข้องเพื่อช่วยตรวจ ไม่ได้หมายความว่าข้อมูลผิดหรือได้รับรองแล้ว";
+      }else{
+        el.noteWarning.textContent="เปิดสูจิบัตรเพื่อประกอบการตรวจแล้ว แต่เรื่องนี้ยังไม่มีตำแหน่งที่ตรวจยืนยันได้ จึงไม่ได้เน้นสี";
+      }
+    }
     if (selectedProgram && programCoordinateIndex &&
         programCoordinateIndex.source_pdf_pages !== pdf.numPages) {
       programCoordinateIndex = null;
@@ -388,6 +447,16 @@ el.back.addEventListener("click", event => {
   window.parent.postMessage({ type: "nongkum:close-pdf-viewer" }, location.origin);
 });
 
+function changeNotePoint(step){
+  if(!Array.isArray(noteTargets)||noteTargets.length<2)return;
+  noteIndex=(noteIndex+step+noteTargets.length)%noteTargets.length;
+  notePositioned=false;
+  const destination=noteTargets[noteIndex].page;
+  if(destination===pageNumber)renderPage();
+  else setPage(destination);
+}
+el.notePrev?.addEventListener("click",()=>changeNotePoint(-1));
+el.noteNext?.addEventListener("click",()=>changeNotePoint(1));
 el.prev.addEventListener("click", () => setPage(pageNumber - 1));
 el.next.addEventListener("click", () => setPage(pageNumber + 1));
 el.input.addEventListener("change", () => {

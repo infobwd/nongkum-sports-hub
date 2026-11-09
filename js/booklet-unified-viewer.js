@@ -29,6 +29,15 @@ const validEntry = /^pdf-p\d{2}-l\d{2}$/.test(entry);
 const kind = validFixture && !entry ? "fixture" : validEntry && !fixture ? "entry" : null;
 const sourceId = kind === "fixture" ? fixture : kind === "entry" ? entry : null;
 const originalBack = $("pdfBack");
+const noteId = params.get("note") || "";
+const openedFromNotes = !sourceId && /^[A-Z0-9-]{4,70}$/.test(noteId);
+if(openedFromNotes){
+  originalBack.href="./booklet-notes.html?note="+encodeURIComponent(noteId)+"#note-"+noteId;
+  originalBack.textContent="← กลับไปข้อสังเกต";
+  originalBack.setAttribute("aria-label","กลับไปยังข้อสังเกตเรื่องเดิม");
+  const warning=$("r24kBookNotice");
+  if(warning)warning.hidden=false;
+}
 if (kind === "fixture") originalBack.href = "./index.html";
 if (kind === "entry") originalBack.href = "./committee.html";
 function parsePage(raw) {

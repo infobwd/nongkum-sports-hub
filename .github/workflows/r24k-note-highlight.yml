@@ -1,0 +1,40 @@
+name: R24-K booklet note highlight and return QA
+
+on:
+  pull_request:
+    paths:
+      - "booklet-notes.html"
+      - "booklet-drive-viewer.html"
+      - "pdf-viewer.html"
+      - "js/booklet-notes.js"
+      - "js/booklet-note-highlight.js"
+      - "js/pdf-viewer.js"
+      - "js/booklet-unified-viewer.js"
+      - "css/booklet-note-highlight.css"
+      - "data/booklet-note-targets-v2.json"
+      - "data/program-pdf-positions-v2.json"
+      - "data/booklet-observations-2569.json"
+      - "scripts/booklets/test-r24k-note-highlight.mjs"
+      - ".github/workflows/r24k-note-highlight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  note-highlight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify PDF note mapping, back navigation, and regression
+        run: |
+          node --check js/booklet-note-highlight.js
+          node --check js/pdf-viewer.js
+          node --check js/booklet-unified-viewer.js
+          node --check js/booklet-notes.js
+          node scripts/booklets/test-r24k-note-highlight.mjs
+          node scripts/booklets/test-r24i-booklet-notes.mjs
