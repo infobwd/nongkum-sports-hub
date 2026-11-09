@@ -57,7 +57,7 @@ assert.throws(()=>model.build({...register,notes:register.notes.map(n=>
   /reader_findings_required/);
 const sample=built.notes.find(n=>n.id==="PDF69-R04");
 assert(sample&&sample.findings.length===2);
-assert(model.copyText(sample).includes("ยังไม่ใช่มติรับรอง"));
+assert(model.copyText(sample).includes("ยังไม่ใช่ข้อยุติจากผู้จัด"));
 assert(model.copyText(sample).includes("หลักฐาน/มติจากผู้จัด: (รอกรอก)"));
 assert(!model.copyText(sample).includes("ผลการแข่งขัน:"));
 assert(built.notes.every(n=>n.evidence.length&&n.evidence.every(e=>e.url.includes("/blob/main/docs/"))));
