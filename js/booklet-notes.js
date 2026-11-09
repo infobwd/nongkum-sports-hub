@@ -15,7 +15,7 @@
     takraw:"เซปักตะกร้อ",athletics:"กรีฑา"};
   const priorityLabels={urgent:"ต้องตรวจก่อนแข่งขัน",important:"ควรตรวจก่อนรับรอง",followup:"ตรวจเพิ่มเติม"};
   const stateLabels={needs_review:"รอผู้รับผิดชอบตรวจ",
-    web_handled_document_pending:"ปรับในเว็บแล้ว · เล่มรอตรวจ",
+    web_handled_document_pending:"ปรับในเว็บแล้ว · รอตรวจสูจิบัตร",
     reference_only:"ข้อมูลอ้างอิง"};
   let data=null;
   function node(tag,cls,text){
@@ -74,19 +74,18 @@
     sectionText(card,"ผลกระทบที่ต้องตรวจ:",n.impact);
     sectionText(card,"สิ่งที่ต้องพิจารณา:",n.action);
     const more=node("details");
-    more.append(node("summary","","แหล่งข้อมูลและรหัสอ้างอิง"));
-    if(n.source_codes.length)more.append(node("p","","รหัสต้นฉบับ: "+n.source_codes.join(", ")));
-    if(n.pages.length)more.append(node("p","","หน้า PDF V2: "+n.pages.join(", ")));
+    more.append(node("summary","","ดูที่มาของข้อมูล"));
+    if(n.pages.length)more.append(node("p","","สูจิบัตรฉบับแข่งขัน หน้า "+n.pages.join(", ")));
     for(const e of n.evidence){
       const p=node("p");
-      p.append(link(e.url,e.label,"notes-evidence"));
+      p.append(link(e.url,"อ่านบันทึกประกอบ","notes-evidence"));
       more.append(p);
     }
     card.append(more);
     const actions=node("div","notes-actions");
-    n.pages.forEach(pg=>actions.append(link("./pdf-viewer.html?page="+pg,"ดูต้นฉบับ V2 หน้า "+pg)));
+    n.pages.forEach(pg=>actions.append(link("./pdf-viewer.html?page="+pg,"ดูสูจิบัตรฉบับแข่งขัน หน้า "+pg)));
     actions.append(link("./booklet-drive-viewer.html","อ่านเล่ม 155 หน้า"));
-    const copy=node("button","notes-copy","คัดลอกข้อสังเกต");
+    const copy=node("button","notes-copy","คัดลอกข้อความ");
     copy.type="button";
     copy.addEventListener("click",()=>copyNote(n));
     actions.append(copy);
@@ -101,7 +100,7 @@
     });
     ui.list.replaceChildren(...filtered.map(createCard));
     ui.empty.hidden=filtered.length!==0;
-    ui.count.textContent="แสดง "+filtered.length+" จาก "+data.counts.total+" กลุ่มประเด็น";
+    ui.count.textContent="แสดง "+filtered.length+" จาก "+data.counts.total+" เรื่อง";
   }
   async function load(){
     try{
@@ -115,8 +114,8 @@
       ui.total.textContent=String(data.counts.total);
       ui.urgent.textContent=String(data.counts.urgent);
       ui.pending.textContent=String(data.counts.needs_review);
-      ui.hint.textContent="เรียบเรียงจากข้อสังเกตต้นฉบับ "+data.source_qa_count+
-        " รหัสและแผนสูจิบัตรที่มีหลักฐาน · ไม่ใช่จำนวนคู่แข่งขันผิดหรือจุดอ้างอิงที่ไม่ตรง";
+      ui.hint.textContent="รวบรวมจากข้อสังเกตในสูจิบัตรเดิม "+data.source_qa_count+
+        " ข้อ และเอกสารประกอบอื่น ๆ · ไม่ได้หมายความว่าทุกเรื่องเป็นข้อผิดพลาด";
       const sports=[...new Set(data.notes.map(n=>n.sport).filter(Boolean))];
       sports.sort((a,b)=>(sportLabels[a]||a).localeCompare(sportLabels[b]||b,"th"));
       for(const s of sports){
@@ -126,10 +125,10 @@
       }
       ui.app.hidden=false;
       render();
-      showStatus("เปิดทะเบียนข้อสังเกตตามรุ่นเอกสารที่ตรวจสอบแล้ว",false);
+      showStatus("เปิดรายการที่ควรตรวจสอบแล้ว",false);
     }catch(err){
       ui.app.hidden=true;
-      showStatus("ยังแสดงข้อสังเกตไม่ได้ เพราะไฟล์หรือรุ่นข้อมูลไม่ตรงกัน โปรดลองโหลดหน้าใหม่หรือแจ้งผู้ดูแล",true);
+      showStatus("ยังเปิดรายการที่ควรตรวจไม่ได้ โปรดลองกดอัปเดตอีกครั้ง หากยังมีปัญหาให้แจ้งผู้ดูแลเว็บไซต์",true);
     }
   }
   [ui.search,ui.priority,ui.sport,ui.state].forEach(x=>x.addEventListener(x===ui.search?"input":"change",render));
