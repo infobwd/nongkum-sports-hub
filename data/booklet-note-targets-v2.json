@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "revision": "r24k1-20261109-review-only",
+  "document": "assets/souvenir-2569-v2.pdf",
+  "source_pdf_sha256": "1cd0d0166fe202b2b69e18f5ec2e1c2d80439386767a1826bf21d7d5da9e0bbf",
+  "source_pdf_pages": 41,
+  "index_entry_count": 236,
+  "notes_revision": "r24i-20261108-review-only",
+  "highlight_meaning": "related_verified_source_row_not_an_approval",
+  "groups": {
+    "PDF69-R01": [
+      {
+        "fixture_id": "football-p07-มัธยมหญิง-007",
+        "page": 7,
+        "number": "7",
+        "kind": "match",
+        "division": "มัธยมหญิง",
+        "description": "คู่ที่ 7 · มัธยมหญิง"
+      },
+      {
+        "fixture_id": "football-p07-มัธยมชาย-018",
+        "page": 7,
+        "number": "20",
+        "kind": "match",
+        "division": "มัธยมชาย",
+        "description": "คู่ที่ 20 · มัธยมชาย"
+      }
+    ],
+    "PDF69-R02": [
+      {
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-015",
+        "page": 11,
+        "number": "13",
+        "kind": "match",
+        "division": "12 ปี หญิง",
+        "description": "คู่ที่ 13 · 12 ปี หญิง"
+      },
+      {
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-016",
+        "page": 11,
+        "number": "14",
+        "kind": "match",
+        "division": "12 ปี หญิง",
+        "description": "คู่ที่ 14 · 12 ปี หญิง"
+      },
+      {
+        "fixture_id": "volleyball-p11-12-ปี-ชาย-013",
+        "page": 11,
+        "number": "15",
+        "kind": "match",
+        "division": "12 ปี ชาย",
+        "description": "คู่ที่ 15 · 12 ปี ชาย"
+      },
+      {
+        "fixture_id": "volleyball-p11-12-ปี-ชาย-014",
+        "page": 11,
+        "number": "16",
+        "kind": "match",
+        "division": "12 ปี ชาย",
+        "description": "คู่ที่ 16 · 12 ปี ชาย"
+      },
+      {
+        "fixture_id": "volleyball-p11-12-ปี-ชาย-019",
+        "page": 11,
+        "number": "19",
+        "kind": "match",
+        "division": "12 ปี ชาย",
+        "description": "คู่ที่ 19 · 12 ปี ชาย"
+      },
+      {
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-020",
+        "page": 11,
+        "number": "20",
+        "kind": "match",
+        "division": "12 ปี หญิง",
+        "description": "คู่ที่ 20 · 12 ปี หญิง"
+      }
+    ],
+    "PDF69-R03": [
+      {
+        "fixture_id": "petanque-p17-8-ปี-ชาย-001",
+        "page": 17,
+        "number": "27",
+        "kind": "match",
+        "division": "8 ปี ชาย",
+        "description": "คู่ที่ 27 · 8 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-ชาย-002",
+        "page": 17,
+        "number": "28",
+        "kind": "match",
+        "division": "8 ปี ชาย",
+        "description": "คู่ที่ 28 · 8 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-ชาย-003",
+        "page": 17,
+        "number": "29",
+        "kind": "match",
+        "division": "8 ปี ชาย",
+        "description": "คู่ที่ 29 · 8 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-ชาย-004",
+        "page": 18,
+        "number": "30",
+        "kind": "match",
+        "division": "8 ปี ชาย",
+        "description": "คู่ที่ 30 · 8 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-หญิง-005",
+        "page": 18,
+        "number": "31",
+        "kind": "match",
+        "division": "8 ปี หญิง",
+        "description": "คู่ที่ 31 · 8 ปี หญิง"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-หญิง-006",
+        "page": 18,
+        "number": "32",
+        "kind": "match",
+        "division": "8 ปี หญิง",
+        "description": "คู่ที่ 32 · 8 ปี หญิง"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-หญิง-007",
+        "page": 18,
+        "number": "33",
+        "kind": "match",
+        "division": "8 ปี หญิง",
+        "description": "คู่ที่ 33 · 8 ปี หญิง"
+      },
+      {
+        "fixture_id": "petanque-p17-8-ปี-หญิง-008",
+        "page": 18,
+        "number": "34",
+        "kind": "match",
+        "division": "8 ปี หญิง",
+        "description": "คู่ที่ 34 · 8 ปี หญิง"
+      }
+    ],
+    "PDF69-R04": [
+      {
+        "fixture_id": "petanque-p17-10-ปี-ชาย-009",
+        "page": 17,
+        "number": "1",
+        "kind": "match",
+        "division": "10 ปี ชาย",
+        "description": "คู่ที่ 1 · 10 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-10-ปี-ชาย-010",
+        "page": 17,
+        "number": "2",
+        "kind": "match",
+        "division": "10 ปี ชาย",
+        "description": "คู่ที่ 2 · 10 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-10-ปี-ชาย-012",
+        "page": 17,
+        "number": "4",
+        "kind": "match",
+        "division": "10 ปี ชาย",
+        "description": "คู่ที่ 4 · 10 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-10-ปี-ชาย-029",
+        "page": 17,
+        "number": "9",
+        "kind": "match",
+        "division": "10 ปี ชาย",
+        "description": "คู่ที่ 9 · 10 ปี ชาย"
+      },
+      {
+        "fixture_id": "petanque-p17-10-ปี-ชาย-030",
+        "page": 17,
+        "number": "10",
+        "kind": "match",
+        "division": "10 ปี ชาย",
+        "description": "คู่ที่ 10 · 10 ปี ชาย"
+      }
+    ],
+    "PDF69-R06": [
+      {
+        "fixture_id": "takraw-p13-12-ปี-ชาย-024",
+        "page": 13,
+        "number": "24",
+        "kind": "match",
+        "division": "12 ปี ชาย",
+        "description": "คู่ที่ 24 · 12 ปี ชาย"
+      },
+      {
+        "fixture_id": "takraw-p13-12-ปี-หญิง-029",
+        "page": 13,
+        "number": "29",
+        "kind": "match",
+        "division": "12 ปี หญิง",
+        "description": "คู่ที่ 29 · 12 ปี หญิง"
+      }
+    ],
+    "PDF69-R07": [
+      {
+        "fixture_id": "athletics-p32-035-m",
+        "page": 32,
+        "number": "35",
+        "kind": "track_event",
+        "division": "มัธยม ชาย",
+        "description": "กรีฑารายการที่ 35 · มัธยม ชาย"
+      },
+      {
+        "fixture_id": "athletics-p32-035-f",
+        "page": 32,
+        "number": "35",
+        "kind": "track_event",
+        "division": "มัธยม หญิง",
+        "description": "กรีฑารายการที่ 35 · มัธยม หญิง"
+      },
+      {
+        "fixture_id": "athletics-p35-048-m",
+        "page": 35,
+        "number": "48",
+        "kind": "track_event",
+        "division": "มัธยม ชาย",
+        "description": "กรีฑารายการที่ 48 · มัธยม ชาย"
+      },
+      {
+        "fixture_id": "athletics-p35-048-f",
+        "page": 35,
+        "number": "48",
+        "kind": "track_event",
+        "division": "มัธยม หญิง",
+        "description": "กรีฑารายการที่ 48 · มัธยม หญิง"
+      }
+    ]
+  }
+}
