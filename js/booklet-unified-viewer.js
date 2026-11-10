@@ -273,7 +273,7 @@ async function fetchPublishedPdfBytes() {
   const chunks = await Promise.all(PDF_PARTS.map(async (path,i)=>{
     const response = await fetch(path+"?v=r25e1",{cache:"no-store",credentials:"same-origin"});
     if(!response.ok)throw Error("pdf_chunk_http_"+(i+1)+"_"+response.status);
-    const encoded = (await response.text()).replace(/\\s+/g,"");
+    const encoded = (await response.text()).replace(/\s+/g,"");
     if(encoded.length !== PDF_PART_LENGTHS[i]) throw Error("pdf_chunk_size_"+(i+1));
     const decoded = atob(encoded);
     return decoded;
