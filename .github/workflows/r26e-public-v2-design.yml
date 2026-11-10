@@ -1,0 +1,75 @@
+name: R26-E Redesigned V2 41-page Public Reader QA
+on:
+  pull_request:
+    paths:
+      - 'assets/r26d-v2-41pages/**'
+      - 'pdf-v2-design-viewer.html'
+      - 'js/pdf-v2-design-viewer.js'
+      - 'js/booklets.js'
+      - 'booklets.html'
+      - 'review.html'
+      - 'scripts/booklets/r26e-*'
+      - 'scripts/booklets/test-r26e-*'
+      - 'scripts/booklets/test-r24ab-catalog.mjs'
+      - '.github/workflows/r26e-public-v2-design.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'assets/r26d-v2-41pages/**'
+      - 'pdf-v2-design-viewer.html'
+      - 'js/pdf-v2-design-viewer.js'
+      - 'js/booklets.js'
+      - 'booklets.html'
+      - 'review.html'
+      - 'scripts/booklets/r26e-*'
+      - 'scripts/booklets/test-r26e-*'
+      - '.github/workflows/r26e-public-v2-design.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax and V2 release contracts
+        run: |
+          node --check js/pdf-v2-design-viewer.js
+          node --check js/booklets.js
+          node --check scripts/booklets/r26e-pdf-bundle.mjs
+          node --check scripts/booklets/test-r26e-public-v2-design.mjs
+          node scripts/booklets/test-r26e-public-v2-design.mjs
+          node scripts/booklets/test-r24ab-catalog.mjs
+          node scripts/booklets/test-r24f-permissioned-drive-reader.mjs
+          node scripts/booklets/test-r24d-comparison.mjs
+          node scripts/booklets/test-r24g-unified-reader.mjs
+          node scripts/booklets/test-r24h-public-pdf.mjs
+          node scripts/ux/test-program-menu-r21.mjs
+          node scripts/ux/test-review-controls-r22.mjs
+      - name: Verify complete PDF pages and page orientations
+        run: |
+          python -m pip install --disable-pip-version-check pypdf==5.9.0
+          python - <<'PY'
+          import base64, hashlib, io
+          from pathlib import Path
+          from pypdf import PdfReader
+          paths=[Path('assets/r26d-v2-41pages/part-%02d.b64'%i) for i in (1,2,3)]
+          data=b''.join(base64.b64decode(p.read_text().strip()) for p in paths)
+          assert len(data)==1271633
+          assert hashlib.sha256(data).hexdigest()=='40d04daba7c1b7b5d655e6973989bec54c89c84a7b2832ba4700cd81f059b84f'
+          r=PdfReader(io.BytesIO(data))
+          assert len(r.pages)==41
+          portrait=0
+          landscape=0
+          for p in r.pages:
+              w=round(float(p.mediabox.width))
+              h=round(float(p.mediabox.height))
+              assert sorted((w,h))==[595,842],(w,h)
+              portrait+=(w<h)
+              landscape+=(w>h)
+          assert (portrait,landscape)==(37,4),(portrait,landscape)
+          print('R26-E PDF QA PASS: exact SHA, 41 A4 pages (37 portrait, 4 landscape)')
+          PY
