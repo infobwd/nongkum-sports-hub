@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {createHash} from "node:crypto";
+import {assembleR25E} from "./r25e-pdf-bundle.mjs";
 
 const load=p=>readFileSync(new URL("../../"+p,import.meta.url));
 const text=p=>load(p).toString("utf8");
@@ -24,14 +25,14 @@ assert.equal(book.page_count,155);
 assert.equal(v2.viewer_route,"./pdf-viewer.html?page=1");
 assert.equal(v3.viewer_route,"./committee-pdf-viewer.html?page=1");
 assert.equal(book.viewer_route,"./booklet-drive-viewer.html");
-assert.equal(book.source_path,"assets/souvenir-2569-v42i10-g2-155pages.pdf");
+assert.equal(book.source_path,"assets/r25d3-155pages/part-01.b64");
 assert.equal(book.document_status,"draft_review_not_approved");
 assert.equal(book.access_mode,"same_origin_reader");
 assert.equal(book.availability,"available");
 assert.equal(book.approved_at,null);
 assert.equal(registry.audit_155.publication_approved,false);
 assert.equal(registry.audit_155.anchor_count,486);
-assert.equal(registry.audit_155.position_parity_against_baseline,486);
+assert.equal(registry.audit_155.position_parity_against_baseline,null,"new table pages require new coordinates");
 for (const d of registry.documents) {
   assert.match(d.pdf_revision_sha256,/^[a-f0-9]{64}$/);
   assert.equal(d.approved_at,null);
@@ -39,7 +40,7 @@ for (const d of registry.documents) {
 const hash=p=>createHash("sha256").update(load(p)).digest("hex");
 assert.equal(hash(v2.source_path),v2.pdf_revision_sha256,"V2 exact file SHA");
 assert.equal(hash(v3.source_path),v3.pdf_revision_sha256,"V3 exact file SHA");
-assert.equal(hash(book.source_path),book.pdf_revision_sha256,"155-page source must match original Drive PDF SHA");
+assert.equal(createHash("sha256").update(assembleR25E()).digest("hex"),book.pdf_revision_sha256,"new Design V2 PDF must match 7-part SHA");
 const active=raw.fixtures.filter(f=>f.id!=="football-p07-มัธยมหญิง-020-repeated-final");
 assert.equal(raw.fixtures.length,237);
 assert.equal(active.length,236);
@@ -57,7 +58,7 @@ assert.match(home,/<summary class="program-more-trigger">เพิ่มเต�
 assert.match(html,/id="bookletsList"/);
 assert.match(html,/id="bookletsStatus"/);
 assert.match(html,/role="note"/);
-assert.match(html,/js\/booklets\.js\?v=r24h1/);
+assert.match(html,/js\/booklets\.js\?v=r25e1/);
 assert.match(js,/textContent\s*=/,"untrusted document labels render as safe text");
 assert.match(js,/const allowedRoutes/,"route allowlist, not user-provided URLs");
 assert.match(js,/doc.viewer_route==="\.\/booklet-drive-viewer\.html"/,"155-page route must be an explicit allowlist");
