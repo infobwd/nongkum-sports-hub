@@ -29,4 +29,4 @@ V2 หน้า 10 เป็น **4 หมวด ไม่ใช่ผังแ�
 - **ยังไม่ merge หรือเปลี่ยนเว็บ** จนกว่าจะตรวจรับรูปแบบ; ถ้าขยายไปหน้า 16/19/21 และผังผสมหน้าอื่น ต้องใช้กฎ source-to-design เดียวกันและตรวจพิกัดไฮไลต์ใหม่ก่อนใช้เป็น canonical.
 
 ## สถานะตรวจรับ
-**Planned**. Pilot PDF/QA/Drive/PR update pending.
+**R26C PILOT BUILT / QA PASS / DRIVE UPLOADED / PR #134 DRAFT / NOT MERGED / NOT LIVE / NOT FIELD-ACCEPTED**. Full 41-page PDF: https://drive.google.com/file/d/1z0ZG9Aah0_cNiZcQl56iDCqE9LdyvQQI/view ; 2-page pilot: https://drive.google.com/file/d/1HZBlue49podro9gsJVm180bmZuKq6nc7/view ; QA: [R26C_FIXED_41PAGE_NEW_BRACKETS_PILOT_QA_20261110.md](R26C_FIXED_41PAGE_NEW_BRACKETS_PILOT_QA_20261110.md).
