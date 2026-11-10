@@ -60,7 +60,7 @@ assert.doesNotMatch(code,/localStorage|sessionStorage|indexedDB|document\.cookie
 assert.doesNotMatch(code,/\bclient_secret\b|anyoneWithLink|\bsetPermission\b/);
 assert.match(oldViewer,/souvenir-2569-v2\.pdf/);
 assert.match(oldViewer,/souvenir-committee-2569-v3\.pdf/);
-assert.match(privateViewer,/const PDF_SHA = "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a"/);
+assert.match(privateViewer,/const PDF_SHA = "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d"/);
 
 const events=new Map(),nodes=new Map();
 function node(id){
