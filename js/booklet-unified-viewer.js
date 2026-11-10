@@ -1,8 +1,10 @@
-/* R24-H: Public review PDF delivered same-origin; verified by SHA before display. */
+/* R25-E: Design V2 R25D3 155-page public review PDF in immutable same-origin chunks; full SHA required before display. */
 (() => {
 "use strict";
-const PUBLIC_PDF_URL = "./assets/souvenir-2569-v42i10-g2-155pages.pdf";
-const PDF_SHA = "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d";
+const PDF_PARTS = Object.freeze(Array.from({length:7}, (_,i)=>"./assets/r25d3-155pages/part-"+String(i+1).padStart(2,"0")+".b64"));
+const PDF_PART_LENGTHS = Object.freeze([819200,819200,819200,819200,819200,819200,723632]);
+const PDF_BYTE_LENGTH = 4229122;
+const PDF_SHA = "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a";
 const MAP_SHA = "4ca526eb48e2e21edb72e38dc5e474429f52a3e62f8d73fd635e1329b1410e90";
 const EXPECTED_PAGES = 155;
 const MAX_PDF_BYTES = 35_000_000;
@@ -59,7 +61,8 @@ function showPdf(message) {
   ui.change.hidden = false;
   ui.pdfStatus.hidden = false;
   ui.pdfStatus.textContent = message;
-  ui.mapSection.hidden = !sourceId;
+  // R25D3 moved all schedule tables; no R24 source-coordinate map is valid for this PDF.
+  ui.mapSection.hidden = true;
   ui.page.disabled = false;
   ui.tools.open = false;
   updateToolbar();
@@ -264,18 +267,35 @@ async function loadLocal() {
     showStart("เปิด PDF ไม่ได้: โปรดเลือกไฟล์ฉบับรวม 155 หน้าที่ได้รับอนุญาตและตรงรุ่น",true);
   }finally{ui.local.value="";}
 }
+async function fetchPublishedPdfBytes() {
+  // Each part is immutable base64 text in this repository. No external cross-origin PDF fetch.
+  // Byte lengths and the final SHA-256 gate protect against missing/mixed revisions.
+  const chunks = await Promise.all(PDF_PARTS.map(async (path,i)=>{
+    const response = await fetch(path+"?v=r25e1",{cache:"no-store",credentials:"same-origin"});
+    if(!response.ok)throw Error("pdf_chunk_http_"+(i+1)+"_"+response.status);
+    const encoded = (await response.text()).replace(/\\s+/g,"");
+    if(encoded.length !== PDF_PART_LENGTHS[i]) throw Error("pdf_chunk_size_"+(i+1));
+    const decoded = atob(encoded);
+    return decoded;
+  }));
+  const output = new Uint8Array(PDF_BYTE_LENGTH);
+  let offset = 0;
+  for(const chunk of chunks){
+    if(offset+chunk.length>output.length)throw Error("pdf_chunk_overflow");
+    for(let i=0;i<chunk.length;i++)output[offset+i]=chunk.charCodeAt(i);
+    offset+=chunk.length;
+  }
+  if(offset!==PDF_BYTE_LENGTH)throw Error("pdf_total_size");
+  return output.buffer;
+}
 async function loadPublishedPdf() {
-  status("กำลังเปิดสูจิบัตร 155 หน้า…");
+  status("กำลังเปิดสูจิบัตรฉบับล่าสุด 155 หน้า…");
   try {
-    const response=await fetch(PUBLIC_PDF_URL+"?v=r24h1",{cache:"no-store",credentials:"same-origin"});
-    if(!response.ok)throw Error("pdf_http_"+response.status);
-    const reportedSize=Number(response.headers?.get?.("content-length")||0);
-    if(reportedSize>MAX_PDF_BYTES)throw Error("pdf_size");
-    await openBytes(await response.arrayBuffer());
+    await openBytes(await fetchPublishedPdfBytes());
   } catch(err) {
-    console.warn("R24-H PDF reader fallback:",err?.message||"unavailable");
+    console.warn("R25-E PDF reader fallback:",err?.message||"unavailable");
     await closePdf();
-    showStart("ยังเปิด PDF ผ่านตัวอ่านของเว็บไม่สำเร็จ สามารถใช้ตัวอ่าน Google Drive ด้านล่าง หรือเลือกไฟล์ในเครื่องได้",true);
+    showStart("ยังเปิดสูจิบัตรฉบับล่าสุดในเว็บไม่สำเร็จ โปรดลองเปิดไฟล์ใน Google Drive หรือเลือก PDF ฉบับล่าสุดจากเครื่อง",true);
   }
 }
 async function loadPrivateMap() {
@@ -370,6 +390,22 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowRight"){e.preventDefault();setPage(pageNumber+1);}
 });
 window.NongkumUnifiedBooklet=Object.freeze({parsePage,validMap,serializeMap,verifiedMap,verifyPdfBytes});
-if(sourceId) ui.mapStatus.textContent="เลือกแผนที่ตำแหน่งส่วนตัวเพื่อเน้นรายการที่เปิดจากตาราง";
+// Only the source V2/V3 readers currently have verified highlight coordinates.
+const highlightNotice = $("r25eHighlightNotice");
+const originalLink = $("r25eOriginalLink");
+if(highlightNotice && originalLink && (sourceId||openedFromNotes)){
+  highlightNotice.hidden=false;
+  if(kind==="fixture"){
+    originalLink.href="./pdf-viewer.html?fixture="+encodeURIComponent(sourceId);
+    originalLink.textContent="เปิดตาราง V2 พร้อมตำแหน่งที่ตรวจแล้ว";
+  }else if(kind==="entry"){
+    originalLink.href="./committee-pdf-viewer.html?page=1";
+    originalLink.textContent="เปิดสูจิบัตรกรรมการ V3";
+  }else{
+    originalLink.href="./pdf-viewer.html?note="+encodeURIComponent(noteId);
+    originalLink.textContent="เปิดสูจิบัตร V2 พร้อมตำแหน่งข้อสังเกต";
+  }
+}
+if(sourceId) ui.mapStatus.textContent="ยังไม่มีแผนที่ตำแหน่งที่ตรวจรับสำหรับเล่ม Design V2 ฉบับจัดตารางใหม่";
 loadPublishedPdf();
 })();
