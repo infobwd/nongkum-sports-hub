@@ -60,7 +60,7 @@ function card(doc) {
    online.href = "./booklet-drive-viewer.html";
    online.setAttribute("aria-label","เปิดอ่าน Design V2 155 หน้าในเว็บทันที");
    actions.append(online);
-   const local = el("a","document-link document-link-secondary","ตรวจจากไฟล์ในเครื่อง");
+   const local = el("a","document-link document-link-secondary","ตรวจเล่มเดิมพร้อมจุดเน้น");
    local.href = "./booklet-private-viewer.html";
    local.setAttribute("aria-label","ตรวจสูจิบัตร 155 หน้าที่ได้รับอนุญาตจากไฟล์ในเครื่อง");
    actions.append(local);
