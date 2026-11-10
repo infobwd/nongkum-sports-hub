@@ -18,7 +18,7 @@ assert.equal(registry.documents[2].viewer_route,"./booklet-drive-viewer.html");
 assert.equal(registry.documents[2].access_mode,"same_origin_reader");
 assert.equal(registry.documents[2].approved_at,null);
 assert.equal(registry.documents[2].pdf_revision_sha256,
-  "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d");
+  "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a");
 assert.match(html,/type="file" id="privatePdf"/);
 assert.match(html,/type="file" id="privateMap"/);
 assert.match(html,/id="privateOverlay"/);
@@ -80,9 +80,10 @@ assert.equal(viewer.validMap({schema_version:1,entries:{}}),false);
 const entries={};
 for(let i=0;i<486;i++)entries["v4"+i.toString(16).padStart(12,"0")]={page:1,rect:[.1,.2,.8,.22]};
 const sample={schema_version:1,document_status:"review_only_not_public",
-  source_sha256:registry.documents[2].pdf_revision_sha256,page_count:155,anchor_count:486,
+  source_sha256:"a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",page_count:155,anchor_count:486,
   coordinate_space:"normalized_top_left_cropbox",entries};
-assert.equal(viewer.validMap(sample),true);
+assert.equal(viewer.validMap(sample),true,"old private viewer still verifies old PDF map");
+assert.equal(viewer.validMap({...sample,source_sha256:registry.documents[2].pdf_revision_sha256}),false,"no verified coordinates for the new PDF");
 assert.equal(await viewer.verifiedMap(sample),false,"synthetic coordinate layout must not pass checksum");
 assert.equal(viewer.validMap({...sample,source_sha256:"f".repeat(64)}),false);
 assert.equal(viewer.validMap({...sample,entries:{...entries,[Object.keys(entries)[0]]:{page:160,rect:[.1,.2,.8,.22]}}}),false);
