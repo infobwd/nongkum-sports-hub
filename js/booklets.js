@@ -1,4 +1,4 @@
-/* R24-H: three public source review PDFs; organizer authorized 155-page reading, not content approval. */
+/* R25-E: three source review PDFs; the integrated Design V2 R25D3 uses 7 SHA-pinned chunks, still review-only. */
 (function() {
 "use strict";
 const LIST = document.getElementById("bookletsList");
@@ -25,7 +25,10 @@ function validDoc(doc) {
    return doc.document_status==="draft_review_not_approved" &&
      doc.access_mode==="same_origin_reader" &&
      doc.viewer_route==="./booklet-drive-viewer.html" &&
-     doc.source_path==="assets/souvenir-2569-v42i10-g2-155pages.pdf" &&
+     doc.source_path==="assets/r25d3-155pages/part-01.b64" &&
+     doc.delivery?.format==="base64_chunks" && doc.delivery?.part_count===7 &&
+     doc.delivery?.reassembled_bytes===4229122 &&
+     doc.delivery?.sha256===doc.pdf_revision_sha256 &&
      doc.availability==="available";
  return doc.access_mode==="same_origin_reader" &&
    doc.viewer_route===allowedRoutes[doc.version_id] && doc.availability==="available";
@@ -52,10 +55,10 @@ function card(doc) {
    actions.append(link);
  }else{
    actions.append(el("p","restricted-note",
-     "ผู้จัดอนุญาตให้เปิด PDF ฉบับรวม 155 หน้าในเว็บไซต์ได้ทันที ไม่ต้องเลือกไฟล์หรือเข้าสู่ระบบ Google · เนื้อหายังอยู่ระหว่างตรวจร่าง"));
-   const online = el("a","document-link","เปิดอ่าน PDF 155 หน้า");
+     "เปิดสูจิบัตร Design V2 ฉบับล่าสุด 155 หน้าในเว็บไซต์ได้ทันที ไม่ต้องใช้บัญชี Google · เนื้อหายังรอตรวจรับ"));
+   const online = el("a","document-link","เปิดอ่าน Design V2 ฉบับล่าสุด");
    online.href = "./booklet-drive-viewer.html";
-   online.setAttribute("aria-label","เปิดอ่านสูจิบัตรฉบับรวม 155 หน้าในเว็บทันที");
+   online.setAttribute("aria-label","เปิดอ่าน Design V2 155 หน้าในเว็บทันที");
    actions.append(online);
    const local = el("a","document-link document-link-secondary","ตรวจจากไฟล์ในเครื่อง");
    local.href = "./booklet-private-viewer.html";
@@ -76,7 +79,7 @@ function validCatalog(payload) {
 }
 async function start() {
  try {
-   const response=await fetch("./data/booklet-versions.json?v=r24h1",{cache:"no-store"});
+   const response=await fetch("./data/booklet-versions.json?v=r25e1",{cache:"no-store"});
    if(!response.ok)throw Error("source_not_available");
    const payload=await response.json();
    if(!validCatalog(payload))throw Error("invalid_document_revision");
