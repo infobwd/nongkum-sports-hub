@@ -15,8 +15,8 @@ function validSource(catalog,raw,roster,programMap,committeeMap){
  const docs=Object.fromEntries(catalog.documents.map(d=>[d.version_id,d]));
  const a=docs[originalDocs.v2],b=docs[originalDocs.v3],c=docs[originalDocs.integrated];
  if(!a||!b||!c||a.page_count!==41||b.page_count!==64||c.page_count!==155||
-    (c.access_mode!=="same_origin_reader"||c.viewer_route!=="./booklet-drive-viewer.html"||c.source_path!=="assets/souvenir-2569-v42i10-g2-155pages.pdf")||c.approved_at!==null||
-    catalog.audit_155?.anchor_count!==486||catalog.audit_155?.position_parity_against_baseline!==486||
+    (c.access_mode!=="same_origin_reader"||c.viewer_route!=="./booklet-drive-viewer.html"||c.source_path!=="assets/r25d3-155pages/part-01.b64")||c.approved_at!==null||
+    catalog.audit_155?.anchor_count!==486||catalog.audit_155?.position_parity_against_baseline!==null||
     catalog.audit_155?.publication_approved!==false||
     raw?.schema_version!==3||raw?.metadata?.source_status!=="revised_pdf_draft"||
     !Array.isArray(raw.fixtures)||raw.fixtures.length!==237||
@@ -60,7 +60,7 @@ function build(catalog,raw,roster,programMap,committeeMap){
    date_confirmation:f.planning_date_confirmation==="confirmed"?"confirmed":"pending",
    time_confirmation:f.planning_time_confirmation==="confirmed"?"confirmed":"pending",
    content_state:"NEEDS_REVIEW",
-   anchor_state:"ANCHOR_VERIFIED",
+   anchor_state:"ANCHOR_REMAP_PENDING",
    note:"ตรวจคู่/รายการกับเอกสารทั้งสองฉบับก่อนแจ้งผู้จัด"
  }));
  const bySport={};
@@ -77,12 +77,14 @@ function build(catalog,raw,roster,programMap,committeeMap){
    counts:Object.freeze({
      fixtures:issues.length,committee:roster.entries.length,
      v2_anchors:issues.length,v3_anchors:roster.entries.length,
-     integrated_anchors:catalog.audit_155.anchor_count,
+     integrated_anchors:0,
+     integrated_anchor_ids:catalog.audit_155.anchor_count,
+     integrated_anchors_pending:catalog.audit_155.anchor_count,
      matched:0,different:0,needs_review:issues.length+roster.entries.length,
      unavailable:0,committee_flag_rows:committeeFlagRows
    }),
    bySport,issues,
-   source_note:"ตรวจพบตำแหน่งอ้างอิง ไม่ได้ตรวจยืนยันว่าข้อความระหว่างเอกสารทุกช่องตรงกัน"
+   source_note:"ตำแหน่งอ้างอิง V2/V3 ตรวจแล้ว แต่ PDF Design V2 ล่าสุดจัดหน้าใหม่ 44 หน้าและยังรอผูกตำแหน่งไฮไลต์ 486 จุดใหม่"
  });
 }
 function issueText(item){
