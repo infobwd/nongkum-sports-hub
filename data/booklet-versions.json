@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "revision": "R24-H-20261108",
+  "revision": "R25E-DESIGN-V2-20261110",
   "publication_scope": "source_document_review_only",
-  "note": "ผู้จัดอนุญาตเผยแพร่ไฟล์ฉบับรวม 155 หน้าเพื่อเปิดอ่านจากเว็บไซต์โดยตรงแบบ V2/V3; ยังเป็นฉบับตรวจร่าง ไม่ใช่การรับรองรายการแข่งขัน/กรรมการหรือฉบับทางการ",
+  "note": "ผู้จัดอนุญาตเผยแพร่เล่มรวม Design V2 R25D3 จำนวน 155 หน้าให้อ่านบนเว็บไซต์; สถานะตรวจร่าง ไม่ใช่ข้อมูลแข่งขันหรือกรรมการที่ผ่านการรับรอง",
   "documents": [
     {
       "version_id": "program-v2",
@@ -38,32 +38,41 @@
     },
     {
       "version_id": "integrated-v42i10-g2",
-      "display_name": "สูจิบัตรฉบับรวม V4.2-I10",
-      "purpose": "รวมปก ประกาศ กรรมการ โปรแกรมแข่งขันและผัง 44 กลุ่ม · เผยแพร่สำหรับอ่านฉบับตรวจร่าง",
+      "display_name": "สูจิบัตรฉบับรวม Design V2 — ตารางแข่งขันปรับใหม่",
+      "purpose": "ตารางแข่งขันครบ 236 รายการตามสูจิบัตร V2 หลังตัดคู่ซ้ำ ร่วมกับกติกา กรรมการ และผัง · ใช้ตรวจร่างเท่านั้น",
       "page_count": 155,
-      "source_kind": "same_origin_repository_public_review",
-      "source_path": "assets/souvenir-2569-v42i10-g2-155pages.pdf",
-      "pdf_revision_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",
+      "source_kind": "same_origin_repository_public_review_chunked",
+      "source_path": "assets/r25d3-155pages/part-01.b64",
+      "pdf_revision_sha256": "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a",
       "document_status": "draft_review_not_approved",
       "access_mode": "same_origin_reader",
       "viewer_route": "./booklet-drive-viewer.html",
-      "coordinate_map_revision": "r24b-audit-486-only",
+      "coordinate_map_revision": "r25e-no-coordinate-map-for-new-typesetting",
       "approved_at": null,
       "icon": "book",
-      "availability": "available"
+      "availability": "available",
+      "delivery": {
+        "format": "base64_chunks",
+        "part_count": 7,
+        "base_path": "assets/r25d3-155pages/",
+        "part_name_pattern": "part-01.b64 .. part-07.b64",
+        "reassembled_bytes": 4229122,
+        "sha256": "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a"
+      }
     }
   ],
   "audit_155": {
-    "status": "local_pdf_verified_for_anchor_integrity_only",
-    "cover_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d",
+    "status": "new_design_v2_pdf_verified_a4_and_ids_only_coordinates_pending_remap",
+    "cover_sha256": "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a",
     "baseline_sha256": "0c052af59d73bbefbe66f43dd797f08c5041ef2c00733805cd95a1ffbce6edec",
     "page_count": 155,
     "bookmarks": 175,
     "anchor_count": 486,
     "unique_anchors": 486,
-    "position_parity_against_baseline": 486,
+    "position_parity_against_baseline": null,
     "anchor_ids_digest_sha256": "21feb66eb393f6fa24f0012e9dd3052a7e8eabca84bf40c3a5c73a3dda380d99",
-    "record_crosswalk_status": "verified_486_source_ids_with_r24ab_ci",
-    "publication_approved": false
+    "record_crosswalk_status": "486_fixture_and_committee_IDs_historical_crosswalk_only_not_current_highlight_positions",
+    "publication_approved": false,
+    "previous_pdf_sha256": "a2a9f47f8bf871403c3995e6b4ebd102802e600fc20c16198eb12ab73b12e89d"
   }
 }
