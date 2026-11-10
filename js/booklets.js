@@ -49,10 +49,19 @@ function card(doc) {
    restricted?"ฉบับตรวจร่าง · เปิดอ่านบนเว็บไซต์ได้ทันที":"เอกสารสำหรับตรวจสอบ");
  const actions=el("div","document-actions");
  if(!restricted){
-   const link=el("a","document-link","เปิดอ่าน PDF");
-   link.href=allowedRoutes[doc.version_id];
-   link.setAttribute("aria-label","เปิดอ่าน "+doc.display_name+" "+doc.page_count+" หน้า");
+   const redesigned=doc.version_id==="program-v2";
+   if(redesigned)actions.append(el("p","restricted-note",
+     "V2 รูปแบบใหม่ 41 หน้า · ตารางและผัง 5 หน้าที่จัดใหม่ ใช้อ่านตรวจร่าง · จุดเน้นรายการยังใช้ฉบับต้นฉบับ"));
+   const link=el("a","document-link",redesigned?"เปิดอ่าน V2 ฉบับออกแบบใหม่":"เปิดอ่าน PDF");
+   link.href=redesigned?"./pdf-v2-design-viewer.html?page=1":allowedRoutes[doc.version_id];
+   link.setAttribute("aria-label",redesigned?"เปิดอ่าน V2 รูปแบบใหม่ 41 หน้า":"เปิดอ่าน "+doc.display_name+" "+doc.page_count+" หน้า");
    actions.append(link);
+   if(redesigned){
+     const source=el("a","document-link document-link-secondary","เปิด V2 ต้นฉบับพร้อมไฮไลต์");
+     source.href=allowedRoutes[doc.version_id];
+     source.setAttribute("aria-label","เปิดสูจิบัตร V2 ต้นฉบับ 41 หน้า สำหรับตรวจตำแหน่งรายการ");
+     actions.append(source);
+   }
  }else{
    actions.append(el("p","restricted-note",
      "เปิดสูจิบัตร Design V2 ฉบับล่าสุด 155 หน้าในเว็บไซต์ได้ทันที ไม่ต้องใช้บัญชี Google · เนื้อหายังรอตรวจรับ"));

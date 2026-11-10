@@ -58,7 +58,7 @@ assert.match(home,/<summary class="program-more-trigger">เพิ่มเต�
 assert.match(html,/id="bookletsList"/);
 assert.match(html,/id="bookletsStatus"/);
 assert.match(html,/role="note"/);
-assert.match(html,/js\/booklets\.js\?v=r25e1/);
+assert.match(html,/js\/booklets\.js\?v=r26e1/);
 assert.match(js,/textContent\s*=/,"untrusted document labels render as safe text");
 assert.match(js,/const allowedRoutes/,"route allowlist, not user-provided URLs");
 assert.match(js,/doc.viewer_route==="\.\/booklet-drive-viewer\.html"/,"155-page route must be an explicit allowlist");

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="อ่านสูจิบัตร V2 41 หน้าออกแบบใหม่ตาม Design V2 แบบตรวจร่าง มิตรภาพเกมส์ 2569">
+  <title>สูจิบัตร V2 รูปแบบใหม่ 41 หน้า · มิตรภาพเกมส์ 2569</title>
+  <link rel="stylesheet" href="./css/pdf-viewer.css?v=r11d6">
+  <style>
+    .r26e-source-note{flex:none;margin:0;padding:8px 13px;background:#fffbf2;border-bottom:1px solid #e8d5a5;color:#634f27;font-size:.75rem;line-height:1.5;text-align:center}
+    .r26e-source-note a{color:#194d7d;font-weight:800}
+    .r26e-source-note[hidden]{display:none}
+    .r26e-download{display:block;width:100%;min-height:44px;margin-top:8px;border:1px solid #9ab4cf;border-radius:9px;background:#eaf3fc;color:#1e4d7c;font-weight:750}
+    .r26e-downloading[disabled]{opacity:.6}
+  </style>
+</head>
+<body>
+<main class="pdf-app">
+  <header class="pdf-book-header">
+    <a class="pdf-back" id="pdfBack" href="./booklets.html">← สูจิบัตร</a>
+    <span class="pdf-book-title">มิตรภาพเกมส์ <small>V2 ออกแบบใหม่ · 41 หน้า</small></span>
+    <details id="pdfTools" class="pdf-book-tools">
+      <summary aria-label="ตัวเลือกการอ่าน PDF">⋯ <span>ตัวเลือก</span></summary>
+      <div class="pdf-tools-panel">
+        <div class="pdf-fit-controls" role="group" aria-label="การแสดงหน้า PDF">
+          <button type="button" id="pdfFitWidth" aria-pressed="true" disabled>พอดีกว้าง</button>
+          <button type="button" id="pdfFitPage" aria-pressed="false" disabled>ทั้งหน้า</button>
+        </div>
+        <div class="pdf-zoom-controls" role="group" aria-label="ขยายหรือย่อ">
+          <button type="button" id="pdfZoomOut" disabled>−</button>
+          <span id="pdfZoomLabel" role="status">พอดีความกว้าง</span>
+          <button type="button" id="pdfZoomIn" disabled>+</button>
+        </div>
+        <button id="designDownload" type="button" class="r26e-download" disabled>ดาวน์โหลด V2 ฉบับออกแบบใหม่</button>
+        <a class="pdf-open-original" href="https://drive.google.com/file/d/1fnqC_AmfiPJ2MpW-2M6eBCN7A6ODs9c5/view" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">เปิดไฟล์ใน Google Drive</a>
+        <a class="pdf-open-original" href="./pdf-viewer.html?page=1">ดู V2 ต้นฉบับ (พร้อมจุดเน้น)</a>
+      </div>
+    </details>
+  </header>
+  <p class="r26e-source-note">ฉบับออกแบบใหม่สำหรับตรวจร่าง · ผังบางหน้ายังรอตรวจ · หากต้องการตำแหน่งไฮไลต์ของรายการ ให้ <a href="./pdf-viewer.html?page=1">เปิด V2 ต้นฉบับ</a></p>
+  <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite">กำลังตรวจและเปิด PDF…</p>
+  <div id="pdfCanvasHost" class="pdf-canvas-host" aria-label="หน้าสูจิบัตร ปัดซ้ายหรือขวาเพื่อเปลี่ยนหน้า">
+    <canvas id="pdfCanvas" aria-label="หน้าสูจิบัตร V2 ออกแบบใหม่"></canvas>
+  </div>
+  <section id="pdfFailure" class="pdf-failure" role="alert" hidden>
+    <strong>ไม่สามารถเปิดสูจิบัตรฉบับออกแบบใหม่ในเว็บได้</strong>
+    <p>โปรดลองใหม่อีกครั้ง หรือเปิด PDF ใน Google Drive ตามสิทธิ์ที่ได้รับ</p>
+    <button id="pdfRetry" type="button">ลองเปิดใหม่</button>
+    <a href="https://drive.google.com/file/d/1fnqC_AmfiPJ2MpW-2M6eBCN7A6ODs9c5/view" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">เปิด PDF ใน Drive</a>
+    <a href="./pdf-viewer.html?page=1">เปิด V2 ต้นฉบับ</a>
+  </section>
+  <p class="pdf-swipe-hint">ปัดซ้าย–ขวาเพื่อเปลี่ยนหน้า · ใช้ปุ่มขยายในเมนูเมื่ออ่านข้อความขนาดเล็ก</p>
+  <nav id="pdfBottomBar" class="pdf-toolbar pdf-bottom-bar" aria-label="เปลี่ยนหน้า">
+    <div class="pdf-page-controls">
+      <button id="pdfPrev" type="button" disabled>‹ <span>ก่อนหน้า</span></button>
+      <label class="pdf-page-field">หน้า
+        <input id="pdfPage" type="number" inputmode="numeric" min="1" max="41" value="1" aria-label="เลขหน้าเอกสาร" disabled>
+      </label>
+      <span class="pdf-page-total" id="pdfTotal">/ 41</span>
+      <button id="pdfNext" type="button" disabled><span>ถัดไป</span> ›</button>
+    </div>
+  </nav>
+  <p class="pdf-draft">ฉบับตรวจร่าง · ไม่ใช่ประกาศการแข่งขันหรือผลการแข่งขันที่รับรองแล้ว</p>
+</main>
+<script type="module" src="./js/pdf-v2-design-viewer.js?v=r26e1"></script>
+</body>
+</html>
