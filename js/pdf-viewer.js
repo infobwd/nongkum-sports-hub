@@ -7,8 +7,8 @@
 const query = new URLSearchParams(location.search);
 const isCommittee = query.get("doc") === "committee";
 const PDF_URL = isCommittee ? "./assets/souvenir-committee-2569-v3.pdf?v=r19k2" : "./assets/souvenir-2569-v2.pdf";
-const PDF_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs";
-const PDF_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs";
+const PDF_JS_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.min.mjs";
+const PDF_WORKER_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.worker.min.mjs";
 const EXPECTED_PAGES = 41; // Existing fixture source and its tests stay unchanged.
 const DOCUMENT_PAGES = isCommittee ? 64 : EXPECTED_PAGES;
 const $ = (id) => document.getElementById(id);
