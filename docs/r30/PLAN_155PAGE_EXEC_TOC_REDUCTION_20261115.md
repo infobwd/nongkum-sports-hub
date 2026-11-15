@@ -23,3 +23,18 @@
 
 ## ผลงาน
 PDF compact, HTML/CSS หน้าใหม่, script สร้าง, source-map, QA report/preview, Drive link และ Draft PR.
+
+
+## ผลส่งมอบและตรวจคุณภาพ 15 พ.ย. 2569
+
+สถานะ: **SOURCE INSPECTED → PLAN RECORDED → GENERATED → PDF QA PASS → DRIVE UPLOADED → DRAFT PR (NOT MERGED / NOT PUBLIC)**
+
+- [R30 สูจิบัตรฉบับย่อ 94 หน้า](https://drive.google.com/file/d/1Ep1s4ULP78DcubqwtQb0dtcBzjSLNdJU/view) — ขนาด 3,806,477 ไบต์, SHA-256 7d573ca18251a4f5fd8da79507eb5ae36873dc734393e319310740102e160f87
+- [R30 ชุด HTML/CSS/Builder/QA ZIP](https://drive.google.com/file/d/1KrST6uVTE08ogLr5jz8G6J2LYDSMPJ3G/view) และ [โฟลเดอร์ Google Drive](https://drive.google.com/drive/folders/1jD1nLCwLeW1j6JQCE6finHxG7GC8b2gl).
+- ตรวจเนื้อหาตาราง/กติกาที่คงจากต้นฉบับ **90/90 หน้า** ตรงกันในส่วน body ทั้งข้อความตามต้นฉบับ; ปกเดิมอีก 1 หน้า
+- เพิ่มบทสรุปผู้บริหาร (หน้า 2) สารบัญและการนำทาง (หน้า 3), ข้อสังเกตและที่มา (หน้า 94); ตัดจากเล่มหลัก 64 หน้าต้นฉบับซ้ำ/เอกสารเสริม และเพิ่ม 3 หน้าใหม่ จึงลดสุทธิ 61 หน้า
+- ลิงก์ Explicit GoTo **116 จุด**, PDF Bookmarks **24 หัวข้อ**, external archive link **1 จุด**, ตรวจเลขหน้า/เป้าหมายทุกลิงก์, ฝังฟอนต์ไทย, ไม่มีปัญหาอัตโนมัติ
+- เรนเดอร์ **94/94 หน้า ที่ 150 DPI** และสุ่มจุดสำคัญ 10 หน้าที่ 200 DPI (เก็บ QA source map เพื่อ reproducible)
+- [QA รายงาน](QA_REPORT.md), [JSON ตรวจ](QA_REPORT.json), [ผังที่มาของหน้า](source_map.json), [หน้าบทสรุป HTML](executive-summary.html), [สารบัญ HTML](contents.html), [หน้าเรื่องรอตรวจ HTML](review-notes.html), [สคริปต์](../../scripts/r30/build_compact.py) และ [CSS](../../scripts/r30/layout.css).
+- Google Drive metadata readback หลังอัปโหลด: PDF และ ZIP เก็บในโฟลเดอร์ R30, ขนาด/MIME ตรง; **สิทธิ์ผู้อ่านนอกองค์กรยังไม่ตรวจ (access_not_verified)**.
+- **ยังต้องตรวจรับ:** crosswalk คู่แข่งขันกับข้อมูลล่าสุด R27/R28, print A4 เครื่องจริง, Safari/Chrome/LINE, และการอนุญาต Merge / เผยแพร่. ข้อมูล R25D3 ไม่ใช่ชุดรับรองล่าสุด; PR นี้ไม่แก้โปรแกรม/JSON/Sheets/main/เว็บไซต์.
