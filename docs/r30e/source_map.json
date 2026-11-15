@@ -1,0 +1,676 @@
+{
+  "pdf": "MittraphapGames_2569_R30E_Complete_132pages_REVIEW_ONLY.pdf",
+  "total_pages": 132,
+  "source_pdfs": {
+    "R25D3": {
+      "filename": "MittraphapGames_2569_DesignV2_R25D3_Full_155pages_V2Tables_REVIEW_ONLY_20261110.pdf",
+      "sha256": "9da71db34f092a4a65a1ee2ea05984b343fc03097988854b1debe5251e2fae1a"
+    },
+    "R30-D": {
+      "filename": "R30D_MittraphapGames_2569_R30D_RowStyle_Fixed_DRAFT.pdf",
+      "sha256": "8865917c567255a6f5d58c624523ccaa31ec83bd50789a69ae5e557532839a3a"
+    }
+  },
+  "pages": [
+    {
+      "output": 1,
+      "source": "R30-D",
+      "source_page": 1
+    },
+    {
+      "output": 2,
+      "source": "R30-D",
+      "source_page": 2
+    },
+    {
+      "output": 3,
+      "source": "generated R30-E TOC",
+      "source_page": 1
+    },
+    {
+      "output": 4,
+      "source": "R25D3",
+      "source_page": 3
+    },
+    {
+      "output": 5,
+      "source": "R25D3",
+      "source_page": 4
+    },
+    {
+      "output": 6,
+      "source": "R25D3",
+      "source_page": 5
+    },
+    {
+      "output": 7,
+      "source": "R25D3",
+      "source_page": 6
+    },
+    {
+      "output": 8,
+      "source": "R25D3",
+      "source_page": 7
+    },
+    {
+      "output": 9,
+      "source": "R25D3",
+      "source_page": 8
+    },
+    {
+      "output": 10,
+      "source": "R25D3",
+      "source_page": 9
+    },
+    {
+      "output": 11,
+      "source": "R25D3",
+      "source_page": 10
+    },
+    {
+      "output": 12,
+      "source": "R25D3",
+      "source_page": 11
+    },
+    {
+      "output": 13,
+      "source": "R25D3",
+      "source_page": 12
+    },
+    {
+      "output": 14,
+      "source": "R25D3",
+      "source_page": 13
+    },
+    {
+      "output": 15,
+      "source": "R25D3",
+      "source_page": 14
+    },
+    {
+      "output": 16,
+      "source": "R25D3",
+      "source_page": 15
+    },
+    {
+      "output": 17,
+      "source": "R25D3",
+      "source_page": 16
+    },
+    {
+      "output": 18,
+      "source": "R25D3",
+      "source_page": 17
+    },
+    {
+      "output": 19,
+      "source": "R25D3",
+      "source_page": 18
+    },
+    {
+      "output": 20,
+      "source": "R30-D",
+      "source_page": 4
+    },
+    {
+      "output": 21,
+      "source": "R30-D",
+      "source_page": 5
+    },
+    {
+      "output": 22,
+      "source": "R30-D",
+      "source_page": 6
+    },
+    {
+      "output": 23,
+      "source": "R30-D",
+      "source_page": 7
+    },
+    {
+      "output": 24,
+      "source": "R30-D",
+      "source_page": 8
+    },
+    {
+      "output": 25,
+      "source": "R30-D",
+      "source_page": 9
+    },
+    {
+      "output": 26,
+      "source": "R30-D",
+      "source_page": 10
+    },
+    {
+      "output": 27,
+      "source": "R30-D",
+      "source_page": 11
+    },
+    {
+      "output": 28,
+      "source": "R30-D",
+      "source_page": 12
+    },
+    {
+      "output": 29,
+      "source": "R30-D",
+      "source_page": 13
+    },
+    {
+      "output": 30,
+      "source": "R30-D",
+      "source_page": 14
+    },
+    {
+      "output": 31,
+      "source": "R30-D",
+      "source_page": 15
+    },
+    {
+      "output": 32,
+      "source": "R30-D",
+      "source_page": 16
+    },
+    {
+      "output": 33,
+      "source": "R30-D",
+      "source_page": 17
+    },
+    {
+      "output": 34,
+      "source": "R30-D",
+      "source_page": 18
+    },
+    {
+      "output": 35,
+      "source": "R30-D",
+      "source_page": 19
+    },
+    {
+      "output": 36,
+      "source": "R30-D",
+      "source_page": 20
+    },
+    {
+      "output": 37,
+      "source": "R30-D",
+      "source_page": 21
+    },
+    {
+      "output": 38,
+      "source": "R30-D",
+      "source_page": 22
+    },
+    {
+      "output": 39,
+      "source": "R30-D",
+      "source_page": 23
+    },
+    {
+      "output": 40,
+      "source": "R30-D",
+      "source_page": 24
+    },
+    {
+      "output": 41,
+      "source": "R30-D",
+      "source_page": 25
+    },
+    {
+      "output": 42,
+      "source": "R30-D",
+      "source_page": 26
+    },
+    {
+      "output": 43,
+      "source": "R30-D",
+      "source_page": 27
+    },
+    {
+      "output": 44,
+      "source": "R30-D",
+      "source_page": 28
+    },
+    {
+      "output": 45,
+      "source": "R30-D",
+      "source_page": 29
+    },
+    {
+      "output": 46,
+      "source": "R30-D",
+      "source_page": 30
+    },
+    {
+      "output": 47,
+      "source": "R30-D",
+      "source_page": 31
+    },
+    {
+      "output": 48,
+      "source": "R30-D",
+      "source_page": 32
+    },
+    {
+      "output": 49,
+      "source": "R30-D",
+      "source_page": 33
+    },
+    {
+      "output": 50,
+      "source": "R30-D",
+      "source_page": 34
+    },
+    {
+      "output": 51,
+      "source": "R30-D",
+      "source_page": 35
+    },
+    {
+      "output": 52,
+      "source": "R30-D",
+      "source_page": 36
+    },
+    {
+      "output": 53,
+      "source": "R30-D",
+      "source_page": 37
+    },
+    {
+      "output": 54,
+      "source": "R30-D",
+      "source_page": 38
+    },
+    {
+      "output": 55,
+      "source": "R30-D",
+      "source_page": 39
+    },
+    {
+      "output": 56,
+      "source": "R30-D",
+      "source_page": 40
+    },
+    {
+      "output": 57,
+      "source": "R30-D",
+      "source_page": 41
+    },
+    {
+      "output": 58,
+      "source": "R30-D",
+      "source_page": 42
+    },
+    {
+      "output": 59,
+      "source": "R30-D",
+      "source_page": 43
+    },
+    {
+      "output": 60,
+      "source": "R30-D",
+      "source_page": 44
+    },
+    {
+      "output": 61,
+      "source": "R30-D",
+      "source_page": 45
+    },
+    {
+      "output": 62,
+      "source": "R30-D",
+      "source_page": 46
+    },
+    {
+      "output": 63,
+      "source": "R30-D",
+      "source_page": 47
+    },
+    {
+      "output": 64,
+      "source": "R30-D",
+      "source_page": 48
+    },
+    {
+      "output": 65,
+      "source": "R30-D",
+      "source_page": 49
+    },
+    {
+      "output": 66,
+      "source": "R30-D",
+      "source_page": 50
+    },
+    {
+      "output": 67,
+      "source": "R30-D",
+      "source_page": 51
+    },
+    {
+      "output": 68,
+      "source": "R30-D",
+      "source_page": 52
+    },
+    {
+      "output": 69,
+      "source": "R30-D",
+      "source_page": 53
+    },
+    {
+      "output": 70,
+      "source": "R30-D",
+      "source_page": 54
+    },
+    {
+      "output": 71,
+      "source": "R30-D",
+      "source_page": 55
+    },
+    {
+      "output": 72,
+      "source": "R30-D",
+      "source_page": 56
+    },
+    {
+      "output": 73,
+      "source": "R30-D",
+      "source_page": 57
+    },
+    {
+      "output": 74,
+      "source": "R30-D",
+      "source_page": 58
+    },
+    {
+      "output": 75,
+      "source": "R30-D",
+      "source_page": 59
+    },
+    {
+      "output": 76,
+      "source": "R30-D",
+      "source_page": 60
+    },
+    {
+      "output": 77,
+      "source": "R30-D",
+      "source_page": 61
+    },
+    {
+      "output": 78,
+      "source": "R30-D",
+      "source_page": 62
+    },
+    {
+      "output": 79,
+      "source": "R30-D",
+      "source_page": 63
+    },
+    {
+      "output": 80,
+      "source": "R30-D",
+      "source_page": 64
+    },
+    {
+      "output": 81,
+      "source": "R30-D",
+      "source_page": 65
+    },
+    {
+      "output": 82,
+      "source": "R30-D",
+      "source_page": 66
+    },
+    {
+      "output": 83,
+      "source": "R30-D",
+      "source_page": 67
+    },
+    {
+      "output": 84,
+      "source": "R30-D",
+      "source_page": 68
+    },
+    {
+      "output": 85,
+      "source": "R30-D",
+      "source_page": 69
+    },
+    {
+      "output": 86,
+      "source": "R30-D",
+      "source_page": 70
+    },
+    {
+      "output": 87,
+      "source": "R30-D",
+      "source_page": 71
+    },
+    {
+      "output": 88,
+      "source": "R30-D",
+      "source_page": 72
+    },
+    {
+      "output": 89,
+      "source": "R30-D",
+      "source_page": 73
+    },
+    {
+      "output": 90,
+      "source": "R30-D",
+      "source_page": 74
+    },
+    {
+      "output": 91,
+      "source": "R30-D",
+      "source_page": 75
+    },
+    {
+      "output": 92,
+      "source": "R30-D",
+      "source_page": 76
+    },
+    {
+      "output": 93,
+      "source": "R30-D",
+      "source_page": 77
+    },
+    {
+      "output": 94,
+      "source": "R30-D",
+      "source_page": 78
+    },
+    {
+      "output": 95,
+      "source": "R30-D",
+      "source_page": 79
+    },
+    {
+      "output": 96,
+      "source": "R30-D",
+      "source_page": 80
+    },
+    {
+      "output": 97,
+      "source": "R30-D",
+      "source_page": 81
+    },
+    {
+      "output": 98,
+      "source": "R30-D",
+      "source_page": 82
+    },
+    {
+      "output": 99,
+      "source": "R30-D",
+      "source_page": 83
+    },
+    {
+      "output": 100,
+      "source": "R30-D",
+      "source_page": 84
+    },
+    {
+      "output": 101,
+      "source": "R30-D",
+      "source_page": 85
+    },
+    {
+      "output": 102,
+      "source": "R30-D",
+      "source_page": 86
+    },
+    {
+      "output": 103,
+      "source": "R30-D",
+      "source_page": 87
+    },
+    {
+      "output": 104,
+      "source": "R30-D",
+      "source_page": 88
+    },
+    {
+      "output": 105,
+      "source": "R30-D",
+      "source_page": 89
+    },
+    {
+      "output": 106,
+      "source": "R30-D",
+      "source_page": 90
+    },
+    {
+      "output": 107,
+      "source": "R30-D",
+      "source_page": 91
+    },
+    {
+      "output": 108,
+      "source": "R30-D",
+      "source_page": 92
+    },
+    {
+      "output": 109,
+      "source": "R30-D",
+      "source_page": 93
+    },
+    {
+      "output": 110,
+      "source": "R25D3",
+      "source_page": 19
+    },
+    {
+      "output": 111,
+      "source": "R25D3",
+      "source_page": 20
+    },
+    {
+      "output": 112,
+      "source": "R25D3",
+      "source_page": 21
+    },
+    {
+      "output": 113,
+      "source": "R25D3",
+      "source_page": 22
+    },
+    {
+      "output": 114,
+      "source": "R25D3",
+      "source_page": 23
+    },
+    {
+      "output": 115,
+      "source": "R25D3",
+      "source_page": 24
+    },
+    {
+      "output": 116,
+      "source": "R25D3",
+      "source_page": 25
+    },
+    {
+      "output": 117,
+      "source": "R25D3",
+      "source_page": 26
+    },
+    {
+      "output": 118,
+      "source": "R25D3",
+      "source_page": 27
+    },
+    {
+      "output": 119,
+      "source": "R25D3",
+      "source_page": 28
+    },
+    {
+      "output": 120,
+      "source": "R25D3",
+      "source_page": 29
+    },
+    {
+      "output": 121,
+      "source": "R25D3",
+      "source_page": 30
+    },
+    {
+      "output": 122,
+      "source": "R25D3",
+      "source_page": 31
+    },
+    {
+      "output": 123,
+      "source": "R25D3",
+      "source_page": 32
+    },
+    {
+      "output": 124,
+      "source": "R25D3",
+      "source_page": 33
+    },
+    {
+      "output": 125,
+      "source": "R25D3",
+      "source_page": 34
+    },
+    {
+      "output": 126,
+      "source": "R25D3",
+      "source_page": 35
+    },
+    {
+      "output": 127,
+      "source": "R25D3",
+      "source_page": 36
+    },
+    {
+      "output": 128,
+      "source": "R25D3",
+      "source_page": 37
+    },
+    {
+      "output": 129,
+      "source": "R25D3",
+      "source_page": 38
+    },
+    {
+      "output": 130,
+      "source": "R25D3",
+      "source_page": 39
+    },
+    {
+      "output": 131,
+      "source": "R25D3",
+      "source_page": 40
+    },
+    {
+      "output": 132,
+      "source": "R30-D",
+      "source_page": 94
+    }
+  ]
+}
