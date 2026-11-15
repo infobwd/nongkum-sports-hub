@@ -181,13 +181,18 @@
     ui.refresh.disabled=true;
     ui.status.textContent=refresh&&state.data?"กำลังตรวจผลที่รับรองล่าสุด…":"กำลังอ่านผลการแข่งขัน…";
     try{
-      const response=await fetch("./data/public-results.json?refresh="+Date.now(),{cache:"no-store"});
-      if(!response.ok)throw Error("โหลดผลรับรองไม่ได้");
-      const data=await response.json();
+      const source=globalThis.NongkumResultSource
+        ?await globalThis.NongkumResultSource.load():null;
+      let data=source?.data;
+      if(!data){
+        const response=await fetch("./data/public-results.json?refresh="+Date.now(),{cache:"no-store"});
+        if(!response.ok)throw Error("โหลดผลรับรองไม่ได้");
+        data=await response.json();
+      }
       loaded(data);
       try{await loadRules(data);}catch(ruleError){state.snapshot=null;render();console.error(ruleError);}
       ui.failure.hidden=true;
-      ui.status.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+" · ผลรับรองจากไฟล์บนเว็บ";
+      ui.status.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+(source?.source==="live"?" · ผลที่รับรองจากระบบล่าสุด":" · สำเนาผลที่รับรอง · ตรวจข้อมูลล่าสุดไม่ได้");
       return true;
     }catch(error){
       ui.status.textContent=state.data
@@ -207,8 +212,8 @@
   ui.refresh.addEventListener("click",()=>load(true));
   ui.retry.addEventListener("click",()=>load(false));
   load(false);
-  // Match the existing results page: check the approved JSON every five minutes if visible.
+  // Match results page: recheck approved-only source every minute while visible.
   if(typeof setInterval==="function")setInterval(()=>{
     if(document.visibilityState==="visible"&&!ui.refresh.disabled)load(true);
-  },300000);
+  },60000);
 })();
