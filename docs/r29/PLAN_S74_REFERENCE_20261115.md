@@ -29,3 +29,20 @@
 
 - PDF สูจิบัตร DRAFT และ PDF ตารางสนาม DRAFT, HTML/CSS, builder script, data extraction/crosswalk, QA report, PR link, Drive links.
 - ไม่ Merge PR จนผู้จัดอนุญาต.
+
+
+## อัปเดตการส่งมอบ R29 — 15 พฤศจิกายน 2569 (DRAFT)
+
+**Source confirmed:** ศึกษา S74 PDF 23 หน้า (ฟอนต์ Thai/Waree/Noto Sans Thai; bookmarks 23 หน้า; internal links และหน้าปก/ตารางจริง). ไม่ใช้ Sarabun บังคับ ไม่แจก raw font.
+
+**Generated files / Google Drive:** [R29 folder](https://drive.google.com/drive/folders/1NL-TF48_E6IJzgAosdmOwjPKdi412JVL)
+- [สูจิบัตร A4 แนวตั้ง 23 หน้า](https://drive.google.com/file/d/1qm76pbd_VGYgLan2jWNp6pBZcmCrqeMt/view) SHA-256 efa4c59f945aec25d8cd00b0dcd8b9c08e4d5ce97b6620a2e95b3388ce8b1946
+- [ตารางใช้งานสนาม A4 แนวนอน 33 หน้า](https://drive.google.com/file/d/1WH7axNndrJwsN2AS29OqhL_Dy6Vca7FY/view) SHA-256 0ef3a12e08352e1bdc92be807e0f384e2d3e61b74fe920c1247b2c62f0c5a257
+- [ZIP ต้นฉบับ HTML/CSS/WeasyPrint 68.0 builder/QA/data](https://drive.google.com/file/d/1eXq72ZzlBCGaZ1STcst8GdoLgxXiGxIH/view) SHA-256 224f4eecc42a4d00358c05f1c6c71218ef7fc61613b2646b99f8e1677c4992c8.
+- [รายงาน QA](QA_REPORT.md) / [JSON QA](qa-summary.json). สคริปต์อยู่ scripts/r29/ และ HTML snapshot docs/r29/ บน branch นี้.
+
+**QA:** 186 คู่ + 50 กรีฑา / 289 ลู่ (รวม 236); render ทุกหน้า **56 หน้า × 150 DPI**, PDF Bookmarks **13/10**, Explicit GoTo **33/27**, ฟอนต์ฝังครบ, ไม่พบข้อความล้นขอบ. คงสถานะ DRAFT; ไม่สร้างคะแนน/ผลจริง.
+
+**Source issues:** ข้อมูลกรีฑา **เลข 35 และ 48 ซ้ำอย่างละสองครั้ง** (ไม่มีเลข 49/50), ยังรอยืนยันเลขต้นฉบับ; PR #137 รายงานผู้เข้าชิงแต่ไม่กำหนดคู่แข่งหรือคะแนน, เลขคู่ใน Sheets กับ PDF ยังต่างกัน. ห้ามถือว่าเล่มนี้เป็นฉบับรับรอง.
+
+**Remaining gates:** ตรวจอุปกรณ์พิมพ์ A4 จริง, iOS Safari/Android Chrome/LINE, สิทธิ์ Google Drive ภายนอก, ฟอนต์ไทยคัดลอกตัวต่อทุกหน้า, crosswalk กับ master JSON และ Google Sheets/คำสั่งที่ผู้จัดรับรอง. PR เป็น DRAFT; **ไม่ Merge ไม่สลับเว็บไซต์**.
