@@ -1,0 +1,35 @@
+/* R34 card entry and six-hour editor — mobile-first, scoped styles */
+.r34-editable-card{cursor:pointer}
+.r34-editable-card:focus-visible{outline:3px solid #1d5ca3;outline-offset:3px}
+.r34-card-actions{display:flex;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:1px solid #dfe7f0}
+.r34-edit-button{min-height:44px;padding:9px 16px;border:1px solid #adc1dc;border-radius:12px;background:#f3f7ff;color:#173b70;font:inherit;font-weight:700;cursor:pointer}
+.r34-edit-button:hover,.r34-edit-button:focus-visible{background:#e3efff;border-color:#4478b2}
+.r34-approved-label{font-weight:700;color:#125747;background:#eaf8f2;border:1px solid #bee4d4;border-radius:10px;padding:10px 12px;margin:10px 0}
+.r34-overlay[hidden]{display:none!important}
+.r34-overlay{position:fixed;inset:0;z-index:2000;background:rgba(9,25,50,.68);display:flex;align-items:flex-end;justify-content:center;padding:0}
+body.r34-open{overflow:hidden}
+.r34-dialog{background:#fff;color:#172943;width:100%;max-width:580px;max-height:92dvh;overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;padding:20px 18px calc(20px + env(safe-area-inset-bottom, 0px));border-radius:22px 22px 0 0;box-shadow:0 -12px 32px rgba(0,0,0,.2);font-family:inherit}
+.r34-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.r34-header h2{font-size:1.16rem;line-height:1.45;margin:0}
+.r34-close{font-size:1.5rem;line-height:1;width:44px;height:44px;border:0;border-radius:12px;background:#f1f4f8;color:#263d58}
+.r34-status{min-height:1.2rem;font-size:.91rem;color:#41648d;margin:8px 0}
+.r34-error{color:#a12c2c!important}
+.r34-fixture{display:flex;flex-direction:column;gap:4px;background:#f4f7fb;border:1px solid #dbe3ee;padding:12px;border-radius:12px;margin:8px 0 14px}
+.r34-fixture strong{font-size:1.05rem;line-height:1.5}
+.r34-fixture span,.r34-small{font-size:.85rem;color:#53667b}
+.r34-field{display:flex;flex-direction:column;gap:6px;font-weight:600;margin:12px 0}
+.r34-field input,.r34-field select,.r34-field textarea,.r34-rank select,.r34-rank input{box-sizing:border-box;width:100%;font:inherit;background:#fff;color:#182c46;border:1px solid #a8b9ce;border-radius:10px;padding:10px 12px;min-height:44px}
+.r34-field textarea{resize:vertical}
+.r34-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.r34-rank{display:grid;grid-template-columns:70px 1.4fr 1fr 1fr;gap:6px;align-items:center;margin:8px 0}
+.r34-rank span{font-size:.8rem;font-weight:700}
+.r34-rank input,.r34-rank select{min-width:0;padding:8px 6px;font-size:.86rem}
+.r34-buttons{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.r34-buttons button{min-height:44px;padding:10px 16px;border:1px solid #bbc9d9;border-radius:12px;background:#f7f9fc;color:#173b70;font:inherit;font-weight:700;cursor:pointer}
+.r34-buttons .r34-primary{background:#174b86;border-color:#174b86;color:white}
+.r34-buttons button:disabled{opacity:.6;cursor:wait}
+.r34-logout{border:0;background:none;color:#1d528d;text-decoration:underline;font:inherit;cursor:pointer}
+.r34-success{color:#106342;font-weight:800;font-size:1.12rem}
+.r34-pending{background:#fff6e6;border:1px solid #ecd2a1;color:#5c431b;border-radius:10px;padding:12px}
+@media(min-width:630px){.r34-overlay{align-items:center;padding:16px}.r34-dialog{border-radius:20px;max-height:88dvh;padding:22px}}
+@media(max-width:470px){.r34-rank{grid-template-columns:70px 1fr 1fr}.r34-rank input:last-child{grid-column:2 / -1}.r34-dialog{padding-left:15px;padding-right:15px}}
