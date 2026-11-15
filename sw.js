@@ -1,14 +1,15 @@
-/* R31 — Installable app shell. Do not cache schedule, results, PDF or personal data. */
+/* R31 — Installable app shell. Do not cache schedules, results, PDFs or personal data. */
 "use strict";
 const CACHE_PREFIX = "nongkum-sports-pwa-";
 const CACHE_NAME = CACHE_PREFIX + "r31-v1";
 const ROOT = new URL(self.registration.scope);
 const OFFLINE_URL = new URL("offline.html", ROOT).href;
-const PRE_CACHE = [
-  OFFLINE_URL,
+const ICON_URLS = [
   new URL("icons/pwa-192.png", ROOT).href,
   new URL("icons/pwa-512.png", ROOT).href
 ];
+const PRE_CACHE = [OFFLINE_URL, ...ICON_URLS];
+
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRE_CACHE)));
 });
@@ -22,13 +23,20 @@ self.addEventListener("activate", (event) => {
 });
 self.addEventListener("fetch", (event) => {
   const request = event.request;
-  // Only navigation is intercepted. Every data/JSON/PDF/fixture/media/API
-  // request and every POST goes straight to network with no Cache Storage write.
-  if (request.method !== "GET" || request.mode !== "navigate") return;
+  if (request.method !== "GET") return;
   const target = new URL(request.url);
   if (target.origin !== ROOT.origin || !target.pathname.startsWith(ROOT.pathname)) return;
-  // Network-only pages: show a clearly labelled offline fallback on failure.
-  // Never persist HTML that could contain draft committee information.
+
+  // Only the two public app icons may be served from the pre-cache offline.
+  if (ICON_URLS.includes(target.href)) {
+    event.respondWith(caches.match(target.href).then((hit) => hit || fetch(request)));
+    return;
+  }
+
+  // All data/JSON, PDFs, API calls, fixture-share routes and assets bypass
+  // Service Worker caching. Navigation never uses cached HTML; on network
+  // failure, it displays an explicit offline page without old scores.
+  if (request.mode !== "navigate") return;
   event.respondWith(fetch(request).catch(async () => {
     const offline = await caches.match(OFFLINE_URL);
     return offline || Response.error();
