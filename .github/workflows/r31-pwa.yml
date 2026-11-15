@@ -1,0 +1,35 @@
+name: R31 PWA install and offline QA
+on:
+  pull_request:
+    paths:
+      - "manifest.webmanifest"
+      - "sw.js"
+      - "js/pwa.js"
+      - "offline.html"
+      - "install.html"
+      - "icons/pwa-*"
+      - "index.html"
+      - "results.html"
+      - "standings.html"
+      - "review.html"
+      - "committee.html"
+      - "scripts/ux/test-pwa-r31.mjs"
+      - ".github/workflows/r31-pwa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pwa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check service worker and registration script
+        run: |
+          node --check sw.js
+          node --check js/pwa.js
+      - name: Verify app install manifest, icon sizes and offline data safety
+        run: node scripts/ux/test-pwa-r31.mjs
