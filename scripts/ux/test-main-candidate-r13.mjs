@@ -2,6 +2,11 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
+// The original scenario is pre-competition; do not couple it to CI run date.
+const TestDate = class extends Date {
+  constructor(...args) { super(...(args.length ? args : ["2026-11-10T02:00:00Z"])); }
+  static now() { return new Date("2026-11-10T02:00:00Z").getTime(); }
+};
 const read=p=>readFileSync(new URL("../../"+p,import.meta.url),"utf8");
 const latest=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
 const original=JSON.parse(read("data/draft-schedule.json"));
@@ -57,7 +62,7 @@ async function mount(query){
  const els=Object.fromEntries(ids.map(id=>[id,el(id)]));
  const location=new URL("https://infobwd.github.io/nongkum-sports-hub/index.html"+query),paths=[],messages=[];
  let copied="";
- const ctx=vm.createContext({URL,URLSearchParams,location,history:{replaceState(){}},Date,Intl,console,
+ const ctx=vm.createContext({URL,URLSearchParams,location,history:{replaceState(){}},Date:TestDate,Intl,console,
  document:{getElementById:id=>els[id]||null,createElement:tag=>el(tag)},
  localStorage:{getItem(){return null;},setItem(){}},
  navigator:{clipboard:{writeText:async value=>{copied=value;}}},
