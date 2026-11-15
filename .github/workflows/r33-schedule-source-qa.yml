@@ -4,7 +4,7 @@ on:
     paths:
       - 'data/program-from-pdf-2569-20261104-draft.json'
       - 'js/program-corrections.js'
-      - 'supabase/migrations/20261116_r33_schedule_search.sql'
+      - 'supabase/migrations/*r33*.sql'
       - 'supabase/seeds/r33_*.sql'
       - 'scripts/r33/**'
       - '.github/workflows/r33-schedule-source-qa.yml'
@@ -13,7 +13,7 @@ on:
     paths:
       - 'data/program-from-pdf-2569-20261104-draft.json'
       - 'js/program-corrections.js'
-      - 'supabase/migrations/20261116_r33_schedule_search.sql'
+      - 'supabase/migrations/*r33*.sql'
       - 'supabase/seeds/r33_*.sql'
       - 'scripts/r33/**'
   workflow_dispatch:
