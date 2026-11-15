@@ -1,0 +1,30 @@
+name: R34 Card Editor QA
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "results.html"
+      - "js/r34-card-editor.js"
+      - "css/r34-card-editor.css"
+      - "supabase/functions/nongkum-results-editor/index.ts"
+      - "scripts/r34/**"
+      - ".github/workflows/r34-editor-qa.yml"
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "results.html"
+      - "js/r34-card-editor.js"
+      - "css/r34-card-editor.css"
+      - "supabase/functions/nongkum-results-editor/index.ts"
+      - "scripts/r34/**"
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --check js/r34-card-editor.js
+      - run: node scripts/r34/test-card-editor.mjs
