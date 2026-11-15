@@ -12,6 +12,30 @@ assert.equal(manifest.scope, "./");
 assert.equal(manifest.id, "./");
 assert.equal(manifest.display, "standalone");
 assert.equal(manifest.lang, "th");
+// PNG signature/dimensions alone are insufficient: reject truncated or mutated chunks.
+function assertValidPng(png, label) {
+  let pos = 8;
+  let hasData = false;
+  let ended = false;
+  while (pos + 12 <= png.length) {
+    const length = png.readUInt32BE(pos);
+    assert(pos + 12 + length <= png.length, label + ": truncated PNG chunk");
+    const type = png.toString("ascii", pos + 4, pos + 8);
+    const dataEnd = pos + 8 + length;
+    let crc = 0xffffffff;
+    for (let i = pos + 4; i < dataEnd; i++) {
+      crc ^= png[i];
+      for (let b = 0; b < 8; b++) crc = (crc >>> 1) ^ ((crc & 1) ? 0xedb88320 : 0);
+    }
+    const expected = (crc ^ 0xffffffff) >>> 0;
+    assert.equal(png.readUInt32BE(dataEnd), expected, label + ": CRC mismatch " + type);
+    pos = dataEnd + 4;
+    if (type === "IDAT") hasData = true;
+    if (type === "IEND") { ended = true; break; }
+  }
+  assert(hasData && ended && pos === png.length, label + ": missing IEND or trailing bytes");
+}
+
 for (const size of [180, 192, 512]) {
   const file = resolve(root, "icons/pwa-" + size + ".png");
   assert(existsSync(file), "Missing icon " + size);
@@ -19,6 +43,7 @@ for (const size of [180, 192, 512]) {
   assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
   assert.equal(png.readUInt32BE(16), size, "PNG width mismatch");
   assert.equal(png.readUInt32BE(20), size, "PNG height mismatch");
+  assertValidPng(png, "icon " + size);
 }
 for (const size of [192, 512]) {
   assert(manifest.icons.some((i) => i.sizes === size + "x" + size));
