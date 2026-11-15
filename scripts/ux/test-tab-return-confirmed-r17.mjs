@@ -1,6 +1,11 @@
 // R17: navigation round-trip, explicit scroll restoration, confirmed 12/13 Nov schedule.
 import assert from "node:assert/strict";
 import vm from "node:vm";
+// The original scenario is pre-competition; do not couple it to CI run date.
+const TestDate = class extends Date {
+  constructor(...args) { super(...(args.length ? args : ["2026-11-10T02:00:00Z"])); }
+  static now() { return new Date("2026-11-10T02:00:00Z").getTime(); }
+};
 import {readFileSync} from "node:fs";
 const read=path=>readFileSync(new URL("../../"+path,import.meta.url),"utf8");
 const latest=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
@@ -67,7 +72,7 @@ function harness(url,view,source=latest){
   const window={events:{},addEventListener(type,fn){this.events[type]=fn;},scrollTo(){}};
   const frameCallbacks=[];
   const ctx=vm.createContext({
-    console,URL,URLSearchParams,location,history,window,
+    console,Date:TestDate,URL,URLSearchParams,location,history,window,
     requestAnimationFrame:fn=>{frameCallbacks.push(fn);},
     localStorage:{getItem:key=>filters.get(key)||"",setItem:(key,val)=>filters.set(key,val)},
     document:{body:{dataset:{view}},documentElement:{style:{setProperty(){}}},
