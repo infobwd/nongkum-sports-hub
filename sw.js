@@ -1,12 +1,12 @@
 /* R31 — Installable app shell. Do not cache schedules, results, PDFs or personal data. */
 "use strict";
 const CACHE_PREFIX = "nongkum-sports-pwa-";
-const CACHE_NAME = CACHE_PREFIX + "r31-v1";
+const CACHE_NAME = CACHE_PREFIX + "r31-v2";
 const ROOT = new URL(self.registration.scope);
 const OFFLINE_URL = new URL("offline.html", ROOT).href;
 const ICON_URLS = [
   new URL("icons/pwa-192.png", ROOT).href,
-  new URL("icons/pwa-512.png", ROOT).href
+  new URL("icons/pwa-512.png?v=r31-v2", ROOT).href
 ];
 const PRE_CACHE = [OFFLINE_URL, ...ICON_URLS];
 
