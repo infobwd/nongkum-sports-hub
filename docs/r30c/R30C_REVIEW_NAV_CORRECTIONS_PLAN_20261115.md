@@ -23,3 +23,17 @@
 - ตรวจจำนวนหน้า/สารบัญ/Bookmarks/Explicit GoTo, คลิกจุดสังเกต→หน้าเป้าหมาย, ลิงก์กลับสารบัญ, QR decode→เว็บไซต์.
 - ตรวจข้อความที่ผู้ใช้สั่งในผังและตาราง; ไม่มีร่องรอยคำ/คู่เดิมที่ทำให้ผู้อ่านเข้าใจผิด; เนื้อหาหน้ารายการอื่นไม่เปลี่ยน.
 - แยกสถานะ QA ด้วยโปรแกรม, พิมพ์จริง, มือถือ, ผู้จัดรับรอง และเผยแพร่; ห้ามระบุว่าเสร็จสมบูรณ์โดยไม่มีตรวจรับ.
+
+
+## ผลดำเนินงาน R30-C / หลักฐาน ณ 15 พฤศจิกายน 2569
+
+**สถานะ: DEVELOPED + AUTOMATED QA PASS + DRIVE UPLOADED, ยังเป็น DRAFT / NOT MERGED / NOT PUBLISHED / NOT ACCEPTED**
+
+- [PDF R30-C ตรวจร่าง 94 หน้า](https://drive.google.com/file/d/17dnhGdpwJLhL4BeK38KHRqDauoYCLCLv/view) · SHA-256 `d3c404ce92a5d8c697a2f117085b6eafd4571f316880d1754cc61653a9b0b477`
+- [ZIP ต้นฉบับ/QA](https://drive.google.com/file/d/1YnXdNpuuSWruSX4TZFhOJdEDXhT6IV2B/view) · [รายงาน QA ใน Drive](https://drive.google.com/file/d/1VR3QpHduv308shcXBrgMMoKI7itKfOMP/view)
+- Source + QA: `scripts/r30c/build_r30c_base.py`, `scripts/r30c/finalize_r30c.py`, `scripts/r30c/qa_r30c.py`, `scripts/r30c/layout.css`, `docs/r30c/review-index.html`, `docs/r30c/QA_REPORT.md`, `docs/r30c/README.md`.
+- ฉบับจริงที่อัปโหลด **คง 94 หน้า**; หน้า 5 ตัดบล็อกอ้างข้อความ V3 หน้า 17 ที่ซ้ำแล้ว; หน้า 23 มีเฉพาะตะกร้อชายคู่ 22/23/28; หน้า 26 หญิงคู่ 24/25/29; หน้า 62 คู่ 24 เวลา 14:30 เป็นหญิง; หน้า 31 เปตองชาย 10 ปีคู่ 2 รางขาม-ทุ่งมะสังฯ คู่ 10 ชนะคู่3-คู่4; หน้า64 ตารางตรงกัน; หน้า94 รวมจุดสังเกต 12 รายการ.
+- หน้า 3 สารบัญมีสัญลักษณ์กีฬาและ QR; QR ที่อ่านจากภาพ render ของ PDF **decode** เป็น `https://infobwd.github.io/nongkum-sports-hub/` ตรง URL ใน README แต่ **ยังตรวจการเปิดเว็บไซต์จริงจากภายนอกไม่ได้**.
+- QA: 94/94 หน้า render 150 DPI, 7 หน้าสำคัญ render 200 DPI, 24 bookmarks, 133 hyperlinks, 129 internal GoTo, index links 12 + back TOC 1; ตรวจลิงก์ไม่ทับกัน, ไม่ข้าม page, body 88 หน้าไม่เปลี่ยนเทียบ candidate, QA status PASS **เฉพาะเครื่อง**.
+- เก็บ R30-B และต้นฉบับเต็ม 155 หน้าใน Drive ไม่เขียนทับ; R28 PR #137 / R29 PR #138 ยังเป็น draft เช่นเดียวกับ PR #139.
+- รายงานผลผ่านโปรแกรม **ไม่ใช่การตรวจรับของผู้จัด**; ยังต้องเทียบ Google Sheets/JSON และคำสั่งยืนยัน, ตรวจสาย/หมายเลขคู่, ทดสอบพิมพ์ A4 และ Safari/Chrome/LINE, ตรวจสิทธิ์แชร์ Drive ก่อน Merge/เผยแพร่.
