@@ -1,0 +1,32 @@
+name: R32 Meeting Supabase approved results bridge
+on:
+  pull_request:
+    paths:
+      - 'js/results-source-r32.js'
+      - 'js/results.js'
+      - 'js/standings.js'
+      - 'results.html'
+      - 'standings.html'
+      - 'scripts/ux/test-results-source-r32.mjs'
+      - 'supabase/migrations/20261115_r32_nongkum_results_inside_meeting.sql'
+      - '.github/workflows/r32-supabase-results.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'js/results-source-r32.js'
+      - 'js/results.js'
+      - 'js/standings.js'
+      - 'results.html'
+      - 'standings.html'
+      - 'scripts/ux/test-results-source-r32.mjs'
+      - '.github/workflows/r32-supabase-results.yml'
+jobs:
+  r32_read_only_results:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test approved-only Meeting Supabase result reader
+        run: node scripts/ux/test-results-source-r32.mjs

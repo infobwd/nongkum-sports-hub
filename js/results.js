@@ -176,13 +176,18 @@
     els.refresh.disabled=true;
     els.refreshStatus.textContent=refresh&&state.data?"กำลังตรวจผลรับรองล่าสุด…":"กำลังอ่านผลการแข่งขัน…";
     try{
-      const response=await fetch("./data/public-results.json?refresh="+Date.now(),{cache:"no-store"});
-      if(!response.ok)throw Error("ไฟล์ผลการแข่งขันยังไม่พร้อม");
-      const payload=await response.json();
+      const source=globalThis.NongkumResultSource
+        ?await globalThis.NongkumResultSource.load():null;
+      let payload=source?.data;
+      if(!payload){
+        const response=await fetch("./data/public-results.json?refresh="+Date.now(),{cache:"no-store"});
+        if(!response.ok)throw Error("ไฟล์ผลการแข่งขันยังไม่พร้อม");
+        payload=await response.json();
+      }
       loaded(payload);
       setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
-        " · ไฟล์เผยแพร่บนเว็บ";
+        (source?.source==="live"?" · ผลที่รับรองจากระบบล่าสุด":" · สำเนาผลที่รับรอง · ตรวจข้อมูลล่าสุดไม่ได้");
       return true;
     }catch(e){
       els.refreshStatus.textContent=state.data?"รีเฟรชไม่สำเร็จ · ยังคงผลล่าสุดที่โหลดไว้":"โหลดผลรับรองไม่สำเร็จ · ลองใหม่อีกครั้ง";
@@ -201,10 +206,10 @@
   if(els.retry)els.retry.addEventListener("click",()=>loadResults(false));
   if(els.directRetry)els.directRetry.addEventListener("click",()=>loadResults(false));
   loadResults(false);
-  // Recheck the published JSON every 5 minutes while this page is visible.
+  // Recheck the approved-only source every minute while visible (no background polling).
   if(typeof setInterval==="function"){
     setInterval(function(){
       if(document.visibilityState==="visible"&&!els.refresh.disabled)loadResults(true);
-    },300000);
+    },60000);
   }
 })();
