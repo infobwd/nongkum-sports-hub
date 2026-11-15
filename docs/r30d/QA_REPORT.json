@@ -1,0 +1,23 @@
+{
+  "version": "R30-D",
+  "status": "PASS",
+  "pages": 94,
+  "rendered_pages_150dpi": 94,
+  "changed_pages": [
+    64
+  ],
+  "pair2": "รางขาม – ทุ่งมะสังฯ",
+  "pair10": "ผู้ชนะคู่ที่ 3 – ผู้ชนะคู่ที่ 4 (รอบรอง)",
+  "style": {
+    "font_pt": 9.7,
+    "font_color": "#122b44",
+    "row_bg": "#f6f8f6",
+    "venue": "สนาม 2"
+  },
+  "bookmarks": 24,
+  "links": 133,
+  "old_links": 133,
+  "pdf_sha256": "8865917c567255a6f5d58c624523ccaa31ec83bd50789a69ae5e557532839a3a",
+  "issues": [],
+  "limitations": "Programmatic checks only; printing, LINE/iPhone and organizer approval remain pending."
+}
