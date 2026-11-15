@@ -20,3 +20,15 @@
 - reconcile ข้อขัดแย้งเลขคู่เปตอง Sheets/PDF และการแก้ไข R27/R28/R29 ตามผู้จัดรับรอง.
 - ตรวจพิมพ์ A4 จริง, เปิดด้วย Safari/Chrome/LINE และการแชร์ Drive ต่อบุคคลภายนอก.
 - ไม่ Merge PR #139 หรือสลับสูจิบัตรหน้า Pages โดยไม่มีอนุญาตชัดเจนและหลักฐานตรวจรับ.
+
+
+## ผลดำเนินงานจริง — 15 พฤศจิกายน 2569
+
+**SOURCE CHECKED → PLAN RECORDED → PDF BUILT → AUTOMATED QA PASS → DRIVE UPLOADED → SAME DRAFT PR #139. NOT MERGED / NOT PUBLISHED / NOT APPROVED.**
+
+- [PDF R30-E ฉบับสมบูรณ์ 132 หน้า (ตรวจร่าง)](https://drive.google.com/file/d/1pxf1-Z08PjVbKg8zmuV1CSnutkjnWdh8/view); 4,225,357 bytes; SHA-256 `2d19f0dd99338fbb7a3cbb00535ffff54f8743ba1fa80b9560933b059eb56b4a`.
+- [ZIP source + QA](https://drive.google.com/file/d/1aIVQGdxd-L1Ztr1h6vENJDQLQABOIXZS/view), [QA report JSON](https://drive.google.com/file/d/16LbuMZMGt-ShC48D4hlZZYJarl8GhnYf/view), [source map](https://drive.google.com/file/d/1Hux2STHCDpK8wbSLk8Zr34-zGFYhaUCE/view), เก็บใน [โฟลเดอร์ R30](https://drive.google.com/drive/folders/1jD1nLCwLeW1j6JQCE6finHxG7GC8b2gl).
+- โค้ดสร้างซ้ำ `scripts/r30e/build_r30e.py` และ `scripts/r30e/qa_r30e.py` พร้อม `docs/r30e/{README.md,QA_REPORT.md,QA_REPORT.json,source_map.json}`.
+- QA: A4 132/132 หน้า; body text 131/131 หน้าเทียบต้นฉบับได้เท่ากัน; 50 bookmark; 176 links; QR ในภาพถอดกลับเป็น URL ถูกต้อง; หน้าเปตองที่ซ่อมจาก R30-D ย้ายมาอยู่หน้า 80 และสนาม 2 ยังคงอยู่.
+- ตรวจด้วยโปรแกรมเท่านั้น: ยังไม่ตรวจพิมพ์จริง มือถือจริง/LINE, สิทธิ์ผู้ใช้ภายนอก, คำสั่งแต่งตั้งกรรมการฉบับลงนาม หรือข้อมูลที่ขัดกันจาก R27/R28/Sheets.
+- ไม่มีการแก้ main, GitHub Pages, public-results.json, Google Sheets, และไม่ได้ Merge PR #139.
