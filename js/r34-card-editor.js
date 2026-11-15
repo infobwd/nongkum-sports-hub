@@ -215,7 +215,7 @@
       }
       const result=state.approved.get(id);
       const btn=card.querySelector(".r34-edit-button");
-      if(result && btn)btn.textContent="✎ แก้ไขผล";
+      if(result && btn && btn.textContent!=="✎ แก้ไขผล")btn.textContent="✎ แก้ไขผล";
       if(card.hasAttribute("data-fixture-card")){
         let label=card.querySelector(".r34-approved-label");
         if(result && !label){
@@ -226,7 +226,8 @@
         if(label && result){
           const winner=result.winner_school_id?" · ผู้ชนะ: "+school(result.winner_school_id):
             result.result_type==="score"?" · มีคะแนนรับรองแล้ว":"";
-          label.textContent="แข่งแล้ว · ผลรับรองแล้ว"+winner;
+          const approvedText="แข่งแล้ว · ผลรับรองแล้ว"+winner;
+          if(label.textContent!==approvedText)label.textContent=approvedText;
         }else if(label)label.remove();
       }
     });
