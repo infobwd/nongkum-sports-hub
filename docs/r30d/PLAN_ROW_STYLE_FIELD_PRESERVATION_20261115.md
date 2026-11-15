@@ -17,3 +17,16 @@
 ## ลิงก์กรรมการ
 - สูจิบัตรเต็ม 155 หน้า [รายชื่อกรรมการหน้า 19–40](https://drive.google.com/file/d/16v6cgEk8NyjVqo7TX_Sxd3QvT2NF7aAS/view) และคำสั่งร่างหน้า 8–18.
 - [ต้นฉบับ Google Docs](https://docs.google.com/document/d/1KdyvwFHfuWAGOvdMu9F_N1ZuCDk_MjuqGWwxb41vcWc/edit).
+
+
+## หลักฐานผลดำเนินงาน R30-D — 15 พ.ย. 2569
+
+**สถานะ: แผนบันทึกก่อนแก้ → พัฒนา PDF แล้ว → ตรวจอัตโนมัติผ่าน → อัปโหลด Drive แล้ว → PR ยัง Draft → ยังไม่เผยแพร่และไม่ตรวจรับ**
+
+- [PDF R30-D ฉบับตรวจร่าง 94 หน้า](https://drive.google.com/file/d/12v17jaDL1t9SyakT39beUd0ES8b1Gv7b/view) ขนาดประมาณ 4 MB, SHA-256 `8865917c567255a6f5d58c624523ccaa31ec83bd50789a69ae5e557532839a3a`.
+- [ชุดต้นฉบับและ QA ZIP](https://drive.google.com/file/d/12Guzi-H2eu295DJagZNwd-9tacZHPwZe/view), [QA Report Drive](https://drive.google.com/file/d/1YdCq9w-szYrGNticqXGJl0BePCPJRKCE/view).
+- ซอร์ส: `scripts/r30d/repair_row.py`, `scripts/r30d/verify_row.py`, `docs/r30d/README.md`, `docs/r30d/QA_REPORT.md`, `docs/r30d/QA_REPORT.json`.
+- **PASS:** หน้า 64 คู่ 2/10 กลับเป็นฟอนต์ Noto Sans Thai Bold 9.7pt สี #122b44 พื้น #f6f8f6 ข้อความสนาม 2 คืนจาก R30-B เป็นเวกเตอร์ทั้งคู่ ตรวจซ้ำว่าไม่มีข้อความต้นฉบับเก่าซ่อนอยู่ใน PDF text layer.
+- **PASS:** เรนเดอร์ 94 หน้า ที่ 150 DPI, เปรียบเทียบพิกเซลทุกจุดที่เปลี่ยนหน้า 64 อยู่ในกรอบที่อนุญาต, หน้าอีก 93 หน้าไม่มีข้อความเปลี่ยน, Bookmarks 24 และ links 133 คงเดิม; automatic checks ไม่มีรายการ fail.
+- **NOT VERIFIED:** เครื่องพิมพ์จริง, Safari/Chrome/LINE, สิทธิ์เปิด Drive ภายนอก และการตรวจรับจากผู้จัด. ไม่แก้ PR #137/#138 หรือข้อมูลผลจริง.
+- **ก่อนการเผยแพร่ครั้งต่อไป:** ต้องบังคับเรียก `scripts/r30d/verify_row.py` ตรวจเซลล์สนามและสีพื้นหลังทุกครั้งที่แก้ไฟล์ PDF แยกจาก master; ระยะยาวให้จัด HTML ทั้งตารางใหม่จากข้อมูลที่รับรองแล้วแทนการวางข้อความทับ.
