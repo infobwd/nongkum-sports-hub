@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ไอคอนมิตรภาพเกมส์ 2569">
+  <rect width="512" height="512" rx="112" fill="#183762"/>
+  <rect x="44" y="44" width="424" height="424" rx="82" fill="none" stroke="#D8AF58" stroke-width="12"/>
+  <g fill="none" stroke="#F4D88F" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M190 162h132v76c0 50-30 83-66 83s-66-33-66-83z"/>
+    <path d="M190 183h-40v25c0 33 18 50 53 50M322 183h40v25c0 33-18 50-53 50"/>
+    <path d="M256 325v35M212 369h88"/>
+  </g>
+  <circle cx="256" cy="223" r="34" fill="#D8AF58"/>
+  <path d="M237 218l13-14 20 3 10 18-12 18-21 1-11-13z" fill="none" stroke="#183762" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M170 407h172" stroke="#D8AF58" stroke-width="8" stroke-linecap="round"/>
+</svg>

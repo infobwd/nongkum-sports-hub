@@ -1,0 +1,33 @@
+{
+  "id": "./",
+  "name": "มิตรภาพเกมส์ 2569 — กลุ่มโรงเรียนหนองกุ่ม",
+  "short_name": "มิตรภาพเกมส์",
+  "description": "ตารางแข่งขัน ผลที่รับรอง และเอกสารมิตรภาพเกมส์ 2569",
+  "lang": "th",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fc",
+  "theme_color": "#183762",
+  "icons": [
+    {
+      "src": "./icons/pwa-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/pwa-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/pwa-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}
