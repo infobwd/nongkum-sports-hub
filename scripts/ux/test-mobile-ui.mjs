@@ -3,6 +3,11 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
+// The original scenario is pre-competition; do not couple it to CI run date.
+const TestDate = class extends Date {
+  constructor(...args) { super(...(args.length ? args : ["2026-11-10T02:00:00Z"])); }
+  static now() { return new Date("2026-11-10T02:00:00Z").getTime(); }
+};
 
 const page=readFileSync(new URL("../../index.html",import.meta.url),"utf8");
 const shared=readFileSync(new URL("../../js/shared.js",import.meta.url),"utf8");
@@ -55,7 +60,7 @@ async function mount(url,source=data){
   const history={latest:null,replaceState(_a,_b,href){this.latest=href;}};
   const localStore=new Map();
   const ctx=vm.createContext({
-    console,URL,URLSearchParams,location,history,
+    console,Date:TestDate,URL,URLSearchParams,location,history,
     document:{getElementById(id){if(!els[id])throw Error("Missing "+id);return els[id];},createElement(tag){return mockElement(tag);}},
     localStorage:{getItem:k=>localStore.get(k)||null,setItem:(k,v)=>localStore.set(k,v)},
     fetch:async()=>({ok:true,json:async()=>source})
