@@ -1,0 +1,32 @@
+@page {
+ size: A4 portrait;
+ margin: 17mm 15mm 18mm 15mm;
+ @top-left { content: 'NONGKUM SPORTS / มิตรภาพเกมส์ 2569'; color:#173e60; font-family:'Noto Sans Thai',sans-serif; font-weight:700; font-size:8pt; }
+ @top-right { content: 'สูจิบัตร · DRAFT / ฉบับตรวจร่าง'; color:#a37c27; font-family:'Noto Sans Thai',sans-serif; font-size:8pt; }
+ @bottom-left { content: 'โรงเรียนบ้านหนองกระทุ่ม · กรุณาตรวจสอบข้อมูลก่อนใช้งาน'; font-size:7.4pt; color:#687c8e; }
+ @bottom-right { content: counter(page) ' / ' counter(pages); font-weight:700; font-size:8pt; color:#173e60; }
+}
+@page cover { size:A4 portrait; margin:0; @top-left{content:none} @top-right{content:none} @bottom-left{content:none} @bottom-right{content:none} }
+:root { --navy:#092c4b; --blue:#105580; --sky:#dcebf4; --gold:#c99c3c; --muted:#5a7286; --ink:#153952; --stroke:#d9e4eb; }
+* {box-sizing:border-box} body {margin:0;color:var(--ink);font-family:'Noto Sans Thai',sans-serif;font-size:9.1pt;line-height:1.55} a {color:#075f99;text-decoration:none} p {margin:.1cm 0 .25cm} h1,h2,h3 {margin:0;line-height:1.25;break-after:avoid} h1{font-size:22pt;color:var(--navy);font-weight:800}h2{font-size:17pt;color:var(--navy);font-weight:800}h3{font-size:11pt;color:#145679;font-weight:700}
+.cover {page:cover; height:297mm;width:210mm;position:relative;overflow:hidden;background:linear-gradient(145deg,#062844 0%,#07557e 58%,#156b95 100%);color:#fff;padding:24mm 19mm;break-after:page}
+.cover .stripe{position:absolute;transform:rotate(-26deg);height:26mm;width:250mm;top:42mm;left:-30mm;background:linear-gradient(100deg,rgba(255,255,255,.02),rgba(104,196,229,.3),rgba(255,255,255,.04));border-top:2px solid rgba(246,201,107,.8);border-bottom:2px solid rgba(250,204,107,.36)}
+.cover .ribbon{position:absolute;bottom:35mm;left:-20mm;width:260mm;height:44mm;transform:rotate(-10deg);background:linear-gradient(0deg,rgba(6,35,65,.12),rgba(46,163,204,.8) 45%,rgba(255,255,255,.08));border-bottom:4px solid #eac06b}
+.cover .orb{position:absolute;right:-28mm;top:95mm;border-radius:50%;height:115mm;width:115mm;border:1.7mm solid rgba(230,182,79,.4);box-shadow:0 0 0 10mm rgba(255,255,255,.04),0 0 0 21mm rgba(255,255,255,.03)}
+.cover .eyebrow{position:relative;font-size:9pt;letter-spacing:1.7px;color:#d4eaf5;font-weight:700;border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:5mm}
+.cover .headline{position:relative;margin-top:57mm;font-size:32pt;font-weight:800;line-height:1.25;color:#fff}.cover .headline span{display:block;font-size:19pt;color:#f8cb74;margin-top:3mm}
+.cover .sub{position:relative;font-size:14pt;line-height:1.6;margin-top:8mm;max-width:150mm;color:#e6f5fa;font-family:'Noto Sans Thai',sans-serif}
+.cover .rule{height:1.5mm;background:linear-gradient(90deg,#ffcc64,transparent);width:35mm;margin-top:12mm}
+.cover .cover-details{position:absolute;bottom:15mm;left:19mm;width:172mm;display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.35);padding-top:5mm;font-size:9pt}.cover .draft{border:1px solid #f7c560;color:#ffda8b;font-size:9pt;font-weight:800;letter-spacing:1px;padding:2mm 4mm}
+.page-intro{margin:2mm 0 6mm}.kicker{font-size:8pt;font-weight:700;letter-spacing:1.1px;color:#a77620;margin-bottom:2mm}.page-intro p{font-family:'Noto Sans Thai',sans-serif;font-size:9.1pt;color:var(--muted);margin-top:3mm}
+.hero-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin:6mm 0}.metric{padding:5mm 4mm;border:1px solid var(--stroke);background:#edf5f9;border-radius:2mm}.metric b{font-size:20pt;font-weight:800;color:#09638e;display:block;line-height:1.15}.metric span{font-size:8pt;color:#587088}
+.section-panel{padding:4mm 5mm;border:1px solid var(--stroke);border-left:2mm solid var(--gold);margin:5mm 0;break-inside:avoid;background:#fff}.section-panel strong{color:#0d4971}.section-panel p{font-size:8.7pt;margin:1mm 0 0}
+.toc {break-before:page}.toc-list{margin:5mm 0 0;padding:0;list-style:none}.toc-list li{border-bottom:1px solid var(--stroke);padding:2.9mm 2mm}.toc-list a{display:block;font-size:10pt;color:#1b4764;font-weight:650}.toc-list a::after{content:target-counter(attr(href),page);float:right;color:#9c762f;font-weight:800}.toc .subnote{margin-top:8mm;background:#edf5f9;padding:4mm 5mm;font-size:8.6pt}
+.sport{break-before:page}.sport-lead{display:flex;justify-content:space-between;align-items:center;margin:3mm 0 5mm;padding:3mm 0;border-bottom:1mm solid var(--gold)}.sport-lead .count{background:#e9f4f9;border-radius:2mm;font-weight:700;color:#0e587f;padding:2mm 4mm;font-size:9pt}.sport-footnote{margin:3mm 0 6mm;color:#6e8190;font-size:8pt}
+table{border-collapse:collapse;width:100%;font-size:8.15pt;table-layout:fixed;margin:2mm 0 4mm}thead{display:table-header-group}tr{break-inside:avoid}th{background:#e7f1f7;color:#144b70;text-align:left;border-bottom:1px solid #b5d0df;font-size:8pt;font-weight:700;padding:2.5mm 1.5mm}td{border-bottom:.3px solid #dce7ec;padding:2.1mm 1.5mm;vertical-align:top;overflow-wrap:anywhere}tr:nth-child(even) td{background:#f6f9fb}.col-no{width:8%}.col-time{width:12%}.col-class{width:19%}.col-match{width:42%}.col-venue{width:19%}.section-day{font-size:9pt;color:#175474;font-weight:800;margin:5mm 0 1.5mm;border-left:2.5mm solid var(--gold);padding-left:3mm;break-after:avoid}.page-sep{break-before:page}
+.athlete-list{display:grid;grid-template-columns:1fr 1fr;gap:3mm}.athlete-card{border:1px solid var(--stroke);border-radius:2mm;padding:3mm;break-inside:avoid}.athlete-card h3{font-size:9.2pt;line-height:1.4}.athlete-card .lanes{font-size:7.8pt;color:#597384;margin-top:2mm}.athlete-card .source-id{font-family:'Noto Sans Thai';color:#96691c;font-size:8pt}
+.note-box{background:#fff7e6;border-left:2mm solid var(--gold);padding:3.2mm 4mm;margin:3mm 0;font-size:8.7pt;break-inside:avoid}.foot-link{display:block;text-align:right;margin-top:5mm;color:#11628b;font-size:8pt;font-weight:700}
+.sources{break-before:page}.source-item{border-bottom:1px solid var(--stroke);padding:4mm 0;break-inside:avoid}.source-item small{color:#657d91;display:block}.small{font-size:8pt;color:#597185}.r28-notice{background:#eaf3f8;border:1px solid #b7d3e0;border-left:2mm solid var(--gold);padding:3mm 4mm;margin:3mm 0}.badge-draft{font-size:7pt;border:1px solid #cbab6d;padding:.5mm 2mm;color:#92650d;font-weight:700}
+
+.kicker{font-family:'Waree','Noto Sans Thai',sans-serif}
+.cover .draft{font-family:'Waree','Noto Sans Thai',sans-serif}
