@@ -86,5 +86,8 @@ assert(ddl.includes("security invoker"));
 assert(ddl.includes("enable row level security"));
 assert(ddl.includes("grant execute on function public.search_nongkum_schedule"));
 assert(!ddl.includes("service_role_key"));
+const idx=read("supabase/migrations/20261116_r33_foreign_key_indexes.sql");
+assert(idx.includes("nongkum_fixture_team_a_fk_idx")&&idx.includes("nongkum_fixture_team_b_fk_idx"));
+assert(idx.includes("nongkum_fixture_sport_fk_idx"));
 assert.equal(JSON.parse(read("data/public-results.json")).metadata.approved_results_count,0);
 console.log("R33 PASS — 236 source-consistent draft fixtures, 45 confirmed date/time, 89 draft links, no result changes, RLS and source-drift gate");
