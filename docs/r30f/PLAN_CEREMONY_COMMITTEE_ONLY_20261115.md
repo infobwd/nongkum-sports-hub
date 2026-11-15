@@ -22,3 +22,16 @@
 
 ## ประเด็นรอตรวจรับ
 ชื่อ/ตำแหน่งกรรมการและคำสั่งลงนาม, เลขข้อประกาศซ้ำ, เฉดสีโรงเรียน, พิมพ์ A4 จริง, มือถือ Safari/Chrome/LINE และสิทธิ์แชร์ไฟล์ภายนอก.
+
+
+## หลักฐานผลดำเนินการ R30-F — 15 พฤศจิกายน 2569
+
+**สถานะ: PLAN RECORDED → GENERATED → PROGRAMMATIC QA PASS → DRIVE UPLOADED → PR #139 UPDATED; NOT MERGED / NOT PUBLISHED / NOT ACCEPTED.**
+
+- [PDF R30-F สูจิบัตรเฉพาะพิธีการและกรรมการ 44 หน้า (DRAFT)](https://drive.google.com/file/d/16TN0HogTdT-0PWqcRnB3hZPc1djVJKvw/view); 3,490,723 bytes; SHA-256 `e5bd56a11e8aad6ef2b2c1e83e4f6a0fba82e189d9efd2c64608ccc7d0d0c9af`.
+- [ZIP source / HTML / QA / preview](https://drive.google.com/file/d/1oSPZaRVV7kHjm7aley7AdI84kgo6xvWL/view), [QA รายงานใน GitHub](QA_REPORT.md), [JSON QA](QA_REPORT.json), [source map](source_map.json), [README](README.md).
+- อัปโหลดไว้ใน [โฟลเดอร์ R30 เดิม](https://drive.google.com/drive/folders/1jD1nLCwLeW1j6JQCE6finHxG7GC8b2gl) โดยไม่เขียนทับ R30-E/R30-D.
+- **PASS:** 44/44 หน้า A4 และ render; 41/41 หน้าเนื้อหาที่คงเท่าต้นฉบับ R30-E; ตัดจริง 88 หน้า; 9 รายการสารบัญ, 31 bookmarks, 56 links (ไม่ลิงก์ไปหน้าเดิมที่ตัด); QR หน้า 2/3/44 ถอดรหัสเว็บไซต์ตรง.
+- หน้า 2, 3 และ 44 สร้างใหม่เฉพาะข้อความที่ต้องปรับ scope / สารบัญ / ลิงก์; หน้า 4–21 และ 22–43 รักษา text/vector จาก R30-E โดยตรง.
+- **ยังต้องทำก่อนตรวจรับ:** ลงนามประกาศและรายชื่อกรรมการ, ตรวจเลขข้อ/สังกัด/สี, พิมพ์ A4, ทดสอบ Safari/Chrome/LINE, สิทธิ์เปิด Drive ภายนอก. ข้อมูลการแข่งขันในเว็บไซต์และชุด PDF เก่ายังอยู่ครบ.
+- ไม่เปลี่ยน GitHub main, Pages, Sheets, JSON ผล/อันดับหรือไฟล์ PDF ที่เว็บไซต์ใช้; ไม่ Merge PR #139 โดยอัตโนมัติ.
