@@ -97,7 +97,7 @@ let installJob;
 handlers.install({ waitUntil: (task) => { installJob = task; } });
 await installJob;
 assert.deepEqual([...saved.keys()].sort(), [
-  scope + "offline.html", scope + "icons/pwa-192.png", scope + "icons/pwa-512.png"
+  scope + "offline.html", scope + "icons/pwa-192.png", scope + "icons/pwa-512.png?v=r31-v2"
 ].sort(), "Only offline page and public icons may be cached");
 let activation;
 handlers.activate({ waitUntil: (task) => { activation = task; } });
