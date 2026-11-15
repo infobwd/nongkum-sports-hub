@@ -260,6 +260,13 @@
       if(m.team_a_id!==state.school&&m.team_b_id!==state.school&&!hasLane&&!isFinalist)return false;
     }
     if(!q)return true;
+    const finalistNameMatches=(m.finalist_school_ids||[]).some(function(id){
+      const school=getSchool(id);
+      return school&&[school.name,school.short].some(function(name){
+        return name.toLocaleLowerCase("th").includes(q);
+      });
+    });
+    if(finalistNameMatches)return true;
     const sport=getSport(m.sport_id),a=m.team_a_id?getSchool(m.team_a_id):null,b=m.team_b_id?getSchool(m.team_b_id):null;
     return [sport&&sport.name,m.division,m.name,m.source_match_no,
       m.source_team_a_label,m.source_team_b_label,a&&a.name,a&&a.short,b&&b.name,b&&b.short,
