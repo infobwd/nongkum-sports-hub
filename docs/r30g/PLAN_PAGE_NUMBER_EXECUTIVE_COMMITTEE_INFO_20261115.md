@@ -18,3 +18,15 @@
 ## QA/หลักฐาน
 - 44 หน้า A4, render 44/44 หน้าอย่างน้อย 120 DPI, ตรวจภาพขยายหน้า 2/3/9/22/37/43/44, ไม่มี footer ซ้อน, text layer ไม่เหลือ page number เดิม, geometry/content 40 หน้าที่นำเข้าตรงกับ R30-F เมื่อตัด footer strip, สารบัญ/links/bookmarks/QR ยังทำงาน, no overflow Thai text, SHA256.
 - ส่ง PDF/QA/source map/source code ลงโฟลเดอร์ R30 Drive เดิมและ PR #139 เดิม. ฉบับตรวจร่างจนกว่าจะผ่านคำสั่งลงนาม/รายชื่อ/พิมพ์จริง/Safari/Chrome/LINE/สิทธิ์ภายนอก.
+
+
+## ผลดำเนินการและหลักฐาน — 15 พฤศจิกายน 2569
+
+**PLAN RECORDED → DEVELOPED → PROGRAMMATIC QA PASS → DRIVE UPLOADED → SAME DRAFT PR #139; NOT MERGED / NOT PUBLISHED / NOT ACCEPTED**
+
+- [R30-G สูจิบัตร 44 หน้า PDF ฉบับตรวจร่าง](https://drive.google.com/file/d/1MaArawkr3d3mnO7pVi3MIfGyc_WMIlad/view) (3,517,956 ไบต์, SHA-256 `28682a7f5be05f717d019f9892a32b904c21a932f7791b1d2984a2f83316ad10`).
+- [R30-G source + QA ZIP](https://drive.google.com/file/d/1eoC8-mkIGcuE1mKErUuywz6UaUMS0I2h/view) เก็บใน [โฟลเดอร์ R30 เดิม](https://drive.google.com/drive/folders/1jD1nLCwLeW1j6JQCE6finHxG7GC8b2gl) โดยไม่ทับ R30-F/R30-E.
+- [โปรแกรมสร้าง](../../scripts/r30g/build_r30g.py), [โปรแกรมตรวจ](../../scripts/r30g/qa_r30g.py), [QA report](QA_REPORT.md), [JSON QA](QA_REPORT.json), [source map](source_map.json), [README](README.md).
+- PDF R30-G คง 44 หน้า, ลบเลขหน้า/รหัสรุ่น footer ต้นฉบับจาก text layer 38 หน้า โดยรักษาเนื้อหาเหนือ footer ตรงกัน 38/38 หน้า (ทั้งข้อความและภาพ); ปรับหน้า 2 ให้แสดง 8 โรงเรียน, 20 คณะ/ฝ่าย, 250 รายการมอบหมาย, 236 รายการแข่งขัน (รายการมอบหมายไม่ใช่ 250 คนไม่ซ้ำกัน). แสดงฝ่ายที่มีรายการมากสุด 48, 31, 21, 18 และข้อสังเกตที่ยังรอตรวจรับ.
+- **QA PASS:** A4 44/44 หน้า, render 120dpi ทั้ง 44 หน้า, spot-check 200dpi หน้า 2,3,9,22,37,43,44, 56 links, 31 bookmarks, QR 3 หน้าถอดตรง URL เว็บไซต์, หน้า 2–44 มีเลขปัจจุบันชุดเดียว `NN / 44`, ไม่มี broken links.
+- **คงสถานะค้าง:** คำสั่งลงนาม, รายชื่อ/สังกัด/เลขข้อซ้ำ, พิมพ์จริง, Safari/Chrome/LINE, สิทธิ์แชร์ Drive ภายนอก. ไม่แก้ main, เว็บไซต์, Sheets, JSON, ผลแข่งขันหรืออันดับ. รอผู้จัดอนุญาต Merge หลังตรวจรับ.
