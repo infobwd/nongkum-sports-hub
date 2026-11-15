@@ -170,6 +170,11 @@
       "' aria-label='"+safe(shareName+" "+(sport?sport.name:"")+" "+(m.division||"")+
         " หมายเลข "+m.source_match_no)+"' title='"+shareName+"'>"+SHARE_ICON+"</button></div></div>";
     const content=track?trackContent(m):matchContent(m);
+    const finalistNotice=!track&&m.sport_id==="petanque"&&m.round==="ชิงชนะเลิศ"&&
+      m.finalist_report?.status==="organizer_reported"&&
+      Array.isArray(m.finalist_school_ids)&&m.finalist_school_ids.includes("wangdong")
+      ? "<p class='schedule-confirmation-note'>✓ ผู้จัดแจ้ง: โรงเรียนบ้านวังด้งเข้ารอบชิงชนะเลิศ · ยังไม่ใช่ผลรอบชิง</p>"
+      : "";
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
     const confirmedSchedule=m.planning_date_confirmation==="confirmed"&&m.planning_venue_confirmation==="confirmed"&&m.planning_time_confirmation==="confirmed";
@@ -196,7 +201,7 @@
         "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M6 3h8l5 5v13H6z'/><path d='M14 3v6h5M9 13h7M9 17h7'/></svg>"+
         "ดูสูจิบัตร หน้า "+page+"</a>" : "";
     return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
-      "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+
+      "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+finalistNotice+
       "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+
       "<div class='fixture-source-actions'>"+sourceButton+"</div>"+detail+"</article>";
   }
@@ -251,7 +256,8 @@
     if(state.level&&classifyLevel(m)!==state.level)return false;
     if(state.school){
       const hasLane=m.kind==="track_event"&&(m.lanes||[]).some(function(l){return l.school_id===state.school&&!l.vacant;});
-      if(m.team_a_id!==state.school&&m.team_b_id!==state.school&&!hasLane)return false;
+      const isFinalist=Array.isArray(m.finalist_school_ids)&&m.finalist_school_ids.includes(state.school);
+      if(m.team_a_id!==state.school&&m.team_b_id!==state.school&&!hasLane&&!isFinalist)return false;
     }
     if(!q)return true;
     const sport=getSport(m.sport_id),a=m.team_a_id?getSchool(m.team_a_id):null,b=m.team_b_id?getSchool(m.team_b_id):null;
