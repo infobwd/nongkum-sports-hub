@@ -18,13 +18,13 @@
       "purpose": "any"
     },
     {
-      "src": "./icons/pwa-512.png",
+      "src": "./icons/pwa-512.png?v=r31-v2",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "./icons/pwa-512.png",
+      "src": "./icons/pwa-512.png?v=r31-v2",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
