@@ -28,3 +28,4 @@ jobs:
           node-version: "22"
       - run: node --check js/r34-card-editor.js
       - run: node scripts/r34/test-card-editor.mjs
+      - run: node scripts/r34/test-card-observer-idempotence.mjs
