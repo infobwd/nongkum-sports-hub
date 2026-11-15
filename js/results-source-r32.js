@@ -21,22 +21,35 @@
       base.results.every(r=>r&&r.status==="approved")&&
       base.metadata.approved_results_count===base.results.length;
   }
+  function safeCards(cards) {
+    return cards===undefined || (cards && typeof cards==="object" && !Array.isArray(cards) &&
+      Object.keys(cards).every(k=>["red","yellow"].includes(k)&&nonnegativeScore(cards[k])));
+  }
+  function safeOptionalText(r) {
+    return ["division","round","name","result_date"].every(k=>
+      r[k]===undefined || (typeof r[k]==="string" && r[k].length<=200));
+  }
   function validPublicResult(r, schools, sports) {
     if(!r||typeof r!=="object"||Array.isArray(r)||
       !Object.keys(r).every(k=>allowedFields.has(k))||
-      r.status!=="approved"||!goodID(r.id)||
+      r.status!=="approved"||!goodID(r.id)||!safeOptionalText(r)||
+      !safeCards(r.team_a_cards)||!safeCards(r.team_b_cards)||
       !goodID(r.sport_id)||!sports.has(r.sport_id)||!allowedKinds.has(r.result_type))return false;
     if(r.result_type==="ranking") {
       return goodID(r.event_id)&&Array.isArray(r.rankings)&&r.rankings.length>0&&
-        r.rankings.every(row=>row&&positiveRank(row.rank)&&schools.has(row.school_id)&&
-          Object.keys(row).every(k=>["rank","school_id","mark","unit"].includes(k)));
+        r.rankings.every(row=>row&&typeof row==="object"&&!Array.isArray(row)&&
+          positiveRank(row.rank)&&schools.has(row.school_id)&&
+          Object.keys(row).every(k=>["rank","school_id","mark","unit"].includes(k))&&
+          (row.mark===undefined||["string","number"].includes(typeof row.mark))&&
+          (row.unit===undefined||typeof row.unit==="string"));
     }
     if(!goodID(r.fixture_id)||!schools.has(r.team_a_id)||
       !schools.has(r.team_b_id)||r.team_a_id===r.team_b_id)return false;
     if(r.winner_school_id&&![r.team_a_id,r.team_b_id].includes(r.winner_school_id))return false;
     if(r.result_type==="score")return nonnegativeScore(r.score_a)&&nonnegativeScore(r.score_b);
     if(r.result_type==="sets")return Array.isArray(r.sets)&&r.sets.length>0&&
-      r.sets.every(s=>s&&nonnegativeScore(s.a)&&nonnegativeScore(s.b));
+      r.sets.every(s=>s&&typeof s==="object"&&!Array.isArray(s)&&
+        nonnegativeScore(s.a)&&nonnegativeScore(s.b)&&Object.keys(s).every(k=>["a","b"].includes(k)));
     return r.result_type==="win_loss"&&[r.team_a_id,r.team_b_id].includes(r.winner_school_id);
   }
   async function liveRows() {
