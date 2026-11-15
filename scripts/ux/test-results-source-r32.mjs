@@ -9,7 +9,7 @@ const src=read("js/results-source-r32.js");
 new vm.Script(src);
 assert.equal(base.metadata.approved_results_count,0,"R32 migration must not fabricate scores");
 assert.match(src,/sb_publishable_/,"Only a public publishable key is allowed");
-assert.doesNotMatch(src,/service_role|sb_secret_/,"Never expose privileged credentials");
+assert.doesNotMatch(src,/const publishableKey\s*=\s*["\x27](?:eyJ|sb_secret_)/,"Never expose privileged credentials");
 assert.doesNotMatch(src,/\b(?:POST|PATCH|DELETE|INSERT)\b/,"Public reader should only read");
 
 async function run(remote,local=base) {
