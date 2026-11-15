@@ -10,7 +10,7 @@ const rulesData=JSON.parse(read("data/standings-rules.json"));
 assert.equal(publicData.results.length,0,"no real results may be added during R15-A");
 assert.equal(publicData.metadata.approved_only,true);
 assert.equal(publicData.metadata.publication_status,"empty");
-assert.match(standHtml,/results-source-r32\\.js/);
+assert.ok(standHtml.includes("results-source-r32.js"));
 assert.match(standHtml,/data-view="standings"/);
 assert.match(standHtml,/href="\.\/css\/standings\.css\?v=r15bc1"/);
 assert.match(standHtml,/src="\.\/js\/standings\.js\?v=r32-1"/);
