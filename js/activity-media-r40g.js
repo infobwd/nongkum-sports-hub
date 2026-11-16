@@ -72,7 +72,13 @@ async function load(){
        caption:image.caption,src:"./"+image.src,event_date:null,
        published_at:"",id:event_id});
    }
-   return fallback;
+   const normalized=new Map();
+   for(const [event_id,image] of fallback){
+     normalized.set(event_id,{...image,src:"./"+image.src,
+       photos:[{event_id,sport_id:image.sport_id,division:image.division,
+         caption:image.caption,src:"./"+image.src,event_date:null,published_at:""}]});
+   }
+   return normalized;
  }
 }
 async function list(){await load();return latest.slice();}
