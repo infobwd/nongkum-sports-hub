@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "approved_only": true,
+  "rows": [
+    {
+      "result_id": "result-petanque-p17-12-ปี-ชาย-020",
+      "revision": 1,
+      "published_at": "2026-11-15T17:22:47.051095+00:00",
+      "result": {
+        "id": "result-petanque-p17-12-ปี-ชาย-020",
+        "round": "รอบแรก",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "sport_id": "petanque",
+        "team_a_id": "wangdong",
+        "team_b_id": "saohong",
+        "fixture_id": "petanque-p17-12-ปี-ชาย-020",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      }
+    }
+  ]
+}
