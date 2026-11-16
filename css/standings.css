@@ -40,3 +40,36 @@
 
 /* Respect the hidden state when no group matches the current filter. */
 .standings-roster[hidden]{display:none!important}
+
+/* R39-B: avoid page-wide overflow. The full numeric table remains available on demand. */
+body[data-view="standings"] #standingsListing,
+body[data-view="standings"] #standingsRoster,
+body[data-view="standings"] .standings-group,
+body[data-view="standings"] .standings-desktop-table,
+body[data-view="standings"] .standings-mobile-details{
+  min-width:0;max-width:100%;box-sizing:border-box;
+}
+.standings-group{overflow:hidden}
+.standings-group .standings-table-scroll{min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+.standings-group .standings-table{min-width:550px}
+.standings-group .standings-my-school{background:#eaf3ff}
+.standings-mobile-rows,.standings-mobile-details{display:none}
+@media(max-width:690px){
+  body[data-view="standings"] .standings-roster{padding:0;margin:12px 0;gap:12px}
+  body[data-view="standings"] .standings-group{padding:14px 12px}
+  body[data-view="standings"] .standings-desktop-table{display:none}
+  body[data-view="standings"] .standings-mobile-rows{display:grid;gap:0}
+  .standings-mobile-team{min-width:0;padding:11px 10px;display:grid;grid-template-columns:minmax(0,1fr);gap:3px;border-top:1px solid #e6edf4;border-radius:7px}
+  .standings-mobile-team:first-child{border-top:0}
+  .standings-mobile-name{display:flex;align-items:baseline;min-width:0;gap:6px;flex-wrap:wrap;color:#193d63;overflow-wrap:anywhere}
+  .standings-mobile-name strong{font-size:.94rem}
+  .standings-mobile-stats{font-size:.78rem;color:#576f86;font-variant-numeric:tabular-nums}
+  .standings-mobile-position,.standings-mine-label{font-size:.72rem;font-weight:700;color:#24517e}
+  .standings-mine-label{background:#d6e9ff;border-radius:12px;padding:1px 7px}
+  body[data-view="standings"] .standings-mobile-details{display:block;border-top:1px solid #dde8f3;margin-top:6px;padding-top:6px}
+  .standings-mobile-details summary{cursor:pointer;list-style-position:inside;color:#20578b;font-size:.84rem;font-weight:750;padding:10px 4px;min-height:44px;box-sizing:border-box}
+  .standings-mobile-details summary:focus-visible{outline:3px solid #d4a82d}
+  .standings-mobile-details[open] .standings-table-scroll{margin:6px 0 2px}
+  .standings-mobile-details .standings-table{min-width:550px}
+}
+@media print{.standings-mobile-rows,.standings-mobile-details{display:none!important}.standings-desktop-table{display:block!important}}

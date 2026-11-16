@@ -7,6 +7,7 @@
 import {readFileSync,writeFileSync,mkdirSync,existsSync} from "node:fs";
 import {dirname} from "node:path";
 import assert from "node:assert/strict";
+import vm from "node:vm";
 
 const root=new URL("../../",import.meta.url);
 const pathTo=url=>new URL(url,root);
@@ -26,11 +27,30 @@ const number=n=>Number.isInteger(n)&&n>=0;
 const goodId=x=>typeof x==="string"&&x.length>0&&x.length<=160;
 const validText=r=>["division","round","name","result_date"].every(k=>r[k]===undefined||typeof r[k]==="string"&&r[k].length<=200);
 const keys=o=>o&&typeof o==="object"&&!Array.isArray(o)?Object.keys(o):[];
+// Match the same corrected 236-fixture competition source as the R38 public cards.
+// This catalog supplies display titles only. It is never a source of winners, scores or approval.
+function loadAthleticsCatalog(){
+ const sandbox={globalThis:{}};
+ new vm.Script(read("js/program-corrections.js")).runInNewContext(sandbox);
+ const source=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
+ const corrected=sandbox.globalThis.NongkumProgramCorrections.apply(source);
+ assert.ok(corrected?.fixtures?.length===236&&corrected?.metadata?.all_data_approved===false,
+   "R39 athletics catalog source changed — organizer review required");
+ const result=new Map();
+ for(const f of corrected.fixtures){
+   if(f.kind!=="track_event"||f.sport_id!=="athletics"||!f.name?.trim())continue;
+   assert.ok(!result.has(f.id),"Duplicate athletics event ID");
+   result.set(f.id,{sport_id:f.sport_id,division:f.division,name:f.name.trim()});
+ }
+ return result;
+}
+const athleticsCatalog=loadAthleticsCatalog();
 function validateResult(r,schools,sports){
  if(!r||typeof r!=="object"||Array.isArray(r)||!keys(r).every(k=>allowed.has(k))||
     !goodId(r.id)||r.status!=="approved"||!sports.has(r.sport_id)||
     !["score","sets","win_loss","ranking"].includes(r.result_type)||!validText(r))return false;
- if(r.result_type==="ranking")return goodId(r.event_id)&&Array.isArray(r.rankings)&&r.rankings.length>0&&
+ if(r.result_type==="ranking")return !r.winner_school_id&&!r.team_a_id&&!r.team_b_id&&r.score_a==null&&r.score_b==null&&r.sets==null&&
+   goodId(r.event_id)&&Array.isArray(r.rankings)&&r.rankings.length>0&&
    r.rankings.every(x=>number(x.rank)&&x.rank>0&&schools.has(x.school_id)&&
       keys(x).every(k=>["rank","school_id","mark","unit"].includes(k)) &&
       (x.mark===undefined||["number","string"].includes(typeof x.mark)) &&
@@ -83,9 +103,16 @@ function display(row,base){
  let line="",title="",summary="";
  if(result.result_type==="ranking"){
    const first=result.rankings.find(x=>x.rank===1);
-   line=result.name||"ผลกรีฑา";
+   const candidate=athleticsCatalog.get(result.event_id);
+   const sourceName=candidate?.sport_id===result.sport_id&&candidate.division===result.division?
+     candidate.name:"";
+   // If the public result has no event name, use only the exact event + division source.
+   // A mismatch blocks a preview PR; never make up athletics discipline/distance.
+   line=result.name||sourceName;
+   if(!line)throw Error("R39 athletics event title unmatched: "+result.event_id+
+     " / "+result.division+" — manual source review required");
    summary=first?"อันดับ 1 "+get(first.school_id):"ผลจัดอันดับ";
-   title=sport+" "+division+" · "+line+" · "+summary;
+   title=(line.includes(division)?sport:sport+" "+division)+" · "+line+" · "+summary;
  }else{
    line=a+" พบ "+b;
    summary=winner?winner+" ชนะ":(result.result_type==="score"&&result.score_a===result.score_b?"ผลเสมอ":"ผลการแข่งขัน");
@@ -93,7 +120,8 @@ function display(row,base){
  }
  const detail=(result.result_type==="score"?" · คะแนน "+result.score_a+"–"+result.score_b:
    result.result_type==="sets"?" · ผลรายเซ็ต "+result.sets.map(s=>s.a+"–"+s.b).join(", "):"");
- return {sport,division,a,b,winner,line,summary,title,description:"ผลการแข่งขัน · "+sport+" "+division+" · "+line+" · "+summary+detail,
+ return {sport,sport_id:result.sport_id,division,a,b,winner,line,summary,title,
+         description:"ผลการแข่งขัน · "+(line.includes(division)?sport:sport+" "+division)+" · "+line+" · "+summary+detail,
          result_id:row.result_id,revision:row.revision,published_at:row.published_at};
 }
 function htmlPage(item,revisionCode,archived=false) {

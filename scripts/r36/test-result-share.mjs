@@ -22,8 +22,8 @@ for(const code of [shared,r32,results])new vm.Script(code);
 assert.match(r32,/share_revision:row\.revision/);
 assert.match(results,/result-share-index\.json/);
 assert.match(results,/shareApprovedResult/);
-assert.match(page,/results\.js\?v=r(?:36|38)-1/);
-assert.match(page,/shared\.js\?v=r36-2/);
+assert.match(page,/results\.js\?v=r(?:36|38|39)-1/);
+assert.match(page,/shared\.js\?v=r(?:36-2|39-1)/);
 assert.match(page,/results-source-r32\.js\?v=r36-1/);
 assert.ok(!Object.keys(source).includes("draft"));
 const temp=mkdtempSync(join(tmpdir(),"r36-share-test-"));
@@ -43,12 +43,27 @@ try {
  const mismatched=structuredClone(source);
  mismatched.rows[0].result.id="result-not-matching-db";
  assert.notEqual(validate(mismatched).status,0,"must reject mismatching result IDs");
+ // Sorted R32 results can start with athletics rankings. Test fixture-level security with a real pair row.
+ const pairIndex=source.rows.findIndex(x=>["win_loss","score","sets"].includes(x.result?.result_type));
+ assert.ok(pairIndex>=0,"approved fixture-level result required for pair security checks");
  const fakeWinner=structuredClone(source);
- fakeWinner.rows[0].result.winner_school_id="not-in-fixture";
- assert.notEqual(validate(fakeWinner).status,0,"must reject invented winners");
+ fakeWinner.rows[pairIndex].result.winner_school_id="not-in-fixture";
+ assert.notEqual(validate(fakeWinner).status,0,"must reject invented pair winners");
  const fakeScore=structuredClone(source);
- fakeScore.rows[0].result.score_a=13;
- assert.notEqual(validate(fakeScore).status,0,"must reject fields outside approved result contract");
+ const pair=fakeScore.rows[pairIndex].result;
+ if(pair.result_type==="win_loss")pair.score_a=13;
+ else if(pair.result_type==="score")pair.score_a=-1;
+ else pair.sets=[{a:-1,b:0}];
+ assert.notEqual(validate(fakeScore).status,0,"must reject invalid or invented scores");
+ const rankingIndex=source.rows.findIndex(x=>x.result?.result_type==="ranking");
+ if(rankingIndex>=0){
+   const invalidRanking=structuredClone(source);
+   invalidRanking.rows[rankingIndex].result.winner_school_id="wangdong";
+   assert.notEqual(validate(invalidRanking).status,0,"ranking must not have invented pair winner");
+   const fakeRankingSchool=structuredClone(source);
+   fakeRankingSchool.rows[rankingIndex].result.rankings[0].school_id="not-a-school";
+   assert.notEqual(validate(fakeRankingSchool).status,0,"ranking must reject unknown school");
+ }
 }finally{rmSync(temp,{recursive:true,force:true});}
 let nativePayload=null,copied="";
 const context=vm.createContext({location:new URL(root+"results.html"),URL,URLSearchParams,Intl,Date,Math,

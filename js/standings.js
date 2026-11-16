@@ -77,7 +77,7 @@
     ui.roster.innerHTML=groups.map(g=>{
       const snapshot=state.snapshot?.standings?.find(x=>x.sport_id===g.sport_id&&x.division===g.division);
       const official=snapshot?.ranking_status==="final";
-      const rows=(official?snapshot.rows:g.rows).filter(x=>!state.school||x.team_id===state.school)
+      const rows=(official?snapshot.rows:g.rows)
         .slice().sort((a,b)=>official
           ?((a.position??999)-(b.position??999))
           :String(schoolById.get(a.team_id)?.short||a.team_id)
@@ -86,7 +86,7 @@
         (g.base_division||g.division)+(g.label==="พบกันหมด"?" · พบกันหมด":" · "+g.label);
       const cols=g.has_goals?"<th>ได้</th><th>เสีย</th><th>ผลต่าง</th>":"";
       const pointHeader=g.has_points||official?"<th>คะแนน</th>":"<th>คะแนน*</th>";
-      const body=rows.map(row=>"<tr><td>"+(official&&row.position!=null?safe(row.position):"—")+
+      const body=rows.map(row=>"<tr"+(state.school===row.team_id?" class='standings-my-school'":"")+"><td>"+(official&&row.position!=null?safe(row.position):"—")+
         "</td><th scope='row'>"+safe(schoolById.get(row.team_id)?.short||row.team_id)+"</th>"+
         ["played","won","drawn","lost"].map(k=>"<td>"+safe(row[k]??0)+"</td>").join("")+
         (g.has_goals?["goals_for","goals_against","goal_difference"].map(k=>"<td>"+safe(row[k]??0)+"</td>").join(""):"")+
@@ -95,13 +95,30 @@
         (g.approved_count
           ?"สถิติจากผลรับรอง "+g.approved_count+"/"+g.match_count+" คู่ · ยังไม่จัดอันดับตัดสิน"
           :"ยังไม่มีผลการแข่งขันในกลุ่มนี้ · แสดงรายชื่อและค่าเริ่มต้น 0 · ยังไม่จัดอันดับ");
-      return "<section class='standings-group' aria-label='"+safe(heading)+"'>"+
-        "<h3>"+safe(heading)+"</h3><p class='standings-provenance'>"+safe(note)+
-        (!g.has_points&&!official?" · *คะแนนรอรับรองหลักเกณฑ์":"")+
-        "</p><div class='standings-table-scroll'><table class='standings-table'><thead><tr>"+
+      // On phones, show all opponents in the selected group, not just the chosen school.
+      const compact=rows.map(row=>{
+        const mine=state.school===row.team_id;
+        const name=safe(schoolById.get(row.team_id)?.short||row.team_id);
+        const order=official&&row.position!=null?"<span class='standings-mobile-position'>อันดับ "+safe(row.position)+"</span>":"";
+        const points=(g.has_points||official)?" · คะแนน "+safe(row.points??0):"";
+        return "<div class='standings-mobile-team"+(mine?" standings-my-school":"")+"'>"+
+          "<div class='standings-mobile-name'>"+order+"<strong>"+name+"</strong>"+
+          (mine?"<span class='standings-mine-label'>โรงเรียนของฉัน</span>":"")+"</div>"+
+          "<span class='standings-mobile-stats'>แข่ง "+safe(row.played??0)+
+          " · ชนะ "+safe(row.won??0)+points+"</span></div>";
+      }).join("");
+      const table="<div class='standings-table-scroll' tabindex='0' role='region' aria-label='ตารางรายละเอียด "+safe(heading)+"'>"+
+        "<table class='standings-table'><thead><tr>"+
         "<th scope='col'>อันดับ</th><th scope='col'>ทีม</th><th scope='col'>แข่ง</th>"+
         "<th scope='col'>ชนะ</th><th scope='col'>เสมอ</th><th scope='col'>แพ้</th>"+
-        cols+pointHeader+"</tr></thead><tbody>"+body+"</tbody></table></div></section>";
+        cols+pointHeader+"</tr></thead><tbody>"+body+"</tbody></table></div>";
+      return "<section class='standings-group' aria-label='"+safe(heading)+"'>"+
+        "<h3>"+safe(heading)+"</h3><p class='standings-provenance'>"+safe(note)+
+        (!g.has_points&&!official?" · คะแนนรอรับรองหลักเกณฑ์":"")+"</p>"+
+        "<div class='standings-mobile-rows' aria-label='รายชื่อทีมในสาย'>"+compact+"</div>"+
+        "<div class='standings-desktop-table'>"+table+"</div>"+
+        "<details class='standings-mobile-details'><summary>ดูตารางละเอียด <span aria-hidden='true'>›</span></summary>"+
+        table+"</details></section>";
     }).join("");
     return groups.length;
   }
@@ -189,8 +206,12 @@
       ui.school.value=state.school;ui.level.value=state.level;
       setup();
     }
-    ui.published.textContent=data.metadata.published_at
-      ?"เผยแพร่ผลล่าสุด: "+data.metadata.published_at:"";
+    const publishedDate=data.metadata.published_at?new Date(data.metadata.published_at):null;
+    ui.published.textContent=publishedDate&&!Number.isNaN(publishedDate.getTime())
+      ?"เผยแพร่ผลล่าสุด: "+new Intl.DateTimeFormat("th-TH",{
+        timeZone:"Asia/Bangkok",day:"numeric",month:"short",year:"numeric",
+        hour:"2-digit",minute:"2-digit",hourCycle:"h23"
+      }).format(publishedDate)+" น.":"";
     sports();render();syncLinks();
   }
   function setLoading(active){
