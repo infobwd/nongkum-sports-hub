@@ -11,7 +11,7 @@ function groupOf(f){
  if(f.sport_id==="football"&&f.round==="พบกันหมด")
    return {key:"football|"+f.division,sport_id:"football",division:f.division,label:"พบกันหมด"};
  // In this source, the suffix is the source's *explicit* division label, not inferred bracket progression.
- const m=/^(.*?)\\s+([A-B])$/.exec(f.division);
+ const m=/^(.*?)\s+([A-B])$/.exec(f.division);
  if(!m||f.round!=="รอบแรก")return null;
  return {key:f.sport_id+"|"+f.division,sport_id:f.sport_id,
    division:f.division,label:"สาย "+m[2],base_division:m[1]};
