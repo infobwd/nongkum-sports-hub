@@ -87,13 +87,15 @@ async function review(action,item,controls){
      message="กำลังอนุญาตใช้ภาพภายใน…";
    }
  }else{
+   const retryRemoval=action==="revoke"&&item.publication_status==="revoked";
    const reason=controls.querySelector("[data-reason]")?.value.trim()||"";
-   if(reason.length<8){notice(errorText("reason_required"),true);return;}
-   if(!window.confirm(action==="revoke"?
-       "ยืนยันถอนภาพนี้ออกจากเว็บไซต์สาธารณะหรือไม่?":
+   if(!retryRemoval&&reason.length<8){notice(errorText("reason_required"),true);return;}
+   if(!window.confirm(retryRemoval?
+       "ตรวจการลบไฟล์ภาพจากเว็บไซต์ซ้ำอีกครั้งหรือไม่?":
+       action==="revoke"?"ยืนยันถอนภาพนี้ออกจากเว็บไซต์สาธารณะหรือไม่?":
        "ส่งภาพนี้กลับให้ผู้ส่งแก้ไขหรือไม่?"))return;
-   payload.reason=reason;
-   message=action==="revoke"?"กำลังนำภาพออกจากเว็บไซต์…":"กำลังส่งกลับแก้ไข…";
+   if(!retryRemoval)payload.reason=reason;
+   message=action==="revoke"?"กำลังตรวจการลบไฟล์ภาพจากเว็บไซต์…":"กำลังส่งกลับแก้ไข…";
  }
  busy=true;controls.querySelectorAll("button").forEach(b=>b.disabled=true);
  notice(message);
