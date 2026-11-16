@@ -24,7 +24,7 @@ assert.match(upload,/needsStatusCheck=true/);
 assert.match(upload,/ui\.submit\.disabled=!compressed\|\|needsStatusCheck/);
 assert.doesNotMatch(upload,/ui\.confirm\.checked/);
 assert.match(enhancer,/r\.items|data\.items/);
-assert.match(enhancer,/Authorization:"Bearer "\+token/);
+assert.match(enhancer,/"Authorization":"Bearer "\+token/);
 assert.match(enhancer,/nongkum:photo-status-checked/);
 assert.match(enhancer,/ui\.form\.hidden=true/);
 assert.match(enhancer,/ui\.success\.hidden=false/);
