@@ -48,7 +48,7 @@
     else if(kind==="ranking")body=ranking(r,schools);
     else return "";
     const candidate=catalog?.get(r.event_id||r.fixture_id);
-    const sourceName=candidate?.sport_id===r.sport_id?candidate.name:"";
+    const sourceName=candidate?.sport_id===r.sport_id&&candidate.division===r.division?candidate.name:"";
     const title=r.name||sourceName||(r.sport_id==="athletics"?"ยังไม่พบชื่อรายการกรีฑา":"");
     const category=r.sport_id==="athletics"
       ?(/ผลัด/.test(title)?"relay":"sprint")
