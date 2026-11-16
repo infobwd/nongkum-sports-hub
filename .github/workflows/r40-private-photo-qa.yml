@@ -43,6 +43,8 @@ jobs:
         run: node scripts/r40/test-r40g-publication.mjs
       - name: Verify R40-H upload receipt and reviewer privacy/UX contracts
         run: node scripts/r40/test-r40h-ux.mjs
+      - name: Verify R40-H receipt and reviewer scripts have valid JavaScript syntax
+        run: node --check js/upload-photos-r40h-ui.js && node --check js/upload-photos-r40.js && node --check js/review-photos-r40.js
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
