@@ -212,7 +212,7 @@ begin
      return jsonb_build_object('ok',false,'error','source_changed');
    end if;
    -- Serialize approvals for one fixture without locking unrelated events.
-   perform pg_advisory_xact_lock(hashtext(v_photo.fixture_id)::bigint,703460);
+   perform pg_advisory_xact_lock(703460,hashtext(v_photo.fixture_id));
    select image_path,revision into v_old,v_revision
       from public.nongkum_published_activity_photos
       where fixture_id=v_photo.fixture_id for update;
