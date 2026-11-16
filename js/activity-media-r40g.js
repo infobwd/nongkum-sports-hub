@@ -7,6 +7,7 @@ const endpoint="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-ac
 const prefix="https://zprxvpfkvforoxrboqiv.supabase.co/storage/v1/object/public/nongkum-activity-public/";
 const validPath=/^media\/[0-9a-f-]{36}\.(webp|jpg)$/;
 let latest=[];
+let lastSource="none";
 const validText=(x,max)=>typeof x==="string"&&x.length>0&&x.length<=max;
 function checked(row){
  if(!row||!validText(row.id,40)||!validText(row.event_id,160)||
@@ -62,10 +63,12 @@ function group(items){
 async function load(){
  try{
    latest=await fetchPublic();
+   lastSource="published";
    return group(latest);
  }catch(_){
    // R39's static, organizer-reviewed manifest remains as fail-safe fallback.
    const fallback=await previous.load();
+   lastSource="r39-fallback";
    latest=[];
    for(const [event_id,image] of fallback){
      latest.push({event_id,sport_id:image.sport_id,division:image.division,
@@ -83,6 +86,6 @@ async function load(){
 }
 async function list(){await load();return latest.slice();}
 root.NongkumActivityMedia=Object.freeze({
- load,list,verified:previous.verified,checked
+ load,list,source:()=>lastSource,verified:previous.verified,checked
 });
 })(globalThis);
