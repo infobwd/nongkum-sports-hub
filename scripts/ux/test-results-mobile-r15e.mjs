@@ -32,7 +32,7 @@ assert.match(jsResults,/data\/public-results\.json\?refresh=/);
 assert.match(jsStandings,/data\/public-results\.json\?refresh=/);
 assert.match(nav,/from=results#programListing/);
 assert.ok(!jsStandings.includes("draft-schedule.json"));
-const idsResults=["resultSchool","resultLevel","resultSports","resultsList","resultsCount",
+const idsResults=["resultSchool","resultLevel","resultSports","resultAllSports","resultActiveFilters","resultClearFilters","resultEmptyClear","resultFilterMore","resultMoreCount","resultCountSummary","noResultsTitle","noResultsDescription","resultsList","resultsCount",
  "noResults","publishedAt","resultsSubStandings","programLink","refreshResults",
  "resultsRefreshStatus","sharedResult","sharedResultCard","sharedResultStatus","resultsOverview",
  "showAllResults","resultsSkeleton","resultsListing","resultsLoadFailure","retryResults",
@@ -129,7 +129,7 @@ assert.equal(direct.els.sharedResult.hidden,false);
 assert.equal(direct.els.resultsOverview.hidden,true);
 assert.match(direct.els.sharedResultCard.innerHTML,/TEST-RESULT-UI-1/);
 const notFound=await mount("results",publicData,"?result=TEST-NEVER-PUBLISHED");
-assert.match(notFound.els.sharedResultCard.innerHTML,/ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง/);
+assert.match(notFound.els.sharedResultCard.innerHTML,/ยังตรวจผลรับรองล่าสุดไม่ได้/,"static backup cannot confirm missing live result");
 notFound.els.showAllResults.handlers.click();
 assert.equal(notFound.els.resultsOverview.hidden,false);
 // Revalidate refresh errors: preserve previous good payload in UI.
