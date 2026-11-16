@@ -27,7 +27,7 @@ assert.match(baseCss,/safe-area-inset-bottom/);
 assert.match(baseCss,/--mobile-nav-occupied/);
 assert.match(baseCss,/\.loading-skeleton\[hidden\]/);
 assert.match(standCss,/min-height:44px/);
-assert.match(jsResults,/shareItem\("results\.html","result"/);
+assert.match(jsResults,/shareApprovedResult\(item,state\.shareIndex/);
 assert.match(jsResults,/data\/public-results\.json\?refresh=/);
 assert.match(jsStandings,/data\/public-results\.json\?refresh=/);
 assert.match(nav,/from=results#programListing/);
@@ -75,7 +75,8 @@ async function mount(kind,payload,query="",fails=[],firstError=false){
     saveSchool(){},schoolInStore(){return "";},
     classifyLevel(){return "primary";},
     formatCheckedAt(){return "checked";},
-    shareItem:async (...a)=>{observed.share.push(a);return "copied";}
+    shareItem:async (...a)=>{observed.share.push(a);return "copied";},
+    shareApprovedResult:async (...a)=>{observed.share.push(a);return "copied";}
   };
   const ctx=vm.createContext({
     Date,URL,URLSearchParams,Intl,location,document:doc,
@@ -84,6 +85,7 @@ async function mount(kind,payload,query="",fails=[],firstError=false){
     setInterval(){},
     fetch:async (url,options)=>{
       observed.fetches.push({url,options});
+      if(String(url).includes("result-share-index.json"))return {ok:false,json:async()=>null};
       const n=calls.shift()||{ok:false};
       return {ok:n.ok,json:async()=>structuredClone(n.data)};
     },
