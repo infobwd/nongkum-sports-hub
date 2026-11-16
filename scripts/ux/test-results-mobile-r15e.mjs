@@ -125,7 +125,7 @@ testOnly.metadata.publication_status="published";
 const pending=await mount("standings",testOnly,"?sport=football");
 assert.equal(pending.els.standingsEmpty.hidden,true);
 assert.equal(pending.els.standingsPendingRules.hidden,false);
-assert.equal(pending.els.standingsCount.textContent,"1 ผลรับรอง");
+assert.equal(pending.els.standingsCount.textContent,"0 ตารางทีม · 1 ผลรับรอง");
 const direct=await mount("results",testOnly,"?result=TEST-RESULT-UI-1");
 assert.equal(direct.els.sharedResult.hidden,false);
 assert.equal(direct.els.resultsOverview.hidden,true);
