@@ -192,7 +192,7 @@ begin
   end if;
   if p_action='approve_commit' then
     update nongkum_sports.activity_photos set status='approved',
-       public_path=private_path,reviewed_at=now(),revision=revision+1
+       public_path=private_path,reviewed_at=now()
     where id=v_id and status='publishing' and reviewer_session_hash=v_hash
       and exists(select 1 from storage.objects
        where bucket_id='nongkum-activity-public' and name=private_path)
