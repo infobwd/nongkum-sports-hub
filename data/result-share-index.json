@@ -3,6 +3,116 @@
   "approved_only": true,
   "source": "Meeting Supabase published results — reviewed",
   "results": {
+    "result-athletics-p25-011-m": {
+      "revision": 1,
+      "slug": "r9b9ae485-v1-p2",
+      "published_at": "2026-11-16T05:19:58.463069+00:00"
+    },
+    "result-athletics-p26-014-f": {
+      "revision": 1,
+      "slug": "r969a905a-v1-p2",
+      "published_at": "2026-11-16T05:20:01.053333+00:00"
+    },
+    "result-athletics-p26-015-m": {
+      "revision": 1,
+      "slug": "r016abcc0-v1-p2",
+      "published_at": "2026-11-16T05:20:04.810935+00:00"
+    },
+    "result-athletics-p26-016-f": {
+      "revision": 1,
+      "slug": "raca57050-v1-p2",
+      "published_at": "2026-11-16T05:20:07.246255+00:00"
+    },
+    "result-athletics-p27-017-m": {
+      "revision": 1,
+      "slug": "rd132cce9-v1-p2",
+      "published_at": "2026-11-16T06:33:49.863049+00:00"
+    },
+    "result-athletics-p27-018-f": {
+      "revision": 1,
+      "slug": "rfaecc285-v1-p2",
+      "published_at": "2026-11-16T06:33:48.12019+00:00"
+    },
+    "result-athletics-p27-019-m": {
+      "revision": 1,
+      "slug": "r6c1c5d73-v1-p2",
+      "published_at": "2026-11-16T06:33:46.294087+00:00"
+    },
+    "result-athletics-p28-020-f": {
+      "revision": 1,
+      "slug": "r634459af-v1-p2",
+      "published_at": "2026-11-16T06:33:44.413904+00:00"
+    },
+    "result-athletics-p28-021-m": {
+      "revision": 1,
+      "slug": "rd9255361-v1-p2",
+      "published_at": "2026-11-16T06:32:08.187742+00:00"
+    },
+    "result-athletics-p28-022-f": {
+      "revision": 1,
+      "slug": "r2dea9fd1-v1-p2",
+      "published_at": "2026-11-16T06:32:05.98944+00:00"
+    },
+    "result-athletics-p29-023-m": {
+      "revision": 1,
+      "slug": "r2adcbcf0-v1-p2",
+      "published_at": "2026-11-16T06:32:03.750752+00:00"
+    },
+    "result-athletics-p29-024-f": {
+      "revision": 1,
+      "slug": "rf2b76044-v1-p2",
+      "published_at": "2026-11-16T06:31:58.808808+00:00"
+    },
+    "result-athletics-p29-025-m": {
+      "revision": 1,
+      "slug": "r81743d9e-v1-p2",
+      "published_at": "2026-11-16T06:45:08.75109+00:00"
+    },
+    "result-athletics-p30-026-f": {
+      "revision": 1,
+      "slug": "r3362210c-v1-p2",
+      "published_at": "2026-11-16T06:45:11.007504+00:00"
+    },
+    "result-athletics-p30-027-m": {
+      "revision": 1,
+      "slug": "rf17fe636-v1-p2",
+      "published_at": "2026-11-16T06:45:06.583174+00:00"
+    },
+    "result-athletics-p30-028-f": {
+      "revision": 1,
+      "slug": "r6a472e4a-v1-p2",
+      "published_at": "2026-11-16T06:45:04.229784+00:00"
+    },
+    "result-athletics-p31-029-m": {
+      "revision": 1,
+      "slug": "r5d3858cf-v1-p2",
+      "published_at": "2026-11-16T06:53:41.970301+00:00"
+    },
+    "result-athletics-p31-030-f": {
+      "revision": 1,
+      "slug": "r53d4c914-v1-p2",
+      "published_at": "2026-11-16T06:53:39.676118+00:00"
+    },
+    "result-athletics-p31-031-m": {
+      "revision": 1,
+      "slug": "re1f3d5ae-v1-p2",
+      "published_at": "2026-11-16T07:00:01.258228+00:00"
+    },
+    "result-athletics-p31-032-f": {
+      "revision": 1,
+      "slug": "r2e1981ce-v1-p2",
+      "published_at": "2026-11-16T06:59:58.235288+00:00"
+    },
+    "result-athletics-p31-033-m": {
+      "revision": 1,
+      "slug": "rb84c0fd4-v1-p2",
+      "published_at": "2026-11-16T06:59:55.875281+00:00"
+    },
+    "result-athletics-p32-034-f": {
+      "revision": 1,
+      "slug": "r59a6e53d-v1-p2",
+      "published_at": "2026-11-16T06:59:52.300822+00:00"
+    },
     "result-petanque-p17-12-ปี-ชาย-020": {
       "revision": 1,
       "slug": "r98fa981e-v1-p2",
