@@ -1,0 +1,110 @@
+name: R36 Approved-only LINE Preview
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/r36/**"
+      - "data/result-share-*.json"
+      - "data/r36-card-jobs.json"
+      - "js/shared.js"
+      - "js/results.js"
+      - "js/results-source-r32.js"
+      - "results.html"
+      - ".github/workflows/r36-line-preview.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/r36/**"
+      - ".github/workflows/r36-line-preview.yml"
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: r36-public-previews
+  cancel-in-progress: false
+
+jobs:
+  build-preview-for-pr:
+    name: Build and test reviewed previews in same-repo PR
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Thai fonts and Pillow
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-core
+          python -m pip install --disable-pip-version-check "Pillow==11.3.0"
+      - run: node scripts/r36/build-result-share-pages.mjs
+      - run: python scripts/r36/render_result_cards.py
+      - run: node scripts/r36/build-result-share-pages.mjs --check
+      - run: node scripts/r36/test-result-share.mjs
+      - name: Commit reviewed public-only previews to the feature branch
+        run: |
+          git config user.name "nongkum-sports-ci[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add r/ data/result-share-index.json data/r36-card-jobs.json
+          if ! git diff --cached --quiet; then
+            git commit -m "build(r36): add approved-only LINE previews and PNG image"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
+
+  stage-approved-updates:
+    name: Stage newly approved result revisions for organizer review
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Thai fonts and Pillow
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-core
+          python -m pip install --disable-pip-version-check "Pillow==11.3.0"
+      - name: Read ONLY published results (no DB writes)
+        run: node scripts/r36/build-result-share-pages.mjs --refresh
+      - run: node scripts/r36/build-result-share-pages.mjs
+      - run: python scripts/r36/render_result_cards.py
+      - run: node scripts/r36/build-result-share-pages.mjs --check
+      - run: node scripts/r36/test-result-share.mjs
+      - name: Open review PR if approved-only share files changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: |
+            r/
+            data/result-share-source.json
+            data/result-share-index.json
+            data/r36-card-jobs.json
+          branch: bot/r36-approved-line-revisions
+          delete-branch: true
+          base: main
+          title: "R36: อัปเดตภาพแชร์ LINE จากผลรับรองใหม่"
+          commit-message: "build(r36): refresh approved-only LINE preview revisions"
+          body: |
+            สร้างจาก public.nongkum_published_results ที่รับรองและเผยแพร่แล้วเท่านั้น
+            กรุณาตรวจชื่อทีม ผู้ชนะ ภาพจริง และผลกระทบก่อน Merge
+            ไม่มีการบันทึก/แก้ไขผลหรือฐานข้อมูลจาก workflow นี้
+            Related: #152
