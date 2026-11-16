@@ -154,6 +154,38 @@ function htmlPage(item,revisionCode,archived=false) {
   '<a href="'+esc(real)+'">ดูผลการแข่งขันล่าสุด</a><p><small>หน้าแสดงผลสดจะตรวจข้อมูลล่าสุดอีกครั้งก่อนแสดงผล</small></p></main>'+
   '<script>location.replace('+JSON.stringify(real)+')</script></body></html>\n';
 }
+// R41: a stable sport-level preview exists even before the per-result R36 PR
+// has been reviewed and merged. It never claims a score, winner or fixture.
+function neutralSportPage(sport){
+ assert.ok(/^[a-z][a-z0-9-]{0,39}$/.test(sport.id),"Unsafe sport path");
+ assert.ok(typeof sport.name==="string"&&sport.name.length>0&&sport.name.length<=100,"Bad sport name");
+ const url=site+"s/"+sport.id+"/";
+ const title="ผลการแข่งขัน"+sport.name+" | มิตรภาพเกมส์ 2569";
+ const description="เปิดดูผลการแข่งขัน"+sport.name+"ล่าสุด · รายละเอียดจะแสดงจากผลที่ผ่านการรับรองแล้ว";
+ const image=url+"card.png";
+ return '<!doctype html>\n<html lang="th"><head>\n'+
+  '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'+
+  '<meta name="theme-color" content="#183762"><meta name="robots" content="noindex,follow">\n'+
+  '<title>'+esc(title)+'</title><meta name="description" content="'+esc(description)+'">\n'+
+  '<meta property="og:locale" content="th_TH"><meta property="og:type" content="website">\n'+
+  '<meta property="og:site_name" content="มิตรภาพเกมส์ 2569">\n'+
+  '<meta property="og:title" content="'+esc(title)+'"><meta property="og:description" content="'+esc(description)+'">\n'+
+  '<meta property="og:url" content="'+esc(url)+'">\n'+
+  '<meta property="og:image" content="'+esc(image)+'"><meta property="og:image:secure_url" content="'+esc(image)+'">\n'+
+  '<meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">\n'+
+  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">\n'+
+  '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+esc(image)+'">\n'+
+  '<link rel="canonical" href="'+esc(url)+'">\n'+
+  '<style>body{margin:0;background:#eef3f9;color:#173459;font:18px system-ui,"Noto Sans Thai",sans-serif}main{max-width:620px;margin:12vh auto 3rem;padding:2rem;background:#fff;border-radius:20px;box-shadow:0 5px 24px #c8d5e6}h1{font-size:1.5rem}p{line-height:1.7}a{display:inline-block;background:#193f70;color:white;padding:14px 20px;border-radius:12px;text-decoration:none}</style>\n'+
+  '</head><body><main><small>มิตรภาพเกมส์ 2569</small><h1>'+esc(title)+'</h1>'+
+  '<p>ลิงก์นี้จะแสดงผลการแข่งขันที่รับรองแล้วล่าสุดเมื่อเปิดดูบนเว็บไซต์</p>'+
+  '<a id="openResult" href="../../results.html">ดูผลการแข่งขัน</a></main>\n'+
+  '<script>(function(){var ref=new URLSearchParams(location.search).get("ref");'+
+  'if(!/^f[0-9a-f]{8}$/.test(ref||""))return;'+
+  'var target=new URL("../../results.html",location.href);target.searchParams.set("ref",ref);'+
+  'document.getElementById("openResult").href=target.href;location.replace(target.href);})();</script>\n'+
+  '</body></html>\n';
+}
 // Test-only validate mode, with no generated writes or database access.
 const validateArg=process.argv.indexOf("--validate-input");
 if(validateArg!==-1){
@@ -189,6 +221,18 @@ if(refresh){
 }else{
  const data=JSON.parse(read(sourcePath));
  const base=validateSource(data);
+ // R41 sport-level share pages use only public sport names, never draft schedule or results.
+ for(const sport of JSON.parse(read("data/public-results.json")).sports){
+   ensure("s/"+sport.id+"/index.html",neutralSportPage(sport));
+   if(check){
+     const image=pathTo("s/"+sport.id+"/card.png");
+     assert.ok(existsSync(image),"Missing sport preview PNG: "+sport.id);
+     const png=readFileSync(image);
+     assert.equal(png.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
+     assert.equal(png.readUInt32BE(16),1200);
+     assert.equal(png.readUInt32BE(20),630);
+   }
+ }
  let previous={schema_version:1,approved_only:true,results:{}};
  if(existsSync(pathTo(indexPath))){try{previous=JSON.parse(read(indexPath));}catch(_){}}
  const current={},jobs=[],expected=new Set();
