@@ -62,3 +62,8 @@ body[data-view^="photo-"] .mode{color:#244a72;background:#fff}
 .photo-panel .photo-pickers input[type="file"]:focus-visible + .photo-picker{outline:3px solid #d5ad43;outline-offset:2px}
 .photo-panel .photo-pickers input[type="file"]:disabled + .photo-picker{opacity:.55;cursor:wait}
 @media(max-width:350px){.photo-pickers{grid-template-columns:1fr}}
+
+/* R40-E — optional on-device uploader name preference. */
+.photo-name-settings{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 0}
+.photo-name-settings .photo-consent{flex:1 1 190px;margin:0!important}
+.photo-name-settings button{flex:0 1 auto}

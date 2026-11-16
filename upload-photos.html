@@ -5,7 +5,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <title>ส่งภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
 <link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/activity-photos.css?v=r40-1">
+<link rel="stylesheet" href="./css/activity-photos.css?v=r40-3">
 </head><body data-view="photo-upload">
 <header class="top"><div class="shell">
   <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">เจ้าหน้าที่ส่งภาพ</span></div>
@@ -29,14 +29,17 @@
    <div class="photo-fields">
      <div><label for="photoSport">ชนิดกีฬา</label><select id="photoSport" required><option value="">เลือกกีฬา</option></select></div>
      <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>อ้างอิงรายการตามโปรแกรมแข่งขัน ข้อมูลบางรายการอาจอยู่ระหว่างตรวจแก้ไข</small></div>
-     <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล"></div>
+     <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล">
+       <div class="photo-name-settings"><label class="photo-consent" for="photoRememberUploader"><input id="photoRememberUploader" type="checkbox" checked> จำชื่อในเครื่องนี้ (เฉพาะเครื่องส่วนตัว)</label>
+         <button id="photoForgetUploader" type="button">ลบชื่อที่จำไว้</button></div>
+       <small>หลังส่งภาพสำเร็จ ระบบจะจำเฉพาะชื่อไว้ 30 วันในเบราว์เซอร์นี้ ไม่บันทึกรหัสผ่าน และแก้ชื่อก่อนส่งได้เสมอ</small></div>
      <div><label for="photoCaption">คำบรรยายภาพ</label><input id="photoCaption" name="caption" maxlength="120" minlength="3" required value="ภาพบรรยากาศการแข่งขัน"><small>ไม่ใส่ชื่อนักเรียนหรือข้อมูลส่วนตัว</small></div>
      <div><p class="photo-picker-heading">เพิ่มภาพจากโทรศัพท์</p>
        <div class="photo-pickers">
          <div><input id="photoCamera" class="photo-source-input" type="file" accept="image/*" capture="environment"><label for="photoCamera" class="photo-picker">ถ่ายภาพด้วยกล้อง</label></div>
          <div><input id="photoFile" class="photo-source-input" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif"><label for="photoFile" class="photo-picker">เลือกภาพจากเครื่อง</label></div>
        </div>
-       <small>ระบบจะย่อและแปลงเป็น WebP หรือ JPEG ไม่เกิน 350 KB และลบข้อมูลพิกัดจากไฟล์ต้นฉบับ ภาพ HEIC/HEIF ใช้ได้เฉพาะเครื่องที่เปิดไฟล์ได้</small></div>
+       <small>ระบบจะย่อเป็น WebP เป็นหลัก (เป้าหมายประมาณ 250 KB ไม่เกิน 350 KB) และลบข้อมูลพิกัดจากไฟล์ต้นฉบับ หากเครื่องไม่รองรับ WebP จะใช้ JPEG ภาพ HEIC/HEIF ใช้ได้เฉพาะเครื่องที่เปิดไฟล์ได้</small></div>
    </div>
    <figure id="photoPreview" class="photo-preview" hidden><img id="photoPreviewImg" alt="ตัวอย่างรูปที่เลือก"><figcaption id="photoPreviewInfo"></figcaption></figure>
    <label class="photo-consent"><input id="photoConfirm" type="checkbox" required> ข้าพเจ้าตรวจว่าภาพเกี่ยวข้องกับกิจกรรมนี้ และเข้าใจว่าภาพต้องผ่านผู้ตรวจอนุญาตก่อนเผยแพร่</label>
@@ -47,5 +50,5 @@
 <p id="photoStatus" class="photo-status" role="status" aria-live="polite"></p>
 </main><footer class="shell">มิตรภาพเกมส์ 2569 · รูปที่ส่งยังไม่ใช่รูปเผยแพร่</footer>
 <script src="./js/program-corrections.js?v=r20b1"></script>
-<script src="./js/upload-photos-r40.js?v=r40-1" defer></script>
+<script src="./js/upload-photos-r40.js?v=r40-3" defer></script>
 </body></html>

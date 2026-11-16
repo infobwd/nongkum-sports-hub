@@ -8,7 +8,8 @@ const $=id=>document.getElementById(id);
 const ui={login:$("photoUnlock"),workspace:$("photoWorkspace"),loginForm:$("photoLoginForm"),
  loginButton:$("photoLoginButton"),status:$("photoStatus"),session:$("photoSessionInfo"),
  logout:$("photoLogout"),form:$("photoUploadForm"),sport:$("photoSport"),
- fixture:$("photoFixture"),uploader:$("photoUploader"),caption:$("photoCaption"),
+ fixture:$("photoFixture"),uploader:$("photoUploader"),rememberUploader:$("photoRememberUploader"),
+ forgetUploader:$("photoForgetUploader"),caption:$("photoCaption"),
  file:$("photoFile"),camera:$("photoCamera"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
  previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit")};
 if(!ui.loginForm)return;
@@ -22,6 +23,39 @@ function sessionFromStorage(){
 }
 function saveSession(x){session=x;try{localStorage.setItem(SESSION_KEY,JSON.stringify(x));}catch(_){}}
 function clearSession(){session=null;try{localStorage.removeItem(SESSION_KEY);}catch(_){}}
+// R40-E: Only the uploader's name is remembered locally. Never store PIN, session or photos here.
+const UPLOADER_NAME_KEY="nongkum-r40-uploader-name-v1";
+const UPLOADER_OPT_OUT_KEY="nongkum-r40-uploader-name-optout-v1";
+const UPLOADER_NAME_TTL_MS=30*24*60*60*1000;
+function rememberedUploaderName(){
+ try{
+  const data=JSON.parse(localStorage.getItem(UPLOADER_NAME_KEY)||"null");
+  if(!data)return "";
+  const name=typeof data.name==="string"?data.name.trim():"";
+  const saved=data.saved_at;
+  if(name.length>=2&&name.length<=100&&typeof saved==="number"&&Number.isFinite(saved)&&
+     saved<=Date.now()+60000&&Date.now()-saved<UPLOADER_NAME_TTL_MS)return name;
+  localStorage.removeItem(UPLOADER_NAME_KEY);
+ }catch(_){}
+ return "";
+}
+function rememberUploaderName(name){
+ const cleaned=String(name||"").trim();
+ if(cleaned.length<2||cleaned.length>100)return;
+ try{localStorage.setItem(UPLOADER_NAME_KEY,JSON.stringify({name:cleaned,saved_at:Date.now()}));}catch(_){}
+}
+function clearRememberedUploaderName(){
+ try{localStorage.removeItem(UPLOADER_NAME_KEY);}catch(_){}
+}
+function isUploaderRememberEnabled(){
+ try{return localStorage.getItem(UPLOADER_OPT_OUT_KEY)!=="1";}catch(_){return false;}
+}
+function setUploaderRememberEnabled(enabled){
+ try{
+  if(enabled)localStorage.removeItem(UPLOADER_OPT_OUT_KEY);
+  else localStorage.setItem(UPLOADER_OPT_OUT_KEY,"1");
+ }catch(_){}
+}
 function showLogin(){ui.login.hidden=false;ui.workspace.hidden=true;}
 function showWorkspace(){
  ui.login.hidden=true;ui.workspace.hidden=false;
@@ -86,6 +120,7 @@ async function fileBitmap(file){
   image.src=url;
  });
 }
+const TARGET_IMAGE_BYTES=250000,MAX_IMAGE_BYTES=350000;
 const toBlob=(canvas,quality,type="image/webp")=>new Promise((resolve,reject)=>
  canvas.toBlob(x=>x?resolve(x):reject(Error("image")), type,quality));
 async function sanitizePhoto(file){
@@ -99,19 +134,29 @@ async function sanitizePhoto(file){
  const aspect=Math.min(1,1280/width,960/height);
  let w=Math.max(80,Math.floor(width*aspect)),h=Math.max(80,Math.floor(height*aspect));
  if(w<80||h<80)throw Error("invalid_image");
- let blob=null;
- for(let step=0;step<12;step++){
+ let blob=null,bestFallback=null;
+ // Prefer WebP at <=250 KB; keep at most 350 KB if a detail-heavy photo resists compression.
+ // Re-encoding through an opaque canvas strips the original file's metadata/location.
+ const qualities=[0.84,0.76,0.68,0.60,0.52];
+ for(let step=0;step<20;step++){
    canvas.width=w;canvas.height=h;
    ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);ctx.drawImage(bitmap,0,0,w,h);
-   const q=Math.max(0.54,0.82-(step%4)*0.08);
+   const q=qualities[step%qualities.length];
    const webp=await toBlob(canvas,q,"image/webp");
-   blob=webp.type==="image/webp"?webp:await toBlob(canvas,q,"image/jpeg");
-   if(!["image/webp","image/jpeg"].includes(blob.type))throw Error("image");
-   if(blob.size<=340000&&blob.size>=1000)break;
-   if(step%4===3){w=Math.max(80,Math.floor(w*0.82));h=Math.max(80,Math.floor(h*0.82));}
+   const candidate=webp.type==="image/webp"?webp:await toBlob(canvas,q,"image/jpeg");
+   if(!["image/webp","image/jpeg"].includes(candidate.type))throw Error("image");
+   if(candidate.size>=1000&&candidate.size<=MAX_IMAGE_BYTES){
+     // Keep an acceptable fallback without giving up too much sharpness if 250 KB is unattainable.
+     if(!bestFallback||candidate.size>bestFallback.size)bestFallback=candidate;
+   }
+   if(candidate.size>=1000&&candidate.size<=TARGET_IMAGE_BYTES){blob=candidate;break;}
+   if(step%qualities.length===qualities.length-1){
+     w=Math.max(80,Math.floor(w*0.82));h=Math.max(80,Math.floor(h*0.82));
+   }
  }
+ blob=blob||bestFallback;
  if(bitmap.close)bitmap.close();
- if(!blob||blob.size>350000||blob.size<1000)throw Error("too_large");
+ if(!blob||blob.size>MAX_IMAGE_BYTES||blob.size<1000)throw Error("too_large");
  return blob;
 }
 const blobBase64=blob=>new Promise((resolve,reject)=>{
@@ -153,6 +198,21 @@ async function choosePhoto(input){
 for(const source of [ui.camera,ui.file]){
  source.addEventListener("change",()=>choosePhoto(source));
 }
+ui.rememberUploader.checked=isUploaderRememberEnabled();
+if(ui.rememberUploader.checked)ui.uploader.value=rememberedUploaderName();
+ui.rememberUploader.addEventListener("change",()=>{
+ setUploaderRememberEnabled(ui.rememberUploader.checked);
+ if(!ui.rememberUploader.checked)clearRememberedUploaderName();
+ notice(ui.rememberUploader.checked?"จะจำชื่อไว้หลังส่งภาพสำเร็จ":"จะไม่จำชื่อในเครื่องนี้");
+});
+ui.forgetUploader.addEventListener("click",()=>{
+ clearRememberedUploaderName();
+ setUploaderRememberEnabled(false);
+ ui.rememberUploader.checked=false;
+ ui.uploader.value="";
+ ui.uploader.focus();
+ notice("ลบชื่อที่จำไว้ในเครื่องนี้แล้ว");
+});
 ui.sport.addEventListener("change",updateFixtures);
 ui.loginForm.addEventListener("submit",async e=>{
  e.preventDefault();const pin=ui.loginForm.elements.pin.value.trim();
@@ -185,6 +245,8 @@ ui.form.addEventListener("submit",async e=>{
      if(ans.error==="expired"){clearSession();showLogin();}
      notice(errorText(ans.error),true);return;
    }
+   if(ui.rememberUploader.checked)rememberUploaderName(ui.uploader.value);
+   else clearRememberedUploaderName();
    notice("ส่งภาพเรียบร้อย · รอผู้ตรวจ · ภาพยังไม่แสดงบนเว็บไซต์");
    ui.file.value="";ui.camera.value="";ui.confirm.checked=false;clearPreview();
  }catch(_){notice("เครือข่ายขัดข้อง ภาพอาจยังไม่ถูกส่ง กรุณาตรวจผู้ตรวจอีกครั้ง",true);}
