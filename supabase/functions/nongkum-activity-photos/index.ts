@@ -1,6 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import {putPrivateImage} from "./private-upload.ts";
 import {cleanJpegMetadata} from "./jpeg-clean.ts";
+import {putPublishedImage,removePublishedImage} from "./public-storage.ts";
 
 /* R40: secure photo intake. No result mutation, public publication or secret in browser.
  * Existing editor sessions upload; separate reviewer sessions approve privately. */
@@ -136,22 +137,10 @@ async function publicationRpc(action:string,body:Record<string,unknown>){
 }
 const publicPathSafe=(path:string)=>/^media\/[0-9a-f-]{36}\.(webp|jpg)$/.test(path);
 async function writePublic(path:string,bytes:Uint8Array,mime:string){
- if(!publicPathSafe(path)||!["image/webp","image/jpeg"].includes(mime)
-   ||bytes.length<1000||bytes.length>LIMIT)throw Error("invalid_image");
- const r=await fetch(DB+"/storage/v1/object/"+PUBLIC_BUCKET+"/"+path,{
-   method:"POST",
-   headers:{...svcHeaders,"Content-Type":mime,"cache-control":"0","x-upsert":"false"},
-   body:new Uint8Array(bytes).buffer,signal:AbortSignal.timeout(20000)
- });
- if(!r.ok){console.error("R40-G public object upload failed",r.status);throw Error("upload_failed");}
+ await putPublishedImage({db:DB,serviceKey:SERVICE,bucket:PUBLIC_BUCKET,path,bytes,mime});
 }
 async function deletePublic(path:string){
- if(!publicPathSafe(path))throw Error("invalid");
- const r=await fetch(DB+"/storage/v1/object/"+PUBLIC_BUCKET+"/"+path,{
-   method:"DELETE",headers:svcHeaders,signal:AbortSignal.timeout(12000)
- });
- // Supabase may return 404 when the object was already removed.
- return r.ok||r.status===404;
+ return await removePublishedImage({db:DB,serviceKey:SERVICE,bucket:PUBLIC_BUCKET,path});
 }
 async function publishedFeed(){
  const columns="id,event_id,sport_id,division,event_date,caption,object_path,mime_type,published_at";
