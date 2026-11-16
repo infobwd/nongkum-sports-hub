@@ -142,6 +142,18 @@ async function writePublic(path:string,bytes:Uint8Array,mime:string){
 async function deletePublic(path:string){
  return await removePublishedImage({db:DB,serviceKey:SERVICE,bucket:PUBLIC_BUCKET,path});
 }
+async function myPhotoSubmissions(token:string){
+ const r=await fetch(DB+"/rest/v1/rpc/nongkum_activity_photo_my_submissions",{
+   method:"POST",
+   headers:{...svcHeaders,"Content-Type":"application/json","Accept":"application/json"},
+   body:JSON.stringify({p_token:token}),
+   signal:AbortSignal.timeout(12000)
+ });
+ if(!r.ok)throw Error("unavailable");
+ const value=await r.json();
+ if(!value||typeof value.ok!=="boolean")throw Error("unavailable");
+ return value;
+}
 async function publishedFeed(){
  const columns="id,event_id,sport_id,division,event_date,caption,object_path,mime_type,published_at";
  const r=await fetch(DB+"/rest/v1/nongkum_public_activity_photos?select="+columns+
@@ -173,11 +185,15 @@ Deno.serve(async(req:Request)=>{
  try{
    const body=await jsonBounded(req);
    const action=String(body.action||"");
-   if(!["upload","queue","preview","approve","reject","publish","revoke"].includes(action))
+   if(!["upload","mine","queue","preview","approve","reject","publish","revoke"].includes(action))
       return reply({ok:false,error:"invalid"},400,origin);
    const m=/^Bearer ([a-f0-9]{64})$/.exec(req.headers.get("authorization")||"");
    if(!m)return reply({ok:false,error:"expired"},401,origin);
    const token=m[1];
+   if(action==="mine"){
+     const mine=await myPhotoSubmissions(token);
+     return reply(mine,mine.ok?200:code(mine.error),origin);
+   }
    if(action==="upload"){
       const image=body.image_b64;
       if(typeof image!=="string")return reply({ok:false,error:"invalid_image"},400,origin);
