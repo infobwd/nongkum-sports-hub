@@ -33,3 +33,23 @@ body.r34-open{overflow:hidden}
 .r34-pending{background:#fff6e6;border:1px solid #ecd2a1;color:#5c431b;border-radius:10px;padding:12px}
 @media(min-width:630px){.r34-overlay{align-items:center;padding:16px}.r34-dialog{border-radius:20px;max-height:88dvh;padding:22px}}
 @media(max-width:470px){.r34-rank{grid-template-columns:70px 1fr 1fr}.r34-rank input:last-child{grid-column:2 / -1}.r34-dialog{padding-left:15px;padding-right:15px}}
+
+/* R35: scoreboard entry in two separate large tap targets, without typing punctuation. */
+.r34-optional-type{border:1px solid #d7e2ed;background:#f7faff;border-radius:11px;margin:12px 0}
+.r34-optional-type>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;padding:10px 12px;font-size:.91rem;font-weight:700;color:#274f79}
+.r34-optional-type[open]{padding-bottom:4px}
+.r34-optional-type .r34-field{margin:4px 12px 12px}
+.r34-set-fields{margin:12px 0}
+.r34-set-row{display:grid;grid-template-columns:1fr 1.5fr 1.5fr auto;gap:9px;align-items:end;border:1px solid #dae4ef;border-radius:13px;padding:10px;margin:9px 0;background:#f8fbff}
+.r34-set-number{color:#214d77;font-size:.9rem;align-self:center}
+.r34-set-row .r34-field{margin:0;min-width:0;font-size:.82rem}
+.r34-set-row input{min-width:0;min-height:48px;text-align:center;font-size:1.05rem;font-weight:700}
+.r34-add-set,.r34-remove-set{font:inherit;font-weight:700;border:1px solid #aec4de;background:#fff;color:#1e5685;border-radius:10px;min-height:44px;padding:8px 12px;cursor:pointer}
+.r34-add-set:disabled{opacity:.55;cursor:not-allowed}
+.r34-remove-set[hidden]{display:none!important}
+.r34-optional-type>summary:focus-visible,.r34-add-set:focus-visible,.r34-remove-set:focus-visible{outline:3px solid #f2c54e;outline-offset:2px}
+@media(max-width:500px){.r34-set-row{grid-template-columns:1fr 1fr;gap:9px;padding:10px}
+.r34-set-number{grid-column:1/-1}
+.r34-set-row .r34-field{font-size:.81rem}
+.r34-remove-set{grid-column:1/-1;justify-self:end;min-height:40px}
+.r34-dialog{scroll-padding-bottom:32px}}
