@@ -6,12 +6,12 @@
 <title>ส่งภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
 <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="./css/activity-photos.css?v=r40-4">
+<link rel="stylesheet" href="./css/activity-photos.css?v=r40h-1">
 </head><body data-view="photo-upload">
 <header class="top"><div class="shell">
   <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">เจ้าหน้าที่ส่งภาพ</span></div>
-  <div class="hero"><h1>ส่งภาพกิจกรรมการแข่งขัน</h1><p>ภาพที่ส่งจะอยู่ในพื้นที่ส่วนตัว และไม่เผยแพร่ทันที</p></div>
-  <nav class="photo-navigation"><a href="./results.html">กลับหน้าผลแข่งขัน</a><a href="./review-photos.html">หน้าตรวจภาพ (ผู้ตรวจเท่านั้น)</a></nav>
+  <div class="hero"><h1>ส่งภาพกิจกรรมการแข่งขัน</h1><p>เลือกกิจกรรม ถ่ายภาพ และส่งให้ผู้ตรวจ เพียง 3 ขั้นตอน</p></div>
+  <nav class="photo-navigation"><a href="./results.html">กลับหน้าผลแข่งขัน</a></nav>
 </div></header>
 <main class="shell photo-main">
 <section id="photoUnlock" class="photo-panel">
@@ -25,26 +25,49 @@
 </section>
 <section id="photoWorkspace" class="photo-panel" hidden>
  <div class="photo-toolbar"><span id="photoSessionInfo"></span><button id="photoLogout" type="button">ออกจากระบบ</button></div>
- <h2>เลือกรายการแข่งขันแล้วส่งภาพ</h2>
+ <div class="photo-upload-heading"><h2>ส่งภาพเข้ารายการแข่งขัน</h2><button id="photoMineOpen" type="button">ดูสถานะภาพที่ส่ง</button></div>
+ <section id="photoSendSuccess" class="photo-send-success" hidden tabindex="-1" role="status" aria-live="polite">
+  <span class="photo-success-icon" aria-hidden="true">✓</span>
+  <h2>ส่งภาพสำเร็จแล้ว</h2>
+  <p id="photoSuccessActivity" class="photo-success-activity"></p>
+  <strong class="photo-success-state">รอผู้ตรวจอนุมัติ</strong>
+  <p>ระบบได้รับภาพแล้ว ไม่ต้องส่งซ้ำ เมื่อผู้ตรวจยืนยันสิทธิ์เผยแพร่ ภาพจึงจะขึ้นเว็บไซต์</p>
+  <small id="photoSuccessReceipt"></small>
+  <div class="photo-success-actions">
+   <button id="photoSendAgain" class="photo-primary" type="button">ส่งภาพเพิ่ม</button>
+   <button id="photoMineFromSuccess" type="button">ดูสถานะภาพที่ส่ง</button>
+  </div>
+ </section>
+ <section id="photoMinePanel" class="photo-mine-panel" hidden aria-labelledby="photoMineTitle">
+  <div class="photo-mine-head"><h2 id="photoMineTitle">สถานะภาพที่ส่ง</h2><button id="photoMineClose" type="button">ปิด</button></div>
+  <p>แสดงเฉพาะภาพที่ส่งด้วยการเข้าสู่ระบบครั้งนี้ (สิทธิ์มีอายุไม่เกิน 6 ชั่วโมง) ไม่แสดงภาพส่วนตัวแก่บุคคลอื่น</p>
+  <button id="photoMineRefresh" type="button">ตรวจสถานะล่าสุด</button>
+  <p id="photoMineStatus" role="status" aria-live="polite"></p>
+  <div id="photoMineList" class="photo-mine-list"></div>
+ </section>
  <form id="photoUploadForm">
+   <p class="photo-form-step">ขั้นที่ 1 · เลือกรายการและผู้ส่ง</p>
    <div class="photo-fields">
      <div><label for="photoSport">ชนิดกีฬา</label><select id="photoSport" required><option value="">เลือกกีฬา</option></select></div>
-     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><input id="photoFixtureSearch" type="search" placeholder="ค้นหาชื่อโรงเรียน กีฬา รุ่น หรือระยะวิ่ง" autocomplete="off" hidden><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>แตะช่องรายการแล้วพิมพ์ค้นหาชื่อโรงเรียน รุ่น เพศ หรือการแข่งขัน เช่น 40 เมตร · เลือกตามโปรแกรมแข่งขันที่ใช้งาน</small></div>
+     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><input id="photoFixtureSearch" type="search" placeholder="ค้นหาชื่อโรงเรียน กีฬา รุ่น หรือระยะวิ่ง" autocomplete="off" hidden><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><p id="photoFixtureSummary" class="photo-fixture-summary" hidden></p><small>แตะเพื่อค้นหาชื่อโรงเรียน รุ่น หรือระยะวิ่ง</small></div>
      <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล">
+       <details class="photo-advanced"><summary>ตั้งค่าการจำชื่อ</summary>
        <div class="photo-name-settings"><label class="photo-consent" for="photoRememberUploader"><input id="photoRememberUploader" type="checkbox" checked> จำชื่อในเครื่องนี้ (เฉพาะเครื่องส่วนตัว)</label>
          <button id="photoForgetUploader" type="button">ลบชื่อที่จำไว้</button></div>
-       <small>หลังส่งภาพสำเร็จ ระบบจะจำเฉพาะชื่อไว้ 30 วันในเบราว์เซอร์นี้ ไม่บันทึกรหัสผ่าน และแก้ชื่อก่อนส่งได้เสมอ</small></div>
-     <div><label for="photoCaption">คำบรรยายภาพ</label><input id="photoCaption" name="caption" maxlength="120" minlength="3" required value="ภาพบรรยากาศการแข่งขัน"><small>ไม่ใส่ชื่อนักเรียนหรือข้อมูลส่วนตัว</small></div>
-     <div><p class="photo-picker-heading">เพิ่มภาพจากโทรศัพท์</p>
+       <small>จำเฉพาะชื่อ 30 วัน ไม่บันทึกรหัสผ่าน</small></details></div>
+     <div><details class="photo-advanced"><summary>เปลี่ยนคำบรรยายภาพ (ไม่จำเป็น)</summary><label for="photoCaption">คำบรรยายภาพ</label><input id="photoCaption" name="caption" maxlength="120" minlength="3" required value="ภาพบรรยากาศการแข่งขัน"><small>ไม่ใส่ชื่อนักเรียนหรือข้อมูลส่วนตัว</small></details></div>
+     <div><p class="photo-form-step">ขั้นที่ 2 · ถ่ายหรือเลือกรูป</p><p class="photo-picker-heading">เพิ่มภาพจากโทรศัพท์</p>
        <div class="photo-pickers">
          <div><input id="photoCamera" class="photo-source-input" type="file" accept="image/*" capture="environment"><label for="photoCamera" class="photo-picker">ถ่ายภาพด้วยกล้อง</label></div>
          <div><input id="photoFile" class="photo-source-input" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif"><label for="photoFile" class="photo-picker">เลือกภาพจากเครื่อง</label></div>
        </div>
-       <small>ระบบจะย่อเป็น WebP เป็นหลัก (เป้าหมายประมาณ 250 KB ไม่เกิน 350 KB) และลบข้อมูลพิกัดจากไฟล์ต้นฉบับ หากเครื่องไม่รองรับ WebP จะใช้ JPEG ภาพ HEIC/HEIF ใช้ได้เฉพาะเครื่องที่เปิดไฟล์ได้</small></div>
+       <small>ระบบย่อภาพให้เหมาะกับมือถือและลบข้อมูลพิกัดก่อนส่ง</small></div>
    </div>
    <figure id="photoPreview" class="photo-preview" hidden><img id="photoPreviewImg" alt="ตัวอย่างรูปที่เลือก"><figcaption id="photoPreviewInfo"></figcaption></figure>
-   <label class="photo-consent"><input id="photoConfirm" type="checkbox" required> ข้าพเจ้าตรวจว่าภาพเกี่ยวข้องกับกิจกรรมนี้ และเข้าใจว่าภาพต้องผ่านผู้ตรวจอนุญาตก่อนเผยแพร่</label>
-   <button id="photoSubmit" type="submit" class="photo-primary">ส่งภาพให้ผู้ตรวจ</button>
+   <p class="photo-form-step">ขั้นที่ 3 · ส่งภาพให้ผู้ตรวจ</p>
+   <p class="photo-safe-notice">ภาพจะส่งเข้าพื้นที่ส่วนตัว ยังไม่เผยแพร่บนเว็บไซต์จนกว่าผู้ตรวจยืนยันสิทธิ์</p>
+   <button id="photoSubmit" type="submit" class="photo-primary" disabled>ส่งภาพให้ผู้ตรวจ</button>
+   <p id="photoSendProgress" class="photo-send-progress" role="status" aria-live="polite"></p>
  </form>
  <p class="photo-privacy">ห้ามส่งภาพใบคะแนน ลายเซ็น หรือข้อมูลนักเรียนที่ไม่จำเป็น ภาพต้นฉบับไม่ถูกนำขึ้นเว็บไซต์สาธารณะโดยอัตโนมัติ</p>
 </section>
@@ -53,5 +76,5 @@
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="./js/upload-photos-r40.js?v=r40-4" defer></script>
+<script src="./js/upload-photos-r40.js?v=r40h-1" defer></script>
 </body></html>
