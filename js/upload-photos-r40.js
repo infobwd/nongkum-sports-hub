@@ -86,6 +86,7 @@ async function fileBitmap(file){
   image.src=url;
  });
 }
+const TARGET_IMAGE_BYTES=250000,MAX_IMAGE_BYTES=350000;
 const toBlob=(canvas,quality,type="image/webp")=>new Promise((resolve,reject)=>
  canvas.toBlob(x=>x?resolve(x):reject(Error("image")), type,quality));
 async function sanitizePhoto(file){
@@ -99,19 +100,29 @@ async function sanitizePhoto(file){
  const aspect=Math.min(1,1280/width,960/height);
  let w=Math.max(80,Math.floor(width*aspect)),h=Math.max(80,Math.floor(height*aspect));
  if(w<80||h<80)throw Error("invalid_image");
- let blob=null;
- for(let step=0;step<12;step++){
+ let blob=null,bestFallback=null;
+ // Prefer WebP at <=250 KB; keep at most 350 KB if a detail-heavy photo resists compression.
+ // Re-encoding through an opaque canvas strips the original file's metadata/location.
+ const qualities=[0.84,0.76,0.68,0.60,0.52];
+ for(let step=0;step<20;step++){
    canvas.width=w;canvas.height=h;
    ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);ctx.drawImage(bitmap,0,0,w,h);
-   const q=Math.max(0.54,0.82-(step%4)*0.08);
+   const q=qualities[step%qualities.length];
    const webp=await toBlob(canvas,q,"image/webp");
-   blob=webp.type==="image/webp"?webp:await toBlob(canvas,q,"image/jpeg");
-   if(!["image/webp","image/jpeg"].includes(blob.type))throw Error("image");
-   if(blob.size<=340000&&blob.size>=1000)break;
-   if(step%4===3){w=Math.max(80,Math.floor(w*0.82));h=Math.max(80,Math.floor(h*0.82));}
+   const candidate=webp.type==="image/webp"?webp:await toBlob(canvas,q,"image/jpeg");
+   if(!["image/webp","image/jpeg"].includes(candidate.type))throw Error("image");
+   if(candidate.size>=1000&&candidate.size<=MAX_IMAGE_BYTES){
+     // Keep an acceptable fallback without giving up too much sharpness if 250 KB is unattainable.
+     if(!bestFallback||candidate.size>bestFallback.size)bestFallback=candidate;
+   }
+   if(candidate.size>=1000&&candidate.size<=TARGET_IMAGE_BYTES){blob=candidate;break;}
+   if(step%qualities.length===qualities.length-1){
+     w=Math.max(80,Math.floor(w*0.82));h=Math.max(80,Math.floor(h*0.82));
+   }
  }
+ blob=blob||bestFallback;
  if(bitmap.close)bitmap.close();
- if(!blob||blob.size>350000||blob.size<1000)throw Error("too_large");
+ if(!blob||blob.size>MAX_IMAGE_BYTES||blob.size<1000)throw Error("too_large");
  return blob;
 }
 const blobBase64=blob=>new Promise((resolve,reject)=>{
