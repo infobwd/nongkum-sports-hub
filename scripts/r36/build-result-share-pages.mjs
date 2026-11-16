@@ -124,6 +124,15 @@ function htmlPage(item,revisionCode,archived=false) {
   '<a href="'+esc(real)+'">ดูผลการแข่งขันที่รับรองล่าสุด</a><p><small>หน้าแสดงผลสดจะตรวจข้อมูลล่าสุดอีกครั้งก่อนแสดงผล</small></p></main>'+
   '<script>location.replace('+JSON.stringify(real)+')</script></body></html>\n';
 }
+// Test-only validate mode, with no generated writes or database access.
+const validateArg=process.argv.indexOf("--validate-input");
+if(validateArg!==-1){
+  const filename=process.argv[validateArg+1];
+  assert.ok(filename&&filename!=="--build");
+  validateSource(JSON.parse(readFileSync(filename,"utf8")));
+  console.log("R36 approved-only source validation passed");
+  process.exit(0);
+}
 async function refreshPublic(){
  const reader=read("js/results-source-r32.js");
  const key=reader.match(/const publishableKey="([^"]+)"/)?.[1];
@@ -136,6 +145,7 @@ async function refreshPublic(){
  const old=JSON.parse(read(sourcePath));
  if(!rows.length&&old.rows.length)throw Error("Refusing unexpected empty live feed while approved snapshot exists");
  const previous=new Map(old.rows.map(x=>[x.result_id,x.revision]));
+ for(const id of previous.keys()){if(!rows.some(x=>x.result_id===id))throw Error("An approved result disappeared from the public feed: "+id+"; requires operator review");}
  for(const row of rows){if(previous.has(row.result_id)&&row.revision<previous.get(row.result_id))throw Error("Approved result revision went backwards: "+row.result_id);}
  const updated={schema_version:1,approved_only:true,rows:rows.sort((a,b)=>a.result_id.localeCompare(b.result_id,"th"))};
  validateSource(updated);
