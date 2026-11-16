@@ -1,0 +1,42 @@
+name: R40-G PostgreSQL Publication Contract
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/migrations/*r40g*"
+      - "scripts/r40/test-r40g-sql.sql"
+      - ".github/workflows/r40g-sql-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sql-gate:
+    name: Disposable PostgreSQL publication/revoke test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test_only
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare PostgreSQL client
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+      - name: Verify real PL/pgSQL transitions with only synthetic records
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: postgres
+          PGPASSWORD: test_only
+          PGDATABASE: postgres
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r40/test-r40g-sql.sql
