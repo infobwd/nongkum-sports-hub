@@ -66,7 +66,6 @@ async function preview(id,frame,button){
    const r=await request(MEDIA,"preview",{id});
    if(!r.ok){
      if(r.error==="expired"){clear();showLogin();}
-     errorInCard(controls,errorText(r.error));
      notice(errorText(r.error),true);return;
    }
    if(!/^[-A-Za-z0-9+/=]+$/.test(r.image_b64||"")||r.image_b64.length>470000){
@@ -123,7 +122,11 @@ async function review(action,item,controls){
  notice(message);
  try{
    const r=await request(MEDIA,action,payload);
-   if(!r.ok){if(r.error==="expired"){clear();showLogin();}notice(errorText(r.error),true);return;}
+   if(!r.ok){
+     if(r.error==="expired"){clear();showLogin();}
+     errorInCard(controls,errorText(r.error));
+     notice(errorText(r.error),true);return;
+   }
    const descriptions={
      approve:"อนุญาตใช้ภาพภายในแล้ว · ยังไม่เผยแพร่",
      publish:"เผยแพร่สำเร็จ · ภาพพร้อมแสดงบนการ์ดผลและหน้ารวม",
@@ -217,10 +220,16 @@ function render(items){
    fieldError.dataset.fieldError="";fieldError.hidden=true;fieldError.setAttribute("role","alert");
    controls.prepend(fieldError);
    controls.querySelectorAll("input,textarea").forEach(input=>{
-     input.addEventListener("input",()=>errorInCard(controls,""));
-     input.addEventListener("change",()=>errorInCard(controls,""));
+     const clearField=()=>{
+       errorInCard(controls,"");
+       if(ui.status.dataset.error==="true")notice("");
+     };
+     input.addEventListener("input",clearField);
+     input.addEventListener("change",clearField);
    });
    card.append(header,detail,caption,previewBox,controls);ui.list.appendChild(card);
+   // Load only the first awaiting-review image to reduce taps and bandwidth.
+   if(viewFilter==="review"&&item===filtered[0])preview(item.id,previewBox,show);
  }
 }
 async function loadQueue(silent=false){
