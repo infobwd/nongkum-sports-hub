@@ -48,12 +48,38 @@ const readU32=(b:Uint8Array,n:number)=>(
  b[n]|(b[n+1]<<8)|(b[n+2]<<16)|(b[n+3]<<24)
 )>>>0;
 const fourcc=(b:Uint8Array,n:number)=>String.fromCharCode(...b.slice(n,n+4));
-function decodeWebP(image:string):Uint8Array{
+function decodeImage(image:string):{bytes:Uint8Array,mime:string}{
  if(image.length>Math.ceil(LIMIT/3)*4+10||image.length<1300||
     !/^[A-Za-z0-9+/]+={0,2}$/.test(image))throw Error("invalid_image");
  const raw=atob(image),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
- if(bytes.length<1000||bytes.length>LIMIT||
-    fourcc(bytes,0)!=="RIFF"||fourcc(bytes,8)!=="WEBP"||
+ if(bytes.length<1000||bytes.length>LIMIT)throw Error("invalid_image");
+ // JPEG fallback is needed on Safari. Canvas export strips original EXIF.
+ // Forged uploads with APP1-APP15, EXIF, ICC, XMP or comments are rejected.
+ if(bytes[0]===0xff&&bytes[1]===0xd8){
+   if(bytes[bytes.length-2]!==0xff||bytes[bytes.length-1]!==0xd9)throw Error("invalid_image");
+   let at=2,frame=false;
+   while(at+3<bytes.length){
+     if(bytes[at]!==0xff)throw Error("invalid_image");
+     while(bytes[at]===0xff)at++;
+     const mark=bytes[at++];
+     if(mark===0xda){if(!frame)throw Error("invalid_image");return {bytes,mime:"image/jpeg"};}
+     if(mark===0xd9||mark===0xd8||mark===0xfe||(mark>=0xe1&&mark<=0xef))
+       throw Error("invalid_image");
+     if(at+2>bytes.length)throw Error("invalid_image");
+     const len=(bytes[at]<<8)|bytes[at+1];
+     if(len<2||at+len>bytes.length)throw Error("invalid_image");
+     if(mark===0xc0||mark===0xc2){
+       if(len<8)throw Error("invalid_image");
+       const height=(bytes[at+3]<<8)|bytes[at+4];
+       const width=(bytes[at+5]<<8)|bytes[at+6];
+       if(width<80||height<80||width>1600||height>1200)throw Error("invalid_image");
+       frame=true;
+     }else if(![0xe0,0xdb,0xc4,0xdd].includes(mark))throw Error("invalid_image");
+     at+=len;
+   }
+   throw Error("invalid_image");
+ }
+ if(fourcc(bytes,0)!=="RIFF"||fourcc(bytes,8)!=="WEBP"||
     readU32(bytes,4)!==bytes.length-8)throw Error("invalid_image");
  // Only simple VP8/VP8L WebP is allowed. Extended chunks can carry EXIF, XMP or ICC profiles.
  let at=12,chunks=0,width=0,height=0;
@@ -75,7 +101,7 @@ function decodeWebP(image:string):Uint8Array{
  }
  if(at!==bytes.length||chunks!==1||width<80||height<80||width>1600||height>1200)
    throw Error("invalid_image");
- return bytes;
+ return {bytes,mime:"image/webp"};
 }
 const svcHeaders={"apikey":SERVICE,"Authorization":"Bearer "+SERVICE};
 async function rpc(action:string,body:Record<string,unknown>){
@@ -89,13 +115,13 @@ async function rpc(action:string,body:Record<string,unknown>){
  return x;
 }
 function pathSafe(path:string){
- return /^uploads\/[0-9a-f-]{36}\.webp$/.test(path);
+ return /^uploads\/[0-9a-f-]{36}\.(webp|jpg)$/.test(path);
 }
-async function upload(path:string,bytes:Uint8Array){
+async function upload(path:string,bytes:Uint8Array,mime:string){
  if(!pathSafe(path))throw Error("unavailable");
  const r=await fetch(DB+"/storage/v1/object/"+BUCKET+"/"+path,{
    method:"POST",
-   headers:{...svcHeaders,"Content-Type":"image/webp","cache-control":"no-store","x-upsert":"false"},
+   headers:{...svcHeaders,"Content-Type":mime,"cache-control":"no-store","x-upsert":"false"},
    body:bytes,signal:AbortSignal.timeout(20000)
  });
  if(!r.ok){console.error("R40 private storage upload failed",r.status);throw Error("upload_failed");}
@@ -137,15 +163,15 @@ Deno.serve(async(req:Request)=>{
    if(action==="upload"){
       const image=body.image_b64;
       if(typeof image!=="string")return reply({ok:false,error:"invalid_image"},400,origin);
-      const bytes=decodeWebP(image);
+      const {bytes,mime}=decodeImage(image);
       const prepared=await rpc("prepare",{token,event_id:body.event_id,
-        uploaded_by:body.uploaded_by,caption:body.caption,mime_type:"image/webp",
+        uploaded_by:body.uploaded_by,caption:body.caption,mime_type:mime,
         byte_size:bytes.length});
       if(!prepared.ok)return reply(prepared,code(prepared.error),origin);
       const path=String(prepared.storage_path||""),id=String(prepared.id||"");
       if(!pathSafe(path)||!/^[0-9a-f-]{36}$/.test(id))throw Error("unavailable");
       try{
-        await upload(path,bytes);
+        await upload(path,bytes,mime);
         const finished=await rpc("finish",{token,id});
         if(!finished.ok){await removePrivate(path);await rpc("cancel",{token,id});return reply(finished,code(finished.error),origin);}
         return reply({ok:true,id,status:"review",message:"ส่งภาพแล้ว รอผู้ตรวจ"},200,origin);
@@ -158,11 +184,13 @@ Deno.serve(async(req:Request)=>{
    if(action==="preview"){
       const item=await rpc("preview",{token,id:body.id});
       if(!item.ok)return reply(item,code(item.error),origin);
+      const mime=String(item.mime_type||"");
+      if(!["image/webp","image/jpeg"].includes(mime))throw Error("unavailable");
       const bytes=await getPrivate(String(item.storage_path||""));
       // The signed-in reviewer receives only this private response; never a public Storage URL.
       let binary="";for(let i=0;i<bytes.length;i+=8192)
         binary+=String.fromCharCode(...bytes.slice(i,i+8192));
-      return reply({ok:true,image_b64:btoa(binary),mime_type:"image/webp"},200,origin);
+      return reply({ok:true,image_b64:btoa(binary),mime_type:mime},200,origin);
    }
    const input=action==="approve"?
      {token,id:body.id,consent_checked:body.consent_checked,consent_note:body.consent_note}:
