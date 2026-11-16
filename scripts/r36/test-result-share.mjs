@@ -23,7 +23,7 @@ assert.match(r32,/share_revision:row\.revision/);
 assert.match(results,/result-share-index\.json/);
 assert.match(results,/shareApprovedResult/);
 assert.match(page,/results\.js\?v=r36-1/);
-assert.match(page,/shared\.js\?v=r36-1/);
+assert.match(page,/shared\.js\?v=r36-2/);
 assert.match(page,/results-source-r32\.js\?v=r36-1/);
 assert.ok(!Object.keys(source).includes("draft"));
 const temp=mkdtempSync(join(tmpdir(),"r36-share-test-"));
@@ -60,7 +60,7 @@ const api=context.Nongkum;
 for(const row of source.rows){
  assert.equal(row.result.status,"approved");
  const slug=api.resultShareCode(row.result_id,row.revision);
- assert.match(slug,/^r[0-9a-f]{8}-v[1-9]\d*$/);
+ assert.match(slug,/^r[0-9a-f]{8}-v[1-9]\d*-p2$/);
  assert.equal(index.results[row.result_id].slug,slug);
  assert.equal(index.results[row.result_id].revision,row.revision);
  const file="r/"+slug+"/index.html";
@@ -75,7 +75,8 @@ for(const row of source.rows){
  assert.match(html,/results\.html\?result=/);
  assert.ok(html.includes('property="og:url" content="'+root+"r/"+slug+'/'));
  assert.ok(!html.includes("ข้อมูลร่าง"));
- assert.ok(html.includes("รับรอง"));
+ assert.ok(html.includes("ผลการแข่งขัน"));
+ assert.ok(!html.includes("ผลการแข่งขันที่ผ่านการรับรอง"),"Public OG text must be concise");
  assert.ok(!html.includes("13–0"),"do not invent Petanque numeric score");
  const image=readFileSync(new URL("../../r/"+slug+"/card.png",import.meta.url));
  assert.equal(image.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
@@ -89,7 +90,7 @@ for(const row of source.rows){
      JSON.parse(read("data/public-results.json")).sports),"shared");
  assert.equal(nativePayload.url,url);
  assert.match(nativePayload.title,/เปตอง|กีฬา|กรีฑา/);
- assert.match(nativePayload.text,/ผลการแข่งขันที่ผ่านการรับรอง/);
+ assert.equal(nativePayload.text,"ผลการแข่งขัน · มิตรภาพเกมส์ 2569");
  assert.match(nativePayload.title,/ชนะ|พบ|รายการ|กรีฑา/);
  assert.equal(api.resultShareUrl({...userResult,share_revision:row.revision+1},index),
     api.directItemUrl("results.html","result",row.result_id),"revision mismatch must fall back");
@@ -110,6 +111,7 @@ if(approved){
  const code=api.resultShareCode(approved.result_id,approved.revision);
  const html=read("r/"+code+"/index.html");
  assert.ok(html.includes("วังด้ง ชนะ เสาหงส์"),"Use approved winner only");
+ assert.ok(!html.includes("รับรอง"),"No certification wording in public OG preview");
  assert.ok(!html.includes("15–10"),"Never invent set or point scores");
  assert.equal(jobs.jobs.find(x=>x.slug===code).winner,"วังด้ง");
 }

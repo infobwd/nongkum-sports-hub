@@ -19,7 +19,8 @@ const check=process.argv.includes("--check");
 const refresh=process.argv.includes("--refresh");
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const hash=id=>{let h=2166136261;for(let i=0;i<id.length;i++)h=Math.imul(h^id.charCodeAt(i),16777619)>>>0;return "r"+h.toString(16).padStart(8,"0");};
-const slug=(id,rev)=>hash(id)+"-v"+rev;
+// Preview presentation v2: distinct OG URL even when approved result revision is unchanged.
+const slug=(id,rev)=>hash(id)+"-v"+rev+"-p2";
 const allowed=new Set(["id","status","sport_id","result_type","fixture_id","event_id","team_a_id","team_b_id","score_a","score_b","sets","winner_school_id","rankings","division","round","name","result_date","team_a_cards","team_b_cards"]);
 const number=n=>Number.isInteger(n)&&n>=0;
 const goodId=x=>typeof x==="string"&&x.length>0&&x.length<=160;
@@ -83,23 +84,23 @@ function display(row,base){
  if(result.result_type==="ranking"){
    const first=result.rankings.find(x=>x.rank===1);
    line=result.name||"ผลกรีฑา";
-   summary=first?"อันดับ 1 "+get(first.school_id):"ผลจัดอันดับรับรองแล้ว";
+   summary=first?"อันดับ 1 "+get(first.school_id):"ผลจัดอันดับ";
    title=sport+" "+division+" · "+line+" · "+summary;
  }else{
    line=a+" พบ "+b;
-   summary=winner?winner+" ชนะ":(result.result_type==="score"&&result.score_a===result.score_b?"ผลเสมอ":"ผลรับรองแล้ว");
+   summary=winner?winner+" ชนะ":(result.result_type==="score"&&result.score_a===result.score_b?"ผลเสมอ":"ผลการแข่งขัน");
    title=sport+" "+division+" · "+(winner?winner+" ชนะ "+(winner===a?b:a):line);
  }
  const detail=(result.result_type==="score"?" · คะแนน "+result.score_a+"–"+result.score_b:
    result.result_type==="sets"?" · ผลรายเซ็ต "+result.sets.map(s=>s.a+"–"+s.b).join(", "):"");
- return {sport,division,a,b,winner,line,summary,title,description:"ผลการแข่งขันที่ผ่านการรับรอง · "+sport+" "+division+" · "+line+" · "+summary+detail,
+ return {sport,division,a,b,winner,line,summary,title,description:"ผลการแข่งขัน · "+sport+" "+division+" · "+line+" · "+summary+detail,
          result_id:row.result_id,revision:row.revision,published_at:row.published_at};
 }
 function htmlPage(item,revisionCode,archived=false) {
  const url=site+"r/"+revisionCode+"/";
  const real="../../results.html?result="+encodeURIComponent(item.result_id);
- const title=(archived?"มีผลรับรองฉบับใหม่ · กรุณาตรวจผลล่าสุด":item.title)+" | มิตรภาพเกมส์ 2569";
- const description=archived?"ลิงก์นี้เป็นผลฉบับก่อนหน้า กรุณาเปิดดูผลที่รับรองและเผยแพร่ล่าสุดจากระบบ":
+ const title=(archived?"มีการปรับปรุงผลการแข่งขัน · กรุณาตรวจผลล่าสุด":item.title)+" | มิตรภาพเกมส์ 2569";
+ const description=archived?"ลิงก์นี้เป็นผลฉบับก่อนหน้า กรุณาเปิดดูผลการแข่งขันล่าสุด":
    item.description;
  const image=url+"card.png";
  const heading=archived?"ผลฉบับเดิม · โปรดดูฉบับล่าสุด":item.title;
@@ -119,10 +120,10 @@ function htmlPage(item,revisionCode,archived=false) {
   '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+esc(image)+'">\n'+
   '<link rel="canonical" href="'+esc(url)+'">\n'+
   '<style>body{margin:0;background:#eef3f9;color:#173459;font:18px system-ui,"Noto Sans Thai",sans-serif}main{max-width:620px;margin:12vh auto 3rem;padding:2rem;background:#fff;border-radius:20px;box-shadow:0 5px 24px #c8d5e6}h1{font-size:1.4rem;line-height:1.6}p{line-height:1.7}a{display:inline-block;background:#193f70;color:white;padding:14px 20px;border-radius:12px;text-decoration:none}small{color:#55718b}@media(max-width:650px){main{margin:2rem 1rem;padding:1.5rem}}</style>\n'+
-  '</head><body><main><small>มิตรภาพเกมส์ 2569 · '+(archived?"ฉบับเก่า":"ผลรับรอง")+'</small>'+
-  '<h1>'+esc(heading)+'</h1><p>'+(archived?"ผลฉบับนี้มีรุ่นใหม่แล้ว กรุณาอ่านผลล่าสุดที่ผ่านการรับรองก่อนแชร์ต่อ":
-  "ข้อมูลนี้มาจากผลการแข่งขันที่ผ่านการรับรองแล้ว กรุณาเปิดหน้าผลสดเพื่อตรวจรายละเอียดล่าสุด")+'</p>'+
-  '<a href="'+esc(real)+'">ดูผลการแข่งขันที่รับรองล่าสุด</a><p><small>หน้าแสดงผลสดจะตรวจข้อมูลล่าสุดอีกครั้งก่อนแสดงผล</small></p></main>'+
+  '</head><body><main><small>มิตรภาพเกมส์ 2569 · '+(archived?"ฉบับเก่า":"ผลการแข่งขัน")+'</small>'+
+  '<h1>'+esc(heading)+'</h1><p>'+(archived?"ผลฉบับนี้มีรุ่นใหม่แล้ว กรุณาตรวจผลการแข่งขันล่าสุดก่อนแชร์ต่อ":
+  "เปิดหน้าผลการแข่งขันเพื่อดูรายละเอียดล่าสุด")+'</p>'+
+  '<a href="'+esc(real)+'">ดูผลการแข่งขันล่าสุด</a><p><small>หน้าแสดงผลสดจะตรวจข้อมูลล่าสุดอีกครั้งก่อนแสดงผล</small></p></main>'+
   '<script>location.replace('+JSON.stringify(real)+')</script></body></html>\n';
 }
 // Test-only validate mode, with no generated writes or database access.
@@ -182,7 +183,8 @@ if(refresh){
  }
  // Preserve old revision URLs and keep history, but do not label old data current.
  for(const [id,prev] of Object.entries(previous.results||{})){
-  if(current[id]&&prev.slug!==current[id].slug){
+  // A presentation-only update must not mark the unchanged result revision as obsolete.
+  if(current[id]&&prev.slug!==current[id].slug&&prev.revision!==current[id].revision){
     const row=data.rows.find(x=>x.result_id===id);
     const item=display(row,base);
     const oldFile="r/"+prev.slug+"/index.html";
