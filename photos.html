@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#183762">
+<title>ส่งรูปกิจกรรม — มิตรภาพเกมส์ 2569</title>
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/photo-tools-r39e.css?v=r39e-1">
+</head><body data-view="activity-photos">
+<header class="top"><div class="shell"><div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">📷</span><span>มิตรภาพเกมส์ 2569</span></div><span class="mode">สำหรับเจ้าหน้าที่</span></div></div></header>
+<main class="shell photos-shell">
+<nav class="photos-links"><a href="./index.html">ตารางแข่งขัน</a><a href="./results.html">ผลการแข่งขัน</a><a href="./review-photos.html">หน้าตรวจรูป</a></nav>
+<h1>ส่งรูปกิจกรรมการแข่งขัน</h1>
+<p class="photos-help">ส่งรูปจากมือถือได้ทันที รูปจะอยู่ในพื้นที่ส่วนตัวและยังไม่แสดงบนเว็บไซต์จนกว่าผู้ตรวจจะอนุมัติ</p>
+<section id="photoLogin" class="photos-panel" aria-labelledby="photoLoginHeading">
+<h2 id="photoLoginHeading">เข้าระบบส่งรูป</h2>
+<p>ใช้รหัสเจ้าหน้าที่บันทึกผลชุดเดิม สิทธิ์ใช้งานได้ 6 ชั่วโมงบนเครื่องนี้</p>
+<form id="photoLoginForm">
+<label for="photoPin">รหัสเจ้าหน้าที่</label>
+<input id="photoPin" type="password" inputmode="numeric" autocomplete="off" minlength="4" maxlength="30" pattern="[0-9]*" required>
+<button type="submit" class="photos-primary">เข้าสู่ระบบ</button>
+</form>
+</section>
+<section id="photoWorkspace" hidden aria-label="อัปโหลดรูปกิจกรรม">
+<div class="photos-session"><span id="photoSessionInfo"></span><button id="photoLogout" type="button">ออกจากระบบ</button></div>
+<form id="photoUploadForm" class="photos-panel">
+<h2>1. เลือกรายการแข่งขัน</h2>
+<label for="photoSearch">ค้นหากีฬา รุ่นอายุ หรือชื่อโรงเรียน</label>
+<input id="photoSearch" type="search" placeholder="เช่น กรีฑา 12 ปี หรือ วังด้ง" autocomplete="off">
+<div id="photoFixtureList" class="photos-fixtures" role="group" aria-label="เลือกรายการแข่งขัน"></div>
+<p id="photoChoiceCount" class="photos-help"></p>
+<p id="photoSelected" class="photos-selected" role="status">ยังไม่ได้เลือกรายการแข่งขัน</p>
+<h2>2. ถ่ายภาพหรือเลือกรูป</h2>
+<label for="photoFile">เลือกรูปกิจกรรมจริงจากมือถือ</label>
+<input id="photoFile" type="file" accept="image/*" required>
+<p class="photos-help">ระบบย่อภาพและลบข้อมูลตำแหน่ง/ข้อมูลกล้องก่อนส่ง รองรับไฟล์ต้นฉบับไม่เกิน 12 MB</p>
+<img id="photoPreview" alt="ตัวอย่างภาพก่อนส่ง" hidden>
+<label for="photoCaption">คำอธิบายภาพ</label>
+<input id="photoCaption" type="text" maxlength="120" required placeholder="เช่น การแข่งขันวิ่ง 40 เมตร">
+<label class="photos-check"><input id="photoRights" type="checkbox" required> ฉันมีสิทธิ์ส่งภาพนี้ให้ผู้ตรวจพิจารณา และไม่มีข้อมูลส่วนตัวหรือเอกสารลับในภาพ</label>
+<button id="photoSend" class="photos-primary" type="submit">ส่งรูปให้ผู้ตรวจ</button>
+</form>
+</section>
+<p id="photoStatus" class="photos-status" aria-live="polite" role="status"></p>
+</main><footer class="shell">ภาพที่รอตรวจและหลักฐานส่วนตัวจะไม่แสดงบนเว็บไซต์สาธารณะ</footer>
+<script src="./js/program-corrections.js?v=r20b1"></script>
+<script src="./js/photo-upload-r39e.js?v=r39e-1" defer></script>
+</body></html>
