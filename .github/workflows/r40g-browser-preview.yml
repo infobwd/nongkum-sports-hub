@@ -16,7 +16,7 @@ permissions:
 jobs:
   preview:
     name: Synthetic WebP gallery & result card on mobile viewport
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
