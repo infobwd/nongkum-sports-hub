@@ -49,3 +49,5 @@ jobs:
         run: deno test supabase/functions/nongkum-activity-photos/private-upload.test.ts
       - name: Verify Safari JPEG metadata removal
         run: deno test supabase/functions/nongkum-activity-photos/jpeg-clean.test.ts
+      - name: Verify R40-G binary published WebP and safe repeated removal
+        run: deno test supabase/functions/nongkum-activity-photos/public-storage.test.ts
