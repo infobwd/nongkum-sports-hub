@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="description" content="ภาพกิจกรรมการแข่งขัน มิตรภาพเกมส์ 2569 แยกตามวันและชนิดกีฬา เฉพาะภาพที่อนุญาตเผยแพร่แล้ว">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>ภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/activity-gallery-r40g.css?v=r40g-1">
+</head><body data-view="activity-gallery">
+<header class="top"><div class="shell">
+<div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">ภาพกิจกรรม 2569</span></div>
+<nav class="gallery-nav" aria-label="เมนูหลัก"><a href="./index.html">ตารางการแข่งขัน</a><a href="./results.html">ผลการแข่งขัน</a><a href="./activity-photos.html" aria-current="page">ภาพกิจกรรม</a></nav>
+<div class="hero"><h1>ภาพกิจกรรมการแข่งขัน</h1><p>แสดงเฉพาะภาพที่ตรวจสิทธิ์และอนุญาตเผยแพร่แล้ว</p></div>
+</div></header>
+<main class="shell gallery-main">
+<section class="gallery-filters" aria-label="ค้นหาภาพกิจกรรม">
+<label for="photoDate">วันที่แข่งขัน <select id="photoDate"><option value="">ทุกวัน</option></select></label>
+<label for="photoSport">ชนิดกีฬา <select id="photoSport"><option value="">ทุกกีฬา</option></select></label>
+<button id="photoClear" type="button">ล้างตัวกรอง</button>
+</section>
+<div class="gallery-toolbar"><p id="galleryStatus" role="status" aria-live="polite">กำลังอ่านภาพกิจกรรม…</p><button id="galleryRefresh" type="button">อัปเดตภาพ</button></div>
+<p id="galleryNotice" class="gallery-notice" hidden></p>
+<section id="galleryItems" class="gallery-items" aria-label="อัลบั้มภาพที่เผยแพร่"></section>
+<p id="galleryEmpty" class="gallery-empty" hidden>ยังไม่มีภาพที่ผ่านการอนุญาตเผยแพร่สำหรับตัวกรองนี้</p>
+<dialog id="galleryViewer" aria-label="เปิดดูภาพกิจกรรม">
+<div class="gallery-viewer-head"><p id="galleryViewerTitle"></p><button id="galleryClose" type="button" aria-label="ปิดภาพ">ปิด</button></div>
+<img id="galleryLargePhoto" alt="">
+<p id="galleryViewerCaption"></p>
+<div class="gallery-viewer-actions"><button id="galleryPrevious" type="button">ภาพก่อนหน้า</button><span id="galleryViewerCount"></span><button id="galleryNext" type="button">ภาพถัดไป</button></div>
+</dialog>
+</main>
+<footer class="shell">มิตรภาพเกมส์ 2569 · หากพบภาพที่ไม่เหมาะสม กรุณาแจ้งผู้จัดเพื่อถอนภาพ</footer>
+<script src="./js/activity-media-r39.js?v=r39-1"></script>
+<script src="./js/activity-media-r40g.js?v=r40g-1"></script>
+<script src="./js/activity-gallery-r40g.js?v=r40g-1"></script>
+<script src="./js/pwa.js?v=r31-v1"></script>
+</body></html>
