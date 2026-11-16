@@ -31,7 +31,12 @@
      <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>อ้างอิงรายการตามโปรแกรมแข่งขัน ข้อมูลบางรายการอาจอยู่ระหว่างตรวจแก้ไข</small></div>
      <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล"></div>
      <div><label for="photoCaption">คำบรรยายภาพ</label><input id="photoCaption" name="caption" maxlength="120" minlength="3" required value="ภาพบรรยากาศการแข่งขัน"><small>ไม่ใส่ชื่อนักเรียนหรือข้อมูลส่วนตัว</small></div>
-     <div><label for="photoFile">ถ่ายภาพหรือเลือกรูป</label><input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp" required><small>ระบบจะย่อเป็น WebP หรือ JPEG (สำหรับ Safari) ไม่เกิน 350 KB โดยไม่เก็บข้อมูลพิกัดจากไฟล์ต้นฉบับ</small></div>
+     <div><p class="photo-picker-heading">เพิ่มภาพจากโทรศัพท์</p>
+       <div class="photo-pickers">
+         <div><input id="photoCamera" class="photo-source-input" type="file" accept="image/*" capture="environment"><label for="photoCamera" class="photo-picker">ถ่ายภาพด้วยกล้อง</label></div>
+         <div><input id="photoFile" class="photo-source-input" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif"><label for="photoFile" class="photo-picker">เลือกภาพจากเครื่อง</label></div>
+       </div>
+       <small>ระบบจะย่อและแปลงเป็น WebP หรือ JPEG ไม่เกิน 350 KB และลบข้อมูลพิกัดจากไฟล์ต้นฉบับ ภาพ HEIC/HEIF ใช้ได้เฉพาะเครื่องที่เปิดไฟล์ได้</small></div>
    </div>
    <figure id="photoPreview" class="photo-preview" hidden><img id="photoPreviewImg" alt="ตัวอย่างรูปที่เลือก"><figcaption id="photoPreviewInfo"></figcaption></figure>
    <label class="photo-consent"><input id="photoConfirm" type="checkbox" required> ข้าพเจ้าตรวจว่าภาพเกี่ยวข้องกับกิจกรรมนี้ และเข้าใจว่าภาพต้องผ่านผู้ตรวจอนุญาตก่อนเผยแพร่</label>

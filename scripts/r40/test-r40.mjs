@@ -63,7 +63,22 @@ for(const html of [uphtml,reviewHtml]){
  assert.match(html,/noindex,nofollow/);
  assert.match(html,/activity-photos\.css\?v=r40-1/);
 }
-assert.match(uphtml,/accept="image\/jpeg,image\/png,image\/webp"/);
+assert.match(uphtml,/id="photoCamera"[^>]*capture="environment"/);
+assert.match(uphtml,/id="photoFile"[^>]*accept="image\/jpeg,image\/png,image\/webp,image\/heic,image\/heif"/);
+assert.match(upload,/selectionId=0/);
+assert.match(upload,/loading\|\|compressing/);
+assert.match(upload,/ui\.camera\.disabled=true/);
+assert.match(upload,/image\/heic/);
+const fnConfig=read("supabase/config.toml");
+for(const name of ["nongkum-results-editor","nongkum-results-reviewer","nongkum-activity-photos"]){
+ assert.match(fnConfig,new RegExp("\\[functions\\."+name+"\\]\\s*verify_jwt\\s*=\\s*false"));
+}
+const privateUpload=read("supabase/functions/nongkum-activity-photos/private-upload.ts");
+assert.match(edge,/import \{putPrivateImage\} from "\.\/private-upload\.ts"/);
+assert.match(edge,/await putPrivateImage\(/);
+assert.match(privateUpload,/body=new Uint8Array\(bytes\)\.buffer/);
+assert.match(privateUpload,/bucket!=="nongkum-activity-intake"/);
+assert.match(read(".github/workflows/r40-private-photo-qa.yml"),/deno test supabase\/functions\/nongkum-activity-photos\/private-upload\.test\.ts/);
 assert.match(reviewHtml,/review-photos-r40\.js/);
 assert.match(css,/min-height:44px/);
 assert.match(read("results.html"),/href="\.\/upload-photos\.html"/);
