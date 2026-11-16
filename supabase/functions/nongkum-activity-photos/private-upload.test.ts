@@ -12,7 +12,7 @@ Deno.test("private upload sends actual binary bytes, correct headers and no upse
    calls++;
    check(String(url)==="https://example.supabase.co/storage/v1/object/nongkum-activity-intake/"+path,"unexpected Storage destination");
    check(init?.method==="POST","must POST");
-   check(init?.body instanceof ArrayBuffer,"request must contain an ArrayBuffer body");
+   if(!(init?.body instanceof ArrayBuffer))throw new Error("request must contain an ArrayBuffer body");
    check(init.body.byteLength===pixels.byteLength,"unexpected size");
    const sent=new Uint8Array(init.body);
    check(sent.every((b,i)=>b===pixels[i]),"image bytes changed");
