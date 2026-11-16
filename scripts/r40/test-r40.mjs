@@ -61,9 +61,57 @@ for(const source of [upload,review,uphtml,reviewHtml]){
 }
 for(const html of [uphtml,reviewHtml]){
  assert.match(html,/noindex,nofollow/);
- assert.match(html,/activity-photos\.css\?v=r40-2/);
+ assert.match(html,/activity-photos\.css\?v=r40-3/);
 }
-assert.match(uphtml,/upload-photos-r40\.js\?v=r40-2/);
+assert.match(uphtml,/upload-photos-r40\.js\?v=r40-3/);
+assert.match(uphtml,/id="photoRememberUploader" type="checkbox" checked/);
+assert.match(uphtml,/id="photoForgetUploader" type="button"/);
+assert.match(uphtml,/จำชื่อในเครื่องนี้/);
+assert.match(css,/\.photo-name-settings/);
+assert.match(upload,/ui\.rememberUploader\.checked\)rememberUploaderName\(ui\.uploader\.value\)/);
+assert.match(upload,/clearRememberedUploaderName\(\)/);
+const prefBegin=upload.indexOf('const UPLOADER_NAME_KEY=');
+const prefEnd=upload.indexOf('function showLogin()',prefBegin);
+assert.ok(prefBegin>0&&prefEnd>prefBegin,"uploader-name helper not found");
+const savedValues=new Map();
+let now=1800000000000;
+const store={
+ getItem:k=>savedValues.has(k)?savedValues.get(k):null,
+ setItem:(k,v)=>savedValues.set(k,String(v)),
+ removeItem:k=>savedValues.delete(k)
+};
+const prefBindings="\nglobalThis.__pref={rememberedUploaderName,rememberUploaderName,clearRememberedUploaderName,isUploaderRememberEnabled,setUploaderRememberEnabled};";
+const preferenceContext={localStorage:store,Date:{now:()=>now},Number,JSON,String};
+vm.runInNewContext(upload.slice(prefBegin,prefEnd)+prefBindings,preferenceContext);
+const pref=preferenceContext.__pref;
+assert.equal(pref.isUploaderRememberEnabled(),true,"remember by default");
+assert.equal(pref.rememberedUploaderName(),"","no previous name");
+pref.rememberUploaderName("  ครูผู้ส่ง ทดสอบ  ");
+assert.equal(pref.rememberedUploaderName(),"ครูผู้ส่ง ทดสอบ","stored name restored");
+const saved=JSON.parse(savedValues.get("nongkum-r40-uploader-name-v1"));
+assert.deepEqual(Object.keys(saved).sort(),["name","saved_at"],"only name and timestamp persisted");
+now+=29*24*60*60*1000;
+assert.equal(pref.rememberedUploaderName(),"ครูผู้ส่ง ทดสอบ","valid within 30 days");
+now+=2*24*60*60*1000;
+assert.equal(pref.rememberedUploaderName(),"","name expires after 30 days");
+assert.equal(savedValues.has("nongkum-r40-uploader-name-v1"),false,"expired name deleted");
+pref.rememberUploaderName("ชื่อทดสอบ");
+pref.setUploaderRememberEnabled(false);
+pref.clearRememberedUploaderName();
+assert.equal(pref.isUploaderRememberEnabled(),false,"opt-out persisted");
+assert.equal(pref.rememberedUploaderName(),"","name cleared on opt-out");
+pref.setUploaderRememberEnabled(true);
+assert.equal(pref.isUploaderRememberEnabled(),true,"can opt back in");
+savedValues.set("nongkum-r40-uploader-name-v1","{invalid-json");
+assert.equal(pref.rememberedUploaderName(),"","corrupt local data ignored");
+const denyStorage={getItem(){throw Error("blocked");},setItem(){throw Error("blocked");},removeItem(){throw Error("blocked");}};
+const deniedContext={localStorage:denyStorage,Date:{now:()=>now},Number,JSON,String};
+vm.runInNewContext(upload.slice(prefBegin,prefEnd)+prefBindings,deniedContext);
+assert.equal(deniedContext.__pref.isUploaderRememberEnabled(),false,"blocked storage opts out");
+assert.doesNotThrow(()=>deniedContext.__pref.rememberUploaderName("ทดสอบ"));
+assert.equal(deniedContext.__pref.rememberedUploaderName(),"");
+assert.doesNotThrow(()=>deniedContext.__pref.clearRememberedUploaderName());
+
 assert.match(uphtml,/WebP เป็นหลัก/);
 assert.match(upload,/TARGET_IMAGE_BYTES=250000,MAX_IMAGE_BYTES=350000/);
 assert.match(upload,/const qualities=\[0\.84,0\.76,0\.68,0\.60,0\.52\]/);
