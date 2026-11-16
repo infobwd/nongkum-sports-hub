@@ -51,7 +51,7 @@ assert.match(upload,/nongkum-r34-editor-session-v1/);
 assert.match(review,/nongkum-r37-reviewer-session-v1/);
 assert.match(upload,/canvas\.toBlob/);
 assert.match(upload,/file\.size>18000000/);
-assert.ok(upload.includes('["image/webp","image/jpeg"].includes(blob.type)'));
+assert.ok(upload.includes('["image/webp","image/jpeg"].includes(candidate.type)'));
 assert.match(upload,/image_b64:b64/);
 assert.match(review,/consent_checked:true/);
 assert.match(review,/กำลังบันทึกการอนุญาต \(ยังไม่เผยแพร่\)/);
