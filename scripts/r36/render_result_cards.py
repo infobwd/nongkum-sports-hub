@@ -89,6 +89,30 @@ gold = (248, 206, 112)
 white = (255, 255, 255)
 light = (225, 236, 252)
 
+# One compact R38 WebP atlas: 3x3 sports pictograms, never uploaded athlete photos.
+ATLAS = ROOT / "assets/results-sports-r38.webp"
+SPORT_CELLS = {
+    "athletics": (0, 0), "relay": (1, 0), "football": (2, 0),
+    "futsal": (0, 1), "petanque": (1, 1), "volleyball": (2, 1),
+    "takraw": (0, 2), "tabletennis": (1, 2), "tugofwar": (2, 2),
+    "shootout": (2, 0),
+}
+def sport_icon(job):
+    if not ATLAS.is_file():
+        raise RuntimeError("Missing approved sport-symbol atlas for LINE preview")
+    key = job.get("sport_id", "")
+    if key == "athletics" and "ผลัด" in (job.get("line") or ""):
+        key = "relay"
+    if key not in SPORT_CELLS:
+        return None
+    with Image.open(ATLAS) as atlas:
+        width, height = atlas.size
+        x, y = SPORT_CELLS[key]
+        x0, x1 = round(x * width / 3), round((x + 1) * width / 3)
+        y0, y1 = round(y * height / 3), round((y + 1) * height / 3)
+        return atlas.crop((x0, y0, x1, y1)).convert("RGBA").resize(
+            (84, 84), Image.Resampling.LANCZOS)
+
 for job in JOBS["jobs"]:
     slug = job["slug"]
     assert re.fullmatch(r"r[0-9a-f]{8}-v[1-9][0-9]*-p2", slug), "Expected new design-specific URL"
@@ -98,6 +122,9 @@ for job in JOBS["jobs"]:
     draw.rounded_rectangle((30, 25, 1170, 605), radius=34, fill=navy, outline=gold, width=4)
     draw.rectangle((78, 120, 1122, 124), fill=gold)
     centre(draw, 600, 46, "มิตรภาพเกมส์ 2569", 50, gold)
+    icon = sport_icon(job)
+    if icon is not None:
+        image.paste(icon, (1016, 42), icon)
     centre(draw, 600, 141, "ผลการแข่งขัน", 40, light)
     sport_div = " · ".join(x for x in [job.get("sport", ""), job.get("division", "")] if x)
     centre(draw, 600, 212, cropped(draw, sport_div, 990, 44), 44, light)
