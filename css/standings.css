@@ -37,3 +37,6 @@
 .standings-group h3{font-size:.98rem;margin:0 0 6px}
 .standings-group .standings-table{min-width:430px}
 .standings-group .standings-provenance{margin-bottom:9px}
+
+/* Respect the hidden state when no group matches the current filter. */
+.standings-roster[hidden]{display:none!important}
