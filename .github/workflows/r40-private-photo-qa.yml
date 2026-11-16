@@ -1,0 +1,36 @@
+name: R40 Private Activity Photo Upload QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "upload-photos.html"
+      - "review-photos.html"
+      - "css/activity-photos.css"
+      - "js/upload-photos-r40.js"
+      - "js/review-photos-r40.js"
+      - "supabase/functions/nongkum-activity-photos/**"
+      - "supabase/migrations/*r40*"
+      - "scripts/r40/**"
+      - ".github/workflows/r40-private-photo-qa.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/nongkum-activity-photos/**"
+      - "scripts/r40/**"
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Enforce private media permissions and frontend contract
+        run: node scripts/r40/test-r40.mjs
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Type-check Supabase Edge Function
+        run: deno check supabase/functions/nongkum-activity-photos/index.ts
