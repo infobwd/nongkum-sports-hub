@@ -31,8 +31,18 @@
 ## ลำดับดำเนินงาน
 - [x] ตรวจ source/main/backend และ PR คู่ขนาน
 - [x] บันทึกแผน R37 บนสาขาแยกก่อนลงโค้ด
-- [ ] เพิ่มหน้า HTML/CSS/JS/mobile
-- [ ] เพิ่ม migration เฉพาะ reviewer credentials/sessions/actions และ server RPC
-- [ ] เพิ่ม Edge Function แบบ private access + regression tests
-- [ ] QA static/SQL grants/no secret/R32 approved-only/กรณีส่งผลซ้ำ/ผลตีกลับ
+- [x] เพิ่มหน้า HTML/CSS/JS/mobile
+- [x] เพิ่ม migration เฉพาะ reviewer credentials/sessions/actions และ server RPC
+- [x] เพิ่ม Edge Function แบบ private access + regression tests
+- [x] QA เบื้องต้น: JS syntax, SQL smoke transaction, permission grants, invalid-token, ผลรับรองเดิมไม่เปลี่ยน
+- [ ] QA GitHub Actions + iOS Safari/Chrome/LINE และการยืนยันผลจริง (ยังไม่มีการกดรับรองผ่านหน้าใหม่)
 - [ ] PR รอตรวจ, จัด credential ผ่านช่องทางปลอดภัย, deploy และทดสอบบนเว็บจริง
+
+
+## บันทึกผลดำเนินงาน R37 — 16 พฤศจิกายน 2569
+- **พัฒนาแล้วในสาขา:** `feat/r37-reviewer-queue-20261116`: `review-results.html`, `css/review-results.css`, `js/review-results.js`, ทางเข้าจาก `index.html` / `results.html`, Edge Function และ regression test
+- **Supabase:** apply migration `20261116050648 r37_reviewer_queue_20261116` สำเร็จ; ใช้เฉพาะ sports schema ของ Meeting; มี reviewer sessions, bcrypt credential hash, throttling login, rejection audit; reviewer Edge Function ACTIVE v1; **รหัสจริงไม่เก็บใน GitHub, HTML, JS หรือ SQL migration**
+- **การทดสอบภายใน:** compiler JS ผ่าน, SQL ใช้ transaction สร้าง reviewer QA session ชั่วคราวเพื่อทดสอบ status/queue และการปฏิเสธการ approve/reject ของ submission ID ที่ไม่เคยมี จากนั้น ROLLBACK ไม่มีผลปลอมค้าง; REST RPC ให้ execute เฉพาะ service_role; anon/authenticated ไม่มีสิทธิ์; anon อ่าน private table ไม่ได้; token ไม่ถูกต้องคืน expired
+- **ฐานข้อมูล ณ หลังติดตั้ง:** public results คง 1 ผลรับรอง; พบผลรอตรวจ 4 รายการ (ข้อมูลเปลี่ยนได้ตามการส่งจริง); ไม่เผยแพร่หรือแก้ผลใดในรอบนี้
+- **ข้อจำกัด:** หน้าเว็บสาธารณะยังไม่ merge; ผู้ใช้จึงยังเปิดหน้าใหม่จาก GitHub Pages ไม่ได้; ยังไม่มีหลักฐานทดสอบ Safari/Chrome/LINE; ชื่อผู้ตรวจเป็นชื่อที่ผู้กรอกรหัสระบุเอง ไม่ใช่การยืนยันตัวบุคคลผ่านบัญชี; รายการส่งกลับเก็บเหตุผลใน audit แต่ยังไม่มีแจ้งเตือนเหตุผลกลับหน้า R34 ผู้บันทึก; ต้องวางแผนเพิ่ม
+- **ก่อนใช้งาน:** ต้องตรวจ CI PR และ Merge โดยคำสั่งผู้จัด ตรวจเว็บจริงหลัง Merge, ให้ผู้ตรวจลองเข้าใช้งานและตรวจผลที่มีหลักฐานจริง, ยืนยันว่าผลแสดงทันทีจาก R32; ห้ามเผยแพร่ผลจริงผ่านทดสอบจำลอง
