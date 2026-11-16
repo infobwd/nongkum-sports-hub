@@ -29,3 +29,10 @@
 - ภาพเฉพาะผลจริงจะยังไม่ทันทีจน R36 สร้างหน้าและ PR ได้ Merge; ช่วงนั้น LINE จะแสดงภาพ **เฉพาะกีฬา** (ไม่ใช่เฉพาะผล) พร้อมข้อความชื่อคู่จาก native share
 - ต้องตรวจ GitHub Actions, เผยแพร่ Pages และ LINE จริงภายหลัง Merge ก่อนรายงานว่าตรวจรับ
 - ไม่อัปเดต Supabase หรือเปลี่ยนสถานะผลการแข่งขันจากงาน R41
+
+## หลักฐานการพัฒนาและการตรวจครั้งแรก
+- PR: https://github.com/infobwd/nongkum-sports-hub/pull/163
+- R36 build / render / validate / test จาก source ก่อน bot commit: https://github.com/infobwd/nongkum-sports-hub/actions/runs/43839657726 — success ทุกขั้น
+- CI ได้เพิ่ม `s/<sport>/index.html` และ `card.png` ครบ 9 กีฬาใน branch โดยอัตโนมัติ; ไม่มีการเปลี่ยน `r/` หรือผลการแข่ง
+- ตรวจไฟล์ตัวอย่าง `s/petanque/index.html`: มี OG ภาษาไทย, ชื่อเปตอง, PNG 1200×630 และเส้นทาง `results.html?ref=f<hash>`
+- ยังรอ CI รอบสุดท้ายบน HEAD และตรวจเว็บไซต์จริงหลัง Merge; สถานะ **พัฒนาแล้ว / ยังไม่ Merge / ยังไม่เผยแพร่ / ยังไม่ตรวจรับ**
