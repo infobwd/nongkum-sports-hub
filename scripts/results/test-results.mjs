@@ -19,7 +19,7 @@ assert.equal(published.sports.length,9);
 assert.ok(!JSON.stringify(published).includes("recorded_by"));
 assert.ok(index.includes('href="./results.html"')||index.includes('id="resultsLink"'));
 assert.ok(resultsHtml.includes("โปรแกรมการแข่งขัน")&&resultsHtml.includes("ผลการแข่งขัน"));
-assert.ok(/href="\.\/css\/results\.css\?v=r35-1"/.test(resultsHtml));
+assert.ok(/href="\.\/css\/results\.css\?v=r38-1"/.test(resultsHtml));
 assert.ok(!index.includes("<style>")&&!index.includes("<script>"));
 assert.ok(!resultsHtml.includes("<script>"));
 for(const [name,code] of [["shared",common],["renderers",renderers],["program",program],["results",client],["apps",apps]]){
