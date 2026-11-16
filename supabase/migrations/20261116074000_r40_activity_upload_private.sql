@@ -2,8 +2,8 @@
 -- Requires human approval; upload and approval NEVER publish to public sites or results.
 -- service_role-only RPC; existing editor/reviewer 6-hour sessions stay independent.
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
-values ('nongkum-activity-intake','nongkum-activity-intake',false,350000,array['image/webp']::text[])
-on conflict (id) do update set public=false,file_size_limit=350000,allowed_mime_types=array['image/webp']::text[];
+values ('nongkum-activity-intake','nongkum-activity-intake',false,350000,array['image/webp','image/jpeg']::text[])
+on conflict (id) do update set public=false,file_size_limit=350000,allowed_mime_types=array['image/webp','image/jpeg']::text[];
 
 create table if not exists nongkum_sports.activity_photo_submissions (
  id uuid primary key default gen_random_uuid(),
@@ -13,6 +13,7 @@ create table if not exists nongkum_sports.activity_photo_submissions (
  division text not null,
  storage_path text not null unique,
  byte_size integer not null check (byte_size between 1000 and 350000),
+ mime_type text not null check (mime_type in ('image/webp','image/jpeg')),
  caption text not null check (length(caption) between 3 and 120),
  uploaded_by text not null check (length(uploaded_by) between 2 and 100),
  uploader_session_hash text not null,
@@ -25,7 +26,7 @@ create table if not exists nongkum_sports.activity_photo_submissions (
  consent_checked boolean not null default false,
  consent_note text,
  reject_reason text,
- constraint r40_media_path check (storage_path ~ '^uploads/[0-9a-f-]{36}[.]webp$')
+ constraint r40_media_path check (storage_path ~ '^uploads/[0-9a-f-]{36}[.](webp|jpg)$')
 );
 create index if not exists r40_activity_photo_status_time_idx
  on nongkum_sports.activity_photo_submissions(status,submitted_at desc);
@@ -57,6 +58,7 @@ declare
  v_item nongkum_sports.activity_photo_submissions%rowtype;
  v_storage_size int;
  v_storage_mime text;
+ v_mime text;
  v_reason text;
 begin
  if p_data is null or jsonb_typeof(p_data)<>'object'
@@ -90,11 +92,12 @@ begin
    if length(v_event_id) not between 3 and 140 or
       length(v_uploader) not between 2 and 100 or
       length(v_caption) not between 3 and 120 or
-      coalesce(p_data->>'mime_type','')<>'image/webp' or
+      coalesce(p_data->>'mime_type','') not in ('image/webp','image/jpeg') or
       coalesce(p_data->>'byte_size','') !~ '^[0-9]{1,6}$' then
       return jsonb_build_object('ok',false,'error','invalid');
    end if;
    v_size:=(p_data->>'byte_size')::integer;
+   v_mime:=p_data->>'mime_type';
    if v_size not between 1000 and 350000 then
      return jsonb_build_object('ok',false,'error','invalid');
    end if;
@@ -114,11 +117,13 @@ begin
    end if;
    v_id:=gen_random_uuid();
    insert into nongkum_sports.activity_photo_submissions
-     (id,event_id,source_key,sport_id,division,storage_path,byte_size,caption,
+     (id,event_id,source_key,sport_id,division,storage_path,byte_size,mime_type,caption,
       uploaded_by,uploader_session_hash,status)
    values (v_id,v_event_id,v_source,v_sport,v_division,
-      'uploads/'||v_id::text||'.webp',v_size,v_caption,v_uploader,v_hash,'uploading');
-   return jsonb_build_object('ok',true,'id',v_id,'storage_path','uploads/'||v_id::text||'.webp');
+      'uploads/'||v_id::text||case when v_mime='image/webp' then '.webp' else '.jpg' end,
+       v_size,v_mime,v_caption,v_uploader,v_hash,'uploading');
+   return jsonb_build_object('ok',true,'id',v_id,'storage_path',
+       'uploads/'||v_id::text||case when v_mime='image/webp' then '.webp' else '.jpg' end);
  end if;
 
  if p_action='queue' then
@@ -152,7 +157,7 @@ begin
      into v_storage_size,v_storage_mime
      from storage.objects where bucket_id='nongkum-activity-intake' and name=v_item.storage_path;
    if not found or v_storage_size is distinct from v_item.byte_size
-      or v_storage_mime is distinct from 'image/webp' then
+      or v_storage_mime is distinct from v_item.mime_type then
      return jsonb_build_object('ok',false,'error','invalid');
    end if;
    update nongkum_sports.activity_photo_submissions
@@ -169,7 +174,7 @@ begin
    if v_item.status not in ('review','approved','rejected') then
      return jsonb_build_object('ok',false,'error','missing');
    end if;
-   return jsonb_build_object('ok',true,'storage_path',v_item.storage_path,'byte_size',v_item.byte_size);
+   return jsonb_build_object('ok',true,'storage_path',v_item.storage_path,'byte_size',v_item.byte_size,'mime_type',v_item.mime_type);
  end if;
  if v_item.status<>'review' then
    return jsonb_build_object('ok',false,'error','stale');
