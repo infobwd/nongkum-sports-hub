@@ -78,15 +78,20 @@ function boot(url,active,storedSchool=""){
 const home=boot("https://example.org/nongkum-sports-hub/?school=wangdong&sport=football&level=primary","program");
 for(const a of home.links){
  const uri=new URL(a.href,"https://example.org/nongkum-sports-hub/");
- assert.equal(uri.searchParams.get("school"),"wangdong");
- assert.equal(uri.searchParams.get("sport"),"football");
- assert.equal(uri.searchParams.get("level"),"primary");
+ if(a.dataset.navView==="results"){
+   assert.equal(uri.search,"","program->results must begin with all approved sports");
+ }else{
+   assert.equal(uri.searchParams.get("school"),"wangdong");
+   assert.equal(uri.searchParams.get("sport"),"football");
+   assert.equal(uri.searchParams.get("level"),"primary");
+ }
 }
-assert.ok(home.links[3].href.startsWith("./results.html?"));
+assert.equal(home.links[3].href,"./results.html");
 home.ctx.NongkumNavigation.update({school:"saohong",sport:"petanque",level:"secondary"});
-assert.match(home.links[3].href,/school=saohong/);
-assert.match(home.links[3].href,/sport=petanque/);
-assert.match(home.links[3].href,/level=secondary/);
+assert.equal(home.links[3].href,"./results.html","results tab must not inherit program filters");
+assert.match(home.links[2].href,/school=saohong/);
+assert.match(home.links[2].href,/sport=petanque/);
+assert.match(home.links[2].href,/level=secondary/);
 // A single tap has instant visual feedback and never delays native href navigation.
 home.links[3].handlers.pointerdown({button:0});
 assert.equal(home.links[3].classList.contains("is-pressing"),true);
@@ -118,4 +123,4 @@ fromResults.links[3].handlers.pointercancel();
 assert.equal(fromResults.links[3].classList.contains("is-pressing"),false);
 assert.equal(JSON.parse(file("data/draft-schedule.json")).fixtures.length,236);
 assert.equal(JSON.parse(file("data/public-results.json")).results.length,0);
-console.log("PASS R6/R7: visible bottom tabs, safe-area without overlay, native single-tap feedback, deep-link/filter continuity");
+console.log("PASS R6/R7/R35: mobile tabs, safe-area, native taps, results default all approved, and explicit back-navigation filters");
