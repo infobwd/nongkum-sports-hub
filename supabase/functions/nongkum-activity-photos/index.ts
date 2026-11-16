@@ -140,7 +140,7 @@ async function writePublic(path:string,bytes:Uint8Array,mime:string){
    ||bytes.length<1000||bytes.length>LIMIT)throw Error("invalid_image");
  const r=await fetch(DB+"/storage/v1/object/"+PUBLIC_BUCKET+"/"+path,{
    method:"POST",
-   headers:{...svcHeaders,"Content-Type":mime,"cache-control":"60","x-upsert":"false"},
+   headers:{...svcHeaders,"Content-Type":mime,"cache-control":"0","x-upsert":"false"},
    body:new Uint8Array(bytes).buffer,signal:AbortSignal.timeout(20000)
  });
  if(!r.ok){console.error("R40-G public object upload failed",r.status);throw Error("upload_failed");}
