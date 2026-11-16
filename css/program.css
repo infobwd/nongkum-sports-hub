@@ -195,3 +195,10 @@ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direc
 .schedule-result-switch button:focus-visible{outline:3px solid #efc859;outline-offset:2px}
 .schedule-results-status{font-size:.78rem;line-height:1.55;color:#5c7189;margin:5px 0 12px}
 @media(max-width:420px){.schedule-result-switch{display:grid;grid-template-columns:1fr 1fr;width:100%}}
+
+/* R38: simple approved-result visibility selector (fail open when live feed unavailable). */
+.r38-result-modes{display:flex;gap:7px;padding:4px 0 6px}
+.r38-result-modes button{min-height:42px;padding:8px 14px;border:1px solid #bdcfe4;border-radius:14px;background:#fff;color:#204a78;font:inherit;font-weight:750;cursor:pointer}
+.r38-result-modes button[aria-pressed="true"]{background:#194777;color:#fff;border-color:#194777}
+#scheduleResultStatus{margin:0 0 6px;color:#617891}
+@media(max-width:440px){.r38-result-modes button{flex:1}}
