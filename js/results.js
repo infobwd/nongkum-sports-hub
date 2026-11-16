@@ -36,12 +36,26 @@
     directRetry:optionalElement("retrySharedResult")
   };
   const requestedResult=new URLSearchParams(location.search).get("result");
-  const state={data:null,school:"",sport:"",level:"",source:"",focusId:"",directMode:!!requestedResult};
+  const state={data:null,school:"",sport:"",level:"",source:"",shareIndex:null,focusId:"",directMode:!!requestedResult};
   if(state.directMode&&els.direct&&els.all){
     els.direct.hidden=false;els.all.hidden=true;
   }
   let initialized=false;
   const safe=globalThis.Nongkum.escapeHtml;
+  // Manifest is generated from verified published-result revisions by R36.
+  // If unavailable/stale, sharing falls back to the original direct result URL.
+  async function loadShareIndex(){
+    try{
+      const response=await fetch("./data/result-share-index.json?refresh="+Date.now(),{cache:"no-store"});
+      if(!response.ok)return;
+      const index=await response.json();
+      if(index&&index.schema_version===1&&index.approved_only===true&&
+         index.results&&typeof index.results==="object"&&!Array.isArray(index.results)){
+        state.shareIndex=index;
+      }
+    }catch(_){ /* Legacy deep result URL remains safe. */ }
+  }
+  loadShareIndex();
   function validResult(r){
     if(!r||r.status!=="approved"||typeof r.id!=="string"||!r.id)return false;
     if(!["score","sets","win_loss","ranking"].includes(r.result_type))return false;
@@ -164,8 +178,8 @@
       const item=state.data.results.find(x=>x.id===btn.dataset.shareResult&&x.status==="approved");
       if(!item)return;
       try{
-        const answer=await globalThis.Nongkum.shareItem("results.html","result",item.id,"ผลการแข่งขันที่รับรองแล้ว · มิตรภาพเกมส์");
-        if(answer==="copied"&&!globalThis.NongkumToast?.show("คัดลอกลิงก์ผลแข่งขันแล้ว","นำไปวางใน LINE เพื่อส่งต่อได้ทันที"))els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
+        const answer=await globalThis.Nongkum.shareApprovedResult(item,state.shareIndex,state.data.schools,state.data.sports);
+        if(answer==="copied"&&!globalThis.NongkumToast?.show("คัดลอกลิงก์ผลแข่งขันแล้ว","คัดลอกข้อความผลรับรองและลิงก์แล้ว นำไปวางใน LINE ได้เลย"))els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
         if(answer==="unavailable"&&!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์",true))els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์";
       }catch(e){if(!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","กรุณาลองอีกครั้ง",true))els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ผลแข่งขันได้";}
     }
@@ -223,6 +237,7 @@
     els.refresh.disabled=true;
     els.refreshStatus.textContent=refresh&&state.data?"กำลังตรวจผลรับรองล่าสุด…":"กำลังอ่านผลการแข่งขัน…";
     try{
+      loadShareIndex();
       const source=globalThis.NongkumResultSource
         ?await globalThis.NongkumResultSource.load():null;
       let payload=source?.data;
