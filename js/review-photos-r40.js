@@ -155,6 +155,11 @@ function render(items){
      publish.type="button";publish.addEventListener("click",()=>review("publish",item,controls));
      controls.append(publish);
    }
+   if(revoked){
+     const retry=el("button","","ตรวจซ้ำว่าลบไฟล์สาธารณะแล้ว");
+     retry.type="button";retry.addEventListener("click",()=>review("revoke",item,controls));
+     controls.append(retry);
+   }
    if(isReview||published){
      const rejectLabel=el("label","",published?"เหตุผลนำภาพออกจากเว็บไซต์":"เหตุผลส่งกลับผู้ส่งภาพ");
      const reason=el("textarea","");reason.dataset.reason="";reason.maxLength=500;
