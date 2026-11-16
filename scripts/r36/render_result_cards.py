@@ -157,3 +157,32 @@ for job in JOBS["jobs"]:
     with Image.open(dest) as verified:
         assert verified.format == "PNG" and verified.size == (1200, 630)
     print("R36.1 PNG:", dest.relative_to(ROOT), dest.stat().st_size, "bytes")
+
+# R41: pre-render neutral sport previews for all public sports. These exist
+# before new per-result approved previews are merged; never print a winner,
+# school, participant, score, age division or inferred result here.
+SPORTS = json.loads((ROOT / "data/public-results.json").read_text(encoding="utf8"))["sports"]
+for sport in SPORTS:
+    sport_id = sport["id"]
+    sport_name = sport["name"]
+    assert re.fullmatch(r"[a-z][a-z0-9-]{0,39}", sport_id)
+    assert 0 < len(sport_name) <= 100
+    image = Image.new("RGB", (1200, 630), navy_dark)
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle((30, 25, 1170, 605), radius=34,
+                           fill=navy, outline=gold, width=4)
+    draw.rectangle((78, 120, 1122, 124), fill=gold)
+    centre(draw, 600, 45, "มิตรภาพเกมส์ 2569", 50, gold)
+    icon = sport_icon({"sport_id": sport_id})
+    if icon is not None:
+        image.paste(icon, (1016, 42), icon)
+    centre(draw, 600, 161, "ผลการแข่งขัน", 47, light)
+    centre(draw, 600, 267, cropped(draw, sport_name, 975, 86), 86, white)
+    centre(draw, 600, 411, "เปิดดูผลล่าสุดบนเว็บไซต์", 41, gold)
+    centre(draw, 600, 539, "มิตรภาพเกมส์ 2569 · ผลการแข่งขัน", 27, light, "Regular")
+    dest = ROOT / "s" / sport_id / "card.png"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    image.save(dest, format="PNG", optimize=True)
+    with Image.open(dest) as verified:
+        assert verified.format == "PNG" and verified.size == (1200, 630)
+    print("R41 sport preview PNG:", dest.relative_to(ROOT), dest.stat().st_size, "bytes")
