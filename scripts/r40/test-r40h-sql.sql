@@ -9,7 +9,8 @@ create table nongkum_sports.editor_sessions(
  role_name text
 );
 alter table nongkum_sports.activity_photo_submissions
-  add column uploader_session_hash text;
+  add column uploader_session_hash text,
+  add column reject_reason text;
 update nongkum_sports.activity_photo_submissions
  set uploader_session_hash=encode(extensions.digest(repeat('a',64),'sha256'),'hex');
 insert into nongkum_sports.editor_sessions(token_hash,expires_at,role_name)
