@@ -1,0 +1,64 @@
+/* R40-H accessible mobile photo upload/review, override legacy R40 layout. */
+body[data-view^="photo-"],body[data-view^="photo-"] *{box-sizing:border-box}
+body[data-view^="photo-"] .shell,body[data-view^="photo-"] main,body[data-view^="photo-"] .photo-panel{min-width:0;max-width:100%}
+.photo-panel form,.photo-fields,.photo-fields>div,.photo-review-list,.photo-review-controls{min-width:0}
+.photo-panel .select2-container{width:100%!important;min-width:0;max-width:100%!important}
+.photo-panel .select2-container .selection,.photo-panel .select2-selection--single{display:block;max-width:100%;min-width:0;overflow:hidden}
+.photo-panel .select2-container--default .select2-selection--single .select2-selection__rendered{
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  min-width:0;display:block;line-height:50px
+}
+.photo-panel .select2-dropdown{max-width:calc(100vw - 40px);overflow-wrap:anywhere}
+.photo-panel .select2-results__option{overflow-wrap:anywhere;white-space:normal}
+.photo-fixture-selected{font-weight:650;font-size:.83rem;line-height:1.55;
+  border-left:4px solid #e6b94c;background:#f4f7fd;color:#24486e;border-radius:6px;padding:10px 12px;
+  overflow-wrap:anywhere;margin:8px 0}
+.photo-fixture-selected[hidden],.photo-success[hidden],.photo-inline-error[hidden]{display:none!important}
+.photo-steps{font-size:.78rem!important;font-weight:700;color:#426a90;line-height:1.5!important}
+.photo-steps span{margin:0 .35rem}
+.photo-inline-error{color:#973b2b;background:#fff2ef;border:1px solid #eecec5;
+ padding:10px 12px;border-radius:10px;font-weight:700;line-height:1.6}
+.photo-success{text-align:center;border-radius:17px;border:1px solid #b4d5c5;
+ background:#f1faf5;padding:20px 15px;margin:12px 0;color:#174b37;scroll-margin-top:15px}
+.photo-success .photo-success-icon{display:inline-flex;align-items:center;justify-content:center;
+ width:58px;height:58px;border-radius:50%;color:#fff;background:#267448;font-size:2rem;font-weight:800}
+.photo-panel .photo-success h2{font-size:1.45rem;margin:12px 0 8px;color:#1c603b}
+.photo-success p{margin:8px 0;line-height:1.6}
+.photo-success-fixture{font-weight:800;overflow-wrap:anywhere}
+.photo-reference{font-size:.77rem!important;color:#426753;overflow-wrap:anywhere}
+.photo-success-actions{display:grid;gap:9px;margin-top:15px}
+.photo-success-actions button{width:100%}
+.photo-mine{border-top:1px solid #d5e2ed;margin-top:16px;padding:15px 0}
+.photo-mine summary{cursor:pointer;color:#1c4a76;font-weight:800;min-height:44px;display:list-item}
+.photo-mine-list{display:grid;gap:8px}
+.photo-mine-entry{padding:10px;border:1px solid #dce6f1;background:#f8fbff;border-radius:10px;overflow-wrap:anywhere}
+.photo-mine-entry strong,.photo-mine-entry small{display:block}
+.photo-mine-entry small{font-size:.77rem;color:#506982;margin-top:4px}
+.photo-review-tabs{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-inline:contain;
+ padding:7px 0 14px;margin:0 0 6px;scrollbar-width:thin}
+.photo-review-tabs button{flex:0 0 auto;white-space:nowrap;font-size:.86rem;
+ background:#f3f7fc;color:#24476c;border:1px solid #b7ccdf;border-radius:13px;padding:10px 14px}
+.photo-review-tabs button[aria-pressed="true"]{background:#184d82;color:#fff;border-color:#184d82}
+.photo-review-tabs button span{font-variant-numeric:tabular-nums}
+.photo-review-intro{margin:7px 0 11px;line-height:1.5!important}
+.photo-review-card .photo-review-controls{gap:10px}
+.photo-review-card .photo-review-checks{background:#fff;padding:10px;
+ border:1px solid #d9e5f1;border-radius:12px;display:grid;gap:8px}
+.photo-review-card .photo-review-checks .photo-consent{margin:5px 0!important}
+.photo-review-card .photo-review-secondary{padding:10px;border:1px solid #d7e4ef;border-radius:10px;background:#f5f8fc}
+.photo-review-card .photo-review-secondary summary{cursor:pointer;font-size:.87rem;font-weight:750;color:#1e4e80;padding:8px 0}
+.photo-review-card .photo-review-secondary button{margin-top:8px;width:100%}
+.photo-review-card .photo-review-note{font-size:.76rem;color:#506e89;line-height:1.5}
+.photo-review-card .photo-primary{min-height:52px}
+.photo-review-card .photo-card-error{padding:9px 11px;background:#fff2f0;color:#9c3436;
+ border-radius:9px;font-size:.85rem;font-weight:750;line-height:1.55;overflow-wrap:anywhere}
+.photo-review-card .photo-card-error[hidden]{display:none!important}
+.photo-review-head h3{overflow-wrap:anywhere}
+.photo-review-card .photo-review-preview img{display:block;width:100%;max-height:500px;object-fit:contain}
+@media (max-width:520px){
+ body[data-view^="photo-"] .photo-main{width:100%;padding-inline:12px}
+ body[data-view^="photo-"] .photo-panel{padding:13px}
+ .photo-review-tabs{margin-inline:-2px}
+ .photo-review-card{padding:11px}
+ .photo-name-settings{max-width:100%}
+}
