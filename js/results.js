@@ -36,7 +36,7 @@
     directRetry:optionalElement("retrySharedResult")
   };
   const requestedResult=new URLSearchParams(location.search).get("result");
-  const state={data:null,school:"",sport:"",level:"",source:"",shareIndex:null,focusId:"",directMode:!!requestedResult};
+  const state={data:null,school:"",sport:"",level:"",source:"",shareIndex:null,catalog:new Map(),focusId:"",directMode:!!requestedResult};
   if(state.directMode&&els.direct&&els.all){
     els.direct.hidden=false;els.all.hidden=true;
   }
@@ -130,7 +130,7 @@
       els.directStatus.textContent=backup?"ข้อมูลสำรอง · ยังตรวจผลล่าสุดไม่ได้":"ไม่พบผลที่รับรองแล้ว";
       return;
     }
-    els.directCard.innerHTML=globalThis.NongkumResultsRender.card(item,state.data.schools,state.data.sports);
+    els.directCard.innerHTML=globalThis.NongkumResultsRender.card(item,state.data.schools,state.data.sports,state.catalog);
     els.directStatus.textContent="ผลรับรองแล้ว · "+(item.division||"")+" · "+(item.fixture_id||item.event_id||"");
   }
   function render(){
@@ -156,7 +156,7 @@
       els.emptyDescription.textContent=stale?"ยังตรวจผลรับรองล่าสุดจากระบบไม่ได้ กรุณารีเฟรชอีกครั้งเพื่อดูผลปัจจุบัน":total===0?"ผลจะปรากฏเมื่อคณะกรรมการรับรองและเผยแพร่แล้ว":"มีผลรับรอง "+total+" รายการ แต่ไม่ตรงกับตัวกรองนี้ ล้างตัวกรองเพื่อดูผลทั้งหมด";
       els.emptyClear.hidden=!filtered;
     }
-    els.cards.innerHTML=found.map(r=>globalThis.NongkumResultsRender.card(r,data.schools,data.sports)).join("");
+    els.cards.innerHTML=found.map(r=>globalThis.NongkumResultsRender.card(r,data.schools,data.sports,state.catalog)).join("");
     if(state.focusId&&typeof els.cards.querySelector==="function"){
       const target=els.cards.querySelector("[data-result-card='"+state.focusId.replace(/'/g,"")+"']");
       if(target&&typeof target.scrollIntoView==="function")target.scrollIntoView({block:"center"});
@@ -247,6 +247,8 @@
         payload=await response.json();
       }
       state.source=source?.source||"backup";
+      try{state.catalog=await globalThis.NongkumResultsCatalog?.load()||new Map();}
+      catch(_){state.catalog=new Map();}
       loaded(payload);
       setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
