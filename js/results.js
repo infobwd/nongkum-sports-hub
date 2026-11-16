@@ -198,7 +198,15 @@
   function loaded(data){
     if(!validDataset(data))throw Error("ผลการแข่งขันไม่ผ่านการตรวจ Approved-only");
     state.data=data;
-    if(!initialized){
+     // Re-resolve on every refresh: offline snapshots may miss newly approved rows.
+     if(state.directMode){
+       const linked=requestedResult?
+         data.results.find(x=>x.id===requestedResult&&x.status==="approved"):
+         (requestedRef?globalThis.Nongkum.findApprovedResultByRef(data.results,requestedRef):null);
+       state.focusId=linked?.id||"";
+       state.sport=linked?.sport_id||"";
+     }
+     if(!initialized){
       data.schools.forEach(s=>{
         const o=document.createElement("option");o.value=s.id;o.textContent=s.name;els.school.appendChild(o);
       });
@@ -208,12 +216,8 @@
       state.school=data.schools.some(s=>s.id===requested)?requested:"";
       state.sport=data.sports.some(s=>s.id===params.get("sport"))?params.get("sport"):"";
       state.level=["early","primary","secondary"].includes(params.get("level"))?params.get("level"):"";
-      const linked=requestedResult?
-         data.results.find(x=>x.id===requestedResult&&x.status==="approved"):
-         globalThis.Nongkum.findApprovedResultByRef(data.results,requestedRef);
        if(requestedResult||requestedRef){
-         state.school="";state.level="";state.sport=linked?linked.sport_id:"";
-         state.focusId=linked?.id||"";
+         state.school="";state.level="";
        }
       els.school.value=state.school;els.level.value=state.level;
       if(state.school||state.level)els.more.open=true;
