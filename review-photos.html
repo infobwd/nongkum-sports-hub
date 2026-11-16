@@ -6,6 +6,7 @@
 <title>ตรวจภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
 <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="./css/activity-photos.css?v=r40-3">
+<link rel="stylesheet" href="./css/activity-photos-r40h.css?v=r40h-1">
 </head><body data-view="photo-review">
 <header class="top"><div class="shell">
  <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">ผู้ตรวจภาพ</span></div>
@@ -23,13 +24,19 @@
 </section>
 <section id="photoReviewWorkspace" class="photo-panel" hidden>
  <div class="photo-toolbar"><span id="photoReviewerInfo"></span><div class="photo-buttons"><button id="photoReviewRefresh" type="button">รีเฟรช</button><button id="photoReviewLogout" type="button">ออกจากระบบ</button></div></div>
- <h2>ภาพที่รอตรวจ <span id="photoReviewCount"></span></h2>
- <p>ตรวจว่าเป็นรายการที่ถูกต้อง ภาพเหมาะสม และมีหลักฐานอนุญาตใช้ภาพก่อนกดยืนยัน เลือก “อนุญาตใช้ภายใน” เพื่อเก็บไว้เฉพาะผู้ตรวจ หรือยืนยันสิทธิ์เผยแพร่สาธารณะก่อนกด “อนุมัติและเผยแพร่” ภาพเก่าที่เคยอนุมัติจะไม่ถูกเผยแพร่โดยอัตโนมัติ</p>
+ <h2 id="photoReviewHeading">ภาพที่รอตรวจ <span id="photoReviewCount"></span></h2>
+ <p class="photo-review-intro">ตรวจภาพและยืนยันสิทธิ์เผยแพร่ก่อนกดอนุมัติ ภาพจะขึ้นเว็บไซต์เฉพาะเมื่อผู้ตรวจอนุญาตเท่านั้น</p>
+ <div id="photoReviewTabs" class="photo-review-tabs" role="group" aria-label="กรองสถานะภาพ">
+  <button type="button" data-photo-status="review" aria-pressed="true">รอตรวจ <span data-photo-count="review"></span></button>
+  <button type="button" data-photo-status="published" aria-pressed="false">เผยแพร่แล้ว <span data-photo-count="published"></span></button>
+  <button type="button" data-photo-status="private" aria-pressed="false">เก็บภายใน <span data-photo-count="private"></span></button>
+  <button type="button" data-photo-status="revoked" aria-pressed="false">ถอนภาพแล้ว <span data-photo-count="revoked"></span></button>
+ </div>
  <div id="photoReviewList" class="photo-review-list" aria-busy="false"></div>
  <p id="photoReviewEmpty" hidden>ยังไม่มีภาพที่รอตรวจ</p>
 </section>
 <p id="photoReviewStatus" class="photo-status" role="status" aria-live="polite"></p>
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · อนุญาตภายในไม่ใช่การเผยแพร่ · เพิกถอนภาพสาธารณะได้</footer>
-<script src="./js/review-photos-r40.js?v=r40g-1" defer></script>
+<script src="./js/review-photos-r40.js?v=r40h-1" defer></script>
 </body></html>
