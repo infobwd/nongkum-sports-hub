@@ -1,0 +1,26 @@
+name: R37 reviewer queue QA
+on:
+  pull_request:
+    paths:
+      - "review-results.html"
+      - "css/review-results.css"
+      - "js/review-results.js"
+      - "index.html"
+      - "results.html"
+      - "supabase/functions/nongkum-results-reviewer/**"
+      - "supabase/migrations/*r37_reviewer_queue.sql"
+      - "scripts/r37/**"
+      - ".github/workflows/r37-reviewer-qa.yml"
+  workflow_dispatch:
+jobs:
+  review-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --check js/review-results.js
+      - run: node scripts/r37/test-reviewer-queue.mjs
+      - run: node scripts/r34/test-card-editor.mjs
+      - run: node scripts/r34/test-card-observer-idempotence.mjs
