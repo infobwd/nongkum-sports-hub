@@ -33,7 +33,7 @@ for(const [name,code] of [["results-catalog-r38.js",catalogCode],
  new vm.Script(code,{filename:name});
 assert.match(html,/program-corrections\.js\?v=/);
 assert.match(html,/results-catalog-r38\.js\?v=/);
-assert.match(html,/results-renderers\.js\?v=r(?:38|39)-1/);
+assert.match(html,/results-renderers\.js\?v=r(?:38|39|40)-1/);
 assert.match(html,/results\.js\?v=r(?:38|39)-1/);
 assert.match(read("index.html"),/id="scheduleResultSwitch"/);
 assert.match(programCode,/NongkumResultSource\?\.load/);

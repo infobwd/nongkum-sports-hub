@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="description" content="ส่งภาพกิจกรรมการแข่งขัน มิตรภาพเกมส์ 2569 — สำหรับเจ้าหน้าที่">
+<title>ส่งภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/photos-r40.css?v=r40-1">
+</head><body data-view="photo-upload">
+<main class="photo-shell">
+ <div class="photo-bar"><strong>มิตรภาพเกมส์ 2569</strong><a href="./results.html">กลับหน้าผลการแข่งขัน</a></div>
+ <h1 class="photo-heading">ส่งภาพกิจกรรมการแข่งขัน</h1>
+ <p class="photo-intro">สำหรับครูและเจ้าหน้าที่ผู้ได้รับสิทธิ์ ภาพที่ส่งจะเก็บไว้ส่วนตัวและไม่ปรากฏบนเว็บไซต์จนกว่าผู้ตรวจจะอนุมัติ</p>
+ <div class="photo-banner">กรุณาส่งเฉพาะภาพที่ได้รับอนุญาตให้เผยแพร่ โดยเฉพาะภาพนักเรียน ห้ามส่งภาพใบคะแนน ลายเซ็น เอกสารส่วนตัว หรือภาพที่ไม่เกี่ยวข้องกับกิจกรรม</div>
+ <section class="photo-panel" id="photoLogin" aria-labelledby="photoLoginHeading">
+  <h2 id="photoLoginHeading">เข้าใช้งาน</h2>
+  <div class="photo-role" role="group" aria-label="เลือกประเภทผู้ใช้งาน">
+   <button type="button" data-photo-role="editor" aria-pressed="true">ผู้ส่งภาพ</button>
+   <button type="button" data-photo-role="reviewer" aria-pressed="false">ผู้ตรวจภาพ</button>
+  </div>
+  <form id="photoLoginForm">
+   <label for="photoPin">รหัสเข้าใช้งาน</label>
+   <input id="photoPin" type="password" inputmode="numeric" autocomplete="off" maxlength="30" required>
+   <p class="photo-hint">ใช้รหัสสำหรับบันทึกผลหรือรหัสผู้ตรวจเดิม ระบบจำสิทธิ์ไว้ไม่เกิน 6 ชั่วโมง ไม่เก็บรหัสผ่าน</p>
+   <div class="photo-row"><button class="photo-primary" type="submit">เข้าใช้งาน</button></div>
+  </form>
+ </section>
+ <section id="photoWorkspace" class="photo-hidden" hidden>
+  <div class="photo-panel photo-bar"><strong id="photoSessionLabel"></strong><button class="photo-btn" type="button" id="photoLogout">ออกจากหน้านี้</button></div>
+  <section id="photoEditor" class="photo-panel photo-hidden" aria-labelledby="photoEditorHeading" hidden>
+   <h2 id="photoEditorHeading">ส่งรูปจากโทรศัพท์</h2>
+   <form id="photoUploadForm">
+    <label for="photoSport">ชนิดกีฬา</label><select id="photoSport" required><option value="">เลือกกีฬา</option></select>
+    <label for="photoDate">วันแข่งขัน</label><select id="photoDate"><option value="">ทุกวัน</option></select>
+    <label for="photoFixture">กิจกรรมการแข่งขัน</label><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select>
+    <label for="photoUploader">ชื่อผู้ส่งภาพ</label><input id="photoUploader" maxlength="60" minlength="2" required placeholder="ชื่อครูหรือเจ้าหน้าที่ผู้รับผิดชอบ">
+    <label for="photoCaption">คำบรรยายภาพสั้น ๆ</label><input id="photoCaption" maxlength="120" minlength="3" required placeholder="เช่น บรรยากาศการวิ่งทางตรง">
+    <label for="photoFile">เลือกรูปภาพ</label><input id="photoFile" type="file" accept="image/*" required>
+    <img id="photoPreview" class="photo-preview photo-hidden" alt="ตัวอย่างภาพที่จะส่ง" hidden>
+    <p class="photo-hint">ระบบย่อภาพและแปลงเป็น WebP ก่อนส่งเพื่อประหยัดพื้นที่และตัดข้อมูลตำแหน่งของภาพต้นฉบับ</p>
+    <label class="photo-check" for="photoConsent"><input id="photoConsent" type="checkbox" required><span>ยืนยันว่าภาพนี้ได้รับอนุญาตให้เผยแพร่แล้ว และไม่เปิดเผยข้อมูลส่วนบุคคลหรือเอกสารลับ</span></label>
+    <div class="photo-row"><button id="photoSubmit" class="photo-primary" type="submit">ส่งภาพให้ผู้ตรวจ</button></div>
+   </form>
+  </section>
+  <section id="photoReviewer" class="photo-panel photo-hidden" aria-labelledby="photoReviewHeading" hidden>
+   <h2 id="photoReviewHeading">ภาพที่รอตรวจอนุญาต</h2>
+   <p class="photo-hint">กดเปิดรูป ตรวจความเหมาะสมและสิทธิ์ใช้ภาพก่อนอนุมัติ ภาพจะเผยแพร่หลังอนุมัติสำเร็จเท่านั้น</p>
+   <div class="photo-row"><button id="photoRefreshQueue" type="button">ตรวจรายการล่าสุด</button></div>
+   <div id="photoQueue" class="photo-queue" aria-live="polite"></div>
+  </section>
+ </section>
+ <p id="photoStatus" class="photo-status" role="status" aria-live="polite"></p>
+</main>
+<script src="./js/program-corrections.js?v=r20b1"></script>
+<script src="./js/photos-r40.js?v=r40-1"></script>
+</body></html>
