@@ -38,7 +38,8 @@ function validateResult(r,schools,sports){
  if(r.winner_school_id&&![r.team_a_id,r.team_b_id].includes(r.winner_school_id))return false;
  if(r.result_type==="score")return number(r.score_a)&&number(r.score_b);
  if(r.result_type==="sets")return Array.isArray(r.sets)&&r.sets.length>0&&r.sets.length<=7&&r.sets.every(s=>number(s.a)&&number(s.b)&&keys(s).every(k=>["a","b"].includes(k)));
- return r.result_type==="win_loss"&&[r.team_a_id,r.team_b_id].includes(r.winner_school_id);
+ return r.result_type==="win_loss"&&r.score_a===undefined&&r.score_b===undefined&&r.sets===undefined&&
+   [r.team_a_id,r.team_b_id].includes(r.winner_school_id);
 }
 function validateSource(source){
  assert.equal(source.schema_version,1);
