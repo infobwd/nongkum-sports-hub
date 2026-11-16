@@ -53,7 +53,7 @@ assert.match(sourceFixture.name,/วิ่งผลัด/);
 const synthetic={id:"result-"+sourceFixture.id,status:"approved",sport_id:"athletics",
  result_type:"ranking",event_id:sourceFixture.id,division:sourceFixture.division,
  rankings:[{rank:1,school_id:"wangdong"}]};
-const cat=new Map([[sourceFixture.id,{sport_id:sourceFixture.sport_id,name:sourceFixture.name}]]);
+const cat=new Map([[sourceFixture.id,{sport_id:sourceFixture.sport_id,division:sourceFixture.division,name:sourceFixture.name}]]);
 const rendered=context.NongkumResultsRender.card(synthetic,raw.schools,raw.sports,cat);
 assert.ok(rendered.includes(safe(sourceFixture.name)),"specific athletics title must appear");
 assert.match(rendered,/result-event-thumb--relay/);
