@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#183762">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>ตรวจภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/activity-photos.css?v=r40-1">
+</head><body data-view="photo-review">
+<header class="top"><div class="shell">
+ <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">ผู้ตรวจภาพ</span></div>
+ <div class="hero"><h1>ตรวจภาพกิจกรรม</h1><p>ภาพที่ส่งมาไม่เผยแพร่จนกว่าจะผ่านการตรวจและคัดเลือกโดยผู้จัด</p></div>
+ <nav class="photo-navigation"><a href="./review-results.html">ยืนยันผลการแข่งขัน</a><a href="./upload-photos.html">หน้าส่งภาพ</a></nav>
+</div></header>
+<main class="shell photo-main">
+<section id="photoReviewUnlock" class="photo-panel">
+ <h2>เข้าสู่หน้าตรวจภาพ</h2><p>ใช้รหัสผู้ตรวจเดียวกับหน้ายืนยันผล ระบบจำสิทธิ์ไว้ไม่เกิน 6 ชั่วโมง</p>
+ <form id="photoReviewLoginForm">
+   <label for="photoReviewerName">ชื่อ–นามสกุลผู้ตรวจ</label><input id="photoReviewerName" name="reviewer_name" type="text" autocomplete="name" required minlength="2" maxlength="120">
+   <label for="photoReviewerPin">รหัสผู้ตรวจ</label><input id="photoReviewerPin" name="pin" type="password" inputmode="numeric" autocomplete="off" required pattern="[0-9]*" minlength="8" maxlength="30">
+   <button id="photoReviewLoginButton" class="photo-primary" type="submit">เข้าใช้งาน</button>
+ </form>
+</section>
+<section id="photoReviewWorkspace" class="photo-panel" hidden>
+ <div class="photo-toolbar"><span id="photoReviewerInfo"></span><div class="photo-buttons"><button id="photoReviewRefresh" type="button">รีเฟรช</button><button id="photoReviewLogout" type="button">ออกจากระบบ</button></div></div>
+ <h2>ภาพที่รอตรวจ <span id="photoReviewCount"></span></h2>
+ <p>ตรวจว่าเป็นรายการที่ถูกต้อง ภาพเหมาะสม และมีหลักฐานอนุญาตใช้ภาพก่อนกดยืนยัน ภาพที่ยืนยันยังอยู่ในพื้นที่ส่วนตัวจนกว่าผู้จัดจะเลือกเผยแพร่</p>
+ <div id="photoReviewList" class="photo-review-list" aria-busy="false"></div>
+ <p id="photoReviewEmpty" hidden>ยังไม่มีภาพที่รอตรวจ</p>
+</section>
+<p id="photoReviewStatus" class="photo-status" role="status" aria-live="polite"></p>
+</main>
+<footer class="shell">มิตรภาพเกมส์ 2569 · อนุญาตใช้ภาพ ≠ เผยแพร่ภาพทันที</footer>
+<script src="./js/review-photos-r40.js?v=r40-1" defer></script>
+</body></html>

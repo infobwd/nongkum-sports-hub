@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#183762">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>ส่งภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/activity-photos.css?v=r40-1">
+</head><body data-view="photo-upload">
+<header class="top"><div class="shell">
+  <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">เจ้าหน้าที่ส่งภาพ</span></div>
+  <div class="hero"><h1>ส่งภาพกิจกรรมการแข่งขัน</h1><p>ภาพที่ส่งจะอยู่ในพื้นที่ส่วนตัว และไม่เผยแพร่ทันที</p></div>
+  <nav class="photo-navigation"><a href="./results.html">กลับหน้าผลแข่งขัน</a><a href="./review-photos.html">หน้าตรวจภาพ (ผู้ตรวจเท่านั้น)</a></nav>
+</div></header>
+<main class="shell photo-main">
+<section id="photoUnlock" class="photo-panel">
+ <h2>เข้าสู่ระบบส่งภาพ</h2>
+ <p>ใช้รหัสบันทึกผลการแข่งขันที่มีอยู่แล้ว เครื่องนี้จำสิทธิ์ได้ไม่เกิน 6 ชั่วโมง ไม่บันทึกรหัสผ่าน</p>
+ <form id="photoLoginForm">
+   <label for="photoPin">รหัสเจ้าหน้าที่บันทึกผล</label>
+   <input id="photoPin" name="pin" type="password" inputmode="numeric" autocomplete="off" pattern="[0-9]*" minlength="4" maxlength="30" required>
+   <button type="submit" id="photoLoginButton" class="photo-primary">เข้าใช้งาน</button>
+ </form>
+</section>
+<section id="photoWorkspace" class="photo-panel" hidden>
+ <div class="photo-toolbar"><span id="photoSessionInfo"></span><button id="photoLogout" type="button">ออกจากระบบ</button></div>
+ <h2>เลือกรายการแข่งขันแล้วส่งภาพ</h2>
+ <form id="photoUploadForm">
+   <div class="photo-fields">
+     <div><label for="photoSport">ชนิดกีฬา</label><select id="photoSport" required><option value="">เลือกกีฬา</option></select></div>
+     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>อ้างอิงรายการตามโปรแกรมแข่งขัน ข้อมูลบางรายการอาจอยู่ระหว่างตรวจแก้ไข</small></div>
+     <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล"></div>
+     <div><label for="photoCaption">คำบรรยายภาพ</label><input id="photoCaption" name="caption" maxlength="120" minlength="3" required value="ภาพบรรยากาศการแข่งขัน"><small>ไม่ใส่ชื่อนักเรียนหรือข้อมูลส่วนตัว</small></div>
+     <div><label for="photoFile">ถ่ายภาพหรือเลือกรูป</label><input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp" required><small>ระบบจะย่อเป็น WebP หรือ JPEG (สำหรับ Safari) ไม่เกิน 350 KB โดยไม่เก็บข้อมูลพิกัดจากไฟล์ต้นฉบับ</small></div>
+   </div>
+   <figure id="photoPreview" class="photo-preview" hidden><img id="photoPreviewImg" alt="ตัวอย่างรูปที่เลือก"><figcaption id="photoPreviewInfo"></figcaption></figure>
+   <label class="photo-consent"><input id="photoConfirm" type="checkbox" required> ข้าพเจ้าตรวจว่าภาพเกี่ยวข้องกับกิจกรรมนี้ และเข้าใจว่าภาพต้องผ่านผู้ตรวจอนุญาตก่อนเผยแพร่</label>
+   <button id="photoSubmit" type="submit" class="photo-primary">ส่งภาพให้ผู้ตรวจ</button>
+ </form>
+ <p class="photo-privacy">ห้ามส่งภาพใบคะแนน ลายเซ็น หรือข้อมูลนักเรียนที่ไม่จำเป็น ภาพต้นฉบับไม่ถูกนำขึ้นเว็บไซต์สาธารณะโดยอัตโนมัติ</p>
+</section>
+<p id="photoStatus" class="photo-status" role="status" aria-live="polite"></p>
+</main><footer class="shell">มิตรภาพเกมส์ 2569 · รูปที่ส่งยังไม่ใช่รูปเผยแพร่</footer>
+<script src="./js/program-corrections.js?v=r20b1"></script>
+<script src="./js/upload-photos-r40.js?v=r40-1" defer></script>
+</body></html>

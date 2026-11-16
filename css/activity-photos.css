@@ -1,0 +1,53 @@
+/* R40 — independent mobile-first private photo upload/review UI. */
+body[data-view^="photo-"]{background:#f3f7fc;color:#193b61}
+body[data-view^="photo-"] .top{background:linear-gradient(115deg,#163761,#274e79);color:#fff}
+body[data-view^="photo-"] .hero{padding:10px 0 20px}
+body[data-view^="photo-"] .hero h1{margin:6px 0;font-size:1.45rem;color:#fff}
+body[data-view^="photo-"] .hero p{margin:5px 0;font-size:.88rem;color:#e0ecfc}
+body[data-view^="photo-"] .mode{color:#244a72;background:#fff}
+.photo-navigation{display:flex;flex-wrap:wrap;gap:9px;padding:0 0 13px}
+.photo-navigation a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 12px;border:1px solid #94b2d4;border-radius:11px;color:#fff;text-decoration:none;font-weight:700;font-size:.84rem}
+.photo-main{max-width:720px;padding-block:15px 36px}
+.photo-panel{margin:10px 0 16px;background:#fff;border:1px solid #d8e3ef;border-radius:17px;padding:19px;box-shadow:0 4px 18px #22416a10}
+.photo-panel[hidden],.photo-preview[hidden],.photo-review-preview[hidden]{display:none!important}
+.photo-panel h2{font-size:1.12rem;margin:0 0 8px;color:#1c426f}
+.photo-panel p{font-size:.87rem;line-height:1.7}
+.photo-panel form{display:grid;gap:11px}
+.photo-panel label{display:block;font-weight:750;font-size:.9rem;color:#24496c;margin:5px 0}
+.photo-panel input:not([type="checkbox"]),.photo-panel select,.photo-panel textarea{
+ display:block;box-sizing:border-box;min-width:0;width:100%;max-width:100%;min-height:46px;border:1px solid #aec5dd;border-radius:10px;
+ padding:9px 12px;font:inherit;font-size:1rem;color:#1e456c;background:#fff
+}
+.photo-panel textarea{min-height:84px;resize:vertical}
+.photo-panel small{display:block;color:#63778f;font-size:.77rem;line-height:1.5;margin-top:5px}
+.photo-panel button{min-height:44px;box-sizing:border-box;padding:9px 13px;border:1px solid #bbcede;
+ border-radius:11px;background:#f2f7fd;color:#1b4c7d;font:inherit;font-weight:760;cursor:pointer}
+.photo-panel .photo-primary{background:#1a4f85;color:#fff;border-color:#1a4f85}
+.photo-panel button:disabled{cursor:wait;opacity:.6}
+.photo-panel input:focus-visible,.photo-panel button:focus-visible,.photo-panel select:focus-visible,.photo-panel textarea:focus-visible,.photo-navigation a:focus-visible{
+ outline:3px solid #d5ad43;outline-offset:2px
+}
+.photo-fields{display:grid;gap:12px}
+.photo-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #dce7f2}
+.photo-toolbar span{font-size:.78rem;color:#4d6782}
+.photo-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.photo-consent{display:flex!important;align-items:flex-start;gap:9px;line-height:1.65;font-size:.85rem!important;font-weight:600!important;margin:12px 0!important}
+.photo-consent input{width:22px;height:22px;flex:none;accent-color:#1b5485;margin:2px 0 0}
+.photo-preview{margin:13px 0;border:1px solid #dce6f2;background:#eef4f9;border-radius:13px;overflow:hidden}
+.photo-preview img{display:block;width:100%;max-height:360px;object-fit:contain}
+.photo-preview figcaption{padding:7px 12px;color:#355978;font-size:.8rem}
+.photo-status{padding:12px 14px;color:#28517b;font-size:.87rem;line-height:1.6;min-height:22px;word-break:break-word}
+.photo-status[data-error="true"]{color:#992d30;font-weight:700}
+.photo-privacy{border-top:1px solid #dfebf4;padding-top:12px;color:#5d728c}
+.photo-review-list{display:grid;gap:14px}
+.photo-review-card{min-width:0;border:1px solid #dbe6f2;padding:14px;border-radius:14px;background:#f9fbfe}
+.photo-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.photo-review-head h3{margin:0;font-size:.98rem;color:#193f66}
+.photo-review-card .photo-meta{font-size:.79rem;color:#60768b;line-height:1.6}
+.photo-review-preview{background:#eaf2fa;border-radius:11px;overflow:hidden;margin:9px 0}
+.photo-review-preview img{display:block;width:100%;max-height:520px;object-fit:contain}
+.photo-review-controls{display:grid;gap:8px}
+.photo-review-controls textarea{max-width:100%}
+@media(min-width:600px){.photo-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-fields>div:nth-child(2),.photo-fields>div:nth-child(5){grid-column:1/-1}}
+@media(max-width:520px){.photo-panel{padding:14px}.photo-main{padding-top:8px}.photo-toolbar{align-items:stretch}.photo-toolbar button{flex:1}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
