@@ -1,6 +1,6 @@
 # R40 — อัปโหลดภาพกิจกรรมผ่านเว็บไซต์ (ส่วนตัวก่อนอนุมัติ)
 วันที่วางแผน: 16 พฤศจิกายน 2569
-สถานะล่าสุด: พัฒนาแล้ว · ส่วนหน้าเว็บ Merge ใน PR #158 และเผยแพร่แล้ว · Supabase ยังไม่ deploy · ยังไม่ตรวจรับหน้างาน
+สถานะล่าสุด: PR #158 และ #160 Merge แล้ว · หน้าเว็บและ Supabase R40 ติดตั้งแล้ว · ยังไม่ตรวจรับด้วยบัญชีเจ้าหน้าที่และโทรศัพท์จริง
 
 ## แหล่งและข้อขัดแย้งที่ตรวจแล้ว
 - R39 Merge PR #157 `383b85ef2a152e8321323f06dca20df4089106fb`.
@@ -24,9 +24,10 @@
 - [x] บันทึกแผนใน repo ก่อนโค้ด.
 - [x] เขียน migration สำหรับ private bucket/table/RPC (เก็บใน main ยังไม่ได้ apply Supabase).
 - [x] พัฒนา Edge Function, หน้าอัปโหลด/ตรวจรูป, CSS และ unit/regression tests (PR #158 Merge แล้ว).
-- [ ] ตรวจ schema/SQL security และเว็บบนมือถือครบ: static test ผ่าน, Deno type check ผ่านใน PR #160; รอติดตั้ง backend และทดสอบ Safari/Chrome/LINE จริง.
-- [x] PR #158 Merge ส่วนหน้าเว็บแล้ว; PR #160 (QA/Fix Edge Deno) เปิดพร้อมหลักฐานและ **ยังไม่ Merge**.
-- [ ] Deploy migration + Edge Function หลังผ่าน security QA และอนุญาตใช้งาน; ตรวจเว็บจริงหลัง Merge.
+- [x] ตรวจ SQL/RLS/สิทธิ์รับภาพและ Deno TypeScript + runtime mocked binary ผ่านใน PR #160; ตรวจสิทธิ์หลังติดตั้ง Supabase แล้ว.
+- [ ] ทดสอบ Safari/Chrome/LINE และ Android บนโทรศัพท์จริงด้วยภาพทดลองที่ไม่มีนักเรียน.
+- [x] PR #158 และ PR #160 Merge แล้ว; PR #160 Merge commit `c9623d94c185f1f259a3de2bd38a76255586737c`.
+- [x] ติดตั้ง migration `r40_activity_upload_private_20261116` และ Edge Function `nongkum-activity-photos` รุ่น 1 (`verify_jwt=false`, ตรวจ session เอง) และตรวจหน้าเว็บจริงแล้ว; **ยังไม่ใช่ตรวจรับการส่งภาพจริง**.
 - [ ] ตรวจรับหน้างานด้วยบัญชีเจ้าหน้าที่ โดยใช้ภาพทดสอบที่ไม่มีนักเรียนจริง.
 
 ### ข้อจำกัดสำคัญ
@@ -53,3 +54,15 @@
 6. ภาพ Google Play Protect ที่ผู้ใช้แจ้ง เป็นคำเตือนจากตัวติดตั้งแอป Android/แพ็กเกจ APK ไม่ใช่หลักฐานว่าเว็บหรือระบบอัปโหลดติดมัลแวร์; อย่าชวนปิด Play Protect ให้ใช้เว็บ HTTPS หรือ Chrome PWA และตรวจเส้นทางการติดตั้งที่สร้าง APK แยก.
 
 **เกณฑ์ตรวจรับ:** mock upload ต้องเห็นไบต์ภาพจริง; JavaScript lint/syntax + Deno check และ R40/security/validate regression ผ่าน; หลัง deploy ต้องทดสอบ upload→queue→private preview→approve/reject และการปฏิเสธ anonymous/ผู้ส่งไม่มีสิทธิ์อนุมัติ; Safari/Chrome/LINE และ Android จริงยังถือว่า *รอตรวจรับ* จนมีหลักฐาน.
+
+
+## รายงานหลัง Merge / ติดตั้ง Supabase จริง — 16 พ.ย. 2569
+- GitHub [PR #160](https://github.com/infobwd/nongkum-sports-hub/pull/160) Merge ด้วย SHA `c9623d94c185f1f259a3de2bd38a76255586737c`. ชุด R40 Private Photo Security QA, Validate draft data และ R14 field-ready schedule and LINE ผ่านบนหัวสาขา `8ae8911fe6bc0bf22161c8cd58a381170718324a`.
+- ติดตั้ง migration R40 จากไฟล์ `supabase/migrations/20261116074000_r40_activity_upload_private.sql` ใน main สำเร็จ; สร้าง private bucket `nongkum-activity-intake` (WebP/JPEG ไม่เกิน 350,000 bytes), ตาราง `nongkum_sports.activity_photo_submissions` (RLS enabled), และ RPC `public.nongkum_activity_photo_gateway` (ให้ execute เฉพาะ `service_role`).
+- Edge Function `nongkum-activity-photos` deployed รุ่น 1 สถานะ ACTIVE, `verify_jwt=false` เนื่องจากใช้โทเคน session แบบเฉพาะงาน R34/R37 ซึ่ง Edge+RPC ตรวจสิทธิ์ทางเซิร์ฟเวอร์เอง; ไม่แก้การตั้งค่า R34/R37 เดิม.
+- ผลตรวจ SQL หลัง deploy: `anon` และ `authenticated` ไม่มีสิทธิ์ execute RPC; `anon` อ่านตารางภาพไม่ได้; `authenticated` เพิ่มข้อมูลตารางภาพไม่ได้. คำสั่ง `queue` และ `prepare` เมื่อใช้โทเคนทดลองที่ไม่อยู่ในระบบตอบ `expired`; ไม่มีรายการในตารางหรือไฟล์ใน bucket กีฬา. Bucket `meeting-evidence` ของระบบประชุมเดิมยังอยู่.
+- Supabase Security Advisor แจ้ง `RLS enabled, no policy` ของตาราง R40 เป็นไปตามข้อกำหนด service-role-only/private; ยังมีคำเตือนด้านความปลอดภัยอื่นของระบบเดิมซึ่งงานนี้ไม่ได้แก้.
+- อ่านหน้าเว็บจริง `https://infobwd.github.io/nongkum-sports-hub/upload-photos.html` และ `review-photos.html` ได้; ตรวจ HTML ของหน้าอัปโหลดจริงว่ามีปุ่มกล้องและเลือกภาพจากเครื่อง. ไม่ได้ทดสอบ hardware camera หรือใช้ PIN ของผู้จัด.
+- **คงสถานะยังไม่ตรวจรับมือถือ**: ต้องใช้โทรศัพท์ Android/Chrome/LINE และ Safari จริง กับภาพทดสอบที่ไม่มีนักเรียน ผ่านเส้นทางผู้ส่ง→คิว→ผู้ตรวจ→อนุญาต/ส่งกลับ; ตรวจว่ารูปส่วนตัวไม่ปรากฏในหน้าเผยแพร่ก่อนผู้จัดคัดเลือก.
+- **ปัญหาคำเตือน Google Play Protect** ยังเป็นงานแยกด้านการติดตั้งแพ็กเกจ Android; การปรับหน้าเว็บไม่ได้แก้แอป APK ที่ระบบ Android แจ้งเป้าหมายเวอร์ชันเก่า ห้ามแนะนำให้ปิด Play Protect.
+- PR #159 ยังเป็นร่างที่ชนชื่อ Edge/bucket แต่สัญญาต่างกัน; **ห้าม Merge/Deploy ทับ** โดยไม่ได้เทียบและปรับให้เข้ากันก่อน.
