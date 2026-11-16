@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="robots" content="noindex,nofollow">
+<title>ยืนยันผลการแข่งขัน — มิตรภาพเกมส์ 2569</title>
+<meta name="description" content="หน้าสำหรับเจ้าหน้าที่ตรวจและยืนยันผลการแข่งขัน">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/review-results.css?v=r37-1">
+</head>
+<body>
+<header class="top">
+  <div class="shell">
+    <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div></div>
+    <nav class="reviewer-links" aria-label="เมนูหลัก"><a href="./index.html">ตารางแข่งขัน</a><a href="./results.html">ผลการแข่งขัน</a></nav>
+    <div class="reviewer-heading"><h1>ยืนยันผลการแข่งขัน</h1><p>สำหรับเจ้าหน้าที่ผู้ตรวจผลเท่านั้น</p></div>
+  </div>
+</header>
+<main class="shell reviewer-main">
+  <section id="reviewerUnlock" class="reviewer-panel reviewer-login" aria-labelledby="reviewerLoginHeading">
+    <h2 id="reviewerLoginHeading">เข้าสู่หน้าตรวจผล</h2>
+    <p>ใช้รหัสผู้ตรวจที่แยกจากรหัสบันทึกผล ระบบจำสิทธิ์บนเครื่องนี้เป็นเวลา 6 ชั่วโมง</p>
+    <form id="reviewerLoginForm">
+      <label for="reviewerName">ชื่อ–นามสกุลผู้ตรวจ</label>
+      <input id="reviewerName" name="reviewer_name" type="text" autocomplete="name" maxlength="120" required placeholder="กรอกชื่อผู้ตรวจ">
+      <label for="reviewerPin">รหัสผู้ตรวจ</label>
+      <input id="reviewerPin" name="pin" type="password" inputmode="numeric" autocomplete="off" pattern="[0-9]*" minlength="8" maxlength="30" required placeholder="กรอกรหัสผู้ตรวจ">
+      <button class="reviewer-primary" type="submit" id="reviewerLoginButton">เข้าใช้งาน</button>
+    </form>
+    <p class="reviewer-hint">ชื่อผู้ตรวจใช้บันทึกประวัติการยืนยันผล ไม่แสดงต่อผู้ชมทั่วไป</p>
+  </section>
+  <section id="reviewerWorkspace" hidden aria-label="รายการตรวจผล">
+    <div class="reviewer-toolbar">
+      <p id="reviewerSessionInfo" class="reviewer-session"></p>
+      <div class="reviewer-toolbar-actions"><button type="button" id="reviewerRefresh">รีเฟรชรายการ</button><button type="button" id="reviewerLogout">ออกจากระบบ</button></div>
+    </div>
+    <div class="reviewer-stats" aria-label="สรุปรายการ">
+      <div><strong id="reviewerPendingCount">–</strong><span>รอยืนยัน</span></div>
+      <div><strong id="reviewerApprovedCount">–</strong><span>ยืนยันแล้ว</span></div>
+      <div><strong id="reviewerReturnedCount">–</strong><span>ส่งกลับแก้ไข</span></div>
+    </div>
+    <div class="reviewer-list-heading">
+      <div><h2>ผลที่รอการยืนยัน</h2><p>แสดงรายการใหม่เมื่อกรรมการส่งผลเข้ามา · ตรวจข้อมูลทุก 30 วินาทีขณะเปิดหน้านี้</p></div>
+      <label class="reviewer-filter" for="reviewerSport">ชนิดกีฬา <select id="reviewerSport"><option value="">ทุกกีฬา</option></select></label>
+    </div>
+    <div id="reviewerQueue" class="reviewer-queue" aria-live="polite" aria-busy="false"></div>
+    <p id="reviewerEmpty" class="reviewer-empty" hidden>ขณะนี้ไม่มีผลการแข่งขันที่รอยืนยัน</p>
+  </section>
+  <p id="reviewerStatus" class="reviewer-status" role="status" aria-live="polite"></p>
+</main>
+<footer class="shell reviewer-footer">มิตรภาพเกมส์ 2569 · ผลจะแสดงบนเว็บไซต์สาธารณะหลังผู้มีสิทธิ์กดยืนยันเท่านั้น</footer>
+<script src="./js/review-results.js?v=r37-1" defer></script>
+</body>
+</html>
