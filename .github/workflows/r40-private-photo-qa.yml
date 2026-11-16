@@ -37,3 +37,5 @@ jobs:
           deno-version: v2.x
       - name: Type check deployed function source
         run: deno check supabase/functions/nongkum-activity-photos/index.ts
+      - name: Verify actual binary request to private Storage
+        run: deno test supabase/functions/nongkum-activity-photos/private-upload.test.ts
