@@ -37,7 +37,7 @@
     ).join("");
     return "<div class='rank-results'>"+rows+"</div>";
   }
-  function card(r,schools,sports,catalog){
+  function card(r,schools,sports,catalog,media){
     if(r.status!=="approved")return "";
     const kind=r.result_type;
     const sport=sports.find(x=>x.id===r.sport_id);
@@ -55,6 +55,9 @@
       :(["football","shootout"].includes(r.sport_id)?"football":
         ["futsal","petanque","volleyball","takraw","tabletennis","tugofwar"].includes(r.sport_id)
           ?r.sport_id:"neutral");
+    const chosen=media?.get(r.event_id||r.fixture_id);
+    const photo=chosen&&chosen.sport_id===r.sport_id&&chosen.division===r.division&&
+      /^assets\/activity-approved\/[a-z0-9][a-z0-9-]*\.webp$/.test(chosen.src)?chosen:null;
     const visualLabel=(r.sport_id==="athletics"?title:sport?.name)||"ภาพประกอบกีฬา";
     const thumb="<span class='result-event-thumb result-event-thumb--"+safe(category)+
       "' role='img' aria-label='ภาพประกอบ "+safe(visualLabel)+"'></span>";
@@ -66,6 +69,9 @@
       "' aria-label='แชร์ผลการแข่งขันที่ผ่านการรับรอง "+safe(sport?sport.name:"")+
       "' title='แชร์ผลการแข่งขัน'>"+SHARE_ICON+"</button></div></div>"+
       (title?"<h3 class='result-title'>"+safe(title)+"</h3>":"")+
+      (photo?"<figure class='result-activity-photo'><img src='./"+safe(photo.src)+
+        "' loading='lazy' decoding='async' alt='"+safe(photo.caption||"ภาพกิจกรรมการแข่งขัน")+
+        "'><figcaption>ภาพกิจกรรมที่ผ่านการตรวจอนุญาตแล้ว</figcaption></figure>":"")+
       body+"<p class='source'>"+
       (r.result_date?"แข่งขัน "+safe(r.result_date)+" · ":"")+
       "อ้างอิงรหัส "+safe(r.fixture_id||r.event_id||r.id)+
