@@ -120,7 +120,7 @@ async function review(action,item,controls){
  }
  busy=true;controls.querySelectorAll("button").forEach(n=>n.disabled=true);
  cardNotice(controls,action==="publish"?"กำลังเผยแพร่ภาพ กรุณารอสักครู่…":
-   action==="approve"?"กำลังอนุญาตใช้ภายใน…":
+   action==="approve"?"กำลังอนุญาตใช้ภาพภายใน…":
    action==="revoke"?"กำลังถอนภาพ…":"กำลังส่งกลับแก้ไข…",false);
  try{
    const r=await request(MEDIA,action,payload);
