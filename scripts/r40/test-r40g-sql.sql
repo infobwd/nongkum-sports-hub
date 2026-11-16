@@ -99,6 +99,9 @@ begin
  res:=public.nongkum_activity_photo_publication_gateway('revoke',
    jsonb_build_object('token',t,'id',first_id,'reason','ทดสอบการเพิกถอนภาพที่เผยแพร่'));
  if res->>'status'<>'revoked' then raise exception 'revoke failed: %',res; end if;
+ res:=public.nongkum_activity_photo_publication_gateway('revoke',
+   jsonb_build_object('token',t,'id',first_id));
+ if res->>'status'<>'revoked' then raise exception 'revocation retry failed: %',res; end if;
  if (select count(*) from public.nongkum_public_activity_photos)<>0
    then raise exception 'revoked public catalog still visible'; end if;
  if (select status from nongkum_sports.activity_photo_submissions where id=first_id)<>'approved'
