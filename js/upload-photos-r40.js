@@ -81,9 +81,9 @@ async function fileBitmap(file){
   image.src=url;
  });
 }
-const toBlob=(canvas,quality)=>new Promise((resolve,reject)=>
- canvas.toBlob(x=>x?resolve(x):reject(Error("webp")), "image/webp",quality));
-async function sanitizeWebP(file){
+const toBlob=(canvas,quality,type="image/webp")=>new Promise((resolve,reject)=>
+ canvas.toBlob(x=>x?resolve(x):reject(Error("image")), type,quality));
+async function sanitizePhoto(file){
  if(!file||!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>18000000)
    throw Error("invalid_image");
  const bitmap=await fileBitmap(file);
@@ -99,8 +99,9 @@ async function sanitizeWebP(file){
    canvas.width=w;canvas.height=h;
    ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);ctx.drawImage(bitmap,0,0,w,h);
    const q=Math.max(0.54,0.82-(step%4)*0.08);
-   blob=await toBlob(canvas,q);
-   if(blob.type!=="image/webp")throw Error("webp");
+   const webp=await toBlob(canvas,q,"image/webp");
+   blob=webp.type==="image/webp"?webp:await toBlob(canvas,q,"image/jpeg");
+   if(!["image/webp","image/jpeg"].includes(blob.type))throw Error("image");
    if(blob.size<=340000&&blob.size>=1000)break;
    if(step%4===3){w=Math.max(80,Math.floor(w*0.82));h=Math.max(80,Math.floor(h*0.82));}
  }
@@ -123,9 +124,9 @@ ui.file.addEventListener("change",async()=>{
  const file=ui.file.files?.[0];if(!file)return;
  ui.submit.disabled=true;notice("กำลังย่อรูปและตรวจไฟล์…");
  try{
-   compressed=await sanitizeWebP(file);
+   compressed=await sanitizePhoto(file);
    previewUrl=URL.createObjectURL(compressed);
-   ui.previewImage.src=previewUrl;ui.previewInfo.textContent="ไฟล์สำหรับส่ง "+Math.ceil(compressed.size/1024)+" KB · รอผู้ตรวจอนุญาต";
+   ui.previewImage.src=previewUrl;ui.previewInfo.textContent="ไฟล์สำหรับส่ง "+Math.ceil(compressed.size/1024)+" KB ("+(compressed.type==="image/jpeg"?"JPEG":"WebP")+") · รอผู้ตรวจอนุญาต";
    ui.preview.hidden=false;notice("รูปพร้อมส่ง (ยังไม่เผยแพร่)");
  }catch(e){notice(errorText(e.message),true);ui.file.value="";}
  finally{ui.submit.disabled=false;}
