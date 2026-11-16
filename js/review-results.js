@@ -111,6 +111,7 @@ dom.queue.addEventListener("click",async e=>{
   const ans=await request(action==="confirm-approve"?"approve":"reject",args);
   if(!ans.ok){fail(ans);return;}
   notice(action==="confirm-approve"?"ยืนยันและเผยแพร่แล้ว":"ส่งกลับให้แก้ไขแล้ว");
+  state.busy=false;
   await loadQueue(true);
  }catch(e){notice(messages[e.message]||messages.network,true);}
  finally{state.busy=false;card.querySelectorAll("button").forEach(x=>x.disabled=false);}
