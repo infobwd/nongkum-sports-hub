@@ -73,7 +73,10 @@ function updateFixtures(){
  }
 }
 async function fileBitmap(file){
- if(typeof createImageBitmap==="function")return await createImageBitmap(file,{imageOrientation:"from-image"});
+ if(typeof createImageBitmap==="function"){
+  try{return await createImageBitmap(file,{imageOrientation:"from-image"});}
+  catch(_){try{return await createImageBitmap(file);}catch(__){}}
+ }
  return await new Promise((resolve,reject)=>{
   const image=new Image(),url=URL.createObjectURL(file);
   image.onload=()=>{URL.revokeObjectURL(url);resolve(image);};
