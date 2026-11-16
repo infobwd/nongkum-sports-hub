@@ -4,7 +4,7 @@ import {readFileSync} from "node:fs";
 import vm from "node:vm";
 const read=p=>readFileSync(new URL("../../"+p,import.meta.url),"utf8");
 const html=read("review-results.html"),js=read("js/review-results.js"),
- css=read("css/review-results.css"),sql=read("supabase/migrations/20261116120000_r37_reviewer_queue.sql"),
+ css=read("css/review-results.css"),sql=read("supabase/migrations/20261116050648_r37_reviewer_queue_20261116.sql"),
  api=read("supabase/functions/nongkum-results-reviewer/index.ts");
 const index=read("index.html"),results=read("results.html");
 new vm.Script(js,{filename:"review-results.js"});
