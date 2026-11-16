@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import {putPrivateImage} from "./private-upload.ts";
 
 /* R40: secure photo intake. No result mutation, public publication or secret in browser.
  * Existing editor sessions upload; separate reviewer sessions approve privately. */
@@ -119,12 +120,7 @@ function pathSafe(path:string){
 }
 async function upload(path:string,bytes:Uint8Array,mime:string){
  if(!pathSafe(path))throw Error("unavailable");
- const r=await fetch(DB+"/storage/v1/object/"+BUCKET+"/"+path,{
-   method:"POST",
-   headers:{...svcHeaders,"Content-Type":mime,"cache-control":"no-store","x-upsert":"false"},
-   // Copy to a definite ArrayBuffer: Deno 2.9 rejects Uint8Array<ArrayBufferLike> as BodyInit.\n   body:new Uint8Array(bytes).buffer,signal:AbortSignal.timeout(20000)
- });
- if(!r.ok){console.error("R40 private storage upload failed",r.status);throw Error("upload_failed");}
+ await putPrivateImage({db:DB,serviceKey:SERVICE,bucket:BUCKET,path,bytes,mime});
 }
 async function removePrivate(path:string){
  if(!pathSafe(path))return;
