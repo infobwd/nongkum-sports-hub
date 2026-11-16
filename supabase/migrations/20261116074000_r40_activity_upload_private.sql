@@ -132,7 +132,7 @@ begin
    ),'[]'::jsonb));
  end if;
 
- if coalesce(p_data->>'id','') !~ '^[0-9a-f-]{36}
+ if coalesce(p_data->>'id','') !~ '^[0-9a-f-]{36}$' then
    return jsonb_build_object('ok',false,'error','invalid');
  end if;
  v_id:=(p_data->>'id')::uuid;
@@ -175,81 +175,11 @@ begin
    return jsonb_build_object('ok',false,'error','stale');
  end if;
  if p_action='approve' then
-   -- Source may have changed while a photo was waiting; recheck exact event identity.
    if not exists (
      select 1 from public.nongkum_schedule_fixtures f
-      join public.nongkum_schedule_active a on a.source_key=f.source_key and a.singleton=1
-     where f.fixture_id=v_item.event_id and f.sport_id=v_item.sport_id
-       and f.division=v_item.division
+     join public.nongkum_schedule_active a on a.source_key=f.source_key and a.singleton=1
+     where f.fixture_id=v_item.event_id and f.sport_id=v_item.sport_id and f.division=v_item.division
    ) then return jsonb_build_object('ok',false,'error','source_changed'); end if;
-   v_reason:=btrim(coalesce(p_data->>'consent_note',''));
-   if p_data->>'consent_checked'<>'true' or length(v_reason) not between 8 and 500 then
-     return jsonb_build_object('ok',false,'error','consent_required');
-   end if;
-   update nongkum_sports.activity_photo_submissions
-      set status='approved',reviewed_by=v_reviewer_name,reviewed_at=now(),
-          consent_checked=true,consent_note=v_reason where id=v_id;
-   return jsonb_build_object('ok',true,'status','approved',
-       'publication_status','private_awaiting_publication');
- end if;
- if p_action='reject' then
-   v_reason:=btrim(coalesce(p_data->>'reason',''));
-   if length(v_reason) not between 8 and 500 then
-      return jsonb_build_object('ok',false,'error','reason_required');
-   end if;
-   update nongkum_sports.activity_photo_submissions
-      set status='rejected',reviewed_by=v_reviewer_name,reviewed_at=now(),
-          reject_reason=v_reason where id=v_id;
-   return jsonb_build_object('ok',true,'status','rejected');
- end if;
- return jsonb_build_object('ok',false,'error','invalid');
-end
-$r40$;
-revoke all on function public.nongkum_activity_photo_gateway(text,jsonb) from public,anon,authenticated;
-grant execute on function public.nongkum_activity_photo_gateway(text,jsonb) to service_role;
- then
-   return jsonb_build_object('ok',false,'error','invalid');
- end if;
- v_id:=(p_data->>'id')::uuid;
- if p_action in ('finish','cancel') then
-   select * into v_item from nongkum_sports.activity_photo_submissions
-     where id=v_id and uploader_session_hash=v_hash for update;
-   if not found or v_item.status<>'uploading' then
-     return jsonb_build_object('ok',false,'error','stale');
-   end if;
-   if p_action='cancel' then
-     update nongkum_sports.activity_photo_submissions
-       set status='cancelled',reject_reason='upload_failed' where id=v_id;
-     return jsonb_build_object('ok',true);
-   end if;
-   select case when (metadata->>'size') ~ '^[0-9]{1,8}$'
-            then (metadata->>'size')::integer end, metadata->>'mimetype'
-     into v_storage_size,v_storage_mime
-     from storage.objects where bucket_id='nongkum-activity-intake' and name=v_item.storage_path;
-   if not found or v_storage_size is distinct from v_item.byte_size
-      or v_storage_mime is distinct from 'image/webp' then
-     return jsonb_build_object('ok',false,'error','invalid');
-   end if;
-   update nongkum_sports.activity_photo_submissions
-     set status='review',completed_at=now() where id=v_id;
-   return jsonb_build_object('ok',true,'status','review');
- end if;
-
-
- select * into v_item from nongkum_sports.activity_photo_submissions
-   where id=v_id for update;
- if not found then return jsonb_build_object('ok',false,'error','missing'); end if;
-
- if p_action='preview' then
-   if v_item.status not in ('review','approved','rejected') then
-     return jsonb_build_object('ok',false,'error','missing');
-   end if;
-   return jsonb_build_object('ok',true,'storage_path',v_item.storage_path,'byte_size',v_item.byte_size);
- end if;
- if v_item.status<>'review' then
-   return jsonb_build_object('ok',false,'error','stale');
- end if;
- if p_action='approve' then
    v_reason:=btrim(coalesce(p_data->>'consent_note',''));
    if p_data->>'consent_checked'<>'true' or length(v_reason) not between 8 and 500 then
      return jsonb_build_object('ok',false,'error','consent_required');
