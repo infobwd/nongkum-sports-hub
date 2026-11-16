@@ -54,7 +54,8 @@ async function preview(id,frame,button){
       notice("ข้อมูลภาพไม่ถูกต้อง",true);return;
    }
    const img=el("img");
-   img.src="data:image/webp;base64,"+r.image_b64;
+   if(!["image/webp","image/jpeg"].includes(r.mime_type)){notice("ประเภทไฟล์ไม่ถูกต้อง",true);return;}
+   img.src="data:"+r.mime_type+";base64,"+r.image_b64;
    img.alt="ภาพต้นฉบับสำหรับผู้ตรวจเท่านั้น";
    img.loading="lazy";img.decoding="async";
    frame.replaceChildren(img);frame.hidden=false;
