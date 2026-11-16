@@ -41,3 +41,15 @@
 - พบ PR #159 (`feat/r40-web-photo-upload-private-approval-20261116`) เป็นแนวทางซ้ำที่ใช้ Edge Function / bucket ชื่อเดียวกันแต่ API และขนาด/ชนิดภาพต่างกัน มีความเสี่ยง deploy ทับ และมีการนำภาพออกสาธารณะทันทีหลัง reviewer ต่างจาก R40 ที่ใช้อยู่. บันทึกข้อขัดแย้งใน [PR #159](https://github.com/infobwd/nongkum-sports-hub/pull/159); **ห้าม merge/deploy ทับโดยไม่ reconcile**.
 - [PR #160](https://github.com/infobwd/nongkum-sports-hub/pull/160) เพิ่ม GitHub Actions `deno check` ของ Edge และแก้ Deno 2.9 `TS2769` จาก `Uint8Array<ArrayBufferLike>` ให้ส่งข้อมูลเป็น `ArrayBuffer`. ชุด `R40 Private Photo Security QA` และ `Validate draft data` ผ่านบน commit `40eb4cdb72169f775f1dc1633abe30d6a2ae7d9d` ก่อนแก้เอกสารนี้.
 - เกณฑ์ปิดงานคงเดิม: ตรวจ SQL/สิทธิ์จริง, ติดตั้ง migration และ Edge จากรุ่น Merge, ใช้ภาพทดสอบไม่มีนักเรียนผ่าน upload → queue → private preview → reviewer approve/reject → ตรวจ public ไม่เห็นรูป, ทดสอบมือถือ/LINE จริง และเก็บหลักฐานตรวจรับ.
+
+## R40-B — คำสั่งแก้ Android/QA และ Merge (16 พ.ย. 2569)
+สถานะเริ่มงาน: วางแผนแล้วในสาขา PR #160; ห้ามอ้างว่าเปิดใช้จริงก่อนทดสอบปลายทาง
+
+1. แก้บั๊ก Edge Function: คอมเมนต์มี `\\n` เป็นข้อความจริง ทำให้ `body` ของคำขอ Storage ถูกคอมเมนต์ และ static `deno check` ไม่จับการส่ง body หาย; เพิ่มการทดสอบ runtime/mock upload รวมทั้ง regression gate ให้ตรวจ request body เป็น `ArrayBuffer` ที่มีไบต์ตรงภาพ.
+2. ปรับมือถือ Android / Chrome / LINE: แยกปุ่มถ่ายภาพกับเลือกรูป, รองรับไฟล์จากเครื่องที่ไม่แจ้ง MIME โดยให้ถอดรหัสและแปลงด้วย Canvas ก่อนเสมอ, เพิ่มสถานะขณะย่อ/ป้องกันแข่งระหว่างเลือกไฟล์และส่ง, แจ้งข้อผิดพลาดให้ชัด; ไม่อนุญาต SVG และไฟล์ที่เซิร์ฟเวอร์ไม่ตรวจ.
+3. ความปลอดภัยไม่ถอยหลัง: bucket `nongkum-activity-intake` private, service role เฉพาะ Edge, ใช้สิทธิ์ผู้บันทึก/ผู้ตรวจแยกกัน, จำกัดไฟล์ 350 KB, 15 รูป/session/ชั่วโมง, ไม่แตะ `meeting-evidence`, ไม่เผยแพร่อัตโนมัติ. ตรวจ SQL และการจับคู่กับ R33 ที่ใช้งานจริง.
+4. ตรวจ PR #159 ซึ่งเป็นงานชน ห้าม Merge หรือ deploy ระบบของ PR #159 ทับ `nongkum-activity-photos`; คง PR #160 เป็นสาขาต่อเนื่องไม่สร้าง PR ซ้ำ.
+5. เมื่อ QA ผ่าน ตรวจ head SHA และ Merge PR #160 ตามคำสั่งผู้จัด; ตรวจ CI, GitHub Pages และลิงก์จริง. การติดตั้ง Supabase ให้แยกสถานะ deploy กับ mobile acceptance หลังตรวจ live permissions.
+6. ภาพ Google Play Protect ที่ผู้ใช้แจ้ง เป็นคำเตือนจากตัวติดตั้งแอป Android/แพ็กเกจ APK ไม่ใช่หลักฐานว่าเว็บหรือระบบอัปโหลดติดมัลแวร์; อย่าชวนปิด Play Protect ให้ใช้เว็บ HTTPS หรือ Chrome PWA และตรวจเส้นทางการติดตั้งที่สร้าง APK แยก.
+
+**เกณฑ์ตรวจรับ:** mock upload ต้องเห็นไบต์ภาพจริง; JavaScript lint/syntax + Deno check และ R40/security/validate regression ผ่าน; หลัง deploy ต้องทดสอบ upload→queue→private preview→approve/reject และการปฏิเสธ anonymous/ผู้ส่งไม่มีสิทธิ์อนุมัติ; Safari/Chrome/LINE และ Android จริงยังถือว่า *รอตรวจรับ* จนมีหลักฐาน.
