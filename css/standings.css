@@ -30,3 +30,10 @@
 .standings-table th:nth-child(2){text-align:left}
 .standings-table thead{background:#eff4fa;color:#244e76}
 .standings-table tbody th{font-weight:700;color:#25496d}
+
+/* R38: distinguish preliminary tables by group, with sideways scroll on phones. */
+.standings-roster{display:grid;gap:14px;padding:12px;background:transparent;border:0}
+.standings-group{background:#fff;border:1px solid #d7e4f0;border-radius:14px;padding:14px}
+.standings-group h3{font-size:.98rem;margin:0 0 6px}
+.standings-group .standings-table{min-width:430px}
+.standings-group .standings-provenance{margin-bottom:9px}
