@@ -109,9 +109,11 @@
   function renderDirect(){
     const item=state.data.results.find(x=>x.id===state.focusId&&x.status==="approved");
     if(!item){
-      els.directCard.innerHTML="<div class='direct-result-error'><strong>ยังไม่มีผลการแข่งขันที่ผ่านการรับรองสำหรับลิงก์นี้</strong>"+
-        "<p>อาจเป็นรหัสไม่ถูกต้อง หรือผลยังไม่ผ่านการรับรองและเผยแพร่</p></div>";
-      els.directStatus.textContent="ไม่พบผลที่รับรองแล้ว";
+      const backup=state.source!=="live";
+      els.directCard.innerHTML=backup?
+        "<div class='direct-result-error'><strong>ยังตรวจผลรับรองล่าสุดไม่ได้</strong><p>ขณะนี้ใช้ข้อมูลสำรอง อาจไม่มีผลรายการที่เผยแพร่ล่าสุด กรุณารีเฟรชเมื่อเชื่อมต่อได้</p></div>":
+        "<div class='direct-result-error'><strong>ยังไม่มีผลการแข่งขันที่ผ่านการรับรองสำหรับลิงก์นี้</strong><p>อาจเป็นรหัสไม่ถูกต้อง หรือผลยังไม่ผ่านการรับรองและเผยแพร่</p></div>";
+      els.directStatus.textContent=backup?"ข้อมูลสำรอง · ยังตรวจผลล่าสุดไม่ได้":"ไม่พบผลที่รับรองแล้ว";
       return;
     }
     els.directCard.innerHTML=globalThis.NongkumResultsRender.card(item,state.data.schools,state.data.sports);
