@@ -72,15 +72,30 @@
     if(typeof id!=="string"||!Number.isInteger(revision)||revision<1)return "";
     return "r"+fixtureShareCode(id).slice(1)+"-v"+revision+"-p2";
   }
-  function resultShareUrl(result,index){
-    if(!result||result.status!=="approved")return "";
+  // An index update may lag a newly approved R32 result. Use a compact,
+  // sport-specific neutral preview, never a guessed or missing /r/ page.
+  function resultShareUrl(result,index,sports){
+    if(!result||result.status!=="approved"||typeof result.id!=="string"||!result.id)return "";
     const revision=result.share_revision;
     const expected=resultShareCode(result.id,revision);
     const item=index?.approved_only===true&&index.schema_version===1?index.results?.[result.id]:null;
     if(expected&&item&&item.revision===revision&&item.slug===expected){
       return new URL("r/"+expected+"/",new URL("results.html",location.href)).toString();
     }
-    return directItemUrl("results.html","result",result.id);
+    const ref=fixtureShareCode(result.id);
+    if(Array.isArray(sports)&&sports.some(s=>s.id===result.sport_id)&&
+       /^[a-z][a-z0-9-]{0,39}$/.test(result.sport_id)){
+      return new URL("s/"+result.sport_id+"/?ref="+ref,new URL("results.html",location.href)).toString();
+    }
+    return directItemUrl("results.html","ref",ref);
+  }
+  // A short reference must resolve uniquely against the latest approved-only feed.
+  // A collision, missing result or unapproved entry is never guessed.
+  function findApprovedResultByRef(results,ref){
+    if(!/^f[0-9a-f]{8}$/.test(ref||"")||!Array.isArray(results))return null;
+    const matches=results.filter(r=>r&&r.status==="approved"&&
+      typeof r.id==="string"&&fixtureShareCode(r.id)===ref);
+    return matches.length===1?matches[0]:null;
   }
   function shareApprovedResult(result,index,schools,sports,catalog){
     if(!result||result.status!=="approved")throw Error("Only approved results can be shared");
@@ -96,7 +111,7 @@
       (winner?winner+" ชนะ "+(winner===a?b:a):(a+" พบ "+b));
     const title=sport+(result.division?" "+result.division:"")+" — "+subject;
     const description="ผลการแข่งขัน · มิตรภาพเกมส์ 2569";
-    return shareUrl(resultShareUrl(result,index),title,description,{copyDescription:true});
+    return shareUrl(resultShareUrl(result,index,sports),title,description,{copyDescription:true});
   }
   function shareFixture(fixture,sport,teamA,teamB){
     const title="มิตรภาพเกมส์ 2569 · "+sport+" · "+(fixture.division||"การแข่งขัน");
@@ -112,6 +127,6 @@
   root.Nongkum=Object.freeze({
     escapeHtml,classifyLevel,schoolInStore,saveSchool,href,
     directItemUrl,shareItem,shareUrl,fixtureShareCode,fixtureShareUrl,shareFixture,
-    resultShareCode,resultShareUrl,shareApprovedResult,formatCheckedAt
+    resultShareCode,resultShareUrl,findApprovedResultByRef,shareApprovedResult,formatCheckedAt
   });
 })(globalThis);
