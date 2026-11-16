@@ -10,6 +10,7 @@ on:
       - "js/results.js"
       - "js/results-source-r32.js"
       - "results.html"
+      - "s/**"
       - ".github/workflows/r36-line-preview.yml"
   push:
     branches: [main]
@@ -57,7 +58,7 @@ jobs:
         run: |
           git config user.name "nongkum-sports-ci[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add r/ data/result-share-index.json data/r36-card-jobs.json
+          git add r/ s/ data/result-share-index.json data/r36-card-jobs.json
           if ! git diff --cached --quiet; then
             git commit -m "build(r36): add approved-only LINE previews and PNG image"
             git push origin HEAD:${{ github.event.pull_request.head.ref }}
@@ -95,6 +96,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           add-paths: |
             r/
+            s/
             data/result-share-source.json
             data/result-share-index.json
             data/r36-card-jobs.json
