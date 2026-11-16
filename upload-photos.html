@@ -5,7 +5,8 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <title>ส่งภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
 <link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/activity-photos.css?v=r40-3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="./css/activity-photos.css?v=r40-4">
 </head><body data-view="photo-upload">
 <header class="top"><div class="shell">
   <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">เจ้าหน้าที่ส่งภาพ</span></div>
@@ -28,7 +29,7 @@
  <form id="photoUploadForm">
    <div class="photo-fields">
      <div><label for="photoSport">ชนิดกีฬา</label><select id="photoSport" required><option value="">เลือกกีฬา</option></select></div>
-     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>อ้างอิงรายการตามโปรแกรมแข่งขัน ข้อมูลบางรายการอาจอยู่ระหว่างตรวจแก้ไข</small></div>
+     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><input id="photoFixtureSearch" type="search" placeholder="ค้นหาชื่อโรงเรียน กีฬา รุ่น หรือระยะวิ่ง" autocomplete="off" hidden><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>แตะช่องรายการแล้วพิมพ์ค้นหาชื่อโรงเรียน รุ่น เพศ หรือการแข่งขัน เช่น 40 เมตร · เลือกตามโปรแกรมแข่งขันที่ใช้งาน</small></div>
      <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล">
        <div class="photo-name-settings"><label class="photo-consent" for="photoRememberUploader"><input id="photoRememberUploader" type="checkbox" checked> จำชื่อในเครื่องนี้ (เฉพาะเครื่องส่วนตัว)</label>
          <button id="photoForgetUploader" type="button">ลบชื่อที่จำไว้</button></div>
@@ -50,5 +51,7 @@
 <p id="photoStatus" class="photo-status" role="status" aria-live="polite"></p>
 </main><footer class="shell">มิตรภาพเกมส์ 2569 · รูปที่ส่งยังไม่ใช่รูปเผยแพร่</footer>
 <script src="./js/program-corrections.js?v=r20b1"></script>
-<script src="./js/upload-photos-r40.js?v=r40-3" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="./js/upload-photos-r40.js?v=r40-4" defer></script>
 </body></html>
