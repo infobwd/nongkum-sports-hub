@@ -94,7 +94,7 @@
       const note=official?"ตารางอันดับจากผลและกติกาที่ผ่านการรับรองแล้ว":
         (g.approved_count
           ?"สถิติจากผลรับรอง "+g.approved_count+"/"+g.match_count+" คู่ · ยังไม่จัดอันดับตัดสิน"
-          :"ยังไม่มีผลการแข่งขันในกลุ่มนี้ · แสดงรายชื่อและค่าเริ่มต้น 0 โดยไม่จัดอันดับ");
+          :"ยังไม่มีผลการแข่งขันในกลุ่มนี้ · แสดงรายชื่อและค่าเริ่มต้น 0 · ยังไม่จัดอันดับ");
       return "<section class='standings-group' aria-label='"+safe(heading)+"'>"+
         "<h3>"+safe(heading)+"</h3><p class='standings-provenance'>"+safe(note)+
         (!g.has_points&&!official?" · *คะแนนรอรับรองหลักเกณฑ์":"")+
