@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import {putPrivateImage} from "./private-upload.ts";
+import {cleanJpegMetadata} from "./jpeg-clean.ts";
 
 /* R40: secure photo intake. No result mutation, public publication or secret in browser.
  * Existing editor sessions upload; separate reviewer sessions approve privately. */
@@ -57,28 +58,9 @@ function decodeImage(image:string):{bytes:Uint8Array,mime:string}{
  // JPEG fallback is needed on Safari. Canvas export strips original EXIF.
  // Forged uploads with APP1-APP15, EXIF, ICC, XMP or comments are rejected.
  if(bytes[0]===0xff&&bytes[1]===0xd8){
-   if(bytes[bytes.length-2]!==0xff||bytes[bytes.length-1]!==0xd9)throw Error("invalid_image");
-   let at=2,frame=false;
-   while(at+3<bytes.length){
-     if(bytes[at]!==0xff)throw Error("invalid_image");
-     while(bytes[at]===0xff)at++;
-     const mark=bytes[at++];
-     if(mark===0xda){if(!frame)throw Error("invalid_image");return {bytes,mime:"image/jpeg"};}
-     if(mark===0xd9||mark===0xd8||mark===0xfe||(mark>=0xe1&&mark<=0xef))
-       throw Error("invalid_image");
-     if(at+2>bytes.length)throw Error("invalid_image");
-     const len=(bytes[at]<<8)|bytes[at+1];
-     if(len<2||at+len>bytes.length)throw Error("invalid_image");
-     if(mark===0xc0||mark===0xc2){
-       if(len<8)throw Error("invalid_image");
-       const height=(bytes[at+3]<<8)|bytes[at+4];
-       const width=(bytes[at+5]<<8)|bytes[at+6];
-       if(width<80||height<80||width>1600||height>1200)throw Error("invalid_image");
-       frame=true;
-     }else if(![0xe0,0xdb,0xc4,0xdd].includes(mark))throw Error("invalid_image");
-     at+=len;
-   }
-   throw Error("invalid_image");
+   // iOS/Safari may add APP2 ICC or other JPEG metadata after Canvas export.
+   // Strip all APP/COM segments before Storage rather than permitting metadata leakage.
+   return {bytes:cleanJpegMetadata(bytes),mime:"image/jpeg"};
  }
  if(fourcc(bytes,0)!=="RIFF"||fourcc(bytes,8)!=="WEBP"||
     readU32(bytes,4)!==bytes.length-8)throw Error("invalid_image");
