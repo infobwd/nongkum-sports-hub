@@ -22,8 +22,8 @@ for(const code of [shared,r32,results])new vm.Script(code);
 assert.match(r32,/share_revision:row\.revision/);
 assert.match(results,/result-share-index\.json/);
 assert.match(results,/shareApprovedResult/);
-assert.match(page,/results\.js\?v=r(?:36|38|39)-1/);
-assert.match(page,/shared\.js\?v=r(?:36-2|39-1)/);
+assert.match(page,/results\\.js\\?v=r(?:36|38|39|41)-1/);
+assert.match(page,/shared\\.js\\?v=r(?:36-2|39-1|41-1)/);
 assert.match(page,/results-source-r32\.js\?v=r36-1/);
 assert.ok(!Object.keys(source).includes("draft"));
 const temp=mkdtempSync(join(tmpdir(),"r36-share-test-"));
@@ -107,8 +107,10 @@ for(const row of source.rows){
  assert.match(nativePayload.title,/เปตอง|กีฬา|กรีฑา/);
  assert.equal(nativePayload.text,"ผลการแข่งขัน · มิตรภาพเกมส์ 2569");
  assert.match(nativePayload.title,/ชนะ|พบ|รายการ|กรีฑา/);
- assert.equal(api.resultShareUrl({...userResult,share_revision:row.revision+1},index),
-    api.directItemUrl("results.html","result",row.result_id),"revision mismatch must fall back");
+ const sportList=JSON.parse(read("data/public-results.json")).sports;
+ assert.equal(api.resultShareUrl({...userResult,share_revision:row.revision+1},index,sportList),
+    root+"s/"+userResult.sport_id+"/?ref="+api.fixtureShareCode(row.result_id),
+    "revision mismatch must use short neutral sport preview");
  assert.equal(api.resultShareUrl({...userResult,status:"review"},index),"");
  const fallbackContext=vm.createContext({location:new URL(root+"results.html"),URL,URLSearchParams,Intl,Date,Math,
   navigator:{clipboard:{writeText:async value=>{copied=value;}}},localStorage:{getItem:()=>null,setItem:()=>{}}
@@ -121,6 +123,41 @@ for(const row of source.rows){
  assert.match(copied,/มิตรภาพเกมส์ 2569/);
  assert.match(copied,/https:\/\/infobwd\.github\.io\/nongkum-sports-hub\/r\//);
 }
+// R41: every public sport has a neutral, prepublished LINE preview that
+// never invents a winner or score when R36 per-result images are not ready.
+const publicSports=JSON.parse(read("data/public-results.json")).sports;
+assert.equal(publicSports.length,9,"Sport catalog changed — verify new preview coverage");
+for(const sport of publicSports){
+ const path="s/"+sport.id+"/index.html";
+ assert.ok(existsSync(new URL("../../"+path,import.meta.url)),"Missing neutral sport preview "+sport.id);
+ const html=read(path);
+ assert.ok(html.includes("ผลการแข่งขัน"+sport.name),"Sport name missing in OG");
+ assert.match(html,/property="og:title"/);
+ assert.match(html,/property="og:image"/);
+ assert.match(html,/property="og:image:width" content="1200"/);
+ assert.match(html,/property="og:image:height" content="630"/);
+ assert.match(html,/new URLSearchParams\(location\.search\)\.get\("ref"\)/);
+ assert.ok(!html.includes("ข้อมูลร่าง")&&!html.includes("อันดับ 1 ")&&!html.includes(" ชนะ "));
+ const png=readFileSync(new URL("../../s/"+sport.id+"/card.png",import.meta.url));
+ assert.equal(png.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
+ assert.equal(png.readUInt32BE(16),1200);
+ assert.equal(png.readUInt32BE(20),630);
+ const sample={id:"result-test-กีฬา-2569-"+sport.id,status:"approved",sport_id:sport.id,share_revision:1};
+ const url=api.resultShareUrl(sample,null,publicSports);
+ assert.equal(url,root+"s/"+sport.id+"/?ref="+api.fixtureShareCode(sample.id));
+ assert.ok(!url.includes("%E0"),"Fallback must not contain percent-encoded Thai IDs");
+ assert.equal(api.findApprovedResultByRef([sample],api.fixtureShareCode(sample.id)),sample);
+ assert.equal(api.findApprovedResultByRef([{...sample,status:"review"}],api.fixtureShareCode(sample.id)),null);
+ assert.equal(api.findApprovedResultByRef([sample,sample],api.fixtureShareCode(sample.id)),null,"Hash collision must fail closed");
+}
+assert.equal(api.findApprovedResultByRef([{id:"legacy-result",status:"approved"}],"badcode"),null);
+const unknown={id:"result-extra-sport-001",status:"approved",sport_id:"unlisted",share_revision:1};
+assert.equal(api.resultShareUrl(unknown,null,publicSports),
+ root+"results.html?ref="+api.fixtureShareCode(unknown.id),"Unknown future sport must still get a short link");
+assert.equal(api.resultShareUrl({...unknown,status:"review"},null,publicSports),"","Never share unapproved results");
+assert.match(results,/findApprovedResultByRef\(data\.results,requestedRef\)/);
+assert.match(results,/requestedResult\|\|requestedRef/);
+assert.match(results,/url\.searchParams\.delete\("ref"\)/);
 const approved=source.rows.find(x=>x.result_id==="result-petanque-p17-12-ปี-ชาย-020");
 if(approved){
  const code=api.resultShareCode(approved.result_id,approved.revision);
