@@ -18,6 +18,7 @@ jobs:
       - run: node scripts/p2/test-approval.mjs
       - run: node scripts/ux/test-mobile-ui.mjs
       - run: node scripts/results/test-results.mjs
+      - run: node scripts/r38/test-r38-workflow.mjs
       - run: node scripts/results/test-exporter.mjs
       - run: node scripts/results/test-r20b-entry.mjs
       - run: node scripts/ux/test-refresh-share-forms.mjs
