@@ -35,15 +35,17 @@
     directFailure:optionalElement("sharedResultLoadFailure"),
     directRetry:optionalElement("retrySharedResult")
   };
-  const requestedResult=new URLSearchParams(location.search).get("result");
-  const state={data:null,school:"",sport:"",level:"",source:"",shareIndex:null,catalog:new Map(),media:new Map(),focusId:"",directMode:!!requestedResult};
+  const linkParams=new URLSearchParams(location.search);
+  const requestedResult=linkParams.get("result");
+  const requestedRef=linkParams.get("ref");
+  const state={data:null,school:"",sport:"",level:"",source:"",shareIndex:null,catalog:new Map(),media:new Map(),focusId:"",directMode:!!(requestedResult||requestedRef)};
   if(state.directMode&&els.direct&&els.all){
     els.direct.hidden=false;els.all.hidden=true;
   }
   let initialized=false;
   const safe=globalThis.Nongkum.escapeHtml;
   // Manifest is generated from verified published-result revisions by R36.
-  // If unavailable/stale, sharing falls back to the original direct result URL.
+  // If unavailable/stale, sharing uses a compact neutral sport preview.
   async function loadShareIndex(){
     try{
       const response=await fetch("./data/result-share-index.json?refresh="+Date.now(),{cache:"no-store"});
@@ -84,7 +86,7 @@
     for(const key of ["school","sport","level"]){
       if(state[key])url.searchParams.set(key,state[key]);else url.searchParams.delete(key);
     }
-    url.searchParams.delete("result");state.focusId="";
+    url.searchParams.delete("result");url.searchParams.delete("ref");state.focusId="";
     history.replaceState(null,"",url.pathname+url.search+url.hash);
   }
   function schoolMatch(r){
@@ -206,11 +208,13 @@
       state.school=data.schools.some(s=>s.id===requested)?requested:"";
       state.sport=data.sports.some(s=>s.id===params.get("sport"))?params.get("sport"):"";
       state.level=["early","primary","secondary"].includes(params.get("level"))?params.get("level"):"";
-      const linked=requestedResult?data.results.find(x=>x.id===requestedResult&&x.status==="approved"):null;
-      if(requestedResult){
-        state.school="";state.level="";state.sport=linked?linked.sport_id:"";
-        state.focusId=requestedResult;
-      }
+      const linked=requestedResult?
+         data.results.find(x=>x.id===requestedResult&&x.status==="approved"):
+         globalThis.Nongkum.findApprovedResultByRef(data.results,requestedRef);
+       if(requestedResult||requestedRef){
+         state.school="";state.level="";state.sport=linked?linked.sport_id:"";
+         state.focusId=linked?.id||"";
+       }
       els.school.value=state.school;els.level.value=state.level;
       if(state.school||state.level)els.more.open=true;
       setupHandlers();
