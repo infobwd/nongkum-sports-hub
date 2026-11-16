@@ -91,7 +91,8 @@
         Number.isNaN(Date.parse(row.published_at)))
         throw Error("Invalid approved Supabase row");
       seen.add(row.result_id);
-      results.push(row.result);
+      // Share revision is public metadata from the reviewed published row, not part of the writable result payload.
+      results.push({...row.result,share_revision:row.revision});
       if(row.published_at>newest)newest=row.published_at;
     }
     // Before the cut-over, preserve the existing approved snapshot if the DB is
