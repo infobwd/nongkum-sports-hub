@@ -7,7 +7,7 @@
   const API = "https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-editor";
   const STORAGE = "nongkum-r34-editor-session-v1";
   const escapeHtml = root.Nongkum?.escapeHtml || ((s)=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])));
-  const state = { session:null, active:null, fixture:null, approved:new Map(), schools:[], source:"", refreshing:false };
+  const state = { session:null, active:null, fixture:null, approved:new Map(), schools:[], sports:[], source:"", refreshing:false };
   const overlay = document.createElement("div");
   overlay.id = "r34Overlay";
   overlay.className = "r34-overlay";
@@ -98,6 +98,16 @@
     return "<option value=''>เลือกโรงเรียน</option>"+items.map(s=>"<option value='"+escapeHtml(s.id)+"'"+(s.id===selected?" selected":"")+">"+escapeHtml(s.name)+"</option>").join("");
   }
   function school(id){return state.schools.find(s=>s.id===id)?.short||state.schools.find(s=>s.id===id)?.name||id;}
+  function setRowHtml(set,index){
+    const a=Number.isInteger(set?.a)?set.a:"";
+    const b=Number.isInteger(set?.b)?set.b:"";
+    return "<div class='r34-set-row' data-r34-set-row><strong class='r34-set-number'>เซ็ต "+(index+1)+"</strong>"+
+      "<label class='r34-field'>"+escapeHtml(school(state.fixture.team_a_id))+
+      "<input data-r34-set-score='a' type='number' inputmode='numeric' min='0' max='999' step='1' required placeholder='คะแนน' value='"+a+"'></label>"+
+      "<label class='r34-field'>"+escapeHtml(school(state.fixture.team_b_id))+
+      "<input data-r34-set-score='b' type='number' inputmode='numeric' min='0' max='999' step='1' required placeholder='คะแนน' value='"+b+"'></label>"+
+      "<button type='button' class='r34-remove-set' data-r34-remove-set>ลบเซ็ต</button></div>";
+  }
   function resultTypeControls(kind){
     const f=state.fixture,prev=state.approved.get(f.fixture_id)||{};
     if(kind==="win_loss"){
@@ -109,8 +119,11 @@
       return "<div class='r34-two'><label class='r34-field'>"+escapeHtml(school(f.team_a_id))+"<input name='score_a' type='number' min='0' max='9999' step='1' required value='"+a+"'></label><label class='r34-field'>"+escapeHtml(school(f.team_b_id))+"<input name='score_b' type='number' min='0' max='9999' step='1' required value='"+b+"'></label></div>";
     }
     if(kind==="sets"){
-      const current=Array.isArray(prev.sets)?prev.sets.map(s=>s.a+"-"+s.b).join(", "):"";
-      return "<label class='r34-field'>คะแนนแต่ละเซ็ต (ทีมแรก–ทีมสอง)<textarea name='sets' rows='2' placeholder='เช่น 15-10, 15-12' required>"+escapeHtml(current)+"</textarea></label><p class='r34-small'>คั่นแต่ละเซ็ตด้วยเครื่องหมายจุลภาค รองรับสูงสุด 7 เซ็ต</p>";
+      const saved=Array.isArray(prev.sets)&&prev.sets.length?prev.sets.slice(0,7):[{}];
+      return "<div class='r34-set-fields'><p class='r34-small'>กรอกคะแนนจริงของแต่ละทีมในแต่ละเซ็ต</p>"+
+        "<div id='r34SetRows'>"+saved.map((x,i)=>setRowHtml(x,i)).join("")+"</div>"+
+        "<button type='button' class='r34-add-set' id='r34AddSet'>+ เพิ่มเซ็ต</button>"+
+        "<p class='r34-small'>บันทึกได้ไม่เกิน 7 เซ็ต และไม่ต้องกรอกเซ็ตที่ยังไม่ได้แข่งขัน</p></div>";
     }
     if(kind==="ranking"){
       const allowed=f.school_ids||[];
@@ -133,19 +146,52 @@
     const name=f.kind==="track_event"?"รายการกรีฑา":escapeHtml(school(f.team_a_id))+" พบ "+escapeHtml(school(f.team_b_id));
     const revision=Number(f.base_revision||0);
     overlay.querySelector("#r34Title").textContent=revision?"แก้ไขผลการแข่งขัน":"บันทึกผลการแข่งขัน";
-    modalBody.innerHTML="<div class='r34-fixture'><strong>"+name+"</strong><span>"+escapeHtml(f.sport_id)+" · "+escapeHtml(f.division||"")+"</span></div>"+
+    modalBody.innerHTML="<div class='r34-fixture'><strong>"+name+"</strong><span>"+escapeHtml(state.sports.find(x=>x.id===f.sport_id)?.name||f.sport_id)+" · "+escapeHtml(f.division||"")+"</span></div>"+
       "<p class='r34-small'>"+escapeHtml(displayRemaining())+" <button type='button' class='r34-logout' id='r34Logout'>ออกจากโหมดบันทึกผล</button></p>"+
       (f.has_pending?"<p class='r34-pending'>มีข้อมูลรายการนี้ส่งรอตรวจแล้ว จึงยังไม่สามารถส่งซ้ำได้</p>":
-      "<form id='r34Form'><label class='r34-field'>รูปแบบการบันทึก<select name='result_type' id='r34ResultType'>"+
-      choices.map(x=>"<option value='"+x[0]+"'"+(x[0]===defaultType?" selected":"")+">"+x[1]+"</option>").join("")+"</select></label>"+
+      "<form id='r34Form'><details class='r34-optional-type'><summary>รูปแบบบันทึก: "+escapeHtml(choices.find(x=>x[0]===defaultType)?.[1]||"ผลการแข่งขัน")+" (เปลี่ยนได้)</summary>"+
+      "<label class='r34-field'>เลือกรูปแบบ<select name='result_type' id='r34ResultType'>"+
+      choices.map(x=>"<option value='"+x[0]+"'"+(x[0]===defaultType?" selected":"")+">"+x[1]+"</option>").join("")+"</select></label></details>"+
       "<div id='r34TypeControls'></div>"+
       (revision?"<label class='r34-field'>เหตุผลที่แก้ผลรับรองแล้ว<textarea name='reason' minlength='8' maxlength='500' rows='2' required placeholder='ระบุเหตุผลให้ผู้รับรองตรวจสอบ'></textarea></label>":"")+
       "<p class='r34-small'>กดส่งแล้วข้อมูลจะรอตรวจรับ ไม่เปลี่ยนผลที่เผยแพร่ทันที</p>"+
       "<div class='r34-buttons'><button class='r34-primary' type='submit'>ส่งผลให้ตรวจ</button><button type='button' data-r34-close>ยกเลิก</button></div></form>");
     const form=modalBody.querySelector("#r34Form");
     if(form){
-      const change=()=>{modalBody.querySelector("#r34TypeControls").innerHTML=resultTypeControls(form.elements.result_type.value);};
+      const controls=modalBody.querySelector("#r34TypeControls");
+      function updateSetRows(){
+        const rows=Array.from(controls.querySelectorAll("[data-r34-set-row]"));
+        rows.forEach((row,i)=>{
+          row.querySelector(".r34-set-number").textContent="เซ็ต "+(i+1);
+          row.querySelector("[data-r34-remove-set]").hidden=rows.length===1;
+        });
+        const add=controls.querySelector("#r34AddSet");
+        if(add)add.disabled=rows.length>=7;
+      }
+      const change=()=>{
+        const selected=form.elements.result_type.value;
+        controls.innerHTML=resultTypeControls(selected);
+        const typeLabel=choices.find(x=>x[0]===selected)?.[1]||"ผลการแข่งขัน";
+        const heading=form.querySelector(".r34-optional-type>summary");
+        heading.textContent="รูปแบบบันทึก: "+typeLabel+" (เปลี่ยนได้)";
+        if(selected==="sets")updateSetRows();
+      };
       form.elements.result_type.addEventListener("change",change);change();
+      controls.addEventListener("click",event=>{
+        if(event.target.closest("#r34AddSet")){
+          const rows=controls.querySelector("#r34SetRows");
+          if(rows&&rows.children.length<7){
+            rows.insertAdjacentHTML("beforeend",setRowHtml({},rows.children.length));
+            updateSetRows();
+          }
+        }
+        if(event.target.closest("[data-r34-remove-set]")){
+          const row=event.target.closest("[data-r34-set-row]");
+          if(row&&controls.querySelectorAll("[data-r34-set-row]").length>1){
+            row.remove();updateSetRows();
+          }
+        }
+      });
       form.addEventListener("submit",async e=>{
         e.preventDefault();message("กำลังบันทึกผล…");
         const button=form.querySelector("[type=submit]");button.disabled=true;
@@ -156,11 +202,18 @@
           p.score_a=form.elements.score_a.value;p.score_b=form.elements.score_b.value;
         }
         if(type==="sets"){
-          const rows=form.elements.sets.value.trim().split(/[,\n]+/).map(s=>s.trim()).filter(Boolean);
-          if(!rows.length||rows.length>7||rows.some(s=>!/^\d{1,3}\s*[-–:]\s*\d{1,3}$/.test(s))){
-            message("กรุณากรอกคะแนนแต่ละเซ็ต เช่น 15-10, 15-12",true);button.disabled=false;return;
+          const rows=Array.from(controls.querySelectorAll("[data-r34-set-row]"));
+          if(!rows.length||rows.length>7){
+            message("กรุณาเพิ่มคะแนนอย่างน้อย 1 เซ็ต และไม่เกิน 7 เซ็ต",true);button.disabled=false;return;
           }
-          p.sets=rows.map(s=>{const pair=s.split(/[-–:]/);return{a:Number(pair[0]),b:Number(pair[1])};});
+          const scores=rows.map(row=>({
+            a:row.querySelector("[data-r34-set-score='a']").value.trim(),
+            b:row.querySelector("[data-r34-set-score='b']").value.trim()
+          }));
+          if(scores.some(x=>!/^\d{1,3}$/.test(x.a)||!/^\d{1,3}$/.test(x.b))){
+            message("กรุณากรอกคะแนนทั้งสองทีมเป็นตัวเลข 0–999 ในทุกเซ็ต",true);button.disabled=false;return;
+          }
+          p.sets=scores.map(x=>({a:Number(x.a),b:Number(x.b)}));
         }
         if(type==="ranking"){
           p.rankings=[];
@@ -260,6 +313,7 @@
       if(!res?.data?.results)return;
       state.approved=new Map(res.data.results.filter(r=>r.status==="approved").map(r=>[r.fixture_id||r.event_id,r]));
       state.schools=res.data.schools||[];
+      state.sports=res.data.sports||[];
       state.source=res.source;
       annotate();
     }catch(_){ /* Never replace an approved result with a guessed score. */ }
