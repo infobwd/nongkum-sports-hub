@@ -93,7 +93,7 @@ declare
  v_bytes int; v_path text; v_public text; v_old text; v_revision int;
  v_reason text; v_items jsonb;
 begin
- if p_action not in ('status','reserve','finalize','abandon','queue','get','approve','reject','withdraw')
+ if p_action not in ('status','reserve','finalize','abandon','queue','published','get','approve','reject','withdraw')
     or p_data is null or jsonb_typeof(p_data)<>'object' or length(p_data::text)>6000 then
    return jsonb_build_object('ok',false,'error','invalid');
  end if;
@@ -109,7 +109,7 @@ begin
  if p_action in ('status','reserve','finalize','abandon') and not v_editor then
    return jsonb_build_object('ok',false,'error','expired');
  end if;
- if p_action in ('queue','get','approve','reject','withdraw') and v_reviewer is null then
+ if p_action in ('queue','published','get','approve','reject','withdraw') and v_reviewer is null then
    return jsonb_build_object('ok',false,'error','expired');
  end if;
  if p_action='status' then
@@ -171,6 +171,13 @@ begin
      into v_items from (select id,fixture_id,sport_id,division,caption,file_size,
        created_at,uploaded_at from nongkum_sports.activity_photos
        where status='pending' order by created_at desc limit 80) q;
+   return jsonb_build_object('ok',true,'items',v_items);
+ end if;
+ if p_action='published' then
+   select coalesce(jsonb_agg(to_jsonb(q) order by q.published_at desc),'[]'::jsonb)
+     into v_items from (select fixture_id,sport_id,division,caption,revision,published_at
+       from public.nongkum_published_activity_photos
+       order by published_at desc limit 80) q;
    return jsonb_build_object('ok',true,'items',v_items);
  end if;
  if p_action in ('get','approve','reject') then
