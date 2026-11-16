@@ -69,6 +69,7 @@ body[data-view^="photo-"] .mode{color:#244a72;background:#fff}
 .photo-name-settings button{flex:0 1 auto}
 
 /* R40-F — searchable fixture Select2 accessible on Safari/LINE and small screens. */
+body[data-view="photo-upload"] #photoFixtureSearch[hidden]{display:none!important}
 body[data-view="photo-upload"] #photoFixtureSearch:not([hidden]){margin-bottom:9px}
 .photo-panel .select2-container{display:block;width:100%!important;max-width:100%;font:inherit}
 .photo-panel .select2-container--default .select2-selection--single{
