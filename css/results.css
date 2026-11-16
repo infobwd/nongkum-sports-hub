@@ -60,3 +60,30 @@
 .direct-result-error{padding:20px;border-radius:12px;border:1px dashed #b6c9dd;background:#fff}
 .direct-result-error p{font-size:.85rem;color:#60758c}
 @media(max-width:690px){.direct-result{margin:10px 0 18px}.direct-result .fixture{padding:14px}}
+
+/* R35: compact mobile filters, always-visible all-sports reset and honest counts. */
+.result-filter-panel{padding-bottom:12px}
+.result-filter-panel h2{margin-bottom:10px}
+.result-sport-bar{display:flex;align-items:center;gap:8px;min-width:0}
+.result-all-sports{flex:none}
+.result-sport-chips{flex:1;min-width:0;overscroll-behavior-x:contain}
+.result-filter-more{margin:7px 0 3px;border:1px solid #d7e3f0;border-radius:12px;background:#fff}
+.result-filter-more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;padding:9px 12px;color:#244f7c;font-weight:700}
+.result-filter-more>summary:focus-visible,.result-clear-filters:focus-visible{outline:3px solid #e1b63a;outline-offset:2px}
+.result-filter-more>.result-controls{padding:10px 12px 14px}
+.result-more-count{color:#5a7085;font-size:.8rem}
+.result-filter-state{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:34px;margin-top:6px}
+.result-filter-state .result-summary{margin:0}
+.result-clear-filters{min-height:42px;background:#fff;border:1px solid #adc4df;border-radius:10px;color:#1d5282;font:inherit;font-weight:700;padding:7px 14px;cursor:pointer}
+.result-count-summary{font-size:.9rem;font-weight:700;color:#28577a;margin:8px 0}
+.result-filter-panel .result-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+.result-filter-panel .result-controls>div{min-width:0}
+.result-filter-panel .result-controls select{width:100%}
+.result-sport-bar .result-chip[aria-pressed="true"]{background:#174978;color:#fff;border-color:#174978}
+@media(max-width:690px){
+ .result-filter-panel .result-controls{grid-template-columns:1fr}
+ .result-filter-panel h2{font-size:1.05rem}
+ .result-sport-bar{gap:6px}
+ .result-sport-chips{padding:6px 0}
+ .result-chip{min-height:44px}
+}
