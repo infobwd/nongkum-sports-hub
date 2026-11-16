@@ -8,7 +8,8 @@ const $=id=>document.getElementById(id);
 const ui={login:$("photoUnlock"),workspace:$("photoWorkspace"),loginForm:$("photoLoginForm"),
  loginButton:$("photoLoginButton"),status:$("photoStatus"),session:$("photoSessionInfo"),
  logout:$("photoLogout"),form:$("photoUploadForm"),sport:$("photoSport"),
- fixture:$("photoFixture"),uploader:$("photoUploader"),caption:$("photoCaption"),
+ fixture:$("photoFixture"),uploader:$("photoUploader"),rememberUploader:$("photoRememberUploader"),
+ forgetUploader:$("photoForgetUploader"),caption:$("photoCaption"),
  file:$("photoFile"),camera:$("photoCamera"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
  previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit")};
 if(!ui.loginForm)return;
@@ -22,6 +23,39 @@ function sessionFromStorage(){
 }
 function saveSession(x){session=x;try{localStorage.setItem(SESSION_KEY,JSON.stringify(x));}catch(_){}}
 function clearSession(){session=null;try{localStorage.removeItem(SESSION_KEY);}catch(_){}}
+// R40-E: Only the uploader's name is remembered locally. Never store PIN, session or photos here.
+const UPLOADER_NAME_KEY="nongkum-r40-uploader-name-v1";
+const UPLOADER_OPT_OUT_KEY="nongkum-r40-uploader-name-optout-v1";
+const UPLOADER_NAME_TTL_MS=30*24*60*60*1000;
+function rememberedUploaderName(){
+ try{
+  const data=JSON.parse(localStorage.getItem(UPLOADER_NAME_KEY)||"null");
+  if(!data)return "";
+  const name=typeof data.name==="string"?data.name.trim():"";
+  const saved=data.saved_at;
+  if(name.length>=2&&name.length<=100&&typeof saved==="number"&&Number.isFinite(saved)&&
+     saved<=Date.now()+60000&&Date.now()-saved<UPLOADER_NAME_TTL_MS)return name;
+  localStorage.removeItem(UPLOADER_NAME_KEY);
+ }catch(_){}
+ return "";
+}
+function rememberUploaderName(name){
+ const cleaned=String(name||"").trim();
+ if(cleaned.length<2||cleaned.length>100)return;
+ try{localStorage.setItem(UPLOADER_NAME_KEY,JSON.stringify({name:cleaned,saved_at:Date.now()}));}catch(_){}
+}
+function clearRememberedUploaderName(){
+ try{localStorage.removeItem(UPLOADER_NAME_KEY);}catch(_){}
+}
+function isUploaderRememberEnabled(){
+ try{return localStorage.getItem(UPLOADER_OPT_OUT_KEY)!=="1";}catch(_){return false;}
+}
+function setUploaderRememberEnabled(enabled){
+ try{
+  if(enabled)localStorage.removeItem(UPLOADER_OPT_OUT_KEY);
+  else localStorage.setItem(UPLOADER_OPT_OUT_KEY,"1");
+ }catch(_){}
+}
 function showLogin(){ui.login.hidden=false;ui.workspace.hidden=true;}
 function showWorkspace(){
  ui.login.hidden=true;ui.workspace.hidden=false;
@@ -164,6 +198,21 @@ async function choosePhoto(input){
 for(const source of [ui.camera,ui.file]){
  source.addEventListener("change",()=>choosePhoto(source));
 }
+ui.rememberUploader.checked=isUploaderRememberEnabled();
+if(ui.rememberUploader.checked)ui.uploader.value=rememberedUploaderName();
+ui.rememberUploader.addEventListener("change",()=>{
+ setUploaderRememberEnabled(ui.rememberUploader.checked);
+ if(!ui.rememberUploader.checked)clearRememberedUploaderName();
+ notice(ui.rememberUploader.checked?"จะจำชื่อไว้หลังส่งภาพสำเร็จ":"จะไม่จำชื่อในเครื่องนี้");
+});
+ui.forgetUploader.addEventListener("click",()=>{
+ clearRememberedUploaderName();
+ setUploaderRememberEnabled(false);
+ ui.rememberUploader.checked=false;
+ ui.uploader.value="";
+ ui.uploader.focus();
+ notice("ลบชื่อที่จำไว้ในเครื่องนี้แล้ว");
+});
 ui.sport.addEventListener("change",updateFixtures);
 ui.loginForm.addEventListener("submit",async e=>{
  e.preventDefault();const pin=ui.loginForm.elements.pin.value.trim();
@@ -196,6 +245,8 @@ ui.form.addEventListener("submit",async e=>{
      if(ans.error==="expired"){clearSession();showLogin();}
      notice(errorText(ans.error),true);return;
    }
+   if(ui.rememberUploader.checked)rememberUploaderName(ui.uploader.value);
+   else clearRememberedUploaderName();
    notice("ส่งภาพเรียบร้อย · รอผู้ตรวจ · ภาพยังไม่แสดงบนเว็บไซต์");
    ui.file.value="";ui.camera.value="";ui.confirm.checked=false;clearPreview();
  }catch(_){notice("เครือข่ายขัดข้อง ภาพอาจยังไม่ถูกส่ง กรุณาตรวจผู้ตรวจอีกครั้ง",true);}
