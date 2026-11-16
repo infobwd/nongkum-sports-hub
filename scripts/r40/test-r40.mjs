@@ -61,9 +61,9 @@ for(const source of [upload,review,uphtml,reviewHtml]){
 }
 for(const html of [uphtml,reviewHtml]){
  assert.match(html,/noindex,nofollow/);
- assert.match(html,/activity-photos\.css\?v=r40-3/);
+ assert.match(html,/activity-photos\.css\?v=r40-3|activity-photos\.css\?v=r40-4/);
 }
-assert.match(uphtml,/upload-photos-r40\.js\?v=r40-3/);
+assert.match(uphtml,/upload-photos-r40\.js\?v=r40-4/);
 assert.match(uphtml,/id="photoRememberUploader" type="checkbox" checked/);
 assert.match(uphtml,/id="photoForgetUploader" type="button"/);
 assert.match(uphtml,/จำชื่อในเครื่องนี้/);
@@ -111,6 +111,31 @@ assert.equal(deniedContext.__pref.isUploaderRememberEnabled(),false,"blocked sto
 assert.doesNotThrow(()=>deniedContext.__pref.rememberUploaderName("ทดสอบ"));
 assert.equal(deniedContext.__pref.rememberedUploaderName(),"");
 assert.doesNotThrow(()=>deniedContext.__pref.clearRememberedUploaderName());
+
+assert.match(uphtml,/activity-photos\.css\?v=r40-4/);
+assert.match(uphtml,/select2\.min\.js/);
+assert.match(uphtml,/jquery\.min\.js/);
+assert.match(uphtml,/sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6/);
+assert.match(uphtml,/id="photoFixtureSearch" type="search"/);
+assert.match(upload,/function setupFixtureSearch\(\)/);
+assert.match(upload,/typeof jq\.fn\.select2==="function"/);
+assert.match(upload,/ui\.fixtureSearch\.hidden=false/);
+assert.match(upload,/const entry=option\(ui\.fixture,item\.id,item\.label\)/);
+assert.match(upload,/entry\.dataset\.search=item\.search/);
+assert.match(upload,/f\.source_pair_text,f\.round,f\.division/);
+assert.match(edge,/cleanJpegMetadata\(bytes\)/);
+assert.match(edge,/import \{cleanJpegMetadata\} from "\.\/jpeg-clean\.ts"/);
+assert.match(read(".github/workflows/r40-private-photo-qa.yml"),/deno test supabase\/functions\/nongkum-activity-photos\/jpeg-clean\.test\.ts/);
+// Search matching must accept multiple terms in any order.
+const mStart=upload.indexOf("function fixtureMatches(haystack,query){");
+const mEnd=upload.indexOf("function populateFixtureOptions(",mStart);
+assert.ok(mStart>0&&mEnd>mStart);
+const matchCtx={String};
+vm.runInNewContext(upload.slice(mStart,mEnd)+"\nglobalThis.match=fixtureMatches;",matchCtx);
+const sample="วังด้ง รางขาม · ปฐมวัยชาย · วิ่ง 40 เมตร";
+assert.equal(matchCtx.match(sample,"รางขาม วังด้ง"),true);
+assert.equal(matchCtx.match(sample,"40 ชาย"),true);
+assert.equal(matchCtx.match(sample,"80 หญิง"),false);
 
 assert.match(uphtml,/WebP เป็นหลัก/);
 assert.match(upload,/TARGET_IMAGE_BYTES=250000,MAX_IMAGE_BYTES=350000/);

@@ -90,3 +90,25 @@
 - เก็บเฉพาะชื่อเจ้าหน้าที่ ไม่เก็บ PIN, token, ภาพ หรือข้อมูลนักเรียนเพิ่ม; ไม่ใส่ชื่อในหน้าสาธารณะ; ใช้ textContent/attribute ปกติไม่แทรก HTML.
 - เพิ่ม regression QA สำหรับการอ่าน/เขียนชื่อ หมดอายุ 30 วัน ยกเลิกการจำ และกรณี localStorage ถูกปิดใช้งาน; ไม่แตะฐานข้อมูล Supabase หรือ Edge Function.
 - เพิ่ม query version JS หน้าอัปโหลดเป็น `r40-3` ป้องกันโค้ดเก่าค้างบนมือถือ; สถานะยังไม่ตรวจรับ Android/LINE/Safari จริงจนมีหลักฐาน.
+
+
+## R40-F — Safari JPEG ไม่ผ่าน / ค้นหารายการแข่งขันด้วย Select2 (16 พฤศจิกายน 2569)
+**สถานะ: วางแผนในสาขาแยก ก่อนแก้โค้ด / ยังไม่ Merge / ยังไม่ Deploy**
+
+### หลักฐาน
+- ผู้ใช้ส่งภาพ iPhone แสดงตัวอย่าง JPEG 244 KB ได้ แต่หลังส่งขึ้น `ไม่รองรับรูปนี้` และคู่แข่งขันเป็น native select ที่ใช้ยาก
+- ตรวจ Supabase Edge `nongkum-activity-photos` พบคำขอ POST จาก Safari รุ่นล่าสุดในวันที่ 16 พ.ย. 2569 15:48 น. ได้ HTTP 400; ในฐานภาพ R40 ยังไม่มี submission และไม่มีไฟล์จริง
+- โค้ด R40 เดิมปฏิเสธ JPEG ที่มี APP1–APP15 หรือ comment segment ทุกชนิด แม้ผ่าน Canvas แล้ว; **สงสัย** ว่า Safari ใส่ ICC/metadata ใน JPEG ใหม่ จำเป็นต้องทดสอบ parser เพิ่ม ไม่สรุปว่าพิสูจน์ได้จาก response 400 เพียงอย่างเดียว
+- โค้ด `updateFixtures()` ใช้ native select และแสดงได้เฉพาะชื่อคู่/รุ่น ไม่รองรับการพิมพ์ค้นหา; 236 รายการเดิมต้องคง fixture ID ตรงกับ R33
+- `infobwd/newsletter` เป็น repo สาธารณะ; รูปนักเรียนที่ยังไม่ได้อนุญาตห้ามย้ายจาก private Supabase ไป GitHub สาธารณะ
+
+### แผน
+1. เพิ่มตัวทำความสะอาด JPEG แบบ binary ที่ **ลบ APP1–APP15/COM ก่อนจัดเก็บ** ไม่ใช่อนุญาต metadata รั่ว; ตรวจ SOI/SOF/SOS/EOI, marker length, ความกว้าง/สูง, และเพดาน 350 KB; คง WebP simple VP8/VP8L และ fail closed สำหรับข้อมูลผิดรูปแบบ
+2. เพิ่ม Deno tests synthetic JPEG ที่มี EXIF/ICC/COM, ไม่มี marker ผิดรูปแบบ, oversized, compressed image; ยืนยันข้อความซ่อนถูกลบก่อนการอัปโหลด; ไม่ใช้ภาพนักเรียนในการทดสอบ และไม่แก้ SQL หรือ Bucket
+3. เปลี่ยนช่องรายการแข่งขันให้ค้นได้ **ด้วย jQuery Select2 4.0.13** (jQuery 3.7.1) จาก options ใน corrected program R33, จัดชื่อคู่+รุ่น+รอบ+กรีฑาวิ่งระยะไว้ครบ, ใช้ CDN version pin + SRI เพื่อความปลอดภัย, และ fallback เป็น native select ถ้าโหลด library ไม่สำเร็จ; รองรับ Safari/LINE และ keyboard
+4. ปรับรูปแบบ mobile dropdown ให้ไม่ซ้อนขอบ/หัวหน้า, รักษาการเลือก exact fixture ID, ปรับข้อความผิดพลาดขั้นอัปโหลดชัดเจน, เปลี่ยน JS/CSS cache version
+5. เพิ่ม regression tests R40 และ Deno check; PR แยก รออนุญาต Merge; Deploy เฉพาะ Edge รุ่น main ที่ Merge แล้วพร้อม QA negative token/Storage และตรวจ Pages จริง ก่อนขอภาพทดลองจากเจ้าหน้าที่
+
+### ไม่แตะต้อง
+- R32 approved results / R33 fixture IDs / R34 editor session / R37 reviewer / meeting evidence
+- ห้ามเผยแพร่รูปอัตโนมัติ; ไม่ย้ายรูป R40 ไป GitHub public ขณะยังไม่อนุญาต

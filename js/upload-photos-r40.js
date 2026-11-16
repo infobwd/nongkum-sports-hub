@@ -8,7 +8,7 @@ const $=id=>document.getElementById(id);
 const ui={login:$("photoUnlock"),workspace:$("photoWorkspace"),loginForm:$("photoLoginForm"),
  loginButton:$("photoLoginButton"),status:$("photoStatus"),session:$("photoSessionInfo"),
  logout:$("photoLogout"),form:$("photoUploadForm"),sport:$("photoSport"),
- fixture:$("photoFixture"),uploader:$("photoUploader"),rememberUploader:$("photoRememberUploader"),
+ fixture:$("photoFixture"),fixtureSearch:$("photoFixtureSearch"),uploader:$("photoUploader"),rememberUploader:$("photoRememberUploader"),
  forgetUploader:$("photoForgetUploader"),caption:$("photoCaption"),
  file:$("photoFile"),camera:$("photoCamera"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
  previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit")};
@@ -75,7 +75,7 @@ async function call(endpoint,action,payload={},token=session?.token){
 function errorText(e){return ({
  expired:"สิทธิ์หมดอายุ กรุณาเข้าระบบใหม่",wrong_pin:"รหัสไม่ถูกต้อง",limited:"ส่งภาพบ่อยเกินไป กรุณาตรวจจำนวนภาพ",
  source_changed:"ไม่พบรหัสรายการในตารางที่ใช้งาน กรุณาเลือกใหม่",
- invalid_image:"ไม่รองรับรูปนี้ กรุณาเลือก JPEG, PNG, WebP หรือใช้กล้องถ่ายใหม่",
+ invalid_image:"ระบบตรวจไฟล์ภาพไม่ผ่าน แม้แสดงภาพตัวอย่างได้ กรุณาลองใหม่ หากยังพบปัญหาให้แจ้งผู้ดูแล",
  image:"ไม่สามารถเปิดรูปนี้บนโทรศัพท์ได้ กรุณาถ่ายใหม่หรือเปลี่ยนเป็น JPEG",
  webp:"เครื่องนี้ไม่สามารถย่อรูปได้ กรุณาลอง Chrome หรือรูปอื่น",
  too_large:"ไฟล์ใหญ่เกินไป กรุณาเลือกรูปใหม่",invalid:"กรุณาตรวจข้อมูลที่กรอก",
@@ -83,7 +83,7 @@ function errorText(e){return ({
  unavailable:"ระบบรับภาพยังไม่พร้อม กรุณาติดต่อผู้ดูแล"
  })[e]||"ไม่สามารถส่งรูปได้ กรุณาลองใหม่";}
 function option(select,value,label){
- const x=document.createElement("option");x.value=value;x.textContent=label;select.appendChild(x);
+ const x=document.createElement("option");x.value=value;x.textContent=label;select.appendChild(x);return x;
 }
 async function fetchProgram(){
  const response=await fetch("./data/program-from-pdf-2569-20261104-draft.json?photo=r40",{cache:"force-cache"});
@@ -97,15 +97,63 @@ async function fetchProgram(){
   String(sports.get(a)||a).localeCompare(String(sports.get(b)||b),"th"));
  used.forEach(id=>option(ui.sport,id,sports.get(id)||id));
 }
+let fixtureChoices=[],fixtureEnhanced=false;
+function fixtureMatches(haystack,query){
+ const tokens=String(query||"").toLocaleLowerCase("th").trim().split(/\s+/).filter(Boolean);
+ const source=String(haystack||"").toLocaleLowerCase("th");
+ return tokens.every(token=>source.includes(token));
+}
+function populateFixtureOptions(query=""){
+ const old=ui.fixture.value;
+ ui.fixture.replaceChildren();
+ option(ui.fixture,"","เลือกกิจกรรม");
+ for(const item of fixtureChoices){
+   if(!fixtureMatches(item.search,query))continue;
+   const entry=option(ui.fixture,item.id,item.label);
+   entry.dataset.search=item.search;
+ }
+ if(old && [...ui.fixture.options].some(x=>x.value===old))ui.fixture.value=old;
+ else ui.fixture.value="";
+ if(fixtureEnhanced)globalThis.jQuery(ui.fixture).trigger("change.select2");
+}
 function updateFixtures(){
- ui.fixture.replaceChildren();option(ui.fixture,"","เลือกกิจกรรม");
- if(!program)return;
- const schools=new Map(program.schools.map(x=>[x.id,x.short||x.name]));
- for(const f of program.fixtures.filter(x=>x.sport_id===ui.sport.value)){
-  const teams=f.team_a_id&&f.team_b_id?
-   " · "+(schools.get(f.team_a_id)||"ทีม A")+" – "+(schools.get(f.team_b_id)||"ทีม B"):"";
-  const label=(f.name||f.source_pair_text||f.round||"รายการแข่งขัน")+" · "+f.division+teams;
-  option(ui.fixture,f.id,label.slice(0,180));
+ fixtureChoices=[];
+ if(ui.fixtureSearch)ui.fixtureSearch.value="";
+ if(program&&ui.sport.value){
+   const schools=new Map(program.schools.map(x=>[x.id,x]));
+   for(const f of program.fixtures.filter(x=>x.sport_id===ui.sport.value)){
+     const a=schools.get(f.team_a_id),b=schools.get(f.team_b_id);
+     const teamText=a&&b?" · "+(a.short||a.name)+" – "+(b.short||b.name):"";
+     const label=[f.name||f.source_pair_text||f.round||"รายการแข่งขัน",f.division].filter(Boolean).join(" · ")+teamText;
+     const search=[f.id,f.name,f.source_pair_text,f.round,f.division,
+       a?.name,a?.short,b?.name,b?.short].filter(Boolean).join(" ");
+     fixtureChoices.push({id:f.id,label:label.slice(0,240),search});
+   }
+ }
+ populateFixtureOptions();
+}
+function setupFixtureSearch(){
+ const jq=globalThis.jQuery;
+ if(jq&&jq.fn&&typeof jq.fn.select2==="function"){
+   try{
+     jq(ui.fixture).select2({
+       width:"100%",dropdownParent:jq(ui.form),minimumResultsForSearch:0,
+       placeholder:"แตะเพื่อค้นหารายการแข่งขัน",
+       language:{noResults:()=>"ไม่พบรายการแข่งขัน",searching:()=>"กำลังค้นหา…"},
+       matcher:(params,data)=>{
+         if(!data.id)return data;
+         const search=data.element?.dataset?.search||data.text;
+         return fixtureMatches(search,params.term)?data:null;
+       }
+     });
+     fixtureEnhanced=true;
+     return;
+   }catch(_){/* Keep native select usable if enhancement fails. */}
+ }
+ // Offline/CDN-blocked fallback still supports typing, without Select2.
+ if(ui.fixtureSearch){
+   ui.fixtureSearch.hidden=false;
+   ui.fixtureSearch.addEventListener("input",()=>populateFixtureOptions(ui.fixtureSearch.value));
  }
 }
 async function fileBitmap(file){
@@ -213,6 +261,7 @@ ui.forgetUploader.addEventListener("click",()=>{
  ui.uploader.focus();
  notice("ลบชื่อที่จำไว้ในเครื่องนี้แล้ว");
 });
+setupFixtureSearch();
 ui.sport.addEventListener("change",updateFixtures);
 ui.loginForm.addEventListener("submit",async e=>{
  e.preventDefault();const pin=ui.loginForm.elements.pin.value.trim();
