@@ -19,7 +19,7 @@ assert.equal(published.sports.length,9);
 assert.ok(!JSON.stringify(published).includes("recorded_by"));
 assert.ok(index.includes('href="./results.html"')||index.includes('id="resultsLink"'));
 assert.ok(resultsHtml.includes("โปรแกรมการแข่งขัน")&&resultsHtml.includes("ผลการแข่งขัน"));
-assert.ok(resultsHtml.includes('href="./css/results.css"'));
+assert.ok(/href="\.\/css\/results\.css\?v=r35-1"/.test(resultsHtml));
 assert.ok(!index.includes("<style>")&&!index.includes("<script>"));
 assert.ok(!resultsHtml.includes("<script>"));
 for(const [name,code] of [["shared",common],["renderers",renderers],["program",program],["results",client],["apps",apps]]){
@@ -29,6 +29,7 @@ function element(id){
  return {id,innerHTML:"",textContent:"",value:"",hidden:false,handlers:{},children:[],
   appendChild(x){this.children.push(x);},
   addEventListener(type,fn){this.handlers[type]=fn;},
+  setAttribute(k,v){this[k]=String(v);},
   querySelectorAll(){
     return [...this.innerHTML.matchAll(/data-sport='([^']*)'/g)].map(m=>{
      const o={dataset:{sport:m[1]},handlers:{},addEventListener(k,fn){this.handlers[k]=fn;},click(){this.handlers.click();}};
@@ -37,7 +38,7 @@ function element(id){
   }};
 }
 async function view(payload,query=""){
- const els=Object.fromEntries(["resultSchool","resultLevel","resultSports","resultsList","resultsCount","noResults","publishedAt","programLink","refreshResults","resultsRefreshStatus","sharedResult","sharedResultCard","sharedResultStatus","resultsOverview","showAllResults"].map(id=>[id,element(id)]));
+ const els=Object.fromEntries(["resultSchool","resultLevel","resultSports","resultAllSports","resultActiveFilters","resultClearFilters","resultEmptyClear","resultFilterMore","resultMoreCount","resultCountSummary","noResultsTitle","noResultsDescription","resultsList","resultsCount","noResults","publishedAt","programLink","refreshResults","resultsRefreshStatus","sharedResult","sharedResultCard","sharedResultStatus","resultsOverview","showAllResults"].map(id=>[id,element(id)]));
  const location=new URL("https://example.org/nongkum-sports-hub/results.html"+query);
  const history={replaceState(a,b,v){this.url=v;}};
  const local=new Map();
