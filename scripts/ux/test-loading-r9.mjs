@@ -11,7 +11,7 @@ const published=JSON.parse(read("data/public-results.json"));
 const pids=["school","search","sports","levels","cards","count","empty","more","advancedFilters","activeFiltersHint","resultsLink",
   "refreshProgram","programRefreshStatus","sharedFixture","sharedFixtureCard","sharedFixtureStatus","programOverview","showFullSchedule",
   "programSkeleton","programListing","programLoadFailure","retryProgram","sharedFixtureLoadFailure","retrySharedFixture"];
-const rids=["resultSchool","resultLevel","resultSports","resultsList","resultsCount","noResults","publishedAt","programLink",
+const rids=["resultSchool","resultLevel","resultSports","resultAllSports","resultActiveFilters","resultClearFilters","resultEmptyClear","resultFilterMore","resultMoreCount","resultCountSummary","noResultsTitle","noResultsDescription","resultsList","resultsCount","noResults","publishedAt","programLink",
   "refreshResults","resultsRefreshStatus","sharedResult","sharedResultCard","sharedResultStatus","resultsOverview","showAllResults",
   "resultsSkeleton","resultsListing","resultsLoadFailure","retryResults","sharedResultLoadFailure","retrySharedResult"];
 for(const [page,ids] of [[htmlProgram,pids.slice(-6)],[htmlResults,rids.slice(-6)]]){
@@ -143,6 +143,6 @@ assert.equal(rd.els.sharedResultLoadFailure.hidden,false);
 rdOnline=true;
 rd.els.retrySharedResult.handlers.click();await flush();
 assert.equal(rd.els.sharedResultLoadFailure.hidden,true);
-assert.match(rd.els.sharedResultCard.innerHTML,/ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง/);
+assert.match(rd.els.sharedResultCard.innerHTML,/ยังตรวจผลรับรองล่าสุดไม่ได้/,"offline approved-only backup must not say the result does not exist");
 
 console.log("PASS R9: skeleton first load, no splash, aria-busy, retry, stale-data preservation, valid empty, direct-link recovery, reduced motion");

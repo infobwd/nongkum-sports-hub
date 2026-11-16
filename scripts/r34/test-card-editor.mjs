@@ -23,8 +23,8 @@ assert.match(editor,/รับรอง/);
 assert.doesNotMatch(editor,/SERVICE_ROLE_KEY|PIN_HASH|SUPABASE_SECRET/);
 assert.match(css,/r34-overlay/);
 for(const [name,html] of [["index.html",index],["results.html",results]]){
-  assert.match(html,/r34-card-editor\.js\?v=r34-2/);
-  assert.match(html,/r34-card-editor\.css\?v=r34-2/);
+  assert.match(html,/r34-card-editor\.js\?v=r35-1/);
+  assert.match(html,/r34-card-editor\.css\?v=r35-1/);
   assert.ok(html.indexOf("r34-card-editor.js")>html.indexOf("js/results-source-r32.js"),name+" must load approved reader first");
 }
 assert.match(api,/SUPABASE_SERVICE_ROLE_KEY/);

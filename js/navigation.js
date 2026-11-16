@@ -12,7 +12,10 @@
     links.forEach(function(link){
       const target=link.dataset&&link.dataset.navView;
       if(target!=="program"&&target!=="results")return;
-      let href=root.Nongkum.href(target==="program"?"index.html":"results.html",state);
+      // Switching from the schedule to results starts with all approved results.
+      // Explicit filters in a direct results URL still work when opened independently.
+      const targetFilters=(current==="program"&&target==="results")?{}:state;
+      let href=root.Nongkum.href(target==="program"?"index.html":"results.html",targetFilters);
       // A tab switch is a fresh visit to the chronological listing, not a
       // restored Safari scroll position. Keep filters and existing direct links intact.
       if(current==="results"&&target==="program")

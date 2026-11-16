@@ -126,8 +126,8 @@ const fixtures=[
 ];
 assert.equal(sorterContext.NongkumScheduleOrder.sortedFixtures(fixtures,latest.sports)[0].id,"override");
 const page=read("index.html"),resultsPage=read("results.html");
-assert.match(page,/js\/navigation\.js\?v=r17-tab1/);
-assert.match(resultsPage,/js\/navigation\.js\?v=r17-tab1/);
+assert.match(page,/js\/navigation\.js\?v=r35-1/);
+assert.match(resultsPage,/js\/navigation\.js\?v=r35-1/);
 assert.match(page,/js\/schedule-order\.js\?v=r18-date1/);
 assert.match(page,/js\/program\.js\?v=r19-venue1/);
 assert.match(program,/from"\)==="results"/);

@@ -6,6 +6,15 @@
     school:document.getElementById("resultSchool"),
     level:document.getElementById("resultLevel"),
     sports:document.getElementById("resultSports"),
+    allSports:document.getElementById("resultAllSports"),
+    activeFilters:document.getElementById("resultActiveFilters"),
+    clearFilters:document.getElementById("resultClearFilters"),
+    emptyClear:document.getElementById("resultEmptyClear"),
+    more:document.getElementById("resultFilterMore"),
+    moreCount:document.getElementById("resultMoreCount"),
+    countSummary:document.getElementById("resultCountSummary"),
+    emptyTitle:document.getElementById("noResultsTitle"),
+    emptyDescription:document.getElementById("noResultsDescription"),
     cards:document.getElementById("resultsList"),
     count:document.getElementById("resultsCount"),
     empty:document.getElementById("noResults"),
@@ -27,7 +36,7 @@
     directRetry:optionalElement("retrySharedResult")
   };
   const requestedResult=new URLSearchParams(location.search).get("result");
-  const state={data:null,school:"",sport:"",level:"",focusId:"",directMode:!!requestedResult};
+  const state={data:null,school:"",sport:"",level:"",source:"",focusId:"",directMode:!!requestedResult};
   if(state.directMode&&els.direct&&els.all){
     els.direct.hidden=false;els.all.hidden=true;
   }
@@ -73,9 +82,24 @@
     return (!state.sport||r.sport_id===state.sport)&&
       (!state.level||globalThis.Nongkum.classifyLevel(r)===state.level)&&schoolMatch(r);
   }
+  function hasFilters(){return Boolean(state.school||state.level||state.sport);}
+  function clearFilters(){
+    state.school="";state.sport="";state.level="";
+    els.school.value="";els.level.value="";
+    makeSports();render();syncUrl();
+  }
+  function publicationTime(value){
+    if(!value)return "";
+    const date=new Date(value);
+    if(Number.isNaN(date.getTime()))return "";
+    return new Intl.DateTimeFormat("th-TH",{
+      timeZone:"Asia/Bangkok",day:"numeric",month:"short",year:"numeric",
+      hour:"2-digit",minute:"2-digit",hourCycle:"h23"
+    }).format(date)+" น.";
+  }
   function makeSports(){
-    const options=[{id:"",name:"ทุกกีฬา",emoji:"📋"}].concat(state.data.sports);
-    els.sports.innerHTML=options.map(s=>"<button type='button' class='result-chip' aria-pressed='"+
+    els.allSports.setAttribute("aria-pressed",String(!state.sport));
+    els.sports.innerHTML=state.data.sports.map(s=>"<button type='button' class='result-chip' aria-pressed='"+
       (state.sport===s.id?"true":"false")+"' data-sport='"+safe(s.id)+"'>"+
       safe(s.emoji+" "+s.name)+"</button>").join("");
     els.sports.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
@@ -85,9 +109,11 @@
   function renderDirect(){
     const item=state.data.results.find(x=>x.id===state.focusId&&x.status==="approved");
     if(!item){
-      els.directCard.innerHTML="<div class='direct-result-error'><strong>ยังไม่มีผลการแข่งขันที่ผ่านการรับรองสำหรับลิงก์นี้</strong>"+
-        "<p>อาจเป็นรหัสไม่ถูกต้อง หรือผลยังไม่ผ่านการรับรองและเผยแพร่</p></div>";
-      els.directStatus.textContent="ไม่พบผลที่รับรองแล้ว";
+      const backup=state.source!=="live";
+      els.directCard.innerHTML=backup?
+        "<div class='direct-result-error'><strong>ยังตรวจผลรับรองล่าสุดไม่ได้</strong><p>ขณะนี้ใช้ข้อมูลสำรอง อาจไม่มีผลรายการที่เผยแพร่ล่าสุด กรุณารีเฟรชเมื่อเชื่อมต่อได้</p></div>":
+        "<div class='direct-result-error'><strong>ยังไม่มีผลการแข่งขันที่ผ่านการรับรองสำหรับลิงก์นี้</strong><p>อาจเป็นรหัสไม่ถูกต้อง หรือผลยังไม่ผ่านการรับรองและเผยแพร่</p></div>";
+      els.directStatus.textContent=backup?"ข้อมูลสำรอง · ยังตรวจผลล่าสุดไม่ได้":"ไม่พบผลที่รับรองแล้ว";
       return;
     }
     els.directCard.innerHTML=globalThis.NongkumResultsRender.card(item,state.data.schools,state.data.sports);
@@ -98,8 +124,24 @@
     if(!data)return;
     if(state.directMode){renderDirect();return;}
     const found=data.results.filter(matches);
+    const total=data.results.length;
+    const selectedSport=state.data.sports.find(s=>s.id===state.sport);
+    const selectedSchool=state.data.schools.find(s=>s.id===state.school);
+    const levelLabels={early:"ปฐมวัย",primary:"ประถม",secondary:"มัธยม"};
+    const used=[selectedSport?.name,selectedSchool?.short||selectedSchool?.name,levelLabels[state.level]].filter(Boolean);
+    const filtered=hasFilters();
+    const stale=state.source!=="live";
     els.count.textContent=found.length+" รายการ";
+    els.countSummary.textContent="ผลรับรองทั้งหมด "+total+" รายการ · แสดง "+found.length+" รายการ"+(stale?" · ข้อมูลสำรอง อาจไม่ใช่ผลล่าสุด":"");
+    els.activeFilters.textContent=filtered?"กำลังกรอง: "+used.join(" · "):"กำลังแสดงผลรับรองทุกกีฬาและทุกโรงเรียน";
+    els.clearFilters.hidden=!filtered;
+    els.moreCount.textContent=[state.school,state.level].filter(Boolean).length?"(เลือกแล้ว "+[state.school,state.level].filter(Boolean).length+")":"";
     els.empty.hidden=found.length!==0;
+    if(!found.length){
+      els.emptyTitle.textContent=stale?"ข้อมูลสำรองยังไม่มีผลการแข่งขัน":total===0?"ยังไม่มีผลการแข่งขันที่ผ่านการรับรอง":"ไม่พบผลการแข่งขันตามตัวกรองที่เลือก";
+      els.emptyDescription.textContent=stale?"ยังตรวจผลรับรองล่าสุดจากระบบไม่ได้ กรุณารีเฟรชอีกครั้งเพื่อดูผลปัจจุบัน":total===0?"ผลจะปรากฏเมื่อคณะกรรมการรับรองและเผยแพร่แล้ว":"มีผลรับรอง "+total+" รายการ แต่ไม่ตรงกับตัวกรองนี้ ล้างตัวกรองเพื่อดูผลทั้งหมด";
+      els.emptyClear.hidden=!filtered;
+    }
     els.cards.innerHTML=found.map(r=>globalThis.NongkumResultsRender.card(r,data.schools,data.sports)).join("");
     if(state.focusId&&typeof els.cards.querySelector==="function"){
       const target=els.cards.querySelector("[data-result-card='"+state.focusId.replace(/'/g,"")+"']");
@@ -109,6 +151,9 @@
   function setupHandlers(){
     if(initialized)return;
     initialized=true;
+    els.allSports.addEventListener("click",()=>{state.sport="";makeSports();render();syncUrl();});
+    els.clearFilters.addEventListener("click",clearFilters);
+    els.emptyClear.addEventListener("click",clearFilters);
     els.school.addEventListener("change",()=>{
       state.school=els.school.value;globalThis.Nongkum.saveSchool(state.school);render();syncUrl();
     });
@@ -142,7 +187,8 @@
         const o=document.createElement("option");o.value=s.id;o.textContent=s.name;els.school.appendChild(o);
       });
       const params=new URLSearchParams(location.search);
-      const requested=params.get("school")||globalThis.Nongkum.schoolInStore();
+      // A results visit starts unfiltered unless a caller explicitly provided a filter.
+      const requested=params.get("school")||"";
       state.school=data.schools.some(s=>s.id===requested)?requested:"";
       state.sport=data.sports.some(s=>s.id===params.get("sport"))?params.get("sport"):"";
       state.level=["early","primary","secondary"].includes(params.get("level"))?params.get("level"):"";
@@ -152,10 +198,11 @@
         state.focusId=requestedResult;
       }
       els.school.value=state.school;els.level.value=state.level;
+      if(state.school||state.level)els.more.open=true;
       setupHandlers();
     }
-    els.published.textContent=data.metadata.published_at?
-      "เผยแพร่ผลล่าสุด: "+data.metadata.published_at:"";
+    const announced=publicationTime(data.metadata.published_at);
+    els.published.textContent=announced?"เผยแพร่ผลล่าสุด: "+announced:"";
     makeSports();render();
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
     globalThis.NongkumNavigation?.update?.(state);
@@ -184,6 +231,7 @@
         if(!response.ok)throw Error("ไฟล์ผลการแข่งขันยังไม่พร้อม");
         payload=await response.json();
       }
+      state.source=source?.source||"backup";
       loaded(payload);
       setFailure(false);
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+

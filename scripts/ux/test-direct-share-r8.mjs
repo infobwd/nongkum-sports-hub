@@ -78,6 +78,7 @@ function makeElement(id){
  return {id,innerHTML:"",textContent:"",value:"",hidden:false,open:false,children:[],handlers:{},
   appendChild(v){this.children.push(v);},
   addEventListener(ev,fn){this.handlers[ev]=fn;},
+  setAttribute(k,v){this[k]=String(v);},
   querySelector(sel){return sel==="details.source-details"?{open:false}:null;},
   querySelectorAll(selector){
    if(selector!=="button")return [];
@@ -130,7 +131,7 @@ assert.ok(direct.els.cards.innerHTML.includes("schedule-day"));
 assert.ok(!direct.history.latest.includes("fixture="));
 
 async function mountResults(payload,query){
- const ids=["resultSchool","resultLevel","resultSports","resultsList","resultsCount",
+ const ids=["resultSchool","resultLevel","resultSports","resultAllSports","resultActiveFilters","resultClearFilters","resultEmptyClear","resultFilterMore","resultMoreCount","resultCountSummary","noResultsTitle","noResultsDescription","resultsList","resultsCount",
    "noResults","publishedAt","programLink","refreshResults","resultsRefreshStatus",
    "sharedResult","sharedResultCard","sharedResultStatus","resultsOverview","showAllResults"];
  const els=Object.fromEntries(ids.map(id=>[id,makeElement(id)]));
@@ -141,6 +142,8 @@ async function mountResults(payload,query){
   localStorage:{getItem:()=>"wangdong",setItem(){}},
   fetch:async()=>({ok:true,json:async()=>payload})
  });
+ // This case explicitly models a successful live approved-only feed, not an offline backup.
+ ctx.NongkumResultSource={load:async()=>({data:payload,source:"live"})};
  for(const content of [shared,renderers,results])new vm.Script(content).runInContext(ctx);
  for(let i=0;i<18;i++)await Promise.resolve();
  return els;
