@@ -1,0 +1,42 @@
+{
+  "status": "QA_PROGRAMMATIC_PASS",
+  "version": "R30H",
+  "page_count": 44,
+  "page3_goto_links": 28,
+  "page3_committee_links": 20,
+  "page3_main_links": 8,
+  "page3_website_links": 1,
+  "bookmarks": 31,
+  "all_other_page_text_exact_match": 43,
+  "all_other_page_link_maps_match": 43,
+  "committee_destinations_1based": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    37,
+    39,
+    40,
+    41,
+    42,
+    43
+  ],
+  "sha256": "be3805ecb7876fc3ab55691fbcd2f614fe2dea4549f98b6249ce2aefae0fece7",
+  "output_size_bytes": 3555594,
+  "limitations": [
+    "Mobile actual Safari/Chrome/LINE not acceptance-tested",
+    "Physical A4 print not tested",
+    "External Drive share permission not independently verified",
+    "Draft names and announcement not organizer-approved"
+  ]
+}
