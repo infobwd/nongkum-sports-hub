@@ -73,7 +73,7 @@ function safeWebP(buf:Uint8Array):boolean{
     if(start+len>buf.length)return false;
     if(!["VP8 ","VP8L","VP8X","ALPH"].includes(id))return false;
     if(id==="VP8 "){
-      if(len<10||ascii(start+3,3)!=="\x9d\x01\x2a")return false;
+      if(len<10||!(buf[start+3]===0x9d&&buf[start+4]===0x01&&buf[start+5]===0x2a))return false;
       width=dv.getUint16(start+6,true)&16383;
       height=dv.getUint16(start+8,true)&16383;primary++;
     }else if(id==="VP8L"){
