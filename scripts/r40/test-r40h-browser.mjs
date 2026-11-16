@@ -22,6 +22,7 @@ try{
     JSON.stringify({token,expires_at:new Date(Date.now()+3*60*60*1000).toISOString()}));
  },{token:editorToken});
  let uploadCount=0;
+ let interruptNextUpload=false;
  const statuses=[];
  await photoPage.route("**/functions/v1/nongkum-results-editor",async route=>{
   const action=JSON.parse(route.request().postData()||"{}").action;
@@ -36,6 +37,10 @@ try{
   }
   if(data.action==="upload"){
    uploadCount++;
+   if(interruptNextUpload){
+     interruptNextUpload=false;
+     return route.abort("failed");
+   }
    statuses.unshift({id:uploadId,event_id:data.event_id,sport_id:"petanque",
      division:"12 ปี ชาย",caption:data.caption,submitted_at:new Date().toISOString(),
      status:"review",publication_status:"private"});
@@ -82,6 +87,19 @@ try{
  assert.equal(await photoPage.locator("#photoSubmit").isDisabled(),true);
  dims=await photoPage.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth}));
  assert.ok(dims.scrollWidth<=dims.width+1,"upload has horizontal overflow "+JSON.stringify(dims));
+ // Interrupted upload must never claim success or allow accidental duplicate retry.
+ interruptNextUpload=true;
+ await photoPage.locator("#photoFile").setInputFiles({name:"synthetic-second.webp",
+   mimeType:"image/webp",buffer:Buffer.from(b64,"base64")});
+ await photoPage.waitForFunction(()=>!document.getElementById("photoSubmit").disabled,{timeout:15000});
+ await photoPage.locator("#photoSubmit").click();
+ await photoPage.waitForFunction(()=>document.getElementById("photoStatus").textContent.includes("ยังยืนยันไม่ได้"),{timeout:15000});
+ assert.equal(await photoPage.locator("#photoSendSuccess").isVisible(),false);
+ assert.equal(await photoPage.locator("#photoSubmit").isDisabled(),true);
+ assert.equal(uploadCount,2,"one interrupted request, no automatic retry");
+ await photoPage.screenshot({path:join(DEST,"02b-network-uncertain.png"),fullPage:true});
+ await photoPage.locator("#photoMineOpen").click();
+ await photoPage.waitForFunction(()=>!document.getElementById("photoSubmit").disabled,{timeout:12000});
  const reviewPage=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
  await reviewPage.addInitScript(({token})=>{
   localStorage.setItem("nongkum-r37-reviewer-session-v1",
