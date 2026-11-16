@@ -172,6 +172,11 @@ begin
  end if;
 
  if p_action='revoke' then
+   -- A retry after partial Storage cleanup must not re-open or re-publish the photo.
+   if v_item.publication_status='revoked' then
+     return jsonb_build_object('ok',true,'status','revoked',
+       'public_path',v_item.public_object_path);
+   end if;
    v_reason:=btrim(coalesce(p_data->>'reason',''));
    if length(v_reason) not between 8 and 500 then
       return jsonb_build_object('ok',false,'error','reason_required');
