@@ -23,7 +23,7 @@ assert.match(r32,/share_revision:row\.revision/);
 assert.match(results,/result-share-index\.json/);
 assert.match(results,/shareApprovedResult/);
 assert.match(page,/results\.js\?v=r(?:36|38|39)-1/);
-assert.match(page,/shared\.js\?v=r36-2/);
+assert.match(page,/shared\.js\?v=r(?:36-2|39-1)/);
 assert.match(page,/results-source-r32\.js\?v=r36-1/);
 assert.ok(!Object.keys(source).includes("draft"));
 const temp=mkdtempSync(join(tmpdir(),"r36-share-test-"));
