@@ -112,7 +112,7 @@ function display(row,base){
    if(!line)throw Error("R39 athletics event title unmatched: "+result.event_id+
      " / "+result.division+" — manual source review required");
    summary=first?"อันดับ 1 "+get(first.school_id):"ผลจัดอันดับ";
-   title=sport+" "+division+" · "+line+" · "+summary;
+   title=(line.includes(division)?sport:sport+" "+division)+" · "+line+" · "+summary;
  }else{
    line=a+" พบ "+b;
    summary=winner?winner+" ชนะ":(result.result_type==="score"&&result.score_a===result.score_b?"ผลเสมอ":"ผลการแข่งขัน");
@@ -120,7 +120,8 @@ function display(row,base){
  }
  const detail=(result.result_type==="score"?" · คะแนน "+result.score_a+"–"+result.score_b:
    result.result_type==="sets"?" · ผลรายเซ็ต "+result.sets.map(s=>s.a+"–"+s.b).join(", "):"");
- return {sport,division,a,b,winner,line,summary,title,description:"ผลการแข่งขัน · "+sport+" "+division+" · "+line+" · "+summary+detail,
+ return {sport,sport_id:result.sport_id,division,a,b,winner,line,summary,title,
+         description:"ผลการแข่งขัน · "+(line.includes(division)?sport:sport+" "+division)+" · "+line+" · "+summary+detail,
          result_id:row.result_id,revision:row.revision,published_at:row.published_at};
 }
 function htmlPage(item,revisionCode,archived=false) {
