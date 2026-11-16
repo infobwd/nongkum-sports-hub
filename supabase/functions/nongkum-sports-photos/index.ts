@@ -191,7 +191,7 @@ Deno.serve(async (req:Request)=>{
       const {action:kind,...rest}=parsed;
       action=String(kind||"");input=rest;
     }else return fail("invalid",origin,415);
-    if(!["upload","status","queue","preview","approve","reject","withdraw"].includes(action))
+    if(!["upload","status","queue","published","preview","approve","reject","withdraw"].includes(action))
       return fail("invalid",origin);
     if(action==="upload"){
       if(!file||file.type!=="image/webp"||file.size<100||file.size>MAX_FILE)
@@ -221,8 +221,8 @@ Deno.serve(async (req:Request)=>{
       const ans=await rpc("status",token);
       return reply(ans,ans.ok?200:statusCode(String(ans.error)),origin);
     }
-    if(action==="queue"){
-      const ans=await rpc("queue",token);
+    if(action==="queue"||action==="published"){
+      const ans=await rpc(action,token);
       return reply(ans,ans.ok?200:statusCode(String(ans.error)),origin);
     }
     if(action==="preview"){
