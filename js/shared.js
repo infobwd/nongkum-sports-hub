@@ -45,7 +45,7 @@
   function fixtureShareUrl(id){
     return new URL("m/"+fixtureShareCode(id)+"/",new URL("index.html",location.href)).toString();
   }
-  async function shareUrl(url,title,description){
+  async function shareUrl(url,title,description,options){
     if(typeof navigator!=="undefined"&&typeof navigator.share==="function"){
       try{
         const payload={title:title||"มิตรภาพเกมส์ 2569",url};
@@ -57,13 +57,43 @@
       }
     }
     if(typeof navigator!=="undefined"&&navigator.clipboard&&typeof navigator.clipboard.writeText==="function"){
-      await navigator.clipboard.writeText(url);
+      const copied=options?.copyDescription?([title,description,url].filter(Boolean).join("\n")):url;
+      await navigator.clipboard.writeText(copied);
       return "copied";
     }
     return "unavailable";
   }
   async function shareItem(page,key,id,title){
     return shareUrl(directItemUrl(page,key,id),title);
+  }
+  // A preview URL is usable only if the corresponding approved revision has a
+  // generated static OG page. Never guess that a newly approved page exists.
+  function resultShareCode(id,revision){
+    if(typeof id!=="string"||!Number.isInteger(revision)||revision<1)return "";
+    return "r"+fixtureShareCode(id).slice(1)+"-v"+revision;
+  }
+  function resultShareUrl(result,index){
+    if(!result||result.status!=="approved")return "";
+    const revision=result.share_revision;
+    const expected=resultShareCode(result.id,revision);
+    const item=index?.approved_only===true&&index.schema_version===1?index.results?.[result.id]:null;
+    if(expected&&item&&item.revision===revision&&item.slug===expected){
+      return new URL("r/"+expected+"/",new URL("results.html",location.href)).toString();
+    }
+    return directItemUrl("results.html","result",result.id);
+  }
+  function shareApprovedResult(result,index,schools,sports){
+    if(!result||result.status!=="approved")throw Error("Only approved results can be shared");
+    const sport=sports?.find(s=>s.id===result.sport_id)?.name||"กีฬา";
+    const school=id=>schools?.find(s=>s.id===id)?.short||"";
+    const winner=school(result.winner_school_id);
+    const a=school(result.team_a_id),b=school(result.team_b_id);
+    const subject=result.result_type==="ranking"?
+      (result.name||"รายการกรีฑา")+(result.division?" · "+result.division:""):
+      (winner?winner+" ชนะ "+(winner===a?b:a):(a+" พบ "+b));
+    const title=sport+(result.division?" "+result.division:"")+" — "+subject;
+    const description="ผลการแข่งขันที่ผ่านการรับรอง · มิตรภาพเกมส์ 2569";
+    return shareUrl(resultShareUrl(result,index),title,description,{copyDescription:true});
   }
   function shareFixture(fixture,sport,teamA,teamB){
     const title="มิตรภาพเกมส์ 2569 · "+sport+" · "+(fixture.division||"การแข่งขัน");
@@ -78,6 +108,7 @@
   }
   root.Nongkum=Object.freeze({
     escapeHtml,classifyLevel,schoolInStore,saveSchool,href,
-    directItemUrl,shareItem,shareUrl,fixtureShareCode,fixtureShareUrl,shareFixture,formatCheckedAt
+    directItemUrl,shareItem,shareUrl,fixtureShareCode,fixtureShareUrl,shareFixture,
+    resultShareCode,resultShareUrl,shareApprovedResult,formatCheckedAt
   });
 })(globalThis);
