@@ -60,9 +60,12 @@ async function preview(id,frame,button){
    if(!["image/webp","image/jpeg"].includes(r.mime_type)){notice("ประเภทไฟล์ไม่ถูกต้อง",true);return;}
    img.src="data:"+r.mime_type+";base64,"+r.image_b64;
    img.alt="ภาพต้นฉบับสำหรับผู้ตรวจเท่านั้น";
-   img.loading="lazy";img.decoding="async";
-   if(typeof img.decode==="function"){try{await img.decode();}catch(_){notice("ไม่สามารถแสดงภาพได้ กรุณาลองใหม่",true);return;}}
+   img.loading="eager";img.decoding="async";
    frame.replaceChildren(img);frame.hidden=false;
+   if(typeof img.decode==="function"){
+     try{await img.decode();}
+     catch(_){frame.replaceChildren();frame.hidden=true;notice("ไม่สามารถแสดงภาพได้ กรุณาลองใหม่",true);return;}
+   }
    reviewedImages.add(id);
    notice("เปิดดูภาพเฉพาะผู้ตรวจแล้ว");
  }catch(_){notice(errorText("network"),true);}
