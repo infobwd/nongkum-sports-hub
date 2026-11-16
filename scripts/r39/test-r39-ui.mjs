@@ -49,6 +49,6 @@ assert.doesNotMatch(root.NongkumResultsRender.card({...ranking,division:"12 à¸›à
 assert.doesNotMatch(root.NongkumResultsRender.card(ranking,schools,sports,map,new Map()),/result-activity-photo/);
 assert.equal(root.NongkumResultsRender.card({...ranking,status:"review"},schools,sports,map,media),"");
 const resultsPage=read("results.html");
-for(const expected of ["activity-media-r39.js?v=r39-1","results.js?v=r39-1","results-renderers.js?v=r39-1"])
+for(const expected of ["activity-media-r39.js?v=r40-1","results.js?v=r39-1","results-renderers.js?v=r40-1"])
  assert.ok(resultsPage.includes(expected));
 console.log("R39 PASS: mobile grouped rosters, Thai publication time and reviewed picture gating");
