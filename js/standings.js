@@ -12,7 +12,7 @@
     resultsLink:$("resultsSubResults"),emptyLink:$("emptyResultsLink"),
     pendingLink:$("pendingResultsLink")
   };
-  const state={data:null,rules:null,snapshot:null,school:"",sport:"",level:""};
+  const state={data:null,rules:null,snapshot:null,program:null,school:"",sport:"",level:""};
   let initialized=false,loading=false;
   const safe=globalThis.Nongkum.escapeHtml;
   function validPublicData(data){
@@ -60,38 +60,62 @@
       })
     );
   }
+  function selectedGroups(){
+    const groups=globalThis.NongkumPreliminaryStandings?.build(
+      state.program,state.data?.results||[],state.rules)||[];
+    return groups.filter(g=>(!state.sport||g.sport_id===state.sport)&&
+      (!state.level||globalThis.Nongkum.classifyLevel(g)===state.level)&&
+      (!state.school||g.rows.some(row=>row.team_id===state.school)));
+  }
   function renderRoster(){
-    if(!ui.roster)return;
-    const rule=state.rules?.football_league;
-    const eligible=rule&&rule.mapping_status==="source_verified_not_approved"&&
-      Array.isArray(rule.team_ids)&&rule.team_ids.length===6&&
-      (!state.sport||state.sport==="football")&&(!state.level||state.level==="primary");
-    const snapshot=state.snapshot?.standings?.find(x=>x.sport_id==="football"&&x.division==="12 ปี ชาย");
-    const prestart=eligible&&state.data.results.length===0;
-    const shown=eligible&&(prestart||snapshot);
-    ui.roster.hidden=!shown;
-    if(!shown){ui.roster.innerHTML="";return;}
+    if(!ui.roster||!state.data)return 0;
+    const groups=selectedGroups();
+    ui.roster.hidden=!groups.length;
+    if(!groups.length){ui.roster.innerHTML="";return 0;}
     const schoolById=new Map(state.data.schools.map(s=>[s.id,s]));
-    const rows=prestart
-      ?rule.team_ids.map(id=>({team_id:id,played:0,won:0,drawn:0,lost:0,goals_for:0,goals_against:0,
-        goal_difference:0,points:0,yellow_cards:0,red_cards:0,position:null}))
-      :snapshot.rows;
-    const filtered=rows.filter(x=>!state.school||x.team_id===state.school);
-    const before=prestart?"รายชื่อทีมเบื้องต้น · ยังไม่จัดอันดับ":
-      snapshot.ranking_status==="final"?"ตารางคะแนนตามผลรับรองครบทุกคู่":"ตารางคะแนนระหว่างการแข่งขัน · ยังไม่ใช่อันดับสุดท้าย";
-    const header="<h3>"+safe(before)+"</h3><p class='standings-provenance'>"+
-      (prestart?"ข้อมูลทีมจากสูจิบัตรฉบับร่าง · ค่า 0 หมายถึงยังไม่เริ่มบันทึกผล ไม่ใช่ผลตัดสิน":
-      "คำนวณเฉพาะผลที่รับรองแล้ว "+snapshot.matches_approved+"/"+snapshot.matches_total+" คู่ · นับใบเหลืองและใบแดงแยกจากผลรับรอง (วิธีตัดสินอันดับจากบัตรยังรอรับรอง)")+"</p>";
-    const table="<div class='standings-table-scroll'><table class='standings-table'><thead><tr>"+
-      "<th scope='col'>อันดับ</th><th scope='col'>ทีม</th><th scope='col'>แข่ง</th><th scope='col'>ชนะ</th>"+
-      "<th scope='col'>เสมอ</th><th scope='col'>แพ้</th><th scope='col'>ได้</th><th scope='col'>เสีย</th>"+
-      "<th scope='col'>ผลต่าง</th><th scope='col'>คะแนน</th><th scope='col' title='จำนวนใบเหลืองจากผลรับรอง'>เหลือง</th><th scope='col' title='จำนวนใบแดงจากผลรับรอง'>แดง</th></tr></thead><tbody>"+
-      filtered.map(row=>"<tr><td>"+(row.position??"—")+"</td><th scope='row'>"+
-      safe(schoolById.get(row.team_id)?.short||row.team_id)+"</th>"+
-      ["played","won","drawn","lost","goals_for","goals_against","goal_difference","points","yellow_cards","red_cards"].
-      map(k=>"<td>"+safe(String(row[k]))+"</td>").join("")+"</tr>").join("")+
-      "</tbody></table></div>";
-    ui.roster.innerHTML=header+(filtered.length?table:"<p>ไม่มีทีมตรงกับตัวกรอง</p>");
+    const sportById=new Map(state.data.sports.map(s=>[s.id,s]));
+    ui.roster.innerHTML=groups.map(g=>{
+      const snapshot=state.snapshot?.standings?.find(x=>x.sport_id===g.sport_id&&x.division===g.division);
+      const official=snapshot?.ranking_status==="final";
+      const rows=(official?snapshot.rows:g.rows).filter(x=>!state.school||x.team_id===state.school)
+        .slice().sort((a,b)=>official
+          ?((a.position??999)-(b.position??999))
+          :String(schoolById.get(a.team_id)?.short||a.team_id)
+            .localeCompare(String(schoolById.get(b.team_id)?.short||b.team_id),"th"));
+      const heading=(sportById.get(g.sport_id)?.name||g.sport_id)+" · "+
+        (g.base_division||g.division)+(g.label==="พบกันหมด"?" · พบกันหมด":" · "+g.label);
+      const cols=g.has_goals?"<th>ได้</th><th>เสีย</th><th>ผลต่าง</th>":"";
+      const pointHeader=g.has_points||official?"<th>คะแนน</th>":"<th>คะแนน*</th>";
+      const body=rows.map(row=>"<tr><td>"+(official&&row.position!=null?safe(row.position):"—")+
+        "</td><th scope='row'>"+safe(schoolById.get(row.team_id)?.short||row.team_id)+"</th>"+
+        ["played","won","drawn","lost"].map(k=>"<td>"+safe(row[k]??0)+"</td>").join("")+
+        (g.has_goals?["goals_for","goals_against","goal_difference"].map(k=>"<td>"+safe(row[k]??0)+"</td>").join(""):"")+
+        "<td>"+(g.has_points||official?safe(row.points??0):"—")+"</td></tr>").join("");
+      const note=official?"ตารางอันดับจากผลและกติกาที่ผ่านการรับรองแล้ว":
+        (g.approved_count
+          ?"สถิติจากผลรับรอง "+g.approved_count+"/"+g.match_count+" คู่ · ยังไม่จัดอันดับตัดสิน"
+          :"ยังไม่มีผลการแข่งขันในกลุ่มนี้ · แสดงรายชื่อและค่าเริ่มต้น 0 · ยังไม่จัดอันดับ");
+      return "<section class='standings-group' aria-label='"+safe(heading)+"'>"+
+        "<h3>"+safe(heading)+"</h3><p class='standings-provenance'>"+safe(note)+
+        (!g.has_points&&!official?" · *คะแนนรอรับรองหลักเกณฑ์":"")+
+        "</p><div class='standings-table-scroll'><table class='standings-table'><thead><tr>"+
+        "<th scope='col'>อันดับ</th><th scope='col'>ทีม</th><th scope='col'>แข่ง</th>"+
+        "<th scope='col'>ชนะ</th><th scope='col'>เสมอ</th><th scope='col'>แพ้</th>"+
+        cols+pointHeader+"</tr></thead><tbody>"+body+"</tbody></table></div></section>";
+    }).join("");
+    return groups.length;
+  }
+  async function loadGroupProgram(){
+    // Same corrected 236-item source as the schedule page; never infer group from bracket progression.
+    const res=await fetch("./data/program-from-pdf-2569-20261104-draft.json?refresh="+Date.now(),
+      {cache:"no-store"});
+    if(!res.ok)throw Error("โหลดรายชื่อทีมไม่ได้");
+    const raw=await res.json();
+    const program=globalThis.NongkumProgramCorrections?.apply(raw);
+    if(!program||program.fixtures?.length!==236||program.metadata?.all_data_approved!==false)
+      throw Error("โปรแกรมไม่ผ่านการตรวจแหล่ง");
+    state.program=program;
+    render();
   }
   async function checkedDigest(value){
     if(!globalThis.crypto?.subtle||!globalThis.TextEncoder)return null;
@@ -125,15 +149,15 @@
   function render(){
     if(!state.data)return;
     const approved=state.data.results.filter(matches);
-    ui.count.textContent=approved.length+" ผลรับรอง";
-    ui.empty.hidden=state.data.results.length!==0;
-    ui.pending.hidden=state.data.results.length===0||!!state.snapshot?.standings?.length;
+    const groupCount=renderRoster();
+    ui.count.textContent=groupCount+" ตารางทีม · "+approved.length+" ผลรับรอง";
+    ui.empty.hidden=state.data.results.length!==0||groupCount>0;
+    ui.pending.hidden=state.data.results.length===0||groupCount>0||!!state.snapshot?.standings?.length;
     if(state.data.results.length){
       ui.pendingDetails.textContent=approved.length
         ? "พบผลที่รับรอง "+approved.length+" รายการสำหรับตัวกรองนี้ แต่ยังไม่แสดงอันดับจนกว่ากติกาจะผ่านการตรวจรับ"
         : "ยังไม่มีผลที่รับรองตรงกับตัวกรองนี้ · เปลี่ยนโรงเรียน กีฬา หรือช่วงชั้นเพื่อตรวจรายการอื่น";
     }
-    renderRoster();
   }
   function setup(){
     if(initialized)return;
@@ -190,6 +214,7 @@
         data=await response.json();
       }
       loaded(data);
+      try{await loadGroupProgram();}catch(programError){state.program=null;render();console.error(programError);}
       try{await loadRules(data);}catch(ruleError){state.snapshot=null;render();console.error(ruleError);}
       ui.failure.hidden=true;
       ui.status.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+(source?.source==="live"?" · ผลที่รับรองจากระบบล่าสุด":" · สำเนาผลที่รับรอง · ตรวจข้อมูลล่าสุดไม่ได้");

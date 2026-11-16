@@ -87,3 +87,21 @@
  .result-sport-chips{padding:6px 0}
  .result-chip{min-height:44px}
 }
+
+/* R38: one tiny WebP sprite shared by every approved-result card. */
+.result-event-thumb{display:inline-block;flex:0 0 42px;width:42px;height:42px;
+ border:1px solid #dae6f1;border-radius:11px;background-color:#f5f8fc;
+ background-image:url("../assets/results-sports-r38.webp");background-size:300% 300%;
+ background-repeat:no-repeat;background-position:0 0;vertical-align:middle}
+.result-event-thumb--sprint{background-position:0 0}
+.result-event-thumb--relay{background-position:50% 0}
+.result-event-thumb--football{background-position:100% 0}
+.result-event-thumb--futsal{background-position:0 50%}
+.result-event-thumb--petanque{background-position:50% 50%}
+.result-event-thumb--volleyball{background-position:100% 50%}
+.result-event-thumb--takraw{background-position:0 100%}
+.result-event-thumb--tabletennis{background-position:50% 100%}
+.result-event-thumb--tugofwar{background-position:100% 100%}
+.result-event-thumb--neutral{background-position:50% 50%}
+.result-card .result-title{font-size:.96rem;line-height:1.4;margin:9px 0 11px}
+@media (max-width:390px){.result-event-thumb{flex-basis:38px;width:38px;height:38px}}

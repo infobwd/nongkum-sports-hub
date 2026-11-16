@@ -8,6 +8,8 @@
     sports:document.getElementById("sports"),
     levels:document.getElementById("levels"),
     cards:document.getElementById("cards"),
+    resultSwitch:optionalElement("scheduleResultSwitch"),
+    resultsStatus:optionalElement("scheduleResultsStatus"),
     count:document.getElementById("count"),
     orderNote:optionalElement("resultNote"),
     daySwitch:optionalElement("scheduleDaySwitch"),
@@ -60,7 +62,8 @@
     }catch(_){}
   }
   const state={data:null,school:"",sport:"",level:"",query:"",limit:12,
-    dayMode:restoredDayMode(),selectedDay:restoredSelectedDay(),focusId:"",directMode:!!requestedFixture};
+    dayMode:restoredDayMode(),selectedDay:restoredSelectedDay(),focusId:"",directMode:!!requestedFixture,
+    resultMode:"pending",approvedIds:new Set(),resultsVerified:false};
   if(state.directMode&&els.direct&&els.overview){
     els.direct.hidden=false;els.overview.hidden=true;
   }
@@ -72,6 +75,27 @@
     {id:"secondary",name:"มัธยม"}
   ];
   const safe=globalThis.Nongkum.escapeHtml;
+  function resultVisible(m){
+    // Fail open on an unavailable approved-only feed: never hide a match on stale data.
+    return state.resultMode!=="pending"||!state.resultsVerified||!state.approvedIds.has(m.id);
+  }
+  function renderResultSwitch(){
+    if(els.resultSwitch)els.resultSwitch.querySelectorAll("[data-result-mode]").forEach(btn=>
+      btn.setAttribute("aria-pressed",String(state.resultMode===btn.dataset.resultMode)));
+    if(els.resultsStatus){
+      els.resultsStatus.textContent=state.resultsVerified
+        ?(state.resultMode==="pending"
+          ?"ซ่อนเฉพาะ "+state.approvedIds.size+" รายการที่มีผลรับรองแล้ว · ผลที่รอตรวจยังอยู่ในตาราง"
+          :"แสดงรายการทั้งหมด รวมรายการที่มีผลรับรองแล้ว")
+        :"ตรวจผลรับรองล่าสุดไม่ได้ · แสดงรายการทั้งหมดชั่วคราว เพื่อไม่ซ่อนรายการผิด";
+    }
+  }
+  els.resultSwitch?.addEventListener("click",function(e){
+    const btn=e.target.closest("[data-result-mode]");
+    if(!btn)return;
+    state.resultMode=btn.dataset.resultMode==="all"?"all":"pending";
+    resetLimit();renderResultSwitch();makeChips();render();
+  });
   const SHARE_ICON="<svg viewBox='0 0 24 24' aria-hidden='true' focusable='false'><circle cx='18' cy='5' r='2.2'/><circle cx='6' cy='12' r='2.2'/><circle cx='18' cy='19' r='2.2'/><path d='M8 11l8-5M8 13l8 5'/></svg>";
   function getSchool(id){return state.data.schools.find(function(s){return s.id===id;});}
   function getSport(id){return state.data.sports.find(function(s){return s.id===id;});}
@@ -209,7 +233,7 @@
   function makeChips(){
     const q=state.query.trim().toLocaleLowerCase("th");
     // Counts deliberately ignore the selected sport so every other sport stays one tap away.
-    const base=state.data.fixtures.filter(function(m){return matchesFilters(m,q,true);});
+    const base=state.data.fixtures.filter(function(m){return resultVisible(m)&&matchesFilters(m,q,true);});
     const counts=base.reduce(function(o,m){o[m.sport_id]=(o[m.sport_id]||0)+1;return o;},{});
     const options=[{id:"",name:"ทุกกีฬา",emoji:"📋"}].concat(state.data.sports);
     els.sports.innerHTML=options.map(function(s){
@@ -281,7 +305,7 @@
     if(!state.data)return;
     if(state.directMode){renderDirect();return;}
     const q=state.query.trim().toLocaleLowerCase("th");
-    const matched=state.data.fixtures.filter(function(m){return matchesFilters(m,q);});
+    const matched=state.data.fixtures.filter(function(m){return resultVisible(m)&&matchesFilters(m,q);});
     // Filter first, then use the same ordered fixture set for every date mode.
     const order=globalThis.NongkumScheduleOrder;
     const ordered=order.sortedFixtures(matched,state.data.sports);
@@ -498,7 +522,15 @@
       if(!data.metadata||data.metadata.all_data_approved!==false||
         !Array.isArray(data.fixtures)||(!candidate&&!legacy))
         throw Error("ชุดข้อมูลสูจิบัตรร่างไม่ผ่านการตรวจสอบ");
+      // Join only exact approved fixture/event IDs, never derive results from a bracket.
+      let resultFeed=null;
+      try{resultFeed=await globalThis.NongkumResultSource?.load();}catch(_){}
+      state.resultsVerified=resultFeed?.source==="live";
+      state.approvedIds=state.resultsVerified
+        ?new Set(resultFeed.data.results.filter(r=>r.status==="approved")
+            .map(r=>r.fixture_id||r.event_id).filter(Boolean)):new Set();
       state.data=data;
+      renderResultSwitch();
       if(!initialized){
         data.schools.forEach(function(s){
           const op=document.createElement("option");op.value=s.id;op.textContent=s.name;els.school.appendChild(op);

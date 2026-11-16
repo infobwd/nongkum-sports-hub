@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/program.css?v=r18-date1-r18b">
+  <link rel="stylesheet" href="./css/program.css?v=r38-1">
   <link rel="stylesheet" href="./css/program-more.css?v=r21-1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
@@ -95,7 +95,12 @@
         <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ อัปเดต</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
-      <div id="scheduleDaySwitch" class="schedule-day-switch" role="group" aria-label="เลือกช่วงวันแข่งขัน">
+      <div class="schedule-result-switch" id="scheduleResultSwitch" role="group" aria-label="แสดงรายการตามสถานะผลการแข่งขัน">
+         <button type="button" data-result-mode="pending" aria-pressed="true">ยังไม่มีผล</button>
+         <button type="button" data-result-mode="all" aria-pressed="false">ทุกรายการ</button>
+       </div>
+       <p id="scheduleResultsStatus" class="schedule-results-status" role="status" aria-live="polite">กำลังตรวจผลการแข่งขันล่าสุด…</p>
+       <div id="scheduleDaySwitch" class="schedule-day-switch" role="group" aria-label="เลือกช่วงวันแข่งขัน">
         <button type="button" data-day-mode="upcoming" aria-pressed="true">วันนี้ / วันแข่งขันถัดไป</button>
         <button type="button" data-day-mode="date" aria-pressed="false">เลือกวันที่</button>
         <button type="button" data-day-mode="all" aria-pressed="false">ทุกวัน</button>
@@ -152,11 +157,11 @@
 <script src="./js/ui-toast.js?v=r13-main1"></script>
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="./js/schedule-order.js?v=r18-date1"></script>
-<script src="./js/program.js?v=r19-venue1-r18b-r20b1"></script>
+<script src="./js/program.js?v=r38-1"></script>
 <script src="./js/back-to-top.js?v=r19fux4"></script>
 <script src="./js/pull-refresh.js?v=phase1a"></script>
 <script src="./js/results-source-r32.js?v=r32-1"></script>
-<script src="./js/r34-card-editor.js?v=r35-1"></script>
+<script src="./js/r34-card-editor.js?v=r38-1"></script>
 <script src="./js/pwa.js?v=r31-v1"></script>
 </body>
 </html>

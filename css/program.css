@@ -187,3 +187,18 @@ body[data-view="program"] .panel[aria-labelledby="revisedPdfReviewTitle"] .direc
 @media(max-width:360px){.schedule-day-switch button{font-size:.72rem;padding:7px 4px}.schedule-date-chip{min-width:83px}}
 
 @media print{.schedule-day-switch,.schedule-date-picker{display:none}}
+
+/* R38: result-aware schedule, without hiding anything if the live feed fails. */
+.schedule-result-switch{display:flex;gap:6px;width:fit-content;max-width:100%;padding:4px;border:1px solid #ccdae9;border-radius:13px;background:#edf3f9;margin:9px 0}
+.schedule-result-switch button{font:inherit;min-height:44px;border:0;border-radius:10px;padding:9px 16px;background:transparent;color:#3d5b7a;font-size:.85rem;font-weight:800;cursor:pointer}
+.schedule-result-switch button[aria-pressed="true"]{background:#194b7b;color:#fff}
+.schedule-result-switch button:focus-visible{outline:3px solid #efc859;outline-offset:2px}
+.schedule-results-status{font-size:.78rem;line-height:1.55;color:#5c7189;margin:5px 0 12px}
+@media(max-width:420px){.schedule-result-switch{display:grid;grid-template-columns:1fr 1fr;width:100%}}
+
+/* R38: simple approved-result visibility selector (fail open when live feed unavailable). */
+.r38-result-modes{display:flex;gap:7px;padding:4px 0 6px}
+.r38-result-modes button{min-height:42px;padding:8px 14px;border:1px solid #bdcfe4;border-radius:14px;background:#fff;color:#204a78;font:inherit;font-weight:750;cursor:pointer}
+.r38-result-modes button[aria-pressed="true"]{background:#194777;color:#fff;border-color:#194777}
+#scheduleResultStatus{margin:0 0 6px;color:#617891}
+@media(max-width:440px){.r38-result-modes button{flex:1}}

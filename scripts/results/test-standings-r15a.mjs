@@ -7,13 +7,14 @@ const standHtml=read("standings.html"),resultsHtml=read("results.html");
 const stylesheet=read("css/standings.css"),source=read("js/standings.js");
 const resultsCode=read("js/results.js"),publicData=JSON.parse(read("data/public-results.json"));
 const rulesData=JSON.parse(read("data/standings-rules.json"));
+const programData=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
 assert.equal(publicData.results.length,0,"no real results may be added during R15-A");
 assert.equal(publicData.metadata.approved_only,true);
 assert.equal(publicData.metadata.publication_status,"empty");
 assert.ok(standHtml.includes("results-source-r32.js"));
 assert.match(standHtml,/data-view="standings"/);
-assert.match(standHtml,/href="\.\/css\/standings\.css\?v=r15bc1"/);
-assert.match(standHtml,/src="\.\/js\/standings\.js\?v=r32-1"/);
+assert.match(standHtml,/href="\.\/css\/standings\.css\?v=r38-1"/);
+assert.match(standHtml,/src="\.\/js\/standings\.js\?v=r38-1"/);
 assert.match(resultsHtml,/id="resultsSubStandings" href="\.\/standings\.html"/);
 assert.match(standHtml,/id="resultsSubResults" href="\.\/results\.html"/);
 assert.match(standHtml,/id="resultsSubStandings" href="\.\/standings\.html" aria-current="page"/);
@@ -26,7 +27,7 @@ assert.doesNotMatch(stylesheet,/::before/,"no iOS status-bar overlay");
 assert.ok(!standHtml.includes("ผลสมมติ"));
 assert.ok(source.includes("./data/public-results.json?refresh="));
 assert.ok(!source.includes("draft-schedule.json"));
-assert.ok(!source.includes("program-from-pdf"));
+assert.ok(source.includes("program-from-pdf"),"preliminary team groups come from corrected schedule");
 assert.ok(source.includes("public-standings.json"),"only digest-verified standings snapshots may be shown");
 assert.ok(resultsCode.includes('Nongkum.href("standings.html",state)'));
 for(const file of ["js/shared.js","js/navigation.js","js/results.js","js/standings.js"])
@@ -68,28 +69,31 @@ async function mount(payload,query="",fail=false){
     fetch:async (path,opt)=>{
       observed.calls.push({path,opt});
       if(fail)return {ok:false};
-      return {ok:true,json:async()=>path.includes("standings-rules.json")?rulesData:payload};
+      return {ok:true,json:async()=>path.includes("standings-rules.json")?rulesData:
+         path.includes("program-from-pdf")?programData:payload};
     },
     setInterval(){}});
   new vm.Script(read("js/shared.js")).runInContext(context);
   context.NongkumNavigation={update:obj=>observed.filters.push({...obj})};
   new vm.Script(read("js/standings-engine.js")).runInContext(context);
+  new vm.Script(read("js/program-corrections.js")).runInContext(context);
+  new vm.Script(read("js/standings-rosters-r38.js")).runInContext(context);
   new vm.Script(source).runInContext(context);
   for(let i=0;i<20;i++)await Promise.resolve();
   return {els,observed,context};
 }
 const empty=await mount(publicData,"?school=wangdong&sport=football&level=primary");
-assert.equal(empty.observed.calls.length,2,"standings fetches approved JSON and versioned rulebook once each");
+assert.equal(empty.observed.calls.length,3,"standings fetches results, source schedule and rulebook once each");
 assert.match(empty.observed.calls[0].path,/\/data\/public-results\.json\?refresh=/);
 assert.equal(empty.observed.calls[0].opt.cache,"no-store");
-assert.equal(empty.els.standingsEmpty.hidden,false);
+assert.equal(empty.els.standingsEmpty.hidden,true,"team roster replaces empty state");
 assert.equal(empty.els.standingsRoster.hidden,false,"prestart team list available without rank");
 assert.match(empty.els.standingsRoster.innerHTML,/ยังไม่จัดอันดับ/);
-assert.match(empty.els.standingsRoster.innerHTML,/เหลือง/);
-assert.match(empty.els.standingsRoster.innerHTML,/แดง/);
+assert.match(empty.els.standingsRoster.innerHTML,/ทีม/);
+assert.match(empty.els.standingsRoster.innerHTML,/คะแนน/);
 assert.equal(empty.els.standingsPendingRules.hidden,true);
 assert.equal(empty.els.standingsFailure.hidden,true);
-assert.equal(empty.els.standingsCount.textContent,"0 ผลรับรอง");
+assert.equal(empty.els.standingsCount.textContent,"1 ตารางทีม · 0 ผลรับรอง");
 assert.equal(empty.els.standingsSkeleton.hidden,true);
 assert.equal(empty.els.standingsListing.attributes["aria-busy"],"false");
 assert.match(empty.els.resultsSubResults.href,/school=wangdong/);
@@ -119,9 +123,9 @@ testOnly.metadata.approved_results_count=1;
 testOnly.metadata.publication_status="published";
 const withApproved=await mount(testOnly,"?sport=football");
 assert.equal(withApproved.els.standingsEmpty.hidden,true);
-assert.equal(withApproved.els.standingsPendingRules.hidden,false);
-assert.match(withApproved.els.standingsPendingDetails.textContent,/1 รายการ/);
-assert.equal(withApproved.els.standingsCount.textContent,"1 ผลรับรอง");
+assert.equal(withApproved.els.standingsPendingRules.hidden,true,"shown roster remains nonofficial");
+assert.match(withApproved.els.standingsRoster.innerHTML,/ยังไม่จัดอันดับ/);
+assert.equal(withApproved.els.standingsCount.textContent,"1 ตารางทีม · 1 ผลรับรอง");
 assert.ok(!withApproved.els.standingsPendingDetails.textContent.includes("อันดับ 1"),
   "no standings calculation before committee rule approval");
 

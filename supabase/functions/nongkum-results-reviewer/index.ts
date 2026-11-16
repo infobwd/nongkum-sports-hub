@@ -42,7 +42,7 @@ Deno.serve(async req=>{
     const body=JSON.parse(raw);
     if(!body||typeof body!=="object"||Array.isArray(body))return reply({ok:false,error:"invalid"},400,origin);
     const action=String(body.action||"");
-    if(!["unlock","status","logout","queue","approve","reject"].includes(action))
+    if(!["unlock","status","logout","queue","approve","reject","edit_fixture","edit_submit"].includes(action))
       return reply({ok:false,error:"invalid"},400,origin);
     const payload: Record<string,unknown> = {...body};
     delete payload.action;
@@ -60,7 +60,7 @@ Deno.serve(async req=>{
       if(!match)return reply({ok:false,error:"expired"},401,origin);
       payload.token=match[1];
     }
-    const rpc=await fetch(DB+"/rest/v1/rpc/nongkum_reviewer_gateway",{
+    const rpc=await fetch(DB+"/rest/v1/rpc/"+(action==="edit_fixture"||action==="edit_submit"?"nongkum_reviewer_edit_gateway":"nongkum_reviewer_gateway"),{
       method:"POST",
       headers:{
         "apikey":SERVICE,

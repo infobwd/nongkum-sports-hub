@@ -37,7 +37,7 @@
     ).join("");
     return "<div class='rank-results'>"+rows+"</div>";
   }
-  function card(r,schools,sports){
+  function card(r,schools,sports,catalog){
     if(r.status!=="approved")return "";
     const kind=r.result_type;
     const sport=sports.find(x=>x.id===r.sport_id);
@@ -47,15 +47,25 @@
     else if(kind==="win_loss")body=winLoss(r,schools);
     else if(kind==="ranking")body=ranking(r,schools);
     else return "";
-    const title=r.name||(r.sport_id==="athletics"?"กรีฑา":"ผลการแข่งขัน");
+    const candidate=catalog?.get(r.event_id||r.fixture_id);
+    const sourceName=candidate?.sport_id===r.sport_id&&candidate.division===r.division?candidate.name:"";
+    const title=r.name||sourceName||(r.sport_id==="athletics"?"ยังไม่พบชื่อรายการกรีฑา":"");
+    const category=r.sport_id==="athletics"
+      ?(/ผลัด/.test(title)?"relay":"sprint")
+      :(["football","shootout"].includes(r.sport_id)?"football":
+        ["futsal","petanque","volleyball","takraw","tabletennis","tugofwar"].includes(r.sport_id)
+          ?r.sport_id:"neutral");
+    const visualLabel=(r.sport_id==="athletics"?title:sport?.name)||"ภาพประกอบกีฬา";
+    const thumb="<span class='result-event-thumb result-event-thumb--"+safe(category)+
+      "' role='img' aria-label='ภาพประกอบ "+safe(visualLabel)+"'></span>";
     return "<article class='fixture result-card' data-result-card='"+safe(r.id)+"'><div class='fixture-head'><div class='sport-label'><strong class='sport-name'>"+
       safe(sport?(sport.emoji+" "+sport.name):r.sport_id)+
       "</strong><span class='division'>"+safe(r.division||"")+"</span></div>"+
-      "<div class='fixture-actions'><span class='tag verified'>รับรองแล้ว</span>"+
+      "<div class='fixture-actions'>"+thumb+"<span class='tag verified'>รับรองแล้ว</span>"+
       "<button type='button' class='share-icon' data-share-result='"+safe(r.id)+
       "' aria-label='แชร์ผลการแข่งขันที่ผ่านการรับรอง "+safe(sport?sport.name:"")+
       "' title='แชร์ผลการแข่งขัน'>"+SHARE_ICON+"</button></div></div>"+
-      (r.result_type==="ranking"?"<h3 class='result-title'>"+safe(title)+"</h3>":"")+
+      (title?"<h3 class='result-title'>"+safe(title)+"</h3>":"")+
       body+"<p class='source'>"+
       (r.result_date?"แข่งขัน "+safe(r.result_date)+" · ":"")+
       "อ้างอิงรหัส "+safe(r.fixture_id||r.event_id||r.id)+
