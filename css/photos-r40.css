@@ -1,0 +1,33 @@
+/* R40 — staff-only photo intake and approval on a mobile-first sports site. */
+.photo-shell{max-width:880px;margin:auto;padding:12px 14px 100px}
+.photo-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.photo-bar a{color:#1a527e;font-weight:750;text-decoration:none}
+.photo-heading{font-size:1.4rem;color:#193d63;margin:16px 0 5px}
+.photo-intro{font-size:.92rem;color:#526982;line-height:1.7;margin-bottom:18px}
+.photo-panel{background:#fff;border:1px solid #d7e4f0;border-radius:16px;padding:17px;margin:12px 0;box-shadow:0 2px 10px #e4edf55c}
+.photo-panel h2{font-size:1.12rem;color:#173d65;margin:0 0 12px}
+.photo-panel label{font-size:.87rem;color:#234568;font-weight:700;display:block;margin:12px 0 5px}
+.photo-panel input:not([type=checkbox]),.photo-panel select,.photo-panel textarea{width:100%;box-sizing:border-box;min-width:0;min-height:46px;padding:11px;border:1px solid #b7cada;border-radius:10px;background:#fff;color:#15385c;font:inherit;font-size:16px}
+.photo-panel textarea{min-height:84px;resize:vertical}
+.photo-panel [type=file]{padding:10px;max-width:100%}
+.photo-check{display:flex!important;gap:9px;align-items:flex-start;font-weight:600!important;line-height:1.55}
+.photo-check input{width:21px;height:21px;flex:none;accent-color:#1b5e93}
+.photo-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:15px 0}
+.photo-row button,.photo-btn{min-height:46px;padding:10px 16px;border:1px solid #abc2da;border-radius:11px;background:#eef4fa;color:#194670;font:inherit;font-weight:750;cursor:pointer}
+.photo-primary{background:#1b4d7d!important;color:#fff!important;border-color:#1b4d7d!important}
+.photo-danger{color:#a03c35!important;background:#fff8f6!important;border-color:#e7c6bf!important}
+.photo-row button:disabled{opacity:.5;cursor:not-allowed}
+.photo-preview{width:100%;max-height:330px;object-fit:contain;display:block;border-radius:10px;background:#edf3f9;margin:12px 0}
+.photo-status{min-height:25px;color:#245682;font-weight:650;line-height:1.6}
+.photo-status[data-error=true]{color:#ad3333}
+.photo-hint{font-size:.81rem;color:#627a90;line-height:1.6}
+.photo-queue{display:grid;gap:13px}
+.photo-queue article{padding:14px;border:1px solid #d6e2ef;border-radius:13px;background:#f9fcff}
+.photo-queue h3{font-size:.98rem;margin:0 0 8px;color:#173e65;overflow-wrap:anywhere}
+.photo-queue p{font-size:.84rem;color:#365772;line-height:1.6}
+.photo-queue img{width:100%;max-height:320px;object-fit:contain;background:#edf2f8;border-radius:12px}
+.photo-hidden[hidden]{display:none!important}
+.photo-role{display:flex;gap:9px;flex-wrap:wrap}
+.photo-role button[aria-pressed=true]{background:#1b4d7d;color:#fff}
+.photo-banner{border:1px solid #e7d2aa;border-radius:11px;background:#fff9e9;padding:11px 13px;color:#604e31;font-size:.83rem;line-height:1.6}
+@media(max-width:600px){.photo-shell{padding:8px 12px 100px}.photo-panel{padding:14px}.photo-heading{font-size:1.23rem}}
