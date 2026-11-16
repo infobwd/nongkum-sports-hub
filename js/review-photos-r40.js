@@ -9,9 +9,23 @@ const ui={unlock:$("photoReviewUnlock"),workspace:$("photoReviewWorkspace"),
  form:$("photoReviewLoginForm"),submit:$("photoReviewLoginButton"),
  info:$("photoReviewerInfo"),list:$("photoReviewList"),count:$("photoReviewCount"),
  empty:$("photoReviewEmpty"),status:$("photoReviewStatus"),
- refresh:$("photoReviewRefresh"),logout:$("photoReviewLogout")};
+ refresh:$("photoReviewRefresh"),logout:$("photoReviewLogout"),
+ tabs:$("photoReviewTabs"),heading:$("photoReviewHeading")};
 if(!ui.form)return;
-let session=null,busy=false;
+let session=null,busy=false,viewFilter="review",cachedItems=[];
+function category(item){
+ if(item.publication_status==="published")return "published";
+ if(item.publication_status==="revoked")return "revoked";
+ return item.status==="review"?"review":"private";
+}
+const categoryNames={review:"ภาพที่รอตรวจ",published:"ภาพที่เผยแพร่แล้ว",
+ private:"ภาพที่เก็บไว้ภายใน",revoked:"ภาพที่ถอนจากเว็บไซต์แล้ว"};
+function errorInCard(controls,message,element){
+ const box=controls.querySelector("[data-field-error]");
+ if(box){box.textContent=message||"";box.hidden=!message;}
+ if(message){element?.focus();element?.scrollIntoView({block:"nearest",behavior:"auto"});}
+}
+
 const fmt=s=>{const d=new Date(s||"");return Number.isNaN(d.getTime())?"ไม่ระบุเวลา":
  new Intl.DateTimeFormat("th-TH",{timeZone:"Asia/Bangkok",day:"numeric",month:"short",
   hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(d)+" น.";};
@@ -50,7 +64,11 @@ async function preview(id,frame,button){
  button.disabled=true;notice("กำลังโหลดภาพจากพื้นที่ส่วนตัว…");
  try{
    const r=await request(MEDIA,"preview",{id});
-   if(!r.ok){if(r.error==="expired"){clear();showLogin();}notice(errorText(r.error),true);return;}
+   if(!r.ok){
+     if(r.error==="expired"){clear();showLogin();}
+     errorInCard(controls,errorText(r.error));
+     notice(errorText(r.error),true);return;
+   }
    if(!/^[-A-Za-z0-9+/=]+$/.test(r.image_b64||"")||r.image_b64.length>470000){
       notice("ข้อมูลภาพไม่ถูกต้อง",true);return;
    }
@@ -67,29 +85,33 @@ async function preview(id,frame,button){
 async function review(action,item,controls){
  if(busy||!session)return;
  let payload={id:item.id},message="";
+ errorInCard(controls,"");
  if(action==="approve"||action==="publish"){
-   const box=controls.querySelector("[data-consent]"),
-         note=controls.querySelector("[data-consent-note]"),
-         release=controls.querySelector("[data-public-consent]");
-   if(!box?.checked||!note||note.value.trim().length<8){
-     notice(errorText("consent_required"),true);return;
+   const box=controls.querySelector(action==="publish"?"[data-public-consent]":"[data-internal-consent]"),
+       note=controls.querySelector("[data-consent-note]");
+   if(!box?.checked){
+     const msg=action==="publish"?errorText("public_consent_required"):errorText("consent_required");
+     errorInCard(controls,msg,box);return;
    }
-   if(action==="publish"&&!release?.checked){
-     notice(errorText("public_consent_required"),true);return;
+   if(!note||note.value.trim().length<8){
+     errorInCard(controls,errorText("consent_required"),note);return;
    }
    if(action==="publish"){
-     if(!window.confirm("ภาพนี้จะปรากฏต่อสาธารณะในผลการแข่งขันและหน้าภาพกิจกรรม ยืนยันว่ามีสิทธิ์เผยแพร่และตรวจภาพอย่างเหมาะสมแล้วหรือไม่?"))return;
+     // The explicit public-rights checkbox + publish button is the publication confirmation.
+      // No second native popup; both audited conditions remain required server-side.
      payload={...payload,public_consent_checked:true,public_consent_note:note.value.trim()};
      message="กำลังเผยแพร่ภาพที่ได้รับอนุญาต…";
    }else{
-     if(!window.confirm("ยืนยันอนุญาตใช้ภาพภายใน? ภาพจะยังไม่เผยแพร่สาธารณะ"))return;
+     // Internal-only reviewer action remains opt-in via its separate checkbox.
      payload={...payload,consent_checked:true,consent_note:note.value.trim()};
      message="กำลังอนุญาตใช้ภาพภายใน…";
    }
  }else{
    const retryRemoval=action==="revoke"&&item.publication_status==="revoked";
    const reason=controls.querySelector("[data-reason]")?.value.trim()||"";
-   if(!retryRemoval&&reason.length<8){notice(errorText("reason_required"),true);return;}
+   if(!retryRemoval&&reason.length<8){
+     errorInCard(controls,errorText("reason_required"),controls.querySelector("[data-reason]"));return;
+   }
    if(!window.confirm(retryRemoval?
        "ตรวจการลบไฟล์ภาพจากเว็บไซต์ซ้ำอีกครั้งหรือไม่?":
        action==="revoke"?"ยืนยันถอนภาพนี้ออกจากเว็บไซต์สาธารณะหรือไม่?":
@@ -115,8 +137,21 @@ async function review(action,item,controls){
  finally{busy=false;controls.querySelectorAll("button").forEach(b=>b.disabled=false);}
 }
 function render(items){
- ui.list.replaceChildren();ui.empty.hidden=items.length!==0;ui.count.textContent="("+items.length+" รายการ)";
- for(const item of items){
+ cachedItems=items;
+ const totals={review:0,published:0,private:0,revoked:0};
+ for(const item of items)totals[category(item)]++;
+ ui.tabs.querySelectorAll("button[data-photo-status]").forEach(btn=>{
+   const key=btn.dataset.photoStatus;
+   btn.setAttribute("aria-pressed",String(key===viewFilter));
+   const badge=btn.querySelector("[data-photo-count]");
+   if(badge)badge.textContent="("+totals[key]+")";
+ });
+ const filtered=items.filter(x=>category(x)===viewFilter);
+ ui.heading.firstChild.textContent=categoryNames[viewFilter]+" ";
+ ui.list.replaceChildren();ui.empty.hidden=filtered.length!==0;
+ ui.empty.textContent="ไม่มีภาพในหมวดนี้";
+ ui.count.textContent="("+filtered.length+" รายการ)";
+ for(const item of filtered){
    const published=item.publication_status==="published",isReview=item.status==="review",
          revoked=item.publication_status==="revoked";
    const card=el("article","photo-review-card"),header=el("div","photo-review-head");
@@ -134,26 +169,33 @@ function render(items){
    show.addEventListener("click",()=>preview(item.id,previewBox,show));
    controls.append(show);
    if(!published&&!revoked&&item.publication_status!=="publishing"){
-     const consent=el("label","photo-consent");
-     const box=document.createElement("input");box.type="checkbox";box.dataset.consent="";
-     consent.append(box,document.createTextNode(" ตรวจสิทธิ์ใช้ภาพและความเหมาะสมแล้ว"));
-     const label=el("label","","หลักฐานการได้รับอนุญาต (เก็บภายใน ไม่แสดงสาธารณะ)");
-     const note=el("textarea","");note.dataset.consentNote="";note.maxLength=500;
-     note.placeholder="ระบุผู้รับผิดชอบที่ยืนยันสิทธิ์เผยแพร่และความเหมาะสมของภาพ";
+     const checks=el("div","photo-review-checks");
      const publicConsent=el("label","photo-consent");
      const publicBox=document.createElement("input");
      publicBox.type="checkbox";publicBox.dataset.publicConsent="";
      publicConsent.append(publicBox,document.createTextNode(
-       " ยืนยันสิทธิ์เผยแพร่ภาพบุคคล/นักเรียนบนเว็บไซต์สาธารณะ (ไม่ใช่เพียงอนุญาตใช้ภายใน)"));
-     controls.append(consent,label,note,publicConsent);
-     if(isReview){
-       const internal=el("button","","อนุญาตใช้ภายในเท่านั้น");
-       internal.type="button";internal.addEventListener("click",()=>review("approve",item,controls));
-       controls.append(internal);
-     }
-     const publish=el("button","photo-primary",isReview?"อนุมัติและเผยแพร่สู่เว็บไซต์":"อนุมัติเผยแพร่สู่เว็บไซต์");
+       " ตรวจภาพและยืนยันว่าได้รับสิทธิ์เผยแพร่ภาพบุคคล/นักเรียนบนเว็บไซต์สาธารณะแล้ว"));
+     const label=el("label","","หลักฐานการอนุญาต (เก็บภายใน)");
+     const note=el("textarea","");note.dataset.consentNote="";note.maxLength=500;
+     note.placeholder="เช่น ผู้ประสานงานยืนยันการอนุญาตเผยแพร่ภาพต่อสาธารณะ";
+     checks.append(publicConsent,label,note);
+     controls.append(checks);
+     const publish=el("button","photo-primary","อนุมัติเผยแพร่บนเว็บไซต์");
      publish.type="button";publish.addEventListener("click",()=>review("publish",item,controls));
      controls.append(publish);
+     if(isReview){
+       const internal=el("details","photo-review-secondary");
+       const summary=el("summary","","ตัวเลือกเพิ่มเติม: เก็บภาพไว้ภายในเท่านั้น");
+       const inside=el("label","photo-consent");
+       const box=document.createElement("input");
+       box.type="checkbox";box.dataset.internalConsent="";
+       inside.append(box,document.createTextNode(" ยืนยันว่ามีสิทธิ์ใช้ภาพภายใน"));
+       const internalButton=el("button","","อนุญาตใช้ภายใน (ไม่เผยแพร่)");
+       internalButton.type="button";
+       internalButton.addEventListener("click",()=>review("approve",item,controls));
+       internal.append(summary,inside,internalButton);
+       controls.append(internal);
+     }
    }
    if(revoked){
      const retry=el("button","","ตรวจซ้ำว่าลบไฟล์สาธารณะแล้ว");
@@ -161,13 +203,23 @@ function render(items){
      controls.append(retry);
    }
    if(isReview||published){
+     const secondary=el("details","photo-review-secondary");
+     const summary=el("summary","",published?"ตัวเลือกเพิ่มเติม: ถอนภาพจากเว็บไซต์":"ส่งกลับแก้ไข");
      const rejectLabel=el("label","",published?"เหตุผลนำภาพออกจากเว็บไซต์":"เหตุผลส่งกลับผู้ส่งภาพ");
      const reason=el("textarea","");reason.dataset.reason="";reason.maxLength=500;
      reason.placeholder=published?"เช่น ถอนสิทธิ์เผยแพร่หรือภาพไม่เหมาะสม":"เช่น ขอภาพใหม่เนื่องจากยังไม่มีหลักฐานอนุญาต";
      const action=published?"revoke":"reject",button=el("button","",published?"นำภาพออกจากเว็บไซต์":"ส่งกลับแก้ไข");
      button.type="button";button.addEventListener("click",()=>review(action,item,controls));
-     controls.append(rejectLabel,reason,button);
+     secondary.append(summary,rejectLabel,reason,button);
+     controls.append(secondary);
    }
+   const fieldError=el("p","photo-card-error","");
+   fieldError.dataset.fieldError="";fieldError.hidden=true;fieldError.setAttribute("role","alert");
+   controls.prepend(fieldError);
+   controls.querySelectorAll("input,textarea").forEach(input=>{
+     input.addEventListener("input",()=>errorInCard(controls,""));
+     input.addEventListener("change",()=>errorInCard(controls,""));
+   });
    card.append(header,detail,caption,previewBox,controls);ui.list.appendChild(card);
  }
 }
@@ -198,6 +250,12 @@ ui.form.addEventListener("submit",async e=>{
  finally{ui.submit.disabled=false;}
 });
 ui.refresh.addEventListener("click",()=>loadQueue());
+ui.tabs.querySelectorAll("button[data-photo-status]").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+   viewFilter=btn.dataset.photoStatus;
+   render(cachedItems);
+ });
+});
 ui.logout.addEventListener("click",async()=>{
  try{if(session)await request(REVIEWER,"logout");}catch(_){}
  clear();showLogin();ui.list.replaceChildren();notice("ออกจากระบบแล้ว");
