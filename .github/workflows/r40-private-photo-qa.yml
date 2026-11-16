@@ -5,6 +5,12 @@ on:
     paths:
       - "upload-photos.html"
       - "review-photos.html"
+      - "activity-photos.html"
+      - "results.html"
+      - "js/activity-media-r40g.js"
+      - "js/activity-gallery-r40g.js"
+      - "js/results-renderers.js"
+      - "css/activity-gallery-r40g.css"
       - "js/upload-photos-r40.js"
       - "js/review-photos-r40.js"
       - "css/activity-photos.css"
@@ -32,6 +38,8 @@ jobs:
           node-version: "22"
       - name: Verify upload permissions, consent gate, and regression invariants
         run: node scripts/r40/test-r40.mjs
+      - name: Verify R40-G public publication is opt-in and isolated from private uploads
+        run: node scripts/r40/test-r40g-publication.mjs
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
