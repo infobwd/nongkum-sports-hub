@@ -56,7 +56,7 @@
         ["futsal","petanque","volleyball","takraw","tabletennis","tugofwar"].includes(r.sport_id)
           ?r.sport_id:"neutral");
     const chosen=media?.get(r.event_id||r.fixture_id);
-    const allowedMedia=/^(?:\.\/assets\/activity-approved\/[a-z0-9][a-z0-9-]*\.webp|https:\/\/zprxvpfkvforoxrboqiv\.supabase\.co\/storage\/v1\/object\/public\/nongkum-activity-public\/media\/[0-9a-f-]{36}\.(?:webp|jpg))$/;
+    const allowedMedia=/^(?:(?:\.\/)?assets\/activity-approved\/[a-z0-9][a-z0-9-]*\.webp|https:\/\/zprxvpfkvforoxrboqiv\.supabase\.co\/storage\/v1\/object\/public\/nongkum-activity-public\/media\/[0-9a-f-]{36}\.(?:webp|jpg))$/;
     const photo=chosen&&chosen.sport_id===r.sport_id&&chosen.division===r.division&&
       allowedMedia.test(chosen.src)?chosen:null;
     const more=photo&&Array.isArray(photo.photos)?Math.max(0,photo.photos.length-1):0;
