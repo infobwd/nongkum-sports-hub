@@ -27,7 +27,7 @@ assert.match(results,/const requested=params.get\("school"\)\|\|""/);
 assert.match(results,/timeZone:"Asia\/Bangkok"/);
 for(const html of [page,index]){
   assert.match(html,/navigation\.js\?v=r35-1/);
-  assert.match(html,/r34-card-editor\.js\?v=r35-1/);
+  assert.match(html,/r34-card-editor\.js\?v=r38-1/);
 }
 assert.match(page,/results\.js\?v=r(?:35|36|38)-1/);
 
