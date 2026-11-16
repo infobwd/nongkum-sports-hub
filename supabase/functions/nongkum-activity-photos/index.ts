@@ -125,6 +125,16 @@ async function getPrivate(path:string){
 
 /* R40-G publication: existing reviewer token stays server-side; only published
  * whitelist fields are served to anonymous viewers. No private URLs are returned. */
+async function mySubmissions(token:string){
+ const r=await fetch(DB+"/rest/v1/rpc/nongkum_activity_photo_my_uploads_gateway",{
+   method:"POST",headers:{...svcHeaders,"Content-Type":"application/json","Accept":"application/json"},
+   body:JSON.stringify({p_data:{token}}),signal:AbortSignal.timeout(12000)
+ });
+ if(!r.ok){console.error("R40-H receipts RPC unavailable",r.status);throw Error("unavailable");}
+ const value=await r.json();
+ if(!value||typeof value.ok!=="boolean")throw Error("unavailable");
+ return value;
+}
 async function publicationRpc(action:string,body:Record<string,unknown>){
  const r=await fetch(DB+"/rest/v1/rpc/nongkum_activity_photo_publication_gateway",{
    method:"POST",headers:{...svcHeaders,"Content-Type":"application/json","Accept":"application/json"},
@@ -173,7 +183,7 @@ Deno.serve(async(req:Request)=>{
  try{
    const body=await jsonBounded(req);
    const action=String(body.action||"");
-   if(!["upload","queue","preview","approve","reject","publish","revoke"].includes(action))
+   if(!["upload","mine","queue","preview","approve","reject","publish","revoke"].includes(action))
       return reply({ok:false,error:"invalid"},400,origin);
    const m=/^Bearer ([a-f0-9]{64})$/.exec(req.headers.get("authorization")||"");
    if(!m)return reply({ok:false,error:"expired"},401,origin);
@@ -200,6 +210,10 @@ Deno.serve(async(req:Request)=>{
       }
    }
 
+   if(action==="mine"){
+     const own=await mySubmissions(token);
+     return reply(own,own.ok?200:code(own.error),origin);
+   }
    if(action==="queue"){
      const pending=await rpc("queue",{token});
      if(!pending.ok)return reply(pending,code(pending.error),origin);
