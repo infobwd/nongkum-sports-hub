@@ -8,6 +8,7 @@ on:
       - "css/r34-card-editor.css"
       - "supabase/functions/nongkum-results-editor/index.ts"
       - "scripts/r34/**"
+      - "scripts/r35/**"
       - ".github/workflows/r34-editor-qa.yml"
   push:
     branches: [main]
@@ -29,3 +30,4 @@ jobs:
       - run: node --check js/r34-card-editor.js
       - run: node scripts/r34/test-card-editor.mjs
       - run: node scripts/r34/test-card-observer-idempotence.mjs
+      - run: node scripts/r35/test-results-mobile.mjs
