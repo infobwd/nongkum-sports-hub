@@ -1,0 +1,34 @@
+# R36 — แชร์ผลรับรองแบบสั้นพร้อมตัวอย่าง LINE รายคู่
+
+**วันที่:** 16 พฤศจิกายน 2569  
+**Issue:** #152  
+**แผนเดิม:** R8 (short preview คู่แข่งขัน *ร่าง*), R32 (approved-only Supabase), R34 (รับผล), R35 (แสดงผลมือถือ)  
+**สถานะเริ่มต้น:** วางแผนแล้ว → ดำเนินการใน branch แยก → รอ CI/PR/Merge/ตรวจเว็บจริง
+
+## ความจริงจากต้นทางก่อนพัฒนา
+- `results.html` มีเพียงชื่อและ description ระดับหน้า; `js/results.js` แชร์ลิงก์ยาว `?result=result-petanque-...`; ตัวอย่าง LINE จึงเป็นหน้าเว็บทั่วไป ไม่ใช่ผลรายคู่
+- `m/<code>/` และ `scripts/share/build-match-pages.mjs` แสดงตาราง **ร่าง** จาก draft schedule; ต้องไม่เปลี่ยน metadata ให้กลายเป็นผลรับรองโดยอ้างจากร่าง
+- `public.nongkum_published_results` มีข้อมูลรับรองจริง 1 แถว ณ วันตรวจ: `result-petanque-p17-12-ปี-ชาย-020`, revision 1, `winner_school_id=wangdong`, คู่แข่ง `saohong`, ไม่มีคะแนนตัวเลข จึงแสดงเฉพาะชนะ–แพ้
+- `js/results-source-r32.js` อ่านผลผ่าน public read-only REST และตรวจ status/id/school/sport; ใช้เลข revision จากแถวที่ผ่านตรวจได้โดยไม่เปลี่ยน schema ฐานข้อมูล
+
+## การพัฒนา
+1. ใช้ `/r/r<hash>-v<revision>/` สำหรับผลที่มีสถานะ approved เท่านั้น; เวอร์ชันใหม่ได้ URL ใหม่เพื่อหลีกเลี่ยง LINE cache ของรุ่นก่อน
+2. สร้างหน้า HTML แบบ static พร้อม `og:title`, `og:description`, `og:image` (PNG 1200×630), `og:url`, Twitter card และปุ่มไป `results.html?result=...` ซึ่งดึงผลล่าสุดจาก R32 ซ้ำเสมอ
+3. ภาพตัวอย่างใช้สีกรมท่า–ทอง ชื่อโรงเรียน กีฬา รุ่น และสถานะ “ผลรับรองแล้ว”; ชื่อผู้ชนะปรากฏเฉพาะเมื่อมี winner ในผลรับรอง; ไม่วาดตราโรงเรียนหรือคะแนนที่ไม่มี
+4. Generator รับจาก `public.nongkum_published_results` public read-only เท่านั้น กรองรายการที่ approved และตรวจ JSON อย่างเข้มงวด; เครื่องมือสร้างไฟล์ต้องไม่เขียนผลลง Supabase หรือแก้ข้อมูลประวัติ
+5. เก็บ `data/result-share-index.json` ที่บอก slug และ revision ที่มีหน้าเผยแพร่จริง; หน้า result จะใช้ short URL เฉพาะเมื่อ revision ตรง index, มิฉะนั้น fallback legacy deep link โดยไม่แชร์หน้าที่ไม่มีอยู่
+6. ให้หน้าแชร์ข้อความไทยพร้อม URL (ทั้ง native Share และคัดลอก) และรักษาแบบฟอร์มแก้ผล/ตาราง/PDF/เมนูเดิม
+7. ดำเนินการซิงก์หน้าอนาคตด้วย GitHub Actions จาก approved-only; **ห้าม autogenerate ผลใหม่จากข้อมูลร่าง**; ถ้าการอ่าน remote ล้มเหลว ต้อง fail closed และไม่ลบหน้าที่เผยแพร่แล้ว; หาก branch protection ขัดขวางให้เปิด PR ให้ผู้จัด Merge ไม่ bypass สิทธิ์
+
+## ข้อกำหนดการแก้ผลรับรอง
+- ข้อมูล revision ใหม่ต้องมี URL และภาพใหม่; ถ้าผู้ใช้เปิด URL รุ่นเก่า ให้แสดงว่าเป็นฉบับเดิมและนำไปผลล่าสุด ไม่สร้างผล/อันดับเอง
+- LINE อาจ cache thumbnail/title; แม้ URL revision ใหม่แก้ cache ได้โดยออกลิงก์ใหม่ แต่ข้อความที่ส่งไปแล้วใน LINE อาจยังคงภาพเดิม ไม่ควรอ้างว่าแก้ข้อความย้อนหลังได้
+- เมื่อข้อมูลมีการรับรองแล้ว แต่เว็บไซต์ยังไม่ได้สร้างหน้าเวอร์ชันล่าสุด ให้แชร์ลิงก์ยาวที่เปิดผลสดได้แทน เพื่อไม่ส่ง 404
+
+## ทดสอบและตรวจรับ
+- ทดสอบ data guard: ไม่ปล่อย draft/review, ห้ามคาดเดาผู้ชนะ/คะแนน, เก็บ revision, รุ่น/โรงเรียนไทย, escape metadata, slug collision
+- ทดสอบ HTML, รูป PNG ขนาด 1200×630, หมายเลขรุ่นใน short URL, ไม่มี PIN/secret, route ไปผลสดและ legacy deep link
+- ทดสอบ R8/R32/R34/R35 และ PWA เดิม; ตรวจ branch/PR ที่อาจชนก่อน Merge
+- ตรวจ GitHub Pages จริง (HEAD 200 HTML + image, OG tags) และตรวจ LINE/iPhone ในภาคสนามก่อนสถานะ “ตรวจรับแล้ว”
+
+**สถานะ:** แผนบันทึกแล้ว — จะอัปเดตหลักฐาน CI/PR/Merge/เผยแพร่เป็นคนละขั้น
