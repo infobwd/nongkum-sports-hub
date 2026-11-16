@@ -11,10 +11,36 @@ const ui={login:$("photoUnlock"),workspace:$("photoWorkspace"),loginForm:$("phot
  fixture:$("photoFixture"),fixtureSearch:$("photoFixtureSearch"),uploader:$("photoUploader"),rememberUploader:$("photoRememberUploader"),
  forgetUploader:$("photoForgetUploader"),caption:$("photoCaption"),
  file:$("photoFile"),camera:$("photoCamera"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
- previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit")};
+ previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit"),
+ selectedFixture:$("photoFixtureSelected"),inlineError:$("photoInlineError"),
+ success:$("photoSendSuccess"),successFixture:$("photoSuccessFixture"),
+ successReference:$("photoSuccessReference"),sendMore:$("photoSendMore"),viewMine:$("photoViewMine"),
+ minePanel:$("photoMinePanel"),mineRefresh:$("photoMineRefresh"),
+ mineCount:$("photoMineCount"),mineList:$("photoMineList"),mineStatus:$("photoMineStatus")};
 if(!ui.loginForm)return;
 let session=null,program=null,compressed=null,previewUrl="",loading=false,compressing=false,selectionId=0;
 function notice(s,bad=false){ui.status.textContent=s||"";ui.status.dataset.error=bad?"true":"false";}
+function errorAtForm(message){ui.inlineError.textContent=message||"";ui.inlineError.hidden=!message;}
+function showSendForm(){
+ ui.success.hidden=true;ui.form.hidden=false;errorAtForm("");
+ ui.form.scrollIntoView({block:"start",behavior:"auto"});
+}
+function showSendSuccess(id,eventLabel){
+ errorAtForm("");ui.form.hidden=true;
+ ui.successFixture.textContent=eventLabel;
+ ui.successReference.textContent="รหัสอ้างอิง: "+id;
+ ui.success.hidden=false;
+ ui.success.focus({preventScroll:true});
+ ui.success.scrollIntoView({block:"start",behavior:"auto"});
+}
+function selectedEventLabel(){
+ return fixtureChoices.find(x=>x.id===ui.fixture.value)?.label||"ไม่พบชื่อรายการที่เลือก";
+}
+function showFixtureLabel(){
+ const choice=fixtureChoices.find(x=>x.id===ui.fixture.value);
+ ui.selectedFixture.textContent=choice?"รายการที่เลือก: "+choice.label:"";
+ ui.selectedFixture.hidden=!choice;
+}
 function sessionFromStorage(){
  try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
  if(x&&/^[a-f0-9]{64}$/.test(x.token||"")&&Date.parse(x.expires_at)>Date.now())return x;
@@ -115,6 +141,7 @@ function populateFixtureOptions(query=""){
  if(old && [...ui.fixture.options].some(x=>x.value===old))ui.fixture.value=old;
  else ui.fixture.value="";
  if(fixtureEnhanced)globalThis.jQuery(ui.fixture).trigger("change.select2");
+ showFixtureLabel();
 }
 function updateFixtures(){
  fixtureChoices=[];
@@ -217,7 +244,44 @@ function clearPreview(){
  compressed=null;ui.preview.hidden=true;ui.previewImage.removeAttribute("src");
  if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl="";}
 }
+// Status is checked server-side for this session only; private image bytes never returned.
+function photoState(item){
+ if(item.publication_status==="published")return "เผยแพร่บนเว็บไซต์แล้ว";
+ if(item.publication_status==="revoked")return "ถอนภาพจากเว็บไซต์แล้ว";
+ if(item.publication_status==="publishing")return "กำลังเผยแพร่";
+ if(item.publication_status==="failed")return "เผยแพร่ขัดข้อง · รอผู้ตรวจ";
+ if(item.status==="rejected")return "ส่งกลับแก้ไข · ติดต่อผู้ตรวจ";
+ if(item.status==="approved")return "อนุญาตใช้ภายใน · ยังไม่เผยแพร่";
+ return "ส่งแล้ว · รอผู้ตรวจ";
+}
+async function refreshMine(){
+ if(!session){ui.mineStatus.textContent="กรุณาเข้าสู่ระบบก่อน";return;}
+ ui.mineRefresh.disabled=true;ui.mineStatus.textContent="กำลังตรวจสถานะภาพที่ส่งในรอบนี้…";
+ try{
+  const answer=await call(PHOTOS,"mine");
+  if(!answer.ok){
+   if(answer.error==="expired"){clearSession();showLogin();}
+   ui.mineStatus.textContent=errorText(answer.error);return;
+  }
+  const records=Array.isArray(answer.items)?answer.items:[];
+  ui.mineCount.textContent="("+records.length+")";ui.mineList.replaceChildren();
+  for(const item of records){
+   const box=document.createElement("article");box.className="photo-mine-entry";
+   const head=document.createElement("strong");
+   head.textContent=(item.sport_id||"กีฬา")+" · "+(item.division||"");
+   const state=document.createElement("span");state.textContent=photoState(item);
+   const detail=document.createElement("small");
+   detail.textContent=(item.caption||"ภาพกิจกรรม")+" · รหัส "+String(item.id||"").slice(0,8);
+   box.append(head,state,detail);ui.mineList.append(box);
+  }
+  ui.mineStatus.textContent=records.length?
+   "อัปเดตสถานะแล้ว · เฉพาะภาพในรอบที่เข้าใช้งานนี้":
+   "ยังไม่มีภาพที่ส่งด้วยสิทธิ์รอบนี้";
+ }catch(_){ui.mineStatus.textContent="ยังตรวจสถานะไม่ได้ กรุณาลองใหม่เมื่ออินเทอร์เน็ตพร้อม";}
+ finally{ui.mineRefresh.disabled=false;}
+}
 async function choosePhoto(input){
+ errorAtForm("");
  if(loading)return;
  const current=++selectionId;
  if(input===ui.file)ui.camera.value="";else ui.file.value="";
@@ -263,6 +327,14 @@ ui.forgetUploader.addEventListener("click",()=>{
 });
 setupFixtureSearch();
 ui.sport.addEventListener("change",updateFixtures);
+ui.fixture.addEventListener("change",showFixtureLabel);
+ui.sendMore.addEventListener("click",showSendForm);
+ui.viewMine.addEventListener("click",()=>{
+ ui.minePanel.open=true;
+ ui.minePanel.scrollIntoView({block:"start",behavior:"auto"});
+ refreshMine();
+});
+ui.mineRefresh.addEventListener("click",refreshMine);
 ui.loginForm.addEventListener("submit",async e=>{
  e.preventDefault();const pin=ui.loginForm.elements.pin.value.trim();
  if(!/^\d{4,30}$/.test(pin)){notice("กรุณาตรวจรหัส",true);return;}
@@ -283,23 +355,32 @@ ui.logout.addEventListener("click",async()=>{
 ui.form.addEventListener("submit",async e=>{
  e.preventDefault();
  if(loading||compressing||!session||!compressed||!ui.confirm.checked||!ui.fixture.value||!ui.uploader.value.trim()){
-   notice("กรุณาเลือกรายการ ตรวจรูป และยืนยันก่อนส่ง",true);return;
+   const msg="กรุณาเลือกรายการแข่งขัน เลือกภาพ และยืนยันก่อนส่ง";
+   errorAtForm(msg);notice(msg,true);return;
  }
- loading=true;ui.submit.disabled=true;ui.camera.disabled=true;ui.file.disabled=true;notice("กำลังส่งภาพเข้าพื้นที่ส่วนตัว…");
+ loading=true;ui.submit.disabled=true;ui.camera.disabled=true;ui.file.disabled=true;
+ errorAtForm("");ui.submit.textContent="กำลังส่งภาพ… กรุณารอ";
+ notice("กำลังส่งภาพเข้าพื้นที่ส่วนตัว… ห้ามกดส่งซ้ำ");
  try{
    const b64=await blobBase64(compressed);
    const ans=await call(PHOTOS,"upload",{event_id:ui.fixture.value,uploaded_by:ui.uploader.value.trim(),
      caption:ui.caption.value.trim(),image_b64:b64});
    if(!ans.ok){
      if(ans.error==="expired"){clearSession();showLogin();}
-     notice(errorText(ans.error),true);return;
+     errorAtForm(errorText(ans.error));notice(errorText(ans.error),true);return;
    }
    if(ui.rememberUploader.checked)rememberUploaderName(ui.uploader.value);
    else clearRememberedUploaderName();
-   notice("ส่งภาพเรียบร้อย · รอผู้ตรวจ · ภาพยังไม่แสดงบนเว็บไซต์");
+   const eventLabel=selectedEventLabel();
    ui.file.value="";ui.camera.value="";ui.confirm.checked=false;clearPreview();
- }catch(_){notice("เครือข่ายขัดข้อง ภาพอาจยังไม่ถูกส่ง กรุณาตรวจผู้ตรวจอีกครั้ง",true);}
- finally{loading=false;ui.camera.disabled=false;ui.file.disabled=false;ui.submit.disabled=!compressed;}
+   showSendSuccess(String(ans.id||"ไม่ระบุ"),eventLabel);
+   notice("ส่งภาพสำเร็จแล้ว · รอผู้ตรวจ");
+   if(ui.minePanel.open)refreshMine();
+ }catch(_){
+   const msg="เครือข่ายขัดข้อง ยังยืนยันไม่ได้ว่าส่งสำเร็จหรือไม่ โปรดตรวจสถานะก่อน ไม่ต้องกดส่งซ้ำทันที";
+   errorAtForm(msg);notice(msg,true);
+ }
+ finally{loading=false;ui.camera.disabled=false;ui.file.disabled=false;ui.submit.textContent="ส่งภาพให้ผู้ตรวจ";ui.submit.disabled=!compressed;}
 });
 (async()=>{
  session=sessionFromStorage();
