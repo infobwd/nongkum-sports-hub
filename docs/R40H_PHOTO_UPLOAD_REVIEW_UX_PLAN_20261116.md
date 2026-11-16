@@ -24,3 +24,26 @@
 - ไม่เปิด private image ให้ผู้ส่งดูผ่าน API ใหม่; ห้ามใช้เลข ID เพียงอย่างเดียวเป็นสิทธิ์ดูสถานะผู้อื่น
 - ไม่นำ token, ชื่อบุคคล หรือหลักฐานสิทธิ์ลง public JSON/GitHub; R32 approved results และ R33 active fixtures ไม่เปลี่ยน
 - งานยังไม่เสร็จจน CI ผ่าน มีหลักฐานมือถือจริง และตรวจรับระบบที่ Deploy
+
+## ผลพัฒนาและ QA ใน PR #165 — 16 พฤศจิกายน 2569
+
+**สิ่งที่พัฒนาแล้วในสาขา (ยังไม่ Merge)**
+- [x] หน้าส่งภาพ 3 ขั้นตอน แสดงรายการที่เลือกแยกหลายบรรทัด รองรับกรณี Select2 CDN ไม่พร้อม; เพิ่ม CSS ตัดข้อความยาวไม่ให้ iPhone เลื่อนแนวนอน
+- [x] เมื่อ Edge ส่ง `ok:true` พร้อม UUID เท่านั้น จึงแสดงแผงสีเขียว “ส่งภาพสำเร็จแล้ว” รอผู้ตรวจ เลขอ้างอิง ชื่อกิจกรรม และปุ่มส่งเพิ่ม/ดูสถานะ; ปุ่มซ้ำถูกล็อก
+- [x] หาก fetch ล้มเหลวแบบยืนยันผลไม่ได้ ห้ามแสดงสำเร็จ ห้าม retry อัตโนมัติ และบังคับให้ผู้ใช้ตรวจรายการที่ส่งก่อนกดซ้ำ
+- [x] เพิ่ม RPC `nongkum_activity_photo_my_uploads_gateway` เฉพาะ service_role อ่านรายการจาก session hash เดียวกันของ editor ที่ยังไม่หมดอายุ; อนุญาตข้อมูลสถานะอย่างจำกัด 50 รายการ ไม่เปิด storage path, reviewer name หรือข้อมูลผู้ส่งอื่น; แสดงสถานะแค่รอบเข้าใช้งานครั้งนี้ (6 ชั่วโมง)
+- [x] หน้าตรวจแยกสถานะรอ/อนุญาตภายใน/เผยแพร่/ถอน; ต้องเปิดดูภาพก่อนอนุมัติ; ปุ่มหลักอนุมัติเผยแพร่มี checkbox ยืนยันสิทธิ์สาธารณะและหลักฐาน 8–500 ตัวอักษร; เก็บภายในและส่งกลับอยู่ในเมนูรอง; validation อยู่ใกล้การ์ด; ไม่ตัดการตรวจสิทธิ์
+- [x] QA Node legacy R40/R40-G พร้อม R40-H: https://github.com/infobwd/nongkum-sports-hub/actions/runs/43885538916 — ผ่าน
+- [x] QA PostgreSQL 16 จำลอง 2 session และ session ที่ถูก revoke: ไม่มี cross-session leak/ไม่มี URL ส่วนตัว: https://github.com/infobwd/nongkum-sports-hub/actions/runs/43885538915 — ผ่าน
+- [x] QA Chromium viewport มือถือโดยใช้ WebP จำลอง (ไม่มีภาพเด็ก) ครอบคลุม success receipt, no duplicate, network unknown, status, reviewer consent, publish; แนบภาพหน้าจอใน artifact: https://github.com/infobwd/nongkum-sports-hub/actions/runs/43885538860 — ผ่าน
+- [x] QA R14 LINE, R11D และ Validate draft data ไม่ถอยหลัง: https://github.com/infobwd/nongkum-sports-hub/actions/runs/43885539110 — ผ่าน
+- [x] ตรวจ PR #159: ทับไฟล์ `supabase/functions/nongkum-activity-photos/index.ts` หนึ่งจุด ไม่ Merge/Deploy ซ้ำ
+
+**รอการอนุมัติและตรวจรับ**
+- [ ] ผู้จัดอนุญาต Merge PR #165; ตรวจ latest checks/sha ก่อนดำเนินการ
+- [ ] Merge แล้วติดตั้ง migration `20261116210000_r40h_my_photo_submissions.sql` และ deploy Edge `nongkum-activity-photos` จาก `main` รุ่นเดียวกัน (ห้ามนำเฉพาะหน้าเว็บไปเผยแพร่ก่อน RPC/Edge)
+- [ ] QA จริงด้วยภาพทดลองที่มีสิทธิ์: ถ่าย → อัปโหลด → ดูสถานะผู้ส่ง → ผู้ตรวจยืนยันสิทธิ์เผยแพร่ → รูปขึ้นหน้าเว็บ → เพิกถอนแล้วไม่แสดง
+- [ ] ตรวจ Safari iPhone, Chrome Android, LINE in-app และปุ่มส่งซ้ำตอนอินเทอร์เน็ตขัดข้องบนอุปกรณ์จริง
+- [ ] ผู้จัดตรวจรับและยืนยันปิดงาน
+
+**ข้อจำกัดสำคัญ:** `ภาพที่ส่ง` อ้างอิงเฉพาะ session ที่ยังไม่หมดอายุ ไม่ใช่บัญชีถาวรรายบุคคล; หลัง 6 ชั่วโมงต้องให้ผู้ตรวจตรวจย้อนหลังแทนจนกว่าจะมีระบบตัวตนเฉพาะผู้ส่ง. CI ผ่านไม่เท่ากับเว็บ Production ตรวจรับแล้ว
