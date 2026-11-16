@@ -1,6 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import {putPrivateImage} from "./private-upload.ts";
 import {cleanJpegMetadata} from "./jpeg-clean.ts";
+import {putPublishedImage,removePublishedImage} from "./public-storage.ts";
 
 /* R40: secure photo intake. No result mutation, public publication or secret in browser.
  * Existing editor sessions upload; separate reviewer sessions approve privately. */
@@ -8,6 +9,7 @@ const DB=Deno.env.get("SUPABASE_URL")??"";
 const SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")??"";
 const ORIGINS=new Set(["https://infobwd.github.io"]);
 const BUCKET="nongkum-activity-intake";
+const PUBLIC_BUCKET="nongkum-activity-public";
 const LIMIT=350000;
 const JSON_LIMIT=510000;
 const encoder=new TextEncoder();
@@ -18,7 +20,7 @@ function headers(origin:string|null){
    "X-Content-Type-Options":"nosniff","Vary":"Origin"});
  if(origin&&ORIGINS.has(origin)){
    h.set("Access-Control-Allow-Origin",origin);
-   h.set("Access-Control-Allow-Methods","POST,OPTIONS");
+   h.set("Access-Control-Allow-Methods","GET,POST,OPTIONS");
    h.set("Access-Control-Allow-Headers","authorization,content-type");
    h.set("Access-Control-Max-Age","300");
  }
@@ -120,6 +122,39 @@ async function getPrivate(path:string){
  if(bytes.length>LIMIT||bytes.length<1000)throw Error("invalid_image");
  return bytes;
 }
+
+/* R40-G publication: existing reviewer token stays server-side; only published
+ * whitelist fields are served to anonymous viewers. No private URLs are returned. */
+async function publicationRpc(action:string,body:Record<string,unknown>){
+ const r=await fetch(DB+"/rest/v1/rpc/nongkum_activity_photo_publication_gateway",{
+   method:"POST",headers:{...svcHeaders,"Content-Type":"application/json","Accept":"application/json"},
+   body:JSON.stringify({p_action:action,p_data:body}),signal:AbortSignal.timeout(12000)
+ });
+ if(!r.ok){console.error("R40-G publication RPC unavailable",r.status);throw Error("unavailable");}
+ const value=await r.json();
+ if(!value||typeof value.ok!=="boolean")throw Error("unavailable");
+ return value;
+}
+const publicPathSafe=(path:string)=>/^media\/[0-9a-f-]{36}\.(webp|jpg)$/.test(path);
+async function writePublic(path:string,bytes:Uint8Array,mime:string){
+ await putPublishedImage({db:DB,serviceKey:SERVICE,bucket:PUBLIC_BUCKET,path,bytes,mime});
+}
+async function deletePublic(path:string){
+ return await removePublishedImage({db:DB,serviceKey:SERVICE,bucket:PUBLIC_BUCKET,path});
+}
+async function publishedFeed(){
+ const columns="id,event_id,sport_id,division,event_date,caption,object_path,mime_type,published_at";
+ const r=await fetch(DB+"/rest/v1/nongkum_public_activity_photos?select="+columns+
+   "&order=published_at.desc&limit=500",{
+   headers:{...svcHeaders,Accept:"application/json"},signal:AbortSignal.timeout(12000)
+ });
+ if(!r.ok)throw Error("unavailable");
+ const data=await r.json();
+ if(!Array.isArray(data))throw Error("unavailable");
+ // SQL table contains *only* public metadata, never consent notes or personal data.
+ return data;
+}
+
 const code=(e:string)=>e==="expired"?401:e==="limited"?429:
  ["stale","source_changed","missing"].includes(e)?409:
  e==="forbidden"?403:e==="unavailable"||e==="upload_failed"?503:400;
@@ -128,12 +163,17 @@ Deno.serve(async(req:Request)=>{
  const origin=req.headers.get("origin");
  if(!origin||!ORIGINS.has(origin))return reply({ok:false,error:"forbidden"},403,null);
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:headers(origin)});
- if(req.method!=="POST"||!DB||!SERVICE)return reply({ok:false,error:"unavailable"},503,origin);
+ if(!DB||!SERVICE)return reply({ok:false,error:"unavailable"},503,origin);
+ if(req.method==="GET"){
+   try{return reply({ok:true,items:await publishedFeed()},200,origin);}
+   catch(_){return reply({ok:false,error:"unavailable"},503,origin);}
+ }
+ if(req.method!=="POST")return reply({ok:false,error:"invalid"},405,origin);
  if(Number(req.headers.get("content-length")||0)>JSON_LIMIT)return reply({ok:false,error:"too_large"},413,origin);
  try{
    const body=await jsonBounded(req);
    const action=String(body.action||"");
-   if(!["upload","queue","preview","approve","reject"].includes(action))
+   if(!["upload","queue","preview","approve","reject","publish","revoke"].includes(action))
       return reply({ok:false,error:"invalid"},400,origin);
    const m=/^Bearer ([a-f0-9]{64})$/.exec(req.headers.get("authorization")||"");
    if(!m)return reply({ok:false,error:"expired"},401,origin);
@@ -158,6 +198,58 @@ Deno.serve(async(req:Request)=>{
         try{await rpc("cancel",{token,id});}catch(_){}
         throw err;
       }
+   }
+
+   if(action==="queue"){
+     const pending=await rpc("queue",{token});
+     if(!pending.ok)return reply(pending,code(pending.error),origin);
+     const reviewed=await publicationRpc("queue",{token});
+     if(!reviewed.ok)return reply(reviewed,code(reviewed.error),origin);
+     const items=[
+       ...(Array.isArray(pending.items)?pending.items:[]).map((x:Record<string,unknown>)=>({...x,status:"review",publication_status:"private"})),
+       ...(Array.isArray(reviewed.items)?reviewed.items:[])
+     ];
+     return reply({ok:true,items},200,origin);
+   }
+   if(action==="publish"){
+     const prepared=await publicationRpc("prepare",{
+       token,id:body.id,public_consent_checked:body.public_consent_checked,
+       public_consent_note:body.public_consent_note
+     });
+     if(!prepared.ok)return reply(prepared,code(prepared.error),origin);
+     const from=String(prepared.private_path||""),to=String(prepared.public_path||"");
+     const mime=String(prepared.mime_type||""),id=String(prepared.id||"");
+     if(!pathSafe(from)||!publicPathSafe(to)||!/^[0-9a-f-]{36}$/.test(id))
+        throw Error("unavailable");
+     let stored=false;
+     try{
+       const bytes=await getPrivate(from);
+       if(bytes.length!==prepared.byte_size||(mime==="image/webp"&&!to.endsWith(".webp"))
+          ||(mime==="image/jpeg"&&!to.endsWith(".jpg")))throw Error("invalid_image");
+       await writePublic(to,bytes,mime);
+       stored=true;
+       const done=await publicationRpc("finish",{token,id});
+       if(!done.ok){
+         // A confirmed reject cannot have published the catalog entry.
+         if(await deletePublic(to))await publicationRpc("fail",{token,id});
+         return reply(done,code(done.error),origin);
+       }
+       return reply({ok:true,id,status:"published"},200,origin);
+     }catch(err){
+       // If finish timed out, its commit is unknown: never delete a possibly published
+       // image. Keep 'publishing' for manual reconciliation instead.
+       if(!stored){
+         try{await deletePublic(to);await publicationRpc("fail",{token,id});}catch(_){}
+       }
+       throw err;
+     }
+   }
+   if(action==="revoke"){
+     const removed=await publicationRpc("revoke",{token,id:body.id,reason:body.reason});
+     if(!removed.ok)return reply(removed,code(removed.error),origin);
+     let cleaned=false;
+     try{cleaned=await deletePublic(String(removed.public_path||""));}catch(_){}
+     return reply({ok:true,status:"revoked",cleanup_pending:!cleaned},200,origin);
    }
    if(action==="preview"){
       const item=await rpc("preview",{token,id:body.id});

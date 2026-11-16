@@ -54,7 +54,7 @@ assert.match(upload,/file\.size>18000000/);
 assert.ok(upload.includes('["image/webp","image/jpeg"].includes(candidate.type)'));
 assert.match(upload,/image_b64:b64/);
 assert.match(review,/consent_checked:true/);
-assert.match(review,/กำลังบันทึกการอนุญาต \(ยังไม่เผยแพร่\)/);
+assert.match(review,/กำลังอนุญาตใช้ภาพภายใน/);
 assert.ok(review.includes('img.src="data:"+r.mime_type'));
 for(const source of [upload,review,uphtml,reviewHtml]){
  assert.doesNotMatch(source,/SUPABASE_SERVICE_ROLE_KEY|service_role|meeting-evidence|\bpassword\s*:\s*["']/i);
@@ -164,4 +164,4 @@ assert.match(read("review-results.html"),/href="\.\/review-photos\.html"/);
 const media=JSON.parse(read("data/public-activity-media.json"));
 assert.equal(media.approved_only,true);
 assert.deepEqual(media.entries,[],"uploading must not change public approved photos");
-console.log("R40 PASS: separate roles, private WebP upload, consent review, and no instant publication");
+console.log("R40 PASS: separate roles, private WebP upload and explicit public-consent review");

@@ -1,0 +1,38 @@
+name: R40-G Synthetic Browser Photo Preview
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "activity-photos.html"
+      - "results.html"
+      - "js/activity-gallery-r40g.js"
+      - "js/activity-media-r40g.js"
+      - "js/results-renderers.js"
+      - "scripts/r40/test-r40g-browser.mjs"
+      - ".github/workflows/r40g-browser-preview.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    name: Synthetic WebP gallery & result card on mobile viewport
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install browser test runner
+        run: npm install --no-save --ignore-scripts playwright@1.58.2
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Exercise 2-image synthetic WebP gallery and result card
+        run: node scripts/r40/test-r40g-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r40g-synthetic-mobile-preview
+          path: ${{ runner.temp }}/r40g-browser-evidence/*.png
+          if-no-files-found: warn
+          retention-days: 7
