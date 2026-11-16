@@ -7569,7 +7569,17 @@
       "draft_field": "สนาม 2",
       "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
       "planning_venue_confirmation": "confirmed",
-      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "finalist_school_ids": [
+        "wangdong"
+      ],
+      "finalist_report": {
+        "status": "organizer_reported",
+        "reported_on": "2026-11-15",
+        "source": "ผู้จัดการแข่งขันแจ้งตรงในบทสนทนาโครงการวันที่ 15 พฤศจิกายน 2569",
+        "result_approved": false,
+        "note": "บ้านวังด้งเข้ารอบชิงชนะเลิศ; คู่แข่ง สาย คะแนน และผลชิงชนะเลิศยังไม่มีหลักฐานรับรอง"
+      }
     },
     {
       "id": "petanque-p18-12-ปี-ชาย-041",
@@ -7608,7 +7618,17 @@
       "draft_field": "สนาม 1",
       "planning_venue": "โรงเรียนบ้านหนองกระทุ่ม",
       "planning_venue_confirmation": "confirmed",
-      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569"
+      "planning_venue_source": "ผู้จัดยืนยันสถานที่แข่งขันทุกชนิดกีฬา ณ โรงเรียนบ้านหนองกระทุ่ม วันที่ 6 พฤศจิกายน 2569",
+      "finalist_school_ids": [
+        "wangdong"
+      ],
+      "finalist_report": {
+        "status": "organizer_reported",
+        "reported_on": "2026-11-15",
+        "source": "ผู้จัดการแข่งขันแจ้งตรงในบทสนทนาโครงการวันที่ 15 พฤศจิกายน 2569",
+        "result_approved": false,
+        "note": "บ้านวังด้งเข้ารอบชิงชนะเลิศ; คู่แข่ง สาย คะแนน และผลชิงชนะเลิศยังไม่มีหลักฐานรับรอง"
+      }
     },
     {
       "id": "petanque-p18-12-ปี-หญิง-042",
