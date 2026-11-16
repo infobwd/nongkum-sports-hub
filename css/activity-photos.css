@@ -67,3 +67,23 @@ body[data-view^="photo-"] .mode{color:#244a72;background:#fff}
 .photo-name-settings{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 0}
 .photo-name-settings .photo-consent{flex:1 1 190px;margin:0!important}
 .photo-name-settings button{flex:0 1 auto}
+
+/* R40-F — searchable fixture Select2 accessible on Safari/LINE and small screens. */
+body[data-view="photo-upload"] #photoFixtureSearch:not([hidden]){margin-bottom:9px}
+.photo-panel .select2-container{display:block;width:100%!important;max-width:100%;font:inherit}
+.photo-panel .select2-container--default .select2-selection--single{
+ border:1px solid #aec5dd;border-radius:11px;background:#fff;min-height:52px
+}
+.photo-panel .select2-container--default .select2-selection--single .select2-selection__rendered{
+ color:#1e456c;line-height:50px;padding-left:12px;padding-right:34px;font-size:1rem
+}
+.photo-panel .select2-container--default .select2-selection--single .select2-selection__arrow{height:50px;right:10px}
+.photo-panel .select2-container--default.select2-container--focus .select2-selection--single{
+ outline:3px solid #d5ad43;outline-offset:2px
+}
+.photo-panel .select2-results__option{white-space:normal;line-height:1.55;padding:10px 12px;font-size:.94rem}
+.photo-panel .select2-dropdown{border:1px solid #aec5dd;border-radius:8px;box-shadow:0 8px 22px #24416a1f;z-index:2100}
+.photo-panel .select2-search--dropdown .select2-search__field{
+ box-sizing:border-box;width:100%;min-height:44px;border:1px solid #aec5dd;border-radius:8px;font-size:16px
+}
+.photo-panel .select2-container--open{z-index:2100}
