@@ -61,8 +61,13 @@ for(const source of [upload,review,uphtml,reviewHtml]){
 }
 for(const html of [uphtml,reviewHtml]){
  assert.match(html,/noindex,nofollow/);
- assert.match(html,/activity-photos\.css\?v=r40-1/);
+ assert.match(html,/activity-photos\.css\?v=r40-2/);
 }
+assert.match(uphtml,/upload-photos-r40\.js\?v=r40-2/);
+assert.match(uphtml,/WebP เป็นหลัก/);
+assert.match(upload,/TARGET_IMAGE_BYTES=250000,MAX_IMAGE_BYTES=350000/);
+assert.match(upload,/const qualities=\[0\.84,0\.76,0\.68,0\.60,0\.52\]/);
+assert.match(upload,/webp\.type==="image\/webp"\?webp:await toBlob\(canvas,q,"image\/jpeg"\)/);
 assert.match(uphtml,/id="photoCamera"[^>]*capture="environment"/);
 assert.match(uphtml,/id="photoFile"[^>]*accept="image\/jpeg,image\/png,image\/webp,image\/heic,image\/heif"/);
 assert.match(upload,/selectionId=0/);
