@@ -70,7 +70,7 @@
   // generated static OG page. Never guess that a newly approved page exists.
   function resultShareCode(id,revision){
     if(typeof id!=="string"||!Number.isInteger(revision)||revision<1)return "";
-    return "r"+fixtureShareCode(id).slice(1)+"-v"+revision;
+    return "r"+fixtureShareCode(id).slice(1)+"-v"+revision+"-p2";
   }
   function resultShareUrl(result,index){
     if(!result||result.status!=="approved")return "";
@@ -92,7 +92,7 @@
       (result.name||"รายการกรีฑา")+(result.division?" · "+result.division:""):
       (winner?winner+" ชนะ "+(winner===a?b:a):(a+" พบ "+b));
     const title=sport+(result.division?" "+result.division:"")+" — "+subject;
-    const description="ผลการแข่งขันที่ผ่านการรับรอง · มิตรภาพเกมส์ 2569";
+    const description="ผลการแข่งขัน · มิตรภาพเกมส์ 2569";
     return shareUrl(resultShareUrl(result,index),title,description,{copyDescription:true});
   }
   function shareFixture(fixture,sport,teamA,teamB){
