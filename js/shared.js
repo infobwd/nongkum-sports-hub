@@ -82,14 +82,17 @@
     }
     return directItemUrl("results.html","result",result.id);
   }
-  function shareApprovedResult(result,index,schools,sports){
+  function shareApprovedResult(result,index,schools,sports,catalog){
     if(!result||result.status!=="approved")throw Error("Only approved results can be shared");
     const sport=sports?.find(s=>s.id===result.sport_id)?.name||"กีฬา";
     const school=id=>schools?.find(s=>s.id===id)?.short||"";
     const winner=school(result.winner_school_id);
     const a=school(result.team_a_id),b=school(result.team_b_id);
+    const event=catalog?.get(result.event_id);
+    const catalogName=event?.sport_id===result.sport_id&&event.division===result.division?event.name:"";
+    const discipline=result.name||catalogName||"ยังไม่พบชื่อรายการกรีฑา";
     const subject=result.result_type==="ranking"?
-      (result.name||"รายการกรีฑา")+(result.division?" · "+result.division:""):
+      discipline+(result.division?" · "+result.division:""):
       (winner?winner+" ชนะ "+(winner===a?b:a):(a+" พบ "+b));
     const title=sport+(result.division?" "+result.division:"")+" — "+subject;
     const description="ผลการแข่งขัน · มิตรภาพเกมส์ 2569";
