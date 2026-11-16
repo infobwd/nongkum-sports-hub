@@ -6,6 +6,14 @@
   if (!document.body || !root.NongkumResultSource) return;
   const API = "https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-editor";
   const STORAGE = "nongkum-r34-editor-session-v1";
+  const REVIEW_STORAGE = "nongkum-r37-reviewer-session-v1";
+  const REVIEW_API = "https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-reviewer";
+  function reviewerSession(){
+    try{
+      const v=JSON.parse(localStorage.getItem(REVIEW_STORAGE)||"null");
+      return v&&/^[0-9a-f]{64}$/.test(v.token||"")&&Date.parse(v.expires_at)>Date.now()?v:null;
+    }catch(_){return null;}
+  }
   const escapeHtml = root.Nongkum?.escapeHtml || ((s)=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])));
   const state = { session:null, active:null, fixture:null, approved:new Map(), schools:[], sports:[], source:"", refreshing:false };
   const overlay = document.createElement("div");
@@ -33,13 +41,18 @@
   function clearSession() {state.session=null;try{localStorage.removeItem(STORAGE);}catch(_){}}
   restoreSession();
   async function call(action,data) {
+    // Reviewer role is verified by the separate server gateway on every call.
+    // No reviewer token is ever converted into an editor token in the browser.
+    const reviewer=["status","fixture","submit"].includes(action)?reviewerSession():null;
     const h={"Content-Type":"application/json"};
-    if(action!=="unlock") {
+    if(reviewer) h.Authorization="Bearer "+reviewer.token;
+    else if(action!=="unlock") {
       if(!state.session?.token)return {ok:false,error:"expired"};
       h.Authorization="Bearer "+state.session.token;
     }
-    const response=await fetch(API,{method:"POST",cache:"no-store",headers:h,
-      body:JSON.stringify({action,...(data||{})})});
+    const mapped=reviewer&&["fixture","submit"].includes(action)?"edit_"+action:action;
+    const response=await fetch(reviewer?REVIEW_API:API,{method:"POST",cache:"no-store",headers:h,
+      body:JSON.stringify({action:mapped,...(data||{})})});
     let result;
     try {result=await response.json();} catch(_){throw Error("network");}
     if(!result||typeof result.ok!=="boolean")throw Error("network");
@@ -80,16 +93,20 @@
     });
   }
   async function ensureUnlock(){
-    if(!state.session){fillPin();return;}
+    const reviewer=reviewerSession();
+    if(!reviewer && !state.session){fillPin();return;}
     try{
       const answer=await call("status");
-      if(!answer.ok){clearSession();fillPin();message(explain(answer.error),true);return;}
-      state.session.expires_at=answer.expires_at;
+      if(!answer.ok){
+        if(reviewer){message("สิทธิ์ผู้ตรวจใช้ไม่ได้ กรุณาเข้าหน้ายืนยันผลอีกครั้ง",true);return;}
+        clearSession();fillPin();message(explain(answer.error),true);return;
+      }
+      if(!reviewer)state.session.expires_at=answer.expires_at;
       await loadFixture();
     }catch(_){message("เชื่อมต่อไม่ได้ กรุณาลองอีกครั้ง",true);}
   }
   function displayRemaining() {
-    const until=Date.parse(state.session?.expires_at||"");
+    const until=Date.parse((reviewerSession()||state.session)?.expires_at||"");
     const remain=Math.max(0,Math.ceil((until-Date.now())/60000));
     return remain>0?"สิทธิ์บันทึกผลเหลือประมาณ "+(Math.floor(remain/60)?Math.floor(remain/60)+" ชม. ":"")+(remain%60)+" นาที":"";
   }
@@ -147,7 +164,7 @@
     const revision=Number(f.base_revision||0);
     overlay.querySelector("#r34Title").textContent=revision?"แก้ไขผลการแข่งขัน":"บันทึกผลการแข่งขัน";
     modalBody.innerHTML="<div class='r34-fixture'><strong>"+name+"</strong><span>"+escapeHtml(state.sports.find(x=>x.id===f.sport_id)?.name||f.sport_id)+" · "+escapeHtml(f.division||"")+"</span></div>"+
-      "<p class='r34-small'>"+escapeHtml(displayRemaining())+" <button type='button' class='r34-logout' id='r34Logout'>ออกจากโหมดบันทึกผล</button></p>"+
+      "<p class='r34-small'>"+escapeHtml(displayRemaining())+" <button type='button' class='r34-logout' id='r34Logout'>"+(reviewerSession()?"ปิดหน้าบันทึกผล":"ออกจากโหมดบันทึกผล")+"</button></p>"+
       (f.has_pending?"<p class='r34-pending'>มีข้อมูลรายการนี้ส่งรอตรวจแล้ว จึงยังไม่สามารถส่งซ้ำได้</p>":
       "<form id='r34Form'><details class='r34-optional-type'><summary>รูปแบบบันทึก: "+escapeHtml(choices.find(x=>x[0]===defaultType)?.[1]||"ผลการแข่งขัน")+" (เปลี่ยนได้)</summary>"+
       "<label class='r34-field'>เลือกรูปแบบ<select name='result_type' id='r34ResultType'>"+
@@ -229,7 +246,11 @@
         if(revision)p.reason=form.elements.reason.value.trim();
         try{
           const ans=await call("submit",p);
-          if(!ans.ok){if(ans.error==="expired"){clearSession();fillPin();}message(explain(ans.error),true);return;}
+          if(!ans.ok){
+             if(ans.error==="expired" && reviewerSession()){message("สิทธิ์ผู้ตรวจหมดอายุ กรุณาเข้าหน้ายืนยันผลอีกครั้ง",true);return;}
+             if(ans.error==="expired"){clearSession();fillPin();}
+             message(explain(ans.error),true);return;
+           }
           modalBody.innerHTML="<p class='r34-success'>บันทึกแล้ว · รอตรวจสอบ</p><p>ข้อมูลส่งถึงผู้ตรวจผลแล้ว หน้าเว็บไซต์จะแสดงผลใหม่เมื่อรับรองเรียบร้อย</p><div class='r34-buttons'><button type='button' data-r34-close class='r34-primary'>ปิด</button></div>";
           message("ส่งข้อมูลสำเร็จ");
         }catch(_){message("เชื่อมต่อไม่สำเร็จ ข้อมูลที่กรอกยังอยู่ กรุณาลองใหม่",true);}
@@ -237,6 +258,7 @@
       });
     }
     modalBody.querySelector("#r34Logout").addEventListener("click",async()=>{
+      if(reviewerSession()){close();return;} // Reviewer sign-out stays in the reviewer workspace.
       try{await call("logout");}catch(_){}
       clearSession();fillPin();message("ออกจากโหมดบันทึกผลแล้ว");
     });
@@ -245,7 +267,7 @@
     message("กำลังเปิดข้อมูลคู่แข่งขัน…");
     const answer=await call("fixture",{fixture_id:state.active});
     if(!answer.ok){
-      if(answer.error==="expired"){clearSession();fillPin();}
+      if(answer.error==="expired"&&!reviewerSession()){clearSession();fillPin();}
       message(explain(answer.error),true);return;
     }
     state.fixture=answer;drawForm();message("");
