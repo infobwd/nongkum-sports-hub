@@ -97,6 +97,10 @@ async function load(){
  try{
    items=await globalThis.NongkumActivityMedia.list();
    fillFilters();render();
+   if(globalThis.NongkumActivityMedia.source?.()==="r39-fallback"){
+     ui.notice.textContent="ยังเชื่อมต่อภาพเผยแพร่ล่าสุดไม่ได้ ขณะนี้แสดงเฉพาะภาพที่ผู้จัดประกาศไว้ในระบบเดิม";
+     ui.notice.hidden=false;
+   }
  }catch(_){
    items=[];render();
    ui.notice.textContent="ไม่สามารถอ่านภาพกิจกรรมล่าสุดได้ กรุณาลองอีกครั้ง";
