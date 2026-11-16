@@ -1,0 +1,10 @@
+# Edge Functions using opaque R34/R37 session tokens, not Supabase Auth JWTs.
+# Each function validates its own bearer token and server-side role/session.
+[functions.nongkum-results-editor]
+verify_jwt = false
+
+[functions.nongkum-results-reviewer]
+verify_jwt = false
+
+[functions.nongkum-activity-photos]
+verify_jwt = false
