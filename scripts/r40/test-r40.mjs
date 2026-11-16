@@ -17,7 +17,7 @@ assert.equal((sql.match(/\$r40\$/g)||[]).length,2,"single complete plpgsql body"
 assert.match(sql,/insert into storage\.buckets/);
 assert.match(sql,/nongkum-activity-intake/);
 assert.match(sql,/values \('nongkum-activity-intake','nongkum-activity-intake',false,350000/);
-assert.match(sql,/allowed_mime_types=array\\['image\\/webp','image\\/jpeg'\\]/);
+assert.ok(sql.includes("allowed_mime_types=array['image/webp','image/jpeg']"));
 assert.match(sql,/alter table nongkum_sports\.activity_photo_submissions enable row level security/);
 assert.match(sql,/revoke all on nongkum_sports\.activity_photo_submissions from public,anon,authenticated/);
 assert.match(sql,/revoke all on function public\.nongkum_activity_photo_gateway\(text,jsonb\) from public,anon,authenticated/);
@@ -38,9 +38,9 @@ assert.match(edge,/const LIMIT=350000/);
 assert.match(edge,/fourcc\(bytes,0\)!=="RIFF"/);
 assert.match(edge,/name==="VP8 "/);
 assert.match(edge,/name==="VP8L"/);
-assert.match(edge,/mime:"image\\/jpeg"/);
-assert.match(sql,/mime_type in \\(\x27image\\/webp\x27,\x27image\\/jpeg\x27\\)/);
-assert.match(upload,/toBlob\\(canvas,q,"image\\/jpeg"\\)/);
+assert.ok(edge.includes('mime:"image/jpeg"'));
+assert.ok(sql.includes("mime_type in ('image/webp','image/jpeg')"));
+assert.ok(upload.includes('toBlob(canvas,q,"image/jpeg")'));
 assert.match(edge,/else throw Error\("invalid_image"\)/);
 assert.match(edge,/nongkum_activity_photo_gateway/);
 assert.match(edge,/Deno\.env\.get\("SUPABASE_SERVICE_ROLE_KEY"\)/);
@@ -51,11 +51,11 @@ assert.match(upload,/nongkum-r34-editor-session-v1/);
 assert.match(review,/nongkum-r37-reviewer-session-v1/);
 assert.match(upload,/canvas\.toBlob/);
 assert.match(upload,/file\.size>18000000/);
-assert.match(upload,/\\["image\\/webp","image\\/jpeg"\\]\\.includes\\(blob\\.type\\)/);
+assert.ok(upload.includes('["image/webp","image/jpeg"].includes(blob.type)'));
 assert.match(upload,/image_b64:b64/);
 assert.match(review,/consent_checked:true/);
 assert.match(review,/กำลังบันทึกการอนุญาต \(ยังไม่เผยแพร่\)/);
-assert.match(review,/img\\.src="data:"\\+r\\.mime_type/);
+assert.ok(review.includes('img.src="data:"+r.mime_type'));
 for(const source of [upload,review,uphtml,reviewHtml]){
  assert.doesNotMatch(source,/SUPABASE_SERVICE_ROLE_KEY|service_role|meeting-evidence|\bpassword\s*:\s*["']/i);
 }
