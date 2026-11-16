@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="./css/activity-photos.css?v=r40-4">
+<link rel="stylesheet" href="./css/activity-photos-r40h.css?v=r40h-1">
 </head><body data-view="photo-upload">
 <header class="top"><div class="shell">
   <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">เจ้าหน้าที่ส่งภาพ</span></div>
@@ -25,11 +26,12 @@
 </section>
 <section id="photoWorkspace" class="photo-panel" hidden>
  <div class="photo-toolbar"><span id="photoSessionInfo"></span><button id="photoLogout" type="button">ออกจากระบบ</button></div>
- <h2>เลือกรายการแข่งขันแล้วส่งภาพ</h2>
+ <h2>ส่งภาพการแข่งขัน</h2>
+ <p class="photo-steps" aria-label="ขั้นตอนส่งภาพ">1. เลือกรายการ <span aria-hidden="true">›</span> 2. เลือกภาพ <span aria-hidden="true">›</span> 3. ส่งให้ผู้ตรวจ</p>
  <form id="photoUploadForm">
    <div class="photo-fields">
      <div><label for="photoSport">ชนิดกีฬา</label><select id="photoSport" required><option value="">เลือกกีฬา</option></select></div>
-     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><input id="photoFixtureSearch" type="search" placeholder="ค้นหาชื่อโรงเรียน กีฬา รุ่น หรือระยะวิ่ง" autocomplete="off" hidden><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><small>แตะช่องรายการแล้วพิมพ์ค้นหาชื่อโรงเรียน รุ่น เพศ หรือการแข่งขัน เช่น 40 เมตร · เลือกตามโปรแกรมแข่งขันที่ใช้งาน</small></div>
+     <div><label for="photoFixture">คู่หรือรายการแข่งขัน</label><input id="photoFixtureSearch" type="search" placeholder="ค้นหาชื่อโรงเรียน กีฬา รุ่น หรือระยะวิ่ง" autocomplete="off" hidden><select id="photoFixture" required><option value="">เลือกกิจกรรม</option></select><p id="photoFixtureSelected" class="photo-fixture-selected" hidden aria-live="polite"></p><small>แตะช่องรายการแล้วพิมพ์ค้นหาชื่อโรงเรียน รุ่น เพศ หรือการแข่งขัน เช่น 40 เมตร · เลือกตามโปรแกรมแข่งขันที่ใช้งาน</small></div>
      <div><label for="photoUploader">ชื่อเจ้าหน้าที่ผู้ส่งภาพ</label><input id="photoUploader" name="uploaded_by" autocomplete="name" maxlength="100" minlength="2" required placeholder="ชื่อ–นามสกุล">
        <div class="photo-name-settings"><label class="photo-consent" for="photoRememberUploader"><input id="photoRememberUploader" type="checkbox" checked> จำชื่อในเครื่องนี้ (เฉพาะเครื่องส่วนตัว)</label>
          <button id="photoForgetUploader" type="button">ลบชื่อที่จำไว้</button></div>
@@ -45,7 +47,22 @@
    <figure id="photoPreview" class="photo-preview" hidden><img id="photoPreviewImg" alt="ตัวอย่างรูปที่เลือก"><figcaption id="photoPreviewInfo"></figcaption></figure>
    <label class="photo-consent"><input id="photoConfirm" type="checkbox" required> ข้าพเจ้าตรวจว่าภาพเกี่ยวข้องกับกิจกรรมนี้ และเข้าใจว่าภาพต้องผ่านผู้ตรวจอนุญาตก่อนเผยแพร่</label>
    <button id="photoSubmit" type="submit" class="photo-primary">ส่งภาพให้ผู้ตรวจ</button>
+   <p id="photoInlineError" class="photo-inline-error" role="alert" hidden></p>
  </form>
+ <section id="photoSendSuccess" class="photo-success" hidden aria-live="polite" aria-labelledby="photoSuccessTitle" tabindex="-1">
+  <span class="photo-success-icon" aria-hidden="true">✓</span><h2 id="photoSuccessTitle">ส่งภาพสำเร็จแล้ว</h2>
+  <p id="photoSuccessFixture" class="photo-success-fixture"></p>
+  <p><strong>สถานะ: รอผู้ตรวจ</strong> · ยังไม่เผยแพร่บนเว็บไซต์</p>
+  <p id="photoSuccessReference" class="photo-reference"></p>
+  <p>ระบบได้รับภาพแล้ว ไม่จำเป็นต้องส่งซ้ำ เมื่อผู้ตรวจอนุมัติให้เผยแพร่ ภาพจึงจะขึ้นบนเว็บไซต์</p>
+  <div class="photo-success-actions"><button id="photoSendMore" type="button" class="photo-primary">ส่งภาพเพิ่มในรายการนี้</button><button id="photoViewMine" type="button">ดูสถานะภาพที่ส่ง</button></div>
+ </section>
+ <details id="photoMinePanel" class="photo-mine"><summary>ภาพที่ฉันส่งในรอบที่เข้าใช้งานนี้ <span id="photoMineCount"></span></summary>
+  <p>แสดงเฉพาะภาพที่ส่งด้วยสิทธิ์รอบนี้ ไม่แสดงภาพของผู้อื่น และจะตรวจสถานะใหม่จากระบบเมื่อกดอัปเดต</p>
+  <button id="photoMineRefresh" type="button">อัปเดตสถานะ</button>
+  <p id="photoMineStatus" role="status" aria-live="polite"></p>
+  <div id="photoMineList" class="photo-mine-list"></div>
+ </details>
  <p class="photo-privacy">ห้ามส่งภาพใบคะแนน ลายเซ็น หรือข้อมูลนักเรียนที่ไม่จำเป็น ภาพต้นฉบับไม่ถูกนำขึ้นเว็บไซต์สาธารณะโดยอัตโนมัติ</p>
 </section>
 <p id="photoStatus" class="photo-status" role="status" aria-live="polite"></p>
@@ -53,5 +70,5 @@
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="./js/upload-photos-r40.js?v=r40-4" defer></script>
+<script src="./js/upload-photos-r40.js?v=r40h-1" defer></script>
 </body></html>
