@@ -9,10 +9,10 @@ const ui={login:$("photoUnlock"),workspace:$("photoWorkspace"),loginForm:$("phot
  loginButton:$("photoLoginButton"),status:$("photoStatus"),session:$("photoSessionInfo"),
  logout:$("photoLogout"),form:$("photoUploadForm"),sport:$("photoSport"),
  fixture:$("photoFixture"),uploader:$("photoUploader"),caption:$("photoCaption"),
- file:$("photoFile"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
+ file:$("photoFile"),camera:$("photoCamera"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
  previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit")};
 if(!ui.loginForm)return;
-let session=null,program=null,compressed=null,previewUrl="",loading=false;
+let session=null,program=null,compressed=null,previewUrl="",loading=false,compressing=false,selectionId=0;
 function notice(s,bad=false){ui.status.textContent=s||"";ui.status.dataset.error=bad?"true":"false";}
 function sessionFromStorage(){
  try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
@@ -41,7 +41,9 @@ async function call(endpoint,action,payload={},token=session?.token){
 function errorText(e){return ({
  expired:"สิทธิ์หมดอายุ กรุณาเข้าระบบใหม่",wrong_pin:"รหัสไม่ถูกต้อง",limited:"ส่งภาพบ่อยเกินไป กรุณาตรวจจำนวนภาพ",
  source_changed:"ไม่พบรหัสรายการในตารางที่ใช้งาน กรุณาเลือกใหม่",
- invalid_image:"ภาพไม่ใช่ WebP ที่ระบบยอมรับ กรุณาเลือกรูปใหม่",
+ invalid_image:"ไม่รองรับรูปนี้ กรุณาเลือก JPEG, PNG, WebP หรือใช้กล้องถ่ายใหม่",
+ image:"ไม่สามารถเปิดรูปนี้บนโทรศัพท์ได้ กรุณาถ่ายใหม่หรือเปลี่ยนเป็น JPEG",
+ webp:"เครื่องนี้ไม่สามารถย่อรูปได้ กรุณาลอง Chrome หรือรูปอื่น",
  too_large:"ไฟล์ใหญ่เกินไป กรุณาเลือกรูปใหม่",invalid:"กรุณาตรวจข้อมูลที่กรอก",
  upload_failed:"อัปโหลดไม่สำเร็จ กรุณาลองอีกครั้ง",
  unavailable:"ระบบรับภาพยังไม่พร้อม กรุณาติดต่อผู้ดูแล"
@@ -87,7 +89,7 @@ async function fileBitmap(file){
 const toBlob=(canvas,quality,type="image/webp")=>new Promise((resolve,reject)=>
  canvas.toBlob(x=>x?resolve(x):reject(Error("image")), type,quality));
 async function sanitizePhoto(file){
- if(!file||!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>18000000)
+ if(!file||!["image/jpeg","image/png","image/webp","image/heic","image/heif",""].includes((file.type||"").toLowerCase())||file.size>18000000)
    throw Error("invalid_image");
  const bitmap=await fileBitmap(file);
  const width=bitmap.width||bitmap.naturalWidth,height=bitmap.height||bitmap.naturalHeight;
@@ -122,18 +124,35 @@ function clearPreview(){
  compressed=null;ui.preview.hidden=true;ui.previewImage.removeAttribute("src");
  if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl="";}
 }
-ui.file.addEventListener("change",async()=>{
+async function choosePhoto(input){
+ if(loading)return;
+ const current=++selectionId;
+ if(input===ui.file)ui.camera.value="";else ui.file.value="";
  clearPreview();
- const file=ui.file.files?.[0];if(!file)return;
- ui.submit.disabled=true;notice("กำลังย่อรูปและตรวจไฟล์…");
+ const file=input.files?.[0];
+ ui.submit.disabled=true;
+ if(!file){compressing=false;notice("ยังไม่ได้เลือกรูป");return;}
+ compressing=true;
+ notice("กำลังย่อรูปและตรวจไฟล์…");
  try{
-   compressed=await sanitizePhoto(file);
+   const result=await sanitizePhoto(file);
+   if(current!==selectionId)return;
+   compressed=result;
    previewUrl=URL.createObjectURL(compressed);
-   ui.previewImage.src=previewUrl;ui.previewInfo.textContent="ไฟล์สำหรับส่ง "+Math.ceil(compressed.size/1024)+" KB ("+(compressed.type==="image/jpeg"?"JPEG":"WebP")+") · รอผู้ตรวจอนุญาต";
-   ui.preview.hidden=false;notice("รูปพร้อมส่ง (ยังไม่เผยแพร่)");
- }catch(e){notice(errorText(e.message),true);ui.file.value="";}
- finally{ui.submit.disabled=false;}
-});
+   ui.previewImage.src=previewUrl;
+   ui.previewInfo.textContent="ไฟล์สำหรับส่ง "+Math.ceil(compressed.size/1024)+" KB ("+(compressed.type==="image/jpeg"?"JPEG":"WebP")+") · รอผู้ตรวจอนุญาต";
+   ui.preview.hidden=false;
+   notice("รูปพร้อมส่ง (ยังไม่เผยแพร่)");
+ }catch(e){
+   if(current!==selectionId)return;
+   notice(errorText(e?.message),true);input.value="";
+ }finally{
+   if(current===selectionId){compressing=false;ui.submit.disabled=!compressed;}
+ }
+}
+for(const source of [ui.camera,ui.file]){
+ source.addEventListener("change",()=>choosePhoto(source));
+}
 ui.sport.addEventListener("change",updateFixtures);
 ui.loginForm.addEventListener("submit",async e=>{
  e.preventDefault();const pin=ui.loginForm.elements.pin.value.trim();
@@ -154,10 +173,10 @@ ui.logout.addEventListener("click",async()=>{
 });
 ui.form.addEventListener("submit",async e=>{
  e.preventDefault();
- if(loading||!session||!compressed||!ui.confirm.checked||!ui.fixture.value||!ui.uploader.value.trim()){
+ if(loading||compressing||!session||!compressed||!ui.confirm.checked||!ui.fixture.value||!ui.uploader.value.trim()){
    notice("กรุณาเลือกรายการ ตรวจรูป และยืนยันก่อนส่ง",true);return;
  }
- loading=true;ui.submit.disabled=true;notice("กำลังส่งภาพเข้าพื้นที่ส่วนตัว…");
+ loading=true;ui.submit.disabled=true;ui.camera.disabled=true;ui.file.disabled=true;notice("กำลังส่งภาพเข้าพื้นที่ส่วนตัว…");
  try{
    const b64=await blobBase64(compressed);
    const ans=await call(PHOTOS,"upload",{event_id:ui.fixture.value,uploaded_by:ui.uploader.value.trim(),
@@ -167,9 +186,9 @@ ui.form.addEventListener("submit",async e=>{
      notice(errorText(ans.error),true);return;
    }
    notice("ส่งภาพเรียบร้อย · รอผู้ตรวจ · ภาพยังไม่แสดงบนเว็บไซต์");
-   ui.file.value="";ui.confirm.checked=false;clearPreview();
+   ui.file.value="";ui.camera.value="";ui.confirm.checked=false;clearPreview();
  }catch(_){notice("เครือข่ายขัดข้อง ภาพอาจยังไม่ถูกส่ง กรุณาตรวจผู้ตรวจอีกครั้ง",true);}
- finally{loading=false;ui.submit.disabled=false;}
+ finally{loading=false;ui.camera.disabled=false;ui.file.disabled=false;ui.submit.disabled=!compressed;}
 });
 (async()=>{
  session=sessionFromStorage();
