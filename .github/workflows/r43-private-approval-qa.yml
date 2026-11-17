@@ -8,6 +8,7 @@ on:
       - "supabase/proposals/r43_personal_pin_auth_rpc.sql"
       - "supabase/proposals/r43_staff_actor_bridge.sql"
       - "scripts/r43/test-personal-staff-actor-gateway.sql"
+      - "scripts/r43/install-personal-pin-staging.psql"
       - "supabase/config.toml"
       - "supabase/functions/nongkum-r43-pin/**"
       - "scripts/r43/test-personal-pin-auth.sql"
@@ -125,13 +126,56 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_private_schedule_workflow.sql
       - name: Create original R43 new-fixture queue
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_new_fixture_queue.sql
-      - name: Create isolated staff PIN identity tables
-        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_private_identity.sql
-      - name: Test guarded actor migration from Auth to personal staff
-        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_staff_actor_bridge.sql
-      - name: Create server-only personal PIN session authenticator
-        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_auth_rpc.sql
+      - name: Atomic staging install with seven-table history guard and R32/R33 protection
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/r43/install-personal-pin-staging.psql
       - name: Test staff PIN authentication, rate limits, rotation and revocation
         run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-auth.sql
       - name: Test authorized staff submit, independent review, audit and no R32/R33 writes
         run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-staff-actor-gateway.sql
+
+  staging-history-rejection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: isolated-test-only
+          POSTGRES_DB: r43_staff_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d r43_staff_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: isolated-test-only
+      PGDATABASE: r43_staff_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL test client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+      - name: Prepare disposable database with pre-existing R43 history
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-bootstrap.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/r43_private_schedule_workflow.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/r43_new_fixture_queue.sql
+          psql -X -v ON_ERROR_STOP=1 -c "insert into nongkum_sports.r43_roles(user_id,can_propose,active) values ('00000000-0000-4000-8000-000000000001',true,true)"
+      - name: Assert installer REFUSES any existing R43 record without changing schema
+        run: |
+          set -euo pipefail
+          if psql -X -v ON_ERROR_STOP=1 -f scripts/r43/install-personal-pin-staging.psql > /tmp/r43-reject.log 2>&1; then
+            echo 'SECURITY FAILURE: stage installer accepted R43 history'; exit 1
+          fi
+          grep -Fq 'R43 staging installer BLOCKED' /tmp/r43-reject.log
+          test "$(psql -tAX -c "select count(*) from nongkum_sports.r43_roles")" = '1'
+          test "$(psql -tAX -c "select to_regclass('nongkum_sports.r43_staff_identities') is null")" = 't'
+          test "$(psql -tAX -c "select count(*) from pg_constraint p join pg_class t on t.oid=p.conrelid join pg_namespace n on n.oid=t.relnamespace where n.nspname='nongkum_sports' and t.relname like 'r43_%' and p.contype='f' and p.confrelid='auth.users'::regclass")" = '10'
+          echo 'R43_STAGING_HISTORY_GUARD_PASS: blocked dirty migration, no private schema created, 10 original actor FKs intact'
