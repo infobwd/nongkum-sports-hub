@@ -1,8 +1,13 @@
-name: R46 football provisional standings QA
+name: R48 football/futsal provisional standings QA
 on:
   pull_request:
     paths:
       - 'js/standings.js'
+      - 'js/standings-engine.js'
+      - 'data/standings-rules.json'
+      - 'scripts/results/standings-validation.mjs'
+      - 'scripts/results/test-standings-r15bc.mjs'
+      - 'scripts/r39/test-r39-ui.mjs'
       - 'js/standings-rosters-r38.js'
       - 'css/standings.css'
       - 'standings.html'
@@ -18,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: R46 provisional ranking and mobile rendering
+      - name: R48 football/futsal GD-first provisional ranking and mobile rendering
         run: node scripts/results/test-standings-r46.mjs
       - name: R15-A approved-only UI regression
         run: node scripts/results/test-standings-r15a.mjs

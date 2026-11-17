@@ -45,7 +45,12 @@ assert.equal(row(first,win.team_a_id).points,3);
 assert.ok(first.rows.every(x=>x.position===null),"official positions must remain null");
 const tiedAtZero=first.rows.filter(x=>x.points===0);
 assert.equal(tiedAtZero.length,5);
-assert.ok(tiedAtZero.every(x=>x.provisional_position===2&&x.provisional_shared));
+const unplayed=tiedAtZero.filter(x=>x.played===0);
+assert.equal(unplayed.length,4);
+assert.ok(unplayed.every(x=>x.provisional_position===2&&x.provisional_shared),
+ "teams with zero points and zero GD share second until they play");
+assert.equal(row(first,win.team_b_id).provisional_position,6,
+ "a defeated team has worse GD than four unplayed zero-point teams");
 assert.equal(football([{...win,status:"review"}]).provisional,false,
  "unapproved scores must not create a live rank");
 assert.equal(football([{...win,winner_school_id:win.team_b_id}]).provisional,false,
@@ -56,12 +61,17 @@ const other=build([win]).find(g=>g.sport_id==="futsal");
 assert.ok(other&&!other.provisional);
 assert.ok(other.rows.every(x=>x.provisional_position===undefined));
 const [a,b,c,d,e]=names;
-// The approved mutual game takes precedence over overall goal difference.
-const h2h=football([pair(a,b,1,0),pair(b,c,9,0),pair(d,a,8,0),pair(d,e,1,0)]);
-assert.equal(row(h2h,a).points,3);assert.equal(row(h2h,b).points,3);
-assert.ok(row(h2h,a).goal_difference<row(h2h,b).goal_difference);
+// R48: overall GD wins over H2H even if A beats B directly.
+const gdFirst=football([pair(a,b,1,0),pair(b,c,9,0),pair(d,a,8,0),pair(d,e,1,0)]);
+assert.equal(row(gdFirst,a).points,3);assert.equal(row(gdFirst,b).points,3);
+assert.ok(row(gdFirst,a).goal_difference<row(gdFirst,b).goal_difference);
+assert.ok(row(gdFirst,b).provisional_position<row(gdFirst,a).provisional_position);
+assert.equal(gdFirst.provisional,true);
+// When points AND overall GD are equal, a completed head-to-head match breaks the tie.
+const h2h=football([pair(a,b,1,0),pair(b,c,1,0),pair(d,a,1,0),pair(d,e,1,0)]);
+assert.equal(row(h2h,a).points,row(h2h,b).points);
+assert.equal(row(h2h,a).goal_difference,row(h2h,b).goal_difference);
 assert.ok(row(h2h,a).provisional_position<row(h2h,b).provisional_position);
-assert.equal(h2h.provisional,true);
 // Multiple teams equal on points stay shared until every mutual fixture is approved.
 const incomplete=football([pair(a,b,0,0),pair(a,c,0,0),pair(a,d,0,0)]);
 assert.ok([b,c,d].every(id=>row(incomplete,id).provisional_position===2&&
@@ -97,6 +107,43 @@ const notApplicable=context.NongkumPreliminaryStandings.build(program,[win],badR
  .find(g=>g.sport_id==="football");
 assert.equal(notApplicable.provisional,false,"never assume unconfigured football point rules");
 assert.equal(notApplicable.has_points,false);
+// R48: futsal A/B apply exactly the same points/GD/H2H policy, by group only.
+const futsalGroups=rules.futsal_league.groups;
+assert.deepEqual(futsalGroups.map(g=>g.fixture_ids.length),[6,3]);
+const futsalA=futsalGroups[0].fixture_ids.map(id=>program.fixtures.find(f=>f.id===id));
+const futsalB=futsalGroups[1].fixture_ids.map(id=>program.fixtures.find(f=>f.id===id));
+const futsalGroup=(results,division)=>build(results).find(g=>g.sport_id==="futsal"&&g.division===division);
+const emptyFutsal=futsalGroup([],"10 ปี ชาย A");
+assert.ok(emptyFutsal&&!emptyFutsal.provisional);
+assert.ok(emptyFutsal.rows.every(x=>x.position===null&&x.provisional_position===undefined));
+const fWinA=score(futsalA[0],2,0),fWinB=score(futsalA[1],5,0);
+const fLive=futsalGroup([fWinA,fWinB],"10 ปี ชาย A");
+assert.equal(fLive.approved_count,2);assert.equal(fLive.match_count,6);
+assert.equal(fLive.provisional,true);
+assert.equal(row(fLive,fWinB.team_a_id).points,3);
+assert.equal(row(fLive,fWinA.team_a_id).points,3);
+assert.ok(row(fLive,fWinB.team_a_id).goal_difference>row(fLive,fWinA.team_a_id).goal_difference);
+assert.ok(row(fLive,fWinB.team_a_id).provisional_position<
+ row(fLive,fWinA.team_a_id).provisional_position);
+assert.ok(fLive.rows.every(x=>x.position===null));
+assert.equal(futsalGroup([{...fWinA,status:"review"}],"10 ปี ชาย A").provisional,false);
+assert.equal(futsalGroup([{...fWinA,winner_school_id:fWinA.team_b_id}],"10 ปี ชาย A").provisional,false);
+assert.equal(futsalGroup([fWinA,{...fWinA,id:"duplicate-futsal"}],"10 ปี ชาย A").provisional,false);
+// B is an independent 3-team group. Completed drawn fixtures allow red-card tie break
+// only if every card count is explicitly present; no imaginary default zeros.
+const bDraws=futsalB.map(f=>score(f,0,0));
+const redTeam=futsalB[0].team_a_id;
+bDraws[0].disciplinary_cards.team_a.red=1;
+const fFull=futsalGroup(bDraws,"10 ปี ชาย B");
+assert.equal(fFull.approved_count,3);assert.equal(fFull.match_count,3);
+assert.equal(row(fFull,redTeam).provisional_position,3);
+assert.ok(fFull.rows.filter(x=>x.team_id!==redTeam).every(x=>x.provisional_position===1));
+const fNoCards=bDraws.map(x=>structuredClone(x));
+delete fNoCards[0].disciplinary_cards;
+assert.ok(futsalGroup(fNoCards,"10 ปี ชาย B").rows.every(x=>x.provisional_position===1));
+const fOther=futsalGroup([score(futsalB[0],3,0)],"10 ปี ชาย A");
+assert.equal(fOther.approved_count,0);assert.equal(fOther.provisional,false);
+
 // Render a minimal phone DOM with approved-only source and show inline rank/points.
 function node(id){
  return {id,textContent:"",innerHTML:"",value:"",hidden:true,disabled:false,href:"",
@@ -136,6 +183,6 @@ assert.match(rendered,/อันดับ 1/);
 assert.match(rendered,/3 แต้ม/);
 assert.match(rendered,/standings-mobile-details/);
 assert.ok(!rendered.includes("อันดับสรุป"));
-assert.match(read("standings.html"),/standings\.js\?v=r46-1/);
+assert.match(read("standings.html"),/standings\.js\?v=r48-1/);
 assert.match(read("css/standings.css"),/standings-mobile-points/);
-console.log("R46 PASS: provisional league ranks, H2H, ties, cards, safety, and phone display");
+console.log("R48 PASS: football and futsal GD-first, H2H, cards, approved-only, A/B, and phone display");

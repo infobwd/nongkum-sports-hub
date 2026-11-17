@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "rules_version": "r15-bc.4-red-then-yellow",
+  "rules_version": "r48-football-futsal-gd-first-20261117",
   "publication_authority": "committee_approval_required",
   "source": {
     "candidate_path": "data/program-from-pdf-2569-20261104-draft.json",
@@ -25,6 +25,7 @@
     },
     "points_provenance": "operational requirement R15-B; not separately ratified in the available draft PDF",
     "tie_breakers": [
+      "overall_goal_difference",
       "head_to_head_goal_difference",
       "fewest_red_cards",
       "fewest_yellow_cards"
@@ -66,17 +67,17 @@
         "football-p07-12-ปี-ชาย-019"
       ]
     },
-    "tie_break_scope": "mutual_matches_among_equal_points_teams",
+    "tie_break_scope": "equal_points_then_equal_overall_goal_difference",
     "tie_break_source": {
       "kind": "organizer_instruction",
-      "date": "2026-11-06",
-      "source_ref": "docs/R15BC_FOOTBALL_HEAD_TO_HEAD_GD_20261106.md",
-      "statement": "If football league points are equal, decide by head-to-head goal difference among tied teams."
+      "date": "2026-11-17",
+      "source_ref": "docs/R48_FOOTBALL_FUTSAL_GD_FIRST_RANKING_PLAN_20261117.md",
+      "statement": "Points then overall goal difference across approved group matches; if still tied, head-to-head goal difference; red then yellow after approved league completion."
     },
-    "unresolved_tie_policy": "position_null_when_points_h2h_red_yellow_equal",
+    "unresolved_tie_policy": "position_null_when_points_overall_gd_h2h_cards_unresolved",
     "disciplinary_tie_break": {
       "status": "approved",
-      "after": "head_to_head_goal_difference",
+      "after": "head_to_head_goal_difference_after_overall_goal_difference",
       "card_fields": [
         "yellow",
         "red"
@@ -99,7 +100,7 @@
       "status": "pending_rule_approval",
       "format": "mixed_league_and_knockout",
       "result_type": "score",
-      "note": "Organizer confirmed equal-points H2H GD, then fewest red cards, then fewest yellow cards (15 league fixtures only; card rank only after all league fixtures approved); no inferred weighted points. Football full qualification/other unresolved rules remain gated."
+      "note": "Organizer 2026-11-17: 3/1/0, points then overall goal difference then H2H GD, fewer red then yellow only after 15 approved league games and full cards. Qualification and overall rules still pending."
     },
     {
       "sport_id": "shootout",
@@ -113,7 +114,7 @@
       "status": "pending_rule_approval",
       "format": "group_then_knockout",
       "result_type": "score",
-      "note": "Group qualification, league points, ties and bracket mapping not approved"
+      "note": "Organizer 2026-11-17: futsal group standings same 3/1/0 and tie-break order as football. A: six round-robin group fixtures; B: three. Knockout excluded. Qualification and official final publication still pending."
     },
     {
       "sport_id": "volleyball",
@@ -177,5 +178,71 @@
     },
     "source_status": "draft_only",
     "note": "Do not compute overall trophy points until committee confirms how missing bronze, canceled events, ties and team/multiple-entry outcomes count."
+  },
+  "futsal_league": {
+    "sport_id": "futsal",
+    "format": "group_then_knockout",
+    "mapping_status": "source_verified_not_approved",
+    "approval_status": "pending_rule_approval",
+    "points": {
+      "win": 3,
+      "draw": 1,
+      "loss": 0
+    },
+    "points_provenance": "Organizer instruction 2026-11-17: futsal same provisional ranking criteria as football",
+    "tie_breakers": [
+      "overall_goal_difference",
+      "head_to_head_goal_difference",
+      "fewest_red_cards",
+      "fewest_yellow_cards"
+    ],
+    "tie_break_status": "approved",
+    "tie_break_scope": "equal_points_then_equal_overall_goal_difference",
+    "groups": [
+      {
+        "division": "10 ปี ชาย A",
+        "fixture_ids": [
+          "futsal-p09-10-ปี-ชาย-A-001",
+          "futsal-p09-10-ปี-ชาย-A-002",
+          "futsal-p09-10-ปี-ชาย-A-004",
+          "futsal-p09-10-ปี-ชาย-A-005",
+          "futsal-p09-10-ปี-ชาย-A-007",
+          "futsal-p09-10-ปี-ชาย-A-008"
+        ]
+      },
+      {
+        "division": "10 ปี ชาย B",
+        "fixture_ids": [
+          "futsal-p09-10-ปี-ชาย-B-003",
+          "futsal-p09-10-ปี-ชาย-B-006",
+          "futsal-p09-10-ปี-ชาย-B-009"
+        ]
+      }
+    ],
+    "qualification_status": "pending_rule_approval",
+    "tie_break_source": {
+      "kind": "organizer_instruction",
+      "date": "2026-11-17",
+      "source_ref": "docs/R48_FOOTBALL_FUTSAL_GD_FIRST_RANKING_PLAN_20261117.md",
+      "statement": "Futsal same provisional ranking: points, overall goal difference, head-to-head GD, then fewer red/yellow cards only after full group results and explicit card counts."
+    },
+    "unresolved_tie_policy": "position_null_when_points_overall_gd_h2h_cards_unresolved",
+    "disciplinary_tie_break": {
+      "status": "approved",
+      "after": "head_to_head_goal_difference_after_overall_goal_difference",
+      "card_fields": [
+        "yellow",
+        "red"
+      ],
+      "require_explicit_per_team_counts": true,
+      "ranking_method": "fewest_red_then_fewest_yellow",
+      "scope": "all_approved_group_fixtures",
+      "ranking_only_when_group_complete": true,
+      "source": {
+        "kind": "organizer_instruction",
+        "date": "2026-11-17",
+        "source_ref": "docs/R48_FOOTBALL_FUTSAL_GD_FIRST_RANKING_PLAN_20261117.md"
+      }
+    }
   }
 }

@@ -17,9 +17,11 @@ function groupOf(f){
    division:f.division,label:"สาย "+m[2],base_division:m[1]};
 }
 
-/* R46: provisional DISPLAY rank only; official positions remain null. */
+/* R48 — provisional DISPLAY rank for football and futsal only.
+ * The official position remains null until an independently approved standings snapshot. */
 function verifiedScore(r,f){
- return !!r&&r.status==="approved"&&r.result_type==="score"&&r.sport_id==="football"&&
+ return !!r&&r.status==="approved"&&r.result_type==="score"&&
+   ["football","futsal"].includes(f.sport_id)&&r.sport_id===f.sport_id&&
    r.division===f.division&&r.team_a_id===f.team_a_id&&r.team_b_id===f.team_b_id&&
    Number.isInteger(r.score_a)&&r.score_a>=0&&Number.isInteger(r.score_b)&&r.score_b>=0&&
    (r.winner_school_id??null)===(r.score_a===r.score_b?null:
@@ -30,19 +32,30 @@ function verifiedCards(r){
    Number.isInteger(r?.disciplinary_cards?.[side]?.[color])&&
    r.disciplinary_cards[side][color]>=0));
 }
-function rankFootball(rows,fixtures,approved,rule){
- if(!rule||rule.sport_id!=="football"||rule.division!==fixtures[0]?.division||
+const approvedOrder=["overall_goal_difference","head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
+function rankLeague(rows,fixtures,approved,rule,sport){
+ if(!rule||rule.sport_id!==sport||!fixtures.length||
    rule.points?.win!==3||rule.points?.draw!==1||rule.points?.loss!==0||
-   !Array.isArray(rule.phases?.league)||rule.phases.league.length!==fixtures.length||
-   !fixtures.every(f=>rule.phases.league.includes(f.id)))return null;
- const ordered=rows.slice().sort((a,b)=>b.points-a.points||a.team_id.localeCompare(b.team_id,"en"));
- const h2hAllowed=rule.tie_break_status==="approved"&&
-   JSON.stringify(rule.tie_breakers)===
-   JSON.stringify(["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"]);
+   rule.tie_break_status!=="approved"||
+   JSON.stringify(rule.tie_breakers)!==JSON.stringify(approvedOrder))return null;
+ if(sport==="football"){
+   if(rule.division!==fixtures[0].division||
+      !Array.isArray(rule.phases?.league)||rule.phases.league.length!==fixtures.length||
+      !fixtures.every(f=>rule.phases.league.includes(f.id)))return null;
+ }else if(sport==="futsal"){
+   const group=rule.groups?.find(x=>x.division===fixtures[0].division);
+   if(!group||group.fixture_ids.length!==fixtures.length||
+      !fixtures.every(f=>f.sport_id==="futsal"&&group.fixture_ids.includes(f.id)))return null;
+ }else return null;
+ const ordered=rows.slice().sort((a,b)=>b.points-a.points||
+   b.goal_difference-a.goal_difference||a.team_id.localeCompare(b.team_id,"en"));
  const cards=rule.disciplinary_tie_break||{};
- const cardAllowed=h2hAllowed&&fixtures.every(f=>verifiedScore(approved.get(f.id),f)&&verifiedCards(approved.get(f.id)))&&
+ const cardAllowed=fixtures.every(f=>verifiedScore(approved.get(f.id),f)&&
+       verifiedCards(approved.get(f.id)))&&
    cards.status==="approved"&&cards.ranking_method==="fewest_red_then_fewest_yellow"&&
-   cards.scope==="all_approved_league_fixtures"&&cards.ranking_only_when_league_complete===true;
+   cards.scope===(sport==="football"?"all_approved_league_fixtures":"all_approved_group_fixtures")&&
+   (sport==="football"?cards.ranking_only_when_league_complete:
+     cards.ranking_only_when_group_complete)===true;
  const totals=new Map();
  if(cardAllowed)for(const row of ordered){
    const sum={red:0,yellow:0};
@@ -55,10 +68,12 @@ function rankFootball(rows,fixtures,approved,rule){
  }
  for(let start=0;start<ordered.length;){
    let end=start+1;
-   while(end<ordered.length&&ordered[end].points===ordered[start].points)end++;
+   // Each GD band is already resolved. H2H only compares teams tied on BOTH points and overall GD.
+   while(end<ordered.length&&ordered[end].points===ordered[start].points&&
+     ordered[end].goal_difference===ordered[start].goal_difference)end++;
    const tied=ordered.slice(start,end),members=new Set(tied.map(r=>r.team_id));
    const mutual=fixtures.filter(f=>members.has(f.team_a_id)&&members.has(f.team_b_id));
-   const h2hComplete=tied.length>1&&h2hAllowed&&
+   const h2hComplete=tied.length>1&&
      mutual.length===tied.length*(tied.length-1)/2&&
      mutual.every(f=>verifiedScore(approved.get(f.id),f));
    const diff=new Map(tied.map(r=>[r.team_id,0]));
@@ -111,15 +126,26 @@ function build(program,results,rules){
  for(const g of groups.values()){
    const rows=new Map([...g.teams].map(id=>[id,zero(id)]));
    let counted=0;
-   const league=rules?.football_league;
-   const footballPoints=g.sport_id==="football"&&league?.division===g.division&&
-     league?.format==="round_robin_then_playoff"&&league?.points?.win===3&&
-     league?.points?.draw===1&&league?.points?.loss===0;
+   const league=g.sport_id==="football"?rules?.football_league:
+     g.sport_id==="futsal"?rules?.futsal_league:null;
+   const rankedSport=["football","futsal"].includes(g.sport_id);
+   const groupPoints=rankedSport&&league?.points?.win===3&&
+     league?.points?.draw===1&&league?.points?.loss===0&&
+     league?.tie_break_status==="approved"&&
+     JSON.stringify(league?.tie_breakers)===JSON.stringify(approvedOrder)&&
+     (g.sport_id==="football"?
+       league?.format==="round_robin_then_playoff"&&league.division===g.division&&
+       Array.isArray(league.phases?.league)&&league.phases.league.length===g.fixtures.length&&
+       g.fixtures.every(f=>league.phases.league.includes(f.id)):
+       league?.format==="group_then_knockout"&&
+       league?.groups?.some(x=>x.division===g.division&&
+         x.fixture_ids.length===g.fixtures.length&&
+         g.fixtures.every(f=>x.fixture_ids.includes(f.id))));
    for(const f of g.fixtures){
      const r=approved.get(f.id);
      if(!r||r.team_a_id!==f.team_a_id||r.team_b_id!==f.team_b_id||
         r.sport_id!==f.sport_id||
-       (g.sport_id==="football"&&!verifiedScore(r,f)))continue;
+       (rankedSport&&!verifiedScore(r,f)))continue;
      const a=rows.get(f.team_a_id),b=rows.get(f.team_b_id);
      const score=r.result_type==="score"&&Number.isInteger(r.score_a)&&r.score_a>=0&&
          Number.isInteger(r.score_b)&&r.score_b>=0;
@@ -133,21 +159,21 @@ function build(program,results,rules){
        b.goal_difference=b.goals_for-b.goals_against;
      }
      if(score&&r.score_a===r.score_b){a.drawn++;b.drawn++;
-       if(footballPoints){a.points++;b.points++;}
+       if(groupPoints){a.points++;b.points++;}
      }else{
        const who=score?(r.score_a>r.score_b?a:b):(winner===a.team_id?a:b);
        const lose=who===a?b:a;
        who.won++;lose.lost++;
-       if(footballPoints)who.points+=3;
+       if(groupPoints)who.points+=3;
      }
    }
-   const provisional=footballPoints&&counted>0&&
+   const provisional=groupPoints&&counted>0&&
      !g.fixtures.some(f=>duplicateIds.has(f.id))
-     ?rankFootball([...rows.values()],g.fixtures,approved,league):null;
+     ?rankLeague([...rows.values()],g.fixtures,approved,league,g.sport_id):null;
    // Real `position` stays null until the independent final snapshot.
    output.push({...g,teams:undefined,fixtures:undefined,
      match_count:g.fixtures.length,approved_count:counted,
-     has_points:footballPoints,provisional:!!provisional,
+     has_points:groupPoints,provisional:!!provisional,
      has_goals:["football","futsal"].includes(g.sport_id),
      rows:provisional||[...rows.values()]});
  }

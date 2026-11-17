@@ -72,11 +72,11 @@
       else {b.won++;a.lost++;b.points+=pts.win;a.points+=pts.loss;}
     }
     for(const row of table)row.goal_difference=row.goals_for-row.goals_against;
-    // H2H applies ONLY inside each equal-points group, never to the whole-league GD.
-    // A group needs every mutual league match approved before any H2H ordering is safe.
+    // R48: overall goal difference resolves equal-points teams first.
+    // H2H is consulted only for the sub-group tied on BOTH points and overall GD.
     const tieBreakers=rule.tie_breakers||[];
     const cardRule=rule.disciplinary_tie_break||{};
-    const supportedOrder=["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
+    const supportedOrder=["overall_goal_difference","head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
     const usable=rule.approval_status==="approved"&&rule.tie_break_status==="approved"&&
       Array.isArray(tieBreakers)&&tieBreakers.length===supportedOrder.length&&
       tieBreakers.every((name,i)=>name===supportedOrder[i])&&
@@ -85,13 +85,15 @@
       cardRule.ranking_only_when_league_complete===true;
     if(rule.approval_status==="approved"&&rule.tie_break_status==="approved"&&!usable)
       fail("unsupported official tie-break configuration");
-    table.sort((a,b)=>b.points-a.points||a.team_id.localeCompare(b.team_id,"en"));
+    table.sort((a,b)=>b.points-a.points||b.goal_difference-a.goal_difference||
+      a.team_id.localeCompare(b.team_id,"en"));
     const complete=byId.size===phase.league.length;
     const h2hGroups=[];
     if(usable&&byId.size){
       for(let from=0;from<table.length;){
         let to=from+1;
-        while(to<table.length&&table[to].points===table[from].points)to++;
+        while(to<table.length&&table[to].points===table[from].points&&
+          table[to].goal_difference===table[from].goal_difference)to++;
         const group=table.slice(from,to);
         if(group.length===1){
           group[0].position=from+1;
@@ -109,8 +111,7 @@
               difference.set(fixture.team_b_id,difference.get(fixture.team_b_id)-delta);
             }
             for(const row of group)row.head_to_head_goal_difference=difference.get(row.team_id);
-            // Red then yellow is confirmed, but total league cards are final ONLY
-            // when all 15 league results (including explicitly recorded zeros) exist.
+            // Red then yellow is applied only with all 15 approved league results.
             group.sort((a,b)=>b.head_to_head_goal_difference-a.head_to_head_goal_difference||
               (complete?a.red_cards-b.red_cards||a.yellow_cards-b.yellow_cards:0)||
               a.team_id.localeCompare(b.team_id,"en"));
@@ -129,18 +130,20 @@
           }else{
             for(const row of group){row.tied=true;row.position=null;}
           }
-          h2hGroups.push({points:group[0].points,teams:group.map(r=>r.team_id),
+          h2hGroups.push({points:group[0].points,goal_difference:group[0].goal_difference,
+            teams:group.map(r=>r.team_id),
             match_count:mutual.filter(f=>byId.has(f.id)).length,required_matches:required,
             complete:headToHeadComplete,resolved:headToHeadComplete&&group.every(r=>!r.tied)});
-          }
+        }
         table.splice(from,group.length,...group);
         from=to;
       }
     }else{
-      for(const row of table)row.tied=table.filter(other=>other.points===row.points).length>1;
+      for(const row of table)row.tied=table.filter(other=>other.points===row.points&&
+        other.goal_difference===row.goal_difference).length>1;
     }
     return {format:"league",division:rule.division,phase:"league",matches_approved:byId.size,matches_total:phase.league.length,
-      complete,tie_breaker:"head_to_head_goal_difference",card_tie_break_status:cardRule.status==="approved"?"approved_red_then_yellow":"pending_count_method",head_to_head_groups:h2hGroups,ranking_status:byId.size===0?"prestart_roster":!usable?"pending_rule_approval":complete&&table.every(r=>!r.tied)?"final":"provisional",
+      complete,tie_breaker:"overall_goal_difference_then_head_to_head_goal_difference",card_tie_break_status:cardRule.status==="approved"?"approved_red_then_yellow":"pending_count_method",head_to_head_groups:h2hGroups,ranking_status:byId.size===0?"prestart_roster":!usable?"pending_rule_approval":complete&&table.every(r=>!r.tied)?"final":"provisional",
       rows:table};
   }
   function calculateKnockout(fixtures,results){
