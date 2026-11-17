@@ -9,6 +9,7 @@ create table auth.users(id uuid primary key);
 create table public.nongkum_schedule_sources(source_key text primary key);
 create table public.nongkum_schedule_active(singleton integer primary key,source_key text not null);
 create table public.nongkum_schedule_schools(school_id text primary key);
+create table public.nongkum_schedule_sports(sport_id text primary key);
 create table public.nongkum_schedule_fixtures(
   source_key text not null,fixture_id text not null,kind text not null,
   sport_id text not null,division text not null,primary key(source_key,fixture_id));
@@ -19,6 +20,7 @@ insert into auth.users(id) values
 insert into public.nongkum_schedule_sources values('r33-test');
 insert into public.nongkum_schedule_active values(1,'r33-test');
 insert into public.nongkum_schedule_schools values('wangdong'),('nongkrathum');
+insert into public.nongkum_schedule_sports values('volleyball'),('athletics');
 insert into public.nongkum_schedule_fixtures values
 ('r33-test','fixture-one','match','volleyball','12 ปี หญิง'),
 ('r33-test','fixture-two','match','volleyball','12 ปี หญิง'),
