@@ -1,0 +1,79 @@
+name: R11C V42-I10 Integrated Booklet PDF Review
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/docs/v42i10_integrate_booklet.py"
+      - "scripts/docs/test-v42i10-integrated-pdf.py"
+      - ".github/workflows/r11c-v42i10-booklet-review.yml"
+      - "docs/R11C_V42I10_BOOKLET_INTEGRATION_PLAN_20261107.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrated-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Thai render fonts and fixed PDF dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-core fonts-noto-extra libpango-1.0-0 libharfbuzz0b
+          test -s /usr/share/fonts/truetype/noto/NotoSansThai-Regular.ttf
+          test -s /usr/share/fonts/truetype/noto/NotoSansThai-Black.ttf
+          python -m pip install "weasyprint==68.0" "PyMuPDF==1.26.7" "Pillow==12.0.0" "fonttools==4.60.1" "beautifulsoup4==4.14.2"
+      - name: Install full Sarabun font in CI only (OFL)
+        run: |
+          mkdir -p /tmp/v41-fonts
+          for font in Sarabun-Regular.ttf Sarabun-Bold.ttf; do
+            curl -fLsS --retry 3 --connect-timeout 15 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/$font" -o "/tmp/v41-fonts/$font"
+            test -s "/tmp/v41-fonts/$font"
+          done
+          curl -fLsS --retry 3 "https://raw.githubusercontent.com/google/fonts/main/ofl/sarabun/OFL.txt" -o /tmp/v41-fonts/OFL.txt
+          test -s /tmp/v41-fonts/OFL.txt
+      - name: Source and 44-group bracket regressions
+        run: |
+          python -m py_compile scripts/docs/v42i10_integrate_booklet.py scripts/docs/test-v42i10-integrated-pdf.py
+          python scripts/docs/test-v42e-brackets.py
+          python scripts/docs/test-v42i-bracket-preview.py
+          python scripts/docs/test-v42i-full-coverage.py
+          python scripts/docs/test-v42h-organizer-review.py
+      - name: Build source-correct baseline without changing builder or cover
+        run: python scripts/docs/build-v4-full.py --root . --out build/v42i10-base
+      - name: Check baseline PDF PR82, data and page-map regression
+        run: |
+          python scripts/docs/test-v42n3a-pr82-pdf.py build/v42i10-base
+          python scripts/docs/test-v42f-pdf-qa.py build/v42i10-base
+      - name: Replace legacy bracket chapter with 44 A4 review pages
+        run: |
+          python scripts/docs/v42i10_integrate_booklet.py \
+            --base-dir build/v42i10-base \
+            --source data/program-from-pdf-2569-20261104-draft.json \
+            --out build/v42i10-integrated
+      - name: Verify booklet text/pixel parity, A4, anchors, revision and page numbers
+        run: |
+          python scripts/docs/test-v42i10-integrated-pdf.py \
+            --base-dir build/v42i10-base \
+            --out build/v42i10-integrated
+      - name: Upload integrated booklet PDF for organizer review ONLY
+        uses: actions/upload-artifact@v4
+        with:
+          name: R11C-V42-I10-full-booklet-with-44-brackets-REVIEW-ONLY
+          path: |
+            build/v42i10-integrated/souvenir-v42i10-integrated-review.pdf
+            build/v42i10-integrated/souvenir-v42i10-integration-qa.json
+            build/v42i10-integrated/souvenir-v42i10-preflight.json
+            build/v42i10-integrated/souvenir-v42i10-page-map.json
+            build/v42i10-integrated/souvenir-v42i10-contact-sheet.png
+            build/v42i10-integrated/brackets-44-groups-manifest.json
+          retention-days: 30
+          if-no-files-found: error
