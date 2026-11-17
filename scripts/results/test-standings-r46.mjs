@@ -45,7 +45,12 @@ assert.equal(row(first,win.team_a_id).points,3);
 assert.ok(first.rows.every(x=>x.position===null),"official positions must remain null");
 const tiedAtZero=first.rows.filter(x=>x.points===0);
 assert.equal(tiedAtZero.length,5);
-assert.ok(tiedAtZero.every(x=>x.provisional_position===2&&x.provisional_shared));
+const unplayed=tiedAtZero.filter(x=>x.played===0);
+assert.equal(unplayed.length,4);
+assert.ok(unplayed.every(x=>x.provisional_position===2&&x.provisional_shared),
+ "teams with zero points and zero GD share second until they play");
+assert.equal(row(first,win.team_b_id).provisional_position,6,
+ "a defeated team has worse GD than four unplayed zero-point teams");
 assert.equal(football([{...win,status:"review"}]).provisional,false,
  "unapproved scores must not create a live rank");
 assert.equal(football([{...win,winner_school_id:win.team_b_id}]).provisional,false,
