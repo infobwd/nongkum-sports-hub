@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - "supabase/proposals/r43_private_schedule_workflow.sql"
+      - "supabase/proposals/r43_new_fixture_queue.sql"
       - "supabase/functions/nongkum-schedule-admin/**"
       - "scripts/r43/test-private-db-*.sql"
       - "scripts/r43/test-r43-private.mjs"
@@ -55,6 +56,8 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-bootstrap.sql
       - name: Parse and apply R43 proposal to ISOLATED PostgreSQL only
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_private_schedule_workflow.sql
+      - name: Parse and apply new fixture PRIVATE candidate queue in isolated DB
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_new_fixture_queue.sql
       - name: Test grants, reviewer separation, R32 locks, stale revisions and committee overlaps
         run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-assertions.sql
       - name: Test release candidate preparation and security boundaries
