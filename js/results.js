@@ -181,9 +181,9 @@
       if(!item)return;
       try{
         const answer=await globalThis.Nongkum.shareApprovedResult(item,state.shareIndex,state.data.schools,state.data.sports,state.catalog);
-        if(answer==="copied"&&!globalThis.NongkumToast?.show("คัดลอกลิงก์ผลแข่งขันแล้ว","คัดลอกข้อความผลรับรองและลิงก์แล้ว นำไปวางใน LINE ได้เลย"))els.refreshStatus.textContent="คัดลอกลิงก์ผลแข่งขันที่รับรองแล้ว";
-        if(answer==="unavailable"&&!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์",true))els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกลิงก์";
-      }catch(e){if(!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","กรุณาลองอีกครั้ง",true))els.refreshStatus.textContent="ไม่สามารถแชร์ลิงก์ผลแข่งขันได้";}
+        if(answer==="copied"&&!globalThis.NongkumToast?.show("คัดลอกผลการแข่งขันแล้ว","คัดลอกข้อความผลการแข่งขันพร้อมลิงก์แล้ว นำไปวางใน LINE ได้เลย"))els.refreshStatus.textContent="คัดลอกผลการแข่งขันและลิงก์แล้ว";
+        if(answer==="unavailable"&&!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกข้อความ",true))els.refreshStatus.textContent="อุปกรณ์นี้ไม่รองรับการแชร์หรือคัดลอกข้อความ";
+      }catch(e){if(!globalThis.NongkumToast?.show("แชร์ไม่สำเร็จ","กรุณาลองอีกครั้ง",true))els.refreshStatus.textContent="ไม่สามารถแชร์ผลการแข่งขันได้";}
     }
     els.cards.addEventListener("click",handleShare);
     if(els.direct)els.direct.addEventListener("click",handleShare);
