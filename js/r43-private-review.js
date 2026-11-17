@@ -78,16 +78,19 @@
       if(["can_propose","can_assign","can_review"].some(k=>!!roles[k]!==!!v[k]))
         throw Error("สิทธิ์เจ้าหน้าที่ไม่ตรงกัน กรุณาติดต่อผู้จัด");
       state.roles=roles;
+      const duties=[roles.can_propose?"เสนอแก้ตาราง":"",
+        roles.can_assign?"จัดกรรมการ":"",roles.can_review?"ผู้ตรวจ":""]
+        .filter(Boolean).join(" / ");
       el("r43RoleSummary").textContent=String(v.full_name||"")+" · "+
-        String(v.school_id||"")+" · "+
-        [roles.can_propose?"เสนอแก้ตาราง":"",roles.can_assign?"จัดกรรมการ":"",
-          roles.can_review?"ผู้ตรวจ":""].filter(Boolean).join(" / ");
+        String(v.school_id||"")+" · "+duties;
       el("r43PrivateSubmit").hidden=!roles.can_propose;
       el("r43PrivateNew").hidden=!roles.can_propose;
       el("r43PrivateAssignArea").hidden=!roles.can_assign;
       el("r43PrivatePeoplePanel").hidden=!roles.can_assign;
       el("r43PrivateReview").hidden=!roles.can_review;
       await loadData();
+      const schoolName=state.program?.schools?.find(s=>s.id===v.school_id)?.name||v.school_id;
+      el("r43RoleSummary").textContent=String(v.full_name||"")+" · "+schoolName+" · "+duties;
       el("r43PrivateLogin").hidden=true;
       el("r43PrivateWorkspace").hidden=false;
       note("เข้าสู่ระบบแล้ว · คำขอที่อนุมัติยังไม่เผยแพร่เป็นตารางทางการ");
