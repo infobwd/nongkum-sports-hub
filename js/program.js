@@ -280,7 +280,9 @@
   function syncUrl(){
     const url=new URL(location.href);
     [["school",state.school],["sport",state.sport],["level",state.level]].forEach(function(pair){
-      if(pair[1])url.searchParams.set(pair[0],pair[1]);else url.searchParams.delete(pair[0]);
+      if(pair[1])url.searchParams.set(pair[0],pair[1]);
+      else if(pair[0]==="school"&&url.searchParams.get("school")==="all")url.searchParams.set("school","all");
+      else url.searchParams.delete(pair[0]);
     });
     url.searchParams.delete("fixture");
     if(state.dayMode==="date"&&state.selectedDay)url.searchParams.set("shareDate",state.selectedDay);
