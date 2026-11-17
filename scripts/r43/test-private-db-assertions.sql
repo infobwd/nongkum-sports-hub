@@ -84,4 +84,36 @@ begin
    then raise exception 'audit chain missing';end if;
 end
 $test$;
+
+-- New fixtures remain candidates and must NOT change the 3 sample R33 fixtures.
+do $newfixture$
+declare
+ proposer uuid:='00000000-0000-4000-8000-000000000001';
+ reviewer uuid:='00000000-0000-4000-8000-000000000002';
+ r jsonb; candidate uuid;
+begin
+ r:=public.nongkum_r43_new_fixture_gateway(proposer,'new_submit',jsonb_build_object(
+   'source_key','r33-test','kind','match','sport_id','volleyball',
+   'division','12 ปี หญิง','team_a_id','wangdong','team_b_id','nongkrathum',
+   'date','2026-11-18','time','10:30','field','สนาม 2',
+   'reason','ขอเพิ่มการแข่งขันข้อมูลจำลอง','evidence_ref','SYNTHETIC-ORDER-001'));
+ if r->>'status'<>'submitted' or r->>'notice'<>'temporary_candidate_id_not_official_fixture'
+   then raise exception 'new fixture intake failed %',r;end if;
+ candidate:=(r->>'id')::uuid;
+ r:=public.nongkum_r43_new_fixture_gateway(proposer,'new_review',jsonb_build_object(
+   'id',candidate,'revision',1,'decision','ready_for_bracket_check',
+   'review_note','ห้ามรับรองคำขอของตัวเอง'));
+ if r->>'error'<>'invalid_or_forbidden' and r->>'error'<>'self_review'
+   then raise exception 'self review bypass %',r;end if;
+ r:=public.nongkum_r43_new_fixture_gateway(reviewer,'new_review',jsonb_build_object(
+   'id',candidate,'revision',1,'decision','ready_for_bracket_check',
+   'review_note','ผ่านตรวจร่างเข้าสู่คิวผังแข่งขันเท่านั้น'));
+ if r->>'status'<>'ready_for_bracket_check'
+   then raise exception 'new fixture candidate review failed %',r;end if;
+ if (select count(*) from public.nongkum_schedule_fixtures)<>3
+   then raise exception 'R33 official fixtures modified by candidate';end if;
+ if (select count(*) from nongkum_sports.r43_new_fixture_audit)<>2
+   then raise exception 'missing new fixture audit';end if;
+end;
+$newfixture$;
 select 'R43_BC_SQL_PASS' as status;
