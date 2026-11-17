@@ -6,11 +6,11 @@ import vm from "node:vm";
 const read=path=>readFileSync(new URL("../../"+path,import.meta.url),"utf8");
 const source=JSON.parse(read("data/program-from-pdf-2569-20261104-draft.json"));
 const sandbox=vm.createContext({URL,URLSearchParams,Intl,Date,console});
-for(const file of ["js/program-corrections.js","js/schedule-order.js","js/schedule-bulk-share.js"]){
+for(const file of ["js/program-corrections.js","js/schedule-order.js","js/schedule-link-codec.js","js/schedule-bulk-share.js"]){
   new vm.Script(read(file),{filename:file}).runInContext(sandbox);
 }
 const data=sandbox.NongkumProgramCorrections.apply(source);
-const order=sandbox.NongkumScheduleOrder,share=sandbox.NongkumScheduleBulkShare;
+const order=sandbox.NongkumScheduleOrder,share=sandbox.NongkumScheduleBulkShare,codec=sandbox.NongkumScheduleLinkCodec;
 assert.equal(data.fixtures.length,236,"R20 corrections must retain exactly 236 rows");
 assert.equal(data.schools.length,8);
 assert.equal(data.sports.length,9);
@@ -33,8 +33,8 @@ for(const school of data.schools){
   assert.ok(payload.parts[0].includes(school.name));
   const url=new URL(payload.url);
   assert.equal(url.pathname,"/nongkum-sports-hub/t/");
-  assert.equal(url.searchParams.get("s"),school.id);
-  assert.equal(url.searchParams.get("a"),"1");
+  assert.equal(codec.decode(url.searchParams.get("c")).school,school.id);
+  assert.equal(codec.decode(url.searchParams.get("c")).day,"");
 }
 for(const sport of data.sports){
   const fixtures=data.fixtures.filter(f=>f.sport_id===sport.id);
@@ -42,7 +42,7 @@ for(const sport of data.sports){
   const payload=share.makeParts({...common,fixtures,sport:sport.id,school:""});
   assert.equal(payload.count,fixtures.length);
   assert.ok(payload.parts[0].includes(sport.name));
-  assert.equal(new URL(payload.url).searchParams.get("g"),sport.id);
+  assert.equal(codec.decode(new URL(payload.url).searchParams.get("c")).sport,sport.id);
 }
 const athletics=data.fixtures.filter(f=>f.kind==="track_event");
 assert.equal(athletics.length,50);
@@ -58,35 +58,37 @@ const dayRows=data.fixtures.filter(f=>order.effectiveDay(f)===day);
 assert.ok(dayRows.length);
 const dayPayload=share.makeParts({...common,fixtures:dayRows,school:"",day,resultMode:"pending",resultsVerified:false});
 assert.equal(dayPayload.count,dayRows.length);
-assert.equal(new URL(dayPayload.url).searchParams.get("d"),"261117");
+assert.equal(codec.decode(new URL(dayPayload.url).searchParams.get("c")).day,day);
 assert.ok(dayPayload.parts[0].includes("ไม่สามารถตรวจผลรับรองล่าสุดได้"));
 const oldSourceYear=data.fixtures.filter(f=>/พ\.ย\.\s*68/.test(f.source_pdf?.source_date_text||""));
 assert.equal(oldSourceYear.length,3);
 assert.ok(oldSourceYear.every(f=>!order.effectiveDay(f)),"must never invent 2569 for anomalous source year");
 const undated=share.makeParts({...common,fixtures:oldSourceYear,day:"unknown"});
-assert.equal(new URL(undated.url).searchParams.get("d"),"u");
+assert.equal(codec.decode(new URL(undated.url).searchParams.get("c")).day,"unknown");
 assert.match(undated.parts[0],/วันแข่งขันรอยืนยัน/);
 const timeCheck=data.fixtures.find(f=>f.planning_time_confirmation==="confirmed");
 const timePayload=share.makeParts({...common,fixtures:[timeCheck],sport:timeCheck.sport_id});
 assert.doesNotMatch(timePayload.parts[0].split("\n").find(line=>line.includes(" | "))||"",/รอตรวจ/);
 const reviewTime=data.fixtures.find(f=>f.planning_time_confirmation!=="confirmed"&&f.source_pdf?.source_time);
 const reviewPayload=share.makeParts({...common,fixtures:[reviewTime],sport:reviewTime.sport_id});
-assert.match(reviewPayload.parts[0],/รอตรวจ/);
+assert.doesNotMatch(reviewPayload.parts[0],/\\(รอตรวจ\\)/);
+assert.match(reviewPayload.parts[0],/บางรายการยังมีข้อมูลกำหนดการแข่งขันที่รอตรวจสอบในระบบ/);
 assert.ok(!all.parts[0].includes("ผู้ชนะ:")&&!all.parts[0].includes("คะแนน:"));
 const link=share.shortUrl({school:"wangdong",sport:"football",level:"primary",day,query:"",resultMode:"all"},base);
-const params=new URL(link).searchParams;
-assert.equal(params.get("s"),"wangdong");
-assert.equal(params.get("g"),"football");
-assert.equal(params.get("l"),"primary");
-assert.equal(params.get("d"),"261117");
-assert.equal(params.get("r"),"a");
+const params=codec.decode(new URL(link).searchParams.get("c"));
+assert.equal(params.school,"wangdong");
+assert.equal(params.sport,"football");
+assert.equal(params.level,"primary");
+assert.equal(params.day,day);
+assert.equal(params.resultMode,"all");
 assert.equal(share.validDay("2026-02-30"),"");
 assert.equal(share.validDay("unknown"),"unknown");
 const page=read("index.html"),program=read("js/program.js"),redirect=read("t/index.html");
 for(const id of ["shareSchedule","scheduleShareDialog","scheduleShareSchool","scheduleSharePreview","scheduleShareNative","scheduleShareCopy"]){
   assert.ok(page.includes('id="'+id+'"'),"missing accessible share UI "+id);
 }
-assert.match(page,/js\/schedule-bulk-share\.js\?v=r46-1/);
+assert.match(page,/js\/schedule-bulk-share\.js\?v=r47-1/);
+assert.match(page,/js\/schedule-link-codec\.js\?v=r47-1/);
 assert.match(program,/data-share-day/);
 assert.match(program,/shareFixturesFor\(school\)/);
 assert.match(program,/resultVisible\(m\)&&matchesFilters\(m,q,false,school\)/);
