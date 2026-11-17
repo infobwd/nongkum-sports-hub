@@ -7,7 +7,7 @@
 .schedule-share-trigger:before,.schedule-share-day:before{content:"↗";font-size:1rem;line-height:1}
 .schedule-share-trigger:disabled{opacity:.5;cursor:not-allowed}
 .schedule-share-trigger:focus-visible,.schedule-share-day:focus-visible{outline:3px solid #e6bd52;outline-offset:2px}
-.schedule-day-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto}
+.schedule-share-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto}
 .schedule-share-day{font-size:.76rem;padding:7px 10px;min-height:40px}
 .schedule-share-dialog{
   width:min(calc(100% - 24px),650px);max-width:650px;box-sizing:border-box;
@@ -40,7 +40,7 @@
  .results-top .data-actions{gap:7px}
  .schedule-share-trigger{font-size:.76rem;padding:8px 10px}
  .day-heading{align-items:start}
- .schedule-day-actions{flex-direction:column-reverse;align-items:flex-end;gap:3px}
+ .schedule-share-actions{flex-direction:column-reverse;align-items:flex-end;gap:3px}
  .schedule-share-day{font-size:.72rem;min-height:36px;padding:5px 8px}
  .schedule-share-dialog{width:calc(100% - 16px);padding:14px}
  .schedule-share-buttons{grid-template-columns:1fr}
