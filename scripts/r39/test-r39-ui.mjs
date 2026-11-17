@@ -17,7 +17,7 @@ assert.match(standings,/timeZone:"Asia\/Bangkok"/);
 assert.match(css,/grid-template-columns:minmax\(0,1fr\)/);
 assert.match(css,/overflow-x:auto/);
 assert.match(css,/standings-mobile-details\[open\]/);
-assert.match(html,/standings\.js\?v=r(?:39|46)-1/);
+assert.match(html,/standings\.js\?v=r(?:39|46|48)-1/);
 const obj={};
 new vm.Script(read("js/program-corrections.js")).runInNewContext({globalThis:obj});
 new vm.Script(read("js/standings-rosters-r38.js")).runInNewContext({globalThis:obj});
