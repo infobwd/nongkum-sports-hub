@@ -1,0 +1,30 @@
+name: R46 football provisional standings QA
+on:
+  pull_request:
+    paths:
+      - 'js/standings.js'
+      - 'js/standings-rosters-r38.js'
+      - 'css/standings.css'
+      - 'standings.html'
+      - 'scripts/results/test-standings-r46.mjs'
+      - '.github/workflows/r46-standings-qa.yml'
+  workflow_dispatch:
+jobs:
+  standings:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: R46 provisional ranking and mobile rendering
+        run: node scripts/results/test-standings-r46.mjs
+      - name: R15-A approved-only UI regression
+        run: node scripts/results/test-standings-r15a.mjs
+      - name: R15-B/C competition rules and result validation
+        run: node scripts/results/test-standings-r15bc.mjs
+      - name: R38 grouped standings regression
+        run: node scripts/r38/test-r38-workflow.mjs
+      - name: R39 mobile standings regression
+        run: node scripts/r39/test-r39-ui.mjs
