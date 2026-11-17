@@ -6,6 +6,15 @@
 \set ON_ERROR_STOP on
 begin;
 
+-- Refuse access to the real Supabase database BEFORE taking any locks.
+do $database_guard$
+begin
+  if current_database() <> 'r43_staff_test' then
+    raise exception 'R43 staging installer REFUSED outside the isolated r43_staff_test database';
+  end if;
+end;
+$database_guard$;
+
 -- Lock the isolated R43 actor tables before the 7-table zero-data check, so
 -- a concurrent writer cannot add a legacy row between the check and FK swap.
 -- This may hold exclusive locks: never execute against a production database.
@@ -22,10 +31,6 @@ declare
   n bigint;
   actor_fk_count integer;
 begin
-  if current_database() <> 'r43_staff_test' then
-    raise exception 'R43 staging installer REFUSED outside the isolated r43_staff_test database';
-  end if;
-
   if to_regclass('nongkum_sports.r43_staff_identities') is not null
     or to_regprocedure('public.nongkum_r43_personal_pin_auth(text,text,text,text,text)') is not null then
     raise exception 'R43 staging installer REFUSED: personal PIN schema already present; do not overwrite';
