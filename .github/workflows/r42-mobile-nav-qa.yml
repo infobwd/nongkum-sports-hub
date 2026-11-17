@@ -11,6 +11,7 @@ on:
       - "review-photos.html"
       - "more.html"
       - "css/app-shell-r42.css"
+      - "css/activity-gallery-r40g.css"
       - "js/activity-gallery-r40g.js"
       - "scripts/ux/test-r42-*.mjs"
       - ".github/workflows/r42-mobile-nav-qa.yml"
