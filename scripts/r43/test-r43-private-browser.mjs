@@ -104,7 +104,9 @@ try{
  await page.locator("#r43ReviewerName").fill("กรรมการทดสอบ");
  await page.locator("#r43ReviewerPin").fill("12345678");
  await page.locator("#r43ReviewerPinForm button[type=submit]").click();
- await page.waitForFunction(()=>document.querySelector("#r43ReviewerPinStatus").textContent.includes("ใช้สิทธิ์รหัสเดิม"));
+ await page.waitForFunction(()=>document.querySelector("#r43PrivateStatus").textContent.includes("ปลดล็อกสิทธิ์ผู้ตรวจผลเดิมแล้ว"));
+ assert.equal(requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action)).length,3,
+   "reviewer unlock refreshes the three protected queues");
  for(const r of requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action))){
    assert.equal(r.legacy_token,reviewerToken,"review actions must use the reviewer session only");
  }
