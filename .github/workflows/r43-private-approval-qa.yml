@@ -7,6 +7,7 @@ on:
       - "supabase/proposals/r43_personal_pin_private_identity.sql"
       - "supabase/proposals/r43_personal_pin_auth_rpc.sql"
       - "supabase/proposals/r43_staff_actor_bridge.sql"
+      - "supabase/proposals/r43_personal_pin_production_atomic_review.sql"
       - "scripts/r43/test-personal-staff-actor-gateway.sql"
       - "scripts/r43/install-personal-pin-staging.psql"
       - "supabase/config.toml"
@@ -179,3 +180,52 @@ jobs:
           test "$(psql -tAX -c "select to_regclass('nongkum_sports.r43_staff_identities') is null")" = 't'
           test "$(psql -tAX -c "select count(*) from pg_constraint p join pg_class t on t.oid=p.conrelid join pg_namespace n on n.oid=t.relnamespace where n.nspname='nongkum_sports' and t.relname like 'r43_%' and p.contype='f' and p.confrelid='auth.users'::regclass")" = '10'
           echo 'R43_STAGING_HISTORY_GUARD_PASS: blocked dirty migration, no private schema created, 10 original actor FKs intact'
+
+  production-migration-review-ci-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: isolated-test-only
+          POSTGRES_DB: r43_staff_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d r43_staff_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: isolated-test-only
+      PGDATABASE: r43_staff_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Postgres client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+      - name: Build isolated source (never connects to Meeting)
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-bootstrap.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/r43_private_schedule_workflow.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/r43_new_fixture_queue.sql
+      - name: Apply production review candidate in isolated test database
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_production_atomic_review.sql
+      - name: Verify staff actor authorization and R32/R33 invariants
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-auth.sql
+          psql -X -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-staff-actor-gateway.sql
+      - name: Assert refuses second installation instead of rewriting schema
+        run: |
+          set -euo pipefail
+          if psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_production_atomic_review.sql > /tmp/r43-repeat.log 2>&1; then
+            echo 'SECURITY FAILURE: atomic review migration accepted duplicate install'; exit 1
+          fi
+          grep -Fq 'personal PIN schema already exists' /tmp/r43-repeat.log
+          echo 'R43_PRODUCTION_REVIEW_CI_PASS: isolated first installation and repeat rejection'
