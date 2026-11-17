@@ -142,7 +142,7 @@ const ids=["standingsSchool","standingsLevel","standingsSports","standingsCount"
  "emptyResultsLink","pendingResultsLink","shareStandingsAll","standingsShareDialog",
  "standingsShareClose","standingsSharePreview","standingsShareSummary",
  "standingsSharePartLabel","standingsSharePrev","standingsShareNext",
- "standingsShareNative","standingsShareCopy","standingsShareStatus"];
+ "standingsShareNative","standingsShareCopy","standingsShareStatus","standingsShareLink"];
 async function mount(results,search=""){
  const els=Object.fromEntries(ids.map(id=>[id,node(id)])),sent=[],copied=[];
  const location=new URL("https://infobwd.github.io/nongkum-sports-hub/standings.html"+search);
@@ -172,6 +172,9 @@ assert.equal(ui.els.standingsShareDialog.open,true);
 assert.match(ui.els.standingsSharePreview.value,/ฟุตซอล/);
 assert.match(ui.els.standingsSharePreview.value,/ฟุตบอล/);
 assert.match(ui.els.standingsSharePreview.value,/สำเนาผลรับรอง/);
+assert.match(ui.els.standingsShareLink.href,/\/o\/\?c=x000$/);
+assert.equal(ui.els.standingsShareLink.textContent,ui.els.standingsShareLink.href);
+assert.ok(ui.els.standingsSharePreview.value.includes(ui.els.standingsShareLink.href));
 await ui.els.standingsShareNative.handlers.click();
 assert.equal(ui.sent.length,1);
 assert.deepEqual(Object.keys(ui.sent[0]),["text"],"do not send separate URL to LINE share");
@@ -179,6 +182,8 @@ assert.match(ui.sent[0].text,/เปิดตารางอันดับล�
 const button={dataset:{shareRanking:"f"}};
 ui.els.standingsRoster.handlers.click({target:{closest:()=>button}});
 assert.match(ui.els.standingsSharePreview.value,/ฟุตบอล 12 ปี ชาย/);
+assert.match(ui.els.standingsShareLink.href,/\/o\/\?c=f$/);
+assert.ok(ui.els.standingsSharePreview.value.includes(ui.els.standingsShareLink.href));
 assert.doesNotMatch(ui.els.standingsSharePreview.value,/ฟุตซอล/);
 await ui.els.standingsShareCopy.handlers.click();
 assert.equal(ui.copied.length,1);
@@ -208,7 +213,7 @@ const html=read("standings.html"),css=read("css/standings.css");
 for(const id of ids.slice(ids.indexOf("shareStandingsAll")))
  assert.ok(html.includes('id="'+id+'"'),"missing share UI: "+id);
 assert.match(html,/js\/standings-share\.js\?v=r49-1/);
-assert.match(html,/js\/standings-share-ui\.js\?v=r49-1/);
-assert.match(html,/css\/standings\.css\?v=r49-1/);
+assert.match(html,/js\/standings-share-ui\.js\?v=r49(?:b)?-1/);
+assert.match(html,/css\/standings\.css\?v=r49(?:b)?-1/);
 assert.match(css,/standings-share-dialog/);
 console.log("R49 PASS: football/futsal A/B, 8 schools, approved-only, exact short links, LINE text, multi-part, share/copy/cancel and mobile UI");
