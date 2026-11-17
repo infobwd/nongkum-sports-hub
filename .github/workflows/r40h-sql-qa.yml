@@ -1,0 +1,42 @@
+name: R40-H Private Photo Session SQL QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/migrations/*r40h*"
+      - "scripts/r40/test-r40h-sql.sql"
+      - ".github/workflows/r40h-sql-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  session-status-gate:
+    name: Only current editor session can see own photo statuses
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test_only
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+      - name: Test session-isolated status view on synthetic records
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: postgres
+          PGPASSWORD: test_only
+          PGDATABASE: postgres
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r40/test-r40h-sql.sql
