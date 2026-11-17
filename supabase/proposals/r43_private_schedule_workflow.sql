@@ -65,7 +65,7 @@ declare
  v_req nongkum_sports.r43_requests%rowtype;
  v_fixture public.nongkum_schedule_fixtures%rowtype;
  v_source text;v_changes jsonb;v_assign jsonb;v_item jsonb;
- v_key text;v_value text;v_reason text;v_evidence text;v_id uuid;v_rev integer;
+ v_key text;v_value text;v_reason text;v_evidence text;v_id uuid;v_rev integer;v_overlap boolean;
 begin
  if p_uid is null or p_action is null or p_data is null or jsonb_typeof(p_data)<>'object'
    or length(p_data::text)>15000 then
@@ -191,6 +191,18 @@ begin
        where id=(v_item->>'person_id')::uuid and status='verified') then
        return jsonb_build_object('ok',false,'error','unverified_person');end if;
    end loop;
+   -- Reject conflicts WITHIN the submitted bundle as well as against
+   -- previously approved bundles; do not infer identities from display names.
+   select exists(
+     select 1 from jsonb_array_elements(v_assign) with ordinality as a(item,idx)
+     join jsonb_array_elements(v_assign) with ordinality as b(item,idx)
+        on a.idx<b.idx
+     where a.item->>'person_id'=b.item->>'person_id'
+       and a.item->>'date'=b.item->>'date'
+       and (a.item->>'start')<(b.item->>'end')
+       and (b.item->>'start')<(a.item->>'end')
+   ) into v_overlap;
+   if v_overlap then return jsonb_build_object('ok',false,'error','duty_overlap_within_request');end if;
    insert into nongkum_sports.r43_requests
       (source_key,fixture_id,sport_id,division,changes,assignments,reason,evidence_ref,submitted_by)
      values(v_source,v_fixture.fixture_id,v_fixture.sport_id,v_fixture.division,
