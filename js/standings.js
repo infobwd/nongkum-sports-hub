@@ -80,32 +80,46 @@
       const rows=(official?snapshot.rows:g.rows)
         .slice().sort((a,b)=>official
           ?((a.position??999)-(b.position??999))
-          :String(schoolById.get(a.team_id)?.short||a.team_id)
-            .localeCompare(String(schoolById.get(b.team_id)?.short||b.team_id),"th"));
+          :g.provisional
+            ?((a.provisional_position??999)-(b.provisional_position??999)||
+              String(schoolById.get(a.team_id)?.short||a.team_id)
+                .localeCompare(String(schoolById.get(b.team_id)?.short||b.team_id),"th"))
+            :String(schoolById.get(a.team_id)?.short||a.team_id)
+              .localeCompare(String(schoolById.get(b.team_id)?.short||b.team_id),"th"));
+      const rankLabel=row=>official&&row.position!=null?String(row.position):
+        g.provisional&&row.provisional_position!=null
+          ?String(row.provisional_position)+(row.provisional_shared?" ร่วม":""):"—";
       const heading=(sportById.get(g.sport_id)?.name||g.sport_id)+" · "+
         (g.base_division||g.division)+(g.label==="พบกันหมด"?" · พบกันหมด":" · "+g.label);
       const cols=g.has_goals?"<th>ได้</th><th>เสีย</th><th>ผลต่าง</th>":"";
       const pointHeader=g.has_points||official?"<th>คะแนน</th>":"<th>คะแนน*</th>";
-      const body=rows.map(row=>"<tr"+(state.school===row.team_id?" class='standings-my-school'":"")+"><td>"+(official&&row.position!=null?safe(row.position):"—")+
+      const body=rows.map(row=>"<tr"+(state.school===row.team_id?" class='standings-my-school'":"")+"><td>"+safe(rankLabel(row))+
         "</td><th scope='row'>"+safe(schoolById.get(row.team_id)?.short||row.team_id)+"</th>"+
         ["played","won","drawn","lost"].map(k=>"<td>"+safe(row[k]??0)+"</td>").join("")+
         (g.has_goals?["goals_for","goals_against","goal_difference"].map(k=>"<td>"+safe(row[k]??0)+"</td>").join(""):"")+
         "<td>"+(g.has_points||official?safe(row.points??0):"—")+"</td></tr>").join("");
       const note=official?"ตารางอันดับจากผลและกติกาที่ผ่านการรับรองแล้ว":
-        (g.approved_count
-          ?"สถิติจากผลรับรอง "+g.approved_count+"/"+g.match_count+" คู่ · ยังไม่จัดอันดับตัดสิน"
-          :"ยังไม่มีผลการแข่งขันในกลุ่มนี้ · แสดงรายชื่อและค่าเริ่มต้น 0 · ยังไม่จัดอันดับ");
+        g.provisional
+          ?"อันดับชั่วคราว · ผลรับรอง "+g.approved_count+"/"+g.match_count+
+            " คู่ · คะแนนเท่ากันอาจเป็นอันดับร่วม · ยังไม่ใช้ตัดสินเข้ารอบ"
+          :g.approved_count
+            ?"สถิติจากผลรับรอง "+g.approved_count+"/"+g.match_count+
+              " คู่ · ยังไม่จัดอันดับจนกว่าเกณฑ์กีฬานี้จะได้รับการรับรอง"
+            :"ยังไม่มีผลการแข่งขันในกลุ่มนี้ · แสดงรายชื่อและค่าเริ่มต้น 0 · ยังไม่จัดอันดับ";
       // On phones, show all opponents in the selected group, not just the chosen school.
       const compact=rows.map(row=>{
         const mine=state.school===row.team_id;
         const name=safe(schoolById.get(row.team_id)?.short||row.team_id);
-        const order=official&&row.position!=null?"<span class='standings-mobile-position'>อันดับ "+safe(row.position)+"</span>":"";
-        const points=(g.has_points||official)?" · คะแนน "+safe(row.points??0):"";
+        const order=(official||g.provisional)
+          ?"<span class='standings-mobile-position'>อันดับ "+safe(rankLabel(row))+"</span>":"";
+        const points=(g.has_points||official)
+          ?"<strong class='standings-mobile-points'>"+safe(row.points??0)+" แต้ม</strong>":"";
         return "<div class='standings-mobile-team"+(mine?" standings-my-school":"")+"'>"+
           "<div class='standings-mobile-name'>"+order+"<strong>"+name+"</strong>"+
           (mine?"<span class='standings-mine-label'>โรงเรียนของฉัน</span>":"")+"</div>"+
+          "<div class='standings-mobile-summary'>"+
           "<span class='standings-mobile-stats'>แข่ง "+safe(row.played??0)+
-          " · ชนะ "+safe(row.won??0)+points+"</span></div>";
+          " · ชนะ "+safe(row.won??0)+"</span>"+points+"</div></div>";
       }).join("");
       const table="<div class='standings-table-scroll' tabindex='0' role='region' aria-label='ตารางรายละเอียด "+safe(heading)+"'>"+
         "<table class='standings-table'><thead><tr>"+
