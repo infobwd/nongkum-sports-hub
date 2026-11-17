@@ -26,28 +26,10 @@
 <label>รหัสประจำตัวเจ้าหน้าที่<input type="password" id="r43PersonalPin" inputmode="numeric" pattern="[0-9]*" minlength="10" maxlength="16" required autocomplete="off"></label>
 <button class="r43-primary" type="submit">ตรวจรหัสและแสดงชื่อ</button>
 </form>
-<p class="r43-small">ไม่ต้องใช้อีเมลหรือ LINE ระบบแสดงชื่อ โรงเรียน และหน้าที่จากทะเบียนที่ได้รับอนุญาตหลังตรวจรหัสสำเร็จ ช่วงนี้ยังไม่เปิดให้ส่งหรือรับรองคำขอ</p>
+<p class="r43-small">ไม่ต้องใช้อีเมลหรือ LINE ระบบแสดงชื่อ โรงเรียน และหน้าที่จากทะเบียนที่ได้รับอนุญาตหลังตรวจรหัสสำเร็จ ผู้มีสิทธิ์สามารถส่งและตรวจคำขอได้เมื่อผู้จัดเปิดระบบที่ผ่านการทดสอบแล้ว</p>
 </section>
 <section id="r43PrivateWorkspace" hidden>
 <div class="r43-actions"><strong id="r43RoleSummary"></strong><button type="button" id="r43Logout" class="r43-secondary">ออกจากระบบ</button></div>
-<section id="r43EditorGate" class="r43-panel" hidden>
-<h2>รหัสผู้บันทึกผลการแข่งขันเดิม</h2>
-<p id="r43EditorPinStatus" class="r43-small" role="status">ตรวจสิทธิ์ 6 ชั่วโมงจากระบบผลการแข่งขัน</p>
-<form id="r43EditorPinForm" class="r43-filter-grid" autocomplete="off">
-<label>รหัสผู้บันทึกผล<input id="r43EditorPin" type="password" inputmode="numeric" pattern="[0-9]*" minlength="4" maxlength="30" autocomplete="off" required></label>
-<button class="r43-secondary" type="submit">ใช้รหัสเดิมเพื่อจัดตาราง</button>
-</form>
-</section>
-<section id="r43ReviewerGate" class="r43-panel" hidden>
-<h2>รหัสผู้ตรวจยืนยันผลการแข่งขันเดิม</h2>
-<p id="r43ReviewerPinStatus" class="r43-small" role="status">ตรวจสิทธิ์ 6 ชั่วโมงจากระบบตรวจยืนยันผล</p>
-<form id="r43ReviewerPinForm" class="r43-filter-grid" autocomplete="off">
-<label>ชื่อผู้ตรวจที่แสดงในระบบผล<input id="r43ReviewerName" maxlength="120" minlength="2" required autocomplete="name"></label>
-<label>รหัสผู้ตรวจผล<input id="r43ReviewerPin" type="password" inputmode="numeric" pattern="[0-9]*" minlength="8" maxlength="30" autocomplete="off" required></label>
-<button class="r43-secondary" type="submit">ใช้รหัสเดิมเพื่อตรวจคำขอ</button>
-</form>
-<p class="r43-small">ชื่อที่กรอกเป็นชื่อแสดงผลเท่านั้น สิทธิ์รับรองต้องตรงกับบัญชีเจ้าหน้าที่ที่ได้รับอนุญาต</p>
-</section>
 <section id="r43PrivateSubmit" class="r43-panel" hidden aria-labelledby="r43SubmitTitle">
 <h2 id="r43SubmitTitle">เสนอแก้ไขตารางและมอบหมายกรรมการ</h2>
 <form id="r43SubmitForm">
@@ -131,5 +113,5 @@
 </nav>
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="./js/r43-schedule-draft.js?v=r43a-1"></script>
-<script src="./js/r43-private-review.js?v=r43f-2"></script>
+<script src="./js/r43-private-review.js?v=r43f-3"></script>
 </body></html>
