@@ -183,6 +183,6 @@ assert.match(rendered,/อันดับ 1/);
 assert.match(rendered,/3 แต้ม/);
 assert.match(rendered,/standings-mobile-details/);
 assert.ok(!rendered.includes("อันดับสรุป"));
-assert.match(read("standings.html"),/standings\.js\?v=r48-1/);
+assert.match(read("standings.html"),/standings\.js\?v=r(?:48|49)-1/);
 assert.match(read("css/standings.css"),/standings-mobile-points/);
 console.log("R48 PASS: football and futsal GD-first, H2H, cards, approved-only, A/B, and phone display");

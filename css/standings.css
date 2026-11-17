@@ -80,3 +80,52 @@ body[data-view="standings"] .standings-mobile-details{
  .standings-mobile-points{font-size:.87rem;font-weight:800;color:#193d63;font-variant-numeric:tabular-nums;white-space:nowrap}
  .standings-mobile-position{display:inline-block;padding:1px 6px;border-radius:6px;background:#edf3fb;white-space:nowrap}
 }
+
+/* R49: accessible standings LINE actions and preview, sized for LINE WebView and mobile Safari. */
+.standings-share-btn,.standings-share-group-btn{
+  display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  padding:8px 13px;border:1px solid #88b0d5;border-radius:10px;
+  background:#eaf3ff;color:#194e7c;font:inherit;font-size:.82rem;font-weight:800;
+  text-align:center;cursor:pointer;touch-action:manipulation
+}
+.standings-share-btn:disabled,.standings-share-group-btn:disabled{opacity:.48;cursor:not-allowed}
+.standings-share-btn:focus-visible,.standings-share-group-btn:focus-visible,
+.standings-share-dialog button:focus-visible{
+  outline:3px solid #d4a82d;outline-offset:2px
+}
+.standings-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.standings-group-head h3{margin:0}
+.standings-share-dialog{
+  width:min(650px,calc(100% - 26px));max-width:650px;max-height:min(88dvh,850px);
+  margin:auto;padding:17px;border:1px solid #ccdcec;border-radius:18px;
+  color:#193d63;background:#fff;box-sizing:border-box;overflow:auto;
+  box-shadow:0 18px 55px rgba(17,45,78,.25)
+}
+.standings-share-dialog::backdrop{background:rgba(10,26,50,.65)}
+.standings-share-dialog-head,.standings-share-pages,.standings-share-buttons{
+  display:flex;align-items:center;gap:9px;justify-content:space-between;flex-wrap:wrap
+}
+.standings-share-dialog-head{margin-bottom:7px}
+.standings-share-dialog-head h2{font-size:1.03rem;margin:0}
+.standings-share-dialog button{min-height:44px;padding:8px 13px;border-radius:9px;cursor:pointer;
+  border:1px solid #a8c3de;background:#edf4fc;color:#174976;font:inherit;font-size:.87rem;font-weight:750}
+.standings-share-dialog button:disabled{opacity:.48;cursor:not-allowed}
+.standings-share-dialog #standingsShareNative{background:#0d8058;color:#fff;border-color:#0d8058}
+.standings-share-pages{margin:10px 0}
+.standings-share-dialog label{display:block;margin:9px 0 6px}
+#standingsSharePreview{width:100%;box-sizing:border-box;min-height:210px;max-height:43dvh;resize:vertical;
+  border:1px solid #b8cde0;border-radius:10px;padding:13px;background:#f7f9fc;
+  color:#173d63;font-family:inherit;font-size:.87rem;line-height:1.65;overflow-wrap:anywhere}
+.standings-share-hint{font-size:.79rem;line-height:1.6;color:#536b80;margin:10px 0}
+#standingsShareStatus{min-height:1.4em;font-size:.84rem;color:#225679;margin:9px 0 0}
+body[data-view="standings"] .results-top .data-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+@media(max-width:690px){
+ body[data-view="standings"] .results-top{align-items:flex-start;flex-wrap:wrap;gap:8px}
+ body[data-view="standings"] .results-top .data-actions{width:100%;gap:7px}
+ body[data-view="standings"] #standingsCount{width:100%;margin-left:0}
+ .standings-share-btn{flex:1;min-width:0}
+ .standings-share-group-btn{font-size:.81rem}
+ .standings-share-dialog{max-height:calc(100dvh - 35px);padding:13px}
+ .standings-share-buttons button{flex:1 1 140px}
+}
+@media print{.standings-share-btn,.standings-share-group-btn,.standings-share-dialog{display:none!important}}

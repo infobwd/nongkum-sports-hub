@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1">
   <link rel="stylesheet" href="./css/results.css">
-  <link rel="stylesheet" href="./css/standings.css?v=r48-1">
+  <link rel="stylesheet" href="./css/standings.css?v=r49-1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
 <link rel="stylesheet" href="./css/pull-refresh.css?v=phase1a">
 </head>
@@ -43,7 +43,7 @@
   <section id="standingsListing" aria-labelledby="standingsHeading" aria-busy="true">
     <div class="results-top">
       <h2 id="standingsHeading">ตารางอันดับ</h2>
-      <div class="data-actions"><span id="standingsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" class="refresh-button" id="refreshStandings">↻ รีเฟรช</button></div>
+      <div class="data-actions"><span id="standingsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="shareStandingsAll" class="standings-share-btn" disabled>แชร์ตารางที่เลือกทั้งหมด</button><button type="button" class="refresh-button" id="refreshStandings">↻ รีเฟรช</button></div>
     </div>
     <p id="standingsStatus" class="refresh-status" role="status" aria-live="polite"></p>
     <p id="standingsPublishedAt" class="result-meta"></p>
@@ -65,6 +65,26 @@
     <p class="standings-scope-note">ฟุตบอลและฟุตซอลแสดงอันดับชั่วคราวรายสายจากผลรับรอง โดยเรียงคะแนน → ผลต่างประตูรวม → ผลพบกันเอง · ยังไม่ใช้ตัดสินเข้ารอบ · กีฬาอื่นรอรับรองกติกา</p>
   </section>
 </main>
+<dialog id="standingsShareDialog" class="standings-share-dialog" aria-labelledby="standingsShareTitle" aria-describedby="standingsShareHint">
+  <div class="standings-share-dialog-head">
+    <h2 id="standingsShareTitle">แชร์ตารางอันดับไป LINE</h2>
+    <button type="button" id="standingsShareClose" aria-label="ปิดตัวอย่างข้อความ">ปิด</button>
+  </div>
+  <p id="standingsShareSummary" aria-live="polite"></p>
+  <div class="standings-share-pages">
+    <button type="button" id="standingsSharePrev">ก่อนหน้า</button>
+    <span id="standingsSharePartLabel">ตอนที่ 1/1</span>
+    <button type="button" id="standingsShareNext">ถัดไป</button>
+  </div>
+  <label class="fieldlabel" for="standingsSharePreview">ตัวอย่างข้อความที่ผู้รับจะเห็นใน LINE</label>
+  <textarea id="standingsSharePreview" rows="14" readonly aria-label="ข้อความสำหรับแชร์ตารางอันดับ"></textarea>
+  <p id="standingsShareHint" class="standings-share-hint">หากมีหลายตอน ให้ส่งให้ครบทุกตอน · ข้อความที่ส่งแล้วไม่เปลี่ยนตามผลใหม่ ผู้รับกดลิงก์ท้ายข้อความเพื่อดูอันดับล่าสุด</p>
+  <div class="standings-share-buttons">
+    <button type="button" id="standingsShareNative">แชร์ข้อความนี้ (เลือก LINE)</button>
+    <button type="button" id="standingsShareCopy">คัดลอกข้อความนี้</button>
+  </div>
+  <p id="standingsShareStatus" role="status" aria-live="polite"></p>
+</dialog>
 <footer class="shell">มิตรภาพเกมส์ ปี 2569 · ตารางอันดับใช้ผลที่ผ่านการรับรองเท่านั้น</footer>
 <nav id="mobileTabNav" class="mobile-nav" aria-label="เมนูหลักมือถือ">
   <a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="ตารางแข่งขัน">
@@ -87,7 +107,9 @@
   <script src="./js/program-corrections.js?v=r20b1"></script>
   <script src="./js/standings-rosters-r38.js?v=r48-1"></script>
 <script src="./js/results-source-r32.js?v=r32-1"></script>
-<script src="./js/standings.js?v=r48-1"></script>
+<script src="./js/standings-share.js?v=r49-1"></script>
+<script src="./js/standings-share-ui.js?v=r49-1"></script>
+<script src="./js/standings.js?v=r49-1"></script>
 <script src="./js/back-to-top.js?v=r19fux4"></script>
 <script src="./js/pull-refresh.js?v=phase1a"></script>
 <script src="./js/pwa.js?v=r31-v1"></script>

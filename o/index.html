@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>เปิดตารางอันดับ · มิตรภาพเกมส์ 2569</title>
+  <meta property="og:title" content="ตารางอันดับ · มิตรภาพเกมส์ 2569">
+  <meta property="og:description" content="เปิดตารางอันดับล่าสุดจากผลการแข่งขันที่รับรองแล้วในแอป">
+  <style>body{font:16px/1.7 system-ui,sans-serif;background:#f3f6fa;color:#193c5b;padding:36px 18px;max-width:560px;margin:auto}a{color:#195784;font-weight:700}</style>
+</head>
+<body>
+  <h1>ตารางอันดับ · มิตรภาพเกมส์ 2569</h1>
+  <p id="linkStatus">กำลังเปิดตารางอันดับล่าสุดจากแอป…</p>
+  <p><a id="open" href="../standings.html?school=all">เปิดตารางอันดับทั้งหมด</a></p>
+  <script src="../js/standings-share.js?v=r49-1"></script>
+  <script>
+  (function(){
+    "use strict";
+    const code=new URLSearchParams(location.search).get("c")||"";
+    const decoded=globalThis.NongkumStandingsShare?.decode(code);
+    const target=new URL("../standings.html",location.href);
+    target.searchParams.set("school","all"); // Recipients must not inherit a different school filter.
+    if(!decoded){
+      document.getElementById("linkStatus").textContent="ลิงก์ตารางอันดับไม่ถูกต้อง กรุณาเปิดตารางทั้งหมด";
+      document.getElementById("open").href=target.href;
+      return;
+    }
+    if(decoded.sport)target.searchParams.set("sport",decoded.sport);
+    if(decoded.level)target.searchParams.set("level",decoded.level);
+    if(decoded.school)target.searchParams.set("school",decoded.school);
+    if(decoded.group)target.searchParams.set("group",decoded.group);
+    document.getElementById("open").href=target.href;
+    location.replace(target.href);
+  })();
+  </script>
+</body>
+</html>
