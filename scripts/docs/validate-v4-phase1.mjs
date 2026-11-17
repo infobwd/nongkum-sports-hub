@@ -100,7 +100,7 @@ const final=corrected.fixtures.find(x=>x.id===kept);
 assert.equal(final.planning_date,"2026-11-18");
 assert.equal(final.planning_date_confirmation,"confirmed");
 assert.equal(corrected.fixtures.filter(x=>x.planning_date_confirmation==="confirmed"&&
-x.planning_time_confirmation==="confirmed"&&x.planning_venue_confirmation==="confirmed").length,45);
+x.planning_time_confirmation==="confirmed"&&x.planning_venue_confirmation==="confirmed").length,50);
 assert.equal(draftRosters.source_sha256,outline.source_pdf.sha256);
 assert.equal(draftRosters.entries.length,250);
 assert.equal(oldCoords.source_sha256,draftRosters.editorial_correction.corrected_pdf_sha256);
