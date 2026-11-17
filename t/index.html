@@ -24,6 +24,7 @@
     const query=input.get("q")||"";
     const dateCode=input.get("d")||"";
     if(/^[a-z0-9-]{1,24}$/.test(school))target.searchParams.set("school",school);
+    else target.searchParams.set("school","all"); // Explicitly override a recipient’s remembered school
     if(/^[a-z0-9-]{1,24}$/.test(sport))target.searchParams.set("sport",sport);
     if(["early","primary","secondary"].includes(level))target.searchParams.set("level",level);
     if(query&&query.length<=100)target.searchParams.set("q",query);
