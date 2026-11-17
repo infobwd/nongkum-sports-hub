@@ -18,7 +18,7 @@ const fixture=program.fixtures.find(f=>f.kind==="match");
 const fixture2=program.fixtures.find(f=>f.kind==="match"&&f.id!==fixture.id);
 const uuid="00000000-0000-4000-8000-000000000001";
 const request="00000000-0000-4000-8000-000000000002";
-const sample={ok:true,status:"approved_not_published",source_key:contract.source_key,
+const sample={ok:true,status:"approved_not_published",source_key:contract.source_key,new_fixture_review_pending:0,
  schedule_changes:[{fixture_id:fixture.id,request_id:request,changes:{time:"10:30",field:"สนามทดสอบ"}}]};
 const preview=R.prepare(program,sample,[],contract);
 assert.equal(preview.total_source_fixtures,236);
@@ -26,6 +26,8 @@ assert.equal(preview.total_approved_schedule_changes,1);
 assert.equal(preview.publication_status,"candidate_not_published");
 assert.equal(preview.patches[0].fixture_id,fixture.id);
 assert.ok(!JSON.stringify(preview).includes("person_name"),"no draft names in candidate");
+assert.throws(()=>R.prepare(program,{...sample,new_fixture_review_pending:1},[],contract),
+ /new_fixture_bracket_review_pending/);
 assert.throws(()=>R.prepare(program,sample,[fixture.id],contract),/approved_result_lock/);
 assert.throws(()=>R.prepare(program,{...sample,source_key:"older"},[],contract),/source_not_verified/);
 assert.throws(()=>R.prepare(program,{...sample,schedule_changes:[
