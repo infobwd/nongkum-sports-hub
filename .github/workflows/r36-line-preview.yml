@@ -54,6 +54,7 @@ jobs:
       - run: python scripts/r36/render_result_cards.py
       - run: node scripts/r36/build-result-share-pages.mjs --check
       - run: node scripts/r36/test-result-share.mjs
+      - run: node scripts/r44/test-line-result-text.mjs
       - name: Commit reviewed public-only previews to the feature branch
         run: |
           git config user.name "nongkum-sports-ci[bot]"
