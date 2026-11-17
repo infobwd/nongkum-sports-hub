@@ -7,7 +7,7 @@
     const $=id=>document.getElementById(id);
     const el={
       all:$("shareStandingsAll"),dialog:$("standingsShareDialog"),close:$("standingsShareClose"),
-      preview:$("standingsSharePreview"),summary:$("standingsShareSummary"),
+      preview:$("standingsSharePreview"),link:$("standingsShareLink"),summary:$("standingsShareSummary"),
       part:$("standingsSharePartLabel"),prev:$("standingsSharePrev"),next:$("standingsShareNext"),
       native:$("standingsShareNative"),copy:$("standingsShareCopy"),
       status:$("standingsShareStatus"),roster:$("standingsRoster")
@@ -30,6 +30,7 @@
     function renderPart(){
       if(!payload||!payload.parts.length)return;
       el.preview.value=payload.parts[at];
+      if(el.link){el.link.href=payload.url;el.link.textContent=payload.url;}
       el.part.textContent="ตอนที่ "+(at+1)+"/"+payload.parts.length;
       el.prev.disabled=at===0;el.next.disabled=at===payload.parts.length-1;
       el.summary.textContent=payload.count+" ตารางอันดับที่มีผลรับรอง"+
