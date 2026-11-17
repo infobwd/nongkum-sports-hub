@@ -35,6 +35,16 @@ begin
     jsonb_build_object('id',person_id,'decision','verified'));
  if result->>'status'<>'verified' then raise exception 'person verification failed %',result;end if;
  result:=public.nongkum_r43_gateway(proposer,'submit',jsonb_build_object(
+   'source_key','r33-test','fixture_id','fixture-two','changes',jsonb_build_object(),
+   'reason','ทดสอบหน้าที่ซ้อนในคำขอเดียวกัน','evidence_ref','TEST-EVIDENCE-INTRA',
+   'assignments',jsonb_build_array(
+     jsonb_build_object('person_id',person_id,'scope','fixture','scope_key','fixture-two',
+       'role','ผู้ตัดสิน','date','2026-11-17','start','09:00','end','10:00'),
+     jsonb_build_object('person_id',person_id,'scope','fixture','scope_key','fixture-two',
+       'role','ผู้จับเวลา','date','2026-11-17','start','09:30','end','10:30'))));
+ if result->>'error'<>'duty_overlap_within_request' then
+   raise exception 'same-request overlap not blocked %',result;end if;
+ result:=public.nongkum_r43_gateway(proposer,'submit',jsonb_build_object(
    'source_key','r33-test','fixture_id','fixture-one','changes',jsonb_build_object('time','09:30'),
    'reason','ทดสอบรายการที่หนึ่ง','evidence_ref','TEST-EVIDENCE-0002',
    'assignments',jsonb_build_array(jsonb_build_object(
