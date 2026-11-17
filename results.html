@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1"><link rel="stylesheet" href="./css/results.css?v=r39-1">
+<link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1"><link rel="stylesheet" href="./css/results.css?v=r45-1">
 <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 <link rel="stylesheet" href="./css/standings.css?v=r15a1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
@@ -28,7 +28,6 @@
 <nav class="results-subnav" aria-label="มุมมองผลการแข่งขัน">
   <a id="resultsSubResults" href="./results.html" aria-current="page">ผลรายคู่</a>
   <a id="resultsSubStandings" href="./standings.html">ตารางอันดับ</a>
-  <a href="./activity-photos.html">ภาพกิจกรรม</a>
 </nav>
 <p class="result-meta"><a href="./review-results.html">สำหรับเจ้าหน้าที่: เปิดหน้ายืนยันผลการแข่งขัน</a></p>
 <section id="sharedResult" class="direct-result" hidden aria-labelledby="sharedResultTitle">
@@ -43,13 +42,13 @@
 </section>
 <div id="resultsOverview">
 <section class="result-panel result-filter-panel" aria-labelledby="resultFiltersHeading">
-<h2 id="resultFiltersHeading">เลือกชนิดกีฬา</h2>
+<h2 id="resultFiltersHeading">เลือกชนิดกีฬา <span class="result-sport-hint">ปัดดูเพิ่มเติม</span></h2>
 <div class="result-sport-bar">
   <button id="resultAllSports" class="result-chip result-all-sports" type="button" aria-pressed="true">ทุกกีฬา</button>
   <div id="resultSports" class="result-sport-chips" role="group" aria-label="เลือกชนิดกีฬา ปัดไปด้านข้างเพื่อดูเพิ่มเติม"></div>
 </div>
 <details id="resultFilterMore" class="result-filter-more">
-  <summary>เลือกโรงเรียนหรือช่วงชั้นเพิ่มเติม <span id="resultMoreCount" class="result-more-count"></span></summary>
+  <summary>เลือกโรงเรียนหรือช่วงชั้น <span id="resultMoreCount" class="result-more-count"></span></summary>
   <div class="result-controls">
     <div><label class="fieldlabel" for="resultSchool">โรงเรียน</label><select id="resultSchool"><option value="">ทุกโรงเรียน</option></select></div>
     <div><label class="fieldlabel" for="resultLevel">ช่วงชั้น</label><select id="resultLevel"><option value="">ทุกช่วงชั้น</option><option value="early">ก่อนเรียน / ปฐมวัย</option><option value="primary">ประถม</option><option value="secondary">มัธยม</option></select></div>
@@ -59,7 +58,7 @@
   <button id="resultClearFilters" type="button" class="result-clear-filters" hidden>ล้างตัวกรอง</button>
 </div>
 </section>
-<section id="resultsListing" aria-labelledby="resultsHeading" aria-busy="true"><div class="results-top"><h2 id="resultsHeading">ผลการแข่งขันที่ผ่านการรับรอง</h2><div class="data-actions"><span id="resultsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button id="refreshResults" class="refresh-button" type="button">↻ รีเฟรช</button></div></div>
+<section id="resultsListing" aria-labelledby="resultsHeading" aria-busy="true"><div class="results-top"><h2 id="resultsHeading">ผลการแข่งขันล่าสุด</h2><div class="data-actions"><span id="resultsCount" aria-live="polite">กำลังเปิดข้อมูล…</span><button id="refreshResults" class="refresh-button" type="button">↻ รีเฟรช</button></div></div>
 <p id="resultCountSummary" class="result-count-summary" role="status" aria-live="polite"></p><p id="resultsRefreshStatus" class="refresh-status" role="status" aria-live="polite"></p><p id="publishedAt" class="result-meta"></p><div id="resultsSkeleton" class="loading-skeleton" aria-hidden="true"><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div><div class="loading-card"><span class="loading-bar loading-bar-short"></span><span class="loading-bar loading-bar-wide"></span><span class="loading-bar loading-bar-medium"></span></div></div>
 <div id="resultsLoadFailure" class="load-failure" role="alert" hidden><strong>เชื่อมต่อข้อมูลผลรับรองไม่ได้</strong><p>โปรดตรวจการเชื่อมต่ออินเทอร์เน็ต แล้วลองโหลดผลรับรองอีกครั้ง</p><button type="button" class="load-retry" id="retryResults">↻ ลองอีกครั้ง</button></div>
 <div id="resultsList" class="result-tiles"></div>
@@ -95,8 +94,8 @@
 <script src="./js/results-catalog-r38.js?v=r38-1"></script>
 <script src="./js/activity-media-r39.js?v=r39-1"></script>
 <script src="./js/activity-media-r40g.js?v=r40g-1"></script>
-<script src="./js/results-renderers.js?v=r40g-1"></script>
-<script src="./js/results-source-r32.js?v=r36-1"></script><script src="./js/results.js?v=r44-1"></script>
+<script src="./js/results-renderers.js?v=r45-1"></script>
+<script src="./js/results-source-r32.js?v=r45-1"></script><script src="./js/results.js?v=r45-1"></script>
 <script src="./js/back-to-top.js?v=r19fux4"></script>
 <script src="./js/pull-refresh.js?v=phase1a"></script>
 <script src="./js/r34-card-editor.js?v=r38-1"></script>
