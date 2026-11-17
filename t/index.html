@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>เปิดตารางการแข่งขัน · มิตรภาพเกมส์ 2569</title>
+  <meta property="og:title" content="ตารางการแข่งขัน · มิตรภาพเกมส์ 2569">
+  <meta property="og:description" content="ดูตารางการแข่งขันตามโรงเรียนและวันแข่งขันล่าสุดในแอป">
+  <style>body{font:16px/1.7 system-ui,sans-serif;background:#f3f6fa;color:#193c5b;padding:36px 18px;max-width:560px;margin:auto}a{color:#195784;font-weight:700}</style>
+</head>
+<body>
+  <h1>ตารางการแข่งขัน · มิตรภาพเกมส์ 2569</h1>
+  <p>กำลังเปิดตารางที่แชร์มาโดยใช้ข้อมูลล่าสุดจากแอป…</p>
+  <p><a id="open" href="../index.html">เปิดตารางการแข่งขัน</a></p>
+  <script>
+  (function(){
+    "use strict";
+    const input=new URLSearchParams(location.search);
+    const target=new URL("../index.html",location.href);
+    const school=input.get("s")||"";
+    const sport=input.get("g")||"";
+    const level=input.get("l")||"";
+    const query=input.get("q")||"";
+    const dateCode=input.get("d")||"";
+    if(/^[a-z0-9-]{1,24}$/.test(school))target.searchParams.set("school",school);
+    else target.searchParams.set("school","all"); // Explicitly override a recipient’s remembered school
+    if(/^[a-z0-9-]{1,24}$/.test(sport))target.searchParams.set("sport",sport);
+    if(["early","primary","secondary"].includes(level))target.searchParams.set("level",level);
+    if(query&&query.length<=100)target.searchParams.set("q",query);
+    if(dateCode==="u")target.searchParams.set("shareDate","unknown");
+    else if(/^\d{6}$/.test(dateCode)){
+      const iso="20"+dateCode.slice(0,2)+"-"+dateCode.slice(2,4)+"-"+dateCode.slice(4,6);
+      const date=new Date(iso+"T12:00:00Z");
+      if(!Number.isNaN(date.getTime())&&date.toISOString().slice(0,10)===iso)
+        target.searchParams.set("shareDate",iso);
+    }
+    else if(input.get("a")==="1")target.searchParams.set("allDates","1");
+    if(input.get("r")==="a")target.searchParams.set("resultMode","all");
+    const a=document.getElementById("open");
+    a.href=target.href;
+    location.replace(target.href);
+  })();
+  </script>
+</body>
+</html>

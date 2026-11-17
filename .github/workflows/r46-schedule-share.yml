@@ -1,0 +1,31 @@
+name: R46 School/Day LINE Schedule Share QA
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 't/**'
+      - 'js/program.js'
+      - 'js/schedule-bulk-share.js'
+      - 'css/schedule-bulk-share.css'
+      - 'scripts/r46/**'
+      - '.github/workflows/r46-schedule-share.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  school-day-share:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/r46/test-schedule-share.mjs
+      - run: node scripts/ux/test-program-line-r14.mjs
+      - run: node scripts/ux/test-schedule-chronological-r16.mjs
+      - run: node scripts/ux/test-date-aware-program-r18.mjs
+      - run: node scripts/ux/test-date-selection-r18b.mjs
+      - run: node scripts/r38/test-r38-workflow.mjs
+      - run: node scripts/r44/test-line-result-text.mjs
