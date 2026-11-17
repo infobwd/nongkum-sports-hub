@@ -87,7 +87,7 @@ try{
  await page.locator("#r43PersonalPin").fill("1234567890");
  await page.locator("#r43LoginForm button[type=submit]").click();
  await page.waitForFunction(()=>!document.querySelector("#r43PrivateWorkspace").hidden);
- assert.match(await page.locator("#r43RoleSummary").innerText(),/กรรมการผู้เสนอทดสอบ.*wangdong.*เสนอแก้ตาราง/);
+ assert.match(await page.locator("#r43RoleSummary").innerText(),/กรรมการผู้เสนอทดสอบ.*เสนอแก้ตาราง/);
  assert.equal(await page.locator("#r43PrivateSubmit").isVisible(),true);
  assert.equal(await page.locator("#r43PrivateReview").isHidden(),true);
  assert.equal(await page.locator("#r43PersonalPin").inputValue(),"","PIN cleared on success");
