@@ -1,0 +1,13 @@
+/* R43-B/C private review; existing R43 mobile header and bottom tabs reused. */
+.r43-private [hidden]{display:none!important}
+.r43-private h3{margin:20px 0 10px;font-size:1rem}
+.r43-private .r43-panel{scroll-margin-top:100px}
+.r43-private .r43-panel button{min-height:46px}
+.r43-private .r43-list-card{padding:12px;border:1px solid #d5e2ef;border-radius:12px;background:#f7faff;margin:9px 0;overflow-wrap:anywhere}
+.r43-private .r43-list-card p{margin:6px 0;line-height:1.5;font-size:.87rem}
+.r43-private .r43-list-card small{color:#56718b}
+.r43-private .r43-list-card .r43-actions{justify-content:flex-start}
+.r43-private .r43-list-card textarea{width:100%}
+#r43PrivateStatus{padding:7px 0;min-height:40px}
+.r43-private .r43-actions{align-items:center}
+@media(max-width:690px){.r43-private .r43-panel{scroll-margin-top:72px}}
