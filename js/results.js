@@ -13,6 +13,7 @@
     more:document.getElementById("resultFilterMore"),
     moreCount:document.getElementById("resultMoreCount"),
     countSummary:document.getElementById("resultCountSummary"),
+    heading:document.getElementById("resultsHeading"),
     emptyTitle:document.getElementById("noResultsTitle"),
     emptyDescription:document.getElementById("noResultsDescription"),
     cards:document.getElementById("resultsList"),
@@ -148,8 +149,12 @@
     const filtered=hasFilters();
     const stale=state.source!=="live";
     els.count.textContent=found.length+" รายการ";
-    els.countSummary.textContent="ผลรับรองทั้งหมด "+total+" รายการ · แสดง "+found.length+" รายการ"+(stale?" · ข้อมูลสำรอง อาจไม่ใช่ผลล่าสุด":"");
-    els.activeFilters.textContent=filtered?"กำลังกรอง: "+used.join(" · "):"กำลังแสดงผลรับรองทุกกีฬาและทุกโรงเรียน";
+    els.heading.textContent=stale?"ผลการแข่งขันที่ผ่านการรับรอง":"ผลการแข่งขันล่าสุด";
+    els.countSummary.textContent=(filtered?"แสดง "+found.length+" จาก "+total+" รายการ":"")+
+      (stale?(filtered?" · ":"")+"ข้อมูลสำรอง · อาจไม่ใช่ผลล่าสุด":"");
+    els.countSummary.hidden=!filtered&&!stale;
+    els.activeFilters.textContent=filtered?"กำลังกรอง: "+used.join(" · "):"";
+    els.activeFilters.parentElement.hidden=!filtered;
     els.clearFilters.hidden=!filtered;
     els.moreCount.textContent=[state.school,state.level].filter(Boolean).length?"(เลือกแล้ว "+[state.school,state.level].filter(Boolean).length+")":"";
     els.empty.hidden=found.length!==0;
@@ -224,7 +229,8 @@
       setupHandlers();
     }
     const announced=publicationTime(data.metadata.published_at);
-    els.published.textContent=announced?"เผยแพร่ผลล่าสุด: "+announced:"";
+    els.published.textContent=state.source==="live"?(announced?"เผยแพร่ผลล่าสุด: "+announced:""):
+      "ข้อมูลสำรอง · ไม่สามารถยืนยันเวลาเผยแพร่ล่าสุดได้";
     makeSports();render();
     els.programLink.href=globalThis.Nongkum.href("index.html",state);
     globalThis.NongkumNavigation?.update?.(state);
