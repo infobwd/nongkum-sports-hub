@@ -18,6 +18,7 @@ try{
  writeFileSync(input,JSON.stringify({
    ok:true,status:"approved_not_published",
    source_key:ctx.NongkumR43Draft.CONTRACT.source_key,
+   new_fixture_review_pending:0,
    schedule_changes:[{fixture_id:fixture.id,request_id:"00000000-0000-4000-8000-000000000009",
      changes:{time:"12:30"}}]
  }));
