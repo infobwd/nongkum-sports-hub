@@ -3,7 +3,7 @@
    Never put a service_role/secret key here. No intake/evidence APIs are called from a public page. */
 (function (root) {
   "use strict";
-  const url="https://zprxvpfkvforoxrboqiv.supabase.co/rest/v1/nongkum_published_results?select=result_id,result,revision,published_at&order=result_id.asc&limit=500";
+  const url="https://zprxvpfkvforoxrboqiv.supabase.co/rest/v1/nongkum_published_results?select=result_id,result,revision,published_at&order=published_at.desc,result_id.asc&limit=500";
   const publishableKey="sb_publishable_HgMDg6IlCL0DV_WnjkK6Og_zLjnlXJY";
   const allowedFields=new Set([
     "id","status","sport_id","result_type","fixture_id","event_id",
@@ -92,9 +92,12 @@
         throw Error("Invalid approved Supabase row");
       seen.add(row.result_id);
       // Share revision is public metadata from the reviewed published row, not part of the writable result payload.
-      results.push({...row.result,share_revision:row.revision});
+      results.push({...row.result,share_revision:row.revision,published_at:row.published_at});
       if(row.published_at>newest)newest=row.published_at;
     }
+    // Keep every approved sport and result type in one newest-publication-first feed.
+    // Do not use the match date or the client refresh time for this order.
+    results.sort((a,b)=>Date.parse(b.published_at)-Date.parse(a.published_at)||a.id.localeCompare(b.id));
     // Before the cut-over, preserve the existing approved snapshot if the DB is
     // unexpectedly empty; always label it as the backup, not as a live result.
     if(!results.length && base.results.length)return {data:base,source:"backup"};
