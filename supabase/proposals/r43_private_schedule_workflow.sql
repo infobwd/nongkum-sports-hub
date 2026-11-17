@@ -209,6 +209,9 @@ begin
    if length(v_reason) not between 8 and 500 then
      return jsonb_build_object('ok',false,'error','reason_required');end if;
    v_rev:=(p_data->>'revision')::integer;
+   -- Serialize approvals across DIFFERENT fixture requests so cross-request
+   -- person-time conflict checks cannot race past each other.
+   perform pg_advisory_xact_lock(704343);
    select * into v_req from nongkum_sports.r43_requests where id=(p_data->>'id')::uuid for update;
    if not found then return jsonb_build_object('ok',false,'error','missing');end if;
    if v_req.submitted_by=p_uid then return jsonb_build_object('ok',false,'error','self_review');end if;
