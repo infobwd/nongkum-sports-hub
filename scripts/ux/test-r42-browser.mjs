@@ -114,17 +114,17 @@ try{
    await page.waitForURL("**/index.html");
   }
  }
- // R42-B: desktop keeps the original blue gradient hero and non-sticky header.
+ // R42-B: desktop keeps its original navy background, visible hero and non-sticky header.
  await page.setViewportSize({width:1024,height:768});
  await page.goto(base+"/activity-photos.html",{waitUntil:"domcontentloaded"});
  const desktopGallery=await page.locator("header.top").evaluate(el=>({
    position:getComputedStyle(el).position,
-   backgroundImage:getComputedStyle(el).backgroundImage,
+   backgroundColor:getComputedStyle(el).backgroundColor,
    hero:getComputedStyle(el.querySelector(".hero")).display,
    text:el.querySelector(".hero h1").textContent.trim()
  }));
  assert.equal(desktopGallery.position,"static","desktop gallery header unchanged");
- assert.match(desktopGallery.backgroundImage,/linear-gradient/,"desktop blue gradient retained");
+ assert.equal(desktopGallery.backgroundColor,"rgb(24, 55, 98)","existing desktop navy header retained");
  assert.notEqual(desktopGallery.hero,"none","desktop hero remains visible");
  assert.equal(desktopGallery.text,"ภาพกิจกรรมการแข่งขัน");
  const noJS=await browser.newContext({viewport:{width:390,height:812},javaScriptEnabled:false});
