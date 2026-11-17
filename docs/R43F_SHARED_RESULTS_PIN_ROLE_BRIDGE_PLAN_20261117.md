@@ -20,11 +20,18 @@
 ## ลำดับ/เกณฑ์ตรวจ
 - [x] ตรวจ main, PR, R34/R37/R43 production
 - [x] บันทึกแผนนี้ก่อนแก้โค้ด
-- [ ] ทำ SQL RPC ตรวจ token แบบอ่านอย่างเดียวและให้ service_role ใช้เท่านั้น
-- [ ] ทำ Edge ตรวจ Auth + สิทธิ์ PIN ก่อนทุก action ที่มีข้อมูล/การเปลี่ยนแปลง
-- [ ] ทำ UI ใช้ session PIN เดิมหรือให้กรอก PIN เดิม หากยังไม่ปลดล็อก
-- [ ] ทดสอบ: ไม่มี Auth, ไม่มี role, token ผิด/หมดอายุ/revoke, เอา editor PIN ไปอนุมัติ, reviewer PIN ไปเสนอ, self-review, token ไม่หลุด logs และ R33/R32 ไม่เปลี่ยน
-- [ ] CI + PR สำหรับตรวจ; ไม่มี Merge/deploy/เปิดสิทธิ์จริงโดยอัตโนมัติ
+- [x] จัดทำ SQL RPC แบบอ่านอย่างเดียว (proposal สำหรับทดสอบ; ยังไม่ติดตั้ง Meeting) และให้ service_role ใช้เท่านั้น
+- [x] พัฒนา Edge ตรวจ Auth + สิทธิ์ PIN ก่อนทุก action ที่มีข้อมูล/การเปลี่ยนแปลง (ยังไม่ deploy)
+- [x] พัฒนา UI ใช้ session PIN เดิมหรือให้กรอก PIN เดิม หากยังไม่ปลดล็อก (ยังไม่เผยแพร่)
+- [x] ทดสอบจำลอง: ไม่มี Auth, ไม่มี role, token ผิด/หมดอายุ/revoke, editor/reviewer ข้ามสิทธิ์, self-review, ไม่มี token ใน R43 gateway/audit, R33/R32 ไม่เปลี่ยน
+- [x] เปิด PR #170 และ CI ผ่าน; ไม่มี Merge/deploy/เปิดสิทธิ์จริงโดยอัตโนมัติ
 
 ## ข้อจำกัดการเปิดจริง
 ต้องมี Auth user UUID อย่างน้อยสองคนได้รับมอบอำนาจเป็นลายลักษณ์อักษรและอยู่ใน R43 roles; อนุมัติการ deploy Edge + public config ตาม QA และตรวจ Safari/Chrome/LINE เครื่องจริงก่อนตรวจรับ; ไม่มีการนำ shared PIN มา provision รายชื่อหรือสิทธิ์เอง
+
+## ผลทดสอบและสถานะการส่งมอบ
+- [GitHub Actions R43-F ทดสอบฐานจำลอง + Chromium ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44006883023)
+- [ทดสอบ R43-A เดิมผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44006883025), [R14 หน้าสนาม/LINE จำลองผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44006882996), [ตรวจข้อมูลเดิมผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44006883007)
+- [PR #170](https://github.com/infobwd/nongkum-sports-hub/pull/170) เสนอแก้ 10 ไฟล์; **ยังไม่ Merge, ไม่ install SQL, ไม่ deploy Edge และไม่เปิด R43 production**
+- ตรวจ Supabase Meeting จริงหลังพัฒนา: R33 active 236, R32 approved 43 (เพิ่มจากการตรวจต้นทาง 41 โดยไม่ได้เกิดจาก PR นี้), R43 active roles 0, R43 requests 0
+- [ ] ยังต้องตรวจบัญชีเจ้าหน้าที่จริงอย่างน้อยสองคน, รับรองสิทธิ์, ติดตั้ง SQL, deploy gateway, ตั้งค่า public auth config และทดสอบอุปกรณ์จริง ก่อนเปิดใช้งาน
