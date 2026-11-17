@@ -74,6 +74,27 @@
     return getTime(item)+" | "+label+" · "+description(item,data.schools,selectedSchool)+
       fieldNote(item);
   }
+  // R47: organizer explicitly confirmed the five 18-Nov Wangdong fixtures
+  // in chat 17-Nov-2026. Read-only display evidence, NOT a write to R33/R43
+  // locked source, bracket, PDF, or approval status.
+  const ORGANIZER_CONFIRMED=Object.freeze({
+    "football-p07-12-ปี-ชาย-009":["football","nongkrathum","wangdong","09:30"],
+    "volleyball-p11-12-ปี-ชาย-B-006":["volleyball","wangdong","nongkrathum","09:30"],
+    "football-p07-12-ปี-ชาย-011":["football","thungmasang","wangdong","11:00"],
+    "futsal-p09-10-ปี-ชาย-B-009":["futsal","wangdong","thungmasang","13:30"],
+    "takraw-p13-12-ปี-ชาย-A-015":["takraw","wangdong","nongkrathum","14:00"]
+  });
+  function organizerConfirmed(item){
+    const info=ORGANIZER_CONFIRMED[item.id];
+    if(!info)return false;
+    const [sport,a,b,time]=info;
+    const sourceTime=String(item.source_pdf?.source_time||item.draft_time||item.time||"").slice(0,5);
+    return item.draft_date==="2026-11-18"&&
+      item.sport_id===sport&&item.team_a_id===a&&item.team_b_id===b&&
+      sourceTime===time&&
+      (item.planning_date_confirmation!=="confirmed"||item.planning_date==="2026-11-18")&&
+      (item.planning_time_confirmation!=="confirmed"||item.planning_time===time);
+  }
   function makeParts(options){
     const data=options?.data;
     if(!data||!Array.isArray(data.schools)||!Array.isArray(data.sports)||!Array.isArray(options.fixtures))
@@ -91,9 +112,10 @@
     const schoolTitle=selected?.name||"ทุกโรงเรียน";
     const filterInfo=(sport?sport.name:"ทุกกีฬา")+(options.level?" · "+({early:"ปฐมวัย",primary:"ประถม",secondary:"มัธยม"}[options.level]||""):"");
     const title="ตารางการแข่งขัน · มิตรภาพเกมส์ 2569";
-    const hasUnconfirmed=all.some(f=>f.planning_date_confirmation!=="confirmed"||
+    const hasUnconfirmed=all.some(f=>!organizerConfirmed(f)&&(
+      f.planning_date_confirmation!=="confirmed"||
       f.planning_time_confirmation!=="confirmed"||
-      (f.source_pdf?.source_field&&f.planning_subvenue_confirmation!=="confirmed"));
+      (f.source_pdf?.source_field&&f.planning_subvenue_confirmation!=="confirmed")));
     const notices=[
       ...(hasUnconfirmed?["หมายเหตุ: บางรายการยังมีข้อมูลกำหนดการแข่งขันที่รอตรวจสอบในระบบ"]:[]),
       "คู่แข่งขันตามตารางที่แสดง ไม่ใช่ผลการแข่งขัน",
@@ -137,5 +159,5 @@
     }
     return "unavailable";
   }
-  root.NongkumScheduleBulkShare=Object.freeze({makeParts,shortUrl,validDay,schoolInFixture,send});
+  root.NongkumScheduleBulkShare=Object.freeze({makeParts,shortUrl,validDay,schoolInFixture,organizerConfirmed,send});
 })(globalThis);
