@@ -1,0 +1,125 @@
+-- R43-F: TEST-DATABASE-ONLY atomic staged installer (psql script).
+-- NOT an official Supabase migration. Do not run on Supabase Meeting.
+-- The hard-coded database guard makes accidental production use fail closed.
+-- Run only from the repository root via:
+--   psql -X -v ON_ERROR_STOP=1 -f scripts/r43/install-personal-pin-staging.psql
+\set ON_ERROR_STOP on
+begin;
+
+-- Lock the isolated R43 actor tables before the 7-table zero-data check, so
+-- a concurrent writer cannot add a legacy row between the check and FK swap.
+-- This may hold exclusive locks: never execute against a production database.
+lock table nongkum_sports.r43_roles,
+  nongkum_sports.r43_people,nongkum_sports.r43_people_audit,
+  nongkum_sports.r43_requests,nongkum_sports.r43_audit,
+  nongkum_sports.r43_new_fixture_requests,
+  nongkum_sports.r43_new_fixture_audit
+  in access exclusive mode;
+
+do $guard$
+declare
+  table_name text;
+  n bigint;
+  actor_fk_count integer;
+begin
+  if current_database() <> 'r43_staff_test' then
+    raise exception 'R43 staging installer REFUSED outside the isolated r43_staff_test database';
+  end if;
+
+  if to_regclass('nongkum_sports.r43_staff_identities') is not null
+    or to_regprocedure('public.nongkum_r43_personal_pin_auth(text,text,text,text,text)') is not null then
+    raise exception 'R43 staging installer REFUSED: personal PIN schema already present; do not overwrite';
+  end if;
+
+  foreach table_name in array array[
+    'r43_roles','r43_people','r43_people_audit','r43_requests',
+    'r43_audit','r43_new_fixture_requests','r43_new_fixture_audit'
+  ] loop
+    execute format('select count(*) from nongkum_sports.%I',table_name) into n;
+    if n<>0 then
+      raise exception 'R43 staging installer BLOCKED: nongkum_sports.% contains % existing rows',
+        table_name,n;
+    end if;
+  end loop;
+
+  select count(*) into actor_fk_count from pg_constraint p
+    join pg_class t on t.oid=p.conrelid
+    join pg_namespace ns on ns.oid=t.relnamespace
+    where ns.nspname='nongkum_sports'
+      and t.relname in (
+        'r43_roles','r43_people','r43_people_audit','r43_requests',
+        'r43_audit','r43_new_fixture_requests','r43_new_fixture_audit'
+      )
+      and p.contype='f' and p.confrelid='auth.users'::regclass;
+
+  if actor_fk_count<>10 then
+    raise exception 'R43 staging installer BLOCKED: expected 10 legacy Auth actor FKs; got %',
+      actor_fk_count;
+  end if;
+  if (select count(*) from public.nongkum_schedule_active where singleton=1)<>1 then
+    raise exception 'R43 staging installer BLOCKED: no unique active source';
+  end if;
+end;
+$guard$;
+
+-- Record source-data fingerprints as a second line of defense in this test DB.
+create temporary table r43_staging_snapshot on commit drop as
+select
+  (select source_key from public.nongkum_schedule_active where singleton=1) as source_key,
+  (select count(*) from public.nongkum_schedule_fixtures) as fixture_count,
+  (select count(*) from public.nongkum_published_results) as result_count;
+
+-- Files are included in the order tested in PR #170. No actual personnel or
+-- credentials are inserted, and no R32/R33 source table is modified.
+\ir ../../supabase/proposals/r43_personal_pin_private_identity.sql
+\ir ../../supabase/proposals/r43_staff_actor_bridge.sql
+\ir ../../supabase/proposals/r43_personal_pin_auth_rpc.sql
+
+do $postflight$
+declare
+  actor_fk_count integer;
+  legacy_fk_count integer;
+begin
+  select count(*) into actor_fk_count from pg_constraint p
+    join pg_class t on t.oid=p.conrelid
+    join pg_namespace ns on ns.oid=t.relnamespace
+    where ns.nspname='nongkum_sports'
+      and t.relname in (
+        'r43_roles','r43_people','r43_people_audit','r43_requests',
+        'r43_audit','r43_new_fixture_requests','r43_new_fixture_audit'
+      )
+      and p.contype='f'
+      and p.confrelid='nongkum_sports.r43_staff_identities'::regclass;
+  select count(*) into legacy_fk_count from pg_constraint p
+    join pg_class t on t.oid=p.conrelid
+    join pg_namespace ns on ns.oid=t.relnamespace
+    where ns.nspname='nongkum_sports' and t.relname like 'r43_%'
+      and p.contype='f' and p.confrelid='auth.users'::regclass;
+  if actor_fk_count<>10 or legacy_fk_count<>0 then
+    raise exception 'R43 staged actor FK integrity check failed: % staff, % legacy',
+      actor_fk_count,legacy_fk_count;
+  end if;
+  if exists(
+    select 1 from r43_staging_snapshot s
+    where s.source_key is distinct from
+       (select source_key from public.nongkum_schedule_active where singleton=1)
+       or s.fixture_count<>(select count(*) from public.nongkum_schedule_fixtures)
+       or s.result_count<>(select count(*) from public.nongkum_published_results)
+  ) then
+    raise exception 'R43 staged installer modified R32/R33 synthetic source';
+  end if;
+  if has_function_privilege('anon','public.nongkum_r43_personal_pin_auth(text,text,text,text,text)','EXECUTE')
+    or has_function_privilege('authenticated',
+      'public.nongkum_r43_personal_pin_auth(text,text,text,text,text)','EXECUTE') then
+    raise exception 'R43 staged PIN RPC exposed to unauthenticated/public role';
+  end if;
+  if (select count(*) from nongkum_sports.r43_staff_identities)<>0
+    or (select count(*) from nongkum_sports.r43_staff_pin_keys)<>0
+    or (select count(*) from nongkum_sports.r43_staff_sessions)<>0 then
+    raise exception 'R43 staged installer unexpectedly provisioned credentials';
+  end if;
+end;
+$postflight$;
+
+commit;
+select 'R43_STAGING_INSTALL_ATOMIC_GUARDS_PASS' as status;
