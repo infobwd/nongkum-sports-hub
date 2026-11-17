@@ -1,0 +1,1791 @@
+{
+  "source": "Supabase Meeting public.nongkum_published_results",
+  "project_id": "zprxvpfkvforoxrboqiv",
+  "active_schedule_source": "r33-20261116-7ba60be1-fa3269b5",
+  "snapshot_date": "2026-11-18",
+  "status": "published-approved-only",
+  "count": 83,
+  "results": [
+    {
+      "result_id": "result-athletics-p25-011-m",
+      "result": {
+        "id": "result-athletics-p25-011-m",
+        "status": "approved",
+        "division": "ปฐมวัย ชาย",
+        "event_id": "athletics-p25-011-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "saohong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 05:19:58.463069+00"
+    },
+    {
+      "result_id": "result-athletics-p25-012-f",
+      "result": {
+        "id": "result-athletics-p25-012-f",
+        "status": "approved",
+        "division": "ปฐมวัย หญิง",
+        "event_id": "athletics-p25-012-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "saohong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 08:01:04.532173+00"
+    },
+    {
+      "result_id": "result-athletics-p25-013-m",
+      "result": {
+        "id": "result-athletics-p25-013-m",
+        "status": "approved",
+        "division": "ปฐมวัย ชาย",
+        "event_id": "athletics-p25-013-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 08:01:06.399115+00"
+    },
+    {
+      "result_id": "result-athletics-p26-014-f",
+      "result": {
+        "id": "result-athletics-p26-014-f",
+        "status": "approved",
+        "division": "ปฐมวัย หญิง",
+        "event_id": "athletics-p26-014-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 2,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 3,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 05:20:01.053333+00"
+    },
+    {
+      "result_id": "result-athletics-p26-015-m",
+      "result": {
+        "id": "result-athletics-p26-015-m",
+        "status": "approved",
+        "division": "ปฐมวัย ชาย",
+        "event_id": "athletics-p26-015-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 05:20:04.810935+00"
+    },
+    {
+      "result_id": "result-athletics-p26-016-f",
+      "result": {
+        "id": "result-athletics-p26-016-f",
+        "status": "approved",
+        "division": "ปฐมวัย หญิง",
+        "event_id": "athletics-p26-016-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 3,
+            "school_id": "rangkham"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 05:20:07.246255+00"
+    },
+    {
+      "result_id": "result-athletics-p27-017-m",
+      "result": {
+        "id": "result-athletics-p27-017-m",
+        "status": "approved",
+        "division": "8 ปี ชาย",
+        "event_id": "athletics-p27-017-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkum"
+          },
+          {
+            "rank": 2,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 3,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:33:49.863049+00"
+    },
+    {
+      "result_id": "result-athletics-p27-018-f",
+      "result": {
+        "id": "result-athletics-p27-018-f",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "event_id": "athletics-p27-018-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 2,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 3,
+            "school_id": "saohong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:33:48.12019+00"
+    },
+    {
+      "result_id": "result-athletics-p27-019-m",
+      "result": {
+        "id": "result-athletics-p27-019-m",
+        "status": "approved",
+        "division": "8 ปี ชาย",
+        "event_id": "athletics-p27-019-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 3,
+            "school_id": "nongkum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:33:46.294087+00"
+    },
+    {
+      "result_id": "result-athletics-p28-020-f",
+      "result": {
+        "id": "result-athletics-p28-020-f",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "event_id": "athletics-p28-020-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 2,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 3,
+            "school_id": "saohong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:33:44.413904+00"
+    },
+    {
+      "result_id": "result-athletics-p28-021-m",
+      "result": {
+        "id": "result-athletics-p28-021-m",
+        "status": "approved",
+        "division": "10 ปี ชาย",
+        "event_id": "athletics-p28-021-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 2,
+            "school_id": "wangdong"
+          },
+          {
+            "rank": 3,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:32:08.187742+00"
+    },
+    {
+      "result_id": "result-athletics-p28-022-f",
+      "result": {
+        "id": "result-athletics-p28-022-f",
+        "status": "approved",
+        "division": "10 ปี หญิง",
+        "event_id": "athletics-p28-022-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 2,
+            "school_id": "wangdong"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:32:05.98944+00"
+    },
+    {
+      "result_id": "result-athletics-p29-023-m",
+      "result": {
+        "id": "result-athletics-p29-023-m",
+        "status": "approved",
+        "division": "10 ปี ชาย",
+        "event_id": "athletics-p29-023-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkum"
+          },
+          {
+            "rank": 2,
+            "school_id": "wangkhaokaew"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:32:03.750752+00"
+    },
+    {
+      "result_id": "result-athletics-p29-024-f",
+      "result": {
+        "id": "result-athletics-p29-024-f",
+        "status": "approved",
+        "division": "10 ปี หญิง",
+        "event_id": "athletics-p29-024-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkum"
+          },
+          {
+            "rank": 2,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:31:58.808808+00"
+    },
+    {
+      "result_id": "result-athletics-p29-025-m",
+      "result": {
+        "id": "result-athletics-p29-025-m",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "event_id": "athletics-p29-025-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkum"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:45:08.75109+00"
+    },
+    {
+      "result_id": "result-athletics-p30-026-f",
+      "result": {
+        "id": "result-athletics-p30-026-f",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "event_id": "athletics-p30-026-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:45:11.007504+00"
+    },
+    {
+      "result_id": "result-athletics-p30-027-m",
+      "result": {
+        "id": "result-athletics-p30-027-m",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "event_id": "athletics-p30-027-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 3,
+            "school_id": "nongkum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:45:06.583174+00"
+    },
+    {
+      "result_id": "result-athletics-p30-028-f",
+      "result": {
+        "id": "result-athletics-p30-028-f",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "event_id": "athletics-p30-028-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:45:04.229784+00"
+    },
+    {
+      "result_id": "result-athletics-p31-029-m",
+      "result": {
+        "id": "result-athletics-p31-029-m",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "event_id": "athletics-p31-029-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 3,
+            "school_id": "wangdong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:53:41.970301+00"
+    },
+    {
+      "result_id": "result-athletics-p31-030-f",
+      "result": {
+        "id": "result-athletics-p31-030-f",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "event_id": "athletics-p31-030-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:53:39.676118+00"
+    },
+    {
+      "result_id": "result-athletics-p31-031-m",
+      "result": {
+        "id": "result-athletics-p31-031-m",
+        "status": "approved",
+        "division": "มัธยม ชาย",
+        "event_id": "athletics-p31-031-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:00:01.258228+00"
+    },
+    {
+      "result_id": "result-athletics-p31-032-f",
+      "result": {
+        "id": "result-athletics-p31-032-f",
+        "status": "approved",
+        "division": "มัธยม หญิง",
+        "event_id": "athletics-p31-032-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:59:58.235288+00"
+    },
+    {
+      "result_id": "result-athletics-p31-033-m",
+      "result": {
+        "id": "result-athletics-p31-033-m",
+        "status": "approved",
+        "division": "มัธยม ชาย",
+        "event_id": "athletics-p31-033-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:59:55.875281+00"
+    },
+    {
+      "result_id": "result-athletics-p32-034-f",
+      "result": {
+        "id": "result-athletics-p32-034-f",
+        "status": "approved",
+        "division": "มัธยม หญิง",
+        "event_id": "athletics-p32-034-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 06:59:52.300822+00"
+    },
+    {
+      "result_id": "result-athletics-p32-035-f",
+      "result": {
+        "id": "result-athletics-p32-035-f",
+        "status": "approved",
+        "division": "มัธยม หญิง",
+        "event_id": "athletics-p32-035-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:10:59.3228+00"
+    },
+    {
+      "result_id": "result-athletics-p32-035-m",
+      "result": {
+        "id": "result-athletics-p32-035-m",
+        "status": "approved",
+        "division": "มัธยม ชาย",
+        "event_id": "athletics-p32-035-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:11:01.743101+00"
+    },
+    {
+      "result_id": "result-athletics-p32-036-m",
+      "result": {
+        "id": "result-athletics-p32-036-m",
+        "status": "approved",
+        "division": "8 ปี ชาย",
+        "event_id": "athletics-p32-036-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkum"
+          },
+          {
+            "rank": 3,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:23:16.601589+00"
+    },
+    {
+      "result_id": "result-athletics-p32-037-f",
+      "result": {
+        "id": "result-athletics-p32-037-f",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "event_id": "athletics-p32-037-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:32:47.990407+00"
+    },
+    {
+      "result_id": "result-athletics-p33-038-m",
+      "result": {
+        "id": "result-athletics-p33-038-m",
+        "status": "approved",
+        "division": "10 ปี ชาย",
+        "event_id": "athletics-p33-038-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "wangdong"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "wangkhaokaew"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:32:45.963615+00"
+    },
+    {
+      "result_id": "result-athletics-p33-039-f",
+      "result": {
+        "id": "result-athletics-p33-039-f",
+        "status": "approved",
+        "division": "10 ปี หญิง",
+        "event_id": "athletics-p33-039-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "rangkham"
+          },
+          {
+            "rank": 2,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 3,
+            "school_id": "wangdong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:39:38.790739+00"
+    },
+    {
+      "result_id": "result-athletics-p33-040-m",
+      "result": {
+        "id": "result-athletics-p33-040-m",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "event_id": "athletics-p33-040-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "wangdong"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:46:21.791+00"
+    },
+    {
+      "result_id": "result-athletics-p34-041-f",
+      "result": {
+        "id": "result-athletics-p34-041-f",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "event_id": "athletics-p34-041-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 07:53:43.040133+00"
+    },
+    {
+      "result_id": "result-athletics-p34-042-m",
+      "result": {
+        "id": "result-athletics-p34-042-m",
+        "status": "approved",
+        "division": "มัธยม ชาย",
+        "event_id": "athletics-p34-042-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:09:10.714301+00"
+    },
+    {
+      "result_id": "result-athletics-p34-043-f",
+      "result": {
+        "id": "result-athletics-p34-043-f",
+        "status": "approved",
+        "division": "มัธยม หญิง",
+        "event_id": "athletics-p34-043-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:03:39.385538+00"
+    },
+    {
+      "result_id": "result-athletics-p34-044-m",
+      "result": {
+        "id": "result-athletics-p34-044-m",
+        "status": "approved",
+        "division": "10 ปี ชาย",
+        "event_id": "athletics-p34-044-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "wangdong"
+          },
+          {
+            "rank": 2,
+            "school_id": "wangkhaokaew"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:09:50.824102+00"
+    },
+    {
+      "result_id": "result-athletics-p34-045-f",
+      "result": {
+        "id": "result-athletics-p34-045-f",
+        "status": "approved",
+        "division": "10 ปี หญิง",
+        "event_id": "athletics-p34-045-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 2,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 3,
+            "school_id": "wangdong"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:20:58.307428+00"
+    },
+    {
+      "result_id": "result-athletics-p35-046-m",
+      "result": {
+        "id": "result-athletics-p35-046-m",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "event_id": "athletics-p35-046-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "phuphrom"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 3,
+            "school_id": "thungmasang"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:20:55.313668+00"
+    },
+    {
+      "result_id": "result-athletics-p35-047-f",
+      "result": {
+        "id": "result-athletics-p35-047-f",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "event_id": "athletics-p35-047-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          },
+          {
+            "rank": 2,
+            "school_id": "saohong"
+          },
+          {
+            "rank": 3,
+            "school_id": "phuphrom"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:30:53.596252+00"
+    },
+    {
+      "result_id": "result-athletics-p35-048-f",
+      "result": {
+        "id": "result-athletics-p35-048-f",
+        "status": "approved",
+        "division": "มัธยม หญิง",
+        "event_id": "athletics-p35-048-f",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 02:41:35.179262+00"
+    },
+    {
+      "result_id": "result-athletics-p35-048-m",
+      "result": {
+        "id": "result-athletics-p35-048-m",
+        "status": "approved",
+        "division": "มัธยม ชาย",
+        "event_id": "athletics-p35-048-m",
+        "rankings": [
+          {
+            "rank": 1,
+            "school_id": "thungmasang"
+          },
+          {
+            "rank": 2,
+            "school_id": "nongkrathum"
+          }
+        ],
+        "sport_id": "athletics",
+        "result_type": "ranking"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 02:41:37.021768+00"
+    },
+    {
+      "result_id": "result-football-p07-12-ปี-ชาย-001",
+      "result": {
+        "id": "result-football-p07-12-ปี-ชาย-001",
+        "status": "approved",
+        "score_a": 1,
+        "score_b": 2,
+        "division": "12 ปี ชาย",
+        "sport_id": "football",
+        "team_a_id": "thungmasang",
+        "team_b_id": "phuphrom",
+        "fixture_id": "football-p07-12-ปี-ชาย-001",
+        "result_type": "score",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 08:01:02.55507+00"
+    },
+    {
+      "result_id": "result-football-p07-12-ปี-ชาย-002",
+      "result": {
+        "id": "result-football-p07-12-ปี-ชาย-002",
+        "status": "approved",
+        "score_a": 0,
+        "score_b": 6,
+        "division": "12 ปี ชาย",
+        "sport_id": "football",
+        "team_a_id": "nongkum",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "football-p07-12-ปี-ชาย-002",
+        "result_type": "score",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:39.205004+00"
+    },
+    {
+      "result_id": "result-football-p07-12-ปี-ชาย-003",
+      "result": {
+        "id": "result-football-p07-12-ปี-ชาย-003",
+        "status": "approved",
+        "score_a": 0,
+        "score_b": 1,
+        "division": "12 ปี ชาย",
+        "sport_id": "football",
+        "team_a_id": "wangdong",
+        "team_b_id": "saohong",
+        "fixture_id": "football-p07-12-ปี-ชาย-003",
+        "result_type": "score",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:41.957271+00"
+    },
+    {
+      "result_id": "result-football-p07-12-ปี-ชาย-004",
+      "result": {
+        "id": "result-football-p07-12-ปี-ชาย-004",
+        "status": "approved",
+        "score_a": 0,
+        "score_b": 5,
+        "division": "12 ปี ชาย",
+        "sport_id": "football",
+        "team_a_id": "thungmasang",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "football-p07-12-ปี-ชาย-004",
+        "result_type": "score",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:56.369573+00"
+    },
+    {
+      "result_id": "result-football-p07-12-ปี-ชาย-005",
+      "result": {
+        "id": "result-football-p07-12-ปี-ชาย-005",
+        "status": "approved",
+        "score_a": 2,
+        "score_b": 0,
+        "division": "12 ปี ชาย",
+        "sport_id": "football",
+        "team_a_id": "phuphrom",
+        "team_b_id": "saohong",
+        "fixture_id": "football-p07-12-ปี-ชาย-005",
+        "result_type": "score",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:24:04.552991+00"
+    },
+    {
+      "result_id": "result-football-p07-12-ปี-ชาย-006",
+      "result": {
+        "id": "result-football-p07-12-ปี-ชาย-006",
+        "status": "approved",
+        "score_a": 1,
+        "score_b": 3,
+        "division": "12 ปี ชาย",
+        "sport_id": "football",
+        "team_a_id": "nongkum",
+        "team_b_id": "wangdong",
+        "fixture_id": "football-p07-12-ปี-ชาย-006",
+        "result_type": "score",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:53.629378+00"
+    },
+    {
+      "result_id": "result-futsal-p09-10-ปี-ชาย-A-001",
+      "result": {
+        "id": "result-futsal-p09-10-ปี-ชาย-A-001",
+        "status": "approved",
+        "score_a": 1,
+        "score_b": 3,
+        "division": "10 ปี ชาย A",
+        "sport_id": "futsal",
+        "team_a_id": "nongkum",
+        "team_b_id": "phuphrom",
+        "fixture_id": "futsal-p09-10-ปี-ชาย-A-001",
+        "result_type": "score",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:24:01.272132+00"
+    },
+    {
+      "result_id": "result-futsal-p09-10-ปี-ชาย-A-002",
+      "result": {
+        "id": "result-futsal-p09-10-ปี-ชาย-A-002",
+        "status": "approved",
+        "score_a": 0,
+        "score_b": 1,
+        "division": "10 ปี ชาย A",
+        "sport_id": "futsal",
+        "team_a_id": "nongkrathum",
+        "team_b_id": "wangkhaokaew",
+        "fixture_id": "futsal-p09-10-ปี-ชาย-A-002",
+        "result_type": "score",
+        "winner_school_id": "wangkhaokaew"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:58.58268+00"
+    },
+    {
+      "result_id": "result-futsal-p09-10-ปี-ชาย-A-004",
+      "result": {
+        "id": "result-futsal-p09-10-ปี-ชาย-A-004",
+        "status": "approved",
+        "score_a": 5,
+        "score_b": 4,
+        "division": "10 ปี ชาย A",
+        "sport_id": "futsal",
+        "team_a_id": "nongkum",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "futsal-p09-10-ปี-ชาย-A-004",
+        "result_type": "score",
+        "winner_school_id": "nongkum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:44.604222+00"
+    },
+    {
+      "result_id": "result-futsal-p09-10-ปี-ชาย-A-005",
+      "result": {
+        "id": "result-futsal-p09-10-ปี-ชาย-A-005",
+        "status": "approved",
+        "score_a": 2,
+        "score_b": 3,
+        "division": "10 ปี ชาย A",
+        "sport_id": "futsal",
+        "team_a_id": "phuphrom",
+        "team_b_id": "wangkhaokaew",
+        "fixture_id": "futsal-p09-10-ปี-ชาย-A-005",
+        "result_type": "score",
+        "winner_school_id": "wangkhaokaew"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:30.392864+00"
+    },
+    {
+      "result_id": "result-futsal-p09-10-ปี-ชาย-B-003",
+      "result": {
+        "id": "result-futsal-p09-10-ปี-ชาย-B-003",
+        "status": "approved",
+        "score_a": 2,
+        "score_b": 0,
+        "division": "10 ปี ชาย B",
+        "sport_id": "futsal",
+        "team_a_id": "saohong",
+        "team_b_id": "wangdong",
+        "fixture_id": "futsal-p09-10-ปี-ชาย-B-003",
+        "result_type": "score",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:23:49.080118+00"
+    },
+    {
+      "result_id": "result-petanque-p14-ปฐมวัยชาย-001",
+      "result": {
+        "id": "result-petanque-p14-ปฐมวัยชาย-001",
+        "status": "approved",
+        "division": "ปฐมวัยชาย",
+        "sport_id": "petanque",
+        "team_a_id": "wangkhaokaew",
+        "team_b_id": "nongkum",
+        "fixture_id": "petanque-p14-ปฐมวัยชาย-001",
+        "result_type": "win_loss",
+        "winner_school_id": "wangkhaokaew"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:53:09.071176+00"
+    },
+    {
+      "result_id": "result-petanque-p14-ปฐมวัยชาย-003",
+      "result": {
+        "id": "result-petanque-p14-ปฐมวัยชาย-003",
+        "status": "approved",
+        "division": "ปฐมวัยชาย",
+        "sport_id": "petanque",
+        "team_a_id": "wangdong",
+        "team_b_id": "rangkham",
+        "fixture_id": "petanque-p14-ปฐมวัยชาย-003",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:53:04.351634+00"
+    },
+    {
+      "result_id": "result-petanque-p17-12-ปี-ชาย-020",
+      "result": {
+        "id": "result-petanque-p17-12-ปี-ชาย-020",
+        "round": "รอบแรก",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "sport_id": "petanque",
+        "team_a_id": "wangdong",
+        "team_b_id": "saohong",
+        "fixture_id": "petanque-p17-12-ปี-ชาย-020",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-15 17:22:47.051095+00"
+    },
+    {
+      "result_id": "result-petanque-p17-8-ปี-ชาย-004",
+      "result": {
+        "id": "result-petanque-p17-8-ปี-ชาย-004",
+        "status": "approved",
+        "division": "8 ปี ชาย",
+        "sport_id": "petanque",
+        "team_a_id": "wangkhaokaew",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "petanque-p17-8-ปี-ชาย-004",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 06:46:02.026675+00"
+    },
+    {
+      "result_id": "result-petanque-p17-8-ปี-หญิง-005",
+      "result": {
+        "id": "result-petanque-p17-8-ปี-หญิง-005",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "sport_id": "petanque",
+        "team_a_id": "nongkum",
+        "team_b_id": "wangkhaokaew",
+        "fixture_id": "petanque-p17-8-ปี-หญิง-005",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 06:45:34.772937+00"
+    },
+    {
+      "result_id": "result-petanque-p17-8-ปี-หญิง-006",
+      "result": {
+        "id": "result-petanque-p17-8-ปี-หญิง-006",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "sport_id": "petanque",
+        "team_a_id": "nongkrathum",
+        "team_b_id": "phuphrom",
+        "fixture_id": "petanque-p17-8-ปี-หญิง-006",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 06:45:13.31245+00"
+    },
+    {
+      "result_id": "result-petanque-p17-8-ปี-หญิง-007",
+      "result": {
+        "id": "result-petanque-p17-8-ปี-หญิง-007",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "sport_id": "petanque",
+        "team_a_id": "rangkham",
+        "team_b_id": "saohong",
+        "fixture_id": "petanque-p17-8-ปี-หญิง-007",
+        "result_type": "win_loss",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 06:44:59.528616+00"
+    },
+    {
+      "result_id": "result-petanque-p17-8-ปี-หญิง-008",
+      "result": {
+        "id": "result-petanque-p17-8-ปี-หญิง-008",
+        "status": "approved",
+        "division": "8 ปี หญิง",
+        "sport_id": "petanque",
+        "team_a_id": "thungmasang",
+        "team_b_id": "wangdong",
+        "fixture_id": "petanque-p17-8-ปี-หญิง-008",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 06:45:44.365684+00"
+    },
+    {
+      "result_id": "result-petanque-p18-มัธยมชาย-043",
+      "result": {
+        "id": "result-petanque-p18-มัธยมชาย-043",
+        "status": "approved",
+        "division": "มัธยมชาย",
+        "sport_id": "petanque",
+        "team_a_id": "nongkrathum",
+        "team_b_id": "thungmasang",
+        "fixture_id": "petanque-p18-มัธยมชาย-043",
+        "result_type": "win_loss",
+        "winner_school_id": "thungmasang"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:53:01.882719+00"
+    },
+    {
+      "result_id": "result-petanque-p18-มัธยมหญิง-044",
+      "result": {
+        "id": "result-petanque-p18-มัธยมหญิง-044",
+        "status": "approved",
+        "division": "มัธยมหญิง",
+        "sport_id": "petanque",
+        "team_a_id": "nongkrathum",
+        "team_b_id": "thungmasang",
+        "fixture_id": "petanque-p18-มัธยมหญิง-044",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-16 08:52:58.749606+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-ชาย-001",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-ชาย-001",
+        "sets": [
+          {
+            "a": 6,
+            "b": 11
+          },
+          {
+            "a": 1,
+            "b": 11
+          }
+        ],
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "sport_id": "tabletennis",
+        "team_a_id": "thungmasang",
+        "team_b_id": "phuphrom",
+        "fixture_id": "tabletennis-p20-12-ปี-ชาย-001",
+        "result_type": "sets",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 03:17:51.818583+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-ชาย-002",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-ชาย-002",
+        "sets": [
+          {
+            "a": 0,
+            "b": 11
+          },
+          {
+            "a": 0,
+            "b": 11
+          }
+        ],
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "sport_id": "tabletennis",
+        "team_a_id": "nongkum",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "tabletennis-p20-12-ปี-ชาย-002",
+        "result_type": "sets",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 03:17:48.515254+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-ชาย-003",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-ชาย-003",
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "sport_id": "tabletennis",
+        "team_a_id": "wangdong",
+        "team_b_id": "saohong",
+        "fixture_id": "tabletennis-p20-12-ปี-ชาย-003",
+        "result_type": "win_loss",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 05:05:10.810851+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-ชาย-004",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-ชาย-004",
+        "sets": [
+          {
+            "a": 7,
+            "b": 11
+          },
+          {
+            "a": 11,
+            "b": 6
+          },
+          {
+            "a": 11,
+            "b": 7
+          }
+        ],
+        "status": "approved",
+        "division": "12 ปี ชาย",
+        "sport_id": "tabletennis",
+        "team_a_id": "rangkham",
+        "team_b_id": "wangkhaokaew",
+        "fixture_id": "tabletennis-p20-12-ปี-ชาย-004",
+        "result_type": "sets",
+        "winner_school_id": "rangkham"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 03:17:41.057429+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-หญิง-005",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-หญิง-005",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "sport_id": "tabletennis",
+        "team_a_id": "wangdong",
+        "team_b_id": "nongkum",
+        "fixture_id": "tabletennis-p20-12-ปี-หญิง-005",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 05:05:13.231537+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-หญิง-006",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-หญิง-006",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "sport_id": "tabletennis",
+        "team_a_id": "rangkham",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "tabletennis-p20-12-ปี-หญิง-006",
+        "result_type": "win_loss",
+        "winner_school_id": "rangkham"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 05:05:15.423435+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-หญิง-007",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-หญิง-007",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "sport_id": "tabletennis",
+        "team_a_id": "wangkhaokaew",
+        "team_b_id": "saohong",
+        "fixture_id": "tabletennis-p20-12-ปี-หญิง-007",
+        "result_type": "win_loss",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 05:05:18.053365+00"
+    },
+    {
+      "result_id": "result-tabletennis-p20-12-ปี-หญิง-008",
+      "result": {
+        "id": "result-tabletennis-p20-12-ปี-หญิง-008",
+        "status": "approved",
+        "division": "12 ปี หญิง",
+        "sport_id": "tabletennis",
+        "team_a_id": "thungmasang",
+        "team_b_id": "phuphrom",
+        "fixture_id": "tabletennis-p20-12-ปี-หญิง-008",
+        "result_type": "win_loss",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 05:05:20.375355+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-ชาย-A-001",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-ชาย-A-001",
+        "status": "approved",
+        "division": "12 ปี ชาย A",
+        "sport_id": "takraw",
+        "team_a_id": "wangdong",
+        "team_b_id": "rangkham",
+        "fixture_id": "takraw-p12-12-ปี-ชาย-A-001",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 05:05:23.651393+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-ชาย-A-002",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-ชาย-A-002",
+        "status": "approved",
+        "division": "12 ปี ชาย A",
+        "sport_id": "takraw",
+        "team_a_id": "thungmasang",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "takraw-p12-12-ปี-ชาย-A-002",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkrathum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:46.789991+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-ชาย-A-008",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-ชาย-A-008",
+        "status": "approved",
+        "division": "12 ปี ชาย A",
+        "sport_id": "takraw",
+        "team_a_id": "wangdong",
+        "team_b_id": "thungmasang",
+        "fixture_id": "takraw-p12-12-ปี-ชาย-A-008",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:22.582862+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-ชาย-B-003",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-ชาย-B-003",
+        "status": "approved",
+        "division": "12 ปี ชาย B",
+        "sport_id": "takraw",
+        "team_a_id": "phuphrom",
+        "team_b_id": "saohong",
+        "fixture_id": "takraw-p12-12-ปี-ชาย-B-003",
+        "result_type": "win_loss",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:44.76032+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-ชาย-B-004",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-ชาย-B-004",
+        "status": "approved",
+        "division": "12 ปี ชาย B",
+        "sport_id": "takraw",
+        "team_a_id": "nongkum",
+        "team_b_id": "wangkhaokaew",
+        "fixture_id": "takraw-p12-12-ปี-ชาย-B-004",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:43.029489+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-หญิง-A-005",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-หญิง-A-005",
+        "status": "approved",
+        "division": "12 ปี หญิง A",
+        "sport_id": "takraw",
+        "team_a_id": "phuphrom",
+        "team_b_id": "wangkhaokaew",
+        "fixture_id": "takraw-p12-12-ปี-หญิง-A-005",
+        "result_type": "win_loss",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:41.318212+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-หญิง-A-006",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-หญิง-A-006",
+        "status": "approved",
+        "division": "12 ปี หญิง A",
+        "sport_id": "takraw",
+        "team_a_id": "nongkrathum",
+        "team_b_id": "thungmasang",
+        "fixture_id": "takraw-p12-12-ปี-หญิง-A-006",
+        "result_type": "win_loss",
+        "winner_school_id": "thungmasang"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:39.291951+00"
+    },
+    {
+      "result_id": "result-takraw-p12-12-ปี-หญิง-B-007",
+      "result": {
+        "id": "result-takraw-p12-12-ปี-หญิง-B-007",
+        "status": "approved",
+        "division": "12 ปี หญิง B",
+        "sport_id": "takraw",
+        "team_a_id": "nongkum",
+        "team_b_id": "wangdong",
+        "fixture_id": "takraw-p12-12-ปี-หญิง-B-007",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 10:56:37.588758+00"
+    },
+    {
+      "result_id": "result-volleyball-p11-12-ปี-ชาย-A-001",
+      "result": {
+        "id": "result-volleyball-p11-12-ปี-ชาย-A-001",
+        "status": "approved",
+        "division": "12 ปี ชาย A",
+        "sport_id": "volleyball",
+        "team_a_id": "nongkum",
+        "team_b_id": "saohong",
+        "fixture_id": "volleyball-p11-12-ปี-ชาย-A-001",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 07:04:16.558993+00"
+    },
+    {
+      "result_id": "result-volleyball-p11-12-ปี-ชาย-B-002",
+      "result": {
+        "id": "result-volleyball-p11-12-ปี-ชาย-B-002",
+        "status": "approved",
+        "division": "12 ปี ชาย B",
+        "sport_id": "volleyball",
+        "team_a_id": "wangdong",
+        "team_b_id": "phuphrom",
+        "fixture_id": "volleyball-p11-12-ปี-ชาย-B-002",
+        "result_type": "win_loss",
+        "winner_school_id": "phuphrom"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 07:04:12.629617+00"
+    },
+    {
+      "result_id": "result-volleyball-p11-12-ปี-หญิง-A-003",
+      "result": {
+        "id": "result-volleyball-p11-12-ปี-หญิง-A-003",
+        "status": "approved",
+        "division": "12 ปี หญิง A",
+        "sport_id": "volleyball",
+        "team_a_id": "wangdong",
+        "team_b_id": "thungmasang",
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-A-003",
+        "result_type": "win_loss",
+        "winner_school_id": "thungmasang"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 07:04:26.940486+00"
+    },
+    {
+      "result_id": "result-volleyball-p11-12-ปี-หญิง-A-007",
+      "result": {
+        "id": "result-volleyball-p11-12-ปี-หญิง-A-007",
+        "status": "approved",
+        "division": "12 ปี หญิง A",
+        "sport_id": "volleyball",
+        "team_a_id": "wangdong",
+        "team_b_id": "nongkrathum",
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-A-007",
+        "result_type": "win_loss",
+        "winner_school_id": "wangdong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:19:36.710348+00"
+    },
+    {
+      "result_id": "result-volleyball-p11-12-ปี-หญิง-B-004",
+      "result": {
+        "id": "result-volleyball-p11-12-ปี-หญิง-B-004",
+        "status": "approved",
+        "division": "12 ปี หญิง B",
+        "sport_id": "volleyball",
+        "team_a_id": "nongkum",
+        "team_b_id": "saohong",
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-B-004",
+        "result_type": "win_loss",
+        "winner_school_id": "saohong"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 07:04:21.122221+00"
+    },
+    {
+      "result_id": "result-volleyball-p11-12-ปี-หญิง-B-008",
+      "result": {
+        "id": "result-volleyball-p11-12-ปี-หญิง-B-008",
+        "status": "approved",
+        "division": "12 ปี หญิง B",
+        "sport_id": "volleyball",
+        "team_a_id": "nongkum",
+        "team_b_id": "phuphrom",
+        "fixture_id": "volleyball-p11-12-ปี-หญิง-B-008",
+        "result_type": "win_loss",
+        "winner_school_id": "nongkum"
+      },
+      "revision": 1,
+      "published_at": "2026-11-17 09:24:06.775649+00"
+    }
+  ]
+}
