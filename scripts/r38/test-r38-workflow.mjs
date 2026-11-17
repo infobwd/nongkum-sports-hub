@@ -39,7 +39,7 @@ assert.match(read("index.html"),/id="scheduleResultSwitch"/);
 assert.match(programCode,/NongkumResultSource\?\.load/);
 assert.match(programCode,/resultFeed\?\.source==="live"/);
 assert.match(programCode,/resultVisible\(m\)/);
-assert.match(programCode,/resultMode:"pending"/);
+assert.match(programCode,/resultMode:(?:"pending"|entryParams\.get\("resultMode"\)==="all"\?"all":"pending")/);
 assert.match(css,/assets\/results-sports-r38\.webp/);
 const image=readFileSync(new URL("../../assets/results-sports-r38.webp",import.meta.url));
 assert.ok(image.length>1000&&image.length<12000,"WebP sprite stays small");
