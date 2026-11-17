@@ -359,7 +359,7 @@
       const totalLabel=shown<total?"แสดง "+shown+" จาก "+total+" รายการ":total+" รายการ";
       return "<section class='schedule-day"+(g.day?"":" awaiting-date")+"' aria-label='"+safe(g.label)+"'>"+
         "<div class='day-heading'><h3>"+(g.day?"<span class='day-icon' aria-hidden='true'>"+CAL_ICON+"</span>":"<span class='day-caution' aria-hidden='true'>⚠</span>")+safe(g.label)+"</h3>"+
-        "<div class='schedule-day-actions'><span class='day-count'>"+totalLabel+"</span>"+
+        "<div class='schedule-share-actions'><span class='day-count'>"+totalLabel+"</span>"+
         "<button type='button' class='schedule-share-day' data-share-day='"+safe(g.day||"unknown")+
         "' aria-label='แชร์ตารางแข่งขันของ"+safe(g.label)+"'>"+(g.day===today?"แชร์วันนี้":"แชร์วันแข่งขันนี้")+
         "</button></div></div>"+
@@ -586,6 +586,8 @@
         els.refreshStatus.textContent=info[0];
     }
     async function handleShare(event){
+      const dayBtn=event.target.closest?.("[data-share-day]");
+      if(dayBtn?.dataset?.shareDay){openScheduleShare(dayBtn.dataset.shareDay);return;}
       const btn=event.target.closest("[data-share-fixture]");
       if(!btn||!state.data)return;
       const item=state.data.fixtures.find(x=>x.id===btn.dataset.shareFixture);
@@ -604,10 +606,6 @@
       }catch(e){showShareFeedback("unavailable");}
     }
     els.cards.addEventListener("click",handleShare);
-    els.cards.addEventListener("click",function(event){
-      const btn=event.target.closest?.("[data-share-day]");
-      if(btn)openScheduleShare(btn.dataset.shareDay);
-    });
     if(els.shareOpen)els.shareOpen.addEventListener("click",function(){openScheduleShare(null);});
     if(els.shareSchool)els.shareSchool.addEventListener("change",updateShareSelection);
     if(els.sharePrev)els.sharePrev.addEventListener("click",function(){sharePartIndex=Math.max(0,sharePartIndex-1);renderSharePart();});
