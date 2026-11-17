@@ -206,6 +206,8 @@
       "<div class='details'><span class='tag'>"+safe(m.round||"รายการแข่งขัน")+"</span></div>"+
       original+flags+confirmation+
       (!confirmedSchedule&&m.planning_date?"<p class='qa-note'>"+safe(m.planning_source||"วันแข่งขันนอกรอบรอตรวจรับ")+"</p>":"")+
+      "<div class='source'><a class='scorecard-link' href='./schedule-manager.html?fixture="+
+      encodeURIComponent(m.id)+"'>สำหรับผู้จัด: เตรียมแก้ตารางและกรรมการ (ร่าง)</a></div>"+
       "<div class='source'><a class='scorecard-link' href='./forms/score-sheet.html?fixture="+
       encodeURIComponent(m.id)+"'>พิมพ์ใบบันทึกผล A4 สำหรับกรรมการ</a></div>"+
       "<div class='source'><a href='./booklet-private-viewer.html?fixture="+encodeURIComponent(m.id)+

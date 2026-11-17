@@ -1,0 +1,41 @@
+name: R43 Schedule & Committee Draft QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "schedule-manager.html"
+      - "css/r43-manager.css"
+      - "js/r43-schedule-draft.js"
+      - "js/r43-manager.js"
+      - "scripts/r43/**"
+      - "js/program.js"
+      - "more.html"
+      - ".github/workflows/r43-schedule-management-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  r43a:
+    name: R43-A static and synthetic mobile operator draft QA
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate R33 exact baseline and draft-only restrictions
+        run: node scripts/r43/test-r43-proposals.mjs
+      - name: Install synthetic browser QA
+        run: npm install --no-save --ignore-scripts playwright@1.58.2
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Verify four mobile sizes, local export and no write calls
+        run: node scripts/r43/test-r43-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r43-synthetic-mobile-draft
+          path: ${{ runner.temp }}/r43-mobile-evidence/*.png
+          if-no-files-found: warn
+          retention-days: 7
