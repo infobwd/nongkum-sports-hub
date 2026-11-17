@@ -2,6 +2,8 @@
 -- Requires r43_personal_pin_private_identity.sql. Does not grant public API access.
 -- Each PIN is random, >=10 decimal digits, HMAC-SHA256 with an Edge-only pepper.
 -- Only service_role may call this atomic login/session RPC; never expose service key.
+grant delete on nongkum_sports.r43_staff_login_limits to service_role;
+
 alter table nongkum_sports.r43_staff_identities
   add column if not exists can_propose boolean not null default false,
   add column if not exists can_assign boolean not null default false,
