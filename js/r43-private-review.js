@@ -22,8 +22,8 @@
    return c&&c.enabled===true&&
      c.supabase_url==="https://zprxvpfkvforoxrboqiv.supabase.co"&&
      c.edge_url===c.supabase_url+"/functions/v1/nongkum-schedule-admin"&&
-     typeof c.publishable_key==="string"&&c.publishable_key.length>=20&&
-     !/sb_secret_|service_role/i.test(c.publishable_key);
+     typeof c.publishable_key==="string"&&c.publishable_key.startsWith("sb_publishable_")&&
+     c.publishable_key.length>=24;
  }
  async function api(action,data={}){
    if(!state.cfg||!state.accessToken)throw Error("กรุณาเข้าสู่ระบบก่อน");
