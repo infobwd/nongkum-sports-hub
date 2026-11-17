@@ -71,3 +71,57 @@
 - [R42 แถบเมนูมือถือผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775919), [R14 สนาม/LINE ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775973), [R13 ตาราง UI ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775861), [R24-C เอกสารลิงก์ตรงผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775875), [ตรวจข้อมูลทั้งหมดผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775886)
 - R43-A เป็นเพียง **ตัวช่วยจัดคำขอในเครื่อง**: ยังไม่มี backend สำหรับบันทึก/ตรวจรับ/ประกาศ, ไม่มีหลักฐานคำสั่งแต่งตั้งกรรมการปี 2569 ที่รับรองรายคู่, ห้ามอ้างว่าเป็นระบบทางการ
 - **ไม่ Merge / ไม่เผยแพร่ / ไม่ตรวจรับอุปกรณ์จริง**; ต้องให้ผู้จัดพิจารณา PR #168 ก่อน
+
+
+---
+## แผนปฏิบัติการต่อยอด R43-B/C/D/E — 17 พ.ย. 2569 (บันทึกก่อนลงโค้ด)
+
+**ฐานงาน:** PR #168 R43-A ยังเป็น Draft; ใช้สาขา `feat/r43bcd-approval-publishing-20261117` แยกแบบ stacked PR โดยมี base เป็นสาขา #168 เพื่อไม่สร้างแผนซ้ำหรือแก้ทับ R33 #144. ก่อน Merge เข้า main ต้องตรวจทั้งสอง PR และยืนยันจากผู้จัดอีกครั้ง
+
+### B — สิทธิ์และฐานข้อมูลส่วนตัว (ไม่เปิดใช้ production)
+- ออกแบบ migration แยกใน `nongkum_sports` สำหรับผู้มีสิทธิ์ `schedule_editor` / `committee_coordinator` / `schedule_approver`; สมาชิกต้องกำหนดด้วย Supabase Auth user UUID ที่ผู้จัดรับรองเท่านั้น; ไม่มีการสร้างรหัสกลางและไม่ยืม PIN R34/R37
+- สร้างรายการคำขอที่มี `source_key`, `fixture_id`, เหตุผล, ผู้เสนอ, รุ่น, รายละเอียดแต่ละช่อง, หลักฐานอ้างอิง, audit ทุกการเปลี่ยนสถานะ; ห้ามแก้ข้อมูลสาธารณะโดยตรง
+- สมุดรายชื่อกรรมการส่วนตัวต้องมี `person_id`, โรงเรียน, สถานะตรวจตัวตน, หลักฐานคำสั่ง; **ชื่อจากร่างสูจิบัตรไม่มีสิทธิ์เผยแพร่**
+- Edge Function ตรวจผู้ใช้กับ Supabase Auth ทุกคำขอ และตรวจบทบาทที่ฐานข้อมูลทุกคำสั่ง; CORS allowlist, no-store, JWT revocation, จำกัดข้อมูลสูงสุด, ปิดการเขียนโดยตรงของ anon/authenticated
+
+### C — คิวตรวจและคำขอมอบหมาย
+- รองรับมอบหมายระดับ sport / division / fixture พร้อม `override` และวัน/ช่วงเวลา/สนาม; ตรวจชนกันตาม `person_id` ที่ยืนยันจริง (ไม่ใช้ชื่อเท่ากันเป็นหลักฐานระบุตัวบุคคล)
+- ห้ามอนุมัติเมื่อมีช่วงเวลาชนกัน, คนยังไม่ตรวจตัวตน, ไม่มีหลักฐานแต่งตั้ง, แหล่งข้อมูลเปลี่ยน, หรือ fixture มีผลรับรองที่กระทบคำขอ
+- แยกผู้เสนอและผู้รับรอง, ผู้รับรองต้องมีสิทธิ์ต่างหากและไม่รับรองคำขอตัวเอง; คืนแก้ด้วยเหตุผลและเก็บประวัติ
+
+### D — การเผยแพร่แบบสองขั้นตอน
+- ตรวจรุ่น R33 ที่ใช้งาน + SHA ของ candidate/corrections ก่อนสร้าง preview; approved requests เป็นเพียง candidate, **ห้ามกระโดดไปเผยแพร่** จาก Edge Function นี้
+- สร้าง script สำหรับเตรียมชุดแก้ไข/ตรวจ diff/ตรวจ 236 IDs และผลรับรอง R32; ส่งเข้า PR มีหลักฐาน แยกสถานะ prepared / merged / deployed / accepted
+- การเปลี่ยน `nongkum_schedule_active` ต้องเกิดจาก pipeline ที่ผ่านการรับรองและเปรียบเทียบ GitHub รุ่นตรงกัน ไม่ใช่จาก UI ผู้ใช้งาน
+
+### E — ความปลอดภัย/มือถือ/ตรวจรับ
+- ตรวจ SQL auth isolation, ไม่เผยแพร่ชื่อกรรมการร่าง, 401/403/409, stale revisions, role boundaries, source validation, schedule/committee conflict
+- เพิ่ม static/synthetic browser/mobile QA (320/375/390/430 px) และ offline/degraded states; ตรวจ PWA, Safari/LINE ด้วยเครื่องจริงภายหลัง
+- ไม่ติดตั้ง migration/Edge Function ใน Supabase Meeting production, ไม่สร้าง role จริง, ไม่เผยแพร่ข้อมูลคน, ไม่ Merge PR โดยอัตโนมัติ; ขั้นตอน deploy/รับรองต้องรอหลักฐานสิทธิ์และตรวจรับจากผู้จัด
+
+**เงื่อนไขสำเร็จที่ตรวจสอบได้:** โค้ด + test + PR + คู่มือ activation เตรียมพร้อมแล้ว (สถานะพัฒนา); การเปิดใช้จริงและ E เครื่องจริงแยกเป็น **ยังไม่ตรวจรับ** จนมีหลักฐาน production/อุปกรณ์จริง
+
+**สถานะ B/C/D/E:** [x] ตรวจฐานงานและแผน / [x] พัฒนา backend staging + review UI + preview บนสาขา / [x] ทดสอบ SQL+Chromium จำลอง / [x] เปิด stacked PR #169 / [ ] ติดตั้งและผูกบัญชีจริง / [ ] Merge / [ ] เผยแพร่ / [ ] ตรวจรับบนอุปกรณ์จริง
+
+
+### R43-B–E ผลการพัฒนาระยะแบบไม่แตะ production (17 พ.ย. 2569)
+- [PR #169](https://github.com/infobwd/nongkum-sports-hub/pull/169) อิง PR #168; **ยังเป็นร่าง ไม่ Merge**
+- เพิ่ม `supabase/proposals/r43_private_schedule_workflow.sql` + `r43_new_fixture_queue.sql`: คำขอแก้ไข/เพิ่มรายการ, ผู้รับรองแยก, ตรวจอัตลักษณ์กรรมการ, audit trail, R32 lock และ R33 source/version guards. โค้ด SQL เป็น **proposal** (ไม่ใช่ migration ที่ลง production)
+- เพิ่ม Edge Function `nongkum-schedule-admin` ตรวจกับ Supabase Auth, จำกัด CORS และเช็ก role ทุกคำขอ รวมทั้ง `schedule-review.html` ที่ล็อกการใช้งานหากยังไม่มี `data/r43-public-auth-config.json` ที่อนุญาต
+- R43-C กรรมการ: ระดับ sport/รุ่น/รายคู่, ใช้ UUID ที่ตรวจตัวตนแล้ว, เตือนเวลาซ้ำ; ข้อมูลจากร่างสูจิบัตรไม่ใช่คำสั่งแต่งตั้ง
+- R43-D: `js/r43-release-preview.js` และ `scripts/r43/prepare-release.mjs` ทำ **preview candidate_not_published** จากคำขอที่รับรองโดยผู้มีสิทธิ์ + ผล R32 ที่ตรวจใหม่; ล็อกรายการผลรับรองและคำขอเพิ่มรายการที่ยังไม่ตรวจผัง; ห้ามเขียนเข้า `main` โดยตรง
+- [R43 SQL + preview CLI + มือถือจำลองผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44000369391): PostgreSQL 17 แยกเฉพาะทดสอบ, การแยกสิทธิ์, self-review, person verification, audit, overlapping duty, R32 lock, unchanged 236 source rows, 320–430px และกรณีไม่ตั้งค่า/ไม่มีสิทธิ์
+- [คู่มือเปิดระบบแบบปลอดภัยและตรวจรับ](R43_PRIVATE_APPROVAL_RELEASE_RUNBOOK_20261117.md): ต้องมี 2 บัญชีผู้จัดที่รับรอง แผนผูก Auth, แผน R33+GitHub sync, ตรวจ PDF/ผัง และทดสอบ Safari, Android, LINE จริง
+- ตรวจ Supabase Meeting ระหว่างพัฒนา: active source ไม่เปลี่ยน, 236 ตาราง, 41 ผลรับรอง, **ยังไม่มีตาราง R43 ในฐานจริง**
+- **ส่วนที่ยังไม่สามารถอ้างว่าเสร็จ:** ยังไม่ได้ติดตั้ง migration/Edge/role จริง, ไม่รับรองชื่อกรรมการจริง, ยังไม่ได้ทำ release R33 + GitHub + PDF, และยังไม่ได้ตรวจรับบนเครื่องสนามจริง — จะต้องมีหลักฐาน/สิทธิ์ผู้จัดและคำสั่ง Merge แยกก่อน
+
+
+## ติดตั้งฐานข้อมูลจริงตามคำสั่งผู้จัด (17 พ.ย. 2569)
+- ผู้จัดอนุญาต Merge และติดตั้งฐานข้อมูล R43 ใน Supabase Meeting
+- [PR #168](https://github.com/infobwd/nongkum-sports-hub/pull/168) Merge แล้วเป็น merge commit `8c7c49462cabb14bb2202bccfbf5c194240d6382`
+- ติดตั้ง migration ด้วยเครื่องมือ Supabase ต่อจากแผนที่ทดสอบแล้ว: `20261117021414_r43_private_schedule_workflow_20261117`, `20261117021421_r43_private_new_fixture_queue_20261117`
+- เก็บ SQL **ฉบับตรงกับที่ติดตั้งจริง** ที่ `supabase/migrations/20261117021414_r43_private_schedule_workflow_20261117.sql` และ `supabase/migrations/20261117021421_r43_private_new_fixture_queue_20261117.sql` เพื่อ audit/replay; ไฟล์ `supabase/proposals/` ยังคงไว้เป็นหลักฐานแผนเดิม
+- ตรวจฐานจริงหลังติดตั้ง: R43 มี **7 ตาราง**, เปิด RLS ทั้งหมด, anon/authenticated ไม่มีสิทธิ์ SELECT/INSERT ของข้อมูลส่วนตัวหรือ EXECUTE gateway, service_role เฉพาะการเรียก server; ผู้ได้รับสิทธิ์ 0 คน, คำขอทั้งหมด 0 แถว
+- R33 active ยังคง `r33-20261116-7ba60be1-fa3269b5`, 236 รายการ; R32 published results 41 แถว ไม่ถูกแก้
+- Security Advisor เพิ่ม INFO `rls_enabled_no_policy` สำหรับตาราง R43 ซึ่ง **ตั้งใจ** ไม่เปิดนโยบายฝั่ง browser; ไม่มีสิทธิ์ anon/authenticated
+- `schedule-review.html` ยังคง fail-closed จนกว่าจะมีบัญชี Supabase Auth ที่ผู้จัดยืนยัน, role provisioning, การทดสอบ login/role จริง และ public config แบบ publishable key เท่านั้น; อย่าอ้างว่าพร้อมใช้งานหรือได้รับการตรวจรับแล้ว

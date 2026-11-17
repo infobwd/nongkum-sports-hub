@@ -1,0 +1,74 @@
+name: R43 Private Schedule Approval Staging QA
+on:
+  pull_request:
+    paths:
+      - "supabase/proposals/r43_private_schedule_workflow.sql"
+      - "supabase/proposals/r43_new_fixture_queue.sql"
+      - "supabase/functions/nongkum-schedule-admin/**"
+      - "scripts/r43/test-private-db-*.sql"
+      - "scripts/r43/test-r43-private.mjs"
+      - "scripts/r43/prepare-release.mjs"
+      - "scripts/r43/fixtures/**"
+      - "js/r43-release-preview.js"
+      - "js/r43-committee-inheritance.js"
+      - "js/r43-private-review.js"
+      - "schedule-review.html"
+      - "css/r43-private-review.css"
+      - "scripts/r43/test-r43-private-browser.mjs"
+      - "scripts/r43/test-r43-cli.mjs"
+      - "supabase/proposals/r43_new_fixture_queue.sql"
+      - ".github/workflows/r43-private-approval-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  private-staging:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test-only-password
+          POSTGRES_DB: r43_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d r43_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: test-only-password
+      PGDATABASE: r43_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Prepare psql
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+      - name: Build temporary isolated R32/R33/Auth schema
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-bootstrap.sql
+      - name: Parse and apply R43 proposal to ISOLATED PostgreSQL only
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_private_schedule_workflow.sql
+      - name: Parse and apply new fixture PRIVATE candidate queue in isolated DB
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_new_fixture_queue.sql
+      - name: Test grants, reviewer separation, R32 locks, stale revisions and committee overlaps
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-assertions.sql
+      - name: Test release candidate preparation and security boundaries
+        run: node scripts/r43/test-r43-private.mjs
+      - name: Verify guarded candidate CLI against synthetic source and R32 locks
+        run: node scripts/r43/test-r43-cli.mjs
+      - name: Install synthetic browser QA
+        run: npm install --no-save --ignore-scripts playwright@1.58.2
+      - name: Install Chromium for mobile QA
+        run: npx playwright install --with-deps chromium
+      - name: Validate no-config fail-closed and unauthorized operator on mobile
+        run: node scripts/r43/test-r43-private-browser.mjs
