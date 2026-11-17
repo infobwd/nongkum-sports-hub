@@ -4,7 +4,7 @@
  "use strict";
  const el=id=>document.getElementById(id),D=root.NongkumR43Draft;
  const status=el("r43PrivateStatus");
- const state={cfg:null,accessToken:"",roles:null,program:null,people:[],assignments:[]};
+ const state={cfg:null,accessToken:"",personalToken:"",roles:null,program:null,people:[],assignments:[]};
  const ROLES=D?.ROLES||[];
  const ID_RE=/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
  // R34/R37 already issue independent six-hour sessions; never store raw PINs.
@@ -80,7 +80,7 @@
  function goodConfig(c){
    return c&&c.enabled===true&&
      c.supabase_url==="https://zprxvpfkvforoxrboqiv.supabase.co"&&
-     c.edge_url===c.supabase_url+"/functions/v1/nongkum-schedule-admin"&&
+     c.pin_edge_url===c.supabase_url+"/functions/v1/nongkum-r43-pin"&&
      typeof c.publishable_key==="string"&&c.publishable_key.startsWith("sb_publishable_")&&
      c.publishable_key.length>=24;
  }
@@ -119,45 +119,40 @@
    return v;
  }
  function wipe(){
-   state.accessToken="";state.roles=null;state.people=[];state.assignments=[];
+   state.accessToken="";state.personalToken="";state.roles=null;state.people=[];state.assignments=[];
    el("r43PrivateWorkspace").hidden=true;
    el("r43PrivateLogin").hidden=!state.cfg;
-   el("r43Password").value="";
+   el("r43PersonalPin").value="";
    el("r43EditorGate").hidden=true;el("r43ReviewerGate").hidden=true;
    el("r43EditorPin").value="";el("r43ReviewerPin").value="";
  }
  async function login(e){
    e.preventDefault();
-   note("กำลังตรวจบัญชีผู้จัด…");
-   const pass=el("r43Password").value;
+   note("กำลังตรวจรหัสเจ้าหน้าที่…");
+   const pin=el("r43PersonalPin").value.trim();
    try{
-     const r=await fetch(state.cfg.supabase_url+"/auth/v1/token?grant_type=password",{
-       method:"POST",cache:"no-store",headers:{
-         "apikey":state.cfg.publishable_key,"Content-Type":"application/json"
-       },body:JSON.stringify({email:el("r43Email").value.trim(),password:pass})});
+     if(!/^[0-9]{10,16}$/.test(pin))throw Error("กรุณากรอกรหัสส่วนตัวให้ครบ");
+     const r=await fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",headers:{
+       "Content-Type":"application/json","apikey":state.cfg.publishable_key
+     },body:JSON.stringify({action:"login",pin})});
      const v=await r.json().catch(()=>null);
-     if(!r.ok||!v||typeof v.access_token!=="string")
-       throw Error("บัญชีหรือรหัสผ่านไม่ถูกต้อง หรือยังไม่ได้รับสิทธิ์");
-     state.accessToken=v.access_token;
-     const roles=await api("status");
-     state.roles=roles;
+     if(!r.ok||!v?.ok||!/^[0-9a-f]{64}$/.test(v.token||"")){
+       throw Error(v?.error==="limited"?"กรอกรหัสหลายครั้ง กรุณาลองใหม่ภายหลัง":
+         "รหัสไม่ถูกต้องหรือยังไม่ได้รับสิทธิ์");
+     }
+     state.personalToken=v.token;state.roles=v;
      el("r43PrivateLogin").hidden=true;
      el("r43PrivateWorkspace").hidden=false;
-     el("r43RoleSummary").textContent="เข้าสู่ระบบแล้ว · "+
-       [roles.can_propose?"เสนอแก้ไข":"",roles.can_assign?"จัดกรรมการ":"",roles.can_review?"ผู้ตรวจรับ":""]
-         .filter(Boolean).join(" / ");
-     el("r43PrivateSubmit").hidden=!roles.can_propose;
-     el("r43PrivateNew").hidden=!roles.can_propose;
-     el("r43PrivateAssignArea").hidden=!roles.can_assign;
-     el("r43PrivatePeoplePanel").hidden=!roles.can_assign;
-     el("r43PrivateReview").hidden=!roles.can_review;
-     el("r43EditorGate").hidden=!(roles.can_propose||roles.can_assign);
-     el("r43ReviewerGate").hidden=!roles.can_review;
-     updatePinGates();
-     await loadData();
-     note("เข้าสู่ระบบสำหรับจัดทำคำขอแล้ว · ยังไม่ใช่การเผยแพร่");
+     const duties=[v.can_propose?"เสนอแก้ตาราง":"",v.can_assign?"จัดกรรมการ":"",
+       v.can_review?"ผู้ตรวจ":""].filter(Boolean).join(" / ");
+     el("r43RoleSummary").textContent=v.full_name+" · "+v.school_id+" · "+duties;
+     for(const id of ["r43PrivateSubmit","r43PrivateNew","r43PrivateAssignArea",
+         "r43PrivatePeoplePanel","r43PrivateReview","r43EditorGate","r43ReviewerGate"]){
+       el(id).hidden=true;
+     }
+     note("ยืนยันตัวตนแล้ว · ขั้นตอนจัดตารางและรับรองยังไม่เปิดใช้จนกว่าการตรวจสิทธิ์จะผ่าน");
    }catch(err){wipe();note(err.message||"เข้าสู่ระบบไม่สำเร็จ",true);}
-   finally{el("r43Password").value="";}
+   finally{el("r43PersonalPin").value="";}
  }
  async function loadData(){
    // Original source is public; private people and review queue require authenticated API.
@@ -363,21 +358,22 @@
    catch(e){note(e.message,true);}
  }
  async function logout(){
-   if(state.accessToken&&state.cfg){
-     await fetch(state.cfg.supabase_url+"/auth/v1/logout",{
-       method:"POST",headers:{apikey:state.cfg.publishable_key,
-       Authorization:"Bearer "+state.accessToken}}).catch(()=>{});
+   const token=state.personalToken;
+   if(token&&state.cfg){
+     await fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",headers:{
+       "Content-Type":"application/json","apikey":state.cfg.publishable_key
+     },body:JSON.stringify({action:"logout",token})}).catch(()=>{});
    }
    wipe();note("ออกจากระบบแล้ว");
  }
  async function init(){
    try{
-     const r=await fetch("./data/r43-public-auth-config.json",{cache:"no-store"});
+     const r=await fetch("./data/r43-public-pin-config.json",{cache:"no-store"});
      const config=r.ok?await r.json():null;
      if(!goodConfig(config)){note("ส่วนรับคำขอและตรวจรับยังไม่ได้เปิดใช้งาน · สามารถเตรียมคำขอร่างในหน้าเดิมได้");return;}
      state.cfg=config;
      el("r43PrivateLogin").hidden=false;
-     note("พร้อมให้เจ้าหน้าที่ที่ได้รับสิทธิ์เข้าสู่ระบบ");
+     note("พร้อมตรวจตัวตนด้วยรหัสส่วนตัว · ส่วนเสนอและรับรองยังไม่เปิดใช้งาน");
      el("r43LoginForm").addEventListener("submit",login);
      el("r43EditorPinForm").addEventListener("submit",e=>unlockLegacy(e,"editor"));
      el("r43ReviewerPinForm").addEventListener("submit",e=>unlockLegacy(e,"reviewer"));
