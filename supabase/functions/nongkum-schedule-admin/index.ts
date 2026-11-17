@@ -11,6 +11,13 @@ const ACTIONS=new Set([
   "queue","submit","review","approved_preview",
   "new_submit","new_queue","new_review"
 ]);
+// Result PIN sessions are checked server-side IN ADDITION TO Supabase Auth.
+// 'status' only reveals capabilities of the already authenticated R43 member.
+const LEGACY_KIND:Record<string,"editor"|"reviewer">={
+  people:"editor",person_propose:"editor",submit:"editor",new_submit:"editor",
+  people_pending:"reviewer",person_review:"reviewer",queue:"reviewer",
+  review:"reviewer",approved_preview:"reviewer",new_queue:"reviewer",new_review:"reviewer"
+};
 function headers(origin:string|null){
   const h=new Headers({
     "Content-Type":"application/json; charset=utf-8",
@@ -55,7 +62,31 @@ Deno.serve(async req=>{
     if(!auth.ok)return reply({ok:false,error:"unauthenticated"},401,origin);
     const account=await auth.json();
     if(!UUID.test(String(account?.id||"")))return reply({ok:false,error:"unauthenticated"},401,origin);
-    const payload={...body};delete payload.action;
+    const kind=LEGACY_KIND[String(body.action)];
+    if(kind){
+      const pinSession=String(body.legacy_token||"");
+      if(!/^[0-9a-f]{64}$/.test(pinSession))
+        return reply({ok:false,error:"legacy_expired"},401,origin);
+      // Never forward legacy tokens to the R43 mutation gateway or its audit.
+      // Existing result-editor/reviewer PIN sessions remain the source of truth:
+      // revocations and six-hour expiry take effect immediately.
+      const verification=await fetch(DB+"/rest/v1/rpc/nongkum_r43_pin_session_valid",{
+        method:"POST",
+        headers:{
+          "apikey":SERVICE,"Authorization":"Bearer "+SERVICE,
+          "Content-Type":"application/json","Accept":"application/json"
+        },
+        body:JSON.stringify({p_user:account.id,p_kind:kind,p_token:pinSession}),
+        signal:AbortSignal.timeout(10000)
+      });
+      if(!verification.ok){
+        console.error("R43 legacy session verification unavailable",verification.status);
+        return reply({ok:false,error:"setup_required"},503,origin);
+      }
+      if(await verification.json()!==true)
+        return reply({ok:false,error:"legacy_expired"},401,origin);
+    }
+    const payload={...body};delete payload.action;delete payload.legacy_token;
     // Role checks, source locks, verified person IDs and approvals run in
     // the database transaction. Public clients have NO EXECUTE grant.
     const newFixtureAction=String(body.action).startsWith("new_");
