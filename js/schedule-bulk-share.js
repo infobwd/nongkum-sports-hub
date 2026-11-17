@@ -116,11 +116,13 @@
     if(current.length)chunks.push(current);
     const parts=chunks.map((chunk,i)=>{
       const head=[title,"โรงเรียน: "+schoolTitle,"กีฬา: "+filterInfo,
+        "แสดง: "+(options.resultMode==="all"?"ทุกรายการ":"รายการที่ยังไม่มีผลรับรอง"),
         "จำนวนทั้งหมด "+all.length+" รายการ"+(chunks.length>1?" · ตอนที่ "+(i+1)+"/"+chunks.length:""),
         venue,""];
       return head.join("\n")+chunk.map(e=>e.text).join("\n")+"\n\n"+notices.join("\n");
     });
-    return {parts,count:all.length,url:link,schoolTitle,filterInfo,partCount:parts.length};
+    return {parts,count:all.length,url:link,schoolTitle,filterInfo,partCount:parts.length,
+      rowsPerPart:chunks.map(chunk=>chunk.length)};
   }
   async function send(text){
     if(typeof navigator!=="undefined"&&typeof navigator.share==="function"){
