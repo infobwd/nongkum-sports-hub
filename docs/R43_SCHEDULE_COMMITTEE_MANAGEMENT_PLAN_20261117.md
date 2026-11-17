@@ -114,3 +114,14 @@
 - [คู่มือเปิดระบบแบบปลอดภัยและตรวจรับ](R43_PRIVATE_APPROVAL_RELEASE_RUNBOOK_20261117.md): ต้องมี 2 บัญชีผู้จัดที่รับรอง แผนผูก Auth, แผน R33+GitHub sync, ตรวจ PDF/ผัง และทดสอบ Safari, Android, LINE จริง
 - ตรวจ Supabase Meeting ระหว่างพัฒนา: active source ไม่เปลี่ยน, 236 ตาราง, 41 ผลรับรอง, **ยังไม่มีตาราง R43 ในฐานจริง**
 - **ส่วนที่ยังไม่สามารถอ้างว่าเสร็จ:** ยังไม่ได้ติดตั้ง migration/Edge/role จริง, ไม่รับรองชื่อกรรมการจริง, ยังไม่ได้ทำ release R33 + GitHub + PDF, และยังไม่ได้ตรวจรับบนเครื่องสนามจริง — จะต้องมีหลักฐาน/สิทธิ์ผู้จัดและคำสั่ง Merge แยกก่อน
+
+
+## ติดตั้งฐานข้อมูลจริงตามคำสั่งผู้จัด (17 พ.ย. 2569)
+- ผู้จัดอนุญาต Merge และติดตั้งฐานข้อมูล R43 ใน Supabase Meeting
+- [PR #168](https://github.com/infobwd/nongkum-sports-hub/pull/168) Merge แล้วเป็น merge commit `8c7c49462cabb14bb2202bccfbf5c194240d6382`
+- ติดตั้ง migration ด้วยเครื่องมือ Supabase ต่อจากแผนที่ทดสอบแล้ว: `20261117021414_r43_private_schedule_workflow_20261117`, `20261117021421_r43_private_new_fixture_queue_20261117`
+- เก็บ SQL **ฉบับตรงกับที่ติดตั้งจริง** ที่ `supabase/migrations/20261117021414_r43_private_schedule_workflow_20261117.sql` และ `supabase/migrations/20261117021421_r43_private_new_fixture_queue_20261117.sql` เพื่อ audit/replay; ไฟล์ `supabase/proposals/` ยังคงไว้เป็นหลักฐานแผนเดิม
+- ตรวจฐานจริงหลังติดตั้ง: R43 มี **7 ตาราง**, เปิด RLS ทั้งหมด, anon/authenticated ไม่มีสิทธิ์ SELECT/INSERT ของข้อมูลส่วนตัวหรือ EXECUTE gateway, service_role เฉพาะการเรียก server; ผู้ได้รับสิทธิ์ 0 คน, คำขอทั้งหมด 0 แถว
+- R33 active ยังคง `r33-20261116-7ba60be1-fa3269b5`, 236 รายการ; R32 published results 41 แถว ไม่ถูกแก้
+- Security Advisor เพิ่ม INFO `rls_enabled_no_policy` สำหรับตาราง R43 ซึ่ง **ตั้งใจ** ไม่เปิดนโยบายฝั่ง browser; ไม่มีสิทธิ์ anon/authenticated
+- `schedule-review.html` ยังคง fail-closed จนกว่าจะมีบัญชี Supabase Auth ที่ผู้จัดยืนยัน, role provisioning, การทดสอบ login/role จริง และ public config แบบ publishable key เท่านั้น; อย่าอ้างว่าพร้อมใช้งานหรือได้รับการตรวจรับแล้ว
