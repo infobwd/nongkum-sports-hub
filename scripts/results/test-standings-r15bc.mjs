@@ -122,7 +122,7 @@ assert.equal(digest(data),digest(clone(data)));
 const simulatedRules=clone(rules);
 simulatedRules.football_league.approval_status="approved";
 simulatedRules.football_league.tie_break_status="approved";
-simulatedRules.football_league.tie_breakers=["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
+simulatedRules.football_league.tie_breakers=["overall_goal_difference","head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
 simulatedRules.sport_policies.find(p=>p.sport_id==="football").status="implemented";
 const simulatedSnapshot=buildSnapshot(publish([win,draw]),program,simulatedRules);
 assert.equal(simulatedSnapshot.standings.length,1);
@@ -147,7 +147,7 @@ function headMatch(team1,team2,goals1,goals2){
   return newResult(fixture,fixture.team_a_id===team1?goals1:goals2,
     fixture.team_a_id===team1?goals2:goals1);
 }
-assert.deepEqual(league.tie_breakers,["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"]);
+assert.deepEqual(league.tie_breakers,["overall_goal_difference","head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"]);
 assert.equal(league.tie_break_status,"approved");
 assert.equal(league.approval_status,"pending_rule_approval",
   "confirming the tie-break alone cannot publish official standings");
@@ -159,21 +159,28 @@ const h2hTwo=engine.calculateLeague(fixtures,[
 ],activeH2H);
 const rowTwo=id=>h2hTwo.rows.find(r=>r.team_id===id);
 assert.equal(rowTwo(ha).points,3);assert.equal(rowTwo(hb).points,3);
-assert.ok(rowTwo(ha).goal_difference<rowTwo(hb).goal_difference,
-  "global GD opposes head-to-head; do not use global GD to decide");
-assert.equal(rowTwo(ha).head_to_head_goal_difference,1);
-assert.equal(rowTwo(hb).head_to_head_goal_difference,-1);
-assert.ok(rowTwo(ha).position<rowTwo(hb).position,"H2H directly wins tie");
+assert.ok(rowTwo(ha).goal_difference<rowTwo(hb).goal_difference);
+assert.ok(rowTwo(hb).position<rowTwo(ha).position,"total GD must outrank direct H2H");
 assert.equal(h2hTwo.ranking_status,"provisional","not all 15 fixtures approved");
+const sameOverall=engine.calculateLeague(fixtures,[
+  headMatch(ha,hb,1,0),headMatch(hb,hc,1,0),
+  headMatch(hd,ha,1,0),headMatch(hd,he,1,0)
+],activeH2H);
+const sameRow=id=>sameOverall.rows.find(r=>r.team_id===id);
+assert.equal(sameRow(ha).points,sameRow(hb).points);
+assert.equal(sameRow(ha).goal_difference,sameRow(hb).goal_difference);
+assert.equal(sameRow(ha).head_to_head_goal_difference,1);
+assert.equal(sameRow(hb).head_to_head_goal_difference,-1);
+assert.ok(sameRow(ha).position<sameRow(hb).position,"H2H only after GD equality");
 const h2hThree=engine.calculateLeague(fixtures,[
   headMatch(ha,hb,2,0),headMatch(hb,hc,2,1),headMatch(hc,ha,1,0)
 ],activeH2H);
 const rowThree=id=>h2hThree.rows.find(r=>r.team_id===id);
 assert.equal(rowThree(ha).points,3);assert.equal(rowThree(hb).points,3);assert.equal(rowThree(hc).points,3);
-assert.deepEqual([rowThree(ha).head_to_head_goal_difference,
-  rowThree(hc).head_to_head_goal_difference,rowThree(hb).head_to_head_goal_difference],[1,0,-1]);
+assert.deepEqual([rowThree(ha).goal_difference,
+  rowThree(hc).goal_difference,rowThree(hb).goal_difference],[1,0,-1]);
 assert.deepEqual([rowThree(ha).position,rowThree(hc).position,rowThree(hb).position],[1,2,3],
-  "three tied teams mini-table H2H GD only");
+  "three equal-points teams ranked by overall GD before mini-table H2H");
 const incompleteH2H=engine.calculateLeague(fixtures,[
   headMatch(ha,hb,0,0),headMatch(ha,hc,0,0),headMatch(ha,hd,0,0)
 ],activeH2H);
@@ -200,6 +207,13 @@ assert.ok(validatePublication(data,program,noProvenanceH2H).some(x=>x.code==="FO
   "traceable organizer rule decision is required");
 assert.equal(buildSnapshot(data,program,simulatedRules).standings.length,0,
   "never publish zero-result standings even if a future rule is fully approved");
+
+const futsalBad=clone(rules);
+futsalBad.futsal_league.tie_breakers=["head_to_head_goal_difference"];
+assert.ok(validatePublication(data,program,futsalBad).some(x=>x.code==="FUTSAL_TIE_BREAK"));
+const futsalMapBad=clone(rules);
+futsalMapBad.futsal_league.groups[0].fixture_ids.pop();
+assert.ok(validatePublication(data,program,futsalMapBad).some(x=>x.code==="FUTSAL_GROUP_MAPPING"));
 
 // Organizer follow-up 2026-11-06: count yellow/red as separate auditable
 // statistics without inventing a conversion/sort order. Petanque loser out.
@@ -239,7 +253,7 @@ const approvedCardTie=engine.calculateLeague(fixtures,[
   headMatch(ha,hb,0,0)],activeH2H);
 assert.equal(approvedCardTie.rows.find(x=>x.team_id===ha).card_tie_break_unresolved,true);
 assert.ok([ha,hb].every(id=>approvedCardTie.rows.find(x=>x.team_id===id).position===null),
-  "do not fabricate a fair-play weighting while method is not approved");
+  "do not apply card counts until the league is complete");
 const petPolicy=rules.sport_policies.find(x=>x.sport_id==="petanque");
 assert.equal(petPolicy.format,"knockout");
 assert.equal(petPolicy.elimination_status,"approved");
@@ -319,4 +333,4 @@ assert.ok(validatePublication(data,program,wrongCardScope).some(x=>x.code==="FOO
 const noCardApproval=clone(rules);
 delete noCardApproval.football_league.disciplinary_tie_break.source;
 assert.ok(validatePublication(data,program,noCardApproval).some(x=>x.code==="FOOTBALL_CARD_TIE_BREAK_SOURCE"));
-console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, H2H GD two/three-way, red-then-yellow (full 15 matches), unresolved card ties, petanque knockout, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
+console.log("R15-B/C PASS: 15+2+1 phase, 3/1/0, GD first then H2H, red-then-yellow (full 15 matches), unresolved card ties, petanque knockout, unresolved ties, prestart zeros, partial/KO/athletics, invalid JSON, revision/digest");
