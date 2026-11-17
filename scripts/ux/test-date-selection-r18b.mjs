@@ -14,7 +14,7 @@ assert.match(html,/id="scheduleDatePicker"/);
 assert.match(html,/id="scheduleDateOptions"/);
 assert.match(css,/\.schedule-date-options\{display:flex/);
 assert.match(css,/\.schedule-date-chip\[aria-pressed="true"\]/);
-assert.match(html,/js\/program\.js\?v=(?:r19-venue1-r18b|r38-1)/);
+assert.match(html,/js\/program\.js\?v=(?:r19-venue1-r18b|r38-1|r46-1)/);
 const storage=new Map();
 const element=id=>({id,value:"",innerHTML:"",textContent:"",hidden:false,children:[],handlers:{},
   appendChild(child){this.children.push(child);},
