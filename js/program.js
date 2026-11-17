@@ -441,6 +441,96 @@
     url.searchParams.delete("from");
     history.replaceState(null,"",url.pathname+url.search+url.hash);
   }
+
+  function closeScheduleShare(){
+    if(!els.shareDialog)return;
+    if(typeof els.shareDialog.close==="function"&&els.shareDialog.open)els.shareDialog.close();
+    els.shareDialog.classList?.remove("open-fallback");
+    els.shareDialog.hidden=true;
+  }
+  function openScheduleShare(day){
+    if(!state.data||!els.shareDialog||!globalThis.NongkumScheduleBulkShare)return;
+    shareScope=day===null?{kind:"selection"}:{kind:"day",day};
+    sharePartIndex=0;
+    if(els.shareSchool)els.shareSchool.value=state.school;
+    updateShareSelection();
+    els.shareDialog.hidden=false;
+    if(typeof els.shareDialog.showModal==="function")els.shareDialog.showModal();
+    else els.shareDialog.classList?.add("open-fallback");
+  }
+  function shareFixturesFor(school){
+    const order=globalThis.NongkumScheduleOrder;
+    const q=state.query.trim().toLocaleLowerCase("th");
+    const fixtures=order.sortedFixtures(state.data.fixtures.filter(function(m){
+      return resultVisible(m)&&matchesFilters(m,q,false,school);
+    }),state.data.sports);
+    let day="";
+    if(shareScope?.kind==="day")day=shareScope.day;
+    else if(state.dayMode==="date")day=state.selectedDay;
+    else if(state.dayMode==="upcoming")day=order.nearestDay(fixtures,order.bangkokToday(new Date())).day;
+    const selected=day==="unknown"?fixtures.filter(m=>!order.effectiveDay(m)):
+      day?fixtures.filter(m=>order.effectiveDay(m)===day):fixtures;
+    return {fixtures:selected,day};
+  }
+  function updateShareSelection(){
+    if(!shareScope||!state.data)return;
+    const school=els.shareSchool?.value||"";
+    const sample=shareFixturesFor(school);
+    sharePartIndex=0;
+    try{
+      shareSelection=globalThis.NongkumScheduleBulkShare.makeParts({
+        data:state.data,fixtures:sample.fixtures,school,sport:state.sport,level:state.level,
+        query:state.query.trim(),day:sample.day,resultMode:state.resultMode,
+        resultsVerified:state.resultsVerified,baseHref:location.href
+      });
+      if(els.shareSummary)els.shareSummary.textContent=shareSelection.count+" รายการ · "+
+        shareSelection.schoolTitle+" · "+(sample.day?(sample.day==="unknown"?"วันรอยืนยัน":globalThis.NongkumScheduleOrder.formatDayLabel(sample.day)):"ทุกวัน")+
+        (shareSelection.parts.length>1?" · แบ่ง "+shareSelection.parts.length+" ตอน":"");
+    }catch(error){
+      shareSelection={parts:[],count:0};
+      if(els.shareSummary)els.shareSummary.textContent="ไม่สามารถจัดข้อความจากตารางได้ โปรดลองอัปเดตข้อมูล";
+    }
+    renderSharePart();
+  }
+  function renderSharePart(){
+    const parts=shareSelection?.parts||[];
+    if(sharePartIndex>=parts.length)sharePartIndex=0;
+    if(els.sharePreview)els.sharePreview.value=parts[sharePartIndex]||"ไม่พบรายการที่ตรงกับตัวกรองนี้";
+    if(els.sharePartLabel)els.sharePartLabel.textContent=parts.length?"ตอนที่ "+(sharePartIndex+1)+"/"+parts.length:"ไม่มีรายการ";
+    if(els.sharePrev)els.sharePrev.disabled=!parts.length||sharePartIndex===0;
+    if(els.shareNext)els.shareNext.disabled=!parts.length||sharePartIndex===parts.length-1;
+    if(els.shareNative)els.shareNative.disabled=!parts.length;
+    if(els.shareCopy)els.shareCopy.disabled=!parts.length;
+  }
+  function shareToast(title,detail,error){
+    if(!globalThis.NongkumToast?.show(title,detail,!!error)&&els.refreshStatus)
+      els.refreshStatus.textContent=title;
+  }
+  async function copyCurrentPart(){
+    const text=shareSelection?.parts?.[sharePartIndex];
+    if(!text)return;
+    try{
+      if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);
+      else{
+        els.sharePreview?.focus?.();els.sharePreview?.select?.();
+        if(!document.execCommand?.("copy"))throw Error("copy unavailable");
+      }
+      shareToast("คัดลอกข้อความแล้ว","นำไปวางใน LINE เพื่อส่งได้ทันที");
+    }catch(_){
+      els.sharePreview?.focus?.();els.sharePreview?.select?.();
+      shareToast("เลือกข้อความให้แล้ว","คัดลอกข้อความที่เลือกเพื่อส่งใน LINE");
+    }
+  }
+  async function shareCurrentPart(){
+    const text=shareSelection?.parts?.[sharePartIndex];
+    if(!text)return;
+    try{
+      const result=await globalThis.NongkumScheduleBulkShare.send(text);
+      if(result==="shared")shareToast("เปิดการแชร์แล้ว","หากมีหลายตอน โปรดแชร์ตอนถัดไปด้วย");
+      else if(result==="copied")shareToast("คัดลอกข้อความแล้ว","นำไปวางใน LINE เพื่อส่ง");
+      else if(result==="unavailable")await copyCurrentPart();
+    }catch(_){await copyCurrentPart();}
+  }
   function setupHandlers(){
     if(initialized)return;
     initialized=true;
