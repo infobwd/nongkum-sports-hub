@@ -62,6 +62,27 @@
 <button class="r43-primary" type="submit">ส่งคำขอเข้าคิวตรวจ (ยังไม่เผยแพร่)</button>
 </form>
 </section>
+<section id="r43PrivateNew" class="r43-panel" hidden aria-labelledby="r43NewTitle">
+<h2 id="r43NewTitle">เสนอเพิ่มรายการแข่งขันใหม่</h2>
+<p class="r43-small">ระบบให้เลขคำขอชั่วคราวเท่านั้น ต้องตรวจสูจิบัตร สายการแข่งขัน และอนุมัติหมายเลขรายการอย่างเป็นทางการอีกครั้ง จึงยังไม่เพิ่มในตาราง</p>
+<form id="r43NewForm">
+<div class="r43-edit-grid">
+<label>ชนิดกีฬา<select id="r43NewSport" required><option value="">เลือกกีฬา</option></select></label>
+<label>รูปแบบ<select id="r43NewKind"><option value="match">คู่แข่งขัน</option><option value="track_event">รายการกรีฑา</option></select></label>
+<label>รุ่น / ประเภท<input id="r43NewDivision" maxlength="160" required></label>
+<label>โรงเรียนฝ่าย A<select id="r43NewTeamA"><option value="">เลือกโรงเรียน</option></select></label>
+<label>โรงเรียนฝ่าย B<select id="r43NewTeamB"><option value="">เลือกโรงเรียน</option></select></label>
+<label>วันที่เสนอ<input type="date" id="r43NewDate"></label>
+<label>เวลาเสนอ<input type="time" id="r43NewTime"></label>
+<label>สนามย่อย<input id="r43NewField" maxlength="160"></label>
+<label>สนามหลัก<input id="r43NewVenue" maxlength="200"></label>
+<label>รอบการแข่งขัน<input id="r43NewRound" maxlength="160"></label>
+</div>
+<label class="r43-reason">ที่มาหรือหลักฐาน<input id="r43NewEvidence" required maxlength="300"></label>
+<label class="r43-reason">เหตุผลที่ต้องเพิ่ม<input id="r43NewReason" required minlength="8" maxlength="500"></label>
+<button class="r43-primary" type="submit">ส่งคำขอเพิ่มรายการ (ไม่เพิ่มเข้า R33)</button>
+</form>
+</section>
 <section id="r43PrivatePeoplePanel" class="r43-panel" hidden aria-labelledby="r43PeopleTitle">
 <h2 id="r43PeopleTitle">เสนอรายชื่อกรรมการเข้าทะเบียนส่วนตัว</h2>
 <form id="r43PersonForm">
@@ -78,6 +99,7 @@
 <div class="r43-actions"><button type="button" class="r43-secondary" id="r43PrivateRefresh">ตรวจรายการล่าสุด</button>
 <button type="button" class="r43-secondary" id="r43PrivatePreview">ดาวน์โหลดชุดเตรียมเผยแพร่ (ยังไม่เผยแพร่)</button></div>
 <h3>รายชื่อกรรมการรอตรวจตัวตน</h3><div id="r43PrivatePendingPeople"></div>
+<h3>คำขอเพิ่มรายการใหม่ · รอพิจารณาผัง</h3><div id="r43PrivateNewQueue"></div>
 <h3>คำขอแก้ไขตาราง/กรรมการ</h3><div id="r43PrivateQueue"></div>
 </section>
 </section>
