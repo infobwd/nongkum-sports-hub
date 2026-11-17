@@ -55,6 +55,47 @@ try{
    assert.ok(data.rect.left>=-1&&data.rect.right<=width+1,file+" nav within viewport");
    assert.ok(data.family.includes("Noto Sans Thai"),file+" font aligned");
   }
+  // R42-B: compare the gallery's compact white sticky header with the approved-results header.
+  await page.goto(base+"/results.html",{waitUntil:"domcontentloaded"});
+  const reference=await page.locator("header.top").evaluate(el=>{
+   const css=getComputedStyle(el);
+   return {background:css.backgroundColor,color:css.color,height:el.getBoundingClientRect().height,position:css.position};
+  });
+  await page.goto(base+"/activity-photos.html",{waitUntil:"domcontentloaded"});
+  const galleryHeader=await page.locator("header.top").evaluate(el=>{
+   const css=getComputedStyle(el);
+   return {
+    background:css.backgroundColor,color:css.color,height:el.getBoundingClientRect().height,
+    position:css.position,borderBottom:css.borderBottomWidth,
+    hero:getComputedStyle(el.querySelector(".hero")).display,
+    topNav:getComputedStyle(el.querySelector(".gallery-nav")).display,
+    badge:el.querySelector(".mode").textContent.trim(),
+    logoWidth:el.querySelector(".logoIcon").getBoundingClientRect().width
+   };
+  });
+  assert.equal(galleryHeader.background,"rgb(255, 255, 255)","gallery mobile header must be white");
+  assert.equal(galleryHeader.background,reference.background,"gallery and results header backgrounds match");
+  assert.equal(galleryHeader.color,reference.color,"gallery and results header text colors match");
+  assert.equal(galleryHeader.position,"sticky","gallery mobile header stays visible while scrolling");
+  assert.equal(galleryHeader.hero,"none","no duplicated large title on mobile");
+  assert.equal(galleryHeader.topNav,"none","bottom tabs replace duplicated top nav on mobile");
+  assert.equal(galleryHeader.badge,"ภาพที่เผยแพร่แล้ว","image-specific approval wording");
+  assert.equal(galleryHeader.borderBottom,"1px","same thin bottom divider as results");
+  assert.equal(galleryHeader.logoWidth,30,"same compact logo as results");
+  assert.ok(galleryHeader.height<=reference.height+2,"gallery header no taller than results at "+width);
+  if(width===390){
+   await page.evaluate(()=>{
+    const spacer=document.createElement("div");
+    spacer.style.height="1300px";
+    spacer.setAttribute("data-test-spacer","");
+    document.querySelector("main").appendChild(spacer);
+    window.scrollTo(0,450);
+   });
+   await page.waitForFunction(()=>window.scrollY>350);
+   const headerTop=await page.locator("header.top").evaluate(el=>el.getBoundingClientRect().top);
+   assert.ok(Math.abs(headerTop)<=1,"gallery header stays flush to top when scrolled");
+   await page.screenshot({path:join(out,"390px-gallery-white-header-scrolled.png"),fullPage:false});
+  }
   if(width===390){
    await page.goto(base+"/activity-photos.html",{waitUntil:"domcontentloaded"});
    await page.screenshot({path:join(out,"390px-gallery.png"),fullPage:true});
@@ -73,6 +114,19 @@ try{
    await page.waitForURL("**/index.html");
   }
  }
+ // R42-B: desktop keeps its original navy background, visible hero and non-sticky header.
+ await page.setViewportSize({width:1024,height:768});
+ await page.goto(base+"/activity-photos.html",{waitUntil:"domcontentloaded"});
+ const desktopGallery=await page.locator("header.top").evaluate(el=>({
+   position:getComputedStyle(el).position,
+   backgroundColor:getComputedStyle(el).backgroundColor,
+   hero:getComputedStyle(el.querySelector(".hero")).display,
+   text:el.querySelector(".hero h1").textContent.trim()
+ }));
+ assert.equal(desktopGallery.position,"static","desktop gallery header unchanged");
+ assert.equal(desktopGallery.backgroundColor,"rgb(24, 55, 98)","existing desktop navy header retained");
+ assert.notEqual(desktopGallery.hero,"none","desktop hero remains visible");
+ assert.equal(desktopGallery.text,"ภาพกิจกรรมการแข่งขัน");
  const noJS=await browser.newContext({viewport:{width:390,height:812},javaScriptEnabled:false});
  const p=await noJS.newPage();
  await p.goto(base+"/more.html",{waitUntil:"domcontentloaded"});

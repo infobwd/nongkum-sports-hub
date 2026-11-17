@@ -33,3 +33,18 @@ body[data-view="activity-gallery"] .hero p{color:#e4efff}
 .gallery-viewer-actions button:disabled{opacity:.5}
 body[data-view="activity-gallery"] button:focus-visible,body[data-view="activity-gallery"] select:focus-visible,body[data-view="activity-gallery"] a:focus-visible{outline:3px solid #d7ae32;outline-offset:2px}
 @media(max-width:480px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-card img{height:128px}.gallery-filters{padding:11px}.gallery-card strong{font-size:.84rem}.gallery-main{padding-bottom:55px}}
+
+/* R42-B: compact white gallery header on mobile, identical to the R14 program/results
+   pattern. Keep desktop gallery hero and private photo workflows unchanged. */
+@media(max-width:690px){
+  body[data-view="activity-gallery"] > header.top{
+    position:sticky;top:0;z-index:1120;
+    margin-top:calc(-1 * var(--safe-top));
+    padding-top:var(--safe-top);
+    background:#fff;color:#183762;border-bottom:1px solid #d7e2ed;
+  }
+  body[data-view="activity-gallery"] > header.top .hero{display:none}
+  body[data-view="activity-gallery"] > header.top .brand{padding:6px 0}
+  body[data-view="activity-gallery"] > header.top .mode{color:#355878;border-color:#d3e0ec}
+  body[data-view="activity-gallery"] > header.top .logoIcon{width:30px;height:30px;font-size:18px}
+}
