@@ -40,6 +40,15 @@ Repository: `infobwd/nongkum-sports-hub` · ฐานอ้างอิง `main
 ## สถานะ
 - [x] ตรวจความต้องการและเวอร์ชันต้นทาง
 - [x] บันทึกแผนก่อนแก้ไข
-- [ ] พัฒนาในสาขาแยก
-- [ ] ทดสอบและเปิด PR
+- [x] พัฒนาในสาขา `feat/r42-unified-mobile-photo-nav-20261117`
+- [x] ทดสอบและเปิด [PR #166](https://github.com/infobwd/nongkum-sports-hub/pull/166) (Draft)
 - [ ] Merge / เผยแพร่ / ตรวจรับ
+
+## หลักฐานผลทดสอบก่อน Merge
+- [R42 browser + static QA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564727): 7 หน้า, viewport 320/375/390/430px, การใช้ลิงก์แบบไม่มี JavaScript และภาพหน้าจอจำลอง
+- [R40-H mobile photo QA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564494): การส่งและตรวจภาพด้วยข้อมูลทดสอบ
+- [R40 private photo security QA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564636)
+- [R15-A standings UI ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564438), [R31 PWA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564652), [R14 LINE ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564544)
+- แก้ตัวตรวจ R15-A เดิมที่คาดว่าเมนูมีสองแท็บให้ยอมรับสี่แท็บ โดยคง `data-nav-view` ของตารางและผลเดิม
+- ตรวจ PR #159 พบไฟล์ทับซ้อน `results.html`: ต้องตรวจรุ่นก่อน Merge งานดังกล่าว ไม่ถือว่าฉบับร่างเป็นข้อมูลเผยแพร่
+- **ยังไม่ทดสอบด้วยเครื่อง iPhone Safari/Android Chrome/LINE ของเจ้าหน้าที่จริง**; ยังไม่ Merge และไม่อ้างว่าเผยแพร่แล้ว
