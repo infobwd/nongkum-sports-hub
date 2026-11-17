@@ -254,6 +254,9 @@ begin
    -- This payload contains NO personnel names, and is NEVER an activation command.
    return jsonb_build_object('ok',true,'status','approved_not_published',
       'source_key',(select source_key from public.nongkum_schedule_active where singleton=1),
+      'new_fixture_review_pending',(select count(*) from nongkum_sports.r43_new_fixture_requests
+          where status in ('submitted','ready_for_bracket_check')
+            and source_key=(select source_key from public.nongkum_schedule_active where singleton=1)),
       'schedule_changes',(select coalesce(jsonb_agg(jsonb_build_object(
          'fixture_id',fixture_id,'changes',changes,'request_id',id)
          order by submitted_at),'[]'::jsonb) from nongkum_sports.r43_requests
