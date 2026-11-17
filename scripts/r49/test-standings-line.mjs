@@ -52,7 +52,7 @@ assert.match(single.parts[0],/เปิดตารางอันดับล�
 assert.equal(new URL(single.url).pathname,"/nongkum-sports-hub/o/");
 assert.equal(new URL(single.url).searchParams.get("c"),"f");
 assert.ok(single.parts[0].includes(single.url));
-assert.equal(single.parts[0].split("\\n").filter(x=>/\\| แข่ง \\d+ ชนะ /.test(x)).length,6,"all six football teams remain");
+assert.equal((single.parts[0].match(/\| แข่ง \d+ ชนะ /g)||[]).length,6,"all six football teams remain");
 const backup=library.makeParts({...options,source:"backup",groups:[fb],scope:"f"});
 assert.match(backup.parts[0],/สำเนาผลรับรอง/);
 const futsalShare=library.makeParts({...options,groups:[fa,fbb],scope:"x",filters:{school:"wangdong",sport:"futsal",level:"primary"}});
