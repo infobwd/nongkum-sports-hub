@@ -5,6 +5,9 @@ on:
       - "supabase/proposals/r43_private_schedule_workflow.sql"
       - "supabase/proposals/r43_shared_results_pin_bridge.sql"
       - "supabase/proposals/r43_personal_pin_private_identity.sql"
+      - "supabase/proposals/r43_personal_pin_auth_rpc.sql"
+      - "supabase/functions/nongkum-r43-pin/**"
+      - "scripts/r43/test-personal-pin-auth.sql"
       - "scripts/r43/test-personal-pin-identity-schema.sql"
       - "supabase/proposals/r43_new_fixture_queue.sql"
       - "supabase/functions/nongkum-schedule-admin/**"
@@ -67,6 +70,10 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_shared_results_pin_bridge.sql
       - name: Apply private personal PIN identity schema in ISOLATED PostgreSQL only
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_private_identity.sql
+      - name: Apply service-only personal PIN authentication RPC in isolated DB
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_auth_rpc.sql
+      - name: Test personal PIN auth roles, sessions, rotation and throttling
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-auth.sql
       - name: Test private personal PIN identity RLS and constraints
         run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-identity-schema.sql
       - name: Test grants, reviewer separation, R32 locks, stale revisions and committee overlaps
