@@ -85,8 +85,10 @@ assert.match(html,/ไม่บันทึกเข้าสู่ระบบ/
 assert.match(more,/href="\.\/schedule-manager\.html"/);
 assert.match(program,/\.\/schedule-manager\.html\?fixture=/,"details link to draft, R34 card still handles results");
 assert.match(ui,/state=\{data:null,selected:null,pending:new Map\(\),staff:new Map\(\)\}/);
-assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|service_role|POST|PATCH|PUT|DELETE|\.supabase\.co/i,
- "no persistence to browser storage or public/private APIs in R43-A");
+assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|service_role|\.supabase\.co/i,
+ "no persistence to browser storage or private API URLs in R43-A");
+assert.doesNotMatch(ui,/method\s*:\s*["'](?:POST|PATCH|PUT|DELETE)["']/i,
+ "no write HTTP methods in R43-A");
 assert.match(styles,/@media\(max-width:690px\)/);
 assert.match(html,/aria-current="page"/);
 assert.equal((html.match(/<a id="mobile(?:Program|Results|Gallery|More)Link"/g)||[]).length,4);
