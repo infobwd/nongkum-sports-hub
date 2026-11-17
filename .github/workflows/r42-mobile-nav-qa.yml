@@ -1,0 +1,44 @@
+name: R42 Shared Mobile App Navigation QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "results.html"
+      - "standings.html"
+      - "activity-photos.html"
+      - "upload-photos.html"
+      - "review-photos.html"
+      - "more.html"
+      - "css/app-shell-r42.css"
+      - "js/activity-gallery-r40g.js"
+      - "scripts/ux/test-r42-*.mjs"
+      - ".github/workflows/r42-mobile-nav-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile-navigation:
+    name: Shared fonts, link routes and 320–430px mobile viewports
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate HTML, original R6 links and roles
+        run: node scripts/ux/test-r42-mobile-nav.mjs
+      - name: Install synthetic Chromium browser QA
+        run: npm install --no-save --ignore-scripts playwright@1.58.2
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Verify responsive layout and native navigation
+        run: node scripts/ux/test-r42-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r42-synthetic-mobile-layout
+          path: ${{ runner.temp }}/r42-mobile-evidence/*.png
+          if-no-files-found: warn
+          retention-days: 7

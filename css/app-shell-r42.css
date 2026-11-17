@@ -1,0 +1,75 @@
+/* R42: shared app shell for sports results, public photos and the two photo staff tools.
+   Preserve R6 native-anchor navigation, R40 permissions, and iOS safe-area behavior. */
+:root{--app-navy:#183762;--app-gold:#f2c54e}
+html{font-family:"Noto Sans Thai",system-ui,-apple-system,BlinkMacSystemFont,sans-serif}
+body{font-family:inherit}
+a,button,select,input,textarea,summary{font-family:inherit}
+.gallery-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 13px}
+.gallery-shortcuts a{min-width:0;min-height:72px;display:flex;align-items:center;gap:10px;
+ padding:10px 12px;border:1px solid #b8cde2;border-radius:13px;background:#fff;
+ color:#1a4a78;text-decoration:none;box-shadow:0 2px 10px rgba(26,55,90,.035)}
+.gallery-shortcuts a>span:first-child{flex:none;font-size:1.3rem}
+.gallery-shortcuts a>span:last-child{min-width:0;display:block}
+.gallery-shortcuts strong{display:block;font-weight:800;line-height:1.45;font-size:.89rem}
+.gallery-shortcuts small{display:block;color:#5a7289;font-size:.72rem;line-height:1.45}
+.gallery-shortcuts a:focus-visible,.more-hub a:focus-visible{outline:3px solid var(--app-gold);outline-offset:2px}
+.more-hub{padding-top:14px}
+.more-hub-section{background:#fff;border:1px solid #d8e3ef;border-radius:16px;padding:14px;margin:10px 0}
+.more-hub-section h2{margin:2px 0 11px;color:var(--app-navy)}
+.more-hub-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.more-hub-links a{display:flex;align-items:flex-start;gap:9px;min-width:0;min-height:80px;
+ padding:12px;background:#f7faff;border:1px solid #d0dfef;border-radius:13px;
+ color:#1b4a75;text-decoration:none}
+.more-hub-links a>span:first-child{flex:none;font-size:1.3rem;line-height:1.4}
+.more-hub-links a>span:last-child{min-width:0}
+.more-hub-links strong,.more-hub-links small{display:block;overflow-wrap:anywhere}
+.more-hub-links strong{font-size:.94rem;line-height:1.5}
+.more-hub-links small{color:#59728b;font-size:.76rem;line-height:1.5;margin-top:3px}
+.more-hub-note{color:#596f87;font-size:.81rem;line-height:1.6;margin:10px 0}
+body[data-view="activity-gallery"] header.top,
+body[data-view="photo-upload"] header.top,
+body[data-view="photo-review"] header.top{background:var(--app-navy)}
+body[data-view="activity-gallery"] header.top .hero h1,
+body[data-view="photo-upload"] header.top .hero h1,
+body[data-view="photo-review"] header.top .hero h1{font-size:var(--page-title-size);margin:0;line-height:1.35}
+body[data-view="activity-gallery"] header.top .hero,
+body[data-view="photo-upload"] header.top .hero,
+body[data-view="photo-review"] header.top .hero{padding:2px 0 12px}
+body[data-view="activity-gallery"] header.top .hero p,
+body[data-view="photo-upload"] header.top .hero p,
+body[data-view="photo-review"] header.top .hero p{font-size:.87rem;line-height:1.6;margin:5px 0 0;color:#d9e6f5}
+body[data-view="activity-gallery"] header.top .brand,
+body[data-view="photo-upload"] header.top .brand,
+body[data-view="photo-review"] header.top .brand{padding:10px 0 7px}
+body[data-view="activity-gallery"] .gallery-main{padding-top:12px}
+@media(max-width:690px){
+ .mobile-nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;
+   padding:6px 9px calc(8px + var(--safe-bottom))}
+ .mobile-nav a{min-width:0;min-height:58px;padding:4px 1px;font-size:.70rem}
+ .mobile-nav a span{white-space:nowrap}
+ body[data-view="activity-gallery"] .gallery-nav,
+ body[data-view="photo-upload"] .photo-navigation,
+ body[data-view="photo-review"] .photo-navigation{display:none}
+ body[data-view="program"] .brand-tools .program-more{display:none}
+ body[data-view="activity-gallery"] .gallery-main{padding-top:12px}
+ body[data-view="photo-upload"] .photo-main,
+ body[data-view="photo-review"] .photo-main{padding-top:8px}
+ body[data-view="activity-gallery"] header.top .hero,
+ body[data-view="photo-upload"] header.top .hero,
+ body[data-view="photo-review"] header.top .hero{padding-bottom:10px}
+ .gallery-shortcuts{gap:8px;margin-bottom:12px}
+ .gallery-shortcuts a{padding:9px;gap:6px;min-height:65px}
+ .gallery-shortcuts strong{font-size:.81rem}
+ .gallery-shortcuts small{font-size:.67rem}
+ .more-hub-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .more-hub-links a{min-height:84px;padding:10px;gap:7px}
+}
+@media(max-width:360px){
+ .mobile-nav{padding-left:6px;padding-right:6px;gap:1px}
+ .mobile-nav a{font-size:.67rem}
+ .gallery-shortcuts{grid-template-columns:1fr}
+ .gallery-shortcuts a{min-height:52px}
+ .more-hub-links{grid-template-columns:1fr}
+ .more-hub-links a{min-height:60px}
+}
+@media(min-width:691px){.gallery-shortcuts{max-width:630px}}

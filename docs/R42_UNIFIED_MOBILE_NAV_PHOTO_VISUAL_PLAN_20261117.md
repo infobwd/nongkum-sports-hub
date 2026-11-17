@@ -1,0 +1,54 @@
+# R42 — มาตรฐานฟอนต์และเมนูมือถือร่วมกันทั้งเว็บไซต์ / ภาพกิจกรรม
+
+วันที่เริ่ม: 17 พฤศจิกายน 2569  
+Repository: `infobwd/nongkum-sports-hub` · ฐานอ้างอิง `main` SHA `a54be5742318c3603278245f65a8cba06a798ba2`
+
+## เหตุผลและหลักฐาน
+ผู้จัดส่งภาพหน้าจอ iPhone พบว่า `activity-photos.html`, `upload-photos.html`, `review-photos.html` ดูเป็นคนละแอปกับ `index.html`/`results.html` และเข้าหน้าส่ง/ตรวจภาพหลายขั้นตอน
+
+ตรวจจาก `main`:
+- `index.html` และ `results.html` โหลด Google Fonts Noto Sans Thai และมีแถบเมนูล่าง 2 แท็บ
+- `activity-photos.html`, `upload-photos.html`, `review-photos.html` อ้าง `css/base.css` แต่ไม่โหลด font stylesheet จึงตกไปใช้ fallback บนมือถือ
+- หน้าภาพกิจกรรมมีเมนูบน 3 ปุ่ม; หน้าส่งภาพและตรวจภาพมีลิงก์กลับหน้าอื่นเท่านั้น
+- `js/navigation.js` รักษาสถานะตัวกรองและการกดลิงก์ใน 2 แท็บเดิม; ต้องคงพฤติกรรมนี้
+- `css/base.css` มีการจัดการ Safe Area ของ iOS และแถบเมนูล่างอยู่แล้ว
+- `js/activity-gallery-r40g.js` กลุ่ม `event_date=null` ใช้ข้อความ “ยังไม่มีวันที่แข่งขันที่ยืนยัน” ทั้งที่เป็นเพียงวันที่ยังไม่ระบุในข้อมูลที่เผยแพร่
+- เปิด PR ปัจจุบันมี #159 ร่างซึ่งแตะ R40/Edge; แผนนี้ **ไม่แตะ** SQL, Edge, R32/R33 หรือรูปจริง
+
+## งานที่ต้องทำ
+1. ใช้ Noto Sans Thai แบบเดียวกับเว็บหลักทุกหน้าที่เกี่ยวกับภาพกิจกรรม รวมถึงหน้า `เพิ่มเติม` ใหม่; ยึดสี หัวข้อ ปุ่มและช่องไฟจาก `css/base.css` แทนการออกแบบแยก
+2. ขยายแถบเมนูมือถือเป็น 4 รายการ: ตารางแข่ง / ผลแข่งขัน / ภาพกิจกรรม / เพิ่มเติม; รักษา id และ data-nav-view ของสองแท็บเดิมเพื่อไม่กระทบ R6 deep link/ตัวกรอง
+3. สร้าง `more.html` เป็นหน้าเมนูทางเข้าแบบสั้นสำหรับเจ้าหน้าที่และผู้ปกครอง; ให้มีทางไปส่งภาพ ตรวจภาพ ติดตาม/ยืนยันผล สูจิบัตร กรรมการ และเอกสารโดยไม่เปิดสิทธิ์ผู้ตรวจ
+4. เพิ่มลิงก์ ส่งภาพกิจกรรม และ ตรวจภาพกิจกรรม บนหน้าแกลเลอรีโดยตรง; สถานะภาพสาธารณะไม่เปลี่ยน
+5. ลดความสูงส่วนหัวของหน้าภาพบนมือถือ; ซ่อนแถบลิงก์ซ้ำบนมือถือเมื่อแถบล่างแทนที่; เดสก์ท็อปยังมีทางกลับ
+6. ปรับข้อความกลุ่มภาพที่ไม่มี `event_date` ให้ไม่อ้างว่ามี/ไม่มีการยืนยันผลหรือวันที่โดยไม่มีหลักฐาน
+7. รองรับ iPhone Safari safe area, LINE in-app และ PWA: ลิงก์เป็น native anchor, ไม่เปลี่ยน backend/session/auth/data-fetch; การแสดงผลไม่ต้องใช้ JS เพื่อสร้างเมนูหลัก
+
+## ผลกระทบและการป้องกัน
+- แตะเฉพาะ `index.html`, `results.html`, `standings.html` (ถ้าใช้ bottom nav), `activity-photos.html`, `upload-photos.html`, `review-photos.html`, `css/base.css`, `js/activity-gallery-r40g.js`, CSS หน้าใหม่และหน้า `more.html`
+- ไม่ปรับเกณฑ์การให้คะแนน ผลรับรอง R32 กำหนดแข่ง R33 หรือขั้นตอนอนุมัติภาพ R40
+- ลิงก์เดิมทุกหน้าต้องยังใช้งานได้; ห้องจัดภาพยังต้องล็อกอินก่อนส่ง/อนุมัติ
+- เมนูต้องไม่บังปุ่มส่งภาพหรือส่วนท้ายบนจอเล็ก
+
+## เกณฑ์ตรวจรับ
+- ทุกหน้าที่ปรับต้องโหลด Noto Sans Thai และใช้แถบล่าง 4 ช่องเหมือนกัน (แสดง active page ถูกต้อง)
+- เมนู/ปุ่มกดพื้นที่สูงไม่น้อยกว่า 44px; ไม่ล้นจอ viewport 320, 375, 390, 430px; ระยะ safe-area iPhone และ LINE
+- ทดสอบลิงก์ 4 แท็บทุกหน้า, ลิงก์ ส่ง/ตรวจภาพ, ผล/ตารางเดิม; iframe/PWA และโหมดไม่มี JS ยังใช้ native anchor ได้
+- ผ่านชุดทดสอบ R6/R39/R40/R40-G/R40-H และ browser QA ที่เกี่ยวข้อง
+- เปิด PR พร้อมผล QA และหลักฐาน; **Merge เมื่อผู้ใช้อนุญาต** จากนั้นตรวจ GitHub Pages จริง
+
+## สถานะ
+- [x] ตรวจความต้องการและเวอร์ชันต้นทาง
+- [x] บันทึกแผนก่อนแก้ไข
+- [x] พัฒนาในสาขา `feat/r42-unified-mobile-photo-nav-20261117`
+- [x] ทดสอบและเปิด [PR #166](https://github.com/infobwd/nongkum-sports-hub/pull/166) (Draft)
+- [ ] Merge / เผยแพร่ / ตรวจรับ
+
+## หลักฐานผลทดสอบก่อน Merge
+- [R42 browser + static QA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564727): 7 หน้า, viewport 320/375/390/430px, การใช้ลิงก์แบบไม่มี JavaScript และภาพหน้าจอจำลอง
+- [R40-H mobile photo QA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564494): การส่งและตรวจภาพด้วยข้อมูลทดสอบ
+- [R40 private photo security QA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564636)
+- [R15-A standings UI ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564438), [R31 PWA ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564652), [R14 LINE ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43989564544)
+- แก้ตัวตรวจ R15-A เดิมที่คาดว่าเมนูมีสองแท็บให้ยอมรับสี่แท็บ โดยคง `data-nav-view` ของตารางและผลเดิม
+- ตรวจ PR #159 พบไฟล์ทับซ้อน `results.html`: ต้องตรวจรุ่นก่อน Merge งานดังกล่าว ไม่ถือว่าฉบับร่างเป็นข้อมูลเผยแพร่
+- **ยังไม่ทดสอบด้วยเครื่อง iPhone Safari/Android Chrome/LINE ของเจ้าหน้าที่จริง**; ยังไม่ Merge และไม่อ้างว่าเผยแพร่แล้ว

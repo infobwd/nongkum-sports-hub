@@ -4,7 +4,11 @@
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#183762">
 <link rel="manifest" href="./manifest.webmanifest">
 <title>ตรวจภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1">
 <link rel="stylesheet" href="./css/activity-photos.css?v=r40h-1">
 </head><body data-view="photo-review">
 <header class="top"><div class="shell">
@@ -32,5 +36,19 @@
 <p id="photoReviewStatus" class="photo-status" role="status" aria-live="polite"></p>
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · อนุญาตภายในไม่ใช่การเผยแพร่ · เพิกถอนภาพสาธารณะได้</footer>
+<nav id="mobileTabNav" class="mobile-nav" aria-label="เมนูหลักมือถือ">
+  <a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="ตารางแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M7 17h3"/></svg><span>ตารางแข่ง</span>
+  </a>
+  <a id="mobileResultsLink" data-nav-view="results" href="./results.html" aria-label="ผลการแข่งขัน">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg><span>ผลแข่งขัน</span>
+  </a>
+  <a id="mobileGalleryLink" href="./activity-photos.html" aria-label="ภาพกิจกรรม">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.6"/><path d="m4 18 5-5 4 3 3-5 4 7"/></svg><span>ภาพกิจกรรม</span>
+  </a>
+  <a id="mobileMoreLink" href="./more.html" aria-label="เมนูเพิ่มเติม" aria-current="page">
+    <svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>เพิ่มเติม</span>
+  </a>
+</nav>
 <script src="./js/review-photos-r40.js?v=r40h-1" defer></script>
 </body></html>
