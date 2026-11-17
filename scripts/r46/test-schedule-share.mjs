@@ -22,7 +22,7 @@ assert.ok(all.parts.length>1,"full schedule must be split, never truncated");
 assert.ok(all.parts.every(part=>part.includes("เปิดตารางล่าสุดในแอป:")));
 assert.ok(all.parts.every(part=>part.length<3500),"LINE segments remain manageable");
 assert.ok(all.parts.every(part=>!part.includes("undefined")));
-const nEntries=all.parts.reduce((n,part)=>n+(part.match(/(?:\d{2}\.\d{2} น\.|เวลารอยืนยัน) \| /g)||[]).length,0);
+const nEntries=all.rowsPerPart.reduce((n,count)=>n+count,0);
 assert.equal(nEntries,236,"every record must appear exactly once across chunks");
 
 for(const school of data.schools){
