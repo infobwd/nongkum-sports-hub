@@ -92,18 +92,19 @@ const expected=[
  ["takraw-p13-12-ปี-ชาย-A-015","14:00"]
 ];
 assert.equal(data.fixtures.length,236);
-assert.equal(data.metadata.r47_confirmation_count,5);
-assert.equal(data.metadata.count_confirmed_schedule_rows,50);
+assert.equal(data.metadata.count_confirmed_schedule_rows,45,
+  "R33 baseline stays locked to 45 rows");
 for(const [id,time] of expected){
   const fixture=data.fixtures.find(f=>f.id===id);
   const original=raw.fixtures.find(f=>f.id===id);
   assert.ok(fixture&&original,id);
-  assert.equal(fixture.planning_date,"2026-11-18");
-  assert.equal(fixture.planning_time,time);
-  assert.equal(fixture.planning_date_confirmation,"confirmed");
-  assert.equal(fixture.planning_time_confirmation,"confirmed");
-  assert.equal(fixture.planning_status,"review","bracket approval must not be invented");
-  assert.ok(fixture.planning_source.includes("17 พฤศจิกายน 2569"));
+  assert.equal(fixture.draft_date,"2026-11-18");
+  assert.equal(String(fixture.source_pdf?.source_time).slice(0,5),time);
+  assert.equal(fixture.planning_date_confirmation==="confirmed",false,
+    "R33 source confirmation must not be silently rewritten");
+  assert.equal(fixture.planning_time_confirmation==="confirmed",false);
+  assert.equal(share.organizerConfirmed(fixture),true,
+    "five exact organizer-confirmed samples for LINE presentation only");
   assert.deepEqual(JSON.parse(JSON.stringify(fixture.source_pdf)),JSON.parse(JSON.stringify(original.source_pdf)),
     "archived PDF source must remain intact");
 }
@@ -115,7 +116,7 @@ assert.match(payload.parts[0],/สนามหลัก: โรงเรีย�
 assert.doesNotMatch(payload.parts[0],/ยืนยันแล้ว|\(รอตรวจ\)|\(ตามร่าง\)|^\*/m);
 assert.doesNotMatch(payload.parts[0],/บางรายการยังมีข้อมูลกำหนดการแข่งขันที่รอตรวจสอบในระบบ/);
 assert.ok(payload.parts[0].includes(compact));
-const unresolved=data.fixtures.find(f=>f.planning_time_confirmation!=="confirmed"&&f.source_pdf?.source_time);
+const unresolved=data.fixtures.find(f=>f.planning_time_confirmation!=="confirmed"&&f.source_pdf?.source_time&&!share.organizerConfirmed(f));
 assert.ok(unresolved);
 const unresolvedPayload=share.makeParts({data,fixtures:[unresolved],school:"",sport:"",level:"",query:"",day:"",resultMode:"all",resultsVerified:true,baseHref:base});
 assert.match(unresolvedPayload.parts[0],/บางรายการยังมีข้อมูลกำหนดการแข่งขันที่รอตรวจสอบในระบบ/);
@@ -124,5 +125,5 @@ assert.equal(data.metadata.all_data_approved,false,"no global approval invented"
 assert.equal(raw.metadata.all_data_approved,false);
 const html=read("index.html");
 assert.match(html,/js\/schedule-link-codec\.js\?v=r47-1/);
-assert.match(html,/js\/program-corrections\.js\?v=r47-1/);
+assert.match(html,/js\/program-corrections\.js\?v=r20b1/);
 console.log("R47 PASS: 5040 distinct compact tokens; five explicit organizer confirmations; /t/ legacy & invalid routes; true status footer; original JSON intact.");
