@@ -4,10 +4,8 @@
 -- Only service_role may call this atomic login/session RPC; never expose service key.
 grant delete on nongkum_sports.r43_staff_login_limits to service_role;
 
-alter table nongkum_sports.r43_staff_identities
-  add column if not exists can_propose boolean not null default false,
-  add column if not exists can_assign boolean not null default false,
-  add column if not exists can_review boolean not null default false;
+-- Authority comes only from r43_roles after the guarded actor-FK migration.
+-- Do not duplicate permissions in r43_staff_identities.
 
 create or replace function public.nongkum_r43_personal_pin_auth(
   p_action text, p_pin_mac text, p_session_hash text,
@@ -66,14 +64,15 @@ begin
       end if;
     end loop;
 
-    select s.id,s.full_name,s.school_id,s.can_propose,s.can_assign,s.can_review,
+    select s.id,s.full_name,s.school_id,r.can_propose,r.can_assign,r.can_review,
            k.pin_version
       into v_actor
       from nongkum_sports.r43_staff_pin_keys k
       join nongkum_sports.r43_staff_identities s on s.id=k.staff_id
+      join nongkum_sports.r43_roles r on r.user_id=s.id and r.active=true
      where k.pin_lookup_mac=p_pin_mac
        and s.active=true and s.revoked_at is null
-       and (s.can_propose or s.can_assign or s.can_review);
+       and (r.can_propose or r.can_assign or r.can_review);
     if not found then
       return jsonb_build_object('ok',false,'error','unauthenticated');
     end if;
@@ -82,8 +81,8 @@ begin
     values(p_session_hash,v_actor.id,v_actor.pin_version,v_now,v_now+interval '6 hours');
     -- Successful login clears the per-client counter, NOT global throttling.
     delete from nongkum_sports.r43_staff_login_limits where client_key=p_client_key;
-    return jsonb_build_object('ok',true,'full_name',v_actor.full_name,
-      'school_id',v_actor.school_id,'can_propose',v_actor.can_propose,
+    return jsonb_build_object('ok',true,'staff_id',v_actor.id,
+      'full_name',v_actor.full_name,'school_id',v_actor.school_id,'can_propose',v_actor.can_propose,
       'can_assign',v_actor.can_assign,'can_review',v_actor.can_review,
       'expires_at',v_now+interval '6 hours');
   end if;
@@ -95,20 +94,21 @@ begin
   end if;
 
   -- A disabled identity, rotated PIN, expired or revoked session is rejected.
-  select s.full_name,s.school_id,s.can_propose,s.can_assign,s.can_review,
+  select s.id,s.full_name,s.school_id,r.can_propose,r.can_assign,r.can_review,
          t.expires_at into v_actor
     from nongkum_sports.r43_staff_sessions t
     join nongkum_sports.r43_staff_identities s on s.id=t.staff_id
     join nongkum_sports.r43_staff_pin_keys k on k.staff_id=s.id
+    join nongkum_sports.r43_roles r on r.user_id=s.id and r.active=true
    where t.token_hash=p_session_hash and t.revoked_at is null
      and t.expires_at>v_now and s.active=true and s.revoked_at is null
      and t.pin_version=k.pin_version
-     and (s.can_propose or s.can_assign or s.can_review);
+     and (r.can_propose or r.can_assign or r.can_review);
   if not found then
     return jsonb_build_object('ok',false,'error','unauthenticated');
   end if;
-  return jsonb_build_object('ok',true,'full_name',v_actor.full_name,
-    'school_id',v_actor.school_id,'can_propose',v_actor.can_propose,
+  return jsonb_build_object('ok',true,'staff_id',v_actor.id,
+    'full_name',v_actor.full_name,'school_id',v_actor.school_id,'can_propose',v_actor.can_propose,
     'can_assign',v_actor.can_assign,'can_review',v_actor.can_review,
     'expires_at',v_actor.expires_at);
 end
