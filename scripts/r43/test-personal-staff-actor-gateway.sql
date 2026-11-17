@@ -4,7 +4,7 @@ begin;
 do $staffqa$
 declare
   editor uuid; reviewer uuid; unknown_actor uuid := '00000000-0000-4000-8000-000000000099';
-  person_id uuid; request_id uuid; candidate_id uuid; got jsonb;
+  person_id uuid; v_request_id uuid; candidate_id uuid; got jsonb;
   n integer;
 begin
   select count(*) into n from pg_constraint p
@@ -55,19 +55,19 @@ begin
     'evidence_ref','SYNTHETIC-REQUEST-001'));
   if (got->>'ok')::boolean is distinct from true then
     raise exception 'Schedule change submission failed: %',got;end if;
-  request_id:=(got->>'id')::uuid;
+  v_request_id:=(got->>'id')::uuid;
   got:=public.nongkum_r43_gateway(editor,'review',jsonb_build_object(
-    'id',request_id,'revision',1,'decision','approved',
+    'id',v_request_id,'revision',1,'decision','approved',
     'review_note','SYNTHETIC same-person rejection'));
   if got->>'error'<>'self_review' then raise exception 'Staff self approval accepted: %',got;end if;
   got:=public.nongkum_r43_gateway(reviewer,'review',jsonb_build_object(
-    'id',request_id,'revision',1,'decision','approved',
+    'id',v_request_id,'revision',1,'decision','approved',
     'review_note','SYNTHETIC independent review'));
   if got->>'status'<>'approved' then raise exception 'Staff independent review failed: %',got;end if;
   if not exists(select 1 from nongkum_sports.r43_requests q
-        where q.id=request_id and q.submitted_by=editor and q.reviewed_by=reviewer)
-     or not exists(select 1 from nongkum_sports.r43_audit
-        where request_id=request_id and actor=editor and action='submitted')
+        where q.id=v_request_id and q.submitted_by=editor and q.reviewed_by=reviewer)
+     or not exists(select 1 from nongkum_sports.r43_audit a
+        where a.request_id=v_request_id and a.actor=editor and action='submitted')
   then raise exception 'Missing staff audit or actor provenance';end if;
 
   got:=public.nongkum_r43_new_fixture_gateway(editor,'new_submit',jsonb_build_object(
