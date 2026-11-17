@@ -13,22 +13,33 @@
   <h1>ตารางการแข่งขัน · มิตรภาพเกมส์ 2569</h1>
   <p>กำลังเปิดตารางที่แชร์มาโดยใช้ข้อมูลล่าสุดจากแอป…</p>
   <p><a id="open" href="../index.html">เปิดตารางการแข่งขัน</a></p>
+  <script src="../js/schedule-link-codec.js?v=r47-1"></script>
   <script>
   (function(){
     "use strict";
     const input=new URLSearchParams(location.search);
     const target=new URL("../index.html",location.href);
-    const school=input.get("s")||"";
-    const sport=input.get("g")||"";
-    const level=input.get("l")||"";
-    const query=input.get("q")||"";
-    const dateCode=input.get("d")||"";
+    const compact=input.get("c")||"";
+    const decoded=compact?globalThis.NongkumScheduleLinkCodec?.decode(compact):null;
+    if(compact&&!decoded){
+      document.querySelector("p").textContent="รหัสลิงก์นี้ไม่ถูกต้อง โปรดเปิดตารางการแข่งขันทั้งหมด";
+      document.getElementById("open").href=target.href;
+      return;
+    }
+    const school=decoded?decoded.school:(input.get("s")||"");
+    const sport=decoded?decoded.sport:(input.get("g")||"");
+    const level=decoded?decoded.level:(input.get("l")||"");
+    const query=decoded?"":(input.get("q")||"");
+    const dateCode=decoded?"":(input.get("d")||"");
     if(/^[a-z0-9-]{1,24}$/.test(school))target.searchParams.set("school",school);
     else target.searchParams.set("school","all"); // Explicitly override a recipient’s remembered school
     if(/^[a-z0-9-]{1,24}$/.test(sport))target.searchParams.set("sport",sport);
     if(["early","primary","secondary"].includes(level))target.searchParams.set("level",level);
     if(query&&query.length<=100)target.searchParams.set("q",query);
-    if(dateCode==="u")target.searchParams.set("shareDate","unknown");
+    if(decoded?.day==="unknown")target.searchParams.set("shareDate","unknown");
+    else if(decoded?.day)target.searchParams.set("shareDate",decoded.day);
+    else if(decoded)target.searchParams.set("allDates","1");
+    else if(dateCode==="u")target.searchParams.set("shareDate","unknown");
     else if(/^\d{6}$/.test(dateCode)){
       const iso="20"+dateCode.slice(0,2)+"-"+dateCode.slice(2,4)+"-"+dateCode.slice(4,6);
       const date=new Date(iso+"T12:00:00Z");
@@ -36,7 +47,7 @@
         target.searchParams.set("shareDate",iso);
     }
     else if(input.get("a")==="1")target.searchParams.set("allDates","1");
-    if(input.get("r")==="a")target.searchParams.set("resultMode","all");
+    if((decoded&&decoded.resultMode==="all")||input.get("r")==="a")target.searchParams.set("resultMode","all");
     const a=document.getElementById("open");
     a.href=target.href;
     location.replace(target.href);
