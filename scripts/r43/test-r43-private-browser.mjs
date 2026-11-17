@@ -102,7 +102,7 @@ try{
  await page.locator("#r43EditorPinForm button[type=submit]").click();
  await page.waitForFunction(()=>document.querySelector("#r43EditorPinStatus").textContent.includes("ใช้สิทธิ์รหัสเดิม"));
  await page.locator("#r43ReviewerName").fill("กรรมการทดสอบ");
- await page.locator("#r43ReviewerPin").fill("SYNTHETIC-PIN-123");
+ await page.locator("#r43ReviewerPin").fill("12345678");
  await page.locator("#r43ReviewerPinForm button[type=submit]").click();
  await page.waitForFunction(()=>requests.some(r=>r.action==="people_pending"));
  for(const r of requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action))){
