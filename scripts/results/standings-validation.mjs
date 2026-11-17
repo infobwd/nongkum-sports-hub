@@ -27,11 +27,11 @@ export function validatePublication(data,program,rules,{previous=null}={}){
     catch(e){error("FOOTBALL_MAPPING",e.message);}
     const leagueRule=rules.football_league;
     if(leagueRule.tie_break_status==="approved"){
-      const expectedOrder=["head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
+      const expectedOrder=["overall_goal_difference","head_to_head_goal_difference","fewest_red_cards","fewest_yellow_cards"];
       if(!Array.isArray(leagueRule.tie_breakers)||leagueRule.tie_breakers.length!==expectedOrder.length||
          leagueRule.tie_breakers.some((key,i)=>key!==expectedOrder[i])||
-         leagueRule.tie_break_scope!=="mutual_matches_among_equal_points_teams")
-        error("FOOTBALL_TIE_BREAK","approved tie-break sequence must be H2H GD, fewest reds, then fewest yellows");
+         leagueRule.tie_break_scope!=="equal_points_then_equal_overall_goal_difference")
+        error("FOOTBALL_TIE_BREAK","approved tie-break sequence must be points, overall GD, H2H GD, fewer reds, then yellows");
       if(leagueRule.tie_break_source?.kind!=="organizer_instruction"||
          !string(leagueRule.tie_break_source.date)||!string(leagueRule.tie_break_source.source_ref))
         error("FOOTBALL_TIE_BREAK_SOURCE","approved head-to-head rule needs traceable organizer instruction");
@@ -48,6 +48,51 @@ export function validatePublication(data,program,rules,{previous=null}={}){
     }
     if(leagueRule.approval_status==="approved"&&leagueRule.tie_break_status!=="approved")
       error("FOOTBALL_TIE_BREAK_PENDING","full football approval cannot bypass tie-break approval");
+  }
+  // R48: futsal has an approved provisional tie-break order, but not an
+  // approved qualification bracket or final standings publication policy.
+  const futsalRule=rules?.futsal_league;
+  if(futsalRule){
+    const expectedOrder=["overall_goal_difference","head_to_head_goal_difference",
+      "fewest_red_cards","fewest_yellow_cards"];
+    const groups=futsalRule.groups;
+    const fixtureMap=new Map((program?.fixtures||[]).map(f=>[f.id,f]));
+    const expectedDivisions=["10 ปี ชาย A","10 ปี ชาย B"];
+    if(futsalRule.sport_id!=="futsal"||futsalRule.format!=="group_then_knockout"||
+       !Array.isArray(groups)||groups.length!==2||
+       !expectedDivisions.every(division=>groups.some(g=>g.division===division))||
+       groups.some(g=>!Array.isArray(g.fixture_ids)||
+         g.fixture_ids.length!==(g.division==="10 ปี ชาย A"?6:3)||
+         new Set(g.fixture_ids).size!==g.fixture_ids.length||
+         g.fixture_ids.some(id=>{
+           const f=fixtureMap.get(id);
+           return !f||f.sport_id!=="futsal"||f.kind!=="match"||
+             f.round!=="รอบแรก"||f.division!==g.division||!f.team_a_id||!f.team_b_id;
+         })))
+      error("FUTSAL_GROUP_MAPPING","futsal A/B source fixtures must be explicit and distinct");
+    if(futsalRule.tie_break_status==="approved"){
+      if(futsalRule.points?.win!==3||futsalRule.points?.draw!==1||
+         futsalRule.points?.loss!==0||
+         !Array.isArray(futsalRule.tie_breakers)||
+         futsalRule.tie_breakers.length!==expectedOrder.length||
+         futsalRule.tie_breakers.some((x,i)=>x!==expectedOrder[i])||
+         futsalRule.tie_break_scope!=="equal_points_then_equal_overall_goal_difference")
+        error("FUTSAL_TIE_BREAK","approved futsal tie-break needs points, GD, H2H and cards in that order");
+      if(futsalRule.tie_break_source?.kind!=="organizer_instruction"||
+         !string(futsalRule.tie_break_source.date)||
+         !string(futsalRule.tie_break_source.source_ref))
+        error("FUTSAL_TIE_BREAK_SOURCE","futsal tie-break requires dated organizer provenance");
+      const cards=futsalRule.disciplinary_tie_break;
+      if(!cards||cards.status!=="approved"||
+         cards.ranking_method!=="fewest_red_then_fewest_yellow"||
+         cards.scope!=="all_approved_group_fixtures"||
+         cards.ranking_only_when_group_complete!==true||
+         cards.require_explicit_per_team_counts!==true)
+        error("FUTSAL_CARD_TIE_BREAK","futsal cards apply only after every group match and card record");
+      if(cards?.source?.kind!=="organizer_instruction"||
+         !string(cards.source.date)||!string(cards.source.source_ref))
+        error("FUTSAL_CARD_TIE_BREAK_SOURCE","futsal card criterion requires traceable instruction");
+    }
   }
   const petPolicy=(rules?.sport_policies||[]).find(p=>p.sport_id==="petanque");
   if(petPolicy?.elimination_status==="approved"){
