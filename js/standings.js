@@ -101,7 +101,7 @@
       const note=official?"ตารางอันดับจากผลและกติกาที่ผ่านการรับรองแล้ว":
         g.provisional
           ?"อันดับชั่วคราว · ผลรับรอง "+g.approved_count+"/"+g.match_count+
-            " คู่ · คะแนนเท่ากันอาจเป็นอันดับร่วม · ยังไม่ใช้ตัดสินเข้ารอบ"
+            " คู่ · เรียงคะแนน → ผลต่างประตูรวม → ผลพบกันเอง · หากยังแยกไม่ได้เป็นอันดับร่วม · ยังไม่ใช้ตัดสินเข้ารอบ"
           :g.approved_count
             ?"สถิติจากผลรับรอง "+g.approved_count+"/"+g.match_count+
               " คู่ · ยังไม่จัดอันดับจนกว่าเกณฑ์กีฬานี้จะได้รับการรับรอง"
@@ -119,7 +119,9 @@
           (mine?"<span class='standings-mine-label'>โรงเรียนของฉัน</span>":"")+"</div>"+
           "<div class='standings-mobile-summary'>"+
           "<span class='standings-mobile-stats'>แข่ง "+safe(row.played??0)+
-          " · ชนะ "+safe(row.won??0)+"</span>"+points+"</div></div>";
+          " · ชนะ "+safe(row.won??0)+
+          (g.has_goals?" · ผลต่าง "+(row.goal_difference>0?"+":"")+safe(row.goal_difference??0):"")+
+          "</span>"+points+"</div></div>";
       }).join("");
       const table="<div class='standings-table-scroll' tabindex='0' role='region' aria-label='ตารางรายละเอียด "+safe(heading)+"'>"+
         "<table class='standings-table'><thead><tr>"+
