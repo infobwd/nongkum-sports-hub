@@ -92,7 +92,25 @@ assert.match(program,/shareFixturesFor\(school\)/);
 assert.match(program,/resultVisible\(m\)&&matchesFilters\(m,q,false,school\)/);
 assert.match(program,/showModal/);
 assert.match(redirect,/location\.replace\(target\.href\)/);
+
 assert.match(redirect,/shareDate/);
+const redirectCode=redirect.match(/<script>([\\s\\S]*?)<\\/script>/)?.[1];
+assert.ok(redirectCode,"short route must have redirect script");
+function resolveShortLink(path){
+  const input=new URL(path);
+  const location={href:input.href,search:input.search,replace(url){this.replaced=url;}};
+  const anchor={href:""};
+  new vm.Script(redirectCode).runInNewContext({URL,URLSearchParams,Date,location,
+    document:{getElementById:()=>anchor}});
+  return new URL(location.replaced);
+}
+const allSchoolsRoute=resolveShortLink("https://infobwd.github.io/nongkum-sports-hub/t/?d=261117");
+assert.equal(allSchoolsRoute.searchParams.get("school"),"all","all-school link overrides stored school");
+assert.equal(allSchoolsRoute.searchParams.get("shareDate"),"2026-11-17");
+const exactRoute=resolveShortLink("https://infobwd.github.io/nongkum-sports-hub/t/?s=wangdong&g=football&d=261117&r=a");
+assert.equal(exactRoute.searchParams.get("school"),"wangdong");
+assert.equal(exactRoute.searchParams.get("sport"),"football");
+assert.equal(exactRoute.searchParams.get("resultMode"),"all");
 for(const file of ["js/program.js","js/schedule-bulk-share.js"]){
   new vm.Script(read(file),{filename:file});
 }
