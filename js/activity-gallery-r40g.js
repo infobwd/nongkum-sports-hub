@@ -21,9 +21,9 @@ const create=(tag,cls,value)=>{
 const eventFilter=new URLSearchParams(location.search).get("event")||"";
 const validEvent=eventFilter.length>0&&eventFilter.length<=160?eventFilter:"";
 const formatDate=date=>{
- if(!date)return "ยังไม่มีวันที่แข่งขันที่ยืนยัน";
+ if(!date)return "ยังไม่ระบุวันที่แข่งขัน";
  const d=new Date(date+"T12:00:00+07:00");
- if(!Number.isFinite(d.getTime()))return "ยังไม่มีวันที่แข่งขันที่ยืนยัน";
+ if(!Number.isFinite(d.getTime()))return "ยังไม่ระบุวันที่แข่งขัน";
  return new Intl.DateTimeFormat("th-TH",{timeZone:"Asia/Bangkok",day:"numeric",
    month:"long",year:"numeric"}).format(d);
 };
