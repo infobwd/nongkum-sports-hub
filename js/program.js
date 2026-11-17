@@ -604,6 +604,20 @@
       }catch(e){showShareFeedback("unavailable");}
     }
     els.cards.addEventListener("click",handleShare);
+    els.cards.addEventListener("click",function(event){
+      const btn=event.target.closest?.("[data-share-day]");
+      if(btn)openScheduleShare(btn.dataset.shareDay);
+    });
+    if(els.shareOpen)els.shareOpen.addEventListener("click",function(){openScheduleShare(null);});
+    if(els.shareSchool)els.shareSchool.addEventListener("change",updateShareSelection);
+    if(els.sharePrev)els.sharePrev.addEventListener("click",function(){sharePartIndex=Math.max(0,sharePartIndex-1);renderSharePart();});
+    if(els.shareNext)els.shareNext.addEventListener("click",function(){sharePartIndex=Math.min((shareSelection?.parts.length||1)-1,sharePartIndex+1);renderSharePart();});
+    if(els.shareClose)els.shareClose.addEventListener("click",closeScheduleShare);
+    if(els.shareNative)els.shareNative.addEventListener("click",shareCurrentPart);
+    if(els.shareCopy)els.shareCopy.addEventListener("click",copyCurrentPart);
+    if(els.shareSchool){
+      state.data.schools.forEach(function(s){const opt=document.createElement("option");opt.value=s.id;opt.textContent=s.name;els.shareSchool.appendChild(opt);});
+    }
     if(els.direct)els.direct.addEventListener("click",handleShare);
     if(els.fullSchedule)els.fullSchedule.addEventListener("click",function(){
       state.directMode=false;state.focusId="";state.school="";state.sport="";state.level="";
