@@ -1,0 +1,36 @@
+name: R49 standings LINE share QA
+on:
+  pull_request:
+    paths:
+      - 'standings.html'
+      - 'css/standings.css'
+      - 'js/standings.js'
+      - 'js/standings-share.js'
+      - 'js/standings-share-ui.js'
+      - 'o/index.html'
+      - 'scripts/r49/test-standings-line.mjs'
+      - '.github/workflows/r49-standings-line-qa.yml'
+  workflow_dispatch:
+jobs:
+  standings-line:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: R49 share approved league standings to LINE
+        run: node scripts/r49/test-standings-line.mjs
+      - name: R48 football and futsal league ranking
+        run: node scripts/results/test-standings-r46.mjs
+      - name: R15-A approved-only standings and filters
+        run: node scripts/results/test-standings-r15a.mjs
+      - name: R15-B/C rules and publication gate
+        run: node scripts/results/test-standings-r15bc.mjs
+      - name: R38 group standings
+        run: node scripts/r38/test-r38-workflow.mjs
+      - name: R39 mobile layout
+        run: node scripts/r39/test-r39-ui.mjs
+      - name: R47 existing schedule LINE links unaffected
+        run: node scripts/r47/test-compact-line.mjs
