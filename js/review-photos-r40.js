@@ -8,10 +8,12 @@ const $=id=>document.getElementById(id);
 const ui={unlock:$("photoReviewUnlock"),workspace:$("photoReviewWorkspace"),
  form:$("photoReviewLoginForm"),submit:$("photoReviewLoginButton"),
  info:$("photoReviewerInfo"),list:$("photoReviewList"),count:$("photoReviewCount"),
- empty:$("photoReviewEmpty"),status:$("photoReviewStatus"),
+ empty:$("photoReviewEmpty"),status:$("photoReviewStatus"),feedback:$("photoReviewFeedback"),
  refresh:$("photoReviewRefresh"),logout:$("photoReviewLogout")};
 if(!ui.form)return;
 let session=null,busy=false;
+const reviewedImages=new Set();
+const sportNames={athletics:"กรีฑา",football:"ฟุตบอล",futsal:"ฟุตซอล",petanque:"เปตอง",volleyball:"วอลเลย์บอล",takraw:"ตะกร้อ",tabletennis:"เทเบิลเทนนิส",tugofwar:"ชักเย่อ",shootout:"ยิงประตู"};
 const fmt=s=>{const d=new Date(s||"");return Number.isNaN(d.getTime())?"ไม่ระบุเวลา":
  new Intl.DateTimeFormat("th-TH",{timeZone:"Asia/Bangkok",day:"numeric",month:"short",
   hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(d)+" น.";};
@@ -58,117 +60,181 @@ async function preview(id,frame,button){
    if(!["image/webp","image/jpeg"].includes(r.mime_type)){notice("ประเภทไฟล์ไม่ถูกต้อง",true);return;}
    img.src="data:"+r.mime_type+";base64,"+r.image_b64;
    img.alt="ภาพต้นฉบับสำหรับผู้ตรวจเท่านั้น";
-   img.loading="lazy";img.decoding="async";
+   img.loading="eager";img.decoding="async";
    frame.replaceChildren(img);frame.hidden=false;
+   if(typeof img.decode==="function"){
+     try{await img.decode();}
+     catch(_){frame.replaceChildren();frame.hidden=true;notice("ไม่สามารถแสดงภาพได้ กรุณาลองใหม่",true);return;}
+   }
+   reviewedImages.add(id);
    notice("เปิดดูภาพเฉพาะผู้ตรวจแล้ว");
  }catch(_){notice(errorText("network"),true);}
  finally{button.disabled=false;}
 }
+function showFeedback(message,bad=false){
+ if(!ui.feedback)return;
+ ui.feedback.hidden=false;ui.feedback.textContent=message;
+ ui.feedback.dataset.error=bad?"true":"false";
+}
+function cardNotice(controls,message,bad=true){
+ const n=controls.querySelector("[data-card-message]");
+ if(n){n.textContent=message;n.dataset.error=bad?"true":"false";}
+}
+function resetCardNotice(controls){
+ const n=controls.querySelector("[data-card-message]");
+ if(n){n.textContent="";n.dataset.error="false";}
+}
 async function review(action,item,controls){
  if(busy||!session)return;
- let payload={id:item.id},message="";
+ resetCardNotice(controls);notice("");
+ let payload={id:item.id};
  if(action==="approve"||action==="publish"){
-   const box=controls.querySelector("[data-consent]"),
-         note=controls.querySelector("[data-consent-note]"),
-         release=controls.querySelector("[data-public-consent]");
-   if(!box?.checked||!note||note.value.trim().length<8){
-     notice(errorText("consent_required"),true);return;
+   if(!reviewedImages.has(item.id)){
+     cardNotice(controls,"กรุณากดเปิดดูภาพก่อนอนุมัติ");return;
    }
-   if(action==="publish"&&!release?.checked){
-     notice(errorText("public_consent_required"),true);return;
+   const note=controls.querySelector("[data-consent-note]")?.value.trim()||"";
+   if(note.length<8||note.length>500){
+      cardNotice(controls,"กรุณาระบุหลักฐาน/ผู้รับผิดชอบที่ยืนยันสิทธิ์อย่างน้อย 8 ตัวอักษร");
+      controls.querySelector("[data-consent-note]")?.focus();return;
    }
    if(action==="publish"){
-     if(!window.confirm("ภาพนี้จะปรากฏต่อสาธารณะในผลการแข่งขันและหน้าภาพกิจกรรม ยืนยันว่ามีสิทธิ์เผยแพร่และตรวจภาพอย่างเหมาะสมแล้วหรือไม่?"))return;
-     payload={...payload,public_consent_checked:true,public_consent_note:note.value.trim()};
-     message="กำลังเผยแพร่ภาพที่ได้รับอนุญาต…";
+      if(!controls.querySelector("[data-public-consent]")?.checked){
+         cardNotice(controls,"กรุณายืนยันสิทธิ์เผยแพร่ภาพนักเรียนบนเว็บไซต์สาธารณะก่อน");
+         return;
+      }
+      payload={...payload,public_consent_checked:true,public_consent_note:note};
    }else{
-     if(!window.confirm("ยืนยันอนุญาตใช้ภาพภายใน? ภาพจะยังไม่เผยแพร่สาธารณะ"))return;
-     payload={...payload,consent_checked:true,consent_note:note.value.trim()};
-     message="กำลังอนุญาตใช้ภาพภายใน…";
+      if(!controls.querySelector("[data-internal-consent]")?.checked){
+         cardNotice(controls,"กรุณายืนยันสิทธิ์ใช้ภาพภายในก่อน");return;
+      }
+      payload={...payload,consent_checked:true,consent_note:note};
    }
  }else{
-   const retryRemoval=action==="revoke"&&item.publication_status==="revoked";
+   const retry=action==="revoke"&&item.publication_status==="revoked";
    const reason=controls.querySelector("[data-reason]")?.value.trim()||"";
-   if(!retryRemoval&&reason.length<8){notice(errorText("reason_required"),true);return;}
-   if(!window.confirm(retryRemoval?
-       "ตรวจการลบไฟล์ภาพจากเว็บไซต์ซ้ำอีกครั้งหรือไม่?":
-       action==="revoke"?"ยืนยันถอนภาพนี้ออกจากเว็บไซต์สาธารณะหรือไม่?":
-       "ส่งภาพนี้กลับให้ผู้ส่งแก้ไขหรือไม่?"))return;
-   if(!retryRemoval)payload.reason=reason;
-   message=action==="revoke"?"กำลังตรวจการลบไฟล์ภาพจากเว็บไซต์…":"กำลังส่งกลับแก้ไข…";
+   if(!retry&&reason.length<8){
+     cardNotice(controls,"กรุณาระบุเหตุผลอย่างน้อย 8 ตัวอักษร");
+     controls.querySelector("[data-reason]")?.focus();return;
+   }
+   if(action==="revoke"&&!window.confirm(retry?
+     "ตรวจซ้ำว่าลบไฟล์ภาพออกจากเว็บไซต์แล้วหรือไม่?":
+     "ยืนยันถอนภาพนี้จากเว็บไซต์สาธารณะหรือไม่?"))return;
+   if(!retry)payload.reason=reason;
  }
- busy=true;controls.querySelectorAll("button").forEach(b=>b.disabled=true);
- notice(message);
+ busy=true;controls.querySelectorAll("button").forEach(n=>n.disabled=true);
+ cardNotice(controls,action==="publish"?"กำลังเผยแพร่ภาพ กรุณารอสักครู่…":
+   action==="approve"?"กำลังอนุญาตใช้ภาพภายใน…":
+   action==="revoke"?"กำลังถอนภาพ…":"กำลังส่งกลับแก้ไข…",false);
  try{
    const r=await request(MEDIA,action,payload);
-   if(!r.ok){if(r.error==="expired"){clear();showLogin();}notice(errorText(r.error),true);return;}
-   const descriptions={
-     approve:"อนุญาตใช้ภาพภายในแล้ว · ยังไม่เผยแพร่",
-     publish:"เผยแพร่สำเร็จ · ภาพพร้อมแสดงบนการ์ดผลและหน้ารวม",
-     reject:"ส่งกลับแก้ไขแล้ว",
-     revoke:"นำภาพออกจากรายการเผยแพร่แล้ว"
-   };
-   notice((descriptions[action]||"ดำเนินการสำเร็จ")+
-     (r.cleanup_pending?" · ยังต้องตรวจการลบไฟล์ภาพจากระบบเก็บภาพ":""));
+   if(!r.ok){
+     if(r.error==="expired"){clear();showLogin();}
+     cardNotice(controls,errorText(r.error));return;
+   }
+   const text={approve:"อนุญาตใช้ภาพภายในแล้ว ยังไม่เผยแพร่",
+     publish:"อนุมัติและเผยแพร่ภาพสำเร็จแล้ว",
+     reject:"ส่งภาพกลับให้แก้ไขแล้ว",
+     revoke:"ถอนภาพจากรายการเผยแพร่แล้ว"}[action]||"สำเร็จแล้ว";
    await loadQueue(true);
- }catch(_){notice(errorText("network"),true);}
- finally{busy=false;controls.querySelectorAll("button").forEach(b=>b.disabled=false);}
+   showFeedback(text+(r.cleanup_pending?" (ยังต้องตรวจการลบไฟล์จากที่เก็บภาพ)":""));
+   ui.feedback?.scrollIntoView({behavior:"smooth",block:"center"});
+ }catch(_){
+   cardNotice(controls,"การเชื่อมต่อขัดข้อง ยังยืนยันผลไม่ได้ กรุณาตรวจสถานะก่อนกดซ้ำ");
+ }finally{
+   busy=false;controls.querySelectorAll("button").forEach(n=>n.disabled=false);
+ }
+}
+function createCard(item){
+ const published=item.publication_status==="published",reviewable=item.status==="review",
+   revoked=item.publication_status==="revoked",publishing=item.publication_status==="publishing";
+ const card=el("article","photo-review-card");
+ const title=el("h3","",(sportNames[item.sport_id]||item.sport_id||"กีฬา")+" · "+(item.division||""));
+ const state=published?"เผยแพร่แล้ว":revoked?"ถอนภาพแล้ว":publishing?"กำลังเผยแพร่":
+   item.publication_status==="failed"?"เผยแพร่ไม่สำเร็จ":reviewable?"รอตรวจ":"อนุญาตใช้ภายในแล้ว";
+ const meta=el("p","photo-meta",state+" · ส่ง "+fmt(item.submitted_at));
+ const detail=el("p","photo-meta","รายการ: "+(item.event_id||"")+" · ผู้ส่ง: "+(item.uploaded_by||""));
+ const caption=el("p","",item.caption||"ภาพกิจกรรมการแข่งขัน");
+ const previewBox=el("div","photo-review-preview");previewBox.hidden=true;
+ const controls=el("div","photo-review-controls");
+ const show=el("button","photo-review-secondary","เปิดดูภาพเพื่อพิจารณา");show.type="button";
+ show.addEventListener("click",()=>preview(item.id,previewBox,show));
+ const message=el("p","photo-review-item-feedback","");message.dataset.cardMessage="";
+ controls.append(show);
+ if(!published&&!revoked&&!publishing){
+   const label=el("label","","หลักฐานสิทธิ์ใช้ภาพ/เผยแพร่ (เก็บเฉพาะผู้ตรวจ)");
+   const evidence=el("textarea","");
+   evidence.maxLength=500;evidence.dataset.consentNote="";
+   evidence.placeholder="ระบุแหล่งยืนยันสิทธิ์ เช่น ผู้รับผิดชอบและหลักฐานที่ผู้จัดตรวจแล้ว";
+   const hint=el("small","photo-evidence-hint","กรุณาตรวจสอบว่ามีสิทธิ์เผยแพร่ภาพบุคคล โดยเฉพาะนักเรียน");
+   const checkLabel=el("label","photo-consent");
+   const checked=el("input");checked.type="checkbox";checked.dataset.publicConsent="";
+   checkLabel.append(checked,document.createTextNode(
+      " ยืนยันว่าตรวจภาพและมีสิทธิ์เผยแพร่ภาพบุคคล/นักเรียนบนเว็บไซต์สาธารณะ"));
+   const publish=el("button","photo-primary","อนุมัติและเผยแพร่สู่เว็บไซต์");
+   publish.type="button";publish.addEventListener("click",()=>review("publish",item,controls));
+   controls.append(label,evidence,hint,checkLabel,publish);
+   if(reviewable){
+     const details=el("details","photo-review-disclosure");
+     details.append(el("summary","","ตัวเลือกเพิ่มเติม: เก็บไว้ภายใน / ส่งกลับแก้ไข"));
+     const internalLabel=el("label","photo-consent");
+     const internalCheck=el("input");internalCheck.type="checkbox";internalCheck.dataset.internalConsent="";
+     internalLabel.append(internalCheck,document.createTextNode(" ตรวจสิทธิ์และความเหมาะสมสำหรับเก็บไว้ใช้ภายใน"));
+     const internal=el("button","photo-review-secondary","อนุญาตใช้ภายในเท่านั้น");
+     internal.type="button";internal.addEventListener("click",()=>review("approve",item,controls));
+     const reasonLabel=el("label","","เหตุผลส่งภาพกลับ");
+     const reason=el("textarea");reason.dataset.reason="";reason.maxLength=500;
+     reason.placeholder="เช่น ภาพไม่ชัดหรือยังไม่มีหลักฐานอนุญาต";
+     const reject=el("button","photo-review-secondary","ส่งกลับแก้ไข");
+     reject.type="button";reject.addEventListener("click",()=>review("reject",item,controls));
+     details.append(internalLabel,internal,reasonLabel,reason,reject);
+     controls.append(details);
+   }
+ }
+ if(published){
+   const details=el("details","photo-review-disclosure");
+   details.append(el("summary","","นำภาพออกจากเว็บไซต์"));
+   const reasonLabel=el("label","","เหตุผลถอนภาพ");
+   const reason=el("textarea");reason.dataset.reason="";reason.maxLength=500;
+   reason.placeholder="เช่น ถอนสิทธิ์เผยแพร่หรือภาพไม่เหมาะสม";
+   const revoke=el("button","photo-review-secondary","ยืนยันถอนภาพ");
+   revoke.type="button";revoke.addEventListener("click",()=>review("revoke",item,controls));
+   details.append(reasonLabel,reason,revoke);controls.append(details);
+ }
+ if(revoked){
+   const details=el("details","photo-review-disclosure");
+   details.append(el("summary","","ตรวจการลบไฟล์ภาพเพิ่มเติม"));
+   const retry=el("button","photo-review-secondary","ตรวจซ้ำว่าลบภาพจากเว็บไซต์แล้ว");
+   retry.type="button";retry.addEventListener("click",()=>review("revoke",item,controls));
+   details.append(retry);controls.append(details);
+ }
+ controls.append(message);
+ controls.addEventListener("input",()=>resetCardNotice(controls));
+ controls.addEventListener("change",()=>resetCardNotice(controls));
+ card.append(title,meta,detail,caption,previewBox,controls);
+ return card;
 }
 function render(items){
- ui.list.replaceChildren();ui.empty.hidden=items.length!==0;ui.count.textContent="("+items.length+" รายการ)";
- for(const item of items){
-   const published=item.publication_status==="published",isReview=item.status==="review",
-         revoked=item.publication_status==="revoked";
-   const card=el("article","photo-review-card"),header=el("div","photo-review-head");
-   const h=el("h3","",String(item.sport_id||"กีฬา")+" · "+String(item.division||""));
-   const state=published?"เผยแพร่แล้ว":revoked?"ยกเลิกการเผยแพร่แล้ว":
-     item.publication_status==="publishing"?"กำลังเผยแพร่":
-     item.publication_status==="failed"?"เผยแพร่ไม่สำเร็จ":isReview?"รอตรวจ":"อนุญาตภายในแล้ว";
-   const time=el("span","photo-meta",state+" · ส่ง "+fmt(item.submitted_at));
-   header.append(h,time);
-   const detail=el("p","photo-meta","รหัสรายการ: "+String(item.event_id||"")+" · ผู้ส่ง: "+String(item.uploaded_by||""));
-   const caption=el("p","",item.caption||"ภาพกิจกรรมการแข่งขัน");
-   const previewBox=el("div","photo-review-preview");previewBox.hidden=true;
-   const controls=el("div","photo-review-controls");
-   const show=el("button","","ดูภาพเพื่อพิจารณา");show.type="button";
-   show.addEventListener("click",()=>preview(item.id,previewBox,show));
-   controls.append(show);
-   if(!published&&!revoked&&item.publication_status!=="publishing"){
-     const consent=el("label","photo-consent");
-     const box=document.createElement("input");box.type="checkbox";box.dataset.consent="";
-     consent.append(box,document.createTextNode(" ตรวจสิทธิ์ใช้ภาพและความเหมาะสมแล้ว"));
-     const label=el("label","","หลักฐานการได้รับอนุญาต (เก็บภายใน ไม่แสดงสาธารณะ)");
-     const note=el("textarea","");note.dataset.consentNote="";note.maxLength=500;
-     note.placeholder="ระบุผู้รับผิดชอบที่ยืนยันสิทธิ์เผยแพร่และความเหมาะสมของภาพ";
-     const publicConsent=el("label","photo-consent");
-     const publicBox=document.createElement("input");
-     publicBox.type="checkbox";publicBox.dataset.publicConsent="";
-     publicConsent.append(publicBox,document.createTextNode(
-       " ยืนยันสิทธิ์เผยแพร่ภาพบุคคล/นักเรียนบนเว็บไซต์สาธารณะ (ไม่ใช่เพียงอนุญาตใช้ภายใน)"));
-     controls.append(consent,label,note,publicConsent);
-     if(isReview){
-       const internal=el("button","","อนุญาตใช้ภายในเท่านั้น");
-       internal.type="button";internal.addEventListener("click",()=>review("approve",item,controls));
-       controls.append(internal);
-     }
-     const publish=el("button","photo-primary",isReview?"อนุมัติและเผยแพร่สู่เว็บไซต์":"อนุมัติเผยแพร่สู่เว็บไซต์");
-     publish.type="button";publish.addEventListener("click",()=>review("publish",item,controls));
-     controls.append(publish);
-   }
-   if(revoked){
-     const retry=el("button","","ตรวจซ้ำว่าลบไฟล์สาธารณะแล้ว");
-     retry.type="button";retry.addEventListener("click",()=>review("revoke",item,controls));
-     controls.append(retry);
-   }
-   if(isReview||published){
-     const rejectLabel=el("label","",published?"เหตุผลนำภาพออกจากเว็บไซต์":"เหตุผลส่งกลับผู้ส่งภาพ");
-     const reason=el("textarea","");reason.dataset.reason="";reason.maxLength=500;
-     reason.placeholder=published?"เช่น ถอนสิทธิ์เผยแพร่หรือภาพไม่เหมาะสม":"เช่น ขอภาพใหม่เนื่องจากยังไม่มีหลักฐานอนุญาต";
-     const action=published?"revoke":"reject",button=el("button","",published?"นำภาพออกจากเว็บไซต์":"ส่งกลับแก้ไข");
-     button.type="button";button.addEventListener("click",()=>review(action,item,controls));
-     controls.append(rejectLabel,reason,button);
-   }
-   card.append(header,detail,caption,previewBox,controls);ui.list.appendChild(card);
+ ui.list.replaceChildren();
+ ui.count.textContent="("+items.length+" รายการ)";
+ ui.empty.hidden=items.length!==0;
+ if(!items.length)return;
+ const groups=[
+  ["รอตรวจ",items.filter(x=>x.status==="review"&&x.publication_status==="private")],
+  ["อนุญาตภายใน / รอเผยแพร่",items.filter(x=>
+      (x.status==="approved"||x.status==="review")&&
+      (x.publication_status==="failed"||x.publication_status==="private")&&
+      !(x.status==="review"&&x.publication_status==="private"))],
+  ["เผยแพร่แล้ว",items.filter(x=>x.publication_status==="published")],
+  ["อื่น ๆ / ถอนภาพแล้ว",items.filter(x=>
+     !["published","private","failed"].includes(x.publication_status))]
+ ];
+ for(const [title,group] of groups){
+   if(!group.length)continue;
+   const section=el("section","photo-review-group");
+   const h=el("h3","",title+" ("+group.length+" ภาพ)");
+   section.append(h);
+   for(const item of group)section.append(createCard(item));
+   ui.list.append(section);
  }
 }
 async function loadQueue(silent=false){

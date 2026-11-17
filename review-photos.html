@@ -5,11 +5,11 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <title>ตรวจภาพกิจกรรม — มิตรภาพเกมส์ 2569</title>
 <link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/activity-photos.css?v=r40-3">
+<link rel="stylesheet" href="./css/activity-photos.css?v=r40h-1">
 </head><body data-view="photo-review">
 <header class="top"><div class="shell">
  <div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">ผู้ตรวจภาพ</span></div>
- <div class="hero"><h1>ตรวจภาพกิจกรรม</h1><p>แยกการอนุญาตใช้ภายในและการอนุมัติเผยแพร่ภาพสาธารณะอย่างชัดเจน</p></div>
+ <div class="hero"><h1>ตรวจภาพกิจกรรม</h1><p>ดูภาพ · ตรวจสิทธิ์ · อนุมัติเผยแพร่</p></div>
  <nav class="photo-navigation"><a href="./review-results.html">ยืนยันผลการแข่งขัน</a><a href="./upload-photos.html">หน้าส่งภาพ</a></nav>
 </div></header>
 <main class="shell photo-main">
@@ -23,13 +23,14 @@
 </section>
 <section id="photoReviewWorkspace" class="photo-panel" hidden>
  <div class="photo-toolbar"><span id="photoReviewerInfo"></span><div class="photo-buttons"><button id="photoReviewRefresh" type="button">รีเฟรช</button><button id="photoReviewLogout" type="button">ออกจากระบบ</button></div></div>
- <h2>ภาพที่รอตรวจ <span id="photoReviewCount"></span></h2>
- <p>ตรวจว่าเป็นรายการที่ถูกต้อง ภาพเหมาะสม และมีหลักฐานอนุญาตใช้ภาพก่อนกดยืนยัน เลือก “อนุญาตใช้ภายใน” เพื่อเก็บไว้เฉพาะผู้ตรวจ หรือยืนยันสิทธิ์เผยแพร่สาธารณะก่อนกด “อนุมัติและเผยแพร่” ภาพเก่าที่เคยอนุมัติจะไม่ถูกเผยแพร่โดยอัตโนมัติ</p>
+ <h2>รายการภาพ <span id="photoReviewCount"></span></h2>
+ <p>สำหรับภาพที่จะขึ้นเว็บไซต์ ต้องเปิดดูภาพ ตรวจสิทธิ์เผยแพร่ แล้วกด “อนุมัติและเผยแพร่” ภาพที่อนุญาตใช้ภายในจะไม่ขึ้นเว็บเอง</p>
+ <p id="photoReviewFeedback" class="photo-review-feedback" role="status" aria-live="polite" hidden></p>
  <div id="photoReviewList" class="photo-review-list" aria-busy="false"></div>
  <p id="photoReviewEmpty" hidden>ยังไม่มีภาพที่รอตรวจ</p>
 </section>
 <p id="photoReviewStatus" class="photo-status" role="status" aria-live="polite"></p>
 </main>
 <footer class="shell">มิตรภาพเกมส์ 2569 · อนุญาตภายในไม่ใช่การเผยแพร่ · เพิกถอนภาพสาธารณะได้</footer>
-<script src="./js/review-photos-r40.js?v=r40g-1" defer></script>
+<script src="./js/review-photos-r40.js?v=r40h-1" defer></script>
 </body></html>

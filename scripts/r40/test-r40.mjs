@@ -61,9 +61,9 @@ for(const source of [upload,review,uphtml,reviewHtml]){
 }
 for(const html of [uphtml,reviewHtml]){
  assert.match(html,/noindex,nofollow/);
- assert.match(html,/activity-photos\.css\?v=r40-3|activity-photos\.css\?v=r40-4/);
+ assert.match(html,/activity-photos\.css\?v=(?:r40-3|r40-4|r40h-1)/);
 }
-assert.match(uphtml,/upload-photos-r40\.js\?v=r40-4/);
+assert.match(uphtml,/upload-photos-r40\.js\?v=(?:r40-4|r40h-1)/);
 assert.match(uphtml,/id="photoRememberUploader" type="checkbox" checked/);
 assert.match(uphtml,/id="photoForgetUploader" type="button"/);
 assert.match(uphtml,/จำชื่อในเครื่องนี้/);
@@ -112,7 +112,7 @@ assert.doesNotThrow(()=>deniedContext.__pref.rememberUploaderName("ทดสอ�
 assert.equal(deniedContext.__pref.rememberedUploaderName(),"");
 assert.doesNotThrow(()=>deniedContext.__pref.clearRememberedUploaderName());
 
-assert.match(uphtml,/activity-photos\.css\?v=r40-4/);
+assert.match(uphtml,/activity-photos\.css\?v=(?:r40-4|r40h-1)/);
 assert.match(uphtml,/select2\.min\.js/);
 assert.match(uphtml,/jquery\.min\.js/);
 assert.match(uphtml,/sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6/);

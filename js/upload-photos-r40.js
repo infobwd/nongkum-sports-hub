@@ -11,9 +11,9 @@ const ui={login:$("photoUnlock"),workspace:$("photoWorkspace"),loginForm:$("phot
  fixture:$("photoFixture"),fixtureSearch:$("photoFixtureSearch"),uploader:$("photoUploader"),rememberUploader:$("photoRememberUploader"),
  forgetUploader:$("photoForgetUploader"),caption:$("photoCaption"),
  file:$("photoFile"),camera:$("photoCamera"),preview:$("photoPreview"),previewImage:$("photoPreviewImg"),
- previewInfo:$("photoPreviewInfo"),confirm:$("photoConfirm"),submit:$("photoSubmit")};
+ previewInfo:$("photoPreviewInfo"),submit:$("photoSubmit")};
 if(!ui.loginForm)return;
-let session=null,program=null,compressed=null,previewUrl="",loading=false,compressing=false,selectionId=0;
+let session=null,program=null,compressed=null,previewUrl="",loading=false,compressing=false,selectionId=0,needsStatusCheck=false;
 function notice(s,bad=false){ui.status.textContent=s||"";ui.status.dataset.error=bad?"true":"false";}
 function sessionFromStorage(){
  try{const x=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
@@ -263,6 +263,9 @@ ui.forgetUploader.addEventListener("click",()=>{
 });
 setupFixtureSearch();
 ui.sport.addEventListener("change",updateFixtures);
+document.addEventListener("nongkum:photo-status-checked",()=>{
+ needsStatusCheck=false;ui.submit.disabled=loading||compressing||!compressed;
+});
 ui.loginForm.addEventListener("submit",async e=>{
  e.preventDefault();const pin=ui.loginForm.elements.pin.value.trim();
  if(!/^\d{4,30}$/.test(pin)){notice("กรุณาตรวจรหัส",true);return;}
@@ -282,10 +285,12 @@ ui.logout.addEventListener("click",async()=>{
 });
 ui.form.addEventListener("submit",async e=>{
  e.preventDefault();
- if(loading||compressing||!session||!compressed||!ui.confirm.checked||!ui.fixture.value||!ui.uploader.value.trim()){
-   notice("กรุณาเลือกรายการ ตรวจรูป และยืนยันก่อนส่ง",true);return;
+ if(loading||compressing||needsStatusCheck||!session||!compressed||!ui.fixture.value||!ui.uploader.value.trim()){
+   notice(needsStatusCheck?"กรุณาตรวจสถานะภาพที่ส่งก่อนลองส่งซ้ำ":"กรุณาเลือกรายการ ชื่อผู้ส่ง และรูปภาพ",true);return;
  }
- loading=true;ui.submit.disabled=true;ui.camera.disabled=true;ui.file.disabled=true;notice("กำลังส่งภาพเข้าพื้นที่ส่วนตัว…");
+ loading=true;ui.submit.disabled=true;ui.camera.disabled=true;ui.file.disabled=true;
+  ui.submit.textContent="กำลังส่งภาพ…";ui.form.setAttribute("aria-busy","true");
+  notice("กำลังส่งภาพ กรุณารอสักครู่และอย่าปิดหน้านี้");
  try{
    const b64=await blobBase64(compressed);
    const ans=await call(PHOTOS,"upload",{event_id:ui.fixture.value,uploaded_by:ui.uploader.value.trim(),
@@ -296,10 +301,24 @@ ui.form.addEventListener("submit",async e=>{
    }
    if(ui.rememberUploader.checked)rememberUploaderName(ui.uploader.value);
    else clearRememberedUploaderName();
-   notice("ส่งภาพเรียบร้อย · รอผู้ตรวจ · ภาพยังไม่แสดงบนเว็บไซต์");
-   ui.file.value="";ui.camera.value="";ui.confirm.checked=false;clearPreview();
- }catch(_){notice("เครือข่ายขัดข้อง ภาพอาจยังไม่ถูกส่ง กรุณาตรวจผู้ตรวจอีกครั้ง",true);}
- finally{loading=false;ui.camera.disabled=false;ui.file.disabled=false;ui.submit.disabled=!compressed;}
+   if(!/^[a-f0-9-]{36}$/.test(String(ans.id||""))){
+     needsStatusCheck=true;
+     notice("ระบบตอบกลับไม่ครบ กรุณาตรวจสถานะก่อนส่งอีกครั้ง",true);return;
+   }
+   document.dispatchEvent(new CustomEvent("nongkum:photo-uploaded",{
+     detail:{id:ans.id,event_id:ui.fixture.value,label:ui.fixture.selectedOptions[0]?.textContent||"ภาพกิจกรรม"}
+   }));
+   notice("");
+   ui.file.value="";ui.camera.value="";clearPreview();
+ }catch(_){
+   needsStatusCheck=true;
+   notice("ยังยืนยันไม่ได้ว่าส่งภาพสำเร็จหรือไม่ กรุณาตรวจสถานะภาพก่อนลองส่งซ้ำ",true);
+ }
+ finally{
+   loading=false;ui.camera.disabled=false;ui.file.disabled=false;
+   ui.form.removeAttribute("aria-busy");ui.submit.textContent="ส่งภาพให้ผู้ตรวจ";
+   ui.submit.disabled=!compressed||needsStatusCheck;
+ }
 });
 (async()=>{
  session=sessionFromStorage();

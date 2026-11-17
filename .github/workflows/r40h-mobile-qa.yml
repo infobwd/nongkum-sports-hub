@@ -1,0 +1,39 @@
+name: R40-H Mobile Photo UX Browser QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "upload-photos.html"
+      - "review-photos.html"
+      - "css/activity-photos.css"
+      - "js/upload-photos-r40.js"
+      - "js/upload-photos-r40h-ui.js"
+      - "js/review-photos-r40.js"
+      - "scripts/r40/test-r40h-browser.mjs"
+      - ".github/workflows/r40h-mobile-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile:
+    name: Synthetic upload success and reviewer flow on Chromium mobile
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright
+        run: npm install --no-save --ignore-scripts playwright@1.58.2
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run mobile journey with synthetic non-person images
+        run: node scripts/r40/test-r40h-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r40h-mobile-ux-synthetic
+          path: ${{ runner.temp }}/r40h-ux-evidence/*.png
+          retention-days: 7
+          if-no-files-found: warn
