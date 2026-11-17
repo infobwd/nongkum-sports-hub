@@ -1,0 +1,31 @@
+name: R47 Compact LINE Schedule Links QA
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 't/**'
+      - 'js/schedule-link-codec.js'
+      - 'js/schedule-bulk-share.js'
+      - 'js/program-corrections.js'
+      - 'scripts/r46/**'
+      - 'scripts/r47/**'
+      - '.github/workflows/r47-compact-line.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  compact-line:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/r47/test-compact-line.mjs
+      - run: node scripts/r46/test-schedule-share.mjs
+      - run: node scripts/ux/test-program-line-r14.mjs
+      - run: node scripts/ux/test-tab-return-confirmed-r17.mjs
+      - run: node scripts/ux/test-date-selection-r18b.mjs
+      - run: node scripts/r38/test-r38-workflow.mjs
