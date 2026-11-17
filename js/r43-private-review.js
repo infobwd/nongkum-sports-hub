@@ -1,71 +1,13 @@
-/* R43-B/C: authenticated private staging console. No token/password persistence.
-   Fail CLOSED unless separately provisioned public Auth configuration is present. */
+/* R43-F: private staff PIN-only schedule/reviewer console.
+   No account email, no legacy shared PIN, no persistent token storage.
+   Fail CLOSED until both Edge functions and approved staff roles are provisioned. */
 (function(root){
  "use strict";
  const el=id=>document.getElementById(id),D=root.NongkumR43Draft;
  const status=el("r43PrivateStatus");
- const state={cfg:null,accessToken:"",personalToken:"",roles:null,program:null,people:[],assignments:[]};
+ const state={cfg:null,personalToken:"",roles:null,program:null,people:[],assignments:[]};
  const ROLES=D?.ROLES||[];
  const ID_RE=/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
- // R34/R37 already issue independent six-hour sessions; never store raw PINs.
- // Supabase Auth is still mandatory to identify the R43 actor.
- const LEGACY={
-   editor:{storage:"nongkum-r34-editor-session-v1",endpoint:
-     "https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-editor"},
-   reviewer:{storage:"nongkum-r37-reviewer-session-v1",endpoint:
-     "https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-reviewer"}
- };
- const LEGACY_KIND={
-   people:"editor",person_propose:"editor",submit:"editor",new_submit:"editor",
-   people_pending:"reviewer",person_review:"reviewer",queue:"reviewer",
-   review:"reviewer",approved_preview:"reviewer",new_queue:"reviewer",new_review:"reviewer"
- };
- function legacySession(kind){
-   try{
-     const v=JSON.parse(localStorage.getItem(LEGACY[kind].storage)||"null");
-     return v&&/^[0-9a-f]{64}$/.test(v.token||"")&&
-       Date.parse(v.expires_at)>Date.now()?v:null;
-   }catch(_){return null;}
- }
- function updatePinGates(){
-   for(const kind of ["editor","reviewer"]){
-     const has=!!legacySession(kind);
-     const prefix=kind==="editor"?"r43Editor":"r43Reviewer";
-     const p=el(prefix+"PinStatus");
-     if(p)p.textContent=has?
-       "ใช้สิทธิ์รหัสเดิมที่ปลดล็อกไว้ในเครื่องได้ จนถึง "+new Date(legacySession(kind).expires_at).toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"})+" น. (เซิร์ฟเวอร์ตรวจทุกคำขอ)":
-       "กรอกรหัสเดิมเพื่อปลดล็อกสิทธิ์ 6 ชั่วโมง ไม่เก็บรหัสไว้ในเครื่อง";
-     const form=el(prefix+"PinForm");if(form)form.hidden=has;
-   }
- }
- async function unlockLegacy(event,kind){
-   event.preventDefault();
-   const label=kind==="editor"?"ผู้บันทึกผล":"ผู้ตรวจผล";
-   const prefix=kind==="editor"?"r43Editor":"r43Reviewer";
-   const pin=el(prefix+"Pin").value;
-   const data={action:"unlock",pin};
-   if(kind==="reviewer")data.reviewer_name=el("r43ReviewerName").value.trim();
-   try{
-     const response=await fetch(LEGACY[kind].endpoint,{
-       method:"POST",cache:"no-store",headers:{"Content-Type":"application/json"},
-       body:JSON.stringify(data)
-     });
-     const result=await response.json().catch(()=>null);
-     if(!response.ok||!result?.ok||!/^[0-9a-f]{64}$/.test(result.token||"")||
-       !Number.isFinite(Date.parse(result.expires_at))||Date.parse(result.expires_at)<=Date.now()){
-       throw Error(result?.error==="limited"?"กรอกรหัสผิดหลายครั้ง กรุณาลองภายหลัง":
-         "รหัส"+label+"ไม่ถูกต้องหรือสิทธิ์ไม่พร้อมใช้งาน");
-     }
-     const entry={token:result.token,expires_at:result.expires_at};
-     if(kind==="reviewer")entry.reviewer_name=result.reviewer_name||data.reviewer_name;
-     localStorage.setItem(LEGACY[kind].storage,JSON.stringify(entry));
-     updatePinGates();
-     if(kind==="editor"&&state.roles?.can_assign&&state.program)await refreshPeople();
-     if(kind==="reviewer"&&state.roles?.can_review&&state.program)await refreshReview();
-     note("ปลดล็อกสิทธิ์"+label+"เดิมแล้ว · การทำงานใน R43 ยังตรวจบัญชีเจ้าหน้าที่ทุกครั้ง");
-   }catch(err){note(err.message||"ตรวจรหัสไม่สำเร็จ",true);}
-   finally{el(prefix+"Pin").value="";}
- }
  const note=(value,bad=false)=>{status.textContent=value;status.style.color=bad?"#98431c":"";};
  function add(parent,tag,text,klass=""){
    const n=document.createElement(tag);if(text!==undefined)n.textContent=text;
@@ -81,79 +23,82 @@
    return c&&c.enabled===true&&
      c.supabase_url==="https://zprxvpfkvforoxrboqiv.supabase.co"&&
      c.pin_edge_url===c.supabase_url+"/functions/v1/nongkum-r43-pin"&&
+      c.edge_url===c.supabase_url+"/functions/v1/nongkum-schedule-admin"&&
      typeof c.publishable_key==="string"&&c.publishable_key.startsWith("sb_publishable_")&&
      c.publishable_key.length>=24;
  }
  async function api(action,data={}){
-   if(!state.cfg||!state.accessToken)throw Error("กรุณาเข้าสู่ระบบก่อน");
-   const kind=LEGACY_KIND[action];
-   const session=kind?legacySession(kind):null;
-   if(kind&&!session){
-     updatePinGates();
-     throw Error(kind==="editor"?
-       "กรุณาใช้รหัสผู้บันทึกผลเดิมเพื่อปลดล็อกก่อน":
-       "กรุณาใช้รหัสผู้ตรวจผลเดิมเพื่อปลดล็อกก่อน");
-   }
-   const r=await fetch(state.cfg.edge_url,{method:"POST",cache:"no-store",headers:{
-     "Content-Type":"application/json","Authorization":"Bearer "+state.accessToken
-   },body:JSON.stringify({action,...data,...(kind?{legacy_token:session.token}:{})})});
-   const v=await r.json().catch(()=>null);
-   if(v?.error==="legacy_expired"&&kind){
-     try{localStorage.removeItem(LEGACY[kind].storage);}catch(_){}
-     updatePinGates();
-   }
-   if(!v||typeof v.ok!=="boolean")throw Error("ติดต่อระบบตรวจสิทธิ์ไม่ได้");
-   if(!v.ok)throw Error({
-     forbidden:"ไม่มีสิทธิ์ดำเนินการ",invalid_or_forbidden:"ไม่มีสิทธิ์หรือข้อมูลไม่ถูกต้อง",
-     unauthenticated:"สิทธิ์หมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง",stale:"ข้อมูลถูกเปลี่ยน กรุณารีเฟรช",
-     source_changed:"ข้อมูลตารางเปลี่ยนรุ่น กรุณาหยุดแก้และตรวจสอบ",
-     approved_result_lock:"รายการนี้มีผลรับรองแล้ว ต้องตรวจผลกระทบก่อน",
-     duty_overlap:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อน",
-     duty_overlap_within_request:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อนในคำขอนี้",
-     self_review:"ผู้เสนอไม่สามารถรับรองคำขอของตนเอง",
-     unverified_person:"ชื่อกรรมการยังไม่ผ่านการตรวจ",
-     setup_required:"ระบบยังไม่ได้กำหนดสิทธิ์",
-     legacy_expired:"สิทธิ์รหัสเดิมหมดอายุหรือถูกยกเลิก กรุณาปลดล็อกใหม่",
-     already_approved:"รายการนี้มีคำขอรับรองแล้ว"
-   }[v.error]||"ดำเนินการไม่สำเร็จ: "+String(v.error||"ไม่ทราบสาเหตุ"));
-   return v;
- }
+    if(!state.cfg||!state.personalToken)throw Error("กรุณาเข้าสู่ระบบก่อน");
+    const r=await fetch(state.cfg.edge_url,{method:"POST",cache:"no-store",headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+state.personalToken,
+      "apikey":state.cfg.publishable_key
+    },body:JSON.stringify({action,...data})});
+    const v=await r.json().catch(()=>null);
+    if(!v||typeof v.ok!=="boolean")throw Error("ติดต่อระบบตรวจสิทธิ์ไม่ได้");
+    if(!v.ok){
+      if(v.error==="unauthenticated")wipe();
+      throw Error({
+        forbidden:"ไม่มีสิทธิ์ดำเนินการ",invalid_or_forbidden:"ไม่มีสิทธิ์หรือข้อมูลไม่ถูกต้อง",
+        unauthenticated:"สิทธิ์หมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง",stale:"ข้อมูลถูกเปลี่ยน กรุณารีเฟรช",
+        source_changed:"ข้อมูลตารางเปลี่ยนรุ่น กรุณาหยุดแก้และตรวจสอบ",
+        approved_result_lock:"รายการนี้มีผลรับรองแล้ว ต้องตรวจผลกระทบก่อน",
+        duty_overlap:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อน",
+        duty_overlap_within_request:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อนในคำขอนี้",
+        self_review:"ผู้เสนอไม่สามารถรับรองคำขอของตนเอง",
+        unverified_person:"ชื่อกรรมการยังไม่ผ่านการตรวจ",
+        setup_required:"ระบบยังไม่ได้กำหนดสิทธิ์",
+        already_approved:"รายการนี้มีคำขอรับรองแล้ว"
+      }[v.error]||"ดำเนินการไม่สำเร็จ: "+String(v.error||"ไม่ทราบสาเหตุ"));
+    }
+    return v;
+  }
  function wipe(){
-   state.accessToken="";state.personalToken="";state.roles=null;state.people=[];state.assignments=[];
+   state.personalToken="";state.roles=null;state.people=[];state.assignments=[];
    el("r43PrivateWorkspace").hidden=true;
    el("r43PrivateLogin").hidden=!state.cfg;
    el("r43PersonalPin").value="";
-   el("r43EditorGate").hidden=true;el("r43ReviewerGate").hidden=true;
-   el("r43EditorPin").value="";el("r43ReviewerPin").value="";
  }
  async function login(e){
-   e.preventDefault();
-   note("กำลังตรวจรหัสเจ้าหน้าที่…");
-   const pin=el("r43PersonalPin").value.trim();
-   try{
-     if(!/^[0-9]{10,16}$/.test(pin))throw Error("กรุณากรอกรหัสส่วนตัวให้ครบ");
-     const r=await fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",headers:{
-       "Content-Type":"application/json","apikey":state.cfg.publishable_key
-     },body:JSON.stringify({action:"login",pin})});
-     const v=await r.json().catch(()=>null);
-     if(!r.ok||!v?.ok||!/^[0-9a-f]{64}$/.test(v.token||"")){
-       throw Error(v?.error==="limited"?"กรอกรหัสหลายครั้ง กรุณาลองใหม่ภายหลัง":
-         "รหัสไม่ถูกต้องหรือยังไม่ได้รับสิทธิ์");
-     }
-     state.personalToken=v.token;state.roles=v;
-     el("r43PrivateLogin").hidden=true;
-     el("r43PrivateWorkspace").hidden=false;
-     const duties=[v.can_propose?"เสนอแก้ตาราง":"",v.can_assign?"จัดกรรมการ":"",
-       v.can_review?"ผู้ตรวจ":""].filter(Boolean).join(" / ");
-     el("r43RoleSummary").textContent=v.full_name+" · "+v.school_id+" · "+duties;
-     for(const id of ["r43PrivateSubmit","r43PrivateNew","r43PrivateAssignArea",
-         "r43PrivatePeoplePanel","r43PrivateReview","r43EditorGate","r43ReviewerGate"]){
-       el(id).hidden=true;
-     }
-     note("ยืนยันตัวตนแล้ว · ขั้นตอนจัดตารางและรับรองยังไม่เปิดใช้จนกว่าการตรวจสิทธิ์จะผ่าน");
-   }catch(err){wipe();note(err.message||"เข้าสู่ระบบไม่สำเร็จ",true);}
-   finally{el("r43PersonalPin").value="";}
- }
+    e.preventDefault();
+    note("กำลังตรวจรหัสเจ้าหน้าที่…");
+    const pin=el("r43PersonalPin").value.trim();
+    try{
+      if(!/^[0-9]{10,16}$/.test(pin))throw Error("กรุณากรอกรหัสส่วนตัวให้ครบ");
+      const r=await fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",headers:{
+        "Content-Type":"application/json","apikey":state.cfg.publishable_key
+      },body:JSON.stringify({action:"login",pin})});
+      const v=await r.json().catch(()=>null);
+      if(!r.ok||!v?.ok||!/^[0-9a-f]{64}$/.test(v.token||"")){
+        throw Error(v?.error==="limited"?"กรอกรหัสหลายครั้ง กรุณาลองใหม่ภายหลัง":
+          "รหัสไม่ถูกต้องหรือยังไม่ได้รับสิทธิ์");
+      }
+      state.personalToken=v.token;
+      const roles=await api("status");
+      if(["can_propose","can_assign","can_review"].some(k=>!!roles[k]!==!!v[k]))
+        throw Error("สิทธิ์เจ้าหน้าที่ไม่ตรงกัน กรุณาติดต่อผู้จัด");
+      state.roles=roles;
+      el("r43RoleSummary").textContent=String(v.full_name||"")+" · "+
+        String(v.school_id||"")+" · "+
+        [roles.can_propose?"เสนอแก้ตาราง":"",roles.can_assign?"จัดกรรมการ":"",
+          roles.can_review?"ผู้ตรวจ":""].filter(Boolean).join(" / ");
+      el("r43PrivateSubmit").hidden=!roles.can_propose;
+      el("r43PrivateNew").hidden=!roles.can_propose;
+      el("r43PrivateAssignArea").hidden=!roles.can_assign;
+      el("r43PrivatePeoplePanel").hidden=!roles.can_assign;
+      el("r43PrivateReview").hidden=!roles.can_review;
+      await loadData();
+      el("r43PrivateLogin").hidden=true;
+      el("r43PrivateWorkspace").hidden=false;
+      note("เข้าสู่ระบบแล้ว · คำขอที่อนุมัติยังไม่เผยแพร่เป็นตารางทางการ");
+    }catch(err){
+      const token=state.personalToken;
+      if(token)fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",
+        headers:{"Content-Type":"application/json","apikey":state.cfg.publishable_key},
+        body:JSON.stringify({action:"logout",token})}).catch(()=>{});
+      wipe();note(err.message||"เข้าสู่ระบบไม่สำเร็จ",true);
+    }finally{el("r43PersonalPin").value="";}
+  }
  async function loadData(){
    // Original source is public; private people and review queue require authenticated API.
    const response=await fetch("./data/program-from-pdf-2569-20261104-draft.json?cache=r43bc-1",
@@ -180,15 +125,9 @@
    ROLES.forEach(x=>option(roles,x,x));
    const linked=new URLSearchParams(location.search).get("fixture");
    if(linked&&program.fixtures.some(f=>f.id===linked))fixtures.value=linked;
-   // A missing or revoked old PIN session must not abort individual Auth login;
-   // show unlock panels instead, and never show private rows until verified.
-   if(state.roles.can_assign&&legacySession("editor")){
-     try{await refreshPeople();}catch(_){note("รหัสผู้บันทึกผลต้องปลดล็อกใหม่",true);}
-   }
-   if(state.roles.can_review&&legacySession("reviewer")){
-     try{await refreshReview();}catch(_){note("รหัสผู้ตรวจผลต้องปลดล็อกใหม่",true);}
-   }
- }
+   if(state.roles.can_assign)await refreshPeople();
+    if(state.roles.can_review)await refreshReview();
+  }
  async function refreshPeople(){
    const v=await api("people");state.people=v.people||[];
    const select=el("r43PrivatePerson");select.length=1;
@@ -373,10 +312,9 @@
      if(!goodConfig(config)){note("ส่วนรับคำขอและตรวจรับยังไม่ได้เปิดใช้งาน · สามารถเตรียมคำขอร่างในหน้าเดิมได้");return;}
      state.cfg=config;
      el("r43PrivateLogin").hidden=false;
-     note("พร้อมตรวจตัวตนด้วยรหัสส่วนตัว · ส่วนเสนอและรับรองยังไม่เปิดใช้งาน");
+     note("พร้อมให้เจ้าหน้าที่ที่ได้รับสิทธิ์เข้าจัดการคำขอ โดยยังไม่เผยแพร่ตารางทางการ");
      el("r43LoginForm").addEventListener("submit",login);
-     el("r43EditorPinForm").addEventListener("submit",e=>unlockLegacy(e,"editor"));
-     el("r43ReviewerPinForm").addEventListener("submit",e=>unlockLegacy(e,"reviewer"));
+
      el("r43Logout").addEventListener("click",logout);
      el("r43SubmitForm").addEventListener("submit",submit);
      el("r43PersonForm").addEventListener("submit",proposePerson);
