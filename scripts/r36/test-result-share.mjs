@@ -22,8 +22,8 @@ for(const code of [shared,r32,results])new vm.Script(code);
 assert.match(r32,/share_revision:row\.revision/);
 assert.match(results,/result-share-index\.json/);
 assert.match(results,/shareApprovedResult/);
-assert.match(page,/results\.js\?v=r(?:36|38|39|41)-1/);
-assert.match(page,/shared\.js\?v=r(?:36-2|39-1|41-1)/);
+assert.match(page,/results\.js\?v=r(?:36|38|39|41|44)-1/);
+assert.match(page,/shared\.js\?v=r(?:36-2|39-1|41-1|44-1)/);
 assert.match(page,/results-source-r32\.js\?v=r36-1/);
 assert.ok(!Object.keys(source).includes("draft"));
 const temp=mkdtempSync(join(tmpdir(),"r36-share-test-"));
@@ -103,10 +103,11 @@ for(const row of source.rows){
  assert.equal(await api.shareApprovedResult(userResult,index,
      JSON.parse(read("data/public-results.json")).schools,
      JSON.parse(read("data/public-results.json")).sports),"shared");
- assert.equal(nativePayload.url,url);
- assert.match(nativePayload.title,/เปตอง|กีฬา|กรีฑา/);
- assert.equal(nativePayload.text,"ผลการแข่งขัน · มิตรภาพเกมส์ 2569");
- assert.match(nativePayload.title,/ชนะ|พบ|รายการ|กรีฑา/);
+ assert.equal(nativePayload.url,undefined,"R44 sends one text payload");
+ assert.ok(nativePayload.text.endsWith(url));
+ assert.match(nativePayload.text,/เปตอง|กีฬา|กรีฑา/);
+ assert.match(nativePayload.text,/ผลการแข่งขัน · มิตรภาพเกมส์ 2569/);
+ assert.match(nativePayload.text,/ผู้ชนะ|พบ|รายการ|กรีฑา|อันดับ/);
  const sportList=JSON.parse(read("data/public-results.json")).sports;
  assert.equal(api.resultShareUrl({...userResult,share_revision:row.revision+1},index,sportList),
     root+"s/"+userResult.sport_id+"/?ref="+api.fixtureShareCode(row.result_id),
