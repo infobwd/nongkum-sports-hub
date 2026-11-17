@@ -1,10 +1,11 @@
-/* R43-B/C: authenticated private staging console. No token/password persistence.
-   Fail CLOSED unless separately provisioned public Auth configuration is present. */
+/* R43-F: private staff PIN-only schedule/reviewer console.
+   No account email, no legacy shared PIN, no persistent token storage.
+   Fail CLOSED until both Edge functions and approved staff roles are provisioned. */
 (function(root){
  "use strict";
  const el=id=>document.getElementById(id),D=root.NongkumR43Draft;
  const status=el("r43PrivateStatus");
- const state={cfg:null,accessToken:"",roles:null,program:null,people:[],assignments:[]};
+ const state={cfg:null,personalToken:"",roles:null,program:null,people:[],assignments:[]};
  const ROLES=D?.ROLES||[];
  const ID_RE=/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
  const note=(value,bad=false)=>{status.textContent=value;status.style.color=bad?"#98431c":"";};
@@ -21,67 +22,86 @@
  function goodConfig(c){
    return c&&c.enabled===true&&
      c.supabase_url==="https://zprxvpfkvforoxrboqiv.supabase.co"&&
-     c.edge_url===c.supabase_url+"/functions/v1/nongkum-schedule-admin"&&
+     c.pin_edge_url===c.supabase_url+"/functions/v1/nongkum-r43-pin"&&
+      c.edge_url===c.supabase_url+"/functions/v1/nongkum-schedule-admin"&&
      typeof c.publishable_key==="string"&&c.publishable_key.startsWith("sb_publishable_")&&
      c.publishable_key.length>=24;
  }
  async function api(action,data={}){
-   if(!state.cfg||!state.accessToken)throw Error("กรุณาเข้าสู่ระบบก่อน");
-   const r=await fetch(state.cfg.edge_url,{method:"POST",cache:"no-store",headers:{
-     "Content-Type":"application/json","Authorization":"Bearer "+state.accessToken
-   },body:JSON.stringify({action,...data})});
-   const v=await r.json().catch(()=>null);
-   if(!v||typeof v.ok!=="boolean")throw Error("ติดต่อระบบตรวจสิทธิ์ไม่ได้");
-   if(!v.ok)throw Error({
-     forbidden:"ไม่มีสิทธิ์ดำเนินการ",invalid_or_forbidden:"ไม่มีสิทธิ์หรือข้อมูลไม่ถูกต้อง",
-     unauthenticated:"สิทธิ์หมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง",stale:"ข้อมูลถูกเปลี่ยน กรุณารีเฟรช",
-     source_changed:"ข้อมูลตารางเปลี่ยนรุ่น กรุณาหยุดแก้และตรวจสอบ",
-     approved_result_lock:"รายการนี้มีผลรับรองแล้ว ต้องตรวจผลกระทบก่อน",
-     duty_overlap:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อน",
-     duty_overlap_within_request:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อนในคำขอนี้",
-     self_review:"ผู้เสนอไม่สามารถรับรองคำขอของตนเอง",
-     unverified_person:"ชื่อกรรมการยังไม่ผ่านการตรวจ",
-     setup_required:"ระบบยังไม่ได้กำหนดสิทธิ์",
-     already_approved:"รายการนี้มีคำขอรับรองแล้ว"
-   }[v.error]||"ดำเนินการไม่สำเร็จ: "+String(v.error||"ไม่ทราบสาเหตุ"));
-   return v;
- }
+    if(!state.cfg||!state.personalToken)throw Error("กรุณาเข้าสู่ระบบก่อน");
+    const r=await fetch(state.cfg.edge_url,{method:"POST",cache:"no-store",headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+state.personalToken,
+      "apikey":state.cfg.publishable_key
+    },body:JSON.stringify({action,...data})});
+    const v=await r.json().catch(()=>null);
+    if(!v||typeof v.ok!=="boolean")throw Error("ติดต่อระบบตรวจสิทธิ์ไม่ได้");
+    if(!v.ok){
+      if(v.error==="unauthenticated")wipe();
+      throw Error({
+        forbidden:"ไม่มีสิทธิ์ดำเนินการ",invalid_or_forbidden:"ไม่มีสิทธิ์หรือข้อมูลไม่ถูกต้อง",
+        unauthenticated:"สิทธิ์หมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง",stale:"ข้อมูลถูกเปลี่ยน กรุณารีเฟรช",
+        source_changed:"ข้อมูลตารางเปลี่ยนรุ่น กรุณาหยุดแก้และตรวจสอบ",
+        approved_result_lock:"รายการนี้มีผลรับรองแล้ว ต้องตรวจผลกระทบก่อน",
+        duty_overlap:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อน",
+        duty_overlap_within_request:"มีกรรมการคนเดียวกันทำหน้าที่เวลาทับซ้อนในคำขอนี้",
+        self_review:"ผู้เสนอไม่สามารถรับรองคำขอของตนเอง",
+        unverified_person:"ชื่อกรรมการยังไม่ผ่านการตรวจ",
+        setup_required:"ระบบยังไม่ได้กำหนดสิทธิ์",
+        already_approved:"รายการนี้มีคำขอรับรองแล้ว"
+      }[v.error]||"ดำเนินการไม่สำเร็จ: "+String(v.error||"ไม่ทราบสาเหตุ"));
+    }
+    return v;
+  }
  function wipe(){
-   state.accessToken="";state.roles=null;state.people=[];state.assignments=[];
+   state.personalToken="";state.roles=null;state.people=[];state.assignments=[];
    el("r43PrivateWorkspace").hidden=true;
    el("r43PrivateLogin").hidden=!state.cfg;
-   el("r43Password").value="";
+   el("r43PersonalPin").value="";
  }
  async function login(e){
-   e.preventDefault();
-   note("กำลังตรวจบัญชีผู้จัด…");
-   const pass=el("r43Password").value;
-   try{
-     const r=await fetch(state.cfg.supabase_url+"/auth/v1/token?grant_type=password",{
-       method:"POST",cache:"no-store",headers:{
-         "apikey":state.cfg.publishable_key,"Content-Type":"application/json"
-       },body:JSON.stringify({email:el("r43Email").value.trim(),password:pass})});
-     const v=await r.json().catch(()=>null);
-     if(!r.ok||!v||typeof v.access_token!=="string")
-       throw Error("บัญชีหรือรหัสผ่านไม่ถูกต้อง หรือยังไม่ได้รับสิทธิ์");
-     state.accessToken=v.access_token;
-     const roles=await api("status");
-     state.roles=roles;
-     el("r43PrivateLogin").hidden=true;
-     el("r43PrivateWorkspace").hidden=false;
-     el("r43RoleSummary").textContent="เข้าสู่ระบบแล้ว · "+
-       [roles.can_propose?"เสนอแก้ไข":"",roles.can_assign?"จัดกรรมการ":"",roles.can_review?"ผู้ตรวจรับ":""]
-         .filter(Boolean).join(" / ");
-     el("r43PrivateSubmit").hidden=!roles.can_propose;
-     el("r43PrivateNew").hidden=!roles.can_propose;
-     el("r43PrivateAssignArea").hidden=!roles.can_assign;
-     el("r43PrivatePeoplePanel").hidden=!roles.can_assign;
-     el("r43PrivateReview").hidden=!roles.can_review;
-     await loadData();
-     note("เข้าสู่ระบบสำหรับจัดทำคำขอแล้ว · ยังไม่ใช่การเผยแพร่");
-   }catch(err){wipe();note(err.message||"เข้าสู่ระบบไม่สำเร็จ",true);}
-   finally{el("r43Password").value="";}
- }
+    e.preventDefault();
+    note("กำลังตรวจรหัสเจ้าหน้าที่…");
+    const pin=el("r43PersonalPin").value.trim();
+    try{
+      if(!/^[0-9]{10,16}$/.test(pin))throw Error("กรุณากรอกรหัสส่วนตัวให้ครบ");
+      const r=await fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",headers:{
+        "Content-Type":"application/json","apikey":state.cfg.publishable_key
+      },body:JSON.stringify({action:"login",pin})});
+      const v=await r.json().catch(()=>null);
+      if(!r.ok||!v?.ok||!/^[0-9a-f]{64}$/.test(v.token||"")){
+        throw Error(v?.error==="limited"?"กรอกรหัสหลายครั้ง กรุณาลองใหม่ภายหลัง":
+          "รหัสไม่ถูกต้องหรือยังไม่ได้รับสิทธิ์");
+      }
+      state.personalToken=v.token;
+      const roles=await api("status");
+      if(["can_propose","can_assign","can_review"].some(k=>!!roles[k]!==!!v[k]))
+        throw Error("สิทธิ์เจ้าหน้าที่ไม่ตรงกัน กรุณาติดต่อผู้จัด");
+      state.roles=roles;
+      const duties=[roles.can_propose?"เสนอแก้ตาราง":"",
+        roles.can_assign?"จัดกรรมการ":"",roles.can_review?"ผู้ตรวจ":""]
+        .filter(Boolean).join(" / ");
+      el("r43RoleSummary").textContent=String(v.full_name||"")+" · "+
+        String(v.school_id||"")+" · "+duties;
+      el("r43PrivateSubmit").hidden=!roles.can_propose;
+      el("r43PrivateNew").hidden=!roles.can_propose;
+      el("r43PrivateAssignArea").hidden=!roles.can_assign;
+      el("r43PrivatePeoplePanel").hidden=!roles.can_assign;
+      el("r43PrivateReview").hidden=!roles.can_review;
+      await loadData();
+      const schoolName=state.program?.schools?.find(s=>s.id===v.school_id)?.name||v.school_id;
+      el("r43RoleSummary").textContent=String(v.full_name||"")+" · "+schoolName+" · "+duties;
+      el("r43PrivateLogin").hidden=true;
+      el("r43PrivateWorkspace").hidden=false;
+      note("เข้าสู่ระบบแล้ว · คำขอที่อนุมัติยังไม่เผยแพร่เป็นตารางทางการ");
+    }catch(err){
+      const token=state.personalToken;
+      if(token)fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",
+        headers:{"Content-Type":"application/json","apikey":state.cfg.publishable_key},
+        body:JSON.stringify({action:"logout",token})}).catch(()=>{});
+      wipe();note(err.message||"เข้าสู่ระบบไม่สำเร็จ",true);
+    }finally{el("r43PersonalPin").value="";}
+  }
  async function loadData(){
    // Original source is public; private people and review queue require authenticated API.
    const response=await fetch("./data/program-from-pdf-2569-20261104-draft.json?cache=r43bc-1",
@@ -109,8 +129,8 @@
    const linked=new URLSearchParams(location.search).get("fixture");
    if(linked&&program.fixtures.some(f=>f.id===linked))fixtures.value=linked;
    if(state.roles.can_assign)await refreshPeople();
-   if(state.roles.can_review)await refreshReview();
- }
+    if(state.roles.can_review)await refreshReview();
+  }
  async function refreshPeople(){
    const v=await api("people");state.people=v.people||[];
    const select=el("r43PrivatePerson");select.length=1;
@@ -280,22 +300,24 @@
    catch(e){note(e.message,true);}
  }
  async function logout(){
-   if(state.accessToken&&state.cfg){
-     await fetch(state.cfg.supabase_url+"/auth/v1/logout",{
-       method:"POST",headers:{apikey:state.cfg.publishable_key,
-       Authorization:"Bearer "+state.accessToken}}).catch(()=>{});
+   const token=state.personalToken;
+   if(token&&state.cfg){
+     await fetch(state.cfg.pin_edge_url,{method:"POST",cache:"no-store",headers:{
+       "Content-Type":"application/json","apikey":state.cfg.publishable_key
+     },body:JSON.stringify({action:"logout",token})}).catch(()=>{});
    }
    wipe();note("ออกจากระบบแล้ว");
  }
  async function init(){
    try{
-     const r=await fetch("./data/r43-public-auth-config.json",{cache:"no-store"});
+     const r=await fetch("./data/r43-public-pin-config.json",{cache:"no-store"});
      const config=r.ok?await r.json():null;
      if(!goodConfig(config)){note("ส่วนรับคำขอและตรวจรับยังไม่ได้เปิดใช้งาน · สามารถเตรียมคำขอร่างในหน้าเดิมได้");return;}
      state.cfg=config;
      el("r43PrivateLogin").hidden=false;
-     note("พร้อมให้เจ้าหน้าที่ที่ได้รับสิทธิ์เข้าสู่ระบบ");
+     note("พร้อมให้เจ้าหน้าที่ที่ได้รับสิทธิ์เข้าจัดการคำขอ โดยยังไม่เผยแพร่ตารางทางการ");
      el("r43LoginForm").addEventListener("submit",login);
+
      el("r43Logout").addEventListener("click",logout);
      el("r43SubmitForm").addEventListener("submit",submit);
      el("r43PersonForm").addEventListener("submit",proposePerson);

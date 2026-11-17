@@ -8,3 +8,12 @@ verify_jwt = false
 
 [functions.nongkum-activity-photos]
 verify_jwt = false
+
+# R43-F uses server-verified opaque staff session tokens, not JWT.
+# Both functions must also have explicit private env gates enabled to operate.
+# Deployment remains disabled until a reviewed release and staff provisioning.
+[functions.nongkum-r43-pin]
+verify_jwt = false
+
+[functions.nongkum-schedule-admin]
+verify_jwt = false

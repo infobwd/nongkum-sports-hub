@@ -22,12 +22,11 @@
 <p id="r43PrivateStatus" role="status" aria-live="polite">กำลังตรวจความพร้อมระบบส่วนตัว…</p>
 <section id="r43PrivateLogin" class="r43-panel" hidden>
 <h2>เข้าสู่ระบบผู้จัดการแข่งขัน</h2>
-<form id="r43LoginForm" class="r43-filter-grid" autocomplete="on">
-<label>อีเมลบัญชีที่ได้รับสิทธิ์<input type="email" id="r43Email" required autocomplete="username"></label>
-<label>รหัสผ่านบัญชี<input type="password" id="r43Password" required autocomplete="current-password"></label>
-<button class="r43-primary" type="submit">เข้าใช้งาน</button>
+<form id="r43LoginForm" class="r43-filter-grid" autocomplete="off">
+<label>รหัสประจำตัวเจ้าหน้าที่<input type="password" id="r43PersonalPin" inputmode="numeric" pattern="[0-9]*" minlength="10" maxlength="16" required autocomplete="off"></label>
+<button class="r43-primary" type="submit">ตรวจรหัสและแสดงชื่อ</button>
 </form>
-<p class="r43-small">ใช้บัญชี Supabase Auth ที่ผู้จัดกำหนดสิทธิ์ไว้แยกต่างหาก ไม่ใช่รหัสบันทึกผลหรือรหัสโรงเรียน</p>
+<p class="r43-small">ไม่ต้องใช้อีเมลหรือ LINE ระบบแสดงชื่อ โรงเรียน และหน้าที่จากทะเบียนที่ได้รับอนุญาตหลังตรวจรหัสสำเร็จ ผู้มีสิทธิ์สามารถส่งและตรวจคำขอได้เมื่อผู้จัดเปิดระบบที่ผ่านการทดสอบแล้ว</p>
 </section>
 <section id="r43PrivateWorkspace" hidden>
 <div class="r43-actions"><strong id="r43RoleSummary"></strong><button type="button" id="r43Logout" class="r43-secondary">ออกจากระบบ</button></div>
@@ -114,5 +113,5 @@
 </nav>
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="./js/r43-schedule-draft.js?v=r43a-1"></script>
-<script src="./js/r43-private-review.js?v=r43bc-1"></script>
+<script src="./js/r43-private-review.js?v=r43f-3"></script>
 </body></html>
