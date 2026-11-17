@@ -28,6 +28,10 @@
        review.ok!==true||review.status!=="approved_not_published"||
        review.source_key!==contract.source_key||!Array.isArray(review.schedule_changes))
      throw Error("source_not_verified");
+   if(!Number.isInteger(review.new_fixture_review_pending)||
+       review.new_fixture_review_pending<0||
+       review.new_fixture_review_pending>0)
+     throw Error("new_fixture_bracket_review_pending");
    if(!Array.isArray(approvedIds)||approvedIds.some(x=>typeof x!=="string"))
      throw Error("approved_result_lookup_missing");
    const protectedIds=new Set(approvedIds);
