@@ -20,7 +20,8 @@ assert.match(page,/id="resultCountSummary"/);
 assert.match(page,/id="noResultsTitle"/);
 assert.match(page,/id="resultFilterMore"/);
 assert.match(styles,/result-sport-bar/);
-assert.match(results,/ผลรับรองทั้งหมด/);
+assert.match(results,/els\.countSummary\.textContent=/);
+assert.match(results,/ข้อมูลสำรอง · อาจไม่ใช่ผลล่าสุด/);
 assert.match(results,/ไม่พบผลการแข่งขันตามตัวกรองที่เลือก/);
 assert.match(results,/ข้อมูลสำรองยังไม่มีผลการแข่งขัน/);
 assert.match(results,/const requested=params.get\("school"\)\|\|""/);
@@ -29,7 +30,7 @@ for(const html of [page,index]){
   assert.match(html,/navigation\.js\?v=r35-1/);
   assert.match(html,/r34-card-editor\.js\?v=r38-1/);
 }
-assert.match(page,/results\.js\?v=r(?:35|36|38|39|41|44)-1/);
+assert.match(page,/results\.js\?v=r(?:35|36|38|39|41|44|45)-1/);
 
 const stampStart=results.indexOf("  function publicationTime(");
 const stampEnd=results.indexOf("  function makeSports(){",stampStart);
