@@ -73,3 +73,10 @@ body[data-view="standings"] .standings-mobile-details{
   .standings-mobile-details .standings-table{min-width:550px}
 }
 @media print{.standings-mobile-rows,.standings-mobile-details{display:none!important}.standings-desktop-table{display:block!important}}
+
+/* R46: compact readable temporary placement and points on mobile. */
+@media(max-width:690px){
+ .standings-mobile-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+ .standings-mobile-points{font-size:.87rem;font-weight:800;color:#193d63;font-variant-numeric:tabular-nums;white-space:nowrap}
+ .standings-mobile-position{display:inline-block;padding:1px 6px;border-radius:6px;background:#edf3fb;white-space:nowrap}
+}
