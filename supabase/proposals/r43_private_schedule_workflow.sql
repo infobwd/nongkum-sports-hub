@@ -179,10 +179,9 @@ begin
        or coalesce(v_item->>'start','') !~ '^([01][0-9]|2[0-3]):[0-5][0-9]$'
        or coalesce(v_item->>'end','') !~ '^([01][0-9]|2[0-3]):[0-5][0-9]$'
        or coalesce(v_item->>'start','') >= coalesce(v_item->>'end','')
-       or coalesce(v_item->>'scope_key','') <> case v_item->>'scope'
-          when 'sport' then v_fixture.sport_id
-          when 'division' then v_fixture.sport_id||'/'||v_fixture.division
-          else v_fixture.fixture_id end then
+       or (v_item->>'scope'='sport' and coalesce(v_item->>'scope_key','')<>v_fixture.sport_id)
+       or (v_item->>'scope'='division' and coalesce(v_item->>'scope_key','')<>(v_fixture.sport_id||'/'||v_fixture.division))
+       or (v_item->>'scope'='fixture' and coalesce(v_item->>'scope_key','')<>v_fixture.fixture_id) then
        return jsonb_build_object('ok',false,'error','invalid_assignment');end if;
      begin
        if to_char((v_item->>'date')::date,'YYYY-MM-DD')<>(v_item->>'date')
