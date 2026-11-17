@@ -17,3 +17,17 @@
 
 ## แยกสถานะ
 การรับรอง **ผลการแข่งขัน** ไม่ใช่การรับรอง **ตารางและผัง**. ข้อสังเกตเรื่องเลขรายการกรีฑา 35/48 ซ้ำยังคงเป็นร่าง; คำสั่งกรรมการ/พิธีการต้องตรวจรับ. ไม่แก้ข้อมูล Supabase, Sheets, GitHub main หรือผลอื่น.
+
+
+## ผลการสร้างและตรวจ R30-J (18 พฤศจิกายน 2569)
+
+**สถานะ: PLAN RECORDED / PDF 137 PAGES BUILT / AUTOMATED QA PASS / DRIVE UPLOADED / DRAFT PR / NOT MERGED / NOT PUBLISHED / NOT ORGANIZER ACCEPTED**
+
+- [สูจิบัตรฉบับรวม R30-J 137 หน้า (PDF)](https://drive.google.com/file/d/1RqgJtdjGgn17pSW-6SJhkisHAcvnPSz_/view), SHA-256 `09d57db76433cda6fb31161eaa365abd085fed9b481305b015e2c59a548581c5`.
+- [ZIP ต้นฉบับ/QA](https://drive.google.com/file/d/1KoiQKf0UvE4pkRZrIw_d-uvq2DAOhovR/view), [รายงาน QA บน Drive](https://drive.google.com/file/d/13HJniMdQjhNqFaol_usHB40ltpGKCEzm/view).
+- [QA ตรวจครบ 137 หน้า](QA_REPORT.md), [QA JSON](QA_REPORT.json), [builder](../../scripts/r30j/combine_latest_r30i.py), [verifier](../../scripts/r30j/verify_r30j.py), [สารบัญ HTML](toc_competition.html).
+- จัดเล่ม: R30-I พิธีการ/กรรมการ 48 หน้าเดิม + สารบัญผัง/ตารางหน้า 49 + ผัง/ตารางผลรับรอง 88 หน้า (R30-E หน้า 6–93) = **137 หน้า**.
+- ตรวจข้อความต้นฉบับ **136/136 หน้า** ไม่เปลี่ยนเนื้อหา (ยกเว้น footer เลขหน้า/ปุ่มนำทางใหม่). ฟอนต์ไทยปุ่มนำทางใหม่แก้ปัญหาการคัดลอกแล้ว.
+- QA: render ทุกหน้า **137/137 ที่ 150 DPI**, สำคัญ 12 หน้า 200 DPI; ลิงก์ 204 จุด, bookmarks 66, สารบัญกีฬา 18 ลิงก์; ไม่มีปลายทางเสีย และมีปุ่มกลับสารบัญแข่งขันทุก 88 หน้า.
+- ผลรับรองในตาราง: **43 ผลรายคู่ และ 40 กรีฑา รวมอันดับ 109 ช่อง** จาก Supabase published view snapshot พร้อม revision/timestamp. ไม่เดาคะแนน, ไม่เลื่อนผู้ชนะในสายโดยอัตโนมัติ.
+- **ค้างตรวจรับ:** พิมพ์ A4 จริง, มือถือ Safari/Chrome/LINE, สิทธิ์ Drive ผู้ชมภายนอก, เอกสารแต่งตั้งและรายชื่อกรรมการ, ความสอดคล้องของสถานะร่างตาราง/ผัง. ไม่แก้ Supabase/Sheets/GitHub main/เว็บไซต์.
