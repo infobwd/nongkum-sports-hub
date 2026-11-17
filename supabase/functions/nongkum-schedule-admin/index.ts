@@ -81,7 +81,7 @@ Deno.serve(async req=>{
       result.error==="source_changed"||result.error==="stale"||
       result.error==="self_review"||result.error==="self_review_or_stale"||
       result.error==="approved_result_lock"||result.error==="already_approved"||
-      result.error==="duty_overlap"?409:
+      result.error==="duty_overlap"||result.error==="duty_overlap_within_request"?409:
       result.error==="missing_fixture"||result.error==="missing"?404:400;
     return reply(result,status,origin);
   }catch(_){
