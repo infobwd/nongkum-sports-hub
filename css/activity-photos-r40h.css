@@ -1,5 +1,7 @@
 /* R40-H accessible mobile photo upload/review, override legacy R40 layout. */
 body[data-view^="photo-"],body[data-view^="photo-"] *{box-sizing:border-box}
+.photo-panel #photoUploadForm[hidden]{display:none!important}
+.photo-panel .photo-mine[hidden]{display:none!important}
 body[data-view^="photo-"] .shell,body[data-view^="photo-"] main,body[data-view^="photo-"] .photo-panel{min-width:0;max-width:100%}
 .photo-panel form,.photo-fields,.photo-fields>div,.photo-review-list,.photo-review-controls{min-width:0}
 .photo-panel .select2-container{width:100%!important;min-width:0;max-width:100%!important}
