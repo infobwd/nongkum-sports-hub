@@ -104,7 +104,7 @@ try{
  await page.locator("#r43ReviewerName").fill("กรรมการทดสอบ");
  await page.locator("#r43ReviewerPin").fill("12345678");
  await page.locator("#r43ReviewerPinForm button[type=submit]").click();
- await page.waitForFunction(()=>requests.some(r=>r.action==="people_pending"));
+ await page.waitForFunction(()=>document.querySelector("#r43ReviewerPinStatus").textContent.includes("ใช้สิทธิ์รหัสเดิม"));
  for(const r of requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action))){
    assert.equal(r.legacy_token,reviewerToken,"review actions must use the reviewer session only");
  }
