@@ -27,7 +27,7 @@ assert.ok(share.shortUrl({...filters,query:"วิ่ง"},base).includes("q="))
 assert.equal(codec.decode("1___"),null);
 assert.equal(codec.decode("2abc"),null);
 assert.equal(codec.decode("1zzzzzzzzzz"),null);
-assert.equal(codec.decode("10"),codec.decode("10")?.school===undefined?null:codec.decode("10"));
+assert.equal(codec.decode("10")?.school,"");
 assert.equal(codec.encode({school:"not-in-catalog",day:"2026-11-18"}),"");
 assert.equal(codec.encode({day:"2026-02-30"}),"");
 assert.equal(codec.encode({day:"2050-01-01"}),"");
