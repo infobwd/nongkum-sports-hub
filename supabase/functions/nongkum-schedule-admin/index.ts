@@ -8,7 +8,8 @@ const ALLOWED=new Set(["https://infobwd.github.io"]);
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const ACTIONS=new Set([
   "status","people","people_pending","person_propose","person_review",
-  "queue","submit","review","approved_preview"
+  "queue","submit","review","approved_preview",
+  "new_submit","new_queue","new_review"
 ]);
 function headers(origin:string|null){
   const h=new Headers({
@@ -57,7 +58,9 @@ Deno.serve(async req=>{
     const payload={...body};delete payload.action;
     // Role checks, source locks, verified person IDs and approvals run in
     // the database transaction. Public clients have NO EXECUTE grant.
-    const rpc=await fetch(DB+"/rest/v1/rpc/nongkum_r43_gateway",{
+    const newFixtureAction=String(body.action).startsWith("new_");
+    const rpc=await fetch(DB+"/rest/v1/rpc/"+(newFixtureAction?
+      "nongkum_r43_new_fixture_gateway":"nongkum_r43_gateway"),{
       method:"POST",
       headers:{
         "apikey":SERVICE,"Authorization":"Bearer "+SERVICE,
