@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="robots" content="noindex">
+<meta name="description" content="เตรียมคำขอแก้ตารางแข่งขันและมอบหมายกรรมการ ร่างในเครื่อง ยังไม่เผยแพร่">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>เตรียมแก้ตารางและกรรมการ — มิตรภาพเกมส์ 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1">
+<link rel="stylesheet" href="./css/r43-manager.css?v=r43a-1">
+</head>
+<body data-view="r43-manager">
+<header class="top"><div class="shell">
+<div class="brand">
+  <div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div>
+  <span class="mode">สำหรับเตรียมแก้ไข</span>
+</div>
+<nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html">ตารางแข่ง</a><a href="./committee.html">กรรมการ</a><a href="./more.html">เพิ่มเติม</a></nav>
+<div class="hero"><h1>เตรียมแก้ตารางและกรรมการ</h1><p>บันทึกคำขอร่างไว้ในเครื่องเพื่อส่งให้ผู้จัดตรวจเท่านั้น</p></div>
+</div></header>
+<main class="shell r43-main">
+<aside class="r43-notice" role="note">
+  <strong>ขั้นเตรียมคำขอ · ยังไม่เปลี่ยนตารางแข่งขันจริง</strong>
+  <p>สิ่งที่กรอกอยู่เฉพาะในหน้านี้ ไม่บันทึกเข้าสู่ระบบ ไม่แต่งตั้งกรรมการ และไม่เปลี่ยนผลรับรอง ผู้จัดต้องตรวจหลักฐานและรับรองแยกต่างหาก</p>
+</aside>
+<section class="r43-panel r43-filters" aria-labelledby="r43FindTitle">
+<h2 id="r43FindTitle">1. ค้นหารายการแข่งขัน</h2>
+<div class="r43-filter-grid">
+<label>ชนิดกีฬา<select id="r43Sport"><option value="">ทุกกีฬา</option></select></label>
+<label>โรงเรียน<select id="r43School"><option value="">ทุกโรงเรียน</option></select></label>
+<label>ชื่อทีม / รุ่น / รายการ / รหัส<input type="search" id="r43Search" placeholder="พิมพ์ชื่อหรือรหัสรายการ"></label>
+</div>
+<p id="r43Status" role="status" aria-live="polite">กำลังอ่านตารางการแข่งขัน…</p>
+<div class="r43-match-list" id="r43Matches" aria-label="เลือกรายการที่ต้องการเตรียมแก้"></div>
+<p id="r43ListHint" class="r43-small"></p>
+</section>
+<section id="r43EditorPanel" class="r43-panel" hidden aria-labelledby="r43EditTitle">
+<h2 id="r43EditTitle">2. เตรียมแก้ไขรายการ</h2>
+<div class="r43-selected">
+ <strong id="r43SelectedTitle"></strong><p id="r43SelectedDetail"></p>
+ <p id="r43OriginalState" class="r43-small"></p>
+ <a id="r43OpenPublic" href="./index.html">ดูรายการเดิมบนหน้าเว็บ</a>
+</div>
+<form id="r43ScheduleForm">
+ <fieldset><legend>วัน เวลา และสนาม (ข้อเสนอเท่านั้น)</legend>
+  <div class="r43-edit-grid">
+   <label>วันที่แข่งขัน<input id="r43Date" name="date" type="date"></label>
+   <label>เวลาแข่งขัน<input id="r43Time" name="time" type="time"></label>
+   <label>สนามย่อย<input id="r43Field" name="field" type="text" maxlength="160" placeholder="เช่น สนาม 2"></label>
+   <label>สนามหลัก<input id="r43Venue" name="venue" type="text" maxlength="200" placeholder="ชื่อสถานที่"></label>
+  </div>
+  <p class="r43-small">ค่าเดิมที่ยังเป็นร่างไม่ได้รับรองโดยอัตโนมัติ โปรดตรวจหลักฐานก่อนแก้</p>
+ </fieldset>
+ <fieldset><legend>กรรมการประจำรายการ (รายชื่อร่าง)</legend>
+   <p class="r43-small">กรอกชื่อจากหลักฐานที่ตรวจแล้วเท่านั้น การกรอกไม่ถือว่าแต่งตั้ง ต้องรับรองรายบุคคลก่อนเผยแพร่</p>
+   <div class="r43-edit-grid">
+    <label>ชื่อ–สกุล (ร่าง)<input id="r43Person" type="text" autocomplete="off" maxlength="120" placeholder="กรอกเฉพาะเมื่อมีหลักฐาน"></label>
+    <label>โรงเรียน<select id="r43PersonSchool"><option value="">เลือกโรงเรียน</option></select></label>
+    <label>หน้าที่<select id="r43Role"><option value="">เลือกหน้าที่</option></select></label>
+    <label>เวลาเริ่มหน้าที่<input id="r43DutyStart" type="time"></label>
+    <label>เวลาสิ้นสุดหน้าที่<input id="r43DutyEnd" type="time"></label>
+   </div>
+   <button type="button" id="r43AddPerson" class="r43-secondary">เพิ่มกรรมการลงร่างรายการนี้</button>
+   <ul id="r43StaffDraft" class="r43-staff-list" aria-label="รายชื่อกรรมการร่างในรายการนี้"></ul>
+ </fieldset>
+ <label class="r43-reason">เหตุผลหรือหลักฐานที่เสนอแก้ไข<textarea id="r43Reason" rows="3" maxlength="500" minlength="8" required placeholder="เช่น ตามคำสั่ง/มติผู้จัดที่ตรวจสอบแล้ว"></textarea></label>
+ <div class="r43-actions">
+  <button type="submit" class="r43-primary">เพิ่มคำขอเข้าชุดตรวจ</button>
+  <button type="button" id="r43Reset" class="r43-secondary">คืนค่าก่อนแก้</button>
+ </div>
+</form>
+</section>
+<section class="r43-panel" aria-labelledby="r43ReviewTitle">
+<h2 id="r43ReviewTitle">3. ตรวจชุดคำขอก่อนส่ง</h2>
+<p id="r43Count" role="status" aria-live="polite">ยังไม่มีคำขอแก้ไข</p>
+<div id="r43Pending" class="r43-pending"></div>
+<p id="r43Warnings" class="r43-warning" role="status" aria-live="polite"></p>
+<div class="r43-actions">
+ <button type="button" id="r43Download" class="r43-primary" disabled>ดาวน์โหลดคำขอสำหรับตรวจ</button>
+ <button type="button" id="r43Clear" class="r43-secondary">ล้างร่างทั้งหมด</button>
+</div>
+<p class="r43-small">ไฟล์อาจมีชื่อบุคคล โปรดเก็บเป็นการส่วนตัว ห้ามนำเข้าคลัง GitHub สาธารณะหรือส่งต่อโดยไม่จำเป็น</p>
+</section>
+</main>
+<footer class="shell">มิตรภาพเกมส์ 2569 · ส่วนเตรียมคำขอ R43-A ไม่ใช่ระบบแก้ไขตารางทางการ</footer>
+<nav id="mobileTabNav" class="mobile-nav" aria-label="เมนูหลักมือถือ">
+<a id="mobileProgramLink" data-nav-view="program" href="./index.html" aria-label="ตารางแข่งขัน"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 6h10"/></svg><span>ตารางแข่ง</span></a>
+<a id="mobileResultsLink" data-nav-view="results" href="./results.html" aria-label="ผลการแข่งขัน"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg><span>ผลแข่งขัน</span></a>
+<a id="mobileGalleryLink" href="./activity-photos.html" aria-label="ภาพกิจกรรม"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.6"/><path d="m4 18 5-5 4 3 3-5 4 7"/></svg><span>ภาพกิจกรรม</span></a>
+<a id="mobileMoreLink" href="./more.html" aria-current="page" aria-label="เมนูเพิ่มเติม"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>เพิ่มเติม</span></a>
+</nav>
+<script src="./js/program-corrections.js?v=r20b1"></script>
+<script src="./js/r43-schedule-draft.js?v=r43a-1"></script>
+<script src="./js/r43-manager.js?v=r43a-1"></script>
+<script src="./js/pwa.js?v=r31-v1"></script>
+</body>
+</html>
