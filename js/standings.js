@@ -10,9 +10,13 @@
     failure:$("standingsFailure"),listing:$("standingsListing"),
     refresh:$("refreshStandings"),retry:$("retryStandings"),
     resultsLink:$("resultsSubResults"),emptyLink:$("emptyResultsLink"),
-    pendingLink:$("pendingResultsLink")
+    pendingLink:$("pendingResultsLink"),shareAll:$("shareStandingsAll")
   };
-  const state={data:null,rules:null,snapshot:null,program:null,school:"",sport:"",level:""};
+  const state={data:null,rules:null,snapshot:null,program:null,school:"",sport:"",level:"",group:"",source:"backup"};
+  const shareUI=globalThis.NongkumStandingsShareUI?.init({
+    getContext:()=>({data:state.data,groups:selectedGroups(),snapshot:state.snapshot,
+      filters:{school:state.school,sport:state.sport,level:state.level},source:state.source})
+  });
   let initialized=false,loading=false;
   const safe=globalThis.Nongkum.escapeHtml;
   function validPublicData(data){
@@ -44,8 +48,11 @@
     const url=new URL(location.href);
     for(const key of ["school","sport","level"]){
       if(state[key])url.searchParams.set(key,state[key]);
+      else if(key==="school"&&url.searchParams.get("school")==="all")url.searchParams.set("school","all");
       else url.searchParams.delete(key);
     }
+    if(state.group)url.searchParams.set("group",state.group);
+    else url.searchParams.delete("group");
     history.replaceState(null,"",url.pathname+url.search+url.hash);
   }
   function sports(){
@@ -55,7 +62,7 @@
     ).join("");
     ui.sports.querySelectorAll("button").forEach(button=>
       button.addEventListener("click",()=>{
-        state.sport=button.dataset.sport;
+        state.sport=button.dataset.sport;state.group="";
         sports();render();updateUrl();
       })
     );
@@ -65,7 +72,8 @@
       state.program,state.data?.results||[],state.rules)||[];
     return groups.filter(g=>(!state.sport||g.sport_id===state.sport)&&
       (!state.level||globalThis.Nongkum.classifyLevel(g)===state.level)&&
-      (!state.school||g.rows.some(row=>row.team_id===state.school)));
+      (!state.school||g.rows.some(row=>row.team_id===state.school))&&
+      (!state.group||globalThis.NongkumStandingsShare?.groupCode(g)===state.group));
   }
   function renderRoster(){
     if(!ui.roster||!state.data)return 0;
@@ -91,6 +99,11 @@
           ?String(row.provisional_position)+(row.provisional_shared?" ร่วม":""):"—";
       const heading=(sportById.get(g.sport_id)?.name||g.sport_id)+" · "+
         (g.base_division||g.division)+(g.label==="พบกันหมด"?" · พบกันหมด":" · "+g.label);
+      const shareCode=globalThis.NongkumStandingsShare?.groupCode(g)||"";
+      const shareCandidate=official?{...g,rows:snapshot.rows,finalVerified:true}:g;
+      const shareAction=shareCode&&globalThis.NongkumStandingsShare?.eligible(shareCandidate)
+        ?"<button type='button' class='standings-share-group-btn' data-share-ranking='"+
+          safe(shareCode)+"' aria-label='แชร์ตารางอันดับ "+safe(heading)+"'>แชร์ตารางนี้</button>":"";
       const cols=g.has_goals?"<th>ได้</th><th>เสีย</th><th>ผลต่าง</th>":"";
       const pointHeader=g.has_points||official?"<th>คะแนน</th>":"<th>คะแนน*</th>";
       const body=rows.map(row=>"<tr"+(state.school===row.team_id?" class='standings-my-school'":"")+"><td>"+safe(rankLabel(row))+
@@ -129,7 +142,8 @@
         "<th scope='col'>ชนะ</th><th scope='col'>เสมอ</th><th scope='col'>แพ้</th>"+
         cols+pointHeader+"</tr></thead><tbody>"+body+"</tbody></table></div>";
       return "<section class='standings-group' aria-label='"+safe(heading)+"'>"+
-        "<h3>"+safe(heading)+"</h3><p class='standings-provenance'>"+safe(note)+
+        "<div class='standings-group-head'><h3>"+safe(heading)+"</h3>"+shareAction+"</div>"+
+        "<p class='standings-provenance'>"+safe(note)+
         (!g.has_points&&!official?" · คะแนนรอรับรองหลักเกณฑ์":"")+"</p>"+
         "<div class='standings-mobile-rows' aria-label='รายชื่อทีมในสาย'>"+compact+"</div>"+
         "<div class='standings-desktop-table'>"+table+"</div>"+
@@ -183,6 +197,7 @@
     if(!state.data)return;
     const approved=state.data.results.filter(matches);
     const groupCount=renderRoster();
+    shareUI?.sync();
     ui.count.textContent=groupCount+" ตารางทีม · "+approved.length+" ผลรับรอง";
     ui.empty.hidden=state.data.results.length!==0||groupCount>0;
     ui.pending.hidden=state.data.results.length===0||groupCount>0||!!state.snapshot?.standings?.length;
@@ -196,12 +211,12 @@
     if(initialized)return;
     initialized=true;
     ui.school.addEventListener("change",()=>{
-      state.school=ui.school.value;
+      state.school=ui.school.value;state.group="";
       globalThis.Nongkum.saveSchool(state.school);
       render();updateUrl();
     });
     ui.level.addEventListener("change",()=>{
-      state.level=ui.level.value;render();updateUrl();
+      state.level=ui.level.value;state.group="";render();updateUrl();
     });
   }
   function loaded(data){
@@ -209,11 +224,18 @@
     state.data=data;
     if(!initialized){
       const params=new URLSearchParams(location.search);
-      const school=params.get("school")||globalThis.Nongkum.schoolInStore();
+      const givenSchool=params.get("school");
+      const school=givenSchool==="all"?"":givenSchool||globalThis.Nongkum.schoolInStore();
       state.school=data.schools.some(s=>s.id===school)?school:"";
       state.sport=data.sports.some(s=>s.id===params.get("sport"))?params.get("sport"):"";
       state.level=["early","primary","secondary"].includes(params.get("level"))
         ?params.get("level"):"";
+      state.group=["f","a","b"].includes(params.get("group"))?params.get("group"):"";
+      if(state.group){
+        const scoped=globalThis.NongkumStandingsShare?.decode(state.group);
+        if(scoped){state.sport=scoped.sport;state.level="primary";}
+        else state.group="";
+      }
       data.schools.forEach(s=>{
         const option=document.createElement("option");
         option.value=s.id;option.textContent=s.name;
@@ -250,6 +272,7 @@
         if(!response.ok)throw Error("โหลดผลรับรองไม่ได้");
         data=await response.json();
       }
+      state.source=source?.source==="live"&&source?.data?"live":"backup";
       loaded(data);
       try{await loadGroupProgram();}catch(programError){state.program=null;render();console.error(programError);}
       try{await loadRules(data);}catch(ruleError){state.snapshot=null;render();console.error(ruleError);}
