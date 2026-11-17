@@ -50,7 +50,7 @@ declare
  req nongkum_sports.r43_new_fixture_requests%rowtype;
  active_key text;
  sport text;kind text;division text;team_a text;team_b text;
- d text;t text; reason text;evidence text;v_id uuid;rev integer;
+ d text;t text; v_reason text;evidence text;v_id uuid;rev integer;
 begin
  if p_uid is null or p_data is null or jsonb_typeof(p_data)<>'object'
     or length(p_data::text)>9000 then
@@ -80,12 +80,12 @@ begin
    team_b:=nullif(coalesce(p_data->>'team_b_id',''),'');
    d:=coalesce(p_data->>'date','');
    t:=coalesce(p_data->>'time','');
-   reason:=btrim(coalesce(p_data->>'reason',''));
+   v_reason:=btrim(coalesce(p_data->>'reason',''));
    evidence:=btrim(coalesce(p_data->>'evidence_ref',''));
    if kind not in ('match','track_event') or
       not exists(select 1 from public.nongkum_schedule_sports where sport_id=sport)
       or length(division) not between 2 and 160
-      or length(reason) not between 8 and 500
+      or length(v_reason) not between 8 and 500
       or length(evidence) not between 8 and 300
       or length(coalesce(p_data->>'venue',''))>200
       or length(coalesce(p_data->>'field',''))>160
@@ -109,10 +109,10 @@ begin
      venue,field_name,round_name,reason,evidence_ref,proposed_by)
     values(active_key,kind,sport,division,team_a,team_b,nullif(d,'')::date,nullif(t,'')::time,
      nullif(btrim(coalesce(p_data->>'venue','')),''),nullif(btrim(coalesce(p_data->>'field','')),''),
-     nullif(btrim(coalesce(p_data->>'round','')),''),reason,evidence,p_uid)
+     nullif(btrim(coalesce(p_data->>'round','')),''),v_reason,evidence,p_uid)
     returning id into v_id;
    insert into nongkum_sports.r43_new_fixture_audit(candidate_id,actor,action,note)
-     values(v_id,p_uid,'submitted',reason);
+     values(v_id,p_uid,'submitted',v_reason);
    return jsonb_build_object('ok',true,'id',v_id,'status','submitted',
     'notice','temporary_candidate_id_not_official_fixture');
  elsif p_action='new_review' then
@@ -121,8 +121,8 @@ begin
      or coalesce(p_data->>'revision','') !~ '^[1-9][0-9]{0,7}$'
      or coalesce(p_data->>'decision','') not in ('ready_for_bracket_check','returned') then
       return jsonb_build_object('ok',false,'error','invalid_or_forbidden');end if;
-   reason:=btrim(coalesce(p_data->>'review_note',''));
-   if length(reason) not between 8 and 500 then
+   v_reason:=btrim(coalesce(p_data->>'review_note',''));
+   if length(v_reason) not between 8 and 500 then
      return jsonb_build_object('ok',false,'error','reason_required');end if;
    rev:=(p_data->>'revision')::integer;
    select * into req from nongkum_sports.r43_new_fixture_requests
@@ -133,10 +133,10 @@ begin
      return jsonb_build_object('ok',false,'error','stale');end if;
    if req.source_key<>active_key then return jsonb_build_object('ok',false,'error','source_changed');end if;
    update nongkum_sports.r43_new_fixture_requests set status=p_data->>'decision',
-     reviewed_by=p_uid,reviewed_at=now(),review_note=reason,revision=revision+1
+     reviewed_by=p_uid,reviewed_at=now(),review_note=v_reason,revision=revision+1
      where id=req.id;
    insert into nongkum_sports.r43_new_fixture_audit(candidate_id,actor,action,note)
-     values(req.id,p_uid,p_data->>'decision',reason);
+     values(req.id,p_uid,p_data->>'decision',v_reason);
    return jsonb_build_object('ok',true,'status',p_data->>'decision',
       'notice','not_added_to_R33_and_not_published');
  end if;
