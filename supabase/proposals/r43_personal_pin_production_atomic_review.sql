@@ -316,7 +316,9 @@ begin
  select count(*) into staff_fk_count from pg_constraint p
   join pg_class t on t.oid=p.conrelid
   join pg_namespace n on n.oid=t.relnamespace
-  where n.nspname='nongkum_sports' and t.relname like 'r43_%'
+  where n.nspname='nongkum_sports'
+    and t.relname in ('r43_roles','r43_people','r43_people_audit','r43_requests',
+      'r43_audit','r43_new_fixture_requests','r43_new_fixture_audit')
     and p.contype='f' and p.confrelid='nongkum_sports.r43_staff_identities'::regclass;
  select count(*) into old_fk_count from pg_constraint p
   join pg_class t on t.oid=p.conrelid
