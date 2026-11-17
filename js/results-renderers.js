@@ -61,6 +61,9 @@
       allowedMedia.test(chosen.src)?chosen:null;
     const more=photo&&Array.isArray(photo.photos)?Math.max(0,photo.photos.length-1):0;
     const visualLabel=(r.sport_id==="athletics"?title:sport?.name)||"ภาพประกอบกีฬา";
+    const publishedAt=typeof r.published_at==="string"&&!Number.isNaN(Date.parse(r.published_at))
+      ?new Intl.DateTimeFormat("th-TH",{timeZone:"Asia/Bangkok",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(new Date(r.published_at))+" น."
+      :"";
     const thumb="<span class='result-event-thumb result-event-thumb--"+safe(category)+
       "' role='img' aria-label='ภาพประกอบ "+safe(visualLabel)+"'></span>";
     return "<article class='fixture result-card' data-result-card='"+safe(r.id)+"'><div class='fixture-head'><div class='sport-label'><strong class='sport-name'>"+
@@ -76,7 +79,8 @@
         "<img src='"+safe(photo.src)+"' loading='lazy' decoding='async' alt='"+
         safe(photo.caption||"ภาพกิจกรรมการแข่งขัน")+"'></a><figcaption>ภาพกิจกรรมที่เผยแพร่แล้ว"+
         (more?" · ดูอีก "+more+" ภาพ":"")+"</figcaption></figure>":"")+
-      body+"<p class='source'>"+
+      body+(publishedAt?"<p class='result-published'>เผยแพร่ "+safe(publishedAt)+"</p>":"")+
+      "<p class='source'>"+
       (r.result_date?"แข่งขัน "+safe(r.result_date)+" · ":"")+
       "อ้างอิงรหัส "+safe(r.fixture_id||r.event_id||r.id)+
       "</p></article>";
