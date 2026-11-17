@@ -34,11 +34,24 @@
     failure:optionalElement("programLoadFailure"),
     retry:optionalElement("retryProgram"),
     directFailure:optionalElement("sharedFixtureLoadFailure"),
-    directRetry:optionalElement("retrySharedFixture")
+    directRetry:optionalElement("retrySharedFixture"),
+    shareOpen:optionalElement("shareSchedule"),
+    shareDialog:optionalElement("scheduleShareDialog"),
+    shareClose:optionalElement("scheduleShareClose"),
+    shareSchool:optionalElement("scheduleShareSchool"),
+    shareSummary:optionalElement("scheduleShareSummary"),
+    sharePreview:optionalElement("scheduleSharePreview"),
+    sharePartLabel:optionalElement("scheduleSharePartLabel"),
+    sharePrev:optionalElement("scheduleSharePrev"),
+    shareNext:optionalElement("scheduleShareNext"),
+    shareNative:optionalElement("scheduleShareNative"),
+    shareCopy:optionalElement("scheduleShareCopy")
   };
   const entryParams=new URLSearchParams(location.search);
   const requestedFixture=entryParams.get("fixture");
   const returnedFromResults=!requestedFixture&&entryParams.get("from")==="results";
+  const sharedDay=entryParams.get("shareDate")||"";
+  const sharedDateValid=sharedDay==="unknown"||/^\d{4}-\d{2}-\d{2}$/.test(sharedDay);
   let returnScrollHandled=false;
   const dayModeStorageKey="nongkum-program-day-mode";
   const selectedDayStorageKey="nongkum-program-selected-day";
@@ -62,12 +75,14 @@
     }catch(_){}
   }
   const state={data:null,school:"",sport:"",level:"",query:"",limit:12,
-    dayMode:restoredDayMode(),selectedDay:restoredSelectedDay(),focusId:"",directMode:!!requestedFixture,
-    resultMode:"pending",approvedIds:new Set(),resultsVerified:false};
+    dayMode:sharedDateValid?"date":entryParams.get("allDates")==="1"?"all":restoredDayMode(),
+    selectedDay:sharedDateValid?sharedDay:restoredSelectedDay(),focusId:"",directMode:!!requestedFixture,
+    resultMode:entryParams.get("resultMode")==="all"?"all":"pending",approvedIds:new Set(),resultsVerified:false};
   if(state.directMode&&els.direct&&els.overview){
     els.direct.hidden=false;els.overview.hidden=true;
   }
   let initialized=false;
+  let shareScope=null,shareSelection=null,sharePartIndex=0;
   const LEVELS=[
     {id:"",name:"ทุกช่วงชั้น"},
     {id:"early",name:"ก่อนเรียน / ปฐมวัย"},
@@ -268,16 +283,25 @@
       if(pair[1])url.searchParams.set(pair[0],pair[1]);else url.searchParams.delete(pair[0]);
     });
     url.searchParams.delete("fixture");
+    if(state.dayMode==="date"&&state.selectedDay)url.searchParams.set("shareDate",state.selectedDay);
+    else url.searchParams.delete("shareDate");
+    if(state.dayMode==="all")url.searchParams.set("allDates","1");
+    else url.searchParams.delete("allDates");
+    if(state.resultMode==="all")url.searchParams.set("resultMode","all");
+    else url.searchParams.delete("resultMode");
+    if(state.query.trim())url.searchParams.set("q",state.query.trim());
+    else url.searchParams.delete("q");
     state.focusId="";
     history.replaceState(null,"",url.pathname+url.search+url.hash);
     syncNav();
   }
-  function matchesFilters(m,q,ignoreSport){
+  function matchesFilters(m,q,ignoreSport,selectedSchool){
     if(!ignoreSport&&state.sport&&m.sport_id!==state.sport)return false;
     if(state.level&&classifyLevel(m)!==state.level)return false;
-    if(state.school){
-      const hasLane=m.kind==="track_event"&&(m.lanes||[]).some(function(l){return l.school_id===state.school&&!l.vacant;});
-      if(m.team_a_id!==state.school&&m.team_b_id!==state.school&&!hasLane)return false;
+    const school=selectedSchool===undefined?state.school:selectedSchool;
+    if(school){
+      const hasLane=m.kind==="track_event"&&(m.lanes||[]).some(function(l){return l.school_id===school&&!l.vacant;});
+      if(m.team_a_id!==school&&m.team_b_id!==school&&!hasLane)return false;
     }
     if(!q)return true;
     const sport=getSport(m.sport_id),a=m.team_a_id?getSchool(m.team_a_id):null,b=m.team_b_id?getSchool(m.team_b_id):null;
@@ -318,7 +342,8 @@
     const validKeys=options.map(g=>g.key);
     if(state.dayMode==="date"&&!validKeys.includes(state.selectedDay)){
       // A chosen date may vanish after filtering; select the next matching day, never invent one.
-      state.selectedDay=validKeys.includes(nearest.day)?nearest.day:(validKeys[0]||"");
+      if(!sharedDateValid||state.selectedDay!==sharedDay)
+        state.selectedDay=validKeys.includes(nearest.day)?nearest.day:(validKeys[0]||"");
       resetLimit();
       saveDayView();
     }
@@ -334,7 +359,10 @@
       const totalLabel=shown<total?"แสดง "+shown+" จาก "+total+" รายการ":total+" รายการ";
       return "<section class='schedule-day"+(g.day?"":" awaiting-date")+"' aria-label='"+safe(g.label)+"'>"+
         "<div class='day-heading'><h3>"+(g.day?"<span class='day-icon' aria-hidden='true'>"+CAL_ICON+"</span>":"<span class='day-caution' aria-hidden='true'>⚠</span>")+safe(g.label)+"</h3>"+
-        "<span class='day-count'>"+totalLabel+"</span></div>"+
+        "<div class='schedule-day-actions'><span class='day-count'>"+totalLabel+"</span>"+
+        "<button type='button' class='schedule-share-day' data-share-day='"+safe(g.day||"unknown")+
+        "' aria-label='แชร์ตารางแข่งขันของ"+safe(g.label)+"'>"+(g.day===today?"แชร์วันนี้":"แชร์วันแข่งขันนี้")+
+        "</button></div></div>"+
         (g.day?"":"<p class='day-warning'>โปรดตรวจสอบวันที่จากผู้จัดก่อนเดินทาง · ไม่เติมปีแทนต้นฉบับ</p>")+
         "<div class='cards'>"+g.fixtures.map(card).join("")+"</div></section>";
     }).join("");
@@ -421,7 +449,7 @@
       resetLimit();makeChips();render();syncUrl();
     });
     els.search.addEventListener("input",function(){
-      state.query=els.search.value;resetLimit();updateFilterHint();makeChips();render();
+      state.query=els.search.value;resetLimit();updateFilterHint();makeChips();render();syncUrl();
     });
     els.more.addEventListener("click",function(){state.limit+=12;render();});
     if(els.daySwitch)els.daySwitch.addEventListener("click",function(event){
@@ -429,7 +457,7 @@
       if(!btn||!["upcoming","date","all"].includes(btn.dataset.dayMode))return;
       if(state.dayMode===btn.dataset.dayMode)return;
       state.dayMode=btn.dataset.dayMode;
-      resetLimit();render();saveDayView();
+      resetLimit();render();saveDayView();syncUrl();
     });
     if(els.dayOptions)els.dayOptions.addEventListener("click",function(event){
       const btn=event.target?.closest?.("[data-selected-day]");
@@ -444,7 +472,7 @@
         .some(g=>(g.day||"unknown")===selected);
       if(!known)return;
       state.selectedDay=selected;
-      resetLimit();render();saveDayView();
+      resetLimit();render();saveDayView();syncUrl();
     });
     async function shareLatestCandidate(item){
       const sport=getSport(item.sport_id);
@@ -549,11 +577,13 @@
           state.school="";state.sport=linked?linked.sport_id:"";state.level="";
           state.query="";state.limit=12;
         }
-        els.school.value=state.school;els.advanced.open=!!state.level;
+        state.query=String(params.get("q")||"").trim().slice(0,100);
+        els.school.value=state.school;els.search.value=state.query;els.advanced.open=!!state.level||!!state.query;
         setupHandlers();
       }
       updateFilterHint();makeChips();makeLevels();render();syncNav();
       setFailure(false);
+      if(els.shareOpen)els.shareOpen.disabled=false;
       restoreTabListingAfterLoad();
       els.refreshStatus.textContent=globalThis.Nongkum.formatCheckedAt(new Date())+
         (candidate?" · โปรแกรมการแข่งขัน 236 รายการ":" · โปรแกรมการแข่งขันชุดเดิม")+
