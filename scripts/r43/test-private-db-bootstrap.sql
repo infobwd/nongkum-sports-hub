@@ -4,7 +4,21 @@ create role authenticated nologin;
 create role service_role nologin bypassrls;
 create schema auth;
 create schema nongkum_sports;
-grant usage on schema nongkum_sports,public to service_role;
+create schema extensions;
+create extension if not exists pgcrypto with schema extensions;
+grant usage on schema nongkum_sports,public,extensions to service_role;
+-- Synthetic six-hour R34/R37 sessions only: no production credential or PIN.
+create table nongkum_sports.editor_sessions(
+ token_hash text primary key, expires_at timestamptz not null,revoked_at timestamptz
+);
+create table nongkum_sports.reviewer_sessions(
+ token_hash text primary key, expires_at timestamptz not null,revoked_at timestamptz
+);
+grant select on nongkum_sports.editor_sessions,nongkum_sports.reviewer_sessions to service_role;
+insert into nongkum_sports.editor_sessions(token_hash,expires_at)
+ values(encode(extensions.digest(repeat('a',64),'sha256'),'hex'),now()+interval '6 hours');
+insert into nongkum_sports.reviewer_sessions(token_hash,expires_at)
+ values(encode(extensions.digest(repeat('b',64),'sha256'),'hex'),now()+interval '6 hours');
 create table auth.users(id uuid primary key);
 create table public.nongkum_schedule_sources(source_key text primary key);
 create table public.nongkum_schedule_active(singleton integer primary key,source_key text not null);
