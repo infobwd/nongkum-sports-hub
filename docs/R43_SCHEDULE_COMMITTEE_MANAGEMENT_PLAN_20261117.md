@@ -111,6 +111,6 @@
 - R43-C กรรมการ: ระดับ sport/รุ่น/รายคู่, ใช้ UUID ที่ตรวจตัวตนแล้ว, เตือนเวลาซ้ำ; ข้อมูลจากร่างสูจิบัตรไม่ใช่คำสั่งแต่งตั้ง
 - R43-D: `js/r43-release-preview.js` และ `scripts/r43/prepare-release.mjs` ทำ **preview candidate_not_published** จากคำขอที่รับรองโดยผู้มีสิทธิ์ + ผล R32 ที่ตรวจใหม่; ล็อกรายการผลรับรองและคำขอเพิ่มรายการที่ยังไม่ตรวจผัง; ห้ามเขียนเข้า `main` โดยตรง
 - [R43 SQL + preview CLI + มือถือจำลองผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44000369391): PostgreSQL 17 แยกเฉพาะทดสอบ, การแยกสิทธิ์, self-review, person verification, audit, overlapping duty, R32 lock, unchanged 236 source rows, 320–430px และกรณีไม่ตั้งค่า/ไม่มีสิทธิ์
-- [คู่มือเปิดระบบแบบปลอดภัยและตรวจรับ](docs/R43_PRIVATE_APPROVAL_RELEASE_RUNBOOK_20261117.md): ต้องมี 2 บัญชีผู้จัดที่รับรอง แผนผูก Auth, แผน R33+GitHub sync, ตรวจ PDF/ผัง และทดสอบ Safari, Android, LINE จริง
+- [คู่มือเปิดระบบแบบปลอดภัยและตรวจรับ](R43_PRIVATE_APPROVAL_RELEASE_RUNBOOK_20261117.md): ต้องมี 2 บัญชีผู้จัดที่รับรอง แผนผูก Auth, แผน R33+GitHub sync, ตรวจ PDF/ผัง และทดสอบ Safari, Android, LINE จริง
 - ตรวจ Supabase Meeting ระหว่างพัฒนา: active source ไม่เปลี่ยน, 236 ตาราง, 41 ผลรับรอง, **ยังไม่มีตาราง R43 ในฐานจริง**
 - **ส่วนที่ยังไม่สามารถอ้างว่าเสร็จ:** ยังไม่ได้ติดตั้ง migration/Edge/role จริง, ไม่รับรองชื่อกรรมการจริง, ยังไม่ได้ทำ release R33 + GitHub + PDF, และยังไม่ได้ตรวจรับบนเครื่องสนามจริง — จะต้องมีหลักฐาน/สิทธิ์ผู้จัดและคำสั่ง Merge แยกก่อน
