@@ -60,4 +60,63 @@ try{
  assert.equal(await page.evaluate(()=>Object.keys(localStorage).filter(x=>/r43/i.test(x)).length),0,
    "no localStorage credential");
  console.log("R43-E MOBILE PASS: fail-closed, 320–430px, no writes until authenticated, 403 denied");
+ // Simulate an ALLOWED Auth user, then unlock with only the existing result PINs.
+ // Every token, identity and response in this test is synthetic.
+ const r43Url="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-schedule-admin";
+ const editorUrl="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-editor";
+ const reviewerUrl="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-reviewer";
+ const editorToken="a".repeat(64),reviewerToken="b".repeat(64);
+ const expires=new Date(Date.now()+6*60*60*1000).toISOString();
+ const requests=[];
+ await page.unroute(r43Url);
+ await page.route(r43Url,route=>{
+   const body=route.request().postDataJSON();
+   requests.push({action:body.action,legacy_token:body.legacy_token});
+   const response=body.action==="status"?
+     {ok:true,can_propose:true,can_assign:false,can_review:true}:
+     body.action==="queue"?{ok:true,requests:[]}:
+     body.action==="new_queue"?{ok:true,candidates:[]}:
+     body.action==="people_pending"?{ok:true,people:[]}:
+     {ok:false,error:"forbidden"};
+   route.fulfill({status:response.ok?200:403,contentType:"application/json",
+     headers:{"access-control-allow-origin":"*"},body:JSON.stringify(response)});
+ });
+ await page.route(editorUrl,route=>route.fulfill({
+   status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},
+   body:JSON.stringify({ok:true,token:editorToken,expires_at:expires})
+ }));
+ await page.route(reviewerUrl,route=>route.fulfill({
+   status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},
+   body:JSON.stringify({ok:true,token:reviewerToken,expires_at:expires,reviewer_name:"กรรมการทดสอบ"})
+ }));
+ await page.reload({waitUntil:"domcontentloaded"});
+ await page.locator("#r43Email").fill("authorized-person@example.invalid");
+ await page.locator("#r43Password").fill("SYNTHETIC-ONLY");
+ await page.locator("#r43LoginForm button[type=submit]").click();
+ await page.waitForFunction(()=>!document.querySelector("#r43PrivateWorkspace").hidden);
+ assert.equal(await page.locator("#r43EditorPinForm").isVisible(),true);
+ assert.equal(await page.locator("#r43ReviewerPinForm").isVisible(),true);
+ assert.equal(requests.some(r=>r.action==="status"&&r.legacy_token),false,
+   "Auth-only role status must not require or leak a legacy token");
+ await page.locator("#r43EditorPin").fill("1111");
+ await page.locator("#r43EditorPinForm button[type=submit]").click();
+ await page.waitForFunction(()=>document.querySelector("#r43EditorPinStatus").textContent.includes("ใช้สิทธิ์รหัสเดิม"));
+ await page.locator("#r43ReviewerName").fill("กรรมการทดสอบ");
+ await page.locator("#r43ReviewerPin").fill("SYNTHETIC-PIN-123");
+ await page.locator("#r43ReviewerPinForm button[type=submit]").click();
+ await page.waitForFunction(()=>requests.some(r=>r.action==="people_pending"));
+ for(const r of requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action))){
+   assert.equal(r.legacy_token,reviewerToken,"review actions must use the reviewer session only");
+ }
+ const stored=await page.evaluate(()=>({
+   editor:JSON.parse(localStorage.getItem("nongkum-r34-editor-session-v1")),
+   reviewer:JSON.parse(localStorage.getItem("nongkum-r37-reviewer-session-v1")),
+   r43Keys:Object.keys(localStorage).filter(x=>/r43/i.test(x))
+ }));
+ assert.equal(stored.editor.token,editorToken);
+ assert.equal(stored.reviewer.token,reviewerToken);
+ assert.deepEqual(stored.r43Keys,[],"no separate R43 credential is stored");
+ assert.equal(await page.locator("#r43EditorPin").inputValue(),"");
+ assert.equal(await page.locator("#r43ReviewerPin").inputValue(),"");
+ console.log("R43-F MOBILE PASS: Auth identity + reused 6h R34/R37 sessions, reviewer-specific actions, no PIN stored");
 }finally{if(browser)await browser.close();server.kill("SIGTERM");}
