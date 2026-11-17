@@ -6,6 +6,9 @@ on:
       - "supabase/proposals/r43_shared_results_pin_bridge.sql"
       - "supabase/proposals/r43_personal_pin_private_identity.sql"
       - "supabase/proposals/r43_personal_pin_auth_rpc.sql"
+      - "supabase/proposals/r43_staff_actor_bridge.sql"
+      - "scripts/r43/test-personal-staff-actor-gateway.sql"
+      - "supabase/config.toml"
       - "supabase/functions/nongkum-r43-pin/**"
       - "scripts/r43/test-personal-pin-auth.sql"
       - "scripts/r43/test-personal-pin-identity-schema.sql"
@@ -72,8 +75,6 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_private_identity.sql
       - name: Apply service-only personal PIN authentication RPC in isolated DB
         run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_auth_rpc.sql
-      - name: Test personal PIN auth roles, sessions, rotation and throttling
-        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-auth.sql
       - name: Test private personal PIN identity RLS and constraints
         run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-identity-schema.sql
       - name: Test grants, reviewer separation, R32 locks, stale revisions and committee overlaps
@@ -88,3 +89,49 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Validate no-config fail-closed and unauthorized operator on mobile
         run: node scripts/r43/test-r43-private-browser.mjs
+
+  personal-staff-actor:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: isolated-test-only
+          POSTGRES_DB: r43_staff_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d r43_staff_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: isolated-test-only
+      PGDATABASE: r43_staff_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL test client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+      - name: Bootstrap isolated R32/R33/Auth fixtures
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-private-db-bootstrap.sql
+      - name: Create original R43 gateway and audit tables
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_private_schedule_workflow.sql
+      - name: Create original R43 new-fixture queue
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_new_fixture_queue.sql
+      - name: Create isolated staff PIN identity tables
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_private_identity.sql
+      - name: Test guarded actor migration from Auth to personal staff
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_staff_actor_bridge.sql
+      - name: Create server-only personal PIN session authenticator
+        run: psql -v ON_ERROR_STOP=1 -f supabase/proposals/r43_personal_pin_auth_rpc.sql
+      - name: Test staff PIN authentication, rate limits, rotation and revocation
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-pin-auth.sql
+      - name: Test authorized staff submit, independent review, audit and no R32/R33 writes
+        run: psql -v ON_ERROR_STOP=1 -f scripts/r43/test-personal-staff-actor-gateway.sql
