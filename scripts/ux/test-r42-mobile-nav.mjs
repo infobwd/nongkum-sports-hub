@@ -51,4 +51,17 @@ assert.match(oldNav,/target!=="program"&&target!=="results"/,"unchanged R6 filte
 assert.match(read("upload-photos.html"),/photoUploadForm/);
 assert.match(read("review-photos.html"),/photoReviewLoginForm/);
 assert.match(read("results.html"),/resultsList/);
+// R42-B white gallery header: scoped to mobile and maintains the R14 safe-area contract.
+const gallery=read("activity-photos.html");
+const galleryCss=read("css/activity-gallery-r40g.css");
+assert.match(gallery,/class="mode">ภาพที่เผยแพร่แล้ว<\/span>/);
+assert.match(galleryCss,/R42-B: compact white gallery header/);
+assert.match(galleryCss,/@media\(max-width:690px\)/);
+assert.match(galleryCss,/body\[data-view="activity-gallery"\] > header\.top/);
+assert.match(galleryCss,/position:sticky;top:0;z-index:1120/);
+assert.match(galleryCss,/margin-top:calc\(-1 \* var\(--safe-top\)\)/);
+assert.match(galleryCss,/padding-top:var\(--safe-top\)/);
+assert.match(galleryCss,/background:#fff;color:#183762;border-bottom:1px solid #d7e2ed/);
+assert.match(galleryCss,/header\.top \.hero\{display:none\}/);
+assert.match(gallery,/id="mobileGalleryLink"[^>]+aria-current="page"/);
 console.log("R42 PASS: same Thai font, four mobile tabs, native links and unchanged private photo gates");
