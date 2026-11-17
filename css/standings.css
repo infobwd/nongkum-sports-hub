@@ -129,3 +129,11 @@ body[data-view="standings"] .results-top .data-actions{display:flex;align-items:
  .standings-share-buttons button{flex:1 1 140px}
 }
 @media print{.standings-share-btn,.standings-share-group-btn,.standings-share-dialog{display:none!important}}
+
+/* R49-B: keep the compact link discoverable without scrolling the text preview. */
+.standings-share-direct{display:grid;gap:3px;margin:10px 0;padding:10px 11px;
+  border:1px solid #d4e5f2;background:#f4f9fd;border-radius:10px;
+  font-size:.81rem;line-height:1.5;color:#2b5879}
+.standings-share-direct a{overflow-wrap:anywhere;word-break:break-word;color:#0c5a96;
+  font-weight:750;text-decoration:underline;text-underline-offset:2px}
+.standings-share-direct a:focus-visible{outline:3px solid #d4a82d;outline-offset:3px}

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1">
   <link rel="stylesheet" href="./css/results.css">
-  <link rel="stylesheet" href="./css/standings.css?v=r49-1">
+  <link rel="stylesheet" href="./css/standings.css?v=r49b-1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
 <link rel="stylesheet" href="./css/pull-refresh.css?v=phase1a">
 </head>
@@ -78,6 +78,9 @@
   </div>
   <label class="fieldlabel" for="standingsSharePreview">ตัวอย่างข้อความที่ผู้รับจะเห็นใน LINE</label>
   <textarea id="standingsSharePreview" rows="14" readonly aria-label="ข้อความสำหรับแชร์ตารางอันดับ"></textarea>
+  <p class="standings-share-direct"><strong>ลิงก์สั้นสำหรับดูอันดับล่าสุด</strong>
+    <a id="standingsShareLink" href="./standings.html" target="_blank" rel="noopener noreferrer" aria-label="เปิดตารางอันดับล่าสุดผ่านลิงก์สั้น"></a>
+  </p>
   <p id="standingsShareHint" class="standings-share-hint">หากมีหลายตอน ให้ส่งให้ครบทุกตอน · ข้อความที่ส่งแล้วไม่เปลี่ยนตามผลใหม่ ผู้รับกดลิงก์ท้ายข้อความเพื่อดูอันดับล่าสุด</p>
   <div class="standings-share-buttons">
     <button type="button" id="standingsShareNative">แชร์ข้อความนี้ (เลือก LINE)</button>
@@ -108,7 +111,7 @@
   <script src="./js/standings-rosters-r38.js?v=r48-1"></script>
 <script src="./js/results-source-r32.js?v=r32-1"></script>
 <script src="./js/standings-share.js?v=r49-1"></script>
-<script src="./js/standings-share-ui.js?v=r49-1"></script>
+<script src="./js/standings-share-ui.js?v=r49b-1"></script>
 <script src="./js/standings.js?v=r49-1"></script>
 <script src="./js/back-to-top.js?v=r19fux4"></script>
 <script src="./js/pull-refresh.js?v=phase1a"></script>
