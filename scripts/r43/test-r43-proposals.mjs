@@ -81,7 +81,7 @@ for(const id of ["r43Sport","r43School","r43Matches","r43EditorPanel","r43Schedu
 assert.match(html,/r43-schedule-draft\.js/);
 assert.match(html,/program-corrections\.js/);
 assert.match(html,/ยังไม่เปลี่ยนตารางแข่งขันจริง/);
-assert.match(html,/ยังไม่บันทึกเข้าสู่ระบบ/);
+assert.match(html,/ไม่บันทึกเข้าสู่ระบบ/);
 assert.match(more,/href="\.\/schedule-manager\.html"/);
 assert.match(program,/\.\/schedule-manager\.html\?fixture=/,"details link to draft, R34 card still handles results");
 assert.match(ui,/state=\{data:null,selected:null,pending:new Map\(\),staff:new Map\(\)\}/);
