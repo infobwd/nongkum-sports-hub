@@ -126,4 +126,37 @@ begin
    then raise exception 'missing new fixture audit';end if;
 end;
 $newfixture$;
-select 'R43_BC_SQL_PASS' as status;
+-- PIN bridge security: identity and role AND a non-revoked legacy session required.
+do $pinbridge$
+declare
+ proposer uuid:='00000000-0000-4000-8000-000000000001';
+ reviewer uuid:='00000000-0000-4000-8000-000000000002';
+ other uuid:='00000000-0000-4000-8000-000000000003';
+begin
+ if has_function_privilege('anon','public.nongkum_r43_pin_session_valid(uuid,text,text)','EXECUTE')
+    or has_function_privilege('authenticated','public.nongkum_r43_pin_session_valid(uuid,text,text)','EXECUTE')
+    or not has_function_privilege('service_role','public.nongkum_r43_pin_session_valid(uuid,text,text)','EXECUTE')
+ then raise exception 'legacy session verifier is exposed to public users';end if;
+ if not public.nongkum_r43_pin_session_valid(proposer,'editor',repeat('a',64))
+   or not public.nongkum_r43_pin_session_valid(reviewer,'reviewer',repeat('b',64))
+ then raise exception 'legitimate identity and legacy session rejected';end if;
+ if public.nongkum_r43_pin_session_valid(other,'editor',repeat('a',64))
+   or public.nongkum_r43_pin_session_valid(proposer,'reviewer',repeat('b',64))
+   or public.nongkum_r43_pin_session_valid(reviewer,'editor',repeat('a',64))
+   or public.nongkum_r43_pin_session_valid(proposer,'editor',repeat('b',64))
+   or public.nongkum_r43_pin_session_valid(proposer,'editor','not-a-token')
+ then raise exception 'role/session mix-up or unprovisioned account accepted';end if;
+ update nongkum_sports.reviewer_sessions set revoked_at=now();
+ if public.nongkum_r43_pin_session_valid(reviewer,'reviewer',repeat('b',64))
+ then raise exception 'revoked reviewer session accepted';end if;
+ update nongkum_sports.reviewer_sessions set revoked_at=null;
+ update nongkum_sports.editor_sessions set expires_at=now()-interval '1 second';
+ if public.nongkum_r43_pin_session_valid(proposer,'editor',repeat('a',64))
+ then raise exception 'expired editor session accepted';end if;
+ update nongkum_sports.editor_sessions set expires_at=now()+interval '6 hours';
+ update nongkum_sports.r43_roles set active=false where user_id=proposer;
+ if public.nongkum_r43_pin_session_valid(proposer,'editor',repeat('a',64))
+ then raise exception 'inactive R43 actor accepted';end if;
+end;
+$pinbridge$;
+select 'R43_BC_PIN_BRIDGE_SQL_PASS' as status;
