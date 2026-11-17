@@ -13,7 +13,7 @@
     more:document.getElementById("resultFilterMore"),
     moreCount:document.getElementById("resultMoreCount"),
     countSummary:document.getElementById("resultCountSummary"),
-    heading:document.getElementById("resultsHeading"),
+    heading:optionalElement("resultsHeading"),
     emptyTitle:document.getElementById("noResultsTitle"),
     emptyDescription:document.getElementById("noResultsDescription"),
     cards:document.getElementById("resultsList"),
@@ -149,12 +149,12 @@
     const filtered=hasFilters();
     const stale=state.source!=="live";
     els.count.textContent=found.length+" รายการ";
-    els.heading.textContent=stale?"ผลการแข่งขันที่ผ่านการรับรอง":"ผลการแข่งขันล่าสุด";
+    if(els.heading)els.heading.textContent=stale?"ผลการแข่งขันที่ผ่านการรับรอง":"ผลการแข่งขันล่าสุด";
     els.countSummary.textContent=(filtered?"แสดง "+found.length+" จาก "+total+" รายการ":"")+
       (stale?(filtered?" · ":"")+"ข้อมูลสำรอง · อาจไม่ใช่ผลล่าสุด":"");
     els.countSummary.hidden=!filtered&&!stale;
     els.activeFilters.textContent=filtered?"กำลังกรอง: "+used.join(" · "):"";
-    els.activeFilters.parentElement.hidden=!filtered;
+    if(els.activeFilters.parentElement)els.activeFilters.parentElement.hidden=!filtered;
     els.clearFilters.hidden=!filtered;
     els.moreCount.textContent=[state.school,state.level].filter(Boolean).length?"(เลือกแล้ว "+[state.school,state.level].filter(Boolean).length+")":"";
     els.empty.hidden=found.length!==0;
