@@ -72,6 +72,7 @@
        [roles.can_propose?"เสนอแก้ไข":"",roles.can_assign?"จัดกรรมการ":"",roles.can_review?"ผู้ตรวจรับ":""]
          .filter(Boolean).join(" / ");
      el("r43PrivateSubmit").hidden=!roles.can_propose;
+     el("r43PrivateNew").hidden=!roles.can_propose;
      el("r43PrivateAssignArea").hidden=!roles.can_assign;
      el("r43PrivatePeoplePanel").hidden=!roles.can_assign;
      el("r43PrivateReview").hidden=!roles.can_review;
@@ -93,6 +94,12 @@
    fixtures.length=1;
    for(const f of program.fixtures){
      option(fixtures,f.id,program.sports.find(s=>s.id===f.sport_id)?.name+" · "+f.division+" · "+(f.kind==="track_event"?"รายการ ":"คู่ที่ ")+f.source_match_no);
+   }
+   const newSports=el("r43NewSport");newSports.length=1;
+   program.sports.forEach(s=>option(newSports,s.id,s.name));
+   for(const id of ["r43NewTeamA","r43NewTeamB"]){
+     const select=el(id);select.length=1;
+     program.schools.forEach(s=>option(select,s.id,s.name));
    }
    const schools=el("r43PersonSchoolId");schools.length=1;
    program.schools.forEach(s=>option(schools,s.id,s.name));
@@ -165,6 +172,35 @@
      note("ส่งคำขอรอตรวจแล้ว (เลขคำขอ "+v.id+") · ยังไม่เผยแพร่");
    }catch(err){note(err.message||"ส่งคำขอไม่สำเร็จ",true);}
  }
+ async function submitNew(e){
+   e.preventDefault();
+   try{
+     if(!state.roles?.can_propose)throw Error("ไม่มีสิทธิ์เสนอเพิ่มรายการ");
+     const kind=el("r43NewKind").value;
+     const payload={
+       source_key:D.CONTRACT.source_key,kind,
+       sport_id:el("r43NewSport").value,
+       division:el("r43NewDivision").value.trim(),
+       team_a_id:kind==="match"?el("r43NewTeamA").value:"",
+       team_b_id:kind==="match"?el("r43NewTeamB").value:"",
+       date:el("r43NewDate").value,time:el("r43NewTime").value,
+       field:el("r43NewField").value.trim(),venue:el("r43NewVenue").value.trim(),
+       round:el("r43NewRound").value.trim(),
+       reason:el("r43NewReason").value,
+       evidence_ref:el("r43NewEvidence").value
+     };
+     const ans=await api("new_submit",payload);
+     el("r43NewForm").reset();
+     note("รับคำขอเลขชั่วคราว "+ans.id+" แล้ว · ยังไม่เพิ่มในตารางแข่งขัน");
+   }catch(err){note(err.message||"ส่งคำขอเพิ่มรายการไม่สำเร็จ",true);}
+ }
+ async function reviewNew(q,decision,review_note){
+   try{
+     await api("new_review",{id:q.id,revision:q.revision,decision,review_note});
+     await refreshReview();
+     note("บันทึกสถานะคำขอรายการใหม่แล้ว · ยังต้องตรวจผังและออกเลขรายการทางการ");
+   }catch(err){note(err.message,true);}
+ }
  async function proposePerson(e){
    e.preventDefault();
    try{
@@ -178,9 +214,24 @@
    }catch(err){note(err.message,true);}
  }
  async function refreshReview(){
-   const [queue,people]=await Promise.all([api("queue"),api("people_pending")]);
+   const [queue,people,newQueue]=await Promise.all([api("queue"),api("people_pending"),api("new_queue")]);
    const box=el("r43PrivateQueue");box.replaceChildren();
    const pbox=el("r43PrivatePendingPeople");pbox.replaceChildren();
+   const newBox=el("r43PrivateNewQueue");newBox.replaceChildren();
+   (newQueue.candidates||[]).forEach(q=>{
+     const card=add(newBox,"article","","r43-list-card");
+     add(card,"strong",q.sport_id+" · "+q.division+" · "+q.kind);
+     add(card,"p",[q.team_a_id,q.team_b_id,q.scheduled_date,q.scheduled_time]
+       .filter(Boolean).join(" / "));
+     add(card,"small","หลักฐาน: "+q.evidence_ref+" · "+q.reason);
+     const reason=add(card,"textarea");reason.rows=2;reason.maxLength=500;
+     reason.placeholder="เหตุผลพิจารณาผังหรือส่งกลับแก้ไข";
+     const actions=add(card,"div","","r43-actions");
+     btn(actions,"ส่งต่อให้ตรวจผัง (ยังไม่เผยแพร่)",
+       ()=>reviewNew(q,"ready_for_bracket_check",reason.value));
+     btn(actions,"ส่งกลับแก้ไข",()=>reviewNew(q,"returned",reason.value));
+   });
+   if(!(newQueue.candidates||[]).length)add(newBox,"p","ยังไม่มีคำขอเพิ่มรายการรอตรวจ");
    (people.people||[]).forEach(p=>{
      const card=add(pbox,"article","","r43-list-card");
      add(card,"strong",p.full_name+" · "+p.school_id);
@@ -247,6 +298,7 @@
      el("r43Logout").addEventListener("click",logout);
      el("r43SubmitForm").addEventListener("submit",submit);
      el("r43PersonForm").addEventListener("submit",proposePerson);
+     el("r43NewForm").addEventListener("submit",submitNew);
      el("r43PrivateAddDuty").addEventListener("click",addDuty);
      el("r43PrivateRefresh").addEventListener("click",async()=>{
        try{await refreshReview();note("ตรวจคิวล่าสุดแล้ว");}catch(e){note(e.message,true);}
