@@ -34,6 +34,7 @@
 - ทดสอบ unit/static + browser/mobile synthetic 320/375/390/430px; ไม่เรียก API เขียนจริง
 
 ### R43-B — รับคำขอแก้ไขอย่างปลอดภัย (PR ถัดไป / ยังไม่เปิดใช้)
+- เพิ่มคำขอสร้างรายการแข่งขันใหม่ด้วยรหัสชั่วคราวแยกจาก `fixture_id` ทางการ; ผู้จัดต้องอนุมัติชนิดกีฬา คู่แข่งขัน และความสัมพันธ์ผังก่อนให้รหัสจริง
 - DB private staging: `schedule_change_requests`, `schedule_change_audit`, `committee_assignment_requests`, `committee_assignment_audit` ผูก source_key/fixture_id/version
 - ตั้งสิทธิ์ใหม่สำหรับผู้จัดตาราง (ไม่ใช้ R34/R37), จำกัดอัตราลองรหัส, revocable sessions, แยกเสนอ/รับรอง, ตรวจสัญญา RLS/Edge โดยทีมดูแล
 - ข้อมูลกรรมการใน private teacher directory เท่านั้น ไม่สรุป identity จากสตริงในร่าง PDF
@@ -60,7 +61,13 @@
 ## สถานะ
 - [x] ตรวจ main, PR, R19/R33/R34, ฐาน Supabase และแยกจุดขัดแย้ง
 - [x] บันทึกแผนก่อนพัฒนา
-- [ ] พัฒนา R43-A บนสาขาแยก
-- [ ] QA และเปิด PR
+- [x] พัฒนา R43-A บนสาขาแยก
+- [x] QA 7 ชุดผ่านและเปิด [PR #168](https://github.com/infobwd/nongkum-sports-hub/pull/168) (ฉบับร่าง)
 - [ ] R43-B/C/D/E (ไม่เริ่มแก้ฐานข้อมูลจริงจนได้การทดสอบและสิทธิ์)
 - [ ] Merge / เผยแพร่ / ตรวจรับ
+
+## หลักฐาน QA R43-A (17 พฤศจิกายน 2569)
+- [R43 static+Chromium ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775893): ตรวจ 236 fixture IDs และ SHA R33 ต้นทาง, สร้างคำขอเวลา/สนาม/กรรมการแบบร่าง, ดาวน์โหลด JSON, ไม่ส่งคำขอขึ้นเซิร์ฟเวอร์, refresh แล้วไม่เหลือข้อมูลร่าง, viewport 320/375/390/430px
+- [R42 แถบเมนูมือถือผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775919), [R14 สนาม/LINE ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775973), [R13 ตาราง UI ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775861), [R24-C เอกสารลิงก์ตรงผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775875), [ตรวจข้อมูลทั้งหมดผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/43996775886)
+- R43-A เป็นเพียง **ตัวช่วยจัดคำขอในเครื่อง**: ยังไม่มี backend สำหรับบันทึก/ตรวจรับ/ประกาศ, ไม่มีหลักฐานคำสั่งแต่งตั้งกรรมการปี 2569 ที่รับรองรายคู่, ห้ามอ้างว่าเป็นระบบทางการ
+- **ไม่ Merge / ไม่เผยแพร่ / ไม่ตรวจรับอุปกรณ์จริง**; ต้องให้ผู้จัดพิจารณา PR #168 ก่อน
