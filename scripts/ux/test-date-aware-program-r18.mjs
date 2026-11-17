@@ -87,7 +87,7 @@ assert.match(day.els.cards.innerHTML,/ยืนยันวัน เวลา �
 assert.doesNotMatch(day.els.cards.innerHTML,/ควรตรวจเพิ่ม|ข้อสังเกตจาก PDF|ข้อมูลร่าง/);
 assert.match(day.els.cards.innerHTML,/รายละเอียดการแข่งขัน/);
 assert.match(day.els.scheduleVerificationSummary.textContent,/สถานที่แข่งขัน: โรงเรียนบ้านหนองกระทุ่ม \(ยืนยันแล้ว\)/);
-assert.match(day.els.scheduleVerificationCounts.textContent,/ยืนยันวันและเวลาแล้ว 45 รายการ.*รอตรวจสอบเพิ่มเติม 191 รายการ/);
+assert.match(day.els.scheduleVerificationCounts.textContent,/ยืนยันวันและเวลาแล้ว 50 รายการ.*รอตรวจสอบเพิ่มเติม 186 รายการ/);
 assert.match(day.els.cards.innerHTML,/โรงเรียนบ้านหนองกระทุ่ม/);
 assert.match(day.els.cards.innerHTML,/สนาม [1-4]/);
 assert.ok(latest.fixtures.filter(x=>x.planning_time_confirmation==="confirmed").some(x=>x.qa_flags?.length),
