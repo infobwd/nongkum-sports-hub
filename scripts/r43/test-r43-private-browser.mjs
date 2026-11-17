@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// R43-E: Chromium synthetic access-control and mobile layout, never real credentials.
+// R43-F: synthetic PIN-only identity phase and fail-closed mobile browser QA.
+// NEVER uses real staff, PINs, production services, or accepted schedule writes.
 import assert from "node:assert/strict";
 import {spawn} from "node:child_process";
 import {chromium} from "playwright";
@@ -7,13 +8,15 @@ const base="http://127.0.0.1:8784";
 const server=spawn("python3",["-m","http.server","8784","--bind","127.0.0.1"],{stdio:"ignore"});
 let browser;
 try{
- for(let i=0;i<50;i++){try{if((await fetch(base+"/schedule-review.html")).ok)break;}catch(_){}
-   await new Promise(r=>setTimeout(r,200));}
+ for(let i=0;i<50;i++){
+   try{if((await fetch(base+"/schedule-review.html")).ok)break;}catch(_){}
+   await new Promise(r=>setTimeout(r,200));
+ }
  browser=await chromium.launch({headless:true});
  const ctx=await browser.newContext({viewport:{width:390,height:844}});
  const page=await ctx.newPage();
- const unexpectedWrites=[];
- page.on("request",req=>{if(req.method()!=="GET")unexpectedWrites.push(req.url());});
+ const calls=[];
+ page.on("request",req=>{if(req.method()!=="GET")calls.push(req.url());});
  for(const width of [320,375,390,430]){
    await page.setViewportSize({width,height:812});
    await page.goto(base+"/schedule-review.html",{waitUntil:"domcontentloaded"});
@@ -23,102 +26,55 @@ try{
    assert.equal(await page.locator("#r43PrivateWorkspace").isHidden(),true);
    const info=await page.evaluate(()=>({
      scrollWidth:document.documentElement.scrollWidth,width:window.innerWidth,
-     background:getComputedStyle(document.querySelector("header.top")).backgroundColor,
      nav:document.querySelectorAll("#mobileTabNav>a").length
    }));
-   assert.ok(info.scrollWidth<=width+1,"overflow at "+width);
-   assert.equal(info.background,"rgb(255, 255, 255)");
+   assert.ok(info.scrollWidth<=width+1,"mobile overflow at "+width);
    assert.equal(info.nav,4);
  }
- assert.deepEqual(unexpectedWrites,[],"default disabled page must not attempt any writes");
- // Inject a synthetic PUBLIC (not secret) configuration, fake Auth response, and
- // fake forbidden R43 server response. No production network traffic.
- await page.route("**/data/r43-public-auth-config.json",route=>route.fulfill({
+ assert.deepEqual(calls,[],"default disabled R43 page must not POST");
+ const edge="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-r43-pin";
+ await page.route("**/data/r43-public-pin-config.json",route=>route.fulfill({
    status:200,contentType:"application/json",
    body:JSON.stringify({enabled:true,supabase_url:"https://zprxvpfkvforoxrboqiv.supabase.co",
-     edge_url:"https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-schedule-admin",
-     publishable_key:"sb_publishable_test_only_not_a_real_key_000000000000"})
+     pin_edge_url:edge,publishable_key:"sb_publishable_test_only_not_a_real_key_000000000000"})
  }));
- await page.route("https://zprxvpfkvforoxrboqiv.supabase.co/auth/v1/token?grant_type=password",route=>route.fulfill({
-   status:200,contentType:"application/json",
-   headers:{"access-control-allow-origin":"*"},
-   body:JSON.stringify({access_token:"synthetic_jwt_not_valid",expires_in:300})
- }));
- await page.route("https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-schedule-admin",route=>route.fulfill({
-   status:403,contentType:"application/json",
-   headers:{"access-control-allow-origin":"*"},
-   body:JSON.stringify({ok:false,error:"forbidden"})
- }));
+ const actions=[];
+ await page.route(edge,route=>{
+   const data=route.request().postDataJSON();
+   actions.push({action:data.action,pin:data.pin,token:data.token});
+   const successful=data.action==="login"&&data.pin==="1234567890";
+   const body=successful?{
+     ok:true,token:"a".repeat(64),full_name:"กรรมการทดสอบ",school_id:"wangdong",
+     can_propose:true,can_assign:false,can_review:false,
+     expires_at:new Date(Date.now()+3600000).toISOString()
+   }:data.action==="logout"?{ok:true}:{ok:false,error:"unauthenticated"};
+   return route.fulfill({status:body.ok?200:401,contentType:"application/json",
+     headers:{"access-control-allow-origin":"*"},body:JSON.stringify(body)});
+ });
  await page.reload({waitUntil:"domcontentloaded"});
  await page.waitForFunction(()=>!document.querySelector("#r43PrivateLogin").hidden);
- await page.locator("#r43Email").fill("synthetic@example.invalid");
- await page.locator("#r43Password").fill("NOT-A-REAL-PASSWORD");
+ assert.equal(await page.locator("#r43Email").count(),0,"email login must be removed");
+ assert.equal(await page.locator("#r43Password").count(),0,"password account must be removed");
+ await page.locator("#r43PersonalPin").fill("0000000000");
  await page.locator("#r43LoginForm button[type=submit]").click();
- await page.waitForFunction(()=>document.querySelector("#r43PrivateStatus").textContent.includes("ไม่มีสิทธิ์"));
- assert.equal(await page.locator("#r43PrivateWorkspace").isHidden(),true,"forbidden accounts do not see data");
- assert.equal(await page.locator("#r43Password").inputValue(),"","password cleared after failed role check");
- assert.equal(await page.evaluate(()=>Object.keys(localStorage).filter(x=>/r43/i.test(x)).length),0,
-   "no localStorage credential");
- console.log("R43-E MOBILE PASS: fail-closed, 320–430px, no writes until authenticated, 403 denied");
- // Simulate an ALLOWED Auth user, then unlock with only the existing result PINs.
- // Every token, identity and response in this test is synthetic.
- const r43Url="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-schedule-admin";
- const editorUrl="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-editor";
- const reviewerUrl="https://zprxvpfkvforoxrboqiv.supabase.co/functions/v1/nongkum-results-reviewer";
- const editorToken="a".repeat(64),reviewerToken="b".repeat(64);
- const expires=new Date(Date.now()+6*60*60*1000).toISOString();
- const requests=[];
- await page.unroute(r43Url);
- await page.route(r43Url,route=>{
-   const body=route.request().postDataJSON();
-   requests.push({action:body.action,legacy_token:body.legacy_token});
-   const response=body.action==="status"?
-     {ok:true,can_propose:true,can_assign:false,can_review:true}:
-     body.action==="queue"?{ok:true,requests:[]}:
-     body.action==="new_queue"?{ok:true,candidates:[]}:
-     body.action==="people_pending"?{ok:true,people:[]}:
-     {ok:false,error:"forbidden"};
-   route.fulfill({status:response.ok?200:403,contentType:"application/json",
-     headers:{"access-control-allow-origin":"*"},body:JSON.stringify(response)});
- });
- await page.route(editorUrl,route=>route.fulfill({
-   status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},
-   body:JSON.stringify({ok:true,token:editorToken,expires_at:expires})
- }));
- await page.route(reviewerUrl,route=>route.fulfill({
-   status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},
-   body:JSON.stringify({ok:true,token:reviewerToken,expires_at:expires,reviewer_name:"กรรมการทดสอบ"})
- }));
- await page.reload({waitUntil:"domcontentloaded"});
- await page.locator("#r43Email").fill("authorized-person@example.invalid");
- await page.locator("#r43Password").fill("SYNTHETIC-ONLY");
+ await page.waitForFunction(()=>document.querySelector("#r43PrivateStatus").textContent.includes("รหัสไม่ถูกต้อง"));
+ assert.equal(await page.locator("#r43PrivateWorkspace").isHidden(),true);
+ assert.equal(await page.locator("#r43PersonalPin").inputValue(),"","PIN cleared on failure");
+ await page.locator("#r43PersonalPin").fill("1234567890");
  await page.locator("#r43LoginForm button[type=submit]").click();
  await page.waitForFunction(()=>!document.querySelector("#r43PrivateWorkspace").hidden);
- assert.equal(await page.locator("#r43EditorPinForm").isVisible(),true);
- assert.equal(await page.locator("#r43ReviewerPinForm").isVisible(),true);
- assert.equal(requests.some(r=>r.action==="status"&&r.legacy_token),false,
-   "Auth-only role status must not require or leak a legacy token");
- await page.locator("#r43EditorPin").fill("1111");
- await page.locator("#r43EditorPinForm button[type=submit]").click();
- await page.waitForFunction(()=>document.querySelector("#r43EditorPinStatus").textContent.includes("ใช้สิทธิ์รหัสเดิม"));
- await page.locator("#r43ReviewerName").fill("กรรมการทดสอบ");
- await page.locator("#r43ReviewerPin").fill("12345678");
- await page.locator("#r43ReviewerPinForm button[type=submit]").click();
- await page.waitForFunction(()=>document.querySelector("#r43PrivateStatus").textContent.includes("ปลดล็อกสิทธิ์ผู้ตรวจผลเดิมแล้ว"));
- assert.equal(requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action)).length,3,
-   "reviewer unlock refreshes the three protected queues");
- for(const r of requests.filter(r=>["queue","new_queue","people_pending"].includes(r.action))){
-   assert.equal(r.legacy_token,reviewerToken,"review actions must use the reviewer session only");
- }
- const stored=await page.evaluate(()=>({
-   editor:JSON.parse(localStorage.getItem("nongkum-r34-editor-session-v1")),
-   reviewer:JSON.parse(localStorage.getItem("nongkum-r37-reviewer-session-v1")),
-   r43Keys:Object.keys(localStorage).filter(x=>/r43/i.test(x))
- }));
- assert.equal(stored.editor.token,editorToken);
- assert.equal(stored.reviewer.token,reviewerToken);
- assert.deepEqual(stored.r43Keys,[],"no separate R43 credential is stored");
- assert.equal(await page.locator("#r43EditorPin").inputValue(),"");
- assert.equal(await page.locator("#r43ReviewerPin").inputValue(),"");
- console.log("R43-F MOBILE PASS: Auth identity + reused 6h R34/R37 sessions, reviewer-specific actions, no PIN stored");
+ assert.match(await page.locator("#r43RoleSummary").innerText(),/กรรมการทดสอบ.*wangdong.*เสนอแก้ตาราง/);
+ assert.equal(await page.locator("#r43PrivateSubmit").isHidden(),true,"phase 1 cannot modify schedules");
+ assert.equal(await page.locator("#r43PrivateReview").isHidden(),true,"phase 1 cannot approve");
+ assert.equal(await page.locator("#r43PrivateNew").isHidden(),true,"phase 1 cannot create fixtures");
+ assert.equal(await page.locator("#r43PersonalPin").inputValue(),"","PIN cleared on success");
+ assert.equal(await page.evaluate(()=>Object.keys(localStorage).filter(x=>/r43/i.test(x)).length),0,
+   "R43 secrets must not persist in localStorage");
+ assert.equal(calls.every(url=>url===edge),true,"no request to old R43 mutation gateway");
+ await page.locator("#r43Logout").click();
+ await page.waitForFunction(()=>!document.querySelector("#r43PrivateLogin").hidden);
+ assert.equal(await page.locator("#r43PrivateWorkspace").isHidden(),true);
+ assert.equal(actions.map(x=>x.action).join(","),"login,login,logout");
+ assert.equal(actions[2].token,"a".repeat(64),"only active session revoked");
+ console.log("R43-F PIN PHASE-1 MOBILE PASS: one-field login, identity/roles, failed access, logout, no schedule writes");
 }finally{if(browser)await browser.close();server.kill("SIGTERM");}
