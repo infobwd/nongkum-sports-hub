@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183762">
+<meta name="robots" content="noindex,nofollow">
+<title>สำหรับผู้จัด · ตรวจคำขอแก้ตาราง — มิตรภาพเกมส์ 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1">
+<link rel="stylesheet" href="./css/r43-manager.css?v=r43a-1">
+<link rel="stylesheet" href="./css/r43-private-review.css?v=r43bc-1">
+</head><body data-view="r43-manager">
+<header class="top"><div class="shell">
+<div class="brand"><div class="logo"><span class="logoIcon" aria-hidden="true">🏆</span><span>มิตรภาพเกมส์</span></div><span class="mode">จัดการตาราง · เจ้าหน้าที่</span></div>
+<nav class="site-nav" aria-label="เมนูหลัก"><a href="./index.html">ตารางแข่ง</a><a href="./more.html">เพิ่มเติม</a></nav>
+<div class="hero"><h1>สำหรับผู้จัด · ตรวจคำขอแก้ตาราง</h1><p>ระบบจำกัดสิทธิ์ · ร่างไม่ใช่ตารางเผยแพร่</p></div>
+</div></header>
+<main class="shell r43-main r43-private">
+<aside class="r43-notice"><strong>ระบบรับคำขอ/ตรวจรับ ไม่ใช่การเผยแพร่ตารางแข่งขัน</strong><p>การอนุมัติคำขอไม่แก้ผลการแข่งขันหรือสูจิบัตร และยังต้องผ่านการตรวจข้อมูลรุ่นใหม่ก่อนเปิดใช้</p></aside>
+<p id="r43PrivateStatus" role="status" aria-live="polite">กำลังตรวจความพร้อมระบบส่วนตัว…</p>
+<section id="r43PrivateLogin" class="r43-panel" hidden>
+<h2>เข้าสู่ระบบผู้จัดการแข่งขัน</h2>
+<form id="r43LoginForm" class="r43-filter-grid" autocomplete="on">
+<label>อีเมลบัญชีที่ได้รับสิทธิ์<input type="email" id="r43Email" required autocomplete="username"></label>
+<label>รหัสผ่านบัญชี<input type="password" id="r43Password" required autocomplete="current-password"></label>
+<button class="r43-primary" type="submit">เข้าใช้งาน</button>
+</form>
+<p class="r43-small">ใช้บัญชี Supabase Auth ที่ผู้จัดกำหนดสิทธิ์ไว้แยกต่างหาก ไม่ใช่รหัสบันทึกผลหรือรหัสโรงเรียน</p>
+</section>
+<section id="r43PrivateWorkspace" hidden>
+<div class="r43-actions"><strong id="r43RoleSummary"></strong><button type="button" id="r43Logout" class="r43-secondary">ออกจากระบบ</button></div>
+<section id="r43PrivateSubmit" class="r43-panel" hidden aria-labelledby="r43SubmitTitle">
+<h2 id="r43SubmitTitle">เสนอแก้ไขตารางและมอบหมายกรรมการ</h2>
+<form id="r43SubmitForm">
+<div class="r43-edit-grid">
+<label>รายการแข่งขัน<select id="r43PrivateFixture" required><option value="">เลือกรายการแข่งขัน</option></select></label>
+<label>วันแข่งขันใหม่ (ถ้าต้องแก้)<input type="date" id="r43PrivateDate"></label>
+<label>เวลาแข่งขันใหม่ (ถ้าต้องแก้)<input type="time" id="r43PrivateTime"></label>
+<label>สนามย่อยใหม่ (ถ้าต้องแก้)<input type="text" id="r43PrivateField" maxlength="160"></label>
+<label>สนามหลักใหม่ (ถ้าต้องแก้)<input type="text" id="r43PrivateVenue" maxlength="200"></label>
+</div>
+<fieldset id="r43PrivateAssignArea" hidden><legend>มอบหมายกรรมการที่ตรวจตัวตนแล้ว</legend>
+<p class="r43-small">เลือกรายชื่อจากทะเบียนส่วนตัวที่ผู้ตรวจรับรองแล้วเท่านั้น</p>
+<div class="r43-edit-grid">
+<label>ผู้ปฏิบัติหน้าที่<select id="r43PrivatePerson"><option value="">เลือกกรรมการ</option></select></label>
+<label>ระดับการมอบหมาย<select id="r43PrivateScope">
+<option value="fixture">เฉพาะรายการนี้</option>
+<option value="division">ทุกรายการในรุ่นเดียวกัน</option>
+<option value="sport">ทุกประเภทในกีฬานี้</option></select></label>
+<label>หน้าที่<select id="r43PrivateRole"><option value="">เลือกหน้าที่</option></select></label>
+<label>วันที่ปฏิบัติหน้าที่<input id="r43PrivateDutyDate" type="date"></label>
+<label>ตั้งแต่เวลา<input id="r43PrivateDutyStart" type="time"></label>
+<label>ถึงเวลา<input id="r43PrivateDutyEnd" type="time"></label>
+</div>
+<button class="r43-secondary" id="r43PrivateAddDuty" type="button">เพิ่มกรรมการในคำขอ</button>
+<div id="r43PrivateDuties" class="r43-pending"></div>
+</fieldset>
+<label class="r43-reason">ที่มาหรือหลักฐาน (อ้างอิงคำสั่ง/มติ)<input id="r43PrivateEvidence" required maxlength="300" placeholder="ระบุเลขที่เอกสารหรือมติผู้จัด"></label>
+<label class="r43-reason">เหตุผลที่เสนอ<textarea id="r43PrivateReason" required rows="2" minlength="8" maxlength="500"></textarea></label>
+<button class="r43-primary" type="submit">ส่งคำขอเข้าคิวตรวจ (ยังไม่เผยแพร่)</button>
+</form>
+</section>
+<section id="r43PrivatePeoplePanel" class="r43-panel" hidden aria-labelledby="r43PeopleTitle">
+<h2 id="r43PeopleTitle">เสนอรายชื่อกรรมการเข้าทะเบียนส่วนตัว</h2>
+<form id="r43PersonForm">
+<div class="r43-edit-grid">
+<label>ชื่อ–สกุล<input id="r43PersonName" maxlength="120" required></label>
+<label>โรงเรียน<select id="r43PersonSchoolId" required><option value="">เลือกโรงเรียน</option></select></label>
+</div>
+<label class="r43-reason">อ้างอิงหลักฐานตัวตน/คำสั่ง<input id="r43PersonEvidence" maxlength="300" required></label>
+<button class="r43-secondary" type="submit">ส่งชื่อรอตรวจตัวตน</button>
+</form>
+</section>
+<section id="r43PrivateReview" class="r43-panel" hidden aria-labelledby="r43QueueTitle">
+<h2 id="r43QueueTitle">คิวตรวจคำขอ (ผู้รับรอง)</h2>
+<div class="r43-actions"><button type="button" class="r43-secondary" id="r43PrivateRefresh">ตรวจรายการล่าสุด</button>
+<button type="button" class="r43-secondary" id="r43PrivatePreview">ดาวน์โหลดชุดเตรียมเผยแพร่ (ยังไม่เผยแพร่)</button></div>
+<h3>รายชื่อกรรมการรอตรวจตัวตน</h3><div id="r43PrivatePendingPeople"></div>
+<h3>คำขอแก้ไขตาราง/กรรมการ</h3><div id="r43PrivateQueue"></div>
+</section>
+</section>
+<p class="r43-small">งานนี้ยังต้องตรวจสูจิบัตร ผลรับรอง R32 และรุ่น R33 ก่อนเผยแพร่จริง · ข้อมูลกรรมการส่วนตัวห้ามส่งต่อหรือเผยแพร่เป็นการทั่วไป</p>
+</main>
+<footer class="shell">มิตรภาพเกมส์ 2569 · ระบบเจ้าหน้าที่ R43-B/C ทดสอบก่อนเปิดใช้</footer>
+<nav id="mobileTabNav" class="mobile-nav" aria-label="เมนูหลักมือถือ">
+<a id="mobileProgramLink" href="./index.html" aria-label="ตารางแข่งขัน"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 6h10"/></svg><span>ตารางแข่ง</span></a>
+<a id="mobileResultsLink" href="./results.html" aria-label="ผลการแข่งขัน"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v7a5 5 0 0 1-10 0V4ZM7 6H4v3a4 4 0 0 0 4 4M17 6h3v3a4 4 0 0 1-4 4M12 16v4M8 21h8"/></svg><span>ผลแข่งขัน</span></a>
+<a id="mobileGalleryLink" href="./activity-photos.html" aria-label="ภาพกิจกรรม"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.6"/><path d="m4 18 5-5 4 3 3-5 4 7"/></svg><span>ภาพกิจกรรม</span></a>
+<a id="mobileMoreLink" href="./more.html" aria-current="page" aria-label="เพิ่มเติม"><svg class="mobile-tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>เพิ่มเติม</span></a>
+</nav>
+<script src="./js/program-corrections.js?v=r20b1"></script>
+<script src="./js/r43-schedule-draft.js?v=r43a-1"></script>
+<script src="./js/r43-private-review.js?v=r43bc-1"></script>
+</body></html>
