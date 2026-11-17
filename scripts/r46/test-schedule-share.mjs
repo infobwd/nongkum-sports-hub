@@ -94,7 +94,7 @@ assert.match(program,/showModal/);
 assert.match(redirect,/location\.replace\(target\.href\)/);
 
 assert.match(redirect,/shareDate/);
-const redirectCode=redirect.match(/<script>([\\s\\S]*?)<\\/script>/)?.[1];
+const redirectCode=redirect.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(redirectCode,"short route must have redirect script");
 function resolveShortLink(path){
   const input=new URL(path);
