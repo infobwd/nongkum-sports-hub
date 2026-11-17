@@ -19,3 +19,16 @@
 
 ## ข้อห้าม
 ห้ามเดาผู้ชนะ คะแนน ลำดับจากผังหรือชื่อทีมรอบต่อไป; ห้ามใช้ผลเบื้องต้นเป็นผลรับรอง; ห้ามเขียนทับผลเดิม/แก้ Supabase โดยคำสั่งสร้าง PDF.
+
+
+## ผลส่งมอบและ QA — 18 พฤศจิกายน 2569
+
+สถานะ: **วางแผนแล้ว → พัฒนาแล้ว → QA ผ่าน → อัปโหลด Drive แล้ว → PR ยัง Draft / ไม่ Merge / ไม่เผยแพร่ / ยังไม่ตรวจรับ**
+
+- [PDF สูจิบัตร R30-E 94 หน้า พร้อมผลรับรอง](https://drive.google.com/file/d/1VvW_sKkYqrA6qIpy4Nm4zFRciF0kyd8e/view) SHA-256 `ad581221d821eff51ac507b643cfc02a65b7d0f5117ee4e6954f04af7001f59c`.
+- [ZIP ต้นฉบับและไฟล์อ้างอิง](https://drive.google.com/file/d/11em6c1d5_g8B5hbVBSqKeQxidmEKG-mP/view), [รายงาน QA Drive](https://drive.google.com/file/d/1wCXzOM7EoeX7RGzwd_f__HsVp3g0DamT/view), [สรุปการวางผลรายคู่ CSV](https://drive.google.com/file/d/14VFlmX8DglblDdwiEV1jdxm9lZ2elZin/view), [กรีฑา CSV](https://drive.google.com/file/d/1Wj6a02553l-ZPYGw_u8QLnpOqjt963A3/view).
+- ผลที่รับรองจาก Supabase R32 **83 รายการ**: **43 คู่** + **40 รายการกรีฑา** (**109 ช่องอันดับ**). ตรวจ mapping 43/43 และ 40/40 ด้วยชนิดกีฬา รุ่น ทีม และรายการ; ไม่มีแถวขัดแย้ง/จับคู่ไม่ได้. วันที่เผยแพร่ล่าสุดใน snapshot `2026-11-17 10:56:53.629378+00`.
+- [Snapshot ต้นทาง พร้อม revision/published_at](../../data/r30e/published_results_snapshot_20261118.json); [audit mapping per PDF page](../../data/r30e/results_placement_audit.json); [โปรแกรมสร้าง](../../scripts/r30e/build_results.py); [ตัวตรวจ QA](../../scripts/r30e/verify_results_pdf.py); [รายงาน QA](QA_REPORT.md).
+- QA ผ่าน: **94/94 หน้า 150 DPI**, ตรวจภาพขยาย 14 หน้า 200 DPI, ไม่มีข้อความเดิมสูญหาย, ไม่มีภาพเปลี่ยนนอกกรอบผลรับรอง, 94 หน้าเหมือนเดิม, bookmarks 24, links 133, ยังคงคู่แข่งขันและสนาม 2 หน้า 64. มีการเพิ่มข้อมูล 27 หน้า.
+- ยังคงข้อความกำหนดแข่งที่เป็นร่างไว้ตามเดิม ไม่ถือว่าการมีผลรับรองทำให้วันเวลา/ผังรับรองโดยอัตโนมัติ. ผลที่ไม่มีคะแนนจะระบุผู้ชนะเท่านั้นไม่เดาสกอร์.
+- **ยังไม่ได้ตรวจรับโดยผู้จัด**, พิมพ์ A4 จริง, ตรวจมือถือ Safari/Chrome/LINE หรือทดสอบสิทธิ์เปิด Drive ภายนอก. ยังไม่อัปเดตต้นฉบับ Google Docs หรือสลับ PDF บน GitHub Pages; ต้องจัดรุ่น master ก่อนเผยแพร่.
