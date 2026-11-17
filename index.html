@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="./css/app-shell-r42.css?v=r42-1">
   <link rel="stylesheet" href="./css/program.css?v=r38-1">
+  <link rel="stylesheet" href="./css/schedule-bulk-share.css?v=r46-1">
   <link rel="stylesheet" href="./css/program-more.css?v=r21-1">
   <link rel="stylesheet" href="./css/review-share.css?v=r12a1">
 <link rel="stylesheet" href="./css/back-to-top.css?v=r19fux4">
@@ -96,7 +97,7 @@
     <section id="programListing" aria-labelledby="resultTitle" aria-busy="true">
       <div class="results-top">
         <h2 id="resultTitle">ตารางการแข่งขัน</h2>
-        <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ อัปเดต</button></div>
+        <div class="data-actions"><span id="count" class="count" aria-live="polite">กำลังเปิดข้อมูล…</span><button type="button" id="refreshProgram" class="refresh-button">↻ อัปเดต</button><button type="button" id="shareSchedule" class="schedule-share-trigger" disabled aria-label="แชร์ตารางการแข่งขันที่เลือก">แชร์ตารางที่เลือก</button></div>
       </div>
       <p class="refresh-status" id="programRefreshStatus" role="status" aria-live="polite"></p>
       <div class="schedule-result-switch" id="scheduleResultSwitch" role="group" aria-label="แสดงรายการตามสถานะผลการแข่งขัน">
@@ -137,6 +138,17 @@
     </details>
     </div><!-- programOverview -->
   </main>
+  <dialog id="scheduleShareDialog" class="schedule-share-dialog" aria-labelledby="scheduleShareTitle">
+    <div class="schedule-share-head"><h2 id="scheduleShareTitle">แชร์ตารางการแข่งขัน</h2><button type="button" id="scheduleShareClose" aria-label="ปิดหน้าตัวอย่าง">ปิด</button></div>
+    <label for="scheduleShareSchool">เลือกโรงเรียนที่ต้องการแชร์</label>
+    <select id="scheduleShareSchool"><option value="">ทุกโรงเรียน (ภาพรวม)</option></select>
+    <p id="scheduleShareSummary" role="status" aria-live="polite"></p>
+    <div class="schedule-share-parts"><button type="button" id="scheduleSharePrev">ก่อนหน้า</button><span id="scheduleSharePartLabel">ตอนที่ 1</span><button type="button" id="scheduleShareNext">ถัดไป</button></div>
+    <textarea id="scheduleSharePreview" aria-label="ตัวอย่างข้อความสำหรับส่ง LINE" rows="12" readonly></textarea>
+    <p class="schedule-share-hint">หากมีหลายตอน ให้แชร์ทีละตอนเพื่อให้ครบทุกคู่ · ข้อความเดิมใน LINE จะไม่เปลี่ยนเมื่อมีการแก้ตาราง</p>
+    <div class="schedule-share-buttons"><button type="button" id="scheduleShareNative">แชร์ข้อความนี้</button><button type="button" id="scheduleShareCopy">คัดลอกข้อความนี้</button></div>
+  </dialog>
+
   <footer class="shell">มิตรภาพเกมส์ ปี 2569 · โปรดตรวจสอบกำหนดการแข่งขันล่าสุดก่อนเดินทาง</footer>
 
 <nav id="mobileTabNav" class="mobile-nav" aria-label="เมนูหลักมือถือ">
@@ -165,7 +177,8 @@
 <script src="./js/ui-toast.js?v=r13-main1"></script>
 <script src="./js/program-corrections.js?v=r20b1"></script>
 <script src="./js/schedule-order.js?v=r18-date1"></script>
-<script src="./js/program.js?v=r38-1"></script>
+<script src="./js/schedule-bulk-share.js?v=r46-1"></script>
+<script src="./js/program.js?v=r46-1"></script>
 <script src="./js/back-to-top.js?v=r19fux4"></script>
 <script src="./js/pull-refresh.js?v=phase1a"></script>
 <script src="./js/results-source-r32.js?v=r32-1"></script>
