@@ -20,6 +20,9 @@
   }
   function shortUrl(filters,baseHref){
     const u=new URL("t/",new URL("index.html",baseHref||"https://infobwd.github.io/nongkum-sports-hub/"));
+    const code=root.NongkumScheduleLinkCodec?.encode(filters);
+    if(code){u.searchParams.set("c",code);return u.toString();}
+    // Legacy query remains available for arbitrary free-text searches or dates outside codec range.
     if(filters.school)u.searchParams.set("s",filters.school);
     if(filters.sport)u.searchParams.set("g",filters.sport);
     if(filters.level)u.searchParams.set("l",filters.level);
@@ -36,7 +39,7 @@
     const raw=clean(confirmed?item.planning_time:(item.source_pdf?.source_time||item.time));
     const match=/^(\d{1,2}):(\d{2})(?::\d{2})?$/.exec(raw);
     if(!match||Number(match[1])>23||Number(match[2])>59)return "เวลารอยืนยัน";
-    return String(Number(match[1])).padStart(2,"0")+"."+match[2]+" น."+(confirmed?"":" (รอตรวจ)");
+    return String(Number(match[1])).padStart(2,"0")+"."+match[2]+" น.";
   }
   function dayLabel(day){
     if(!day)return "วันแข่งขันรอยืนยัน";
@@ -62,17 +65,14 @@
     const main=clean(item.planning_venue_confirmation==="confirmed"?item.planning_venue:"");
     const child=clean(item.source_pdf?.source_field||item.field);
     if(!child||child===main)return "";
-    return " · สนามย่อย "+child+(item.planning_subvenue_confirmation==="confirmed"?"":" (ตามร่าง)");
+    return " · "+child;
   }
   function line(item,data,selectedSchool){
     const sport=data.sports.find(s=>s.id===item.sport_id);
     if(!sport)throw Error("Unknown sport");
     const label=clean(sport.name)+" "+clean(item.division);
-    const date=ORDER?.effectiveDay(item)||"";
-    const uncertainDay=item.planning_date_confirmation!=="confirmed";
-    const status=uncertainDay?" *":"";
     return getTime(item)+" | "+label+" · "+description(item,data.schools,selectedSchool)+
-      fieldNote(item)+status;
+      fieldNote(item);
   }
   function makeParts(options){
     const data=options?.data;
@@ -91,15 +91,18 @@
     const schoolTitle=selected?.name||"ทุกโรงเรียน";
     const filterInfo=(sport?sport.name:"ทุกกีฬา")+(options.level?" · "+({early:"ปฐมวัย",primary:"ประถม",secondary:"มัธยม"}[options.level]||""):"");
     const title="ตารางการแข่งขัน · มิตรภาพเกมส์ 2569";
+    const hasUnconfirmed=all.some(f=>f.planning_date_confirmation!=="confirmed"||
+      f.planning_time_confirmation!=="confirmed"||
+      (f.source_pdf?.source_field&&f.planning_subvenue_confirmation!=="confirmed"));
     const notices=[
-      "* วัน/เวลา/สนามย่อยที่ยังไม่ยืนยันเป็นข้อมูลร่าง โปรดตรวจสอบกับผู้จัด",
+      ...(hasUnconfirmed?["หมายเหตุ: บางรายการยังมีข้อมูลกำหนดการแข่งขันที่รอตรวจสอบในระบบ"]:[]),
       "คู่แข่งขันตามตารางที่แสดง ไม่ใช่ผลการแข่งขัน",
       ...(options.resultMode==="pending"&&!options.resultsVerified?["ไม่สามารถตรวจผลรับรองล่าสุดได้ จึงยังแสดงรายการทั้งหมด"]:[]),
       "เปิดตารางล่าสุดในแอป:\n"+link
     ];
     // The common confirmed venue is shown once; draft subvenues remain per fixture.
     const venues=[...new Set(all.map(f=>f.planning_venue_confirmation==="confirmed"?clean(f.planning_venue):""))];
-    const venue=venues.length===1&&venues[0]?"สนามหลัก: "+venues[0]+" (ยืนยันแล้ว)":"ตรวจสนามแข่งขันของแต่ละรายการในแอป";
+    const venue=venues.length===1&&venues[0]?"สนามหลัก: "+venues[0]:"ตรวจสนามแข่งขันของแต่ละรายการในแอป";
     const entries=all.map(f=>({day:ORDER.effectiveDay(f)||"",text:line(f,data,schoolId)}));
     const chunks=[];
     let current=[],size=0,previousDay=null;
