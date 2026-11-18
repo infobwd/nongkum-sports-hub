@@ -17,3 +17,16 @@
 6. QA 138 หน้า 150 DPI ทุกหน้า; จุดเสี่ยง 200 DPI; ตรวจลิงก์/Bookmarks, ตัวอักษรไทย, ไม่มีเนื้อหาหาย, source audit 100 รายการ, SHA-256, QA report; retain R30-K as historical version.
 
 สถานะ DRAFT จนผู้จัดตรวจรับ, ไม่แก้ฐานข้อมูล, ไม่ Merge/Deploy, ไม่แก้ผลที่รับรองแล้ว.
+
+
+## ผลดำเนินงานและหลักฐาน R30-L (18 พฤศจิกายน 2569)
+
+**สถานะ: PLAN RECORDED → DRAFT PDF BUILT → AUTOMATED QA PASS → DRIVE UPLOADED; PR #139 DRAFT / NOT MERGED / NOT PUBLISHED / NOT ORGANIZER-ACCEPTED**
+
+- [PDF R30-L **138 หน้า**](https://drive.google.com/file/d/1X4hW5p-8uyyYk5s3q1zdxH8eIoR8VRSq/view) SHA-256 `e0c75eadc265b78a46772aa8ba52952256d526b13fbe4634172343984ac7b355`; [ZIP ต้นฉบับ HTML/Python และ QA](https://drive.google.com/file/d/11ltBkkDWTnug2BJ0ITawxUdUTL4QtdH-/view); [รายงาน QA](https://drive.google.com/file/d/1KvngCkmfQpk960aaNTq_O0U4dl90BTtP/view).
+- ต้นฉบับ R30-K 138 หน้า **ไม่ถูกทับ**. เล่มใหม่ ปกหน้า 1, ผู้บริหารหน้า 2, **สารบัญการแข่งขันหน้า 3**, **สารบัญผลรับรองหน้า 4**, สารบัญกรรมการหน้า 5–6; บทพิธีการ/กรรมการเดิม +2 หน้า; ผัง/ตารางที่หน้า 51–138 ไม่ย้ายตำแหน่ง.
+- R32 published results ณ **18 พ.ย. 2569 17:57:17 น. ไทย**: **100 รายการ = 60 คู่ + กรีฑา 40**. เพิ่ม 17 ผลรับรองจาก R30-K (ฟุตบอล 7, ฟุตซอล 4, วอลเลย์บอล 6) โดยตรวจ `fixture_id`, `division`, `sport_id`, ทีม และเลขคู่ R33 (โดยเฉพาะวอลเลย์บอล source_match_no ต่างจากเลขท้าย result ID); [snapshot รายการใหม่ 17 รายการ](../../data/r30l/new_published_results_20261118.json). ไม่มีผลที่ยังไม่รับรอง.
+- [Build script](../../scripts/r30l/build_r30l.py), [Verifier](../../scripts/r30l/verify_r30l.py), [HTML สารบัญแข่งขัน](index_competition.html), [HTML สารบัญผล](index_approved_results.html), [QA report](QA_REPORT.md). ZIP บน Drive ยังรวม helper scripts และ audit โดยละเอียด.
+- QA **138/138 หน้า A4 150 DPI**, **14 หน้า 200 DPI**, คะแนน **60/60 คู่**, กรีฑา **40/40**, internal GoTo **223**, total links **228**, bookmarks **89**, error **0**. แก้เลขหน้าในสารบัญ/ตัวเอกสารและปุ่มนำทาง; แยกถ้อยคำตารางตรวจร่าง/ผลรับรองที่ปรากฏในแถว.
+- **ยังไม่เติมคู่รอบรอง** จากอันดับกลุ่มที่ไม่ได้ประกาศรับรอง: R33 รอบรองฟุตซอล/วอลเลย์บอลบางรายการยังเป็น `draft`; ปลอดภัยกว่าใช้ "ที่ 1/2 สาย" ไว้และรอผู้จัดรับรองตารางอันดับ ผังและทีมที่เข้ารอบ.
+- **ตรวจรับค้าง**: คู่รอบรองและอันดับที่ผู้จัดรับรอง, กติกาฟุตบอล/ฟุตซอลล่าสุดเทียบมติ, คณะกรรมการ/เลขข้อซ้ำ, พิมพ์ A4 เครื่องจริง, Safari/Chrome/LINE จริง, สิทธิ์ Drive ผู้ชมภายนอก. ไม่แก้ฐานข้อมูล ระบบเว็บ หรือเอกสารรับรองเดิม.
