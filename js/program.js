@@ -209,6 +209,8 @@
       "' aria-label='"+safe(shareName+" "+(sport?sport.name:"")+" "+(m.division||"")+
         " หมายเลข "+m.source_match_no)+"' title='"+shareName+"'>"+SHARE_ICON+"</button></div></div>";
     const content=track?trackContent(m):matchContent(m);
+     const pairConfirmed=m.pair_confirmation==="approved_results"
+       ?"<p class='schedule-confirmation-note'>✓ คู่แข่งขันยืนยันจากผลรับรองแล้ว · วันและเวลาตรวจแยก</p>":"";
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
     const confirmedSchedule=m.planning_date_confirmation==="confirmed"&&m.planning_venue_confirmation==="confirmed"&&m.planning_time_confirmation==="confirmed";
@@ -237,7 +239,7 @@
         "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M6 3h8l5 5v13H6z'/><path d='M14 3v6h5M9 13h7M9 17h7'/></svg>"+
         "ดูสูจิบัตร หน้า "+page+"</a>" : "";
     return "<article class='fixture"+(m.id===state.focusId?" shared-target":"")+
-      "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+
+      "' data-fixture-card='"+safe(m.id)+"'>"+heading+content+pairConfirmed+
       "<div class='details quick-status'>"+scheduleTags(m)+"</div>"+
       "<div class='fixture-source-actions'>"+sourceButton+"</div>"+detail+"</article>";
   }
@@ -648,7 +650,11 @@
       if(!response.ok)throw Error("ไม่สามารถอ่านไฟล์ข้อมูล");
       const raw=await response.json();
       if(!globalThis.NongkumProgramCorrections)throw Error("ไม่สามารถตรวจข้อมูลกำหนดการแข่งขัน");
-      const data=globalThis.NongkumProgramCorrections.apply(raw);
+      const corrected=globalThis.NongkumProgramCorrections.apply(raw);
+       // An older cached HTML or an isolated test may not have the optional R50 overlay yet.
+       // Keep the existing 236-item schedule usable; real pages load the validated overlay first.
+       const data=globalThis.NongkumApprovedPairsR50
+         ?globalThis.NongkumApprovedPairsR50.apply(corrected):corrected;
       const candidate=data.metadata?.source_status==="revised_pdf_draft"&&
         data.schema_version===3&&data.fixtures?.length===236&&
         data.metadata.website_publication_status==="not_released";
