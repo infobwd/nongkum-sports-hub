@@ -24,3 +24,16 @@
 - ตรวจข้อสังเกตกรรมการ ชื่อสังกัด เลขข้อซ้ำ, ความถูกต้องลำดับรอบชิง และการพิมพ์ A4/โทรศัพท์/สิทธิ์ Drive
 
 ยังไม่ Merge, ไม่เปลี่ยน GitHub Pages/Sheets/Supabase และไม่ถือว่า "ผ่านการตรวจรับ" เพียงเพราะ QA โปรแกรมผ่าน
+
+
+## ผลดำเนินงานและ QA 18 พฤศจิกายน 2569
+
+สถานะ: **PLAN RECORDED → DRAFT PDF BUILT → AUTOMATED QA PASS → DRIVE UPLOADED → PR DRAFT / NOT MERGED / NOT PUBLISHED / NOT ACCEPTED**
+
+- [PDF R30-K สูจิบัตร 138 หน้า](https://drive.google.com/file/d/1nhr4IOVG0UYxCAQ7ZvEoWpV2v4_B51fQ/view) (ไฟล์ต้นฉบับ R30-J 137 หน้ายังเก็บแยกไว้) SHA-256 `db3feb4a4220c7a6c4b57e0f15cd1c743b4358853f782bb07811029050ef1411`.
+- [ZIP HTML/CSS/Builder/QA](https://drive.google.com/file/d/16XKEucdLR2ERQH3QB7_58G3SoGYIT-AV/view), [QA รายงาน](https://drive.google.com/file/d/1nk0Jytn6Ui_D32VPVs1JvFB-UuvAHeoR/view).
+- Source: [builder](../../scripts/r30k/build_r30k.py), [verifier](../../scripts/r30k/verify_r30k.py), [HTML สารบัญตาราง](toc_competition.html), [HTML สารบัญผล](toc_results.html), [QA JSON](QA_REPORT.json).
+- ปรับหน้า 4 ให้เปิดสารบัญตารางหน้า 49 และสารบัญผลหน้า 50 ได้; หน้า 49 ปรับเลขหน้าผัง/ตารางใหม่ + ปุ่มหน้า 50; หน้า 50 สารบัญผลรับรอง **6 กีฬา** และกรีฑา **5 ช่วงอายุ**; กีฬาไม่มีผลรับรอง 2 ประเภทระบุชัดเจน.
+- ผลในหน้าตาราง **43/43 คู่** และกรีฑา **40/40 รายการ** คงเดิม; เนื้อหาต้นฉบับ **136/136 หน้า** (ยกเว้น footer และ shortcut หน้า 4).
+- PDF 138/138 A4; bookmarks **79**, links **222** (สารบัญผลหน้า 50 มี 16 ลิงก์), เรนเดอร์ 150 DPI ครบ **138 หน้า** และตรวจสำคัญ 200 DPI **14 หน้า**; automated QA errors = **0**.
+- รายการตรวจรับที่เหลือ: ปรับคำสรุปหน้า 2 ให้ตรงเอกสารฉบับรวม; แยกข้อความสถานะผลรับรอง/ข้อมูลตารางในหน้า 95 และคล้ายกัน; ลดรหัส R30I/REVIEW ONLY ในฉบับอ่านหลัก; ตรวจหลักเกณฑ์ฟุตบอลหน้า 21 เทียบมติล่าสุด; ตรวจรายชื่อกรรมการ/คำสั่ง; ทดสอบพิมพ์ A4, Safari/Chrome/LINE, สิทธิ์เปิด Drive ภายนอก; **ยังไม่ Merge หรือแทนฉบับเว็บไซต์**.
