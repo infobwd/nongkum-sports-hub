@@ -43,7 +43,7 @@ assert.match(html,/data-day-mode="all"/);
 assert.match(css,/min-height:48px/);
 assert.ok(!html.includes("ข้อมูลร่าง"),"public schedule must not be globally marked draft");
 assert.ok(!program.includes("รายละเอียด · ข้อมูลร่าง"));
-assert.match(html,/program\.js\?v=(?:r19-venue1|r38-1|r46-1)/);
+assert.match(html,/program\.js\?v=(?:r19-venue1|r38-1|r46-1|r50-1)/);
 assert.match(html,/schedule-order\.js\?v=r18-date1/);
 
 function element(id){
