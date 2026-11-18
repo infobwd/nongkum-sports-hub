@@ -1,0 +1,29 @@
+name: R50 approved-pair website QA
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'js/program.js'
+      - 'js/program-approved-pairs-r50.js'
+      - 'data/r50/approved_pair_sync_20261118.json'
+      - 'scripts/r50/test-approved-web-sync.mjs'
+      - '.github/workflows/r50-approved-pair-web-qa.yml'
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check browser script syntax
+        run: |
+          node --check js/program-approved-pairs-r50.js
+          node --check js/program.js
+      - name: Validate 12 approved participant pairs and LINE sharing
+        run: node scripts/r50/test-approved-web-sync.mjs
