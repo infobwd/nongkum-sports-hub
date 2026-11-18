@@ -1,0 +1,120 @@
+{
+  "schema": "nongkum-r50-approved-pair-sync-v1",
+  "date": "2026-11-18",
+  "source_key": "r33-20261118-r50-12pairs-r32-100",
+  "previous_source_key": "r33-20261116-7ba60be1-fa3269b5",
+  "evidence": "public.nongkum_published_results status=approved; 100 results; 60 matches and 40 athletics",
+  "source_items": 236,
+  "updates": [
+    {
+      "sport": "tabletennis",
+      "division": "12 ปี ชาย",
+      "match_no": "9",
+      "fixture_id": "tabletennis-p20-12-ปี-ชาย-009",
+      "team_a": "phuphrom",
+      "team_b": "nongkrathum",
+      "basis": "approved winners of matches 1 and 2"
+    },
+    {
+      "sport": "tabletennis",
+      "division": "12 ปี ชาย",
+      "match_no": "10",
+      "fixture_id": "tabletennis-p20-12-ปี-ชาย-010",
+      "team_a": "saohong",
+      "team_b": "rangkham",
+      "basis": "approved winners of matches 3 and 4"
+    },
+    {
+      "sport": "tabletennis",
+      "division": "12 ปี หญิง",
+      "match_no": "11",
+      "fixture_id": "tabletennis-p20-12-ปี-หญิง-011",
+      "team_a": "nongkum",
+      "team_b": "rangkham",
+      "basis": "approved winners of matches 5 and 6"
+    },
+    {
+      "sport": "tabletennis",
+      "division": "12 ปี หญิง",
+      "match_no": "12",
+      "fixture_id": "tabletennis-p20-12-ปี-หญิง-012",
+      "team_a": "saohong",
+      "team_b": "phuphrom",
+      "basis": "approved winners of matches 7 and 8"
+    },
+    {
+      "sport": "petanque",
+      "division": "8 ปี หญิง",
+      "match_no": "37",
+      "fixture_id": "petanque-p17-8-ปี-หญิง-027",
+      "team_a": "nongkum",
+      "team_b": "nongkrathum",
+      "basis": "approved winners of matches 31 and 32"
+    },
+    {
+      "sport": "petanque",
+      "division": "8 ปี หญิง",
+      "match_no": "38",
+      "fixture_id": "petanque-p17-8-ปี-หญิง-028",
+      "team_a": "saohong",
+      "team_b": "wangdong",
+      "basis": "approved winners of matches 33 and 34"
+    },
+    {
+      "sport": "futsal",
+      "division": "10 ปี ชาย",
+      "match_no": "10",
+      "fixture_id": "futsal-p09-10-ปี-ชาย-010",
+      "team_a": "wangkhaokaew",
+      "team_b": "thungmasang",
+      "basis": "complete approved A/B round-robin: 1A vs 2B; points then goal difference"
+    },
+    {
+      "sport": "futsal",
+      "division": "10 ปี ชาย",
+      "match_no": "11",
+      "fixture_id": "futsal-p09-10-ปี-ชาย-011",
+      "team_a": "saohong",
+      "team_b": "phuphrom",
+      "basis": "complete approved A/B round-robin: 1B vs 2A"
+    },
+    {
+      "sport": "volleyball",
+      "division": "12 ปี ชาย",
+      "match_no": "15",
+      "fixture_id": "volleyball-p11-12-ปี-ชาย-013",
+      "team_a": "thungmasang",
+      "team_b": "phuphrom",
+      "basis": "complete approved group results: 1A vs 2B"
+    },
+    {
+      "sport": "volleyball",
+      "division": "12 ปี ชาย",
+      "match_no": "16",
+      "fixture_id": "volleyball-p11-12-ปี-ชาย-014",
+      "team_a": "nongkrathum",
+      "team_b": "nongkum",
+      "basis": "complete approved group results: 1B vs 2A"
+    },
+    {
+      "sport": "volleyball",
+      "division": "12 ปี หญิง",
+      "match_no": "13",
+      "fixture_id": "volleyball-p11-12-ปี-หญิง-015",
+      "team_a": "thungmasang",
+      "team_b": "nongkum",
+      "basis": "complete approved group results: 1A vs 2B"
+    },
+    {
+      "sport": "volleyball",
+      "division": "12 ปี หญิง",
+      "match_no": "14",
+      "fixture_id": "volleyball-p11-12-ปี-หญิง-016",
+      "team_a": "saohong",
+      "team_b": "wangdong",
+      "basis": "complete approved group results: 1B vs 2A"
+    }
+  ],
+  "scope": "Participants confirmed; not fixture time/date/field, not public website or PDF. Existing QA flags preserved.",
+  "status": "database activated, verified, GitHub main not synced"
+}
