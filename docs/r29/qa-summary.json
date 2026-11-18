@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "checks": {
+    "booklet": {
+      "pages": 23,
+      "rendered_pages_150dpi": 23,
+      "orientation": "portrait",
+      "bookmarks": 13,
+      "explicit_goto_links": 33,
+      "fonts_embedded": true,
+      "font_families": [
+        "SDIUIR+Noto-Sans-Bold",
+        "SVNQVT+Noto-Sans-Thai-Ultra-Bold",
+        "IETTPJ+Waree-Bold",
+        "EDCJVK+Noto-Sans-Thai",
+        "FYURXA+Waree",
+        "YBYNXC+Noto-Sans-Thai-Bold",
+        "HUHQIP+Noto-Sans",
+        "UWGIWA+DejaVu-Sans-Bold",
+        "OJJRRE+Kinnari",
+        "LMSQBH+Kinnari-Bold"
+      ],
+      "text_out_of_page": [],
+      "link_errors": 0,
+      "sha256": "efa4c59f945aec25d8cd00b0dcd8b9c08e4d5ce97b6620a2e95b3388ce8b1946",
+      "size_bytes": 160084,
+      "render_dir": "/mnt/data/r29_work/renders_booklet"
+    },
+    "field": {
+      "pages": 33,
+      "rendered_pages_150dpi": 33,
+      "orientation": "landscape",
+      "bookmarks": 10,
+      "explicit_goto_links": 27,
+      "fonts_embedded": true,
+      "font_families": [
+        "IETTPJ+Waree-Bold",
+        "YBYNXC+Noto-Sans-Thai-Bold",
+        "EDCJVK+Noto-Sans-Thai",
+        "FYURXA+Waree",
+        "HUHQIP+Noto-Sans",
+        "SVNQVT+Noto-Sans-Thai-Ultra-Bold",
+        "SDIUIR+Noto-Sans-Bold"
+      ],
+      "text_out_of_page": [],
+      "link_errors": 0,
+      "sha256": "0ef3a12e08352e1bdc92be807e0f384e2d3e61b74fe920c1247b2c62f0c5a257",
+      "size_bytes": 1689252,
+      "render_dir": "/mnt/data/r29_work/renders_field"
+    }
+  },
+  "data": {
+    "matches": 186,
+    "athletics_events": 50,
+    "athletics_lanes": 289,
+    "athletics_source_ids_repeated": {
+      "35": 2,
+      "48": 2
+    }
+  },
+  "failures": [],
+  "caveats": [
+    "Live iOS Safari, Chrome and LINE WebView not tested",
+    "Physical A4 printing not tested",
+    "Public access permission not verified",
+    "Draft-only data; R27/R28 PRs are not merged",
+    "Exact character-for-character Unicode mapping of all Thai diacritics on every page not independently audited",
+    "Source PDF athletics item numbers 35 and 48 are each repeated twice; 49/50 absent; no guessed renumbering"
+  ]
+}
