@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "document_pages": 155,
+  "patches": [
+    {
+      "page": 61,
+      "text": "คู่ 24 ย้ายไปรุ่นหญิง — ดูผังหน้า 64 และตารางหน้า 100",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "855a20",
+      "original_bbox": [
+        58.6,
+        315.55,
+        270.13,
+        329.75
+      ]
+    },
+    {
+      "page": 61,
+      "text": "คู่ 24 แก้เป็นหญิงตามภาพผู้จัด 12 พ.ย. 2569 (เวลาเดิม 14:30)",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        72.1,
+        401.02,
+        308.79,
+        415.05
+      ]
+    },
+    {
+      "page": 64,
+      "text": "คู่ 29 ชิงหญิง: อ้างผู้ชนะคู่ 24 และ 25 ตามคำสั่งเดิมแล้ว",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        72.1,
+        355.77,
+        277.87,
+        369.8
+      ]
+    },
+    {
+      "page": 64,
+      "text": "คู่ 24 · หญิง รอบรองฯ · 19 พ.ย. 2569 เวลา 14:30 · ที่ 1 A พบ ที่ 2 B",
+      "expected_font_family": "bold",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        57.3,
+        443.5,
+        351.49,
+        457.7
+      ]
+    },
+    {
+      "page": 69,
+      "text": "ทุ่งมะสังฯ",
+      "expected_font_family": "regular",
+      "font_size": 8.1,
+      "expected_color": "163653",
+      "original_bbox": [
+        57.2,
+        431.96,
+        90.46,
+        445.49
+      ]
+    },
+    {
+      "page": 69,
+      "text": "3",
+      "expected_font_family": "latin",
+      "font_size": 7.5,
+      "expected_color": "163653",
+      "original_bbox": [
+        359.5,
+        361.09,
+        364.27,
+        373.62
+      ]
+    },
+    {
+      "page": 69,
+      "text": "• คู่ 1: หนองกระทุ่ม – เสาหงส์ (ตรงตามผัง)",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        70,
+        543.53,
+        235.34,
+        557.98
+      ]
+    },
+    {
+      "page": 69,
+      "text": "• คู่ 2: รางขาม – ทุ่งมะสังฯ (แก้ตามผัง; รอตรวจรับ)",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        70,
+        558.47,
+        265.91,
+        572.92
+      ]
+    },
+    {
+      "page": 69,
+      "text": "• คู่ 9: ผู้ชนะคู่ 1 พบผู้ชนะคู่ 2 ตามเดิม",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        70,
+        573.41,
+        216.34,
+        587.86
+      ]
+    },
+    {
+      "page": 69,
+      "text": "• คู่ 10: ผู้ชนะคู่ 3 พบผู้ชนะคู่ 4",
+      "expected_font_family": "regular",
+      "font_size": 8.2,
+      "expected_color": "163653",
+      "original_bbox": [
+        70,
+        588.35,
+        188.38,
+        602.8
+      ]
+    },
+    {
+      "page": 100,
+      "text": "หญิง",
+      "expected_font_family": "regular",
+      "font_size": 8,
+      "expected_color": "163653",
+      "original_bbox": [
+        106.15,
+        292.07,
+        122.77,
+        305.44
+      ]
+    },
+    {
+      "page": 102,
+      "text": "รางขาม – ทุ่งมะสังฯ",
+      "expected_font_family": "regular",
+      "font_size": 8,
+      "expected_color": "163653",
+      "original_bbox": [
+        307.15,
+        707.37,
+        376.57,
+        720.74
+      ]
+    },
+    {
+      "page": 103,
+      "text": "3",
+      "expected_font_family": "sarabun",
+      "font_size": 8,
+      "expected_color": "163653",
+      "original_bbox": [
+        335.95,
+        286.97,
+        341.04,
+        300.34
+      ]
+    },
+    {
+      "page": 138,
+      "text": "แก้แล้ว: คู่ 24 เป็น 12 ปีหญิง · 19 พ.ย. 14:30 น.",
+      "expected_font_family": "regular",
+      "font_size": 7.5,
+      "expected_color": "163653",
+      "original_bbox": [
+        316.5,
+        430.34,
+        494.96,
+        444.05
+      ]
+    },
+    {
+      "page": 138,
+      "text": "คู่ชิงหญิง 29 อ้างผู้ชนะคู่ 24 และ 25 ตามเดิม",
+      "expected_font_family": "regular",
+      "font_size": 7.5,
+      "expected_color": "163653",
+      "original_bbox": [
+        316.5,
+        452.86,
+        475.94,
+        466.39
+      ]
+    },
+    {
+      "page": 138,
+      "text": "สถานะ: ปรับตามภาพ 12 พ.ย. · รอตรวจรับ",
+      "expected_font_family": "regular",
+      "font_size": 7.5,
+      "expected_color": "55687d",
+      "original_bbox": [
+        316.5,
+        471.25,
+        464.83,
+        484.28
+      ]
+    },
+    {
+      "page": 138,
+      "text": "แก้คู่ 10 = ผู้ชนะคู่ 3 พบคู่ 4; ผังทีม 02 = เสาหงส์",
+      "expected_font_family": "regular",
+      "font_size": 7.5,
+      "expected_color": "163653",
+      "original_bbox": [
+        58.2,
+        577.26,
+        236.54,
+        590.79
+      ]
+    },
+    {
+      "page": 138,
+      "text": "คู่ 2 แก้เป็น รางขาม–ทุ่งมะสังฯ ให้ตรงกับผังแล้ว",
+      "expected_font_family": "regular",
+      "font_size": 7.5,
+      "expected_color": "163653",
+      "original_bbox": [
+        57.5,
+        601.37,
+        223.65,
+        614.74
+      ]
+    },
+    {
+      "page": 138,
+      "text": "สถานะ: ปรับคู่ 2 ตามผัง · รอผู้จัดตรวจรับ",
+      "expected_font_family": "regular",
+      "font_size": 7.5,
+      "expected_color": "55687d",
+      "original_bbox": [
+        57.5,
+        627.41,
+        197.09,
+        640.28
+      ]
+    }
+  ]
+}

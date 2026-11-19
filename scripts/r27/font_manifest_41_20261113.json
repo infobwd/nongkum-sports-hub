@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "document_pages": 41,
+  "patches": [
+    {
+      "page": 13,
+      "text": "หญิง",
+      "expected_font_family": "bold",
+      "font_size": 8,
+      "expected_color": "163653",
+      "original_bbox": [
+        151,
+        441.97,
+        167.62,
+        455.34
+      ]
+    },
+    {
+      "page": 13,
+      "text": "คู่ 9 แสดงครั้งเดียว · คู่ 24 แก้เป็น 12 ปีหญิงตามภาพ 12 พ.ย. 2569 · รอตรวจรับ",
+      "expected_font_family": "bold",
+      "font_size": 6.8,
+      "expected_color": "855a20",
+      "original_bbox": [
+        57.7,
+        572.74,
+        350.66,
+        586.45
+      ]
+    },
+    {
+      "page": 15,
+      "text": "เสาหงส์",
+      "expected_font_family": "bold",
+      "font_size": 8.7,
+      "expected_color": "163653",
+      "original_bbox": [
+        64,
+        500.62,
+        97.11,
+        515.16
+      ]
+    },
+    {
+      "page": 17,
+      "text": "รางขาม – ทุ่งมะสังฯ",
+      "expected_font_family": "bold",
+      "font_size": 7.4,
+      "expected_color": "163653",
+      "original_bbox": [
+        219.9,
+        193.86,
+        291.1,
+        206.22
+      ]
+    }
+  ]
+}
