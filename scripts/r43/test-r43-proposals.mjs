@@ -125,9 +125,9 @@ const hR20=html.indexOf("program-corrections.js"),hR50=html.indexOf("program-app
  hR52=html.indexOf("program-approved-pairs-r52.js"),hR43=html.indexOf("r43-manager.js");
 assert.ok(hR20>=0&&hR20<hR50&&hR50<hR52&&hR52<hR43,"R43 must use R20→R50→R52 before loading manager");
 assert.match(html,/id="r43SourceInfo"/);
-assert.match(ui,/NongkumApprovedPairsR50\\.apply\\(corrected\\)/);
-assert.match(ui,/NongkumApprovedPairsR52\\.apply\\(r50\\)/);
-assert.match(ui,/f\\.team_a_id\\?school\\(f\\.team_a_id\\)/,"resolved teams override old source placeholders");
+assert.ok(ui.includes("NongkumApprovedPairsR50.apply(corrected)"));
+assert.ok(ui.includes("NongkumApprovedPairsR52.apply(r50)"));
+assert.ok(ui.includes("f.team_a_id?school(f.team_a_id)"),"resolved teams override old source placeholders");
 assert.match(ui,/ไฟล์คำขอยังอ้างอิงรุ่นข้อมูลเดิม/);
 assert.match(ui,/ยังไม่ผ่านการตรวจรุ่น R52/);
 
