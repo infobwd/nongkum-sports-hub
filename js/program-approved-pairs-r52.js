@@ -318,6 +318,7 @@
       const revised={...f,
         team_a_id:r.team_a,team_b_id:r.team_b,
         source_pair_text:r.source_pair_text,
+        source_pair_corrected:r.source_pair_text!==r.expected_source_pair_text,
         pair_confirmation:direct?"organizer_photo":"approved_results",
         pair_confirmation_source_key:SOURCE_KEY,
         pair_confirmation_note:direct
