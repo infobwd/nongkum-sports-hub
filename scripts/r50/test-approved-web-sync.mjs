@@ -93,7 +93,7 @@ for(const school of updated.schools){
 }
 const html=read("index.html"),program=read("js/program.js");
 assert.ok(html.indexOf('program-corrections.js')<html.indexOf('program-approved-pairs-r50.js'));
-assert.ok(html.indexOf('program-approved-pairs-r50.js')<html.indexOf('program.js?v=r50-1'));
+assert.ok(html.indexOf('program-approved-pairs-r50.js')<html.indexOf('program.js?v=r52-1'));
 assert.ok(program.includes("NongkumApprovedPairsR50.apply(corrected)"));
 assert.ok(program.includes("pair_confirmation===\"approved_results\""));
 assert.ok(!read("js/program-approved-pairs-r50.js").includes("service_role"),"Public page has no privileged key");
