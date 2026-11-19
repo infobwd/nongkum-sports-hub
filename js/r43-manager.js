@@ -8,6 +8,7 @@
   const ui={
     sport:el("r43Sport"),school:el("r43School"),search:el("r43Search"),
     status:el("r43Status"),matches:el("r43Matches"),listHint:el("r43ListHint"),
+    sourceInfo:el("r43SourceInfo"),
     editor:el("r43EditorPanel"),title:el("r43SelectedTitle"),
     detail:el("r43SelectedDetail"),originalState:el("r43OriginalState"),
     link:el("r43OpenPublic"),form:el("r43ScheduleForm"),day:el("r43Date"),
@@ -41,7 +42,8 @@
   }
   function teams(f){
     if(f.kind==="track_event")return (f.name||"กรีฑา")+" · "+String((f.lanes||[]).length)+" ลู่";
-    return (f.source_team_a_label||school(f.team_a_id))+" — "+(f.source_team_b_label||school(f.team_b_id));
+    return (f.team_a_id?school(f.team_a_id):(f.source_team_a_label||"รอระบุทีม"))+" — "+
+      (f.team_b_id?school(f.team_b_id):(f.source_team_b_label||"รอระบุทีม"));
   }
   function formValues(){
     return {date:ui.day.value,time:ui.time.value,field:ui.field.value,venue:ui.venue.value};
@@ -110,7 +112,7 @@
       ui.matches.appendChild(b);
     });
     ui.status.textContent="พบ "+filtered.length+" รายการ · เลือกคู่หรือรายการเพื่อเตรียมแก้ไข";
-    ui.listHint.textContent=filtered.length>30?"แสดง 30 รายการแรก · กรุณาใช้ตัวกรองเพื่อค้นหาเพิ่มเติม":"ข้อมูลจากชุดตารางเดิม ไม่ใช่ผลแข่งขัน";
+    ui.listHint.textContent=filtered.length>30?"แสดง 30 รายการแรก · กรุณาใช้ตัวกรองเพื่อค้นหาเพิ่มเติม":"คู่แข่งขันตามข้อมูล R52 · ไม่ใช่ผลแข่งขันหรือการรับรองวันเวลา";
   }
   function paintPending(){
     const rows=[...state.pending.values()];
@@ -210,13 +212,23 @@
         {cache:"no-store"});
       if(!r.ok)throw Error("อ่านตารางแข่งขันไม่ได้");
       const raw=await r.json();
-      const data=applied.apply(raw);
+      const corrected=applied.apply(raw);
+      // Keep in sync with public schedule: R20-B → R50 → R52. Fail closed on stale/absent overlays.
+      if(!root.NongkumApprovedPairsR50||!root.NongkumApprovedPairsR52)
+        throw Error("ต้องใช้ข้อมูลคู่แข่งขันที่ผ่านการตรวจรุ่น R52");
+      const r50=root.NongkumApprovedPairsR50.apply(corrected);
+      const data=root.NongkumApprovedPairsR52.apply(r50);
       if(data.schema_version!==3||data.fixtures?.length!==236||
         data.metadata?.source_status!=="revised_pdf_draft"||
-        data.metadata?.all_data_approved!==false)
-        throw Error("รุ่นข้อมูลตารางไม่ตรงกับรุ่นที่ผ่านการตรวจ");
+        data.metadata?.all_data_approved!==false||
+        data.metadata?.r50_approved_pair_count!==12||
+        data.metadata?.r52_updated_pair_count!==21||
+        data.metadata?.r52_schedule_source_key!==root.NongkumApprovedPairsR52.sourceKey)
+        throw Error("รุ่นข้อมูลคู่แข่งขันไม่ตรงกับ R52 ที่ผ่านการตรวจ");
       if(new Set(data.fixtures.map(f=>f.id)).size!==236)throw Error("พบรหัสรายการซ้ำ");
       state.data=data;
+      if(ui.sourceInfo)ui.sourceInfo.textContent=
+        "แสดงคู่แข่งขันตามผลรับรอง R52 · วัน เวลา และสนามตรวจแยก · ไฟล์คำขอยังอ้างอิงรุ่นข้อมูลเดิม ต้องตรวจรุ่นก่อนนำไปใช้งานจริง";
       data.sports.forEach(s=>option(ui.sport,s.id,s.name));
       data.schools.forEach(s=>{option(ui.school,s.id,s.name);option(ui.personSchool,s.id,s.name);});
       draft.ROLES.forEach(x=>option(ui.role,x,x));
@@ -231,6 +243,7 @@
       say("เปิดข้อมูลตารางไม่ได้ จึงปิดการเตรียมคำขอเพื่อป้องกันการใช้ข้อมูลผิดรุ่น",true);
       ui.matches.replaceChildren();
       ui.listHint.textContent="โปรดตรวจการเชื่อมต่อและโหลดหน้านี้ใหม่";
+      if(ui.sourceInfo)ui.sourceInfo.textContent="ยังไม่ผ่านการตรวจรุ่น R52 · ปิดการเตรียมคำขอเพื่อป้องกันข้อมูลผิดรุ่น";
       console.error("R43: cannot load or validate schedule source");
     }
   }
