@@ -12,6 +12,47 @@ const corrections=vm.createContext({});
 new vm.Script(read("js/program-corrections.js")).runInContext(corrections);
 const rawText=read("data/program-from-pdf-2569-20261104-draft.json");
 const corrected=corrections.NongkumProgramCorrections.apply(JSON.parse(rawText));
+// R53: R43 display and public schedule must resolve the same pinned R50→R52 overlays.
+for(const p of ["js/program-approved-pairs-r50.js","js/program-approved-pairs-r52.js"])
+ new vm.Script(read(p),{filename:p}).runInContext(corrections);
+const withR50=corrections.NongkumApprovedPairsR50.apply(corrected);
+const withR52=corrections.NongkumApprovedPairsR52.apply(withR50);
+assert.equal(withR50.metadata.r50_approved_pair_count,12);
+assert.equal(withR52.metadata.r52_updated_pair_count,21);
+assert.equal(withR52.metadata.r52_schedule_source_key,"r33-20261119-r52-petanque-54approved");
+assert.equal(withR52.fixtures.length,236);
+assert.equal(withR52.fixtures.filter(f=>f.kind==="match").length,186);
+assert.equal(withR52.fixtures.filter(f=>f.kind==="track_event").length,50);
+assert.equal(new Set(withR52.fixtures.map(f=>f.id)).size,236);
+const oldById=new Map(corrected.fixtures.map(f=>[f.id,f]));
+for(const f of withR52.fixtures){
+ const old=oldById.get(f.id);
+ assert.ok(old,"all IDs preserved");
+ for(const k of ["draft_date","draft_time","draft_field","planning_venue","planning_date_confirmation",
+  "planning_time_confirmation","planning_venue_confirmation","status","review_status","source_page"]){
+  assert.equal(JSON.stringify(f[k]),JSON.stringify(old[k]),"R53 must not promote date/time/venue: "+f.id+" "+k);
+ }
+}
+const byId=new Map(withR52.fixtures.map(f=>[f.id,f]));
+const male10First=byId.get("petanque-p17-10-ปี-ชาย-010");
+assert.equal(male10First.team_a_id,"rangkham");
+assert.equal(male10First.team_b_id,"thungmasang");
+const male10Semi=byId.get("petanque-p17-10-ปี-ชาย-030");
+assert.equal(male10Semi.team_a_id,"wangkhaokaew");
+assert.equal(male10Semi.team_b_id,"nongkum");
+assert.ok(male10Semi.source_pair_text.includes("คู่ที่ 3")&&male10Semi.source_pair_text.includes("คู่ที่ 4"),"male10 semifinal feeders 3 and 4");
+const female12Final=byId.get("petanque-p18-12-ปี-หญิง-042");
+assert.equal(female12Final.team_a_id,"saohong");
+assert.equal(female12Final.team_b_id,"wangdong");
+const female8R50=byId.get("petanque-p17-8-ปี-หญิง-027");
+assert.equal(female8R50.team_a_id,"nongkum");
+assert.equal(female8R50.team_b_id,"nongkrathum");
+const unverified=byId.get("petanque-p18-10-ปี-ชาย-039");
+assert.equal(unverified.team_a_id,null,"unapproved male10 final remains unresolved");
+assert.equal(unverified.team_b_id,null);
+assert.throws(()=>corrections.NongkumApprovedPairsR52.apply(corrected),/R52/,"missing R50 fails closed");
+assert.throws(()=>corrections.NongkumApprovedPairsR52.apply({...withR50,metadata:{...withR50.metadata,source_sha256:"changed"}}),/R52/);
+
 assert.equal(corrected.fixtures.length,236,"exactly 236, preserving R20B duplicate exclusion");
 assert.equal(new Set(corrected.fixtures.map(x=>x.id)).size,236,"stable unique fixture IDs");
 assert.equal(corrected.fixtures.filter(x=>x.kind==="track_event").length,50);
@@ -79,7 +120,17 @@ for(const id of ["r43Sport","r43School","r43Matches","r43EditorPanel","r43Schedu
  "r43AddPerson","r43Download","r43Clear","mobileTabNav"])
  assert.ok(html.includes('id="'+id+'"'),"operator UI must include "+id);
 assert.match(html,/r43-schedule-draft\.js/);
-assert.match(html,/program-corrections\.js/);
+assert.ok(html.includes("program-corrections.js"));
+const hR20=html.indexOf("program-corrections.js"),hR50=html.indexOf("program-approved-pairs-r50.js"),
+ hR52=html.indexOf("program-approved-pairs-r52.js"),hR43=html.indexOf("r43-manager.js");
+assert.ok(hR20>=0&&hR20<hR50&&hR50<hR52&&hR52<hR43,"R43 must use R20→R50→R52 before loading manager");
+assert.match(html,/id="r43SourceInfo"/);
+assert.ok(ui.includes("NongkumApprovedPairsR50.apply(corrected)"));
+assert.ok(ui.includes("NongkumApprovedPairsR52.apply(r50)"));
+assert.ok(ui.includes("f.team_a_id?school(f.team_a_id)"),"resolved teams override old source placeholders");
+assert.match(ui,/ไฟล์คำขอยังอ้างอิงรุ่นข้อมูลเดิม/);
+assert.match(ui,/ยังไม่ผ่านการตรวจรุ่น R52/);
+
 assert.match(html,/ยังไม่เปลี่ยนตารางแข่งขันจริง/);
 assert.match(html,/ไม่บันทึกเข้าสู่ระบบ/);
 assert.match(more,/href="\.\/schedule-manager\.html"/);
@@ -92,4 +143,4 @@ assert.doesNotMatch(ui,/method\s*:\s*["'](?:POST|PATCH|PUT|DELETE)["']/i,
 assert.match(styles,/@media\(max-width:690px\)/);
 assert.match(html,/aria-current="page"/);
 assert.equal((html.match(/<a id="mobile(?:Program|Results|Gallery|More)Link"/g)||[]).length,4);
-console.log("R43-A PASS: 236 original IDs, R33 source SHAs, draft validation/conflicts, no write API and mobile nav");
+console.log("R53/R43-A PASS: 236 stable IDs, 21 R52 updates, original export contract/SHAs, no write API, mobile nav");

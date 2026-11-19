@@ -40,6 +40,26 @@ try{
  }
  await page.setViewportSize({width:390,height:844});
  await page.goto(base+"/schedule-manager.html",{waitUntil:"domcontentloaded"});
+ await page.locator(".r43-match").first().waitFor();
+ assert.match(await page.locator("#r43SourceInfo").textContent(),/R52/);
+ assert.match(await page.locator("#r43SourceInfo").textContent(),/ไฟล์คำขอยังอ้างอิงรุ่นข้อมูลเดิม/);
+ await page.locator("#r43Sport").selectOption("petanque");
+ for(const row of [
+  {id:"petanque-p17-10-ปี-ชาย-010",teams:"รางขาม — ทุ่งมะสังฯ"},
+  {id:"petanque-p17-10-ปี-ชาย-030",teams:"วังเขาแก้ว — หนองกุ่ม"},
+  {id:"petanque-p18-12-ปี-หญิง-042",teams:"เสาหงส์ — วังด้ง"},
+  {id:"petanque-p17-8-ปี-หญิง-027",teams:"หนองกุ่ม — หนองกระทุ่ม"}
+ ]){
+  await page.locator("#r43Search").fill(row.id);
+  const match=page.locator('[data-id="'+row.id+'"]');
+  await match.waitFor();
+  await match.click();
+  assert.ok((await page.locator("#r43SelectedDetail").textContent()).includes(row.teams),
+    "verified R52 participants visible in R43: "+row.id);
+ }
+ // Return to the normal draft request flow. R53 must preserve local-only editing.
+ await page.goto(base+"/schedule-manager.html",{waitUntil:"domcontentloaded"});
+ await page.locator(".r43-match").first().waitFor();
  await page.locator(".r43-match").first().click();
  assert.equal(await page.locator("#r43EditorPanel").isVisible(),true);
  await page.locator("#r43Date").fill("2026-11-19");
@@ -60,6 +80,9 @@ try{
  const bytes=readFileSync(await download.path(),"utf8");
  const pkg=JSON.parse(bytes);
  assert.equal(pkg.publication_status,"not_published");
+ assert.equal(pkg.source_key,"r33-20261116-7ba60be1-fa3269b5",
+   "R53 display only, do not silently change source contract for private draft");
+ assert.equal(pkg.schema,"nongkum-schedule-proposal-v1");
  assert.equal(pkg.requests.length,1);
  assert.equal(pkg.requests[0].assignment_proposals[0].appointment_status,"draft_not_appointed");
  assert.equal(pkg.requests[0].changes.field,"สนามทดสอบ 2");
@@ -69,7 +92,15 @@ try{
  assert.equal(await page.locator("#r43Download").isDisabled(),true,"no persisted private draft");
  assert.equal((await page.locator("#r43Pending article").count()),0);
  assert.deepEqual(writes,[],"operator UI must not call any write endpoint");
- console.log("R43-A BROWSER PASS: four mobile widths, white sticky header, local assignment+draft download, no persistence/writes");
+ // If an overlay is missing or stale, the editor must fail closed instead of using old pairs.
+ await page.route("**/js/program-approved-pairs-r52.js*",route=>route.abort());
+ await page.goto(base+"/schedule-manager.html",{waitUntil:"domcontentloaded"});
+ await page.waitForFunction(()=>document.querySelector("#r43Status")?.textContent?.includes("เปิดข้อมูลตารางไม่ได้"));
+ assert.equal(await page.locator(".r43-match").count(),0,"missing R52 prevents stale drafts");
+ assert.match(await page.locator("#r43SourceInfo").textContent(),/ยังไม่ผ่านการตรวจรุ่น R52/);
+ await page.unroute("**/js/program-approved-pairs-r52.js*");
+ assert.deepEqual(writes,[],"missing overlay never sends writes");
+ console.log("R53/R43-A BROWSER PASS: R52 pairs, original draft JSON, fail-closed loading, four mobile widths, no persistence/writes");
 }finally{
  if(browser)await browser.close();
  server.kill("SIGTERM");
