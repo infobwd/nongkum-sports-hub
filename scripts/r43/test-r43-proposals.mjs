@@ -120,7 +120,7 @@ for(const id of ["r43Sport","r43School","r43Matches","r43EditorPanel","r43Schedu
  "r43AddPerson","r43Download","r43Clear","mobileTabNav"])
  assert.ok(html.includes('id="'+id+'"'),"operator UI must include "+id);
 assert.match(html,/r43-schedule-draft\.js/);
-assert.match(html,/program-corrections\\.js/);
+assert.ok(html.includes("program-corrections.js"));
 const hR20=html.indexOf("program-corrections.js"),hR50=html.indexOf("program-approved-pairs-r50.js"),
  hR52=html.indexOf("program-approved-pairs-r52.js"),hR43=html.indexOf("r43-manager.js");
 assert.ok(hR20>=0&&hR20<hR50&&hR50<hR52&&hR52<hR43,"R43 must use R20→R50→R52 before loading manager");
