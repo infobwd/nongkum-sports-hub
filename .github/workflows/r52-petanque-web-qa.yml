@@ -1,0 +1,29 @@
+name: R52 petanque photo schedule overlay QA
+on:
+  pull_request:
+    paths:
+      - 'data/r52/**'
+      - 'docs/R52**'
+      - 'js/program-approved-pairs-r52.js'
+      - 'js/program.js'
+      - 'index.html'
+      - 'scripts/r52/**'
+      - '.github/workflows/r52-petanque-web-qa.yml'
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Browser code syntax
+        run: |
+          node --check js/program-approved-pairs-r52.js
+          node --check js/program.js
+          node --check scripts/r52/test-petanque-photo-sync.mjs
+      - name: Validate pair overlay and LINE
+        run: node scripts/r52/test-petanque-photo-sync.mjs

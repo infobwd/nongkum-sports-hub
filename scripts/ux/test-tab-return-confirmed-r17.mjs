@@ -129,7 +129,7 @@ const page=read("index.html"),resultsPage=read("results.html");
 assert.match(page,/js\/navigation\.js\?v=r35-1/);
 assert.match(resultsPage,/js\/navigation\.js\?v=r35-1/);
 assert.match(page,/js\/schedule-order\.js\?v=r18-date1/);
-assert.match(page,/js\/program\.js\?v=(?:r19-venue1|r38-1|r46-1|r50-1)/);
+assert.match(page,/js\/program\.js\?v=(?:r19-venue1|r38-1|r46-1|r50-1|r52-1)/);
 assert.match(program,/from"\)==="results"/);
 assert.match(program,/restoreTabListingAfterLoad\(\)/);
 assert.match(program,/data\/program-from-pdf-2569-20261104-draft\.json/);

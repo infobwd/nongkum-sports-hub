@@ -210,7 +210,9 @@
         " หมายเลข "+m.source_match_no)+"' title='"+shareName+"'>"+SHARE_ICON+"</button></div></div>";
     const content=track?trackContent(m):matchContent(m);
      const pairConfirmed=m.pair_confirmation==="approved_results"
-       ?"<p class='schedule-confirmation-note'>✓ คู่แข่งขันยืนยันจากผลรับรองแล้ว · วันและเวลาตรวจแยก</p>":"";
+       ?"<p class='schedule-confirmation-note'>✓ คู่แข่งขันยืนยันจากผลรับรองแล้ว · วันและเวลาตรวจแยก</p>"
+       :m.pair_confirmation==="organizer_photo"
+         ?"<p class='schedule-confirmation-note'>✓ คู่แข่งขันยืนยันจากภาพสนามตามคำยืนยันผู้จัด · วันและเวลาตรวจแยก</p>":"";
     const original=!track&&m.source_pair_text
       ? "<div class='source'>คู่แข่งขันในต้นฉบับ: "+safe(m.source_pair_text)+"</div>":"";
     const confirmedSchedule=m.planning_date_confirmation==="confirmed"&&m.planning_venue_confirmation==="confirmed"&&m.planning_time_confirmation==="confirmed";
@@ -653,8 +655,10 @@
       const corrected=globalThis.NongkumProgramCorrections.apply(raw);
        // An older cached HTML or an isolated test may not have the optional R50 overlay yet.
        // Keep the existing 236-item schedule usable; real pages load the validated overlay first.
-       const data=globalThis.NongkumApprovedPairsR50
+       const r50=globalThis.NongkumApprovedPairsR50
          ?globalThis.NongkumApprovedPairsR50.apply(corrected):corrected;
+       const data=globalThis.NongkumApprovedPairsR52
+         ?globalThis.NongkumApprovedPairsR52.apply(r50):r50;
       const candidate=data.metadata?.source_status==="revised_pdf_draft"&&
         data.schema_version===3&&data.fixtures?.length===236&&
         data.metadata.website_publication_status==="not_released";
