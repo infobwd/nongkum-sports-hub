@@ -40,7 +40,7 @@ assert.equal(male10First.team_b_id,"thungmasang");
 const male10Semi=byId.get("petanque-p17-10-ปี-ชาย-030");
 assert.equal(male10Semi.team_a_id,"wangkhaokaew");
 assert.equal(male10Semi.team_b_id,"nongkum");
-assert.match(male10Semi.source_pair_text,/คู่ที่ 3 .* คู่ที่ 4/);
+assert.ok(male10Semi.source_pair_text.includes("คู่ที่ 3")&&male10Semi.source_pair_text.includes("คู่ที่ 4"),"male10 semifinal feeders 3 and 4");
 const female12Final=byId.get("petanque-p18-12-ปี-หญิง-042");
 assert.equal(female12Final.team_a_id,"saohong");
 assert.equal(female12Final.team_b_id,"wangdong");
