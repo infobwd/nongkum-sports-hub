@@ -37,3 +37,11 @@
 4. ปรับสูจิบัตร/PDF ภายหลังจากข้อมูลที่ผู้จัดตรวจรับแล้วโดยไม่ทับต้นฉบับ.
 
 **สถานะ ณ บันทึก:** R32 54 รับรอง / R33 active / เว็บใน PR ยังไม่ Merge / ผลชาย 10 ปี 4 ช่องยังรอการรับรอง.
+
+## 6. ตรวจ CI เวอร์ชันสุดท้าย (19 พ.ย. 2569)
+
+ตรวจหลังแก้ตัวตรวจเก่าที่เคยผูก query cache เป็น `program.js?v=r50-1`. GitHub PR #181 commit `c0a7f636fa604d424ae276a8fcea39e6d85d827b`: **GitHub Actions 16/16 workflows success** รวม R52, R50, Validate draft data, R14, R13, R46, R47, R31 PWA, R37, R43, R42 และตัวตรวจอื่นใน PR. หลักฐาน [R52 workflow ผ่าน](https://github.com/infobwd/nongkum-sports-hub/actions/runs/44467218658) และ [รวม checks ตาม commit](https://github.com/infobwd/nongkum-sports-hub/commit/c0a7f636fa604d424ae276a8fcea39e6d85d827b/checks).
+
+- ตรวจ `sw.js` ในสาขา R52 แล้ว: service worker เก็บเฉพาะหน้า offline และไอคอน ไม่ cache หน้า HTML/JSON/สคริปต์ตารางหรือผลการแข่งขัน ดังนั้นไม่ต้องแก้เวอร์ชัน SW เพื่อให้สคริปต์ R52 ทำงานเมื่อออนไลน์; `index.html` ใช้ `?v=r52-1` กับ `program.js` และ R52 overlay.
+- หลักฐาน CI เป็นการตรวจโค้ดและทดสอบอัตโนมัติ **ไม่ใช่การตรวจสอบ GitHub Pages ผ่านมือถือจริง**. ยังไม่ Merge จึงห้ามกล่าวว่าโปรแกรมหน้าเว็บสาธารณะแสดง R52 แล้ว; R32/R33 Supabase ต่างหากที่พร้อมใช้งาน.
+- ยังค้างตรวจหลัง Merge: GitHub Pages แสดงข้อมูลจริง, ตัวกรองโรงเรียน, แชร์ LINE บน iOS/Android, เปิดเป็น PWA, ผู้ชนะจาก R32 54 คู่ และข้อมูลชาย 10 ปี #2/#9/#10/#41.
