@@ -1,0 +1,478 @@
+{
+  "schema_version": 1,
+  "status": "draft_image_transcription_not_approved",
+  "date_received": "2026-11-19",
+  "evidence_ref": "chat:2026-11-19/IMG_0027.jpeg",
+  "source_key": "r33-20261118-r50-12pairs-r32-100",
+  "notes": [
+    "Review-only intake. Never publish without identified human reviewer.",
+    "No scores in photo. Do not infer scores.",
+    "Male 10 years #2/#9/#10/#41 held for known source/bracket conflicts."
+  ],
+  "rows": [
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "1",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "2",
+      "winner_school_id": "thungmasang",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "3",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "4",
+      "winner_school_id": "phuphrom",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "9",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": "wangkhaokaew",
+      "bracket_team_b_id": "thungmasang",
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "10",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "wangdong",
+      "bracket_team_b_id": "phuphrom",
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยชาย",
+      "match_no": "13",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": "wangkhaokaew",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "5",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "6",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "7",
+      "winner_school_id": "rangkham",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "8",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "11",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "wangkhaokaew",
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "12",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "rangkham",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "ปฐมวัยหญิง",
+      "match_no": "14",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "wangkhaokaew",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "27",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "28",
+      "winner_school_id": "phuphrom",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "29",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "30",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "35",
+      "winner_school_id": "phuphrom",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "phuphrom",
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "36",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": "nongkum",
+      "bracket_team_b_id": "nongkrathum",
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี ชาย",
+      "match_no": "39",
+      "winner_school_id": "phuphrom",
+      "bracket_team_a_id": "phuphrom",
+      "bracket_team_b_id": "nongkrathum",
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "31",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "32",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "33",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "34",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "37",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": "nongkum",
+      "bracket_team_b_id": "nongkrathum",
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "38",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "8 ปี หญิง",
+      "match_no": "40",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": "nongkum",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "1",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "2",
+      "winner_school_id": "thungmasang",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": "source_bracket_conflict"
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "3",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "4",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "9",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "thungmasang",
+      "blocked_reason": "source_bracket_conflict"
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "10",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": "wangkhaokaew",
+      "bracket_team_b_id": "nongkum",
+      "blocked_reason": "source_bracket_conflict"
+    },
+    {
+      "division": "10 ปี ชาย",
+      "match_no": "41",
+      "winner_school_id": "wangkhaokaew",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "wangkhaokaew",
+      "blocked_reason": "source_bracket_conflict"
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "5",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "6",
+      "winner_school_id": "rangkham",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "7",
+      "winner_school_id": "phuphrom",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "8",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "11",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "wangdong",
+      "bracket_team_b_id": "rangkham",
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "12",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": "phuphrom",
+      "bracket_team_b_id": "nongkum",
+      "blocked_reason": null
+    },
+    {
+      "division": "10 ปี หญิง",
+      "match_no": "42",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "wangdong",
+      "bracket_team_b_id": "nongkum",
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "13",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "14",
+      "winner_school_id": "rangkham",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "15",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "16",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "21",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": "nongkrathum",
+      "bracket_team_b_id": "rangkham",
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "22",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "nongkum",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี ชาย",
+      "match_no": "43",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": "nongkrathum",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "17",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "18",
+      "winner_school_id": "nongkum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "19",
+      "winner_school_id": "phuphrom",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "20",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "23",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "nongkum",
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "24",
+      "winner_school_id": "wangdong",
+      "bracket_team_a_id": "phuphrom",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "12 ปี หญิง",
+      "match_no": "44",
+      "winner_school_id": "saohong",
+      "bracket_team_a_id": "saohong",
+      "bracket_team_b_id": "wangdong",
+      "blocked_reason": null
+    },
+    {
+      "division": "มัธยมชาย",
+      "match_no": "25",
+      "winner_school_id": "thungmasang",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    },
+    {
+      "division": "มัธยมหญิง",
+      "match_no": "26",
+      "winner_school_id": "nongkrathum",
+      "bracket_team_a_id": null,
+      "bracket_team_b_id": null,
+      "blocked_reason": null
+    }
+  ]
+}
