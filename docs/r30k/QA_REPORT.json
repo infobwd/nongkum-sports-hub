@@ -1,0 +1,17 @@
+{
+  "status": "AUTOMATED_QA_PASS",
+  "source_sha256": "09d57db76433cda6fb31161eaa365abd085fed9b481305b015e2c59a548581c5",
+  "pdf_sha256": "db3feb4a4220c7a6c4b57e0f15cd1c743b4358853f782bb07811029050ef1411",
+  "total_pages": 138,
+  "original_body_pages_preserved": 136,
+  "match_results_approved": 43,
+  "athletics_result_events_approved": 40,
+  "total_links": 222,
+  "result_index_page": 50,
+  "result_index_direct_links": 16,
+  "bookmarks": 79,
+  "errors": [],
+  "rendered_150dpi_pages": 138,
+  "rendered_200dpi_checked_pages": 14,
+  "render_errors": []
+}

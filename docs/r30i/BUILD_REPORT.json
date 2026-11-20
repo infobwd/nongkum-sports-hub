@@ -1,0 +1,53 @@
+{
+  "source": "R30H_MittraphapGames_2569_Clickable_20_Committee_TOC_44pages_REVIEW_ONLY.pdf",
+  "new_pdf": "R30I_MittraphapGames_2569_LargeType_Detailed_Committee_Index_REVIEW_ONLY.pdf",
+  "pages": 48,
+  "directory_pages": 25,
+  "assignments": 250,
+  "committees": 20,
+  "sports_subgroups": 8,
+  "athletics_age_subgroups": 5,
+  "athletics_judging_subgroups": 4,
+  "bookmarks": 45,
+  "pdf_sha256": "53cc71e6f189c29813ee3ca2e1e1c67874ca61e01d560c2df4b1c4357bbf99c3",
+  "committee_start_pages": {
+    "1": 23,
+    "2": 24,
+    "3": 26,
+    "4": 27,
+    "5": 27,
+    "6": 28,
+    "7": 28,
+    "8": 30,
+    "9": 31,
+    "10": 32,
+    "11": 33,
+    "12": 34,
+    "13": 35,
+    "14": 36,
+    "15": 41,
+    "16": 44,
+    "17": 44,
+    "18": 45,
+    "19": 45,
+    "20": 46
+  },
+  "sports_start_pages": {
+    "ฟุตบอล": 36,
+    "ฟุตซอล": 37,
+    "วอลเลย์บอล": 37,
+    "เซปักตะกร้อ": 37,
+    "เปตอง": 38,
+    "เทเบิลเทนนิส 12 ปี ชาย–หญิง": 39,
+    "เทเบิลเทนนิส มัธยม ชาย–หญิง": 39,
+    "ชักเย่อ": 40
+  },
+  "age_start_pages": {
+    "อนุบาล": 41,
+    "ประถม 8 ปี": 42,
+    "ประถม 10 ปี": 42,
+    "ประถม 12 ปี": 43,
+    "มัธยม": 43
+  },
+  "status": "DRAFT - automated QA pending - not approved; original R30H preserved"
+}

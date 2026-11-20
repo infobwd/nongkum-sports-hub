@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "qa_errors": [],
+  "date": "2026-11-18",
+  "pages": 137,
+  "a4_pages": 137,
+  "rendered_150dpi_pages": 137,
+  "rendered_200dpi_selected_pages": 12,
+  "copy_source_text_matched_pages": 136,
+  "committee_pages": 48,
+  "competition_pages": 88,
+  "competition_index_page": 49,
+  "results_in_table": {
+    "fixture_results": 43,
+    "athletics_events": 40,
+    "rank_cells": 109,
+    "approved_labels_in_competition_pages": 83
+  },
+  "bookmarks": 66,
+  "internal_and_external_links": 204,
+  "page49_links": 18,
+  "sha256": "09d57db76433cda6fb31161eaa365abd085fed9b481305b015e2c59a548581c5",
+  "notes": [],
+  "limitations": [
+    "Automated verification only; no physical printing test",
+    "Safari Chrome and LINE readers not tested",
+    "Need organizer signoff",
+    "Do not Merge or publish until approval"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "version": "R30B",
+  "status": "QA_PASS",
+  "source_file": "R30 94-page booklet",
+  "pages": 94,
+  "all_pages_rendered_150dpi": 94,
+  "subset_rendered_200dpi": 11,
+  "links": 117,
+  "internal_GoTo": 117,
+  "bookmarks": 24,
+  "font_sizes_front": {
+    "2": {
+      "weighted_median_pt": 9.75,
+      "lowest_pt": 7.88,
+      "char_count": 1211
+    },
+    "3": {
+      "weighted_median_pt": 9.75,
+      "lowest_pt": 7.88,
+      "char_count": 775
+    },
+    "94": {
+      "weighted_median_pt": 9.75,
+      "lowest_pt": 7.88,
+      "char_count": 1178
+    }
+  },
+  "finalist_mentions": [
+    2,
+    3,
+    32,
+    33,
+    67,
+    94
+  ],
+  "source_core_body_preserved": true,
+  "sha256": "3779df333ae1de4e05c4270aee90482d45619885f42b5248336f2bb6d837f40a",
+  "issues": []
+}

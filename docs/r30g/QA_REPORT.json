@@ -1,0 +1,210 @@
+{
+  "status": "PASS",
+  "file": "MittraphapGames_2569_R30G_Committee_Summary_FixedPage_44pages_REVIEW_ONLY.pdf",
+  "sha256": "28682a7f5be05f717d019f9892a32b904c21a932f7791b1d2984a2f83316ad10",
+  "size_bytes": 3517956,
+  "pages": 44,
+  "A4_pages": 44,
+  "rendered_pages_120dpi": 44,
+  "old_footer_pages_redacted": 38,
+  "body_preserved_pages": 38,
+  "bookmarks": 31,
+  "links": 56,
+  "committee_divisions": 20,
+  "committee_assignment_rows": 250,
+  "group_counts_top4": {
+    "field_sports_referees": 48,
+    "athletics_eligibility": 31,
+    "steering": 21,
+    "venue_preparation": 18
+  },
+  "qr_decoded_pages": {
+    "2": "https://infobwd.github.io/nongkum-sports-hub/",
+    "3": "https://infobwd.github.io/nongkum-sports-hub/",
+    "44": "https://infobwd.github.io/nongkum-sports-hub/"
+  },
+  "checks": [
+    {
+      "name": "page_count_44",
+      "passed": true,
+      "detail": {
+        "before": 44,
+        "after": 44
+      }
+    },
+    {
+      "name": "all_A4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "bookmarks_stable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "link_count_stable",
+      "passed": true,
+      "detail": {
+        "before": 56,
+        "after": 56
+      }
+    },
+    {
+      "name": "all_internal_links_have_valid_targets",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "summary_has_20",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_250",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_236",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_48",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_31",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_21",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_18",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_คณะ",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_ฝ่าย",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_has_ร่าง",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_not_250_distinct_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "summary_gives_pending_verification",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "body_text_preservation_38_pages",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "original_footer_existed_38_pages",
+      "passed": true,
+      "detail": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "name": "old_footer_text_removed_38_pages",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "unmodified_pages_keep_text",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "all_pages_rendered_120dpi",
+      "passed": true,
+      "detail": 44
+    },
+    {
+      "name": "pixel_preservation_above_footer_38_pages",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qr_decodes_to_website_all_three_pages",
+      "passed": true,
+      "detail": {
+        "2": "https://infobwd.github.io/nongkum-sports-hub/",
+        "3": "https://infobwd.github.io/nongkum-sports-hub/",
+        "44": "https://infobwd.github.io/nongkum-sports-hub/"
+      }
+    },
+    {
+      "name": "current_page_number_2_to_44",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "pending": [
+    "signed committee appointment order",
+    "school review of roster names and affiliations",
+    "physical A4 print",
+    "real Safari Chrome LINE tests",
+    "external share permissions"
+  ]
+}

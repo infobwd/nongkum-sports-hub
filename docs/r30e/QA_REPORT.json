@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "qa_scope": "PDF programmatic QA only; no print/device/administrator acceptance",
+  "pdf": "MittraphapGames_2569_R30E_Complete_132pages_REVIEW_ONLY.pdf",
+  "sha256": "2d19f0dd99338fbb7a3cbb00535ffff54f8743ba1fa80b9560933b059eb56b4a",
+  "pages": 132,
+  "a4_pages": 132,
+  "rasterized_pages": 132,
+  "raster_dpi_approx": 87.84,
+  "page_body_compared": 131,
+  "page_body_equal": 131,
+  "restored_original_pages": 38,
+  "bookmarks": 50,
+  "links": {
+    "1": 172,
+    "2": 4
+  },
+  "link_totals": 176,
+  "toc_links": 30,
+  "QR_render_decoded": "PASS",
+  "qr_url": "https://infobwd.github.io/nongkum-sports-hub/",
+  "urls": [
+    "https://drive.google.com/file/d/16v6cgEk8NyjVqo7TX_Sxd3QvT2NF7aAS/view",
+    "https://infobwd.github.io/nongkum-sports-hub/"
+  ],
+  "petanque_page": 80,
+  "errors": [],
+  "warnings": [],
+  "source_map_file": "R30E_source_map.json",
+  "pending_checks": [
+    "Signed committee order vs draft names",
+    "A4 physical print",
+    "Safari/Chrome/LINE real devices",
+    "Drive external permission",
+    "Reconcile R27/R28/Sheets/PDF competition data",
+    "Organizer approval"
+  ]
+}
